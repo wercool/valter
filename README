@@ -1,0 +1,23 @@
+============
+Project Tree
+============
+cybernetics/*               [generalized schemes, flowcharts and graphs of the whole project and it's parts, relational diagrams and schemes, etc.]
+electronics/*               [electronic and electric circuits, schemas, graphs, flowchart, abstractions, etc.]
+electronics/circuits/*      [electronic and electric principal circuits]
+electronics/flowcharts/*    [schemas, graphs, flowchart, abstractions]
+mechanics/*                 [mechanical parts and assemblies produced in SolidWorks only]
+software/*                  [all program code assemblies and utilities, core "meta" OS, all code sources for all programmable devices like computer, microcontroller, etc.]
+software/mc/*               [microcontroller source codes and binaries]
+software/pc/*               [pc source codes and binaries]
+software/pc/client/*        [pc source codes and binaries - client control applications]
+software/pc/server/*        [pc source codes and binaries - embedded programd, core application for robot]
+
+=============
+Project Tools
+=============
+For mechanics:
+1.SolidWorks 2013 x64 Edition
+For electronics:
+1.Proteus 7.10 SP0
+For flowcharts:
+1.Dia 0.97.2
