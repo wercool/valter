@@ -1,0 +1,17 @@
+Platform.p1.dia
+===============
+Left Motor Driver
+Right Motor Driver
+Left Motor Optical Encoder
+Right Motor Optical Encoder
+Left Motor USB-Mouse Encoder
+Right Motor USB-Mouse Encoder
+US wall sensors
+IR wall sensors
+
+Platform.p2.dia
+===============
+60Ah Accumulator Sensors
+5Ah Left Accumulator Sensors
+5Ah Right Accumulator Sensors
+Acid Accumulator Charger
