@@ -1,20 +1,21 @@
 ============
 Project Tree
 ============
-cybernetics/*                           [generalized schemes, flowcharts and graphs of the whole project and it's parts, relational diagrams and schemes, etc.]
-electronics/*                           [electronic and electric circuits, schemas, graphs, flowchart, abstractions, etc.]
-electronics/circuits/*                  [electronic and electric principal circuits]
-electronics/circuits/libcomponents/*    [Proteus library components]
-electronics/flowcharts/*                [schemas, graphs, flowchart, abstractions]
-electronics/documents/*                 [data sheets on the utilized components, modules, other parts]
-mechanics/*                             [mechanical parts and assemblies produced in SolidWorks only]
-software/*                              [all program code assemblies and utilities, core "meta" OS, all code sources for all programmable devices like computer, microcontroller, etc.]
-software/microcontroller/*              [microcontroller source codes and binaries]
-software/computer/*                     [pc source codes and binaries]
-software/computer/client/*              [pc source codes and binaries - client control applications]
-software/computer/server/*              [pc source codes and binaries - embedded programs, core application for robot]
-software/computer/server/core/*         [core application for robot (meta OS)]
-software/computer/server/www/*          [web applications]
+cybernetics/*                               [generalized schemes, flowcharts and graphs of the whole project and it's parts, relational diagrams and schemes, etc.]
+electronics/*                               [electronic and electric circuits, schemas, graphs, flowchart, abstractions, etc.]
+electronics/circuits/*                      [electronic and electric principal circuits]
+electronics/circuits/libcomponents/*        [Proteus library components]
+electronics/circuits/libcomponents/src/*    [Proteus library components editable source Proteus files]
+electronics/flowcharts/*                    [schemas, graphs, flowchart, abstractions]
+electronics/documents/*                     [data sheets on the utilized components, modules, other parts]
+mechanics/*                                 [mechanical parts and assemblies produced in SolidWorks only]
+software/*                                  [all program code assemblies and utilities, core "meta" OS, all code sources for all programmable devices like computer, microcontroller, etc.]
+software/microcontroller/*                  [microcontroller source codes and binaries]
+software/computer/*                         [pc source codes and binaries]
+software/computer/client/*                  [pc source codes and binaries - client control applications]
+software/computer/server/*                  [pc source codes and binaries - embedded programs, core application for robot]
+software/computer/server/core/*             [core application for robot (meta OS)]
+software/computer/server/www/*              [web applications]
 
 =============
 Project Tools
