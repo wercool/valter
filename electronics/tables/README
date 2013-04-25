@@ -1,0 +1,3 @@
+Manipulator.ods
+This file contains distribution of pins between BIT IN/OUT, ADC, and PWM targets/sources.
+See electronics/flowcharts/Manipulator.dia for reference.
