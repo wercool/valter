@@ -16,6 +16,12 @@ Platform.p2.dia
 5Ah Right Accumulator Sensors
 Acid Accumulator Charger
 
+Platform.cap.dia
+================
+Turret Motor Diver
+Turret position
+Left and Right sonar
+
 Manipulator.dia
 ===============
 Manipulator motors and sensors
