@@ -14,6 +14,8 @@ electronics/tables/*                        [tables of parts, pinouts, input/out
 mechanics/*                                 [mechanical parts and assemblies produced in SolidWorks only]
 software/*                                  [all program code assemblies and utilities, core "meta" OS, all code sources for all programmable devices like computer, microcontroller, etc.]
 software/microcontroller/*                  [microcontroller source codes and binaries]
+software/microcontroller/AVR                [Atmel AVR mc source codes and binaries]
+software/microcontroller/ARM                [Atmel ARM mc source codes and binaries]
 software/computer/*                         [pc source codes and binaries]
 software/computer/client/*                  [pc source codes and binaries - client control applications]
 software/computer/server/*                  [pc source codes and binaries - embedded programs, core application for robot]
