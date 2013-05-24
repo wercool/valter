@@ -2,3 +2,30 @@ ussensorboard.DSN
 In-home made board with US Sensors (T and R), terminal for Sharp IR distance sensor, terminals for navigation signal LEDs.
 
 foiled fiberglass: 90x215 (2 pcs), 112x360, 37x250
+
+
+platform control p1:
+
+INPUTS:
+mainAccumulatorVoltage
+leftAccumulatorVoltage
+rightAccumulatorVoltage
+mainAccumulatorAmperageTOTAL
+mainAccumulatorAmperageBOTTOM
+mainAccumulatorAmperageTOP
+leftAccumulatorAmperage
+rightAccumulatorAmperage
+chargerVoltage
+leftMotorCS
+rightMotorCS
+turretMotorCS
+turretAngle
+
+leftMotorDIAGa
+leftMotorDIAGb
+rightMotorDIAGa
+rightMotorDIAGb
+turretMotorDIAGa
+turretMotorDIAGb
+leftMotorCnt
+rightMotorCnt
