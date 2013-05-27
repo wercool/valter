@@ -24,8 +24,9 @@
 # - 24. Aprl 2007  - added "both" option for format (.bin and .hex)
 
 # Toolchain prefix (i.e arm-elf -> arm-elf-gcc.exe)
-TCHAIN = arm-elf
+#TCHAIN = arm-elf
 #TCHAIN = arm-none-eabi
+TCHAIN = arm-linux-gnueabi
 
 USE_THUMB_MODE = YES
 #USE_THUMB_MODE = NO
@@ -113,6 +114,8 @@ DEBUG = dwarf-2
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 EXTRAINCDIRS = ./common
+EXTRAINCDIRS += ./common/arm-elf/include
+EXTRAINCDIRS += ./common/arm-elf/sys-include
 
 # List any extra directories to look for library files here.
 #     Each directory must be seperated by a space.
