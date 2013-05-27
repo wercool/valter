@@ -1,0 +1,7 @@
+/* TWiki:Plugins.FootNotePlugin styles */
+/* Link to the footnote from the text. */
+.FootNoteTextLink {
+  vertical-align: super;
+  font-size: 75%;
+}
+

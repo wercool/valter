@@ -1,0 +1,22 @@
+Using SAM-BA with various linux distributions
+
+Ubuntu
+
+    Update the kernel 
+
+# apt-get install linux-image-generic linux-headers-generic
+
+    On 64 bits version install 32 bits libraries: 
+
+# apt-get install ia32-libs
+
+    Give sam-ba execute permission if needed: 
+
+$ chmod +x sam-ba
+
+    Connect the board
+    Create a symlink on /dev/ttyACM0 
+
+# ln -s /dev/ttyACM0 /dev/ttyUSB0
+
+    Launch sam-ba 

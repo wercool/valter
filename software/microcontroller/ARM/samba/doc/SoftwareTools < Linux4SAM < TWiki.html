@@ -1,0 +1,659 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en_US" lang="en_US"><head>
+<link rel="stylesheet" href="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/style.css" type="text/css" media="all">
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/jquery.js"></script>
+<link rel="stylesheet" href="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/jquery-all.css" type="text/css" media="all">
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/jquery-all.js"></script>
+<title> SoftwareTools &lt; Linux4SAM &lt; TWiki</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<link rel="icon" href="http://www.at91.com/linux4sam/pub/Linux4SAM/WebPreferences/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="http://www.at91.com/linux4sam/pub/Linux4SAM/WebPreferences/favicon.ico" type="image/x-icon">
+<link rel="alternate" href="http://www.at91.com/linux4sam/bin/edit/Linux4SAM/SoftwareTools?t=1369682482" type="application/x-wiki" title="Edit SoftwareTools">
+<link rel="edit" href="http://www.at91.com/linux4sam/bin/edit/Linux4SAM/SoftwareTools?t=1369682482" title="Edit SoftwareTools">
+<meta name="SCRIPTURLPATH" content="/linux4sam/bin">
+<meta name="SCRIPTSUFFIX" content="">
+<meta name="TEXT_JUMP" content="Jump">
+<meta name="TEXT_SEARCH" content="Search">
+<meta name="TEXT_NUM_TOPICS" content="Number of topics:">
+<meta name="TEXT_MODIFY_SEARCH" content="Modify search">
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebRss">
+<!-- base href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools" -->
+<!--BEHAVIOURCONTRIB--><script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/behaviour.js"></script>
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/twikilib.js"></script>
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/twikiWindow.js"></script>
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/twikiEvent.js"></script>
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/twikiHTML.js"></script>
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/twikiCSS.js"></script>
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/twikiForm.js"></script>
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/pattern.js"></script><style type="text/css" media="all">
+@import url('/linux4sam/pub/TWiki/TWikiTemplates/base.css');
+</style>
+<style type="text/css" media="all">
+
+#patternTopBar,
+#patternClearHeaderCenter,
+#patternClearHeaderLeft,
+#patternClearHeaderRight,
+#patternTopBarContentsOuter,
+#patternTopBarContents {
+	height:100px; /* top bar height; make room for header columns */
+	overflow:hidden;
+}
+
+
+#patternOuter {
+	margin-left:14em;
+}
+#patternLeftBar {
+	width:14em;
+	margin-left:-14em;
+}
+</style>
+<style type="text/css" media="all">
+@import url('/linux4sam/pub/TWiki/PatternSkin/layout.css');
+@import url('/linux4sam/pub/TWiki/PatternSkin/style.css');
+@import url('/linux4sam/pub/TWiki/PatternSkin/colors.css');
+</style>
+<style type="text/css" media="all">
+	/* Styles that are set using variables */
+	.patternBookView .twikiTopRow,
+	.patternWebIndicator a img,
+	.patternWebIndicator a:hover img {
+		background-color:#D0D0D0;
+	}
+	#patternTopBarContents { background-image:url(/linux4sam/pub/TWiki/PatternSkin/TWiki_header.gif); background-repeat:no-repeat;}
+	
+	.patternBookView {
+		border-color:#D0D0D0;
+	}
+	.patternPreviewPage #patternMain {
+		/* uncomment to set the preview image */
+		/*background-image:url("/linux4sam/pub/TWiki/PreviewBackground/preview2bg.gif");*/
+	}
+	
+</style><style type="text/css" media="all">
+
+
+@import url('/linux4sam/pub/TWiki/Linux4SAM/mystyle.css');
+</style>
+<style type="text/css" media="all">
+	@import url("/linux4sam/pub/TWiki/PatternSkin/print.css");
+</style>
+<!--[if IE]><style type="text/css" media="screen">
+pre {
+	overflow-x:auto;
+	padding-bottom:expression(this.scrollWidth > this.offsetWidth ? 16 : 0);
+}
+</style>
+<![endif]-->
+<!--[if lte IE 6]> 
+<style type="text/css">
+#patternLeftBar {
+	position:relative; /* IE 5.5 needs this or the contents won't show outside the parent container on print. IE 6.0 needs it only during printable copy! */
+}
+</style><![endif]-->
+<script type="text/javascript" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/twikiStyles.js"></script><style type="text/css" media="all">.twikiMakeVisible{display:inline;}.twikiMakeVisibleInline{display:inline;}.twikiMakeVisibleBlock{display:block;}.twikiMakeHidden{display:none;}</style>
+<!--GENERATED_HEADERS--><!-- TABLEPLUGIN_table1 --> <style type="text/css" media="all">
+.tableSortIcon img {padding-left:.3em; vertical-align:text-bottom;}
+</style>
+<!-- FOOTNOTEPLUGIN_LINKCSS --> <link rel="stylesheet" href="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/styles.css" type="text/css" media="all">
+</head>
+<body class="patternViewPage">
+<a name="PageTop"></a>
+<div id="patternScreen">
+<div id="patternPageShadow">
+<div id="patternPage">
+<div id="patternWrapper"><div id="patternOuter">
+<div id="patternFloatWrap">
+<div id="patternMain">
+<div id="patternClearHeaderCenter">
+</div>
+<p>
+</p><div id="patternMainContents"><div class="patternTop"><span class="patternHomePath twikiLeft">
+<a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebHome" class="twikiCurrentWebHomeLink twikiLink">Linux4SAM</a><span class="natSep">&nbsp;» </span><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools" class="twikiCurrentTopicLink twikiLink">SoftwareTools</a>
+</span><!-- /patternHomePath--><span class="patternToolBar twikiRight"></span><!-- /patternToolBar--><br class="twikiClear"></div><!--/patternTop--><div class="twikiContentHeader"></div><div class="patternContent"><div class="patternTopic"> <h1><a name="Software_Tools"></a> Software Tools </h1>
+<p>
+</p><div class="twikiToc"> <ul>
+<li> <a href="#SAM_BA"> SAM-BA</a> <ul>
+<li> <a href="#Tested_Linux_distributions">Tested Linux distributions</a>
+</li> <li> <a href="#Using_SAM_BA_with_various_linux">Using SAM-BA with various linux distributions</a> <ul>
+<li> <a href="#Ubuntu"> Ubuntu</a>
+</li> <li> <a href="#Debian"> Debian</a>
+</li> <li> <a href="#Fedora"> Fedora</a>
+</li> <li> <a href="#OpenSuse"> OpenSuse</a>
+</li></ul> 
+</li> <li> <a href="#Tips_tricks"> Tips &amp; tricks</a> <ul>
+<li> <a href="#How_to_check_if_my_kernel_versio"> How to check if my kernel version is compatible with sam-ba?</a>
+</li> <li> <a href="#My_kernel_version_is_2_6_37_or_2"> My kernel version is 2.6.37 or 2.6.38 and I have no ttyACMx node.</a>
+</li> <li> <a href="#Checking_the_usb_link_between_th"> Checking the usb link between the board and the computer.</a>
+</li> <li> <a href="#How_to_use_SAM_BA_with_old_kerne"> How to use SAM-BA with old kernels (&lt; 2.6.32)?</a>
+</li></ul> 
+</li></ul> 
+</li> <li> <a href="#Serial_terminal_configuration"> Serial terminal configuration</a>
+</li> <li> <a href="#Device_or_resource_busy_dev_ttyA"> Device or resource busy: '/dev/ttyACM0'</a>
+</li></ul> 
+</div>
+<p>
+</p><h2><a name="SAM_BA"></a> SAM-BA </h2>
+<p>
+The <a href="http://www.atmel.com/tools/ATMELSAM-BAIN-SYSTEMPROGRAMMER.aspx" target="_top">SAM Boot Assistant (<code>SAM-BA</code>) In-system Programmer</a> is able to program flash media through RS232, USB or <a href="http://segger.com/jlink.html" target="_top">Jtag SAM-ICE</a> link.
+</p><p>
+<a href="http://www.atmel.com/tools/ATMELSAM-BAIN-SYSTEMPROGRAMMER.aspx" target="_top">SAM-BA In-system Programmer</a> can run on: </p><ul>
+<li> Windows (XP, Vista, Seven editions)
+</li> <li> Linux (Cf. <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#Tested_Linux_distributions" class="twikiCurrentTopicLink twikiAnchorLink">Tested Linux distributions</a>)
+</li></ul> 
+<p>
+</p><table id="table1" class="twikiTable" rules="all" border="1" cellpadding="0" cellspacing="0">
+		<tbody><tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#687684"> <font color="#ffffff">Description</font> </th>
+			<th class="twikiTableCol1" align="center" valign="top" bgcolor="#687684"> <font color="#ffffff">Binary</font> </th>
+			<th class="twikiTableCol2 twikiLastCol" align="center" valign="top" bgcolor="#687684"> <font color="#ffffff">FAQ applicable</font> </th>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol0 twikiFirstCol twikiLast" valign="top" bgcolor="#ffffff"> SAM Boot Assistant (<code>SAM-BA</code>) on <a href="http://www.atmel.com/" target="_top">http://www.atmel.com</a> </td>
+			<td class="twikiTableCol1 twikiLast" valign="top" bgcolor="#ffffff"> <a href="http://www.atmel.com/tools/ATMELSAM-BAIN-SYSTEMPROGRAMMER.aspx" target="_top">SAM-BA In-system Programmer</a> </td>
+			<td class="twikiTableCol2 twikiLastCol twikiLast" valign="top" bgcolor="#ffffff"> <a href="http://support.atmel.no/bin/customer?=&amp;action=viewKbEntry&amp;id=679" target="_top">for at91sam9xe (SAM-BA 2.8)</a>,<br> <a href="http://support.atmel.no/bin/customer?=&amp;action=viewKbEntry&amp;id=699" target="_top">for at91sam9g20 (SAM-BA 2.8)</a>,<br> <a href="http://support.atmel.no/bin/customer?=&amp;action=viewKbEntry&amp;id=393" target="_top">for at91sam9263 (SAM-BA 2.7)</a> </td>
+		</tr></tbody></table>
+<p>
+<img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/info.gif" alt="Info" title="Info" border="0" height="16" width="16"> Patches are needed for some products: check the documentation page on Atmel website.
+</p><p>
+<img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/info.gif" alt="Info" title="Info" border="0" height="16" width="16"> You can also use <code>.tcl</code> scripts under a Linux-based operating system. This is useful if you want to run <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted#DemoArchiveBinaries" class="twikiAnchorLink">GettingStarted#DemoArchiveBinaries</a> demos.
+</p><p>
+SAM-BA Linux uses the USB connection through CDC to communicate with the device.
+</p><p>
+</p><h3><a name="Tested_Linux_distributions"></a> Tested Linux distributions </h3>
+<p>
+This table indicates the distributions on which we have tested SAM-BA.
+</p><p>
+Since SAM-BA is a 32 bits application, we can assume that it is ok on 32 bits version if it works on 64 bits version.
+</p><p>
+</p><table id="table2" class="twikiTable" rules="all" border="1" cellpadding="0" cellspacing="0">
+		<tbody><tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th colspan="3" class="twikiFirstCol" valign="top" bgcolor="#687684"> <font color="#ffffff"><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#Ubuntu" class="twikiCurrentTopicLink twikiAnchorLink">Ubuntu</a></font> </th>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td rowspan="8" class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#ffffff"> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#Ubuntu"><img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/ubuntu_logo.jpg"></a> </td>
+			<th class="twikiTableCol1" valign="top" bgcolor="#687684"> <font color="#ffffff">Distribution version</font> </th>
+			<th class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#687684"> <font color="#ffffff">Kernel version</font> </th>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol1" valign="top" bgcolor="#edf4f9"> 10.04 (64 bits) </td>
+			<td class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#edf4f9"> 2.6.32-33-generic (2.6.32-33.70) </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol2" valign="top" bgcolor="#ffffff"> 10.10 (32 bits) </td>
+			<td class="twikiTableCol3" valign="top" bgcolor="#ffffff"> 2.6.35.30-generic (2.6.35-30.56) </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol2" valign="top" bgcolor="#edf4f9"> 10.10 (64 bits) </td>
+			<td class="twikiTableCol3" valign="top" bgcolor="#edf4f9"> 2.6.35.30-generic (2.6.35-30.56) </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol2" valign="top" bgcolor="#ffffff"> 11.04 (64 bits) </td>
+			<td class="twikiTableCol3" valign="top" bgcolor="#ffffff"> 2.6.38-10-generic (2.6.38-10.25) </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol2" valign="top" bgcolor="#edf4f9"> 11.10 (64 bits) </td>
+			<td class="twikiTableCol3" valign="top" bgcolor="#edf4f9"> 3.0.0 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol2" valign="top" bgcolor="#ffffff"> 12.04 (64 bits) </td>
+			<td class="twikiTableCol3" valign="top" bgcolor="#ffffff"> 3.2.0 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol2" valign="top" bgcolor="#edf4f9"> 12.10 (64 bits) </td>
+			<td class="twikiTableCol3" valign="top" bgcolor="#edf4f9"> 3.5.0 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th colspan="3" class="twikiFirstCol" valign="top" bgcolor="#687684"> <font color="#ffffff"><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#Debian" class="twikiCurrentTopicLink twikiAnchorLink">Debian</a></font> </th>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td rowspan="2" class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#ffffff"> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#Debian"><img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/debian_logo.jpg"></a> </td>
+			<th class="twikiTableCol1" valign="top" bgcolor="#687684"> <font color="#ffffff">Distribution version</font> </th>
+			<th class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#687684"> <font color="#ffffff">Kernel version</font> </th>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol1" valign="top" bgcolor="#edf4f9"> 6.0 (64 bits) </td>
+			<td class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#edf4f9"> 2.6.32-5-amd64 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th colspan="3" class="twikiFirstCol" valign="top" bgcolor="#687684"> <font color="#ffffff"><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#Fedora" class="twikiCurrentTopicLink twikiAnchorLink">Fedora</a></font> </th>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td rowspan="4" class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#ffffff"> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#Fedora"><img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/fedora-logo.jpg"></a> </td>
+			<th class="twikiTableCol1" valign="top" bgcolor="#687684"> <font color="#ffffff">Distribution version</font> </th>
+			<th class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#687684"> <font color="#ffffff">Kernel version</font> </th>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol1" valign="top" bgcolor="#edf4f9"> 14 (32 bits) </td>
+			<td class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#edf4f9"> 2.6.35.6-45.fc14.i686 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol1" valign="top" bgcolor="#ffffff"> 14 (64 bits) </td>
+			<td class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#ffffff"> 2.6.35.6-45.fc14.x86_64 </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol1" valign="top" bgcolor="#edf4f9"> 15 (64 bits) </td>
+			<td class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#edf4f9"> 2.6.38.6-26.rc1.fc15.x86_64 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<th colspan="3" class="twikiFirstCol" valign="top" bgcolor="#687684"> <font color="#ffffff"><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#OpenSuse" class="twikiCurrentTopicLink twikiAnchorLink">OpenSuse</a></font> </th>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td rowspan="3" class="twikiTableCol0 twikiFirstCol twikiLast" valign="top" bgcolor="#ffffff"> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools#OpenSuse"><img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/opensuse_logo.jpg"></a> </td>
+			<th class="twikiTableCol1" valign="top" bgcolor="#687684"> <font color="#ffffff">Distribution version</font> </th>
+			<th class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#687684"> <font color="#ffffff">Kernel version</font> </th>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol1" valign="top" bgcolor="#edf4f9"> 11.3 (64 bits) </td>
+			<td class="twikiTableCol2 twikiLastCol" valign="top" bgcolor="#edf4f9"> 2.6.34.10-0.2-desktop </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol1 twikiLast" valign="top" bgcolor="#ffffff"> 11.4 (64 bits) </td>
+			<td class="twikiTableCol2 twikiLastCol twikiLast" valign="top" bgcolor="#ffffff"> 2.6.37.1-1.2-desktop </td>
+		</tr></tbody></table>
+<p>
+<img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/hand.gif" alt="Pointing hand" title="Pointing hand" border="0" height="16" width="16">
+ Note that SAM-BA will certainly work on other distributions as well. 
+Checking following indications will give you clues on how to proceed.
+</p><p>
+</p><p>
+</p><h3><a name="Using_SAM_BA_with_various_linux"></a> Using SAM-BA with various linux distributions </h3>
+<p>
+</p><h4><a name="Ubuntu"></a> Ubuntu </h4>
+<p> </p><ul>
+<li> Update the kernel
+</li></ul> 
+<pre># apt-get install linux-image-generic linux-headers-generic
+</pre> <ul>
+<li> On 64 bits version install 32 bits libraries:
+</li></ul> 
+<pre># apt-get install ia32-libs
+</pre> <ul>
+<li> Give sam-ba execute permission if needed:
+</li></ul> 
+<pre>$ chmod +x sam-ba
+</pre> <ul>
+<li> Connect the board
+</li> <li> Create a symlink on <code>/dev/ttyACM0</code>
+</li></ul> 
+<pre># ln -s /dev/ttyACM0 /dev/ttyUSB0
+</pre> <ul>
+<li> Launch <code>sam-ba</code>
+</li></ul> 
+<p>
+</p><h4><a name="Debian"></a> Debian </h4>
+<p> </p><ul>
+<li> Update the kernel:
+</li></ul> 
+<pre># apt-get install linux-image-generic linux-headers-generic
+</pre> <ul>
+<li> On 64 bits version install 32 bits libraries:
+</li></ul> 
+<pre># apt-get install ia32-libs
+</pre> <ul>
+<li> Give sam-ba execute permission if needed:
+</li></ul> 
+<pre>$ chmod +x sam-ba
+</pre> <ul>
+<li> Add yourself into dialout group
+</li></ul> 
+Edit the <code>/etc/group</code> file and add your username at the end of the line starting with <code>dialout</code>.
+<pre>dialout:x:20:myusername
+</pre>
+Logout and login. <ul>
+<li> Connect the board
+</li> <li> Create a symlink on <code>/dev/ttyACM0</code>
+</li></ul> 
+<pre># ln -s /dev/ttyACM0 /dev/ttyUSB0
+</pre> <ul>
+<li> Launch <code>sam-ba</code>
+</li></ul> 
+<p>
+</p><h4><a name="Fedora"></a> Fedora </h4>
+<p> </p><ul>
+<li> On 64 bits version install 32 bits libraries:
+</li></ul> 
+<pre># yum install glibc libstdc++ libX11
+# yum install glibc.i686 libstdc++.i686 libX11.i686
+</pre>
+The first line update your 64 bits libraries in order to have the same 
+version as 32 bits libraries. If you don't do this, Fedora may complain 
+that you have multilib versions <ul>
+<li> Give sam-ba execute permission if needed:
+</li></ul> 
+<pre>chmod +x sam-ba
+</pre> <ul>
+<li> Add yourself into dialout group
+</li></ul> 
+Edit the <code>/etc/group</code> file and add your username at the end of the line starting with <code>dialout</code>.
+<pre>dialout:x:18:myusername
+</pre>
+Logout and login. <ul>
+<li> Connect the board
+</li> <li> Create a symlink on <code>/dev/ttyACM0</code>
+</li></ul> 
+<pre># ln -s /dev/ttyACM0 /dev/ttyUSB0
+</pre> <ul>
+<li> Launch <code>sam-ba</code>
+</li></ul> 
+<p>
+</p><h4><a name="OpenSuse"></a> OpenSuse </h4>
+<p> </p><ul>
+<li> On 64 bits version install some 32 bits libraries:
+</li></ul> 
+<pre>glibc libstdc++ xorg-x11-libX11
+</pre> <ul>
+<li> Give sam-ba execute permission if needed:
+</li></ul> 
+<pre>chmod +x sam-ba
+</pre> <ul>
+<li> Add yourself into dialout group
+</li></ul> 
+Edit the <code>/etc/group</code> file and add your username at the end of the line starting with <code>dialout</code>.
+<pre>dialout:x:16:myusername
+</pre>
+Logout and login. <ul>
+<li> Connect the board
+</li> <li> Create a symlink on <code>/dev/ttyACM0</code>
+</li></ul> 
+<pre># ln -s /dev/ttyACM0 /dev/ttyUSB0
+</pre> <ul>
+<li> Launch <code>sam-ba</code>
+</li></ul> 
+<p>
+</p><h3><a name="Tips_tricks"></a> Tips &amp; tricks </h3>
+<p>
+</p><p>
+</p><h4><a name="How_to_check_if_my_kernel_versio"></a> How to check if my kernel version is compatible with sam-ba? </h4>
+<p>
+Connect the board to your computer and type:
+</p><pre>$ dmesg
+</pre>
+If you have something like that it's ok:
+<pre>[227274.230016] usb 5-1: new full speed USB device using uhci_hcd and address 5
+[227274.395739] cdc_acm 5-1:1.0: This device cannot do calls on its own. It is not a modem.
+[227274.395768] cdc_acm 5-1:1.0: ttyACM0: USB ACM device
+</pre>
+If you have no log about cdc_acm driver, your kernel may not be up to date.
+<p>
+</p><h4><a name="My_kernel_version_is_2_6_37_or_2"></a> My kernel version is 2.6.37 or 2.6.38 and I have no ttyACMx node. </h4>
+<p>
+This kernel version may contains two drivers for atmel boards: the sam-ba driver and the cdc_acm driver.
+</p><p>
+Since you have two drivers for the same device, randomly the sam-ba 
+driver or the cdc_acm driver can be used. Both allow you to launch 
+sam-ba tool and to program your board. The only issue it involves is the
+ device node name. If it is the sam-ba driver which is used, you will 
+have a <code>/dev/ttyUSBx</code> node. If it is the cdc_acm which is used, you will have a <code>/dev/ttyACMx</code>. In this case you will have to create a link to <code>/dev/ttyUSBx</code>.
+</p><p>
+It is mainly the cdc_acm driver which is selected. To know which one has been selected, you can use the <code>dmesg</code> command.
+</p><p>
+If you see something like this:
+</p><pre>[   72.092495] usb 2-1.3: new high speed USB device using ehci_hcd and address 6
+[   72.191022] USB Serial support registered for sam-ba
+[   72.191169] sam-ba 2-1.3:1.1: sam-ba converter detected
+[   72.191364] usb 2-1.3: sam-ba converter now attached to <span style="color: #008000">ttyUSB1</span>
+[   72.191762] usbcore: registered new interface driver sam-ba
+[   72.191765] sam_ba: v1.0: Atmel SAM Boot Assistant (SAM-BA) driver
+[   72.519248] cdc_acm 2-1.3:1.0: This device cannot do calls on its own. It is not a modem.
+[   72.519258] cdc_acm: probe of 2-1.3:1.0 failed with error -16
+[   72.519272] usbcore: registered new interface driver cdc_acm
+[   72.519273] cdc_acm: v0.26:USB Abstract Control Model driver for USB modems and ISDN adapters
+</pre>
+It is the sam-ba driver which is used and you can see that a <span style="color: #008000">/dev/ttyUSB1</span> node has been created.
+<p>
+In the other case, the cdc_acm driver, you will have:
+</p><p>
+</p><pre>[  766.492942] usb 2-1.1: new high speed USB device using ehci_hcd and address 8
+[  766.585934] cdc_acm 2-1.1:1.0: This device cannot do calls on its own. It is not a modem.
+[  766.586033] cdc_acm 2-1.1:1.0: <span style="color: #008000">ttyACM0</span>: USB ACM device
+</pre>
+It is the CDC driver which is used and you can see that a <span style="color: #008000">/dev/ttyACM0</span> node has been created.
+<p>
+</p><p>
+</p><h4><a name="Checking_the_usb_link_between_th"></a> Checking the usb link between the board and the computer. </h4>
+<p>
+</p><pre>lsusb -d <span style="color: #008000">03eb</span>:<span style="color: #008000">6124</span>
+    Bus 004 Device 006: ID 03eb:6124 Atmel Corp
+</pre>
+<p>
+<span style="color: #008000">03eb</span> is the vendor number and <span style="color: #008000">6124</span> is the product number.
+</p><p>
+</p><h4><a name="How_to_use_SAM_BA_with_old_kerne"></a> How to use SAM-BA with old kernels (&lt; 2.6.32)? </h4>
+<p>
+USB CDC Serial driver mount procedure :
+</p><p> </p><ul>
+<li> Login with administrator rights
+</li></ul> 
+<p> </p><ul>
+<li> Unload usbserial module if it is already running
+</li></ul> 
+<pre>rmmod usbserial
+</pre>
+<p> </p><ul>
+<li> Load usbserial kernel module
+</li></ul> 
+<pre>modprobe usbserial vendor=0x03eb product=0x6124
+</pre>
+<p> </p><ul>
+<li> Verify that the USB connection is established
+</li></ul> 
+<pre>lsusb -d 03eb:6124
+    Bus 004 Device 006: ID 03eb:6124 Atmel Corp
+</pre>
+<p> </p><ul>
+<li> Know which USB connection is established
+</li></ul> 
+<pre>dmesg
+    ...
+    kernel: usb 4-2: new full speed USB device using uhci_hcd and address 5
+    kernel: usb 4-2: configuration #1 chosen from 1 choice
+    kernel: usbserial_generic 4-2:1.0: generic converter detected
+    kernel: usbserial_generic: probe of 4-2:1.0 failed with error -5
+    kernel: usbserial_generic 4-2:1.1: generic converter detected
+    kernel: usb 4-2: generic converter now attached to <span style="color: #008000">ttyUSBx</span>
+</pre>
+<p>
+=&gt; you will have to use <span style="color: #008000">/dev/ttyUSBx</span> instead of \usb\ARM0 to connect to your board
+</p><p>
+</p><p>
+</p><h2><a name="Serial_terminal_configuration"></a> Serial terminal configuration </h2>
+<p>
+Using a terminal software on your host system, you can connect to the 
+application running on the SoC through the DBGU or USART0 serial 
+interface.<br>
+</p><p>
+</p><p>
+The usual serial communication parameters are <code>115200 8-N-1</code> :
+</p><table id="table3" class="twikiTable" rules="all" border="1" cellpadding="0" cellspacing="0">
+		<tbody><tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#ffffff"> Baud rate </td>
+			<td class="twikiTableCol1 twikiLastCol" valign="top" bgcolor="#ffffff"> 115200 </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#edf4f9"> Data </td>
+			<td class="twikiTableCol1 twikiLastCol" valign="top" bgcolor="#edf4f9"> 8 bits </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#ffffff"> Parity </td>
+			<td class="twikiTableCol1 twikiLastCol" valign="top" bgcolor="#ffffff"> None </td>
+		</tr>
+		<tr class="twikiTableEven twikiTableRowdataBgSorted1 twikiTableRowdataBg1">
+			<td class="twikiTableCol0 twikiFirstCol" valign="top" bgcolor="#edf4f9"> Stop </td>
+			<td class="twikiTableCol1 twikiLastCol" valign="top" bgcolor="#edf4f9"> 1 bit </td>
+		</tr>
+		<tr class="twikiTableOdd twikiTableRowdataBgSorted0 twikiTableRowdataBg0">
+			<td class="twikiTableCol0 twikiFirstCol twikiLast" valign="top" bgcolor="#ffffff"> Flow control </td>
+			<td class="twikiTableCol1 twikiLastCol twikiLast" valign="top" bgcolor="#ffffff"> None </td>
+		</tr></tbody></table>
+<p>
+</p><p>
+</p><h2><a name="Device_or_resource_busy_dev_ttyA"></a> Device or resource busy: '/dev/ttyACM0' </h2>
+<p>
+When using the serial CDC interface for <strong>SAM-BA</strong> or <strong>terminal console</strong>
+ from some Linux hosts, from time to time, you can experience long 
+delays before connecting. You can also experience the following error:
+</p><p>
+</p><pre>could not open port /dev/ttyACM0: [Errno 16] Device or resource busy: '/dev/ttyACM0'
+</pre>
+<p>
+It usually happens just after having re-booted the board or issuing a reset.
+</p><p>
+In fact, the process <code>modem-manager</code> is taking the device as soon as it is appearing. You can find it using the <code>lsof</code> command:
+</p><p>
+</p><pre>&gt; sudo lsof /dev/ttyACM0
+COMMAND     PID USER   FD   TYPE DEVICE SIZE/OFF   NODE NAME
+modem-man 10256 root   28u   CHR  166,0      0t0 190530 /dev/ttyACM0
+&gt;
+&gt; ps aux | grep modem
+root     10256  0.1  0.0  83408  3420 ?        S    11:57   0:00 /usr/sbin/modem-manager
+</pre>
+<p>
+So you can search the corresponding packed installed with your 
+distribution's packet management tool and remove this "modem management"
+ application that is taking the device for its own purpose, instead of  
+you.
+</p><p>
+For example, on recent Ubuntu distributions:
+</p><pre>&gt; sudo dpkg-query -S  /usr/sbin/modem-manager
+modemmanager: /usr/sbin/modem-manager
+&gt;
+&gt; sudo apt-get remove modemmanager
+</pre> </div><!-- /patternTopic-->
+<div class="twikiContentFooter"></div></div><!-- /patternContent-->
+<div class="patternInfo twikiGrayText"><div class="patternRevInfo">r35 - 24 May 2013 - 15:21:08 - <a href="http://www.at91.com/linux4sam/bin/view/Main/NicolasFerre" class="twikiLink">NicolasFerre</a></div><!-- /patternRevInfo--></div><!-- /patternInfo-->
+</div><!-- /patternMainContents-->
+</div><!-- /patternMain-->
+<div id="patternLeftBar">
+<div id="patternClearHeaderLeft"></div>
+<div id="patternLeftBarContents">
+<div class="patternWebIndicator"> <ul>
+<li> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebHome" class="twikiCurrentWebHomeLink twikiLink"><img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/web-bg-small.gif" alt="Web background" title="Web background" border="0" height="13" width="13"> Linux4SAM</a>
+</li></ul> 
+</div>
+<p>
+<br>
+</p><h2><a name="Linux4SAM"></a> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebHome" class="twikiCurrentWebHomeLink twikiLink"> Linux4SAM</a> </h2>
+<ul>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted" class="twikiLink">Getting started</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools" class="twikiCurrentTopicLink twikiLink">Software tools</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/AT91Bootstrap" class="twikiLink">AT91Bootstrap</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/U-Boot" class="twikiLink">U-Boot</a> / <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/Barebox" class="twikiLink">barebox</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/LinuxKernel" class="twikiLink">Linux Kernel</a></li>
+</ul>
+<p>
+<u>Open source solutions</u>
+</p><ul>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/OpenEmbeddedAngstrom" class="twikiLink">OpenEmbedded / Angstrom</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/BuildRoot" class="twikiLink">BuildRoot</a></li>
+</ul>
+<p>
+</p><hr>
+<p>
+<u>FAQ</u>
+</p><ul>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/U-BootFAQ" class="twikiLink">U-Boot FAQ</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/BuildRootFAQ" class="twikiLink">BuildRoot FAQ</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/AudioFAQ" class="twikiLink">Audio FAQ</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/FAQ_9x5" class="twikiLink">AT91SAM9x5 FAQ</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/FAQ_9n12" class="twikiLink">AT91SAM9N12 FAQ</a></li>
+</ul>
+<p>
+<u><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/TipsNTricks" class="twikiLink">Tips &amp; Tricks</a></u>
+</p><ul>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WifiSolutions" class="twikiLink">Wifi Solutions</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/AudioRecordOnAt91sam9g20ek" class="twikiLink">9G20EK Audio Recording</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SAM9M10Gstreamer" class="twikiLink">9M10 vdec with Gstreamer</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/IioAdcDriver" class="twikiLink">IIO ADC driver</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/RealTime" class="twikiLink">Real Time on A91SAM SoC</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SDCardBootNotice" class="twikiLink">SD card boot for AT91SAM SoC</a></li>
+    <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/PmeccConfigure" class="twikiLink">NAND ECC configuration (PMECC)</a></li>
+</ul>
+<br><br>
+<h2><a name="Demos"></a> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted#Demo_archives" class="twikiAnchorLink">Demos</a> </h2>
+<p>
+<u>For following products:</u>
+<br><br>
+</p><ul>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted#Demoa5d3x" class="twikiAnchorLink">SAMA5D3x-EK</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted_9n12#Demo_archives" class="twikiAnchorLink">AT91SAM9N12-EK</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted_9x5#Demo_archives" class="twikiAnchorLink">AT91SAM9x5-EK</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted#Demo9m10g45ek" class="twikiAnchorLink">AT91SAM9M10G45-EK</a></li>
+  <li><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/GettingStarted#Demo9g20" class="twikiAnchorLink">AT91SAM9G20-EK</a></li>
+</ul>
+<br><br>
+<h2><a name="Useful_links"></a> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/LinksToCommunities" class="twikiLink">Useful links</a> </h2>
+<ul>
+  <li><a href="http://www.at91.com/" target="_blank">AT91SAM Community</a></li>
+  <li><a href="http://www.atmel.com/" target="_blank">ATMEL</a></li>
+  <li><a href="https://github.com/linux4sam" target="_blank">Linux4SAM on GitHub</a></li>
+</ul>
+<br><br>
+<h2><a name="NAVIGATION"></a> NAVIGATION </h2>
+<p>
+</p><div id="navButtonl">
+<a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebHome" class="twikiCurrentWebHomeLink twikiLink"> Linux4SAM</a>
+</div> <ul>
+<li> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebTopicList" class="twikiLink"> Index</a>
+</li> <li> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebChanges" class="twikiLink"> Changes</a>
+</li> <li> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebNotify" class="twikiLink"> Notifications</a>
+</li> <li> <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebStatistics" class="twikiLink"> Statistics</a>
+</li></ul> 
+<p>
+</p></div>
+<!-- /patternLeftBarContents--></div>
+<!-- /patternLeftBar-->
+</div><!-- /patternFloatWrap-->
+<div class="clear">&nbsp;</div>
+</div><!-- /patternOuter--></div><!-- /patternWrapper-->
+<div id="patternTopBar">
+<div id="patternTopBarContents">
+<table style="width:100%; margin-top:12px;" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr><td valign="middle"><span id="twikiLogo" class="twikiImage"><a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM"><img src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/tux2_atmel_header.png" alt="Linux4SAM" style="border:none;" border="0"></a></span></td>
+<td class="patternMetaMenu" align="right" valign="top">
+ <ul>
+<li> <form name="jumpForm" action="/linux4sam/bin/view/Linux4SAM/SoftwareTools"><input id="jumpFormField" class="twikiInputField twikiInputFieldBeforeFocus" name="topic" value="Jump" size="18" type="text"><noscript>&nbsp;<input type="submit" class="twikiButton" size="5" name="submit" value="Jump" />&nbsp;</noscript>   </form>
+</li> <li> <form name="quickSearchForm" action="/linux4sam/bin/view/Linux4SAM/WebSearch"><input class="twikiInputField twikiInputFieldBeforeFocus" id="quickSearchBox" name="search" value="Search" size="18" type="text"><input name="scope" value="all" type="hidden"><input name="web" value="Linux4SAM" type="hidden"><noscript>&nbsp;<input type="submit" size="5" class="twikiButton" name="submit" value="Search" />&nbsp;</noscript>   </form>
+</li> <li> 
+</li></ul> 
+</td></tr></tbody></table>
+<div class="page-title">Linux &amp; Open Source related information for AT91 Smart ARM Microcontrollers</div>
+<div class="page-print">
+<p>
+</p><p>
+<a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/SoftwareTools?skin=print.myskin">Print</a></p>
+<p>
+</p></div>
+</div></div>
+<!-- /patternTopBar-->
+<div id="patternBottomBar">
+<div id="patternBottomBarContents">
+<div id="patternWebBottomBar">
+<p>Copyright © by the contributing authors. All material on this 
+collaboration platform is the property of the contributing authors. </p>
+<p>Linux® is the registered trademark of Linus Torvalds in the U.S. and other countries. </p>
+<p>Atmel® and others, are registered trademarks or trademarks of Atmel Corporation or its subsidiaries. <a href="http://twiki.org/" target="_blank" class="natExternalLink"><img title="This site is powered by the TWiki collaboration platform" alt="This site is powered by the TWiki collaboration platform" src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/T-logo-80x15.gif" class="img-twiki" border="0" height="15" width="80"></a></p>
+<p>ARM® and others are registered trademarks or trademarks of ARM Ltd.  Other terms and product names may be trademarks of others.</p>
+<p>Ideas, requests, contributions ? Connect to <a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/LinksToCommunities" class="twikiLink">LinksToCommunities</a> page.</p>
+<p>Syndicate this site<a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebRss" class="linux4sam-rss">RSS</a>
+<a href="http://www.at91.com/linux4sam/bin/view/Linux4SAM/WebAtom" class="linux4sam-rss">ATOM</a></p>
+</div>
+<!--/patternWebBottomBar--></div>
+<!-- /patternBottomBarContents--></div>
+<!-- /patternBottomBar-->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="SoftwareTools%20%3C%20Linux4SAM%20%3C%20TWiki_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-10893750-1");
+pageTracker._initData();
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+</div><!-- /patternPage-->
+</div><!-- /patternPageShadow-->
+</div><!-- /patternScreen-->
+</body></html>
