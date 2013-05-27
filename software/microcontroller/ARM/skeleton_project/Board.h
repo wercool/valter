@@ -33,8 +33,8 @@ extern "C"
     #endif
 
     // used board
-    // #define ATMEL_AT91SAM7S_EK
-    #define OX_SAM7_P
+    #define ATMEL_AT91SAM7S_EK
+    // #define OX_SAM7_P
 
     #define __inline static inline
 
@@ -65,8 +65,8 @@ extern "C"
     #define  INT_FLASH          0x00000000
     #define  INT_FLASH_REMAP    0x00100000
 
-    #define  FLASH_PAGE_NB		AT91C_IFLASH_NB_OF_PAGES
-    #define  FLASH_PAGE_SIZE	AT91C_IFLASH_PAGE_SIZE
+    #define  FLASH_PAGE_NB      AT91C_IFLASH_NB_OF_PAGES
+    #define  FLASH_PAGE_SIZE    AT91C_IFLASH_PAGE_SIZE
 
     #if defined(ATMEL_AT91SAM7S_EK)
     /*-----------------*/
@@ -107,8 +107,8 @@ extern "C"
     #define SW2_MASK        (1<<20)	/* PA20 / PGMD8  & RF   IRQ0    16 */
     #define NB_SW           2
     #define SW_MASK         (SW1_MASK|SW2_MASK)
-    #define SW1 	(1<<19)	// PA19
-    #define SW2 	(1<<20)	// PA20
+    #define SW1             (1<<19)	// PA19
+    #define SW2             (1<<20)	// PA20
 
     #else
     #error "Unsupported board"
@@ -118,14 +118,14 @@ extern "C"
     /* USART Definition */
     /*------------------*/
     /* SUB-D 9 points J3 DBGU */
-    #define DBGU_RXD		AT91C_PA9_DRXD	  /* JP11 must be close */
-    #define DBGU_TXD		AT91C_PA10_DTXD	  /* JP12 must be close */
-    #define AT91C_DBGU_BAUD	   115200   // Baud rate
+    #define DBGU_RXD        AT91C_PA9_DRXD	  /* JP11 must be close */
+    #define DBGU_TXD        AT91C_PA10_DTXD	  /* JP12 must be close */
+    #define AT91C_DBGU_BAUD    115200   // Baud rate
 
-    #define US_RXD_PIN		AT91C_PA5_RXD0    /* JP9 must be close */
-    #define US_TXD_PIN		AT91C_PA6_TXD0    /* JP7 must be close */
-    #define US_RTS_PIN		AT91C_PA7_RTS0    /* JP8 must be close */
-    #define US_CTS_PIN		AT91C_PA8_CTS0    /* JP6 must be close */
+    #define US_RXD_PIN      AT91C_PA5_RXD0    /* JP9 must be close */
+    #define US_TXD_PIN      AT91C_PA6_TXD0    /* JP7 must be close */
+    #define US_RTS_PIN      AT91C_PA7_RTS0    /* JP8 must be close */
+    #define US_CTS_PIN      AT91C_PA8_CTS0    /* JP6 must be close */
 
     /*--------------*/
     /* Master Clock */

@@ -19,8 +19,4 @@ After that, you just have to type  arm-elf-gcc --version   to verify that the in
 
 
 ===========================================================================================================
-to install from packages:
 
-sudo apt-get install binutils-arm-linux-gnueabi
-sudo apt-get install gcc-arm-linux-gnueabi
-sudo apt-get install g++-arm-linux-gnueabi
