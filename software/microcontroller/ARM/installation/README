@@ -20,3 +20,17 @@ After that, you just have to type  arm-elf-gcc --version   to verify that the in
 
 ===========================================================================================================
 
+./src
+this folder contains all necessary sources and docs to build and install arm-elf toolchain
+
+IMPORTANT!
+was launched twice:
+
+ binutils
+
+You must compile and install binutils prior to compiling GCC
+
+tar -jxvf binutils-2.17.tar.bz2
+cd binutils-2.17
+./configure --disable-werror --target=arm-elf --prefix=/usr/local/arm7
+sudo make all install
