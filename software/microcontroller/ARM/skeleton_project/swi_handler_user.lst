@@ -1,0 +1,47 @@
+   1              		.code	16
+   2              		.file	"swi_handler_user.c"
+  10              	.Ltext0:
+  11              		.section	.text.SWI_Handler_User,"ax",%progbits
+  12              		.align	2
+  13              		.global	SWI_Handler_User
+  14              		.code 16
+  15              		.thumb_func
+  17              	SWI_Handler_User:
+  18              	.LFB290:
+  19              		.file 1 "swi_handler_user.c"
+   1:swi_handler_user.c **** /* User SWI Handler for SWI's not handled in swi_handler.S */
+   2:swi_handler_user.c **** 
+   3:swi_handler_user.c **** #include <stdio.h>
+   4:swi_handler_user.c **** #include "Board.h"
+   5:swi_handler_user.c **** #include "dbgu.h"
+   6:swi_handler_user.c **** 
+   7:swi_handler_user.c **** unsigned long SWI_Handler_User(unsigned long reg0,
+   8:swi_handler_user.c ****     unsigned long reg1,
+   9:swi_handler_user.c ****     unsigned long reg2,
+  10:swi_handler_user.c ****     unsigned long swi_num )
+  11:swi_handler_user.c **** {
+  20              		.loc 1 11 0
+  21              	.LVL0:
+  12:swi_handler_user.c ****     unsigned long res;
+  13:swi_handler_user.c **** 
+  14:swi_handler_user.c ****     res = 0;
+  15:swi_handler_user.c **** 
+  16:swi_handler_user.c ****     return res;
+  17:swi_handler_user.c **** }
+  22              		.loc 1 17 0
+  23 0000 0020     		mov	r0, #0
+  24              	.LVL1:
+  25              		.loc 1 11 0
+  26              		@ lr needed for prologue
+  27              		.loc 1 17 0
+  28              		@ sp needed for prologue
+  29 0002 7047     		bx	lr
+  30              	.LFE290:
+  56              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 swi_handler_user.c
+     /tmp/cc4cTvaQ.s:1      .text:00000000 $t
+     /tmp/cc4cTvaQ.s:17     .text.SWI_Handler_User:00000000 SWI_Handler_User
+     /tmp/cc4cTvaQ.s:14     .text.SWI_Handler_User:00000000 $t
+
+NO UNDEFINED SYMBOLS

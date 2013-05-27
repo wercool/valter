@@ -1,0 +1,863 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<link rel=File-List href="./basic_files/filelist.xml">
+<title>AT91 SAM7S Interrupt Management Version: 2.0</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>jpperie</o:Author>
+  <o:LastAuthor>jpperie</o:LastAuthor>
+  <o:Revision>8</o:Revision>
+  <o:TotalTime>234</o:TotalTime>
+  <o:Created>2004-07-13T08:08:00Z</o:Created>
+  <o:LastSaved>2004-07-13T13:30:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>952</o:Words>
+  <o:Characters>5430</o:Characters>
+  <o:Company>ATMEL_ES2</o:Company>
+  <o:Lines>45</o:Lines>
+  <o:Paragraphs>10</o:Paragraphs>
+  <o:CharactersWithSpaces>6668</o:CharactersWithSpaces>
+  <o:Version>9.2720</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+@font-face
+	{font-family:Georgia;
+	panose-1:2 4 5 2 5 4 5 2 3 3;
+	mso-font-charset:0;
+	mso-generic-font-family:roman;
+	mso-font-pitch:variable;
+	mso-font-signature:647 0 0 0 159 0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+p.MsoBodyTextIndent, li.MsoBodyTextIndent, div.MsoBodyTextIndent
+	{margin-top:0cm;
+	margin-right:0cm;
+	margin-bottom:0cm;
+	margin-left:36.0pt;
+	margin-bottom:.0001pt;
+	text-indent:36.0pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:EN-US;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+p
+	{margin-right:0cm;
+	mso-margin-top-alt:auto;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";}
+@page Section1
+	{size:595.3pt 841.9pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+<!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="1027"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<body bgcolor=white lang=EN-GB link=blue vlink=blue style='tab-interval:36.0pt'>
+<div class=Section1> 
+  <p class=MsoNormal align=right style='text-align:right'><!-- ******* title  ********** !--><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>Version: 2.0</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+  <p align=center style='text-align:center'><b><span lang=EN-US style='font-family:
+Georgia;mso-ansi-language:EN-US'>AT91 SAM7S Interrupt Management</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+  <p><span lang=EN-US style='mso-ansi-language:EN-US'><!-- ******* Introduction  ********** !-->The 
+    goal of this demonstration project is to demonstrate how to use the AT91 ARM-Based 
+    Software Package. This project runs a test of the <b>AT91SAM7S</b> device 
+    and his corresponding Evaluation Kit, the <b>AT91SAM7S-EK. </b> <br>
+    This project implements an interrupt management example.<o:p></o:p></span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p> 
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal><!-- ******* Reference  ********** !--><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>Reference Documents<o:p></o:p></span></b></p>
+  <table border=1 cellspacing=1 cellpadding=0 width=400 style='width:300.0pt;
+ mso-cellspacing:.7pt;margin-left:36.0pt;mso-padding-alt:5.25pt 5.25pt 5.25pt 5.25pt'>
+    <tr> 
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>Name<o:p></o:p></span></p>
+      </td>
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Reference</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>ARM-Based 
+          Software Package</span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>6016</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>AT91SAM7Sxx 
+          Datasheet<o:p></o:p></span></p>
+      </td>
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>6070</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <p class=MsoNormal><!-- ******* Contents  ********** !--><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>Contents:<o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'><a href="#Hardware_resource">Hardware resource</a> 
+    <o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'><a href="#Source_Files">Source Files</a> <o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'><a href="#Description">Description</a><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'><a href="#Interrupt_Action">Interrupt Action</a><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'><a href="#Interrupt_Implementation">Interrupt 
+    Implementation</a><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'><a href="#Interrupt_Level">Interrupt level description</a><o:p></o:p></span></p>
+  <p class=MsoNormal><!-- ******* Hardware resource  ********** !--><a
+name="Hardware_resource"><b><span lang=EN-US style='mso-ansi-language:EN-US'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></b></a></p>
+  <p class=MsoNormal><span style='mso-bookmark:Hardware_resource'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>Hardware resource:</span></b></span><b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p><br>
+    <br>
+    </o:p></span></b></p>
+  <p class=MsoNormal style='text-indent:36.0pt'><a name=AT91><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>AT91SAM7S product</span></b></a><b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- USART :<a
+href="#Usart_Configuration"><span style='font-weight:normal'> Usart 0 </span></a></span></b><span
+class=MsoHyperlink><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- Timer :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> Timer 0 &amp; Timer 1<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=FR style='mso-ansi-language:FR'>- IRQ :</span></b><span lang=FR
+style='mso-ansi-language:FR'> IRQ0 &amp; FIQ external interrupt<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- PIO :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> PIOA Controller<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- PMC :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> Power management Controller<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- AIC :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> Advanced Interrupt Controller<o:p><br>
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal style='text-indent:36.0pt'><a name=EBxx><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>AT91SAM7S-EK </span></b></a><span style='mso-bookmark:
+EBxx'><span lang=EN-US style='mso-ansi-language:EN-US'>evaluation board</span></span><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+  <p class=MsoBodyTextIndent><span lang=EN-US>Push Buttons and LEDs: The FIQ, 
+    IRQ0, TIOA0 and TIOB switches are debounced and buffered. <br>
+    Please note that the jumper CB6 must be open (SW1-4 inputs to the AT91 are 
+    valid).By default, this jumper is not equipped (open) </span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- SW1 :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> (AT91C_PA19_FIQ) Used in peripheral mode for 
+    the FIQ input<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- SW2 :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> (AT91C_PA20_IRQ0) Used in peripheral mode for 
+    the IRQ0 interrupt<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- SW3 :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> (AT91C_PIO_PA15) Used in standard PIO mode for 
+    the PIO input <o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- SW4 :</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'> (AT91C_PIO_PA16) Used in standard PIO for the 
+    PIO interrupt<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt;text-indent:36.0pt'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>- LED1 to LED4 :</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'> Using in standard PIO output <o:p><br>
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal><a name="Source_Files"><b><span lang=FR style='mso-ansi-language:
+FR'><!-- ******* FILE  ********** !-->Source Files:</span></b></a><b><span
+lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></b></p>
+  <table border=1 cellspacing=1 cellpadding=0 width=554 style='width:415.5pt;
+ mso-cellspacing:.7pt;mso-padding-alt:5.25pt 5.25pt 5.25pt 5.25pt'>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p class=MsoNormal><span lang=FR style='mso-ansi-language:FR'>&nbsp;<o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>Description 
+          Files</span></b><span lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>srcxxx/SAM7Board.h</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>SAM7 
+          evaluation board description</span><span lang=EN-US style='mso-ansi-language:
+  EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>&nbsp;<o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Startup 
+          Files</span></b><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>srcxxx/Cstartup.xxx 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>AT91SAM7Sxx</span></b><span
+  lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'> microcontroller 
+          reset entry point</span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>srcxxx/Cstartup_SAM7.c</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>AT91SAM7Sxx</span></b><span
+  lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'> initialization 
+          called by the assembly code and by the Cstartup</span><span lang=EN-US style='mso-ansi-language:
+  EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p class=MsoNormal><span lang=EN-US style='mso-ansi-language:EN-US'>&nbsp;<o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>C Files</span></b><span
+  lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>../src/main.c</span><span
+  lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Main 
+          entry point </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><i><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>ext_irq.c</span></i><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>External 
+          interrupt handler for the irq</span><span lang=EN-US style='mso-ansi-language:
+  EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><i><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>interrupt_timer.c</span></i><span
+  lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>Timer interrupt 
+          management</span><span lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="34%" valign=top style='width:34.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>interrupt_Usart.c</span><span
+  lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+      <td width="66%" valign=top style='width:66.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>USART Interrupt 
+          Management</span><span lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <p class=MsoNormal><!-- ******* Description  ********** !--><a
+name=Description><b><span lang=EN-US style='mso-ansi-language:EN-US'>Description:</span></b></a><b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>In background one led (LED1) is blinking simply 
+    by writing directly in the PIO interface.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The LED2 is blinking by the software AIC interrupt 
+    after ten blink of LED1.<br>
+    <br>
+    <o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><a name="Interrupt_Action"><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>Interrupt Action</span></b></a><b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- When you push on SW4, the PIO interface is activated 
+    and uses the PIO interrupt routine. This interrupt has the priority level 
+    6. If you keep SW3 in position you maintain the interrupt handler and suppress 
+    the lower interrupt task.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- When you push on SW2 (IRQ0), the IRQ0 is activated 
+    and uses the IRQ0 interrupt routine. This interrupt has the priority level 
+    2. If you keep SW3 in position you maintain the interrupt handler and suppress 
+    the lower interrupt task.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- The timer interrupt increment the global variables 
+    named count_timer0_interrupt and count_timer1_interrupt. Each timer manage 
+    the corresponding LED (LED3 &amp; LED4). The following table describes the 
+    interrupt level associated to the peripherals. <o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- The USART interrupt is generated when the reception 
+    register is full (status bit register RXRDY) or when a reception occurs with 
+    an error, such as Overrun, Framing, Parity or Time out error.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>T =&gt; US_TIMEOUT event<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>R =&gt; US_RXRDY event<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>E =&gt; US_ENDRX event<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>All Usart Interrupt events are listed in the interrupt_Usart.c 
+    file<o:p><br>
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><a name="Interrupt_Implementation"><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>Interrupt Implementation</span></b></a><b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p><br>
+    <br>
+    </o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>Interrupt initialization<o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- Initialization of the Interrupt stack. This 
+    initialization is performed in the <b> Cstartup.xxx</b> file. The IRQ_ENTRY 
+    macro used, needs only 2x32-bit stack level. The first 32-bit for the link 
+    address and the second for the application status register<o:p>.</o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>IRQ_STACK_SIZE EQU (2*8*4) ; 2 words per interrupt 
+    priority level<o:p><br>
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The FIQ does not need specific stack as this interruption 
+    is not interruptible by other interrupts.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'><br>
+    - Configure the Peripheral<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:108.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Enable the corresponding clock: see function named 
+    AT91F_PMC_EnablePeriphClock<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:108.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Select the corresponding I/O in peripheral mode: 
+    see function named AT91F_PIO_CfgPeriph<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:108.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Configure all peripheral register<o:p>s</o:p></span></p>
+  <p class=MsoNormal style='margin-left:108.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Set and enable the peripheral interrupt: see function 
+    named AT91F_US_EnableIt (for USART)<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Set the AIC: see function named AT91F_AIC_ConfigureIt<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Enable this interrupt in the AIC: see function 
+    named AT91F_AIC_EnableIt<o:p><br>
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>Interrupt Handling Entry</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Save lr, spsr_irq and r0<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Get the vector address in the IVR Register<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Acknowledge the interrupt in the ACI vectoring<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Switch in System Mode<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- Only one link register saves the interrupt return 
+    address<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- Priority needs to manage nested interrupt and 
+    to enable the next interrupt (clear I bit)<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Save the context (scratched registers only) <o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Call the C handler (IVR) <o:p><br>
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>Interrupt Handling Exit</span></b><span
+lang=EN-US style='mso-ansi-language:EN-US'> <o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Restore the context<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Disable Interrupt<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Switch back in IRQ Mode<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Write AIC_EOICR<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Restore r0 and spsr_irq<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Restore lr directly in pc<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Because adjusted in entry sequence<o:p><br>
+    <br>
+    </o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><a name="Interrupt_detection"><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>Interrupt Detection</span></b></a><b><span
+lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>When an interrupt source is detected, AIC asserts 
+    NIRQ<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=FR style='mso-ansi-language:
+FR'>- AIC de-asserts the NIRQ<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- AIC determines the highest level pending and 
+    enabled interrupt source<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- AIC pushes the level of the current interrupt 
+    in hardware stack<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- AIC clears the interrupt if it&#8217;s edge 
+    triggered<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- AIC returns the vector corresponding to the 
+    current interrupt<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>Interrupt Service Routine re-enables as soon as 
+    possible the interrupt at processor level<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>A highest-level interrupt can occur and restarts 
+    this sequence<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The Interrupt Service Exit code disables the interrupt 
+    at processor level and writes the End Of Interrupt Command Register<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:72.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>- AIC pops from its hardware stack the current 
+    level<o:p></o:p></span></p>
+  <p style='margin-left:36.0pt'><span lang=EN-US style='mso-ansi-language:EN-US'>Interrupt 
+    Handling Entry <!-- ******* Interrupt level  ********** !--><o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><a name="Interrupt_Level"><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>Interrupt level </span></b></a><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>description<o:p></o:p></span></b></p>
+  <p class=MsoNormal style='margin-left:36.0pt'><span lang=EN-US
+style='mso-ansi-language:EN-US'>The NIRQ line is controlled by an 8-level priority 
+    encoder. Each source has a programmable priority level of 7 to 0. Level 7 
+    is the highest priority and level 0 the lowest.<o:p><br>
+    <br>
+    </o:p></span></p>
+  <table border=1 cellspacing=1 cellpadding=0 width=665 style='width:498.75pt;
+ mso-cellspacing:.7pt;mso-padding-alt:5.25pt 5.25pt 5.25pt 5.25pt'>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>level</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>LED</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Name</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Comment</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>1(lower)</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>3</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>TIMER0_INTERRUPT_LEVEL 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Timer 
+          led blink high speed</span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>2</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>2</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>IRQ0_INTERRUPT_LEVEL 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>External 
+          IRQ0 interrupt (SW2) </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>4</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>4</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>TIMER1_INTERRUPT_LEVEL 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Timer 
+          1 led blink low speed</span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>5</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>2</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>SOFT_INTERRUPT_LEVEL 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Generate 
+          in main function by setting the AIC </span><span lang=EN-US style='mso-ansi-language:
+  EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>6</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>2</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>PIO_INTERRUPT_LEVEL 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>PIO 
+          interrupt(SW4) </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>7</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>None</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>USART_INTERRUPT_LEVEL 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>USART 
+          1 Interrupt only on RX with RXRDY and error OVER, Framing, Parity, Time 
+          out </span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>FIQ 
+          </span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>4 
+          </span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>FIQ_INTERRUPT_LEVEL 
+          </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Input 
+          none </span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <p class=MsoNormal style='margin-left:36.0pt'><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>Share LED</span></b><span lang=EN-US
+style='mso-ansi-language:EN-US'><o:p><br>
+    </o:p></span></p>
+  <table border=1 cellspacing=1 cellpadding=0 width=665 style='width:498.75pt;
+ mso-cellspacing:.7pt;mso-padding-alt:5.25pt 5.25pt 5.25pt 5.25pt'>
+    <tr> 
+      <td width="20%" valign=top style='width:20.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>LED</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="80%" valign=top style='width:80.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Task</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="20%" valign=top style='width:20.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>1</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="80%" valign=top style='width:80.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>background</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="20%" valign=top style='width:20.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>2</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="80%" valign=top style='width:80.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Software 
+          IRQ / IRQ0 / PIO IRQ</span></b><span lang=EN-US style='mso-ansi-language:
+  EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="20%" valign=top style='width:20.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=FR style='mso-ansi-language:FR'>3</span></b><span lang=FR
+  style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+      <td width="80%" valign=top style='width:80.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=FR style='font-size:10.0pt;mso-ansi-language:FR'>Timer 
+          0 IRQ/ FIRQ</span></b><span lang=FR style='mso-ansi-language:FR'><o:p></o:p></span></p>
+      </td>
+    </tr>
+    <tr> 
+      <td width="20%" valign=top style='width:20.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>4</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+      <td width="80%" valign=top style='width:80.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+        <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Timer 
+          1 IRQ </span></b><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+      </td>
+    </tr>
+  </table>
+  <br>
+</div>
+<blockquote>
+  <p> 
+    <div class=Section1>
+      <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>Background</span></b></p>
+      <table border=1 cellspacing=1 cellpadding=0 width=665 style='width:498.75pt;
+ mso-cellspacing:.7pt;mso-padding-alt:5.25pt 5.25pt 5.25pt 5.25pt'>
+        <tr> 
+          <td width="10%" valign=top style='width:10.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Task</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="20%" valign=top style='width:20.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>LED</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="20%" valign=top style='width:20.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Function</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="50%" valign=top style='width:50.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Comment</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+        </tr>
+        <tr> 
+          <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>background</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="8%" valign=top style='width:8.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>1</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="25%" valign=top style='width:25.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>main</span><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="58%" valign=top style='width:58.0%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Infinity 
+              loop</span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+        </tr>
+      </table>
+      <p><b><span lang=EN-US
+style='mso-ansi-language:EN-US'>Switch </span></b></p>
+      <table border=1 cellspacing=1 cellpadding=0 width=671 style='width:503.6pt;
+ mso-cellspacing:.7pt;mso-padding-alt:5.25pt 5.25pt 5.25pt 5.25pt'>
+        <tr> 
+          <td width="18%" valign=top style='width:18.52%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Switch</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="18%" valign=top style='width:18.58%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Interrupt<o:p></o:p></span></b></p>
+          </td>
+          <td width="62%" valign=top style='width:62.36%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Task</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+        </tr>
+        <tr> 
+          <td width="18%" valign=top style='width:18.52%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>1</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="18%" valign=top style='width:18.58%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>FIQ<span
+  style="mso-spacerun: yes">&nbsp; </span>(higher 7)<o:p></o:p></span></b></p>
+          </td>
+          <td width="62%" valign=top style='width:62.36%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='font-size:10.0pt;mso-ansi-language:EN-US'>Toggle 
+              LED 3 </span></b><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+        </tr>
+        <tr> 
+          <td width="18%" valign=top style='width:18.52%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>2</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="18%" valign=top style='width:18.58%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>IRQ0 (Level 
+              2)<o:p></o:p></span></b></p>
+          </td>
+          <td width="62%" valign=top style='width:62.36%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><span lang=EN-US style='mso-ansi-language:EN-US'>(SW3 Action). 
+              Stop LED 1, 2 and 3<o:p></o:p></span></p>
+          </td>
+        </tr>
+        <tr> 
+          <td width="18%" valign=top style='width:18.52%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b>3</b></p>
+          </td>
+          <td width="18%" valign=top style='width:18.58%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b>None<o:p></o:p></b></p>
+          </td>
+          <td width="62%" valign=top style='width:62.36%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p>For IRQ0 and PIO</p>
+          </td>
+        </tr>
+        <tr> 
+          <td width="18%" valign=top style='width:18.52%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>4</span></b><span
+  lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+          </td>
+          <td width="18%" valign=top style='width:18.58%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>PIO (Level 
+              6)<o:p></o:p></span></b></p>
+          </td>
+          <td width="62%" valign=top style='width:62.36%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><span lang=EN-US style='mso-ansi-language:EN-US'>(SW3 Action). 
+              Stop All LEDs<o:p></o:p></span></p>
+          </td>
+        </tr>
+        <tr> 
+          <td width="18%" valign=top style='width:18.52%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>Usart<o:p></o:p></span></b></p>
+          </td>
+          <td width="18%" valign=top style='width:18.58%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><b><span lang=EN-US style='mso-ansi-language:EN-US'>(Level 7)<o:p></o:p></span></b></p>
+          </td>
+          <td width="62%" valign=top style='width:62.36%;padding:5.25pt 5.25pt 5.25pt 5.25pt'> 
+            <p><span lang=EN-US style='mso-ansi-language:EN-US'>Loop char under 
+              interrupt<o:p></o:p></span></p>
+          </td>
+        </tr>
+      </table>
+      <p><b><span lang=EN-US
+style='mso-ansi-language:EN-US'> </span></b></p>
+    </div>
+  </p>
+</blockquote>
+<div class=Section1> 
+  <p class=MsoNormal><a name="Usart_Configuration"><b><span lang=EN-US
+style='mso-ansi-language:EN-US'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></b></a></p>
+  <p class=MsoNormal><span style='mso-bookmark:Usart_Configuration'><b><span
+lang=EN-US style='mso-ansi-language:EN-US'>Usart 0 Configuration<o:p></o:p></span></b></span></p>
+  <p class=MsoNormal><span style='mso-bookmark:Usart_Configuration'><span
+lang=EN-US style='mso-ansi-language:EN-US'>- 115200,Parity none, 1 stop, without 
+    flux control<o:p></o:p></span></span></p>
+  <p class=MsoNormal><span style='mso-bookmark:Usart_Configuration'><span
+lang=EN-US style='mso-ansi-language:EN-US'>- Use a cross cable for the connection 
+    with the PC</span></span><span lang=EN-US style='mso-ansi-language:EN-US'><o:p></o:p></span></p>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,1655 @@
+   1              		.code	16
+   2              		.file	"cdc_enumerate.c"
+  10              	.Ltext0:
+  11              		.section	.text.AT91F_CDC_Open,"ax",%progbits
+  12              		.align	2
+  13              		.global	AT91F_CDC_Open
+  14              		.code 16
+  15              		.thumb_func
+  17              	AT91F_CDC_Open:
+  18              	.LFB290:
+  19              		.file 1 "cdc_enumerate.c"
+   1:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+   2:cdc_enumerate.c **** //*      ATMEL Microcontroller Software Support  -  ROUSSET  -
+   3:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+   4:cdc_enumerate.c **** //* The software is delivered "AS IS" without warranty or condition of any
+   5:cdc_enumerate.c **** //* kind, either express, implied or statutory. This includes without
+   6:cdc_enumerate.c **** //* limitation any warranty or condition with respect to merchantability or
+   7:cdc_enumerate.c **** //* fitness for any particular purpose, or against the infringements of
+   8:cdc_enumerate.c **** //* intellectual property rights of others.
+   9:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+  10:cdc_enumerate.c **** //* File Name           : cdc_enumerate.c
+  11:cdc_enumerate.c **** //* Object              : Handle CDC enumeration
+  12:cdc_enumerate.c **** //*
+  13:cdc_enumerate.c **** //* 1.0 Apr 20 200 	: ODi Creation
+  14:cdc_enumerate.c **** //* 1.1 14/Sep/2004 JPP : Minor change
+  15:cdc_enumerate.c **** //* 1.1 15/12/2004  JPP : suppress warning
+  16:cdc_enumerate.c **** //* 1.2 30-Jun-2006 JPP : Set in AT91C_UDP_EPTYPE_INT_IN
+  17:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+  18:cdc_enumerate.c **** #include "Board.h"
+  19:cdc_enumerate.c **** #include "cdc_enumerate.h"
+  20:cdc_enumerate.c **** 
+  21:cdc_enumerate.c **** typedef unsigned char  uchar;
+  22:cdc_enumerate.c **** typedef unsigned short ushort;
+  23:cdc_enumerate.c **** typedef unsigned int   uint;
+  24:cdc_enumerate.c **** 
+  25:cdc_enumerate.c **** #define MIN(a, b) (((a) < (b)) ? (a) : (b))
+  26:cdc_enumerate.c **** 
+  27:cdc_enumerate.c **** #define AT91C_EP_IN_SIZE 0x40
+  28:cdc_enumerate.c **** 
+  29:cdc_enumerate.c **** const char devDescriptor[] = {
+  30:cdc_enumerate.c **** 	/* Device descriptor */
+  31:cdc_enumerate.c **** 	0x12,   // bLength
+  32:cdc_enumerate.c **** 	0x01,   // bDescriptorType
+  33:cdc_enumerate.c **** 	0x10,   // bcdUSBL
+  34:cdc_enumerate.c **** 	0x01,   //
+  35:cdc_enumerate.c **** 	0x02,   // bDeviceClass:    CDC class code
+  36:cdc_enumerate.c **** 	0x00,   // bDeviceSubclass: CDC class sub code
+  37:cdc_enumerate.c **** 	0x00,   // bDeviceProtocol: CDC Device protocol
+  38:cdc_enumerate.c **** 	0x08,   // bMaxPacketSize0
+  39:cdc_enumerate.c **** 	0xEB,   // idVendorL
+  40:cdc_enumerate.c **** 	0x03,   //
+  41:cdc_enumerate.c **** 	// mtmt 0x24,   // idProductL
+  42:cdc_enumerate.c **** 	0x25,   // idProductL
+  43:cdc_enumerate.c **** 	0x61,   //
+  44:cdc_enumerate.c **** 	0x10,   // bcdDeviceL
+  45:cdc_enumerate.c **** 	0x01,   //
+  46:cdc_enumerate.c **** 	0x00,   // iManufacturer    // 0x01
+  47:cdc_enumerate.c **** 	0x00,   // iProduct
+  48:cdc_enumerate.c **** 	0x00,   // SerialNumber
+  49:cdc_enumerate.c **** 	0x01    // bNumConfigs
+  50:cdc_enumerate.c **** };
+  51:cdc_enumerate.c **** 
+  52:cdc_enumerate.c **** const char cfgDescriptor[] = {
+  53:cdc_enumerate.c **** 	/* ============== CONFIGURATION 1 =========== */
+  54:cdc_enumerate.c **** 	/* Configuration 1 descriptor */
+  55:cdc_enumerate.c **** 	0x09,   // CbLength
+  56:cdc_enumerate.c **** 	0x02,   // CbDescriptorType
+  57:cdc_enumerate.c **** 	0x43,   // CwTotalLength 2 EP + Control
+  58:cdc_enumerate.c **** 	0x00,
+  59:cdc_enumerate.c **** 	0x02,   // CbNumInterfaces
+  60:cdc_enumerate.c **** 	0x01,   // CbConfigurationValue
+  61:cdc_enumerate.c **** 	0x00,   // CiConfiguration
+  62:cdc_enumerate.c **** 	0xC0,   // CbmAttributes 0xA0
+  63:cdc_enumerate.c **** 	0x00,   // CMaxPower
+  64:cdc_enumerate.c **** 
+  65:cdc_enumerate.c **** 	/* Communication Class Interface Descriptor Requirement */
+  66:cdc_enumerate.c **** 	0x09, // bLength
+  67:cdc_enumerate.c **** 	0x04, // bDescriptorType
+  68:cdc_enumerate.c **** 	0x00, // bInterfaceNumber
+  69:cdc_enumerate.c **** 	0x00, // bAlternateSetting
+  70:cdc_enumerate.c **** 	0x01, // bNumEndpoints
+  71:cdc_enumerate.c **** 	0x02, // bInterfaceClass
+  72:cdc_enumerate.c **** 	0x02, // bInterfaceSubclass
+  73:cdc_enumerate.c **** 	0x00, // bInterfaceProtocol
+  74:cdc_enumerate.c **** 	0x00, // iInterface
+  75:cdc_enumerate.c **** 
+  76:cdc_enumerate.c **** 	/* Header Functional Descriptor */
+  77:cdc_enumerate.c **** 	0x05, // bFunction Length
+  78:cdc_enumerate.c **** 	0x24, // bDescriptor type: CS_INTERFACE
+  79:cdc_enumerate.c **** 	0x00, // bDescriptor subtype: Header Func Desc
+  80:cdc_enumerate.c **** 	0x10, // bcdCDC:1.1
+  81:cdc_enumerate.c **** 	0x01,
+  82:cdc_enumerate.c **** 
+  83:cdc_enumerate.c **** 	/* ACM Functional Descriptor */
+  84:cdc_enumerate.c **** 	0x04, // bFunctionLength
+  85:cdc_enumerate.c **** 	0x24, // bDescriptor Type: CS_INTERFACE
+  86:cdc_enumerate.c **** 	0x02, // bDescriptor Subtype: ACM Func Desc
+  87:cdc_enumerate.c **** 	0x00, // bmCapabilities
+  88:cdc_enumerate.c **** 
+  89:cdc_enumerate.c **** 	/* Union Functional Descriptor */
+  90:cdc_enumerate.c **** 	0x05, // bFunctionLength
+  91:cdc_enumerate.c **** 	0x24, // bDescriptorType: CS_INTERFACE
+  92:cdc_enumerate.c **** 	0x06, // bDescriptor Subtype: Union Func Desc
+  93:cdc_enumerate.c **** 	0x00, // bMasterInterface: Communication Class Interface
+  94:cdc_enumerate.c **** 	0x01, // bSlaveInterface0: Data Class Interface
+  95:cdc_enumerate.c **** 
+  96:cdc_enumerate.c **** 	/* Call Management Functional Descriptor */
+  97:cdc_enumerate.c **** 	0x05, // bFunctionLength
+  98:cdc_enumerate.c **** 	0x24, // bDescriptor Type: CS_INTERFACE
+  99:cdc_enumerate.c **** 	0x01, // bDescriptor Subtype: Call Management Func Desc
+ 100:cdc_enumerate.c **** 	0x00, // bmCapabilities: D1 + D0
+ 101:cdc_enumerate.c **** 	0x01, // bDataInterface: Data Class Interface 1
+ 102:cdc_enumerate.c **** 
+ 103:cdc_enumerate.c **** 	/* Endpoint 1 descriptor */
+ 104:cdc_enumerate.c **** 	0x07,   // bLength
+ 105:cdc_enumerate.c **** 	0x05,   // bDescriptorType
+ 106:cdc_enumerate.c **** 	0x83,   // bEndpointAddress, Endpoint 03 - IN
+ 107:cdc_enumerate.c **** 	0x03,   // bmAttributes      INT
+ 108:cdc_enumerate.c **** 	0x08,   // wMaxPacketSize
+ 109:cdc_enumerate.c **** 	0x00,
+ 110:cdc_enumerate.c **** 	0xFF,   // bInterval
+ 111:cdc_enumerate.c **** 
+ 112:cdc_enumerate.c **** 	/* Data Class Interface Descriptor Requirement */
+ 113:cdc_enumerate.c **** 	0x09, // bLength
+ 114:cdc_enumerate.c **** 	0x04, // bDescriptorType
+ 115:cdc_enumerate.c **** 	0x01, // bInterfaceNumber
+ 116:cdc_enumerate.c **** 	0x00, // bAlternateSetting
+ 117:cdc_enumerate.c **** 	0x02, // bNumEndpoints
+ 118:cdc_enumerate.c **** 	0x0A, // bInterfaceClass
+ 119:cdc_enumerate.c **** 	0x00, // bInterfaceSubclass
+ 120:cdc_enumerate.c **** 	0x00, // bInterfaceProtocol
+ 121:cdc_enumerate.c **** 	0x00, // iInterface
+ 122:cdc_enumerate.c **** 
+ 123:cdc_enumerate.c **** 	/* First alternate setting */
+ 124:cdc_enumerate.c **** 	/* Endpoint 1 descriptor */
+ 125:cdc_enumerate.c **** 	0x07,   // bLength
+ 126:cdc_enumerate.c **** 	0x05,   // bDescriptorType
+ 127:cdc_enumerate.c **** 	0x01,   // bEndpointAddress, Endpoint 01 - OUT
+ 128:cdc_enumerate.c **** 	0x02,   // bmAttributes      BULK
+ 129:cdc_enumerate.c **** 	AT91C_EP_OUT_SIZE,   // wMaxPacketSize
+ 130:cdc_enumerate.c **** 	0x00,
+ 131:cdc_enumerate.c **** 	0x00,   // bInterval
+ 132:cdc_enumerate.c **** 
+ 133:cdc_enumerate.c **** 	/* Endpoint 2 descriptor */
+ 134:cdc_enumerate.c **** 	0x07,   // bLength
+ 135:cdc_enumerate.c **** 	0x05,   // bDescriptorType
+ 136:cdc_enumerate.c **** 	0x82,   // bEndpointAddress, Endpoint 02 - IN
+ 137:cdc_enumerate.c **** 	0x02,   // bmAttributes      BULK
+ 138:cdc_enumerate.c **** 	AT91C_EP_IN_SIZE,   // wMaxPacketSize
+ 139:cdc_enumerate.c **** 	0x00,
+ 140:cdc_enumerate.c **** 	0x00    // bInterval
+ 141:cdc_enumerate.c **** };
+ 142:cdc_enumerate.c **** 
+ 143:cdc_enumerate.c **** /* USB standard request code */
+ 144:cdc_enumerate.c **** #define STD_GET_STATUS_ZERO           0x0080
+ 145:cdc_enumerate.c **** #define STD_GET_STATUS_INTERFACE      0x0081
+ 146:cdc_enumerate.c **** #define STD_GET_STATUS_ENDPOINT       0x0082
+ 147:cdc_enumerate.c **** 
+ 148:cdc_enumerate.c **** #define STD_CLEAR_FEATURE_ZERO        0x0100
+ 149:cdc_enumerate.c **** #define STD_CLEAR_FEATURE_INTERFACE   0x0101
+ 150:cdc_enumerate.c **** #define STD_CLEAR_FEATURE_ENDPOINT    0x0102
+ 151:cdc_enumerate.c **** 
+ 152:cdc_enumerate.c **** #define STD_SET_FEATURE_ZERO          0x0300
+ 153:cdc_enumerate.c **** #define STD_SET_FEATURE_INTERFACE     0x0301
+ 154:cdc_enumerate.c **** #define STD_SET_FEATURE_ENDPOINT      0x0302
+ 155:cdc_enumerate.c **** 
+ 156:cdc_enumerate.c **** #define STD_SET_ADDRESS               0x0500
+ 157:cdc_enumerate.c **** #define STD_GET_DESCRIPTOR            0x0680
+ 158:cdc_enumerate.c **** #define STD_SET_DESCRIPTOR            0x0700
+ 159:cdc_enumerate.c **** #define STD_GET_CONFIGURATION         0x0880
+ 160:cdc_enumerate.c **** #define STD_SET_CONFIGURATION         0x0900
+ 161:cdc_enumerate.c **** #define STD_GET_INTERFACE             0x0A81
+ 162:cdc_enumerate.c **** #define STD_SET_INTERFACE             0x0B01
+ 163:cdc_enumerate.c **** #define STD_SYNCH_FRAME               0x0C82
+ 164:cdc_enumerate.c **** 
+ 165:cdc_enumerate.c **** /* CDC Class Specific Request Code */
+ 166:cdc_enumerate.c **** #define GET_LINE_CODING               0x21A1
+ 167:cdc_enumerate.c **** #define SET_LINE_CODING               0x2021
+ 168:cdc_enumerate.c **** #define SET_CONTROL_LINE_STATE        0x2221
+ 169:cdc_enumerate.c **** 
+ 170:cdc_enumerate.c **** 
+ 171:cdc_enumerate.c **** typedef struct {
+ 172:cdc_enumerate.c **** 	unsigned int dwDTERRate;
+ 173:cdc_enumerate.c **** 	char bCharFormat;
+ 174:cdc_enumerate.c **** 	char bParityType;
+ 175:cdc_enumerate.c **** 	char bDataBits;
+ 176:cdc_enumerate.c **** } AT91S_CDC_LINE_CODING, *AT91PS_CDC_LINE_CODING;
+ 177:cdc_enumerate.c **** 
+ 178:cdc_enumerate.c **** AT91S_CDC_LINE_CODING line = {
+ 179:cdc_enumerate.c **** 	115200, // baudrate
+ 180:cdc_enumerate.c **** 	0,      // 1 Stop Bit
+ 181:cdc_enumerate.c **** 	0,      // None Parity
+ 182:cdc_enumerate.c **** 	8};     // 8 Data bits
+ 183:cdc_enumerate.c **** 
+ 184:cdc_enumerate.c **** // mtmt uint currentReceiveBank = AT91C_UDP_RX_DATA_BK0;
+ 185:cdc_enumerate.c **** 
+ 186:cdc_enumerate.c **** 
+ 187:cdc_enumerate.c **** static uchar AT91F_UDP_IsConfigured(AT91PS_CDC pCdc);
+ 188:cdc_enumerate.c **** static uint AT91F_UDP_Read(AT91PS_CDC pCdc, char *pData, uint length);
+ 189:cdc_enumerate.c **** static uint AT91F_UDP_Write(AT91PS_CDC pCdc, const char *pData, uint length);
+ 190:cdc_enumerate.c **** static void AT91F_CDC_Enumerate(AT91PS_CDC pCdc);
+ 191:cdc_enumerate.c **** 
+ 192:cdc_enumerate.c **** 
+ 193:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 194:cdc_enumerate.c **** //* \fn    AT91F_CDC_Open
+ 195:cdc_enumerate.c **** //* \brief
+ 196:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 197:cdc_enumerate.c **** AT91PS_CDC AT91F_CDC_Open(AT91PS_CDC pCdc, AT91PS_UDP pUdp)
+ 198:cdc_enumerate.c **** {
+  20              		.loc 1 198 0
+  21              	.LVL0:
+ 199:cdc_enumerate.c **** 	pCdc->pUdp = pUdp;
+ 200:cdc_enumerate.c **** 	pCdc->currentConfiguration = 0;
+  22              		.loc 1 200 0
+  23 0000 0023     		mov	r3, #0
+  24 0002 0371     		strb	r3, [r0, #4]
+  25              	.LVL1:
+  26              	.LVL2:
+ 201:cdc_enumerate.c **** 	pCdc->currentConnection    = 0;
+  27              		.loc 1 201 0
+  28 0004 4371     		strb	r3, [r0, #5]
+ 202:cdc_enumerate.c **** 	pCdc->currentRcvBank       = AT91C_UDP_RX_DATA_BK0;
+  29              		.loc 1 202 0
+  30 0006 0223     		mov	r3, #2
+  31 0008 8360     		str	r3, [r0, #8]
+ 203:cdc_enumerate.c **** 	pCdc->IsConfigured = AT91F_UDP_IsConfigured;
+  32              		.loc 1 203 0
+  33 000a 044B     		ldr	r3, .L3
+  34 000c C360     		str	r3, [r0, #12]
+ 204:cdc_enumerate.c **** 	pCdc->Write        = AT91F_UDP_Write;
+  35              		.loc 1 204 0
+  36 000e 044B     		ldr	r3, .L3+4
+  37 0010 0361     		str	r3, [r0, #16]
+ 205:cdc_enumerate.c **** 	pCdc->Read         = AT91F_UDP_Read;
+  38              		.loc 1 205 0
+  39 0012 044B     		ldr	r3, .L3+8
+  40              		.loc 1 198 0
+  41              		@ lr needed for prologue
+  42              		.loc 1 199 0
+  43 0014 0160     		str	r1, [r0]
+  44              		.loc 1 205 0
+  45 0016 4361     		str	r3, [r0, #20]
+ 206:cdc_enumerate.c **** 	return pCdc;
+ 207:cdc_enumerate.c **** }
+  46              		.loc 1 207 0
+  47              		@ sp needed for prologue
+  48 0018 7047     		bx	lr
+  49              	.L4:
+  50 001a 0000     		.align	2
+  51              	.L3:
+  52 001c 00000000 		.word	AT91F_UDP_IsConfigured
+  53 0020 00000000 		.word	AT91F_UDP_Write
+  54 0024 00000000 		.word	AT91F_UDP_Read
+  55              	.LFE290:
+  57              		.section	.text.AT91F_USB_SendData,"ax",%progbits
+  58              		.align	2
+  59              		.code 16
+  60              		.thumb_func
+  62              	AT91F_USB_SendData:
+  63              	.LFB294:
+ 208:cdc_enumerate.c **** 
+ 209:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 210:cdc_enumerate.c **** //* \fn    AT91F_UDP_IsConfigured
+ 211:cdc_enumerate.c **** //* \brief Test if the device is configured and handle enumeration
+ 212:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 213:cdc_enumerate.c **** static uchar AT91F_UDP_IsConfigured(AT91PS_CDC pCdc)
+ 214:cdc_enumerate.c **** {
+ 215:cdc_enumerate.c **** 	AT91PS_UDP pUDP = pCdc->pUdp;
+ 216:cdc_enumerate.c **** 	AT91_REG isr = pUDP->UDP_ISR;
+ 217:cdc_enumerate.c **** 
+ 218:cdc_enumerate.c **** 	if (isr & AT91C_UDP_ENDBUSRES) {
+ 219:cdc_enumerate.c **** 		pUDP->UDP_ICR = AT91C_UDP_ENDBUSRES;
+ 220:cdc_enumerate.c **** 		// reset all endpoints
+ 221:cdc_enumerate.c **** 		pUDP->UDP_RSTEP  = (unsigned int)-1;
+ 222:cdc_enumerate.c **** 		pUDP->UDP_RSTEP  = 0;
+ 223:cdc_enumerate.c **** 		// Enable the function
+ 224:cdc_enumerate.c **** 		pUDP->UDP_FADDR = AT91C_UDP_FEN;
+ 225:cdc_enumerate.c **** 		// Configure endpoint 0
+ 226:cdc_enumerate.c **** 		pUDP->UDP_CSR[0] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_CTRL);
+ 227:cdc_enumerate.c **** 	}
+ 228:cdc_enumerate.c **** 	else if (isr & AT91C_UDP_EPINT0) {
+ 229:cdc_enumerate.c **** 		pUDP->UDP_ICR = AT91C_UDP_EPINT0;
+ 230:cdc_enumerate.c **** 		AT91F_CDC_Enumerate(pCdc);
+ 231:cdc_enumerate.c **** 	}
+ 232:cdc_enumerate.c **** 	return pCdc->currentConfiguration;
+ 233:cdc_enumerate.c **** }
+ 234:cdc_enumerate.c **** 
+ 235:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 236:cdc_enumerate.c **** //* \fn    AT91F_UDP_Read
+ 237:cdc_enumerate.c **** //* \brief Read available data from Endpoint OUT
+ 238:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 239:cdc_enumerate.c **** static uint AT91F_UDP_Read(AT91PS_CDC pCdc, char *pData, uint length)
+ 240:cdc_enumerate.c **** {
+ 241:cdc_enumerate.c **** 	AT91PS_UDP pUdp = pCdc->pUdp;
+ 242:cdc_enumerate.c **** 	uint packetSize, nbBytesRcv = 0, currentReceiveBank = pCdc->currentRcvBank;
+ 243:cdc_enumerate.c **** 
+ 244:cdc_enumerate.c **** 	while (length) {
+ 245:cdc_enumerate.c **** 		if ( !AT91F_UDP_IsConfigured(pCdc) )
+ 246:cdc_enumerate.c **** 			break;
+ 247:cdc_enumerate.c **** 		if ( pUdp->UDP_CSR[AT91C_EP_OUT] & currentReceiveBank ) {
+ 248:cdc_enumerate.c **** 			packetSize = MIN(pUdp->UDP_CSR[AT91C_EP_OUT] >> 16, length);
+ 249:cdc_enumerate.c **** 			length -= packetSize;
+ 250:cdc_enumerate.c **** 			if (packetSize < AT91C_EP_OUT_SIZE)
+ 251:cdc_enumerate.c **** 				length = 0;
+ 252:cdc_enumerate.c **** 			while(packetSize--)
+ 253:cdc_enumerate.c **** 				pData[nbBytesRcv++] = pUdp->UDP_FDR[AT91C_EP_OUT];
+ 254:cdc_enumerate.c **** 			pUdp->UDP_CSR[AT91C_EP_OUT] &= ~(currentReceiveBank);
+ 255:cdc_enumerate.c **** 			if (currentReceiveBank == AT91C_UDP_RX_DATA_BK0)
+ 256:cdc_enumerate.c **** 				currentReceiveBank = AT91C_UDP_RX_DATA_BK1;
+ 257:cdc_enumerate.c **** 			else
+ 258:cdc_enumerate.c **** 				currentReceiveBank = AT91C_UDP_RX_DATA_BK0;
+ 259:cdc_enumerate.c **** 
+ 260:cdc_enumerate.c **** 		}
+ 261:cdc_enumerate.c **** 		else
+ 262:cdc_enumerate.c **** 		{
+ 263:cdc_enumerate.c **** 		    break;
+ 264:cdc_enumerate.c **** 		}
+ 265:cdc_enumerate.c **** 	}
+ 266:cdc_enumerate.c **** 	pCdc->currentRcvBank = currentReceiveBank;
+ 267:cdc_enumerate.c **** 	return nbBytesRcv;
+ 268:cdc_enumerate.c **** 
+ 269:cdc_enumerate.c **** }
+ 270:cdc_enumerate.c **** 
+ 271:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 272:cdc_enumerate.c **** //* \fn    AT91F_CDC_Write
+ 273:cdc_enumerate.c **** //* \brief Send through endpoint 2
+ 274:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 275:cdc_enumerate.c **** static uint AT91F_UDP_Write(AT91PS_CDC pCdc, const char *pData, uint length)
+ 276:cdc_enumerate.c **** {
+ 277:cdc_enumerate.c **** 	AT91PS_UDP pUdp = pCdc->pUdp;
+ 278:cdc_enumerate.c **** 	uint cpt = 0;
+ 279:cdc_enumerate.c **** 
+ 280:cdc_enumerate.c **** 	// Send the first packet
+ 281:cdc_enumerate.c **** 	cpt = MIN(length, AT91C_EP_IN_SIZE);
+ 282:cdc_enumerate.c **** 	length -= cpt;
+ 283:cdc_enumerate.c **** 	while (cpt--) pUdp->UDP_FDR[AT91C_EP_IN] = *pData++;
+ 284:cdc_enumerate.c **** 	pUdp->UDP_CSR[AT91C_EP_IN] |= AT91C_UDP_TXPKTRDY;
+ 285:cdc_enumerate.c **** 
+ 286:cdc_enumerate.c **** 	while (length) {
+ 287:cdc_enumerate.c **** 		// Fill the second bank
+ 288:cdc_enumerate.c **** 		cpt = MIN(length, AT91C_EP_IN_SIZE);
+ 289:cdc_enumerate.c **** 		length -= cpt;
+ 290:cdc_enumerate.c **** 		while (cpt--) pUdp->UDP_FDR[AT91C_EP_IN] = *pData++;
+ 291:cdc_enumerate.c **** 		// Wait for the the first bank to be sent
+ 292:cdc_enumerate.c **** 		while ( !(pUdp->UDP_CSR[AT91C_EP_IN] & AT91C_UDP_TXCOMP) )
+ 293:cdc_enumerate.c **** 			if ( !AT91F_UDP_IsConfigured(pCdc) ) return length;
+ 294:cdc_enumerate.c **** 		pUdp->UDP_CSR[AT91C_EP_IN] &= ~(AT91C_UDP_TXCOMP);
+ 295:cdc_enumerate.c **** 		while (pUdp->UDP_CSR[AT91C_EP_IN] & AT91C_UDP_TXCOMP);
+ 296:cdc_enumerate.c **** 		pUdp->UDP_CSR[AT91C_EP_IN] |= AT91C_UDP_TXPKTRDY;
+ 297:cdc_enumerate.c **** 	}
+ 298:cdc_enumerate.c **** 	// Wait for the end of transfer
+ 299:cdc_enumerate.c **** 	while ( !(pUdp->UDP_CSR[AT91C_EP_IN] & AT91C_UDP_TXCOMP) )
+ 300:cdc_enumerate.c **** 		if ( !AT91F_UDP_IsConfigured(pCdc) ) return length;
+ 301:cdc_enumerate.c **** 	pUdp->UDP_CSR[AT91C_EP_IN] &= ~(AT91C_UDP_TXCOMP);
+ 302:cdc_enumerate.c **** 	while (pUdp->UDP_CSR[AT91C_EP_IN] & AT91C_UDP_TXCOMP);
+ 303:cdc_enumerate.c **** 
+ 304:cdc_enumerate.c **** 	return length;
+ 305:cdc_enumerate.c **** }
+ 306:cdc_enumerate.c **** 
+ 307:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 308:cdc_enumerate.c **** //* \fn    AT91F_USB_SendData
+ 309:cdc_enumerate.c **** //* \brief Send Data through the control endpoint
+ 310:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 311:cdc_enumerate.c **** unsigned int csrTab[100];
+ 312:cdc_enumerate.c **** unsigned char csrIdx = 0;
+ 313:cdc_enumerate.c **** 
+ 314:cdc_enumerate.c **** static void AT91F_USB_SendData(AT91PS_UDP pUdp, const char *pData, uint length)
+ 315:cdc_enumerate.c **** {
+  64              		.loc 1 315 0
+  65 0000 30B5     		push	{r4, r5, lr}
+  66              	.LCFI0:
+  67              	.LVL3:
+  68 0002 0D1C     		mov	r5, r1
+  69 0004 81B0     		sub	sp, sp, #4
+  70              	.LCFI1:
+  71 0006 111C     		mov	r1, r2
+  72              	.LVL4:
+  73              	.LVL5:
+  74              	.L6:
+ 316:cdc_enumerate.c **** 	uint cpt = 0;
+ 317:cdc_enumerate.c **** 	AT91_REG csr;
+ 318:cdc_enumerate.c **** 
+ 319:cdc_enumerate.c **** 	do {
+ 320:cdc_enumerate.c **** 		cpt = MIN(length, 8);
+  75              		.loc 1 320 0
+  76 0008 0C1C     		mov	r4, r1
+  77 000a 0829     		cmp	r1, #8
+  78 000c 00D9     		bls	.L7
+  79 000e 0824     		mov	r4, #8
+  80              	.L7:
+  81 0010 221C     		mov	r2, r4
+  82              	.LVL6:
+  83 0012 02E0     		b	.L8
+  84              	.L9:
+ 321:cdc_enumerate.c **** 		length -= cpt;
+ 322:cdc_enumerate.c **** 
+ 323:cdc_enumerate.c **** 		while (cpt--)
+ 324:cdc_enumerate.c **** 			pUdp->UDP_FDR[0] = *pData++;
+  85              		.loc 1 324 0
+  86 0014 2B78     		ldrb	r3, [r5]
+  87 0016 0365     		str	r3, [r0, #80]
+  88 0018 0135     		add	r5, r5, #1
+  89              	.L8:
+  90              		.loc 1 323 0
+  91 001a 013A     		sub	r2, r2, #1
+  92 001c FAD2     		bcs	.L9
+ 325:cdc_enumerate.c **** 
+ 326:cdc_enumerate.c **** 		if (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP) {
+  93              		.loc 1 326 0
+  94 001e 036B     		ldr	r3, [r0, #48]
+  95 0020 0122     		mov	r2, #1
+  96              	.LVL7:
+  97 0022 1342     		tst	r3, r2
+  98 0024 05D0     		beq	.L11
+ 327:cdc_enumerate.c **** 			pUdp->UDP_CSR[0] &= ~(AT91C_UDP_TXCOMP);
+  99              		.loc 1 327 0
+ 100 0026 036B     		ldr	r3, [r0, #48]
+ 101 0028 9343     		bic	r3, r3, r2
+ 102 002a 0363     		str	r3, [r0, #48]
+ 103              	.L13:
+ 328:cdc_enumerate.c **** 			while (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP);
+ 104              		.loc 1 328 0
+ 105 002c 036B     		ldr	r3, [r0, #48]
+ 106 002e DA07     		lsl	r2, r3, #31
+ 107 0030 FCD4     		bmi	.L13
+ 108              	.L11:
+ 329:cdc_enumerate.c **** 		}
+ 330:cdc_enumerate.c **** 
+ 331:cdc_enumerate.c **** 		pUdp->UDP_CSR[0] |= AT91C_UDP_TXPKTRDY;
+ 109              		.loc 1 331 0
+ 110 0032 036B     		ldr	r3, [r0, #48]
+ 111 0034 1022     		mov	r2, #16
+ 112 0036 1343     		orr	r3, r3, r2
+ 113 0038 0363     		str	r3, [r0, #48]
+ 114              	.L14:
+ 332:cdc_enumerate.c **** 		do {
+ 333:cdc_enumerate.c **** 			csr = pUdp->UDP_CSR[0];
+ 115              		.loc 1 333 0
+ 116 003a 036B     		ldr	r3, [r0, #48]
+ 117 003c 0093     		str	r3, [sp]
+ 334:cdc_enumerate.c **** 
+ 335:cdc_enumerate.c **** 			// Data IN stage has been stopped by a status OUT
+ 336:cdc_enumerate.c **** 			if (csr & AT91C_UDP_RX_DATA_BK0) {
+ 118              		.loc 1 336 0
+ 119 003e 009B     		ldr	r3, [sp]
+ 120 0040 0222     		mov	r2, #2
+ 121 0042 1342     		tst	r3, r2
+ 122 0044 03D0     		beq	.L15
+ 337:cdc_enumerate.c **** 				pUdp->UDP_CSR[0] &= ~(AT91C_UDP_RX_DATA_BK0);
+ 123              		.loc 1 337 0
+ 124 0046 036B     		ldr	r3, [r0, #48]
+ 125 0048 9343     		bic	r3, r3, r2
+ 126 004a 0363     		str	r3, [r0, #48]
+ 127 004c 0FE0     		b	.L22
+ 128              	.L15:
+ 338:cdc_enumerate.c **** 				return;
+ 339:cdc_enumerate.c **** 			}
+ 340:cdc_enumerate.c **** 		} while ( !(csr & AT91C_UDP_TXCOMP) );
+ 129              		.loc 1 340 0
+ 130 004e 009B     		ldr	r3, [sp]
+ 131 0050 0122     		mov	r2, #1
+ 132 0052 1342     		tst	r3, r2
+ 133 0054 F1D0     		beq	.L14
+ 134              		.loc 1 321 0
+ 135 0056 091B     		sub	r1, r1, r4
+ 341:cdc_enumerate.c **** 
+ 342:cdc_enumerate.c **** 	} while (length);
+ 136              		.loc 1 342 0
+ 137 0058 0029     		cmp	r1, #0
+ 138 005a D5D1     		bne	.L6
+ 343:cdc_enumerate.c **** 
+ 344:cdc_enumerate.c **** 	if (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP) {
+ 139              		.loc 1 344 0
+ 140 005c 036B     		ldr	r3, [r0, #48]
+ 141 005e 1342     		tst	r3, r2
+ 142 0060 05D0     		beq	.L22
+ 345:cdc_enumerate.c **** 		pUdp->UDP_CSR[0] &= ~(AT91C_UDP_TXCOMP);
+ 143              		.loc 1 345 0
+ 144 0062 036B     		ldr	r3, [r0, #48]
+ 145 0064 9343     		bic	r3, r3, r2
+ 146 0066 0363     		str	r3, [r0, #48]
+ 147              	.L21:
+ 346:cdc_enumerate.c **** 		while (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP);
+ 148              		.loc 1 346 0
+ 149 0068 036B     		ldr	r3, [r0, #48]
+ 150 006a DA07     		lsl	r2, r3, #31
+ 151 006c FCD4     		bmi	.L21
+ 152              	.L22:
+ 347:cdc_enumerate.c **** 	}
+ 348:cdc_enumerate.c **** }
+ 153              		.loc 1 348 0
+ 154 006e 01B0     		add	sp, sp, #4
+ 155              		@ sp needed for prologue
+ 156              	.LVL8:
+ 157              	.LVL9:
+ 158 0070 30BC     		pop	{r4, r5}
+ 159 0072 01BC     		pop	{r0}
+ 160 0074 0047     		bx	r0
+ 161              	.LFE294:
+ 163 0076 C046     		.section	.text.AT91F_USB_SendZlp,"ax",%progbits
+ 164              		.align	2
+ 165              		.global	AT91F_USB_SendZlp
+ 166              		.code 16
+ 167              		.thumb_func
+ 169              	AT91F_USB_SendZlp:
+ 170              	.LFB295:
+ 349:cdc_enumerate.c **** 
+ 350:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 351:cdc_enumerate.c **** //* \fn    AT91F_USB_SendZlp
+ 352:cdc_enumerate.c **** //* \brief Send zero length packet through the control endpoint
+ 353:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 354:cdc_enumerate.c **** void AT91F_USB_SendZlp(AT91PS_UDP pUdp)
+ 355:cdc_enumerate.c **** {
+ 171              		.loc 1 355 0
+ 172              	.LVL10:
+ 356:cdc_enumerate.c **** 	pUdp->UDP_CSR[0] |= AT91C_UDP_TXPKTRDY;
+ 173              		.loc 1 356 0
+ 174 0000 036B     		ldr	r3, [r0, #48]
+ 175 0002 1022     		mov	r2, #16
+ 176 0004 1343     		orr	r3, r3, r2
+ 177 0006 0363     		str	r3, [r0, #48]
+ 178              		.loc 1 355 0
+ 179              		@ lr needed for prologue
+ 180              	.L30:
+ 357:cdc_enumerate.c **** 	while ( !(pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP) );
+ 181              		.loc 1 357 0
+ 182 0008 036B     		ldr	r3, [r0, #48]
+ 183 000a 0122     		mov	r2, #1
+ 184 000c 1342     		tst	r3, r2
+ 185 000e FBD0     		beq	.L30
+ 358:cdc_enumerate.c **** 	pUdp->UDP_CSR[0] &= ~(AT91C_UDP_TXCOMP);
+ 186              		.loc 1 358 0
+ 187 0010 036B     		ldr	r3, [r0, #48]
+ 188 0012 9343     		bic	r3, r3, r2
+ 189 0014 0363     		str	r3, [r0, #48]
+ 190              	.L32:
+ 359:cdc_enumerate.c **** 	while (pUdp->UDP_CSR[0] & AT91C_UDP_TXCOMP);
+ 191              		.loc 1 359 0
+ 192 0016 036B     		ldr	r3, [r0, #48]
+ 193 0018 DA07     		lsl	r2, r3, #31
+ 194 001a FCD4     		bmi	.L32
+ 360:cdc_enumerate.c **** }
+ 195              		.loc 1 360 0
+ 196              		@ sp needed for prologue
+ 197 001c 7047     		bx	lr
+ 198              	.LFE295:
+ 200 001e C046     		.section	.text.AT91F_USB_SendStall,"ax",%progbits
+ 201              		.align	2
+ 202              		.global	AT91F_USB_SendStall
+ 203              		.code 16
+ 204              		.thumb_func
+ 206              	AT91F_USB_SendStall:
+ 207              	.LFB296:
+ 361:cdc_enumerate.c **** 
+ 362:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 363:cdc_enumerate.c **** //* \fn    AT91F_USB_SendStall
+ 364:cdc_enumerate.c **** //* \brief Stall the control endpoint
+ 365:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 366:cdc_enumerate.c **** void AT91F_USB_SendStall(AT91PS_UDP pUdp)
+ 367:cdc_enumerate.c **** {
+ 208              		.loc 1 367 0
+ 209              	.LVL11:
+ 368:cdc_enumerate.c **** 	pUdp->UDP_CSR[0] |= AT91C_UDP_FORCESTALL;
+ 210              		.loc 1 368 0
+ 211 0000 036B     		ldr	r3, [r0, #48]
+ 212 0002 2022     		mov	r2, #32
+ 213 0004 1343     		orr	r3, r3, r2
+ 214 0006 0363     		str	r3, [r0, #48]
+ 215              		.loc 1 367 0
+ 216              		@ lr needed for prologue
+ 217              	.L40:
+ 369:cdc_enumerate.c **** 	while ( !(pUdp->UDP_CSR[0] & AT91C_UDP_ISOERROR) );
+ 218              		.loc 1 369 0
+ 219 0008 036B     		ldr	r3, [r0, #48]
+ 220 000a 1A07     		lsl	r2, r3, #28
+ 221 000c FCD5     		bpl	.L40
+ 370:cdc_enumerate.c **** 	pUdp->UDP_CSR[0] &= ~(AT91C_UDP_FORCESTALL | AT91C_UDP_ISOERROR);
+ 222              		.loc 1 370 0
+ 223 000e 036B     		ldr	r3, [r0, #48]
+ 224 0010 2822     		mov	r2, #40
+ 225 0012 9343     		bic	r3, r3, r2
+ 226 0014 0363     		str	r3, [r0, #48]
+ 227              	.L42:
+ 371:cdc_enumerate.c **** 	while (pUdp->UDP_CSR[0] & (AT91C_UDP_FORCESTALL | AT91C_UDP_ISOERROR));
+ 228              		.loc 1 371 0
+ 229 0016 026B     		ldr	r2, [r0, #48]
+ 230 0018 2823     		mov	r3, #40
+ 231 001a 1A42     		tst	r2, r3
+ 232 001c FBD1     		bne	.L42
+ 372:cdc_enumerate.c **** }
+ 233              		.loc 1 372 0
+ 234              		@ sp needed for prologue
+ 235 001e 7047     		bx	lr
+ 236              	.LFE296:
+ 238              		.section	.text.AT91F_UDP_IsConfigured,"ax",%progbits
+ 239              		.align	2
+ 240              		.code 16
+ 241              		.thumb_func
+ 243              	AT91F_UDP_IsConfigured:
+ 244              	.LFB291:
+ 245              		.loc 1 214 0
+ 246 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 247              	.LCFI2:
+ 248              	.LVL12:
+ 249              		.loc 1 215 0
+ 250 0002 0468     		ldr	r4, [r0]
+ 251              	.LVL13:
+ 252              		.loc 1 216 0
+ 253 0004 E369     		ldr	r3, [r4, #28]
+ 254              		.loc 1 214 0
+ 255 0006 83B0     		sub	sp, sp, #12
+ 256              	.LCFI3:
+ 257              		.loc 1 216 0
+ 258 0008 0193     		str	r3, [sp, #4]
+ 259              	.LVL14:
+ 260              		.loc 1 218 0
+ 261 000a 8022     		mov	r2, #128
+ 262 000c 019B     		ldr	r3, [sp, #4]
+ 263 000e 5201     		lsl	r2, r2, #5
+ 264              		.loc 1 214 0
+ 265 0010 0090     		str	r0, [sp]
+ 266              		.loc 1 218 0
+ 267 0012 1342     		tst	r3, r2
+ 268 0014 0CD0     		beq	.L50
+ 269              	.LVL15:
+ 270              		.loc 1 221 0
+ 271 0016 0123     		mov	r3, #1
+ 272 0018 5B42     		neg	r3, r3
+ 273              		.loc 1 219 0
+ 274 001a 2262     		str	r2, [r4, #32]
+ 275              		.loc 1 221 0
+ 276 001c A362     		str	r3, [r4, #40]
+ 277              		.loc 1 222 0
+ 278 001e 0023     		mov	r3, #0
+ 279 0020 A362     		str	r3, [r4, #40]
+ 280              		.loc 1 224 0
+ 281 0022 8023     		mov	r3, #128
+ 282 0024 5B00     		lsl	r3, r3, #1
+ 283 0026 A360     		str	r3, [r4, #8]
+ 284              		.loc 1 226 0
+ 285 0028 8023     		mov	r3, #128
+ 286 002a 1B02     		lsl	r3, r3, #8
+ 287 002c 2363     		str	r3, [r4, #48]
+ 288 002e 26E1     		b	.L52
+ 289              	.L50:
+ 290              		.loc 1 228 0
+ 291 0030 019B     		ldr	r3, [sp, #4]
+ 292 0032 0122     		mov	r2, #1
+ 293 0034 1342     		tst	r3, r2
+ 294 0036 00D1     		bne	.LCB300
+ 295 0038 21E1     		b	.L52	@long jump
+ 296              	.LCB300:
+ 297              		.loc 1 229 0
+ 298 003a 2262     		str	r2, [r4, #32]
+ 299              	.LBB4:
+ 300              	.LBB5:
+ 373:cdc_enumerate.c **** 
+ 374:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 375:cdc_enumerate.c **** //* \fn    AT91F_CDC_Enumerate
+ 376:cdc_enumerate.c **** //* \brief This function is a callback invoked when a SETUP packet is received
+ 377:cdc_enumerate.c **** //*----------------------------------------------------------------------------
+ 378:cdc_enumerate.c **** static void AT91F_CDC_Enumerate(AT91PS_CDC pCdc)
+ 379:cdc_enumerate.c **** {
+ 380:cdc_enumerate.c **** 	AT91PS_UDP pUDP = pCdc->pUdp;
+ 381:cdc_enumerate.c **** 	uchar bmRequestType, bRequest;
+ 382:cdc_enumerate.c **** 	ushort wValue, wIndex, wLength, wStatus;
+ 383:cdc_enumerate.c **** 
+ 384:cdc_enumerate.c **** 
+ 385:cdc_enumerate.c **** 	if ( !(pUDP->UDP_CSR[0] & AT91C_UDP_RXSETUP) )
+ 301              		.loc 1 385 0
+ 302 003c 236B     		ldr	r3, [r4, #48]
+ 303 003e 5807     		lsl	r0, r3, #29
+ 304 0040 00D4     		bmi	.LCB308
+ 305 0042 1CE1     		b	.L52	@long jump
+ 306              	.LCB308:
+ 386:cdc_enumerate.c **** 		return;
+ 387:cdc_enumerate.c **** 
+ 388:cdc_enumerate.c **** 	bmRequestType = pUDP->UDP_FDR[0];
+ 307              		.loc 1 388 0
+ 308 0044 206D     		ldr	r0, [r4, #80]
+ 389:cdc_enumerate.c **** 	bRequest      = pUDP->UDP_FDR[0];
+ 309              		.loc 1 389 0
+ 310 0046 226D     		ldr	r2, [r4, #80]
+ 311 0048 9446     		mov	ip, r2
+ 390:cdc_enumerate.c **** 	wValue        = (pUDP->UDP_FDR[0] & 0xFF);
+ 312              		.loc 1 390 0
+ 313 004a 226D     		ldr	r2, [r4, #80]
+ 391:cdc_enumerate.c **** 	wValue       |= (pUDP->UDP_FDR[0] << 8);
+ 314              		.loc 1 391 0
+ 315 004c 236D     		ldr	r3, [r4, #80]
+ 316              		.loc 1 390 0
+ 317 004e FF21     		mov	r1, #255
+ 318 0050 0A40     		and	r2, r2, r1
+ 319              	.LVL16:
+ 320              		.loc 1 391 0
+ 321 0052 1B02     		lsl	r3, r3, #8
+ 322 0054 1A43     		orr	r2, r2, r3
+ 323              	.LVL17:
+ 324 0056 1204     		lsl	r2, r2, #16
+ 392:cdc_enumerate.c **** 	wIndex        = (pUDP->UDP_FDR[0] & 0xFF);
+ 325              		.loc 1 392 0
+ 326 0058 236D     		ldr	r3, [r4, #80]
+ 327              		.loc 1 391 0
+ 328 005a 150C     		lsr	r5, r2, #16
+ 329              	.LVL18:
+ 393:cdc_enumerate.c **** 	wIndex       |= (pUDP->UDP_FDR[0] << 8);
+ 330              		.loc 1 393 0
+ 331 005c 226D     		ldr	r2, [r4, #80]
+ 332              		.loc 1 392 0
+ 333 005e 0B40     		and	r3, r3, r1
+ 334              	.LVL19:
+ 335              		.loc 1 393 0
+ 336 0060 1202     		lsl	r2, r2, #8
+ 337 0062 1343     		orr	r3, r3, r2
+ 338              	.LVL20:
+ 339 0064 1B04     		lsl	r3, r3, #16
+ 340 0066 1E0C     		lsr	r6, r3, #16
+ 341              	.LVL21:
+ 394:cdc_enumerate.c **** 	wLength       = (pUDP->UDP_FDR[0] & 0xFF);
+ 342              		.loc 1 394 0
+ 343 0068 236D     		ldr	r3, [r4, #80]
+ 395:cdc_enumerate.c **** 	wLength      |= (pUDP->UDP_FDR[0] << 8);
+ 344              		.loc 1 395 0
+ 345 006a 226D     		ldr	r2, [r4, #80]
+ 346              		.loc 1 394 0
+ 347 006c 0B40     		and	r3, r3, r1
+ 348              	.LVL22:
+ 349              		.loc 1 395 0
+ 350 006e 1202     		lsl	r2, r2, #8
+ 351 0070 1343     		orr	r3, r3, r2
+ 352              	.LVL23:
+ 353              		.loc 1 388 0
+ 354 0072 0006     		lsl	r0, r0, #24
+ 355              		.loc 1 395 0
+ 356 0074 1B04     		lsl	r3, r3, #16
+ 357 0076 190C     		lsr	r1, r3, #16
+ 358              	.LVL24:
+ 396:cdc_enumerate.c **** 
+ 397:cdc_enumerate.c **** 	if (bmRequestType & 0x80) {
+ 359              		.loc 1 397 0
+ 360 0078 070E     		lsr	r7, r0, #24
+ 361              	.LVL25:
+ 362 007a 0028     		cmp	r0, #0
+ 363 007c 06DA     		bge	.L55
+ 398:cdc_enumerate.c **** 		pUDP->UDP_CSR[0] |= AT91C_UDP_DIR;
+ 364              		.loc 1 398 0
+ 365 007e 236B     		ldr	r3, [r4, #48]
+ 366 0080 8022     		mov	r2, #128
+ 367 0082 1343     		orr	r3, r3, r2
+ 368 0084 2363     		str	r3, [r4, #48]
+ 369              	.L57:
+ 399:cdc_enumerate.c **** 		while ( !(pUDP->UDP_CSR[0] & AT91C_UDP_DIR) );
+ 370              		.loc 1 399 0
+ 371 0086 236B     		ldr	r3, [r4, #48]
+ 372 0088 1806     		lsl	r0, r3, #24
+ 373 008a FCD5     		bpl	.L57
+ 374              	.L55:
+ 400:cdc_enumerate.c **** 	}
+ 401:cdc_enumerate.c **** 	pUDP->UDP_CSR[0] &= ~AT91C_UDP_RXSETUP;
+ 375              		.loc 1 401 0
+ 376 008c 236B     		ldr	r3, [r4, #48]
+ 377 008e 0422     		mov	r2, #4
+ 378 0090 9343     		bic	r3, r3, r2
+ 379 0092 2363     		str	r3, [r4, #48]
+ 380              	.L58:
+ 402:cdc_enumerate.c **** 	while ( (pUDP->UDP_CSR[0]  & AT91C_UDP_RXSETUP)  );
+ 381              		.loc 1 402 0
+ 382 0094 226B     		ldr	r2, [r4, #48]
+ 383 0096 0423     		mov	r3, #4
+ 384 0098 1A40     		and	r2, r3
+ 385 009a FBD1     		bne	.L58
+ 403:cdc_enumerate.c **** 
+ 404:cdc_enumerate.c **** 	// Handle supported standard device request Cf Table 9-3 in USB specification Rev 1.1
+ 405:cdc_enumerate.c **** 	switch ((bRequest << 8) | bmRequestType) {
+ 386              		.loc 1 405 0
+ 387 009c 6046     		mov	r0, ip
+ 388 009e 0306     		lsl	r3, r0, #24
+ 389 00a0 1B0C     		lsr	r3, r3, #16
+ 390 00a2 181C     		mov	r0, r3
+ 391 00a4 794B     		ldr	r3, .L131
+ 392 00a6 3843     		orr	r0, r0, r7
+ 393 00a8 9842     		cmp	r0, r3
+ 394 00aa 00D1     		bne	.LCB402
+ 395 00ac D9E0     		b	.L127	@long jump
+ 396              	.LCB402:
+ 397 00ae 9842     		cmp	r0, r3
+ 398 00b0 17DC     		bgt	.L77
+ 399 00b2 8023     		mov	r3, #128
+ 400 00b4 5B00     		lsl	r3, r3, #1
+ 401 00b6 9842     		cmp	r0, r3
+ 402 00b8 00D1     		bne	.LCB408
+ 403 00ba D6E0     		b	.L60	@long jump
+ 404              	.LCB408:
+ 405 00bc 9842     		cmp	r0, r3
+ 406 00be 07DC     		bgt	.L78
+ 407 00c0 8128     		cmp	r0, #129
+ 408 00c2 73D0     		beq	.L62
+ 409 00c4 8228     		cmp	r0, #130
+ 410 00c6 75D0     		beq	.L63
+ 411 00c8 8028     		cmp	r0, #128
+ 412 00ca 00D0     		beq	.LCB416
+ 413 00cc CDE0     		b	.L60	@long jump
+ 414              	.LCB416:
+ 415 00ce 6DE0     		b	.L62
+ 416              	.L78:
+ 417 00d0 8123     		mov	r3, #129
+ 418 00d2 5B00     		lsl	r3, r3, #1
+ 419 00d4 9842     		cmp	r0, r3
+ 420 00d6 00D1     		bne	.LCB424
+ 421 00d8 99E0     		b	.L66	@long jump
+ 422              	.LCB424:
+ 423 00da 9842     		cmp	r0, r3
+ 424 00dc 00DA     		bge	.LCB426
+ 425 00de C0E0     		b	.L127	@long jump
+ 426              	.LCB426:
+ 427 00e0 C3E0     		b	.L60
+ 428              	.L77:
+ 429 00e2 8823     		mov	r3, #136
+ 430 00e4 1B01     		lsl	r3, r3, #4
+ 431 00e6 9842     		cmp	r0, r3
+ 432 00e8 5BD0     		beq	.L72
+ 433 00ea 9842     		cmp	r0, r3
+ 434 00ec 0CDC     		bgt	.L79
+ 435 00ee A023     		mov	r3, #160
+ 436 00f0 DB00     		lsl	r3, r3, #3
+ 437 00f2 9842     		cmp	r0, r3
+ 438 00f4 37D0     		beq	.L70
+ 439 00f6 D023     		mov	r3, #208
+ 440 00f8 DB00     		lsl	r3, r3, #3
+ 441 00fa 9842     		cmp	r0, r3
+ 442 00fc 19D0     		beq	.L71
+ 443 00fe 644B     		ldr	r3, .L131+4
+ 444 0100 9842     		cmp	r0, r3
+ 445 0102 00D0     		beq	.LCB447
+ 446 0104 B1E0     		b	.L60	@long jump
+ 447              	.LCB447:
+ 448 0106 77E0     		b	.L69
+ 449              	.L79:
+ 450 0108 624B     		ldr	r3, .L131+8
+ 451 010a 9842     		cmp	r0, r3
+ 452 010c 00D1     		bne	.LCB454
+ 453 010e 97E0     		b	.L120	@long jump
+ 454              	.LCB454:
+ 455 0110 9842     		cmp	r0, r3
+ 456 0112 05DC     		bgt	.L80
+ 457 0114 9023     		mov	r3, #144
+ 458 0116 1B01     		lsl	r3, r3, #4
+ 459 0118 9842     		cmp	r0, r3
+ 460 011a 00D0     		beq	.LCB460
+ 461 011c A5E0     		b	.L60	@long jump
+ 462              	.LCB460:
+ 463 011e 2DE0     		b	.L73
+ 464              	.L80:
+ 465 0120 5D4B     		ldr	r3, .L131+12
+ 466 0122 9842     		cmp	r0, r3
+ 467 0124 00D1     		bne	.LCB467
+ 468 0126 93E0     		b	.L75	@long jump
+ 469              	.LCB467:
+ 470 0128 8033     		add	r3, r3, #128
+ 471 012a 9842     		cmp	r0, r3
+ 472 012c 00D0     		beq	.LCB470
+ 473 012e 9CE0     		b	.L60	@long jump
+ 474              	.LCB470:
+ 475 0130 95E0     		b	.L76
+ 476              	.L71:
+ 406:cdc_enumerate.c **** 	case STD_GET_DESCRIPTOR:
+ 407:cdc_enumerate.c **** 		if (wValue == 0x100)       // Return Device Descriptor
+ 477              		.loc 1 407 0
+ 478 0132 8023     		mov	r3, #128
+ 479 0134 5B00     		lsl	r3, r3, #1
+ 480 0136 9D42     		cmp	r5, r3
+ 481 0138 06D1     		bne	.L81
+ 408:cdc_enumerate.c **** 			AT91F_USB_SendData(pUDP, devDescriptor, MIN(sizeof(devDescriptor), wLength));
+ 482              		.loc 1 408 0
+ 483 013a 1229     		cmp	r1, #18
+ 484 013c 01D9     		bls	.L83
+ 485 013e 1222     		mov	r2, #18
+ 486 0140 00E0     		b	.L85
+ 487              	.L83:
+ 488 0142 0A1C     		mov	r2, r1
+ 489              	.L85:
+ 490 0144 5549     		ldr	r1, .L131+16
+ 491              	.LVL26:
+ 492 0146 0AE0     		b	.L126
+ 493              	.LVL27:
+ 494              	.L81:
+ 409:cdc_enumerate.c **** 		else if (wValue == 0x200)  // Return Configuration Descriptor
+ 495              		.loc 1 409 0
+ 496 0148 8023     		mov	r3, #128
+ 497 014a 9B00     		lsl	r3, r3, #2
+ 498 014c 9D42     		cmp	r5, r3
+ 499 014e 00D0     		beq	.LCB502
+ 500 0150 8BE0     		b	.L60	@long jump
+ 501              	.LCB502:
+ 410:cdc_enumerate.c **** 			AT91F_USB_SendData(pUDP, cfgDescriptor, MIN(sizeof(cfgDescriptor), wLength));
+ 502              		.loc 1 410 0
+ 503 0152 4329     		cmp	r1, #67
+ 504 0154 01D9     		bls	.L88
+ 505 0156 4322     		mov	r2, #67
+ 506 0158 00E0     		b	.L90
+ 507              	.L88:
+ 508 015a 0A1C     		mov	r2, r1
+ 509              	.L90:
+ 510 015c 5049     		ldr	r1, .L131+20
+ 511              	.LVL28:
+ 512              	.L126:
+ 513 015e 201C     		mov	r0, r4
+ 514              	.LVL29:
+ 515              	.L128:
+ 516 0160 FFF7FEFF 		bl	AT91F_USB_SendData
+ 517              	.LVL30:
+ 518 0164 8BE0     		b	.L52
+ 519              	.LVL31:
+ 520              	.L70:
+ 411:cdc_enumerate.c **** 		else
+ 412:cdc_enumerate.c **** 			AT91F_USB_SendStall(pUDP);
+ 413:cdc_enumerate.c **** 		break;
+ 414:cdc_enumerate.c **** 	case STD_SET_ADDRESS:
+ 415:cdc_enumerate.c **** 		AT91F_USB_SendZlp(pUDP);
+ 521              		.loc 1 415 0
+ 522 0166 201C     		mov	r0, r4
+ 523              	.LVL32:
+ 524 0168 FFF7FEFF 		bl	AT91F_USB_SendZlp
+ 525              	.LVL33:
+ 416:cdc_enumerate.c **** 		pUDP->UDP_FADDR = (AT91C_UDP_FEN | wValue);
+ 526              		.loc 1 416 0
+ 527 016c 8023     		mov	r3, #128
+ 528 016e 5B00     		lsl	r3, r3, #1
+ 529 0170 2B43     		orr	r3, r3, r5
+ 530 0172 A360     		str	r3, [r4, #8]
+ 531 0174 6B42     		neg	r3, r5
+ 532 0176 DB0F     		lsr	r3, r3, #31
+ 417:cdc_enumerate.c **** 		pUDP->UDP_GLBSTATE  = (wValue) ? AT91C_UDP_FADDEN : 0;
+ 533              		.loc 1 417 0
+ 534 0178 6360     		str	r3, [r4, #4]
+ 535 017a 80E0     		b	.L52
+ 536              	.LVL34:
+ 537              	.L73:
+ 418:cdc_enumerate.c **** 		break;
+ 419:cdc_enumerate.c **** 	case STD_SET_CONFIGURATION:
+ 420:cdc_enumerate.c **** 		pCdc->currentConfiguration = wValue;
+ 538              		.loc 1 420 0
+ 539 017c 009A     		ldr	r2, [sp]
+ 421:cdc_enumerate.c **** 		AT91F_USB_SendZlp(pUDP);
+ 540              		.loc 1 421 0
+ 541 017e 201C     		mov	r0, r4
+ 542              	.LVL35:
+ 543              		.loc 1 420 0
+ 544 0180 1571     		strb	r5, [r2, #4]
+ 545              		.loc 1 421 0
+ 546 0182 FFF7FEFF 		bl	AT91F_USB_SendZlp
+ 547              	.LVL36:
+ 422:cdc_enumerate.c **** 		pUDP->UDP_GLBSTATE  = (wValue) ? AT91C_UDP_CONFG : AT91C_UDP_FADDEN;
+ 548              		.loc 1 422 0
+ 549 0186 002D     		cmp	r5, #0
+ 550 0188 73D0     		beq	.L92
+ 551 018a 0223     		mov	r3, #2
+ 552 018c 6360     		str	r3, [r4, #4]
+ 423:cdc_enumerate.c **** 		pUDP->UDP_CSR[1] = (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_OUT) : 0;
+ 553              		.loc 1 423 0
+ 554 018e 8223     		mov	r3, #130
+ 555 0190 1B02     		lsl	r3, r3, #8
+ 556 0192 6363     		str	r3, [r4, #52]
+ 424:cdc_enumerate.c **** 		pUDP->UDP_CSR[2] = (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_IN)  : 0;
+ 557              		.loc 1 424 0
+ 558 0194 8623     		mov	r3, #134
+ 559 0196 1B02     		lsl	r3, r3, #8
+ 560 0198 A363     		str	r3, [r4, #56]
+ 561 019a 8723     		mov	r3, #135
+ 562 019c 1B02     		lsl	r3, r3, #8
+ 563              	.L94:
+ 425:cdc_enumerate.c **** 		pUDP->UDP_CSR[3] = (wValue) ? (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_INT_IN)   : 0;
+ 564              		.loc 1 425 0
+ 565 019e E363     		str	r3, [r4, #60]
+ 566 01a0 6DE0     		b	.L52
+ 567              	.LVL37:
+ 568              	.L72:
+ 426:cdc_enumerate.c **** 		break;
+ 427:cdc_enumerate.c **** 	case STD_GET_CONFIGURATION:
+ 428:cdc_enumerate.c **** 		AT91F_USB_SendData(pUDP, (char *) &(pCdc->currentConfiguration), sizeof(pCdc->currentConfiguratio
+ 569              		.loc 1 428 0
+ 570 01a2 0099     		ldr	r1, [sp]
+ 571              	.LVL38:
+ 572 01a4 201C     		mov	r0, r4
+ 573              	.LVL39:
+ 574 01a6 0431     		add	r1, r1, #4
+ 575 01a8 0122     		mov	r2, #1
+ 576 01aa D9E7     		b	.L128
+ 577              	.LVL40:
+ 578              	.L62:
+ 429:cdc_enumerate.c **** 		break;
+ 430:cdc_enumerate.c **** 	case STD_GET_STATUS_ZERO:
+ 431:cdc_enumerate.c **** 		wStatus = 0;
+ 432:cdc_enumerate.c **** 		AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
+ 433:cdc_enumerate.c **** 		break;
+ 434:cdc_enumerate.c **** 	case STD_GET_STATUS_INTERFACE:
+ 435:cdc_enumerate.c **** 		wStatus = 0;
+ 579              		.loc 1 435 0
+ 580 01ac 6946     		mov	r1, sp
+ 581              	.LVL41:
+ 582 01ae 0A31     		add	r1, r1, #10
+ 583 01b0 0A80     		strh	r2, [r1]
+ 584              	.LVL42:
+ 585 01b2 1EE0     		b	.L130
+ 586              	.LVL43:
+ 587              	.L63:
+ 436:cdc_enumerate.c **** 		AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
+ 437:cdc_enumerate.c **** 		break;
+ 438:cdc_enumerate.c **** 	case STD_GET_STATUS_ENDPOINT:
+ 439:cdc_enumerate.c **** 		wStatus = 0;
+ 588              		.loc 1 439 0
+ 589 01b4 6946     		mov	r1, sp
+ 590              	.LVL44:
+ 591 01b6 0A31     		add	r1, r1, #10
+ 440:cdc_enumerate.c **** 		wIndex &= 0x0F;
+ 592              		.loc 1 440 0
+ 593 01b8 0F23     		mov	r3, #15
+ 594              		.loc 1 439 0
+ 595 01ba 0A80     		strh	r2, [r1]
+ 596              	.LVL45:
+ 597              		.loc 1 440 0
+ 598 01bc 321C     		mov	r2, r6
+ 599              	.LVL46:
+ 600 01be 1A40     		and	r2, r2, r3
+ 441:cdc_enumerate.c **** 		if ((pUDP->UDP_GLBSTATE & AT91C_UDP_CONFG) && (wIndex <= 3)) {
+ 601              		.loc 1 441 0
+ 602 01c0 6368     		ldr	r3, [r4, #4]
+ 603 01c2 9807     		lsl	r0, r3, #30
+ 604 01c4 08D5     		bpl	.L95
+ 605 01c6 032A     		cmp	r2, #3
+ 606 01c8 06D8     		bhi	.L95
+ 442:cdc_enumerate.c **** 			wStatus = (pUDP->UDP_CSR[wIndex] & AT91C_UDP_EPEDS) ? 0 : 1;
+ 607              		.loc 1 442 0
+ 608 01ca 9300     		lsl	r3, r2, #2
+ 609 01cc 1B19     		add	r3, r3, r4
+ 610 01ce 1A6B     		ldr	r2, [r3, #48]
+ 611              	.LVL47:
+ 612 01d0 0123     		mov	r3, #1
+ 613 01d2 D20B     		lsr	r2, r2, #15
+ 614 01d4 9343     		bic	r3, r3, r2
+ 615 01d6 0BE0     		b	.L129
+ 616              	.LVL48:
+ 617              	.L95:
+ 443:cdc_enumerate.c **** 			AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
+ 444:cdc_enumerate.c **** 		}
+ 445:cdc_enumerate.c **** 		else if ((pUDP->UDP_GLBSTATE & AT91C_UDP_FADDEN) && (wIndex == 0)) {
+ 618              		.loc 1 445 0
+ 619 01d8 6368     		ldr	r3, [r4, #4]
+ 620 01da 0120     		mov	r0, #1
+ 621 01dc 0342     		tst	r3, r0
+ 622 01de 44D0     		beq	.L60
+ 623 01e0 002A     		cmp	r2, #0
+ 624 01e2 42D1     		bne	.L60
+ 446:cdc_enumerate.c **** 			wStatus = (pUDP->UDP_CSR[wIndex] & AT91C_UDP_EPEDS) ? 0 : 1;
+ 625              		.loc 1 446 0
+ 626 01e4 236B     		ldr	r3, [r4, #48]
+ 627 01e6 DB0B     		lsr	r3, r3, #15
+ 628 01e8 6946     		mov	r1, sp
+ 629 01ea 9843     		bic	r0, r0, r3
+ 630 01ec 0A31     		add	r1, r1, #10
+ 631 01ee 031C     		mov	r3, r0
+ 632              	.L129:
+ 633 01f0 0B80     		strh	r3, [r1]
+ 634              	.L130:
+ 447:cdc_enumerate.c **** 			AT91F_USB_SendData(pUDP, (char *) &wStatus, sizeof(wStatus));
+ 635              		.loc 1 447 0
+ 636 01f2 201C     		mov	r0, r4
+ 637              	.LVL49:
+ 638 01f4 0222     		mov	r2, #2
+ 639              	.LVL50:
+ 640 01f6 B3E7     		b	.L128
+ 641              	.LVL51:
+ 642              	.L69:
+ 448:cdc_enumerate.c **** 		}
+ 449:cdc_enumerate.c **** 		else
+ 450:cdc_enumerate.c **** 			AT91F_USB_SendStall(pUDP);
+ 451:cdc_enumerate.c **** 		break;
+ 452:cdc_enumerate.c **** 	case STD_SET_FEATURE_ZERO:
+ 453:cdc_enumerate.c **** 		AT91F_USB_SendStall(pUDP);
+ 454:cdc_enumerate.c **** 	    break;
+ 455:cdc_enumerate.c **** 	case STD_SET_FEATURE_INTERFACE:
+ 456:cdc_enumerate.c **** 		AT91F_USB_SendZlp(pUDP);
+ 457:cdc_enumerate.c **** 		break;
+ 458:cdc_enumerate.c **** 	case STD_SET_FEATURE_ENDPOINT:
+ 459:cdc_enumerate.c **** 		wIndex &= 0x0F;
+ 460:cdc_enumerate.c **** 		if ((wValue == 0) && wIndex && (wIndex <= 3)) {
+ 643              		.loc 1 460 0
+ 644 01f8 002D     		cmp	r5, #0
+ 645 01fa 36D1     		bne	.L60
+ 646              		.loc 1 459 0
+ 647 01fc 0F23     		mov	r3, #15
+ 648              		.loc 1 460 0
+ 649 01fe 3340     		and	r3, r6
+ 650 0200 33D0     		beq	.L60
+ 651              	.LVL52:
+ 652 0202 032B     		cmp	r3, #3
+ 653 0204 31D8     		bhi	.L60
+ 461:cdc_enumerate.c **** 			pUDP->UDP_CSR[wIndex] = 0;
+ 654              		.loc 1 461 0
+ 655 0206 9B00     		lsl	r3, r3, #2
+ 656              	.LVL53:
+ 657 0208 1B19     		add	r3, r3, r4
+ 658 020a 1D63     		str	r5, [r3, #48]
+ 659 020c 29E0     		b	.L127
+ 660              	.L66:
+ 462:cdc_enumerate.c **** 			AT91F_USB_SendZlp(pUDP);
+ 463:cdc_enumerate.c **** 		}
+ 464:cdc_enumerate.c **** 		else
+ 465:cdc_enumerate.c **** 			AT91F_USB_SendStall(pUDP);
+ 466:cdc_enumerate.c **** 		break;
+ 467:cdc_enumerate.c **** 	case STD_CLEAR_FEATURE_ZERO:
+ 468:cdc_enumerate.c **** 		AT91F_USB_SendStall(pUDP);
+ 469:cdc_enumerate.c **** 	    break;
+ 470:cdc_enumerate.c **** 	case STD_CLEAR_FEATURE_INTERFACE:
+ 471:cdc_enumerate.c **** 		AT91F_USB_SendZlp(pUDP);
+ 472:cdc_enumerate.c **** 		break;
+ 473:cdc_enumerate.c **** 	case STD_CLEAR_FEATURE_ENDPOINT:
+ 474:cdc_enumerate.c **** 		wIndex &= 0x0F;
+ 475:cdc_enumerate.c **** 		if ((wValue == 0) && wIndex && (wIndex <= 3)) {
+ 661              		.loc 1 475 0
+ 662 020e 002D     		cmp	r5, #0
+ 663 0210 2BD1     		bne	.L60
+ 664              		.loc 1 474 0
+ 665 0212 0F23     		mov	r3, #15
+ 666              		.loc 1 475 0
+ 667 0214 3340     		and	r3, r6
+ 668 0216 28D0     		beq	.L60
+ 669              	.LVL54:
+ 670 0218 032B     		cmp	r3, #3
+ 671 021a 26D8     		bhi	.L60
+ 476:cdc_enumerate.c **** 			if (wIndex == 1)
+ 672              		.loc 1 476 0
+ 673 021c 012B     		cmp	r3, #1
+ 674 021e 03D1     		bne	.L109
+ 477:cdc_enumerate.c **** 				pUDP->UDP_CSR[1] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_OUT);
+ 675              		.loc 1 477 0
+ 676 0220 8223     		mov	r3, #130
+ 677              	.LVL55:
+ 678 0222 1B02     		lsl	r3, r3, #8
+ 679 0224 6363     		str	r3, [r4, #52]
+ 680 0226 1CE0     		b	.L127
+ 681              	.LVL56:
+ 682              	.L109:
+ 478:cdc_enumerate.c **** 			else if (wIndex == 2)
+ 683              		.loc 1 478 0
+ 684 0228 022B     		cmp	r3, #2
+ 685 022a 03D1     		bne	.L112
+ 479:cdc_enumerate.c **** 				pUDP->UDP_CSR[2] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_BULK_IN);
+ 686              		.loc 1 479 0
+ 687 022c 8623     		mov	r3, #134
+ 688              	.LVL57:
+ 689 022e 1B02     		lsl	r3, r3, #8
+ 690 0230 A363     		str	r3, [r4, #56]
+ 691 0232 16E0     		b	.L127
+ 692              	.LVL58:
+ 693              	.L112:
+ 480:cdc_enumerate.c **** 			else if (wIndex == 3)
+ 694              		.loc 1 480 0
+ 695 0234 032B     		cmp	r3, #3
+ 696 0236 14D1     		bne	.L127
+ 481:cdc_enumerate.c **** 				pUDP->UDP_CSR[3] = (AT91C_UDP_EPEDS | AT91C_UDP_EPTYPE_ISO_IN);
+ 697              		.loc 1 481 0
+ 698 0238 8523     		mov	r3, #133
+ 699              	.LVL59:
+ 700 023a 1B02     		lsl	r3, r3, #8
+ 701 023c E363     		str	r3, [r4, #60]
+ 702 023e 10E0     		b	.L127
+ 703              	.L120:
+ 482:cdc_enumerate.c **** 			AT91F_USB_SendZlp(pUDP);
+ 483:cdc_enumerate.c **** 		}
+ 484:cdc_enumerate.c **** 		else
+ 485:cdc_enumerate.c **** 			AT91F_USB_SendStall(pUDP);
+ 486:cdc_enumerate.c **** 		break;
+ 487:cdc_enumerate.c **** 
+ 488:cdc_enumerate.c **** 	// handle CDC class requests
+ 489:cdc_enumerate.c **** 	case SET_LINE_CODING:
+ 490:cdc_enumerate.c **** 		while ( !(pUDP->UDP_CSR[0] & AT91C_UDP_RX_DATA_BK0) );
+ 704              		.loc 1 490 0
+ 705 0240 236B     		ldr	r3, [r4, #48]
+ 706 0242 0222     		mov	r2, #2
+ 707 0244 1342     		tst	r3, r2
+ 708 0246 FBD0     		beq	.L120
+ 491:cdc_enumerate.c **** 		pUDP->UDP_CSR[0] &= ~(AT91C_UDP_RX_DATA_BK0);
+ 709              		.loc 1 491 0
+ 710 0248 236B     		ldr	r3, [r4, #48]
+ 711 024a 9343     		bic	r3, r3, r2
+ 712 024c 2363     		str	r3, [r4, #48]
+ 713 024e 08E0     		b	.L127
+ 714              	.L75:
+ 492:cdc_enumerate.c **** 		AT91F_USB_SendZlp(pUDP);
+ 493:cdc_enumerate.c **** 		break;
+ 494:cdc_enumerate.c **** 	case GET_LINE_CODING:
+ 495:cdc_enumerate.c **** 		AT91F_USB_SendData(pUDP, (char *) &line, MIN(sizeof(line), wLength));
+ 715              		.loc 1 495 0
+ 716 0250 0829     		cmp	r1, #8
+ 717 0252 01D9     		bls	.L116
+ 718 0254 0822     		mov	r2, #8
+ 719 0256 00E0     		b	.L118
+ 720              	.L116:
+ 721 0258 0A1C     		mov	r2, r1
+ 722              	.L118:
+ 723 025a 1249     		ldr	r1, .L131+24
+ 724              	.LVL60:
+ 725 025c 7FE7     		b	.L126
+ 726              	.LVL61:
+ 727              	.L76:
+ 496:cdc_enumerate.c **** 		break;
+ 497:cdc_enumerate.c **** 	case SET_CONTROL_LINE_STATE:
+ 498:cdc_enumerate.c **** 		pCdc->currentConnection = wValue;
+ 728              		.loc 1 498 0
+ 729 025e 009A     		ldr	r2, [sp]
+ 730 0260 5571     		strb	r5, [r2, #5]
+ 731              	.LVL62:
+ 732              	.L127:
+ 499:cdc_enumerate.c **** 		AT91F_USB_SendZlp(pUDP);
+ 733              		.loc 1 499 0
+ 734 0262 201C     		mov	r0, r4
+ 735              	.LVL63:
+ 736 0264 FFF7FEFF 		bl	AT91F_USB_SendZlp
+ 737              	.LVL64:
+ 738 0268 09E0     		b	.L52
+ 739              	.LVL65:
+ 740              	.L60:
+ 500:cdc_enumerate.c **** 		break;
+ 501:cdc_enumerate.c **** 	default:
+ 502:cdc_enumerate.c **** 		AT91F_USB_SendStall(pUDP);
+ 741              		.loc 1 502 0
+ 742 026a 201C     		mov	r0, r4
+ 743              	.LVL66:
+ 744 026c FFF7FEFF 		bl	AT91F_USB_SendStall
+ 745              	.LVL67:
+ 746 0270 05E0     		b	.L52
+ 747              	.LVL68:
+ 748              	.L92:
+ 749              		.loc 1 422 0
+ 750 0272 0123     		mov	r3, #1
+ 751 0274 6360     		str	r3, [r4, #4]
+ 752              		.loc 1 424 0
+ 753 0276 0023     		mov	r3, #0
+ 754              		.loc 1 423 0
+ 755 0278 6563     		str	r5, [r4, #52]
+ 756              		.loc 1 424 0
+ 757 027a A563     		str	r5, [r4, #56]
+ 758 027c 8FE7     		b	.L94
+ 759              	.LVL69:
+ 760              	.L52:
+ 761              		.loc 1 502 0
+ 762 027e 009B     		ldr	r3, [sp]
+ 763 0280 1879     		ldrb	r0, [r3, #4]
+ 764              	.LBE5:
+ 765              	.LBE4:
+ 766              		.loc 1 233 0
+ 767 0282 03B0     		add	sp, sp, #12
+ 768              		@ sp needed for prologue
+ 769              	.LVL70:
+ 770              	.LVL71:
+ 771              	.LVL72:
+ 772              	.LVL73:
+ 773 0284 F0BC     		pop	{r4, r5, r6, r7}
+ 774 0286 02BC     		pop	{r1}
+ 775 0288 0847     		bx	r1
+ 776              	.L132:
+ 777 028a 0000     		.align	2
+ 778              	.L131:
+ 779 028c 01030000 		.word	769
+ 780 0290 02030000 		.word	770
+ 781 0294 21200000 		.word	8225
+ 782 0298 A1210000 		.word	8609
+ 783 029c 00000000 		.word	devDescriptor
+ 784 02a0 00000000 		.word	cfgDescriptor
+ 785 02a4 00000000 		.word	line
+ 786              	.LFE291:
+ 788              		.section	.text.AT91F_UDP_Write,"ax",%progbits
+ 789              		.align	2
+ 790              		.code 16
+ 791              		.thumb_func
+ 793              	AT91F_UDP_Write:
+ 794              	.LFB293:
+ 795              		.loc 1 276 0
+ 796 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 797              	.LCFI4:
+ 798              	.LVL74:
+ 799              		.loc 1 276 0
+ 800 0002 071C     		mov	r7, r0
+ 801              		.loc 1 277 0
+ 802 0004 0468     		ldr	r4, [r0]
+ 803              	.LVL75:
+ 804              		.loc 1 276 0
+ 805 0006 0D1C     		mov	r5, r1
+ 806              		.loc 1 281 0
+ 807 0008 101C     		mov	r0, r2
+ 808              	.LVL76:
+ 809 000a 402A     		cmp	r2, #64
+ 810 000c 00D9     		bls	.L134
+ 811              	.LVL77:
+ 812 000e 4020     		mov	r0, #64
+ 813              	.L134:
+ 814 0010 011C     		mov	r1, r0
+ 815              	.LVL78:
+ 816 0012 02E0     		b	.L135
+ 817              	.L136:
+ 818              		.loc 1 283 0
+ 819 0014 2B78     		ldrb	r3, [r5]
+ 820 0016 A365     		str	r3, [r4, #88]
+ 821 0018 0135     		add	r5, r5, #1
+ 822              	.L135:
+ 823 001a 0139     		sub	r1, r1, #1
+ 824 001c FAD2     		bcs	.L136
+ 825              		.loc 1 282 0
+ 826 001e 161A     		sub	r6, r2, r0
+ 827              	.LVL79:
+ 828 0020 1AE0     		b	.L159
+ 829              	.LVL80:
+ 830              	.L139:
+ 831              		.loc 1 288 0
+ 832 0022 321C     		mov	r2, r6
+ 833              	.LVL81:
+ 834 0024 402E     		cmp	r6, #64
+ 835 0026 00D9     		bls	.L140
+ 836 0028 4022     		mov	r2, #64
+ 837              	.L140:
+ 838              		.loc 1 289 0
+ 839 002a B61A     		sub	r6, r6, r2
+ 840 002c 02E0     		b	.L141
+ 841              	.L142:
+ 842              		.loc 1 290 0
+ 843 002e 2B78     		ldrb	r3, [r5]
+ 844 0030 A365     		str	r3, [r4, #88]
+ 845 0032 0135     		add	r5, r5, #1
+ 846              	.L141:
+ 847 0034 013A     		sub	r2, r2, #1
+ 848 0036 FAD2     		bcs	.L142
+ 849 0038 04E0     		b	.L156
+ 850              	.LVL82:
+ 851              	.L144:
+ 852              		.loc 1 293 0
+ 853 003a 381C     		mov	r0, r7
+ 854              	.LVL83:
+ 855 003c FFF7FEFF 		bl	AT91F_UDP_IsConfigured
+ 856              	.LVL84:
+ 857 0040 0028     		cmp	r0, #0
+ 858 0042 1FD0     		beq	.L145
+ 859              	.LVL85:
+ 860              	.L156:
+ 861              		.loc 1 292 0
+ 862 0044 A36B     		ldr	r3, [r4, #56]
+ 863 0046 0122     		mov	r2, #1
+ 864              	.LVL86:
+ 865 0048 1342     		tst	r3, r2
+ 866 004a F6D0     		beq	.L144
+ 867              		.loc 1 294 0
+ 868 004c A36B     		ldr	r3, [r4, #56]
+ 869 004e 9343     		bic	r3, r3, r2
+ 870 0050 A363     		str	r3, [r4, #56]
+ 871              	.L147:
+ 872              		.loc 1 295 0
+ 873 0052 A36B     		ldr	r3, [r4, #56]
+ 874 0054 DA07     		lsl	r2, r3, #31
+ 875 0056 FCD4     		bmi	.L147
+ 876              	.LVL87:
+ 877              	.L159:
+ 878              		.loc 1 296 0
+ 879 0058 A36B     		ldr	r3, [r4, #56]
+ 880 005a 1022     		mov	r2, #16
+ 881              	.LVL88:
+ 882 005c 1343     		orr	r3, r3, r2
+ 883 005e A363     		str	r3, [r4, #56]
+ 884              		.loc 1 286 0
+ 885 0060 002E     		cmp	r6, #0
+ 886 0062 DED1     		bne	.L139
+ 887 0064 04E0     		b	.L158
+ 888              	.L150:
+ 889              		.loc 1 300 0
+ 890 0066 381C     		mov	r0, r7
+ 891              	.LVL89:
+ 892 0068 FFF7FEFF 		bl	AT91F_UDP_IsConfigured
+ 893              	.LVL90:
+ 894 006c 0028     		cmp	r0, #0
+ 895 006e 09D0     		beq	.L145
+ 896              	.LVL91:
+ 897              	.L158:
+ 898              		.loc 1 299 0
+ 899 0070 A36B     		ldr	r3, [r4, #56]
+ 900 0072 0122     		mov	r2, #1
+ 901 0074 1342     		tst	r3, r2
+ 902 0076 F6D0     		beq	.L150
+ 903              		.loc 1 301 0
+ 904 0078 A36B     		ldr	r3, [r4, #56]
+ 905 007a 9343     		bic	r3, r3, r2
+ 906 007c A363     		str	r3, [r4, #56]
+ 907              	.L152:
+ 908              		.loc 1 302 0
+ 909 007e A36B     		ldr	r3, [r4, #56]
+ 910 0080 DA07     		lsl	r2, r3, #31
+ 911 0082 FCD4     		bmi	.L152
+ 912              	.L145:
+ 913              		.loc 1 305 0
+ 914 0084 301C     		mov	r0, r6
+ 915              	.LVL92:
+ 916              		@ sp needed for prologue
+ 917              	.LVL93:
+ 918              	.LVL94:
+ 919              	.LVL95:
+ 920              	.LVL96:
+ 921 0086 F0BC     		pop	{r4, r5, r6, r7}
+ 922 0088 02BC     		pop	{r1}
+ 923 008a 0847     		bx	r1
+ 924              	.LFE293:
+ 926              		.section	.text.AT91F_UDP_Read,"ax",%progbits
+ 927              		.align	2
+ 928              		.code 16
+ 929              		.thumb_func
+ 931              	AT91F_UDP_Read:
+ 932              	.LFB292:
+ 933              		.loc 1 240 0
+ 934 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 935              	.LCFI5:
+ 936              	.LVL97:
+ 937              		.loc 1 241 0
+ 938 0002 0568     		ldr	r5, [r0]
+ 939              	.LVL98:
+ 940              		.loc 1 242 0
+ 941 0004 8468     		ldr	r4, [r0, #8]
+ 942              	.LVL99:
+ 943              		.loc 1 240 0
+ 944 0006 82B0     		sub	sp, sp, #8
+ 945              	.LCFI6:
+ 946              		.loc 1 240 0
+ 947 0008 071C     		mov	r7, r0
+ 948 000a 161C     		mov	r6, r2
+ 949              		.loc 1 242 0
+ 950 000c 0020     		mov	r0, #0
+ 951              	.LVL100:
+ 952              		.loc 1 240 0
+ 953 000e 0091     		str	r1, [sp]
+ 954              		.loc 1 242 0
+ 955 0010 0190     		str	r0, [sp, #4]
+ 956              	.LVL101:
+ 957 0012 28E0     		b	.L183
+ 958              	.LVL102:
+ 959              	.L162:
+ 960              		.loc 1 245 0
+ 961 0014 381C     		mov	r0, r7
+ 962 0016 FFF7FEFF 		bl	AT91F_UDP_IsConfigured
+ 963              	.LVL103:
+ 964 001a 0028     		cmp	r0, #0
+ 965 001c 25D0     		beq	.L163
+ 966              		.loc 1 247 0
+ 967 001e 6B6B     		ldr	r3, [r5, #52]
+ 968 0020 2342     		tst	r3, r4
+ 969 0022 22D0     		beq	.L163
+ 970              		.loc 1 248 0
+ 971 0024 6B6B     		ldr	r3, [r5, #52]
+ 972 0026 1B0C     		lsr	r3, r3, #16
+ 973 0028 B342     		cmp	r3, r6
+ 974 002a 01D3     		bcc	.L166
+ 975 002c 311C     		mov	r1, r6
+ 976              	.LVL104:
+ 977 002e 01E0     		b	.L168
+ 978              	.LVL105:
+ 979              	.L166:
+ 980 0030 6B6B     		ldr	r3, [r5, #52]
+ 981 0032 190C     		lsr	r1, r3, #16
+ 982              	.LVL106:
+ 983              	.L168:
+ 984              		.loc 1 250 0
+ 985 0034 3F29     		cmp	r1, #63
+ 986 0036 01D8     		bhi	.L169
+ 987 0038 0026     		mov	r6, #0
+ 988 003a 00E0     		b	.L171
+ 989              	.L169:
+ 990              		.loc 1 249 0
+ 991 003c 761A     		sub	r6, r6, r1
+ 992              	.L171:
+ 993 003e 009B     		ldr	r3, [sp]
+ 994 0040 0198     		ldr	r0, [sp, #4]
+ 995 0042 1A18     		add	r2, r3, r0
+ 996 0044 05E0     		b	.L172
+ 997              	.L173:
+ 998              		.loc 1 253 0
+ 999 0046 6B6D     		ldr	r3, [r5, #84]
+ 1000 0048 1370     		strb	r3, [r2]
+ 1001 004a 019B     		ldr	r3, [sp, #4]
+ 1002 004c 0133     		add	r3, r3, #1
+ 1003 004e 0193     		str	r3, [sp, #4]
+ 1004 0050 0132     		add	r2, r2, #1
+ 1005              	.L172:
+ 1006              		.loc 1 252 0
+ 1007 0052 0139     		sub	r1, r1, #1
+ 1008 0054 F7D2     		bcs	.L173
+ 1009              		.loc 1 254 0
+ 1010 0056 6B6B     		ldr	r3, [r5, #52]
+ 1011 0058 A343     		bic	r3, r3, r4
+ 1012 005a 6B63     		str	r3, [r5, #52]
+ 1013              		.loc 1 255 0
+ 1014 005c 022C     		cmp	r4, #2
+ 1015 005e 01D1     		bne	.L175
+ 1016 0060 4024     		mov	r4, #64
+ 1017 0062 00E0     		b	.L183
+ 1018              	.L175:
+ 1019 0064 0224     		mov	r4, #2
+ 1020              	.LVL107:
+ 1021              	.L183:
+ 1022              		.loc 1 244 0
+ 1023 0066 002E     		cmp	r6, #0
+ 1024 0068 D4D1     		bne	.L162
+ 1025              	.L163:
+ 1026              		.loc 1 269 0
+ 1027 006a 0198     		ldr	r0, [sp, #4]
+ 1028 006c 02B0     		add	sp, sp, #8
+ 1029              		.loc 1 266 0
+ 1030 006e BC60     		str	r4, [r7, #8]
+ 1031              		.loc 1 269 0
+ 1032              		@ sp needed for prologue
+ 1033              	.LVL108:
+ 1034              	.LVL109:
+ 1035              	.LVL110:
+ 1036              	.LVL111:
+ 1037 0070 F0BC     		pop	{r4, r5, r6, r7}
+ 1038 0072 02BC     		pop	{r1}
+ 1039 0074 0847     		bx	r1
+ 1040              	.LFE292:
+ 1042              		.global	devDescriptor
+ 1043 0076 C046     		.section	.rodata.devDescriptor,"a",%progbits
+ 1046              	devDescriptor:
+ 1047 0000 12       		.byte	18
+ 1048 0001 01       		.byte	1
+ 1049 0002 10       		.byte	16
+ 1050 0003 01       		.byte	1
+ 1051 0004 02       		.byte	2
+ 1052 0005 00       		.byte	0
+ 1053 0006 00       		.byte	0
+ 1054 0007 08       		.byte	8
+ 1055 0008 EB       		.byte	-21
+ 1056 0009 03       		.byte	3
+ 1057 000a 25       		.byte	37
+ 1058 000b 61       		.byte	97
+ 1059 000c 10       		.byte	16
+ 1060 000d 01       		.byte	1
+ 1061 000e 00       		.byte	0
+ 1062 000f 00       		.byte	0
+ 1063 0010 00       		.byte	0
+ 1064 0011 01       		.byte	1
+ 1065              		.global	cfgDescriptor
+ 1066              		.section	.rodata.cfgDescriptor,"a",%progbits
+ 1069              	cfgDescriptor:
+ 1070 0000 09       		.byte	9
+ 1071 0001 02       		.byte	2
+ 1072 0002 43       		.byte	67
+ 1073 0003 00       		.byte	0
+ 1074 0004 02       		.byte	2
+ 1075 0005 01       		.byte	1
+ 1076 0006 00       		.byte	0
+ 1077 0007 C0       		.byte	-64
+ 1078 0008 00       		.byte	0
+ 1079 0009 09       		.byte	9
+ 1080 000a 04       		.byte	4
+ 1081 000b 00       		.byte	0
+ 1082 000c 00       		.byte	0
+ 1083 000d 01       		.byte	1
+ 1084 000e 02       		.byte	2
+ 1085 000f 02       		.byte	2
+ 1086 0010 00       		.byte	0
+ 1087 0011 00       		.byte	0
+ 1088 0012 05       		.byte	5
+ 1089 0013 24       		.byte	36
+ 1090 0014 00       		.byte	0
+ 1091 0015 10       		.byte	16
+ 1092 0016 01       		.byte	1
+ 1093 0017 04       		.byte	4
+ 1094 0018 24       		.byte	36
+ 1095 0019 02       		.byte	2
+ 1096 001a 00       		.byte	0
+ 1097 001b 05       		.byte	5
+ 1098 001c 24       		.byte	36
+ 1099 001d 06       		.byte	6
+ 1100 001e 00       		.byte	0
+ 1101 001f 01       		.byte	1
+ 1102 0020 05       		.byte	5
+ 1103 0021 24       		.byte	36
+ 1104 0022 01       		.byte	1
+ 1105 0023 00       		.byte	0
+ 1106 0024 01       		.byte	1
+ 1107 0025 07       		.byte	7
+ 1108 0026 05       		.byte	5
+ 1109 0027 83       		.byte	-125
+ 1110 0028 03       		.byte	3
+ 1111 0029 08       		.byte	8
+ 1112 002a 00       		.byte	0
+ 1113 002b FF       		.byte	-1
+ 1114 002c 09       		.byte	9
+ 1115 002d 04       		.byte	4
+ 1116 002e 01       		.byte	1
+ 1117 002f 00       		.byte	0
+ 1118 0030 02       		.byte	2
+ 1119 0031 0A       		.byte	10
+ 1120 0032 00       		.byte	0
+ 1121 0033 00       		.byte	0
+ 1122 0034 00       		.byte	0
+ 1123 0035 07       		.byte	7
+ 1124 0036 05       		.byte	5
+ 1125 0037 01       		.byte	1
+ 1126 0038 02       		.byte	2
+ 1127 0039 40       		.byte	64
+ 1128 003a 00       		.byte	0
+ 1129 003b 00       		.byte	0
+ 1130 003c 07       		.byte	7
+ 1131 003d 05       		.byte	5
+ 1132 003e 82       		.byte	-126
+ 1133 003f 02       		.byte	2
+ 1134 0040 40       		.byte	64
+ 1135 0041 00       		.byte	0
+ 1136 0042 00       		.byte	0
+ 1137              		.global	line
+ 1138              		.section	.data.line,"aw",%progbits
+ 1139              		.align	2
+ 1142              	line:
+ 1143 0000 00C20100 		.word	115200
+ 1144 0004 00       		.byte	0
+ 1145 0005 00       		.byte	0
+ 1146 0006 08       		.byte	8
+ 1147 0007 00       		.space	1
+ 1148              		.global	csrIdx
+ 1149              		.section	.bss.csrIdx,"aw",%nobits
+ 1152              	csrIdx:
+ 1153 0000 00       		.space	1
+ 1154              		.comm	csrTab,400,4
+ 1293              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 cdc_enumerate.c
+     /tmp/ccMsehET.s:1      .text:00000000 $t
+     /tmp/ccMsehET.s:17     .text.AT91F_CDC_Open:00000000 AT91F_CDC_Open
+     /tmp/ccMsehET.s:14     .text.AT91F_CDC_Open:00000000 $t
+     /tmp/ccMsehET.s:52     .text.AT91F_CDC_Open:0000001c $d
+     /tmp/ccMsehET.s:243    .text.AT91F_UDP_IsConfigured:00000000 AT91F_UDP_IsConfigured
+     /tmp/ccMsehET.s:793    .text.AT91F_UDP_Write:00000000 AT91F_UDP_Write
+     /tmp/ccMsehET.s:931    .text.AT91F_UDP_Read:00000000 AT91F_UDP_Read
+     /tmp/ccMsehET.s:59     .text.AT91F_USB_SendData:00000000 $t
+     /tmp/ccMsehET.s:62     .text.AT91F_USB_SendData:00000000 AT91F_USB_SendData
+     /tmp/ccMsehET.s:169    .text.AT91F_USB_SendZlp:00000000 AT91F_USB_SendZlp
+     /tmp/ccMsehET.s:166    .text.AT91F_USB_SendZlp:00000000 $t
+     /tmp/ccMsehET.s:206    .text.AT91F_USB_SendStall:00000000 AT91F_USB_SendStall
+     /tmp/ccMsehET.s:203    .text.AT91F_USB_SendStall:00000000 $t
+     /tmp/ccMsehET.s:240    .text.AT91F_UDP_IsConfigured:00000000 $t
+     /tmp/ccMsehET.s:779    .text.AT91F_UDP_IsConfigured:0000028c $d
+     /tmp/ccMsehET.s:1046   .rodata.devDescriptor:00000000 devDescriptor
+     /tmp/ccMsehET.s:1069   .rodata.cfgDescriptor:00000000 cfgDescriptor
+     /tmp/ccMsehET.s:1142   .data.line:00000000 line
+     /tmp/ccMsehET.s:790    .text.AT91F_UDP_Write:00000000 $t
+     /tmp/ccMsehET.s:928    .text.AT91F_UDP_Read:00000000 $t
+     /tmp/ccMsehET.s:1143   .data.line:00000000 $d
+     /tmp/ccMsehET.s:1152   .bss.csrIdx:00000000 csrIdx
+                            *COM*:00000190 csrTab
+
+NO UNDEFINED SYMBOLS

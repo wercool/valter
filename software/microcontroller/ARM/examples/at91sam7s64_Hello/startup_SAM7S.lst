@@ -1,0 +1,543 @@
+   1              	# 1 "startup_SAM7S.S"
+   2              	# 1 "<built-in>"
+   1              	/***********************************************************************/
+   0              	
+   0              	
+   2              	/*                                                                     */
+   3              	/*  startup_SAM7S.S:  Startup file for Atmel AT91SAM7S device series   */
+   4              	/*                                                                     */
+   5              	/***********************************************************************/
+   6              	/*  ported to arm-elf-gcc / WinARM by Martin Thomas, KL, .de           */
+   7              	/*  <eversmith@heizung-thomas.de>                                      */
+   8              	/*  modifications Copyright Martin Thomas 2005                         */
+   9              	/*                                                                     */
+  10              	/*  Based on file that has been a part of the uVision/ARM development  */
+  11              	/*  tools, Copyright KEIL ELEKTRONIK GmbH 2002-2004                    */
+  12              	/***********************************************************************/
+  13              	
+  14              	/* 
+  15              	  Modifications by Martin Thomas:
+  16              	  - added handling of execption vectors in RAM ("ramfunc")
+  17              	  - added options to remap the interrupt vectors to RAM
+  18              	    (see makefile for switch-option)
+  19              	  - replaced all ";" and "#" for comments with // of / *  * /
+  20              	  - added C++ ctor handling
+  21              	*/
+  22              	
+  23              	
+  24              	// mt: this file should not be used with the Configuration Wizard
+  25              	// since a lot of changes have been done for the WinARM/gcc example
+  26              	/* 
+  27              	//*** <<< Use Configuration Wizard in Context Menu >>> ***
+  28              	*/
+  29              	
+  30              	
+  31              	
+  32              	// *** Startup Code (executed after Reset) ***
+  33              	
+  34              	
+  35              	// Standard definitions of Mode bits and Interrupt (I & F) flags in PSRs
+  36              	
+  37              	        .equ    Mode_USR,       0x10
+  38              	        .equ    Mode_FIQ,       0x11
+  39              	        .equ    Mode_IRQ,       0x12
+  40              	        .equ    Mode_SVC,       0x13
+  41              	        .equ    Mode_ABT,       0x17
+  42              	        .equ    Mode_UND,       0x1B
+  43              	        .equ    Mode_SYS,       0x1F
+  44              	
+  45              	        .equ    I_Bit,          0x80    /* when I bit is set, IRQ is disabled */
+  46              	        .equ    F_Bit,          0x40    /* when F bit is set, FIQ is disabled */
+  47              	
+  48              	
+  49              	// Internal Memory Base Addresses
+  50              	        .equ    FLASH_BASE,     0x00100000   
+  51              	        .equ    RAM_BASE,       0x00200000
+  52              	
+  53              	
+  54              	/*
+  55              	// <h> Stack Configuration
+  56              	//   <o>  Top of Stack Address  <0x0-0xFFFFFFFF:4>
+  57              	//   <h>  Stack Sizes (in Bytes)
+  58              	//     <o1> Undefined Mode      <0x0-0xFFFFFFFF:4>
+  59              	//     <o2> Supervisor Mode     <0x0-0xFFFFFFFF:4>
+  60              	//     <o3> Abort Mode          <0x0-0xFFFFFFFF:4>
+  61              	//     <o4> Fast Interrupt Mode <0x0-0xFFFFFFFF:4>
+  62              	//     <o5> Interrupt Mode      <0x0-0xFFFFFFFF:4>
+  63              	//     <o6> User/System Mode    <0x0-0xFFFFFFFF:4>
+  64              	//   </h>
+  65              	// </h>
+  66              	*/
+  67              	        .equ    Top_Stack,      0x00204000
+  68              	        .equ    UND_Stack_Size, 0x00000004
+  69              	        .equ    SVC_Stack_Size, 0x00000100
+  70              	        .equ    ABT_Stack_Size, 0x00000004
+  71              	        .equ    FIQ_Stack_Size, 0x00000004
+  72              	        .equ    IRQ_Stack_Size, 0x00000100
+  73              	        .equ    USR_Stack_Size, 0x00000400
+  74              	
+  75              	
+  76              	// Embedded Flash Controller (EFC) definitions
+  77              	        .equ    EFC_BASE,       0xFFFFFF00  /* EFC Base Address */
+  78              	        .equ    EFC_FMR,        0x60        /* EFC_FMR Offset */
+  79              	
+  80              	/*
+  81              	// <e> Embedded Flash Controller (EFC)
+  82              	//   <o1.16..23> FMCN: Flash Microsecond Cycle Number <0-255>
+  83              	//               <i> Number of Master Clock Cycles in 1us
+  84              	//   <o1.8..9>   FWS: Flash Wait State
+  85              	//               <0=> Read: 1 cycle / Write: 2 cycles
+  86              	//               <1=> Read: 2 cycle / Write: 3 cycles
+  87              	//               <2=> Read: 3 cycle / Write: 4 cycles
+  88              	//               <3=> Read: 4 cycle / Write: 4 cycles
+  89              	// </e>
+  90              	*/
+  91              	        .equ    EFC_SETUP,      1
+  92              	        .equ    EFC_FMR_Val,    0x00320100
+  93              	
+  94              	
+  95              	// Watchdog Timer (WDT) definitions
+  96              	        .equ    WDT_BASE,       0xFFFFFD40  /* WDT Base Address */
+  97              	        .equ    WDT_MR,         0x04        /* WDT_MR Offset */
+  98              	
+  99              	/*
+ 100              	// <e> Watchdog Timer (WDT)
+ 101              	//   <o1.0..11>  WDV: Watchdog Counter Value <0-4095>
+ 102              	//   <o1.16..27> WDD: Watchdog Delta Value <0-4095>
+ 103              	//   <o1.12>     WDFIEN: Watchdog Fault Interrupt Enable
+ 104              	//   <o1.13>     WDRSTEN: Watchdog Reset Enable
+ 105              	//   <o1.14>     WDRPROC: Watchdog Reset Processor
+ 106              	//   <o1.28>     WDDBGHLT: Watchdog Debug Halt
+ 107              	//   <o1.29>     WDIDLEHLT: Watchdog Idle Halt
+ 108              	//   <o1.15>     WDDIS: Watchdog Disable
+ 109              	// </e>
+ 110              	*/
+ 111              	        .equ    WDT_SETUP,      1
+ 112              	        .equ    WDT_MR_Val,     0x00008000
+ 113              	
+ 114              	
+ 115              	// Power Mangement Controller (PMC) definitions
+ 116              	        .equ    PMC_BASE,       0xFFFFFC00  /* PMC Base Address */
+ 117              	        .equ    PMC_MOR,        0x20        /* PMC_MOR Offset */
+ 118              	        .equ    PMC_MCFR,       0x24        /* PMC_MCFR Offset */
+ 119              	        .equ    PMC_PLLR,       0x2C        /* PMC_PLLR Offset */
+ 120              	        .equ    PMC_MCKR,       0x30        /* PMC_MCKR Offset */
+ 121              	        .equ    PMC_SR,         0x68        /* PMC_SR Offset */
+ 122              	        .equ    PMC_MOSCEN,     (1<<0)      /* Main Oscillator Enable */
+ 123              	        .equ    PMC_OSCBYPASS,  (1<<1)      /* Main Oscillator Bypass */
+ 124              	        .equ    PMC_OSCOUNT,    (0xFF<<8)   /* Main OScillator Start-up Time */
+ 125              	        .equ    PMC_DIV,        (0xFF<<0)   /* PLL Divider */
+ 126              	        .equ    PMC_PLLCOUNT,   (0x3F<<8)   /* PLL Lock Counter */
+ 127              	        .equ    PMC_OUT,        (0x03<<14)  /* PLL Clock Frequency Range */
+ 128              	        .equ    PMC_MUL,        (0x7FF<<16) /* PLL Multiplier */
+ 129              	        .equ    PMC_USBDIV,     (0x03<<28)  /* USB Clock Divider */
+ 130              	        .equ    PMC_CSS,        (3<<0)      /* Clock Source Selection */
+ 131              	        .equ    PMC_PRES,       (7<<2)      /* Prescaler Selection */
+ 132              	        .equ    PMC_MOSCS,      (1<<0)      /* Main Oscillator Stable */
+ 133              	        .equ    PMC_LOCK,       (1<<2)      /* PLL Lock Status */
+ 134              	
+ 135              	/*
+ 136              	// <e> Power Mangement Controller (PMC)
+ 137              	//   <h> Main Oscillator
+ 138              	//     <o1.0>      MOSCEN: Main Oscillator Enable
+ 139              	//     <o1.1>      OSCBYPASS: Oscillator Bypass
+ 140              	//     <o1.8..15>  OSCCOUNT: Main Oscillator Startup Time <0-255>
+ 141              	//   </h>
+ 142              	//   <h> Phase Locked Loop (PLL)
+ 143              	//     <o2.0..7>   DIV: PLL Divider <0-255>
+ 144              	//     <o2.16..26> MUL: PLL Multiplier <0-2047>
+ 145              	//                 <i> PLL Output is multiplied by MUL+1
+ 146              	//     <o2.14..15> OUT: PLL Clock Frequency Range
+ 147              	//                 <0=> 80..160MHz  <1=> Reserved
+ 148              	//                 <2=> 150..220MHz <3=> Reserved
+ 149              	//     <o2.8..13>  PLLCOUNT: PLL Lock Counter <0-63>
+ 150              	//     <o2.28..29> USBDIV: USB Clock Divider
+ 151              	//                 <0=> None  <1=> 2  <2=> 4  <3=> Reserved
+ 152              	//   </h>
+ 153              	//   <o3.0..1>   CSS: Clock Source Selection
+ 154              	//               <0=> Slow Clock
+ 155              	//               <1=> Main Clock
+ 156              	//               <2=> Reserved
+ 157              	//               <3=> PLL Clock
+ 158              	//   <o3.2..4>   PRES: Prescaler
+ 159              	//               <0=> None
+ 160              	//               <1=> Clock / 2    <2=> Clock / 4
+ 161              	//               <3=> Clock / 8    <4=> Clock / 16
+ 162              	//               <5=> Clock / 32   <6=> Clock / 64
+ 163              	//               <7=> Reserved
+ 164              	// </e>
+ 165              	*/
+ 166              	        .equ    PMC_SETUP,      1
+ 167              	        .equ    PMC_MOR_Val,    0x00000601
+ 168              	        .equ    PMC_PLLR_Val,   0x00191C05
+ 169              	        .equ    PMC_MCKR_Val,   0x00000007
+ 170              	
+ 171              	
+ 172              	
+ 173              	
+ 174              	#ifdef VECTORS_IN_RAM
+ 175              	
+ 176              	/* 
+ 177              	 Exception Vectors to be placed in RAM - added by mt
+ 178              	 -> will be used after remapping
+ 179              	 Mapped to Address 0 after remapping.
+ 180              	 Absolute addressing mode must be used.
+ 181              	 Dummy Handlers are implemented as infinite loops which can be modified.
+ 182              	 VECTORS_IN_RAM defined in makefile/by commandline 
+ 183              	*/
+ 184              				.text
+ 185              				.arm
+ 186              				.section .vectram, "ax"
+ 187              				
+ 188 0000 18F09FE5 	VectorsRAM:     LDR     PC,Reset_AddrR
+ 189 0004 18F09FE5 	                LDR     PC,Undef_AddrR
+ 190 0008 18F09FE5 	                LDR     PC,SWI_AddrR
+ 191 000c 18F09FE5 	                LDR     PC,PAbt_AddrR
+ 192 0010 18F09FE5 	                LDR     PC,DAbt_AddrR
+ 193 0014 0000A0E1 	                NOP                            /* Reserved Vector */
+ 194 0018 20FF1FE5 	                LDR     PC,[PC,#-0xF20]        /* Vector From AIC_IVR */
+ 195 001c 20FF1FE5 	                LDR     PC,[PC,#-0xF20]        /* Vector From AIC_FVR */
+ 196              	
+ 197 0020 04000000 	Reset_AddrR:     .word   Reset_Handler
+ 198 0024 40000000 	Undef_AddrR:     .word   Undef_HandlerR
+ 199 0028 44000000 	SWI_AddrR:       .word   SWI_HandlerR
+ 200 002c 48000000 	PAbt_AddrR:      .word   PAbt_HandlerR
+ 201 0030 4C000000 	DAbt_AddrR:      .word   DAbt_HandlerR
+ 202              	//               .word   0xdeadbeef     /* Test Reserved Address */
+ 203 0034 00000000 	                 .word   0     /* Reserved Address */
+ 204 0038 50000000 	IRQ_AddrR:       .word   IRQ_HandlerR
+ 205 003c 54000000 	FIQ_AddrR:       .word   FIQ_HandlerR
+ 206              	
+ 207 0040 0E0000EA 	Undef_HandlerR:  B       Undef_HandlerR
+ 208 0044 0F0000EA 	SWI_HandlerR:    B       SWI_HandlerR
+ 209 0048 100000EA 	PAbt_HandlerR:   B       PAbt_HandlerR
+ 210 004c 110000EA 	DAbt_HandlerR:   B       DAbt_HandlerR
+ 211 0050 120000EA 	IRQ_HandlerR:    B       IRQ_HandlerR
+ 212 0054 130000EA 	FIQ_HandlerR:    B       FIQ_HandlerR
+ 213              	
+ 214              	#endif /* VECTORS_IN_RAM */
+ 215              	
+ 216              	
+ 217              	
+ 218              	/*
+ 219              	 Exception Vectors in ROM 
+ 220              	 -> will be used during startup if remapping is done
+ 221              	 -> will be used "always" in code without remapping
+ 222              	 Mapped to Address 0.
+ 223              	 Absolute addressing mode must be used.
+ 224              	 Dummy Handlers are implemented as infinite loops which can be modified.
+ 225              	*/
+ 226              				.text
+ 227              				.arm
+ 228              				.section .vectrom, "ax"
+ 229              	
+ 230 0000 18F09FE5 	Vectors:        LDR     PC,Reset_Addr         
+ 231 0004 18F09FE5 	                LDR     PC,Undef_Addr
+ 232 0008 18F09FE5 	                LDR     PC,SWI_Addr
+ 233 000c 18F09FE5 	                LDR     PC,PAbt_Addr
+ 234 0010 18F09FE5 	                LDR     PC,DAbt_Addr
+ 235 0014 0000A0E1 	                NOP                            /* Reserved Vector */
+ 236              	//                LDR     PC,IRQ_Addr
+ 237 0018 20FF1FE5 	                LDR     PC,[PC,#-0xF20]        /* Vector From AIC_IVR */
+ 238              	//                LDR     PC,FIQ_Addr
+ 239 001c 20FF1FE5 	                LDR     PC,[PC,#-0xF20]        /* Vector From AIC_FVR */
+ 240              	
+ 241 0020 04000000 	Reset_Addr:     .word   Reset_Handler
+ 242 0024 40000000 	Undef_Addr:     .word   Undef_Handler
+ 243 0028 44000000 	SWI_Addr:       .word   SWI_Handler
+ 244 002c 48000000 	PAbt_Addr:      .word   PAbt_Handler
+ 245 0030 4C000000 	DAbt_Addr:      .word   DAbt_Handler
+ 246 0034 00000000 	                .word   0                      /* Reserved Address */
+ 247 0038 50000000 	IRQ_Addr:       .word   IRQ_Handler
+ 248 003c 54000000 	FIQ_Addr:       .word   FIQ_Handler
+ 249              	
+ 250 0040 0E0000EA 	Undef_Handler:  B       Undef_Handler
+ 251 0044 0F0000EA 	SWI_Handler:    B       SWI_Handler
+ 252 0048 100000EA 	PAbt_Handler:   B       PAbt_Handler
+ 253 004c 110000EA 	DAbt_Handler:   B       DAbt_Handler
+ 254 0050 120000EA 	IRQ_Handler:    B       IRQ_Handler
+ 255 0054 130000EA 	FIQ_Handler:    B       FIQ_Handler
+ 256              	
+ 257              	
+ 258              	// Starupt Code must be linked first at Address at which it expects to run.
+ 259              	
+ 260              			.text
+ 261              			.arm
+ 262              			.section .init, "ax"
+ 263              		
+ 264              			.global _startup
+ 265              			.func   _startup
+ 266              	_startup:
+ 267              	
+ 268              	
+ 269              	// Reset Handler
+ 270 0000 20F19FE5 	                LDR     pc, =Reset_Handler
+ 271              	Reset_Handler:
+ 272              	
+ 273              	// Setup EFC
+ 274              	.if EFC_SETUP
+ 275 0004 FF00E0E3 	                LDR     R0, =EFC_BASE
+ 276 0008 1C119FE5 	                LDR     R1, =EFC_FMR_Val
+ 277 000c 601080E5 	                STR     R1, [R0, #EFC_FMR]
+ 278              	.endif
+ 279              	
+ 280              	
+ 281              	// Setup WDT
+ 282              	.if WDT_SETUP
+ 283 0010 18019FE5 	                LDR     R0, =WDT_BASE
+ 284 0014 0219A0E3 	                LDR     R1, =WDT_MR_Val
+ 285 0018 041080E5 	                STR     R1, [R0, #WDT_MR]
+ 286              	.endif
+ 287              	
+ 288              	
+ 289              	// Setup PMC
+ 290              	.if PMC_SETUP
+ 291 001c 10019FE5 	                LDR     R0, =PMC_BASE
+ 292              	
+ 293              	//  Setup Main Oscillator
+ 294 0020 10119FE5 	                LDR     R1, =PMC_MOR_Val
+ 295 0024 201080E5 	                STR     R1, [R0, #PMC_MOR]
+ 296              	
+ 297              	//  Wait until Main Oscillator is stablilized
+ 298              	.if (PMC_MOR_Val & PMC_MOSCEN)
+ 299 0028 682090E5 	MOSCS_Loop:     LDR     R2, [R0, #PMC_SR]
+ 300 002c 012012E2 	                ANDS    R2, R2, #PMC_MOSCS
+ 301 0030 0800000A 	                BEQ     MOSCS_Loop
+ 302              	.endif
+ 303              	
+ 304              	//  Setup the PLL
+ 305              	.if (PMC_PLLR_Val & PMC_MUL)
+ 306 0034 00119FE5 	                LDR     R1, =PMC_PLLR_Val
+ 307 0038 2C1080E5 	                STR     R1, [R0, #PMC_PLLR]
+ 308              	
+ 309              	//  Wait until PLL is stabilized
+ 310 003c 682090E5 	PLL_Loop:       LDR     R2, [R0, #PMC_SR]
+ 311 0040 042012E2 	                ANDS    R2, R2, #PMC_LOCK
+ 312 0044 0D00000A 	                BEQ     PLL_Loop
+ 313              	.endif
+ 314              	
+ 315              	//  Select Clock
+ 316 0048 0710A0E3 	                LDR     R1, =PMC_MCKR_Val
+ 317 004c 301080E5 	                STR     R1, [R0, #PMC_MCKR]
+ 318              	.endif
+ 319              	
+ 320              	
+ 321              	// Setup Stack for each mode
+ 322              	
+ 323 0050 8109A0E3 	                LDR     R0, =Top_Stack
+ 324              	
+ 325              	//  Enter Undefined Instruction Mode and set its Stack Pointer
+ 326 0054 DBF021E3 	                MSR     CPSR_c, #Mode_UND|I_Bit|F_Bit
+ 327 0058 00D0A0E1 	                MOV     SP, R0
+ 328 005c 040040E2 	                SUB     R0, R0, #UND_Stack_Size
+ 329              	
+ 330              	//  Enter Abort Mode and set its Stack Pointer
+ 331 0060 D7F021E3 	                MSR     CPSR_c, #Mode_ABT|I_Bit|F_Bit
+ 332 0064 00D0A0E1 	                MOV     SP, R0
+ 333 0068 040040E2 	                SUB     R0, R0, #ABT_Stack_Size
+ 334              	
+ 335              	//  Enter FIQ Mode and set its Stack Pointer
+ 336 006c D1F021E3 	                MSR     CPSR_c, #Mode_FIQ|I_Bit|F_Bit
+ 337 0070 00D0A0E1 	                MOV     SP, R0
+ 338 0074 040040E2 	                SUB     R0, R0, #FIQ_Stack_Size
+ 339              	
+ 340              	//  Enter IRQ Mode and set its Stack Pointer
+ 341 0078 D2F021E3 	                MSR     CPSR_c, #Mode_IRQ|I_Bit|F_Bit
+ 342 007c 00D0A0E1 	                MOV     SP, R0
+ 343 0080 010C40E2 	                SUB     R0, R0, #IRQ_Stack_Size
+ 344              	
+ 345              	//  Enter Supervisor Mode and set its Stack Pointer
+ 346 0084 D3F021E3 	                MSR     CPSR_c, #Mode_SVC|I_Bit|F_Bit
+ 347 0088 00D0A0E1 	                MOV     SP, R0
+ 348 008c 010C40E2 	                SUB     R0, R0, #SVC_Stack_Size
+ 349              	
+ 350              	//  Enter User Mode and set its Stack Pointer
+ 351 0090 10F021E3 	                MSR     CPSR_c, #Mode_USR
+ 352 0094 00D0A0E1 	                MOV     SP, R0
+ 353              	
+ 354              	// Setup a default Stack Limit (when compiled with "-mapcs-stack-check")
+ 355 0098 01AB4DE2 	                SUB     SL, SP, #USR_Stack_Size
+ 356              	
+ 357              	
+ 358              	// Relocate .data section (Copy from ROM to RAM)
+ 359 009c 9C109FE5 	                LDR     R1, =_etext
+ 360 00a0 9C209FE5 	                LDR     R2, =_data
+ 361 00a4 9C309FE5 	                LDR     R3, =_edata
+ 362 00a8 030052E1 	LoopRel:        CMP     R2, R3
+ 363 00ac 04009134 	                LDRLO   R0, [R1], #4
+ 364 00b0 04008234 	                STRLO   R0, [R2], #4
+ 365 00b4 2800003A 	                BLO     LoopRel
+ 366              	
+ 367              	
+ 368              	// Clear .bss section (Zero init)
+ 369 00b8 0000A0E3 	                MOV     R0, #0
+ 370 00bc 88109FE5 	                LDR     R1, =__bss_start__
+ 371 00c0 88209FE5 	                LDR     R2, =__bss_end__
+ 372 00c4 020051E1 	LoopZI:         CMP     R1, R2
+ 373 00c8 04008134 	                STRLO   R0, [R1], #4
+ 374 00cc 2F00003A 	                BLO     LoopZI
+ 375              	
+ 376              	
+ 377              	#ifdef VECTORS_IN_RAM
+ 378              	/* 
+ 379              	   remap - exception vectors for RAM have been already copied 
+ 380              	   to 0x00200000 by the .data copy-loop 
+ 381              	*/
+ 382              					.equ    MC_BASE,0xFFFFFF00  /* MC Base Address */
+ 383              					.equ    MC_RCR, 0x00        /* MC_RCR Offset */
+ 384              	
+ 385 00d0 FF00E0E3 					LDR     R0, =MC_BASE
+ 386 00d4 0110A0E3 					MOV     R1, #1
+ 387 00d8 001080E5 					STR     R1, [R0, #MC_RCR]   // Remap
+ 388              	#endif /* VECTORS_IN_RAM */
+ 389              	
+ 390              	
+ 391              	/*
+ 392              	   Call C++ constructors (for objects in "global scope")
+ 393              	   added by Martin Thomas based on a Anglia Design 
+ 394              	   example-application for STR7 ARM
+ 395              	*/
+ 396              	
+ 397 00dc 70009FE5 				LDR 	r0, =__ctors_start__
+ 398 00e0 70109FE5 				LDR 	r1, =__ctors_end__
+ 399              	ctor_loop:
+ 400 00e4 010050E1 				CMP 	r0, r1
+ 401 00e8 3F00000A 				BEQ 	ctor_end
+ 402 00ec 042090E4 				LDR 	r2, [r0], #4   /* this ctor's address */
+ 403 00f0 03002DE9 				STMFD 	sp!, {r0-r1}   /* save loop counters  */
+ 404 00f4 0FE0A0E1 				MOV 	lr, pc         /* set return address  */
+ 405              	//			MOV 	pc, r2
+ 406 00f8 12FF2FE1 				BX      r2             /* call ctor */
+ 407 00fc 0300BDE8 				LDMFD 	sp!, {r0-r1}   /* restore loop counters */
+ 408 0100 370000EA 				B 		ctor_loop
+ 409              	ctor_end:
+ 410              	
+ 411              	       
+ 412              	// Enter the C code
+ 413 0104 0000A0E3 					mov   r0,#0            // no arguments (argc = 0)
+ 414 0108 0010A0E1 					mov   r1,r0
+ 415 010c 0020A0E1 					mov   r2,r0
+ 416 0110 00B0A0E1 					mov   fp,r0            // null frame pointer
+ 417 0114 0070A0E1 					mov   r7,r0            // null frame pointer for thumb
+ 418 0118 3CA09FE5 					ldr   r10,=main
+ 419 011c 00E08FE2 					adr   lr, __main_exit
+ 420 0120 1AFF2FE1 					bx    r10              // enter main()
+ 421              	
+ 422 0124 470000EA 	__main_exit:    B       __main_exit
+ 423              	
+ 424              	
+ 426              					.endfunc
+ 427              	
+ 428 0128 04000000 	.end
+ 428      00013200 
+ 428      40FDFFFF 
+ 428      00FCFFFF 
+ 428      01060000 
+DEFINED SYMBOLS
+                            *ABS*:00000000 startup_SAM7S.S
+     startup_SAM7S.S:37     *ABS*:00000010 Mode_USR
+     startup_SAM7S.S:38     *ABS*:00000011 Mode_FIQ
+     startup_SAM7S.S:39     *ABS*:00000012 Mode_IRQ
+     startup_SAM7S.S:40     *ABS*:00000013 Mode_SVC
+     startup_SAM7S.S:41     *ABS*:00000017 Mode_ABT
+     startup_SAM7S.S:42     *ABS*:0000001b Mode_UND
+     startup_SAM7S.S:43     *ABS*:0000001f Mode_SYS
+     startup_SAM7S.S:45     *ABS*:00000080 I_Bit
+     startup_SAM7S.S:46     *ABS*:00000040 F_Bit
+     startup_SAM7S.S:50     *ABS*:00100000 FLASH_BASE
+     startup_SAM7S.S:51     *ABS*:00200000 RAM_BASE
+     startup_SAM7S.S:67     *ABS*:00204000 Top_Stack
+     startup_SAM7S.S:68     *ABS*:00000004 UND_Stack_Size
+     startup_SAM7S.S:69     *ABS*:00000100 SVC_Stack_Size
+     startup_SAM7S.S:70     *ABS*:00000004 ABT_Stack_Size
+     startup_SAM7S.S:71     *ABS*:00000004 FIQ_Stack_Size
+     startup_SAM7S.S:72     *ABS*:00000100 IRQ_Stack_Size
+     startup_SAM7S.S:73     *ABS*:00000400 USR_Stack_Size
+     startup_SAM7S.S:77     *ABS*:ffffff00 EFC_BASE
+     startup_SAM7S.S:78     *ABS*:00000060 EFC_FMR
+     startup_SAM7S.S:91     *ABS*:00000001 EFC_SETUP
+     startup_SAM7S.S:92     *ABS*:00320100 EFC_FMR_Val
+     startup_SAM7S.S:96     *ABS*:fffffd40 WDT_BASE
+     startup_SAM7S.S:97     *ABS*:00000004 WDT_MR
+     startup_SAM7S.S:111    *ABS*:00000001 WDT_SETUP
+     startup_SAM7S.S:112    *ABS*:00008000 WDT_MR_Val
+     startup_SAM7S.S:116    *ABS*:fffffc00 PMC_BASE
+     startup_SAM7S.S:117    *ABS*:00000020 PMC_MOR
+     startup_SAM7S.S:118    *ABS*:00000024 PMC_MCFR
+     startup_SAM7S.S:119    *ABS*:0000002c PMC_PLLR
+     startup_SAM7S.S:120    *ABS*:00000030 PMC_MCKR
+     startup_SAM7S.S:121    *ABS*:00000068 PMC_SR
+     startup_SAM7S.S:122    *ABS*:00000001 PMC_MOSCEN
+     startup_SAM7S.S:123    *ABS*:00000002 PMC_OSCBYPASS
+     startup_SAM7S.S:124    *ABS*:0000ff00 PMC_OSCOUNT
+     startup_SAM7S.S:125    *ABS*:000000ff PMC_DIV
+     startup_SAM7S.S:126    *ABS*:00003f00 PMC_PLLCOUNT
+     startup_SAM7S.S:127    *ABS*:0000c000 PMC_OUT
+     startup_SAM7S.S:128    *ABS*:07ff0000 PMC_MUL
+     startup_SAM7S.S:129    *ABS*:30000000 PMC_USBDIV
+     startup_SAM7S.S:130    *ABS*:00000003 PMC_CSS
+     startup_SAM7S.S:131    *ABS*:0000001c PMC_PRES
+     startup_SAM7S.S:132    *ABS*:00000001 PMC_MOSCS
+     startup_SAM7S.S:133    *ABS*:00000004 PMC_LOCK
+     startup_SAM7S.S:166    *ABS*:00000001 PMC_SETUP
+     startup_SAM7S.S:167    *ABS*:00000601 PMC_MOR_Val
+     startup_SAM7S.S:168    *ABS*:00191c05 PMC_PLLR_Val
+     startup_SAM7S.S:169    *ABS*:00000007 PMC_MCKR_Val
+     startup_SAM7S.S:185    .text:00000000 $a
+     startup_SAM7S.S:188    .vectram:00000000 VectorsRAM
+     startup_SAM7S.S:188    .vectram:00000000 $a
+     startup_SAM7S.S:197    .vectram:00000020 Reset_AddrR
+     startup_SAM7S.S:198    .vectram:00000024 Undef_AddrR
+     startup_SAM7S.S:199    .vectram:00000028 SWI_AddrR
+     startup_SAM7S.S:200    .vectram:0000002c PAbt_AddrR
+     startup_SAM7S.S:201    .vectram:00000030 DAbt_AddrR
+     startup_SAM7S.S:197    .vectram:00000020 $d
+     startup_SAM7S.S:271    .init:00000004 Reset_Handler
+     startup_SAM7S.S:207    .vectram:00000040 Undef_HandlerR
+     startup_SAM7S.S:208    .vectram:00000044 SWI_HandlerR
+     startup_SAM7S.S:209    .vectram:00000048 PAbt_HandlerR
+     startup_SAM7S.S:210    .vectram:0000004c DAbt_HandlerR
+     startup_SAM7S.S:204    .vectram:00000038 IRQ_AddrR
+     startup_SAM7S.S:211    .vectram:00000050 IRQ_HandlerR
+     startup_SAM7S.S:205    .vectram:0000003c FIQ_AddrR
+     startup_SAM7S.S:212    .vectram:00000054 FIQ_HandlerR
+     startup_SAM7S.S:207    .vectram:00000040 $a
+     startup_SAM7S.S:230    .vectrom:00000000 Vectors
+     startup_SAM7S.S:230    .vectrom:00000000 $a
+     startup_SAM7S.S:241    .vectrom:00000020 Reset_Addr
+     startup_SAM7S.S:242    .vectrom:00000024 Undef_Addr
+     startup_SAM7S.S:243    .vectrom:00000028 SWI_Addr
+     startup_SAM7S.S:244    .vectrom:0000002c PAbt_Addr
+     startup_SAM7S.S:245    .vectrom:00000030 DAbt_Addr
+     startup_SAM7S.S:241    .vectrom:00000020 $d
+     startup_SAM7S.S:250    .vectrom:00000040 Undef_Handler
+     startup_SAM7S.S:251    .vectrom:00000044 SWI_Handler
+     startup_SAM7S.S:252    .vectrom:00000048 PAbt_Handler
+     startup_SAM7S.S:253    .vectrom:0000004c DAbt_Handler
+     startup_SAM7S.S:247    .vectrom:00000038 IRQ_Addr
+     startup_SAM7S.S:254    .vectrom:00000050 IRQ_Handler
+     startup_SAM7S.S:248    .vectrom:0000003c FIQ_Addr
+     startup_SAM7S.S:255    .vectrom:00000054 FIQ_Handler
+     startup_SAM7S.S:250    .vectrom:00000040 $a
+     startup_SAM7S.S:266    .init:00000000 _startup
+     startup_SAM7S.S:270    .init:00000000 $a
+     startup_SAM7S.S:299    .init:00000028 MOSCS_Loop
+     startup_SAM7S.S:310    .init:0000003c PLL_Loop
+     startup_SAM7S.S:362    .init:000000a8 LoopRel
+     startup_SAM7S.S:372    .init:000000c4 LoopZI
+     startup_SAM7S.S:382    *ABS*:ffffff00 MC_BASE
+     startup_SAM7S.S:383    *ABS*:00000000 MC_RCR
+     startup_SAM7S.S:399    .init:000000e4 ctor_loop
+     startup_SAM7S.S:409    .init:00000104 ctor_end
+     startup_SAM7S.S:422    .init:00000124 __main_exit
+     startup_SAM7S.S:428    .init:00000128 $d
+
+UNDEFINED SYMBOLS
+_etext
+_data
+_edata
+__bss_start__
+__bss_end__
+__ctors_start__
+__ctors_end__
+main

@@ -1,0 +1,17 @@
+Once downloaded, it will be necessary to uncompress this file.
+To do that, open a console in the directory containing this downloaded file and just type:
+
+tar xjvf arm-toolchain-linux-2.tar.bz2
+
+Move this newly created directory with the following command:
+
+sudo mv arm /usr/local/
+
+And modify the PATH of the system:
+
+echo 'export PATH=/usr/local/arm/bin:$PATH' >> ~/.profile
+
+When everything is done, it's necessary to logout your session, and login a new one. 
+By this way, the system will take your modifications in consideration.
+
+After that, you just have to type  arm-elf-gcc --version   to verify that the installation of your new compiler is OK.

@@ -1,0 +1,2260 @@
+   1              		.file	"main.c"
+   9              	.Ltext0:
+  10              		.align	2
+  11              		.global	at91_IRQ0_handler
+  13              	at91_IRQ0_handler:
+  14              	.LFB291:
+  15              		.file 1 "main.c"
+   1:main.c        **** //*----------------------------------------------------------------------------
+   2:main.c        **** //*         ATMEL Microcontroller Software Support  -  ROUSSET  -
+   3:main.c        **** //*----------------------------------------------------------------------------
+   4:main.c        **** //* The software is delivered "AS IS" without warranty or condition of any
+   5:main.c        **** //* kind, either express, implied or statutory. This includes without
+   6:main.c        **** //* limitation any warranty or condition with respect to merchantability or
+   7:main.c        **** //* fitness for any particular purpose, or against the infringements of
+   8:main.c        **** //* intellectual property rights of others.
+   9:main.c        **** //*----------------------------------------------------------------------------
+  10:main.c        **** //* File Name           : main.c
+  11:main.c        **** //* Object              : main application written in C
+  12:main.c        **** //* 1.0 24/Jun/04 JPP   : Creation
+  13:main.c        **** //* 1.1 21/Feb/05 JPP   : Update AT91C_RSTC_URSTEN
+  14:main.c        **** //* 1.2 29/Aug/05 JPP   : Update AIC definion
+  15:main.c        **** //* slightly modified for the WinARM example - M.Thomas (not Atmel)
+  16:main.c        **** //*----------------------------------------------------------------------------
+  17:main.c        **** 
+  18:main.c        **** // Include Standard files
+  19:main.c        **** #include "stdio.h"
+  20:main.c        **** #include "string.h"
+  21:main.c        **** 
+  22:main.c        **** // Include Standard LIB  files
+  23:main.c        **** #include "Board.h"
+  24:main.c        **** 
+  25:main.c        **** #include "interrupt_timer.h"
+  26:main.c        **** #include "cdc_enumerate.h"
+  27:main.c        **** 
+  28:main.c        **** //*   Waiting time between LED1 and LED2
+  29:main.c        **** #define     WAIT_TIME       MCK
+  30:main.c        **** 
+  31:main.c        **** #define PIO_INTERRUPT_LEVEL	6
+  32:main.c        **** #define IRQ0_INTERRUPT_LEVEL	2
+  33:main.c        **** #define SOFT_INTERRUPT_LEVEL	5
+  34:main.c        **** #define FIQ_INTERRUPT_LEVEL	0
+  35:main.c        **** 
+  36:main.c        **** #define MSG_SIZE        1000
+  37:main.c        **** 
+  38:main.c        **** char msg[MSG_SIZE];
+  39:main.c        **** static volatile unsigned int cnt;
+  40:main.c        **** static volatile unsigned int status_irq = 0 ;
+  41:main.c        **** 
+  42:main.c        **** // Use the Library Handler defined in file periph/pio/pio_irq/irq_pio.s
+  43:main.c        **** 
+  44:main.c        **** extern void FIQ_init_handler(void);
+  45:main.c        **** 
+  46:main.c        **** // External Function Prototype
+  47:main.c        **** extern void Usart_init (void);
+  48:main.c        **** 
+  49:main.c        **** struct _AT91S_CDC   pCDC;
+  50:main.c        **** 
+  51:main.c        **** void printTrace(char * trace)
+  52:main.c        **** {
+  53:main.c        ****     pCDC.Write(&pCDC, trace, strlen(trace));
+  54:main.c        **** }
+  55:main.c        **** 
+  56:main.c        **** //*----------------------------------------------------------------------------
+  57:main.c        **** //* Function Name       : at91_IRQ0_handler
+  58:main.c        **** //* Object              : Irq Handler called by the IRQ0 interrupt with AT91
+  59:main.c        **** //*                       compatibility
+  60:main.c        **** //*----------------------------------------------------------------------------
+  61:main.c        **** __ramfunc void at91_IRQ0_handler(void)
+  62:main.c        **** {
+  16              		.loc 1 62 0
+  17              		@ Function supports interworking.
+  18              		@ args = 0, pretend = 0, frame = 0
+  19              		@ frame_needed = 0, uses_anonymous_args = 0
+  20              		@ link register save eliminated.
+  63:main.c        ****     status_irq = 1;
+  21              		.loc 1 63 0
+  22 0000 08309FE5 		ldr	r3, .L3
+  23 0004 0120A0E3 		mov	r2, #1
+  24              		.loc 1 62 0
+  25              		@ lr needed for prologue
+  26              		.loc 1 63 0
+  27 0008 002083E5 		str	r2, [r3, #0]
+  64:main.c        **** }
+  28              		.loc 1 64 0
+  29 000c 1EFF2FE1 		bx	lr
+  30              	.L4:
+  31              		.align	2
+  32              	.L3:
+  33 0010 00000000 		.word	status_irq
+  34              	.LFE291:
+  36              		.align	2
+  37              		.global	delay
+  39              	delay:
+  40              	.LFB295:
+  65:main.c        **** 
+  66:main.c        **** //*----------------------------------------------------------------------------
+  67:main.c        **** //* Function Name       : aic_software_interrupt
+  68:main.c        **** //* Object              : Software interrupt function
+  69:main.c        **** //* Input Parameters    : none
+  70:main.c        **** //* Output Parameters   : none
+  71:main.c        **** //* Functions called    : at91_pio_write
+  72:main.c        **** //*----------------------------------------------------------------------------
+  73:main.c        **** __ramfunc void aic_software_interrupt(void)
+  74:main.c        **** {
+  75:main.c        ****     //* Read the output state
+  76:main.c        ****     if ( (AT91F_PIO_GetInput(AT91C_BASE_PIOA) & LED2 ) == LED2 )
+  77:main.c        ****     {
+  78:main.c        ****         AT91F_PIO_ClearOutput( AT91C_BASE_PIOA, LED2 );
+  79:main.c        ****     }
+  80:main.c        ****     else
+  81:main.c        ****     {
+  82:main.c        ****         AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED2 );
+  83:main.c        ****     }
+  84:main.c        **** }
+  85:main.c        **** 
+  86:main.c        **** //*----------------------------------------------------------------------------
+  87:main.c        **** //* Function Name       : pio_c_irq_handler
+  88:main.c        **** //* Object              : Irq Handler called by the irq_pio.s
+  89:main.c        **** //* Input Parameters    : none
+  90:main.c        **** //* Output Parameters   : none
+  91:main.c        **** //* Functions called    : at91_pio_read, at91_pio_write
+  92:main.c        **** //*----------------------------------------------------------------------------
+  93:main.c        **** __ramfunc void pio_c_irq_handler ( void )
+  94:main.c        **** {
+  95:main.c        **** int dummy;
+  96:main.c        ****     //* Read the output state
+  97:main.c        ****     if ( (AT91F_PIO_GetInput(AT91C_BASE_PIOA) & LED2 ) == LED2 )
+  98:main.c        ****     {
+  99:main.c        ****        AT91F_PIO_ClearOutput( AT91C_BASE_PIOA, LED2);
+ 100:main.c        ****     }
+ 101:main.c        ****     else
+ 102:main.c        ****     {
+ 103:main.c        ****           AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED2);
+ 104:main.c        ****     }
+ 105:main.c        ****     //* enable the next PIO IRQ
+ 106:main.c        ****     dummy =AT91C_BASE_PIOA->PIO_ISR;
+ 107:main.c        ****     //* suppress the compilation warning
+ 108:main.c        ****     dummy =dummy;
+ 109:main.c        ****     //* while SW1 is push wait
+ 110:main.c        ****     while ( (AT91F_PIO_GetInput(AT91C_BASE_PIOA) & SW1_MASK ) != SW1_MASK );
+ 111:main.c        **** }
+ 112:main.c        **** 
+ 113:main.c        **** //*----------------------------------------------------------------------------
+ 114:main.c        **** //* \fn    AT91F_USB_Open
+ 115:main.c        **** //* \brief This function Open the USB device
+ 116:main.c        **** //*----------------------------------------------------------------------------
+ 117:main.c        **** void AT91F_USB_Open(void)
+ 118:main.c        **** {
+ 119:main.c        ****     // Set the PLL USB Divider
+ 120:main.c        ****     AT91C_BASE_CKGR->CKGR_PLLR |= AT91C_CKGR_USBDIV_1 ;
+ 121:main.c        **** 
+ 122:main.c        ****     // Specific Chip USB Initialisation
+ 123:main.c        ****     // Enables the 48MHz USB clock UDPCK and System Peripheral USB Clock
+ 124:main.c        ****     AT91C_BASE_PMC->PMC_SCER = AT91C_PMC_UDP;
+ 125:main.c        ****     AT91C_BASE_PMC->PMC_PCER = (1 << AT91C_ID_UDP);
+ 126:main.c        **** 
+ 127:main.c        ****     // Enable UDP PullUp (USB_DP_PUP) : enable & Clear of the corresponding PIO
+ 128:main.c        ****     // Set in PIO mode and Configure in Output
+ 129:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA,AT91C_PIO_PA16);
+ 130:main.c        ****     // Clear for set the Pul up resistor
+ 131:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA,AT91C_PIO_PA16);
+ 132:main.c        **** 
+ 133:main.c        ****     // CDC Open by structure initialization
+ 134:main.c        ****     AT91F_CDC_Open(&pCDC, AT91C_BASE_UDP);
+ 135:main.c        **** }
+ 136:main.c        **** 
+ 137:main.c        **** //*----------------------------------------------------------------------------
+ 138:main.c        **** //* Function Name       : delay
+ 139:main.c        **** //* Object              : Wait
+ 140:main.c        **** //* Input Parameters    : none
+ 141:main.c        **** //* Output Parameters   : none
+ 142:main.c        **** //* Functions called    : none
+ 143:main.c        **** //*----------------------------------------------------------------------------
+ 144:main.c        **** void delay(void)
+ 145:main.c        **** {
+  41              		.loc 1 145 0
+  42              		@ Function supports interworking.
+  43              		@ args = 0, pretend = 0, frame = 4
+  44              		@ frame_needed = 0, uses_anonymous_args = 0
+  45              		@ link register save eliminated.
+  46 0014 04D04DE2 		sub	sp, sp, #4
+  47              	.LCFI0:
+ 146:main.c        **** //* Set in Volatile for Optimisation
+ 147:main.c        ****     volatile unsigned int    i ;
+ 148:main.c        **** //* loop delay
+ 149:main.c        ****     for ( i = 0 ;(i < WAIT_TIME/100 );i++ ) ;
+  48              		.loc 1 149 0
+  49 0018 0030A0E3 		mov	r3, #0
+  50              		.loc 1 145 0
+  51              		@ lr needed for prologue
+  52 001c 080000EA 		b	.L10
+  53              	.LVL0:
+  54              	.L7:
+  55              		.loc 1 149 0
+  56 0020 00309DE5 		ldr	r3, [sp, #0]
+  57 0024 013083E2 		add	r3, r3, #1
+  58              	.L10:
+  59 0028 00308DE5 		str	r3, [sp, #0]
+  60 002c 00209DE5 		ldr	r2, [sp, #0]
+  61 0030 0C309FE5 		ldr	r3, .L11
+  62 0034 030052E1 		cmp	r2, r3
+  63 0038 0600009A 		bls	.L7
+ 150:main.c        **** }
+  64              		.loc 1 150 0
+  65 003c 04D08DE2 		add	sp, sp, #4
+  66 0040 1EFF2FE1 		bx	lr
+  67              	.L12:
+  68              		.align	2
+  69              	.L11:
+  70 0044 23550700 		.word	480547
+  71              	.LFE295:
+  73              		.align	2
+  74              		.global	Delay
+  76              	Delay:
+  77              	.LFB296:
+ 151:main.c        **** 
+ 152:main.c        **** void Delay(int delayVal)
+ 153:main.c        **** {
+  78              		.loc 1 153 0
+  79              		@ Function supports interworking.
+  80              		@ args = 0, pretend = 0, frame = 4
+  81              		@ frame_needed = 0, uses_anonymous_args = 0
+  82              		@ link register save eliminated.
+  83              	.LVL1:
+  84 0048 04D04DE2 		sub	sp, sp, #4
+  85              	.LCFI1:
+ 154:main.c        ****   volatile unsigned int waiting_time ;
+ 155:main.c        ****   for(waiting_time = 0; waiting_time < delayVal; waiting_time++) ;
+  86              		.loc 1 155 0
+  87 004c 0030A0E3 		mov	r3, #0
+  88              		.loc 1 153 0
+  89              		@ lr needed for prologue
+  90 0050 150000EA 		b	.L18
+  91              	.LVL2:
+  92              	.L15:
+  93              		.loc 1 155 0
+  94 0054 00309DE5 		ldr	r3, [sp, #0]
+  95 0058 013083E2 		add	r3, r3, #1
+  96              	.L18:
+  97 005c 00308DE5 		str	r3, [sp, #0]
+  98 0060 00309DE5 		ldr	r3, [sp, #0]
+  99 0064 000053E1 		cmp	r3, r0
+ 100 0068 1300003A 		bcc	.L15
+ 156:main.c        **** }
+ 101              		.loc 1 156 0
+ 102 006c 04D08DE2 		add	sp, sp, #4
+ 103 0070 1EFF2FE1 		bx	lr
+ 104              	.LFE296:
+ 106              		.align	2
+ 107              		.global	printTrace
+ 109              	printTrace:
+ 110              	.LFB290:
+ 111              		.loc 1 52 0
+ 112              		@ Function supports interworking.
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 0, uses_anonymous_args = 0
+ 115              	.LVL3:
+ 116 0074 30402DE9 		stmfd	sp!, {r4, r5, lr}
+ 117              	.LCFI2:
+ 118              		.loc 1 52 0
+ 119 0078 0050A0E1 		mov	r5, r0
+ 120              		.loc 1 53 0
+ 121 007c FEFFFFEB 		bl	strlen
+ 122              	.LVL4:
+ 123 0080 1C409FE5 		ldr	r4, .L21
+ 124 0084 0020A0E1 		mov	r2, r0
+ 125 0088 0510A0E1 		mov	r1, r5
+ 126 008c 0400A0E1 		mov	r0, r4
+ 127 0090 10C094E5 		ldr	ip, [r4, #16]
+ 128 0094 0FE0A0E1 		mov	lr, pc
+ 129 0098 1CFF2FE1 		bx	ip
+ 130              		.loc 1 54 0
+ 131 009c 3040BDE8 		ldmfd	sp!, {r4, r5, lr}
+ 132 00a0 1EFF2FE1 		bx	lr
+ 133              	.L22:
+ 134              		.align	2
+ 135              	.L21:
+ 136 00a4 00000000 		.word	pCDC
+ 137              	.LFE290:
+ 139              		.align	2
+ 140              		.global	AT91F_USB_Open
+ 142              	AT91F_USB_Open:
+ 143              	.LFB294:
+ 144              		.loc 1 118 0
+ 145              		@ Function supports interworking.
+ 146              		@ args = 0, pretend = 0, frame = 0
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+ 148              		.loc 1 120 0
+ 149 00a8 032CE0E3 		mvn	r2, #768
+ 150 00ac D33012E5 		ldr	r3, [r2, #-211]
+ 151 00b0 013283E3 		orr	r3, r3, #268435456
+ 152 00b4 D33002E5 		str	r3, [r2, #-211]
+ 153              		.loc 1 124 0
+ 154 00b8 8030A0E3 		mov	r3, #128
+ 155 00bc FF3002E5 		str	r3, [r2, #-255]
+ 156              	.LBB6:
+ 157              	.LBB7:
+ 158              		.file 2 "lib_AT91SAM7S64.h"
+   1:lib_AT91SAM7S64.h **** //* ----------------------------------------------------------------------------
+   2:lib_AT91SAM7S64.h **** //*         ATMEL Microcontroller Software Support  -  ROUSSET  -
+   3:lib_AT91SAM7S64.h **** //* ----------------------------------------------------------------------------
+   4:lib_AT91SAM7S64.h **** //* DISCLAIMER:  THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR
+   5:lib_AT91SAM7S64.h **** //* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+   6:lib_AT91SAM7S64.h **** //* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
+   7:lib_AT91SAM7S64.h **** //* DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT, INDIRECT,
+   8:lib_AT91SAM7S64.h **** //* INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+   9:lib_AT91SAM7S64.h **** //* LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+  10:lib_AT91SAM7S64.h **** //* OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+  11:lib_AT91SAM7S64.h **** //* LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+  12:lib_AT91SAM7S64.h **** //* NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+  13:lib_AT91SAM7S64.h **** //* EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  14:lib_AT91SAM7S64.h **** //* ----------------------------------------------------------------------------
+  15:lib_AT91SAM7S64.h **** //* File Name           : lib_AT91SAM7S64.h
+  16:lib_AT91SAM7S64.h **** //* Object              : AT91SAM7S64 inlined functions
+  17:lib_AT91SAM7S64.h **** //* Generated           : AT91 SW Application Group  08/30/2005 (15:52:59)
+  18:lib_AT91SAM7S64.h **** //*
+  19:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_dbgu.h/1.1/Thu Aug 25 12:56:22 2005//
+  20:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_pmc_SAM7S.h/1.4/Tue Aug 30 13:00:43 2005//
+  21:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_VREG_6085B.h/1.1/Tue Feb  1 16:20:47 2005//
+  22:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_rstc_6098A.h/1.1/Wed Oct  6 10:39:20 2004//
+  23:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_ssc.h/1.4/Fri Jan 31 12:19:20 2003//
+  24:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_wdtc_6080A.h/1.1/Wed Oct  6 10:38:30 2004//
+  25:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_usart.h/1.5/Thu Nov 21 16:01:54 2002//
+  26:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_spi2.h/1.2/Tue Aug 23 15:37:28 2005//
+  27:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_pitc_6079A.h/1.2/Tue Nov  9 14:43:56 2004//
+  28:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_aic_6075b.h/1.2/Thu Jul  7 07:48:22 2005//
+  29:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_twi.h/1.3/Mon Jul 19 14:27:58 2004//
+  30:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_adc.h/1.6/Fri Oct 17 09:12:38 2003//
+  31:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_rttc_6081A.h/1.1/Wed Oct  6 10:39:38 2004//
+  32:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_udp.h/1.5/Tue Aug 30 12:13:47 2005//
+  33:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_tc_1753b.h/1.1/Fri Jan 31 12:20:02 2003//
+  34:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_MC_SAM7S.h/1.1/Thu Mar 25 15:19:14 2004//
+  35:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_pio.h/1.3/Fri Jan 31 12:18:56 2003//
+  36:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_PWM_SAM.h/1.3/Thu Jan 22 10:10:50 2004//
+  37:lib_AT91SAM7S64.h **** //* CVS Reference       : /lib_pdc.h/1.2/Tue Jul  2 13:29:40 2002//
+  38:lib_AT91SAM7S64.h **** //* ----------------------------------------------------------------------------
+  39:lib_AT91SAM7S64.h **** 
+  40:lib_AT91SAM7S64.h **** #ifndef lib_AT91SAM7S64_H
+  41:lib_AT91SAM7S64.h **** #define lib_AT91SAM7S64_H
+  42:lib_AT91SAM7S64.h **** 
+  43:lib_AT91SAM7S64.h **** /* *****************************************************************************
+  44:lib_AT91SAM7S64.h ****                 SOFTWARE API FOR AIC
+  45:lib_AT91SAM7S64.h ****    ***************************************************************************** */
+  46:lib_AT91SAM7S64.h **** #define AT91C_AIC_BRANCH_OPCODE ((void (*) ()) 0xE51FFF20) // ldr, pc, [pc, #-&F20]
+  47:lib_AT91SAM7S64.h **** 
+  48:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+  49:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_ConfigureIt
+  50:lib_AT91SAM7S64.h **** //* \brief Interrupt Handler Initialization
+  51:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+  52:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_AIC_ConfigureIt (
+  53:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,  // \arg pointer to the AIC registers
+  54:lib_AT91SAM7S64.h **** 	unsigned int irq_id,     // \arg interrupt number to initialize
+  55:lib_AT91SAM7S64.h **** 	unsigned int priority,   // \arg priority to give to the interrupt
+  56:lib_AT91SAM7S64.h **** 	unsigned int src_type,   // \arg activation and sense of activation
+  57:lib_AT91SAM7S64.h **** 	void (*newHandler) () ) // \arg address of the interrupt handler
+  58:lib_AT91SAM7S64.h **** {
+  59:lib_AT91SAM7S64.h **** 	unsigned int oldHandler;
+  60:lib_AT91SAM7S64.h ****     unsigned int mask ;
+  61:lib_AT91SAM7S64.h **** 
+  62:lib_AT91SAM7S64.h ****     oldHandler = pAic->AIC_SVR[irq_id];
+  63:lib_AT91SAM7S64.h **** 
+  64:lib_AT91SAM7S64.h ****     mask = 0x1 << irq_id ;
+  65:lib_AT91SAM7S64.h ****     //* Disable the interrupt on the interrupt controller
+  66:lib_AT91SAM7S64.h ****     pAic->AIC_IDCR = mask ;
+  67:lib_AT91SAM7S64.h ****     //* Save the interrupt handler routine pointer and the interrupt priority
+  68:lib_AT91SAM7S64.h ****     pAic->AIC_SVR[irq_id] = (unsigned int) newHandler ;
+  69:lib_AT91SAM7S64.h ****     //* Store the Source Mode Register
+  70:lib_AT91SAM7S64.h ****     pAic->AIC_SMR[irq_id] = src_type | priority  ;
+  71:lib_AT91SAM7S64.h ****     //* Clear the interrupt on the interrupt controller
+  72:lib_AT91SAM7S64.h ****     pAic->AIC_ICCR = mask ;
+  73:lib_AT91SAM7S64.h **** 
+  74:lib_AT91SAM7S64.h **** 	return oldHandler;
+  75:lib_AT91SAM7S64.h **** }
+  76:lib_AT91SAM7S64.h **** 
+  77:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+  78:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_EnableIt
+  79:lib_AT91SAM7S64.h **** //* \brief Enable corresponding IT number
+  80:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+  81:lib_AT91SAM7S64.h **** __inline void AT91F_AIC_EnableIt (
+  82:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,      // \arg pointer to the AIC registers
+  83:lib_AT91SAM7S64.h **** 	unsigned int irq_id ) // \arg interrupt number to initialize
+  84:lib_AT91SAM7S64.h **** {
+  85:lib_AT91SAM7S64.h ****     //* Enable the interrupt on the interrupt controller
+  86:lib_AT91SAM7S64.h ****     pAic->AIC_IECR = 0x1 << irq_id ;
+  87:lib_AT91SAM7S64.h **** }
+  88:lib_AT91SAM7S64.h **** 
+  89:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+  90:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_DisableIt
+  91:lib_AT91SAM7S64.h **** //* \brief Disable corresponding IT number
+  92:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+  93:lib_AT91SAM7S64.h **** __inline void AT91F_AIC_DisableIt (
+  94:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,      // \arg pointer to the AIC registers
+  95:lib_AT91SAM7S64.h **** 	unsigned int irq_id ) // \arg interrupt number to initialize
+  96:lib_AT91SAM7S64.h **** {
+  97:lib_AT91SAM7S64.h ****     unsigned int mask = 0x1 << irq_id;
+  98:lib_AT91SAM7S64.h ****     //* Disable the interrupt on the interrupt controller
+  99:lib_AT91SAM7S64.h ****     pAic->AIC_IDCR = mask ;
+ 100:lib_AT91SAM7S64.h ****     //* Clear the interrupt on the Interrupt Controller ( if one is pending )
+ 101:lib_AT91SAM7S64.h ****     pAic->AIC_ICCR = mask ;
+ 102:lib_AT91SAM7S64.h **** }
+ 103:lib_AT91SAM7S64.h **** 
+ 104:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 105:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_ClearIt
+ 106:lib_AT91SAM7S64.h **** //* \brief Clear corresponding IT number
+ 107:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 108:lib_AT91SAM7S64.h **** __inline void AT91F_AIC_ClearIt (
+ 109:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,     // \arg pointer to the AIC registers
+ 110:lib_AT91SAM7S64.h **** 	unsigned int irq_id) // \arg interrupt number to initialize
+ 111:lib_AT91SAM7S64.h **** {
+ 112:lib_AT91SAM7S64.h ****     //* Clear the interrupt on the Interrupt Controller ( if one is pending )
+ 113:lib_AT91SAM7S64.h ****     pAic->AIC_ICCR = (0x1 << irq_id);
+ 114:lib_AT91SAM7S64.h **** }
+ 115:lib_AT91SAM7S64.h **** 
+ 116:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 117:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_AcknowledgeIt
+ 118:lib_AT91SAM7S64.h **** //* \brief Acknowledge corresponding IT number
+ 119:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 120:lib_AT91SAM7S64.h **** __inline void AT91F_AIC_AcknowledgeIt (
+ 121:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic)     // \arg pointer to the AIC registers
+ 122:lib_AT91SAM7S64.h **** {
+ 123:lib_AT91SAM7S64.h ****     pAic->AIC_EOICR = pAic->AIC_EOICR;
+ 124:lib_AT91SAM7S64.h **** }
+ 125:lib_AT91SAM7S64.h **** 
+ 126:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 127:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_SetExceptionVector
+ 128:lib_AT91SAM7S64.h **** //* \brief Configure vector handler
+ 129:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 130:lib_AT91SAM7S64.h **** __inline unsigned int  AT91F_AIC_SetExceptionVector (
+ 131:lib_AT91SAM7S64.h **** 	unsigned int *pVector, // \arg pointer to the AIC registers
+ 132:lib_AT91SAM7S64.h **** 	void (*Handler) () )   // \arg Interrupt Handler
+ 133:lib_AT91SAM7S64.h **** {
+ 134:lib_AT91SAM7S64.h **** 	unsigned int oldVector = *pVector;
+ 135:lib_AT91SAM7S64.h **** 
+ 136:lib_AT91SAM7S64.h **** 	if ((unsigned int) Handler == (unsigned int) AT91C_AIC_BRANCH_OPCODE)
+ 137:lib_AT91SAM7S64.h **** 		*pVector = (unsigned int) AT91C_AIC_BRANCH_OPCODE;
+ 138:lib_AT91SAM7S64.h **** 	else
+ 139:lib_AT91SAM7S64.h **** 		*pVector = (((((unsigned int) Handler) - ((unsigned int) pVector) - 0x8) >> 2) & 0x00FFFFFF) | 0x
+ 140:lib_AT91SAM7S64.h **** 
+ 141:lib_AT91SAM7S64.h **** 	return oldVector;
+ 142:lib_AT91SAM7S64.h **** }
+ 143:lib_AT91SAM7S64.h **** 
+ 144:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 145:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_Trig
+ 146:lib_AT91SAM7S64.h **** //* \brief Trig an IT
+ 147:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 148:lib_AT91SAM7S64.h **** __inline void  AT91F_AIC_Trig (
+ 149:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,     // \arg pointer to the AIC registers
+ 150:lib_AT91SAM7S64.h **** 	unsigned int irq_id) // \arg interrupt number
+ 151:lib_AT91SAM7S64.h **** {
+ 152:lib_AT91SAM7S64.h **** 	pAic->AIC_ISCR = (0x1 << irq_id) ;
+ 153:lib_AT91SAM7S64.h **** }
+ 154:lib_AT91SAM7S64.h **** 
+ 155:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 156:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_IsActive
+ 157:lib_AT91SAM7S64.h **** //* \brief Test if an IT is active
+ 158:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 159:lib_AT91SAM7S64.h **** __inline unsigned int  AT91F_AIC_IsActive (
+ 160:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,     // \arg pointer to the AIC registers
+ 161:lib_AT91SAM7S64.h **** 	unsigned int irq_id) // \arg Interrupt Number
+ 162:lib_AT91SAM7S64.h **** {
+ 163:lib_AT91SAM7S64.h **** 	return (pAic->AIC_ISR & (0x1 << irq_id));
+ 164:lib_AT91SAM7S64.h **** }
+ 165:lib_AT91SAM7S64.h **** 
+ 166:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 167:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_IsPending
+ 168:lib_AT91SAM7S64.h **** //* \brief Test if an IT is pending
+ 169:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 170:lib_AT91SAM7S64.h **** __inline unsigned int  AT91F_AIC_IsPending (
+ 171:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,     // \arg pointer to the AIC registers
+ 172:lib_AT91SAM7S64.h **** 	unsigned int irq_id) // \arg Interrupt Number
+ 173:lib_AT91SAM7S64.h **** {
+ 174:lib_AT91SAM7S64.h **** 	return (pAic->AIC_IPR & (0x1 << irq_id));
+ 175:lib_AT91SAM7S64.h **** }
+ 176:lib_AT91SAM7S64.h **** 
+ 177:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 178:lib_AT91SAM7S64.h **** //* \fn    AT91F_AIC_Open
+ 179:lib_AT91SAM7S64.h **** //* \brief Set exception vectors and AIC registers to default values
+ 180:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 181:lib_AT91SAM7S64.h **** __inline void AT91F_AIC_Open(
+ 182:lib_AT91SAM7S64.h **** 	AT91PS_AIC pAic,        // \arg pointer to the AIC registers
+ 183:lib_AT91SAM7S64.h **** 	void (*IrqHandler) (),  // \arg Default IRQ vector exception
+ 184:lib_AT91SAM7S64.h **** 	void (*FiqHandler) (),  // \arg Default FIQ vector exception
+ 185:lib_AT91SAM7S64.h **** 	void (*DefaultHandler)  (), // \arg Default Handler set in ISR
+ 186:lib_AT91SAM7S64.h **** 	void (*SpuriousHandler) (), // \arg Default Spurious Handler
+ 187:lib_AT91SAM7S64.h **** 	unsigned int protectMode)   // \arg Debug Control Register
+ 188:lib_AT91SAM7S64.h **** {
+ 189:lib_AT91SAM7S64.h **** 	int i;
+ 190:lib_AT91SAM7S64.h **** 
+ 191:lib_AT91SAM7S64.h **** 	// Disable all interrupts and set IVR to the default handler
+ 192:lib_AT91SAM7S64.h **** 	for (i = 0; i < 32; ++i) {
+ 193:lib_AT91SAM7S64.h **** 		AT91F_AIC_DisableIt(pAic, i);
+ 194:lib_AT91SAM7S64.h **** 		AT91F_AIC_ConfigureIt(pAic, i, AT91C_AIC_PRIOR_LOWEST, AT91C_AIC_SRCTYPE_HIGH_LEVEL, DefaultHandl
+ 195:lib_AT91SAM7S64.h **** 	}
+ 196:lib_AT91SAM7S64.h **** 
+ 197:lib_AT91SAM7S64.h **** 	// Set the IRQ exception vector
+ 198:lib_AT91SAM7S64.h **** 	AT91F_AIC_SetExceptionVector((unsigned int *) 0x18, IrqHandler);
+ 199:lib_AT91SAM7S64.h **** 	// Set the Fast Interrupt exception vector
+ 200:lib_AT91SAM7S64.h **** 	AT91F_AIC_SetExceptionVector((unsigned int *) 0x1C, FiqHandler);
+ 201:lib_AT91SAM7S64.h **** 
+ 202:lib_AT91SAM7S64.h **** 	pAic->AIC_SPU = (unsigned int) SpuriousHandler;
+ 203:lib_AT91SAM7S64.h **** 	pAic->AIC_DCR = protectMode;
+ 204:lib_AT91SAM7S64.h **** }
+ 205:lib_AT91SAM7S64.h **** /* *****************************************************************************
+ 206:lib_AT91SAM7S64.h ****                 SOFTWARE API FOR PDC
+ 207:lib_AT91SAM7S64.h ****    ***************************************************************************** */
+ 208:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 209:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_SetNextRx
+ 210:lib_AT91SAM7S64.h **** //* \brief Set the next receive transfer descriptor
+ 211:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 212:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_SetNextRx (
+ 213:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC,     // \arg pointer to a PDC controller
+ 214:lib_AT91SAM7S64.h **** 	char *address,       // \arg address to the next bloc to be received
+ 215:lib_AT91SAM7S64.h **** 	unsigned int bytes)  // \arg number of bytes to be received
+ 216:lib_AT91SAM7S64.h **** {
+ 217:lib_AT91SAM7S64.h **** 	pPDC->PDC_RNPR = (unsigned int) address;
+ 218:lib_AT91SAM7S64.h **** 	pPDC->PDC_RNCR = bytes;
+ 219:lib_AT91SAM7S64.h **** }
+ 220:lib_AT91SAM7S64.h **** 
+ 221:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 222:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_SetNextTx
+ 223:lib_AT91SAM7S64.h **** //* \brief Set the next transmit transfer descriptor
+ 224:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 225:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_SetNextTx (
+ 226:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC,       // \arg pointer to a PDC controller
+ 227:lib_AT91SAM7S64.h **** 	char *address,         // \arg address to the next bloc to be transmitted
+ 228:lib_AT91SAM7S64.h **** 	unsigned int bytes)    // \arg number of bytes to be transmitted
+ 229:lib_AT91SAM7S64.h **** {
+ 230:lib_AT91SAM7S64.h **** 	pPDC->PDC_TNPR = (unsigned int) address;
+ 231:lib_AT91SAM7S64.h **** 	pPDC->PDC_TNCR = bytes;
+ 232:lib_AT91SAM7S64.h **** }
+ 233:lib_AT91SAM7S64.h **** 
+ 234:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 235:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_SetRx
+ 236:lib_AT91SAM7S64.h **** //* \brief Set the receive transfer descriptor
+ 237:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 238:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_SetRx (
+ 239:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC,       // \arg pointer to a PDC controller
+ 240:lib_AT91SAM7S64.h **** 	char *address,         // \arg address to the next bloc to be received
+ 241:lib_AT91SAM7S64.h **** 	unsigned int bytes)    // \arg number of bytes to be received
+ 242:lib_AT91SAM7S64.h **** {
+ 243:lib_AT91SAM7S64.h **** 	pPDC->PDC_RPR = (unsigned int) address;
+ 244:lib_AT91SAM7S64.h **** 	pPDC->PDC_RCR = bytes;
+ 245:lib_AT91SAM7S64.h **** }
+ 246:lib_AT91SAM7S64.h **** 
+ 247:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 248:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_SetTx
+ 249:lib_AT91SAM7S64.h **** //* \brief Set the transmit transfer descriptor
+ 250:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 251:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_SetTx (
+ 252:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC,       // \arg pointer to a PDC controller
+ 253:lib_AT91SAM7S64.h **** 	char *address,         // \arg address to the next bloc to be transmitted
+ 254:lib_AT91SAM7S64.h **** 	unsigned int bytes)    // \arg number of bytes to be transmitted
+ 255:lib_AT91SAM7S64.h **** {
+ 256:lib_AT91SAM7S64.h **** 	pPDC->PDC_TPR = (unsigned int) address;
+ 257:lib_AT91SAM7S64.h **** 	pPDC->PDC_TCR = bytes;
+ 258:lib_AT91SAM7S64.h **** }
+ 259:lib_AT91SAM7S64.h **** 
+ 260:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 261:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_EnableTx
+ 262:lib_AT91SAM7S64.h **** //* \brief Enable transmit
+ 263:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 264:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_EnableTx (
+ 265:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 266:lib_AT91SAM7S64.h **** {
+ 267:lib_AT91SAM7S64.h **** 	pPDC->PDC_PTCR = AT91C_PDC_TXTEN;
+ 268:lib_AT91SAM7S64.h **** }
+ 269:lib_AT91SAM7S64.h **** 
+ 270:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 271:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_EnableRx
+ 272:lib_AT91SAM7S64.h **** //* \brief Enable receive
+ 273:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 274:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_EnableRx (
+ 275:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 276:lib_AT91SAM7S64.h **** {
+ 277:lib_AT91SAM7S64.h **** 	pPDC->PDC_PTCR = AT91C_PDC_RXTEN;
+ 278:lib_AT91SAM7S64.h **** }
+ 279:lib_AT91SAM7S64.h **** 
+ 280:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 281:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_DisableTx
+ 282:lib_AT91SAM7S64.h **** //* \brief Disable transmit
+ 283:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 284:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_DisableTx (
+ 285:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 286:lib_AT91SAM7S64.h **** {
+ 287:lib_AT91SAM7S64.h **** 	pPDC->PDC_PTCR = AT91C_PDC_TXTDIS;
+ 288:lib_AT91SAM7S64.h **** }
+ 289:lib_AT91SAM7S64.h **** 
+ 290:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 291:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_DisableRx
+ 292:lib_AT91SAM7S64.h **** //* \brief Disable receive
+ 293:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 294:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_DisableRx (
+ 295:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 296:lib_AT91SAM7S64.h **** {
+ 297:lib_AT91SAM7S64.h **** 	pPDC->PDC_PTCR = AT91C_PDC_RXTDIS;
+ 298:lib_AT91SAM7S64.h **** }
+ 299:lib_AT91SAM7S64.h **** 
+ 300:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 301:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_IsTxEmpty
+ 302:lib_AT91SAM7S64.h **** //* \brief Test if the current transfer descriptor has been sent
+ 303:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 304:lib_AT91SAM7S64.h **** __inline int AT91F_PDC_IsTxEmpty ( // \return return 1 if transfer is complete
+ 305:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 306:lib_AT91SAM7S64.h **** {
+ 307:lib_AT91SAM7S64.h **** 	return !(pPDC->PDC_TCR);
+ 308:lib_AT91SAM7S64.h **** }
+ 309:lib_AT91SAM7S64.h **** 
+ 310:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 311:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_IsNextTxEmpty
+ 312:lib_AT91SAM7S64.h **** //* \brief Test if the next transfer descriptor has been moved to the current td
+ 313:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 314:lib_AT91SAM7S64.h **** __inline int AT91F_PDC_IsNextTxEmpty ( // \return return 1 if transfer is complete
+ 315:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 316:lib_AT91SAM7S64.h **** {
+ 317:lib_AT91SAM7S64.h **** 	return !(pPDC->PDC_TNCR);
+ 318:lib_AT91SAM7S64.h **** }
+ 319:lib_AT91SAM7S64.h **** 
+ 320:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 321:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_IsRxEmpty
+ 322:lib_AT91SAM7S64.h **** //* \brief Test if the current transfer descriptor has been filled
+ 323:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 324:lib_AT91SAM7S64.h **** __inline int AT91F_PDC_IsRxEmpty ( // \return return 1 if transfer is complete
+ 325:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 326:lib_AT91SAM7S64.h **** {
+ 327:lib_AT91SAM7S64.h **** 	return !(pPDC->PDC_RCR);
+ 328:lib_AT91SAM7S64.h **** }
+ 329:lib_AT91SAM7S64.h **** 
+ 330:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 331:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_IsNextRxEmpty
+ 332:lib_AT91SAM7S64.h **** //* \brief Test if the next transfer descriptor has been moved to the current td
+ 333:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 334:lib_AT91SAM7S64.h **** __inline int AT91F_PDC_IsNextRxEmpty ( // \return return 1 if transfer is complete
+ 335:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC )       // \arg pointer to a PDC controller
+ 336:lib_AT91SAM7S64.h **** {
+ 337:lib_AT91SAM7S64.h **** 	return !(pPDC->PDC_RNCR);
+ 338:lib_AT91SAM7S64.h **** }
+ 339:lib_AT91SAM7S64.h **** 
+ 340:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 341:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_Open
+ 342:lib_AT91SAM7S64.h **** //* \brief Open PDC: disable TX and RX reset transfer descriptors, re-enable RX and TX
+ 343:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 344:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_Open (
+ 345:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC)       // \arg pointer to a PDC controller
+ 346:lib_AT91SAM7S64.h **** {
+ 347:lib_AT91SAM7S64.h ****     //* Disable the RX and TX PDC transfer requests
+ 348:lib_AT91SAM7S64.h **** 	AT91F_PDC_DisableRx(pPDC);
+ 349:lib_AT91SAM7S64.h **** 	AT91F_PDC_DisableTx(pPDC);
+ 350:lib_AT91SAM7S64.h **** 
+ 351:lib_AT91SAM7S64.h **** 	//* Reset all Counter register Next buffer first
+ 352:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetNextTx(pPDC, (char *) 0, 0);
+ 353:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetNextRx(pPDC, (char *) 0, 0);
+ 354:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetTx(pPDC, (char *) 0, 0);
+ 355:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetRx(pPDC, (char *) 0, 0);
+ 356:lib_AT91SAM7S64.h **** 
+ 357:lib_AT91SAM7S64.h ****     //* Enable the RX and TX PDC transfer requests
+ 358:lib_AT91SAM7S64.h **** 	AT91F_PDC_EnableRx(pPDC);
+ 359:lib_AT91SAM7S64.h **** 	AT91F_PDC_EnableTx(pPDC);
+ 360:lib_AT91SAM7S64.h **** }
+ 361:lib_AT91SAM7S64.h **** 
+ 362:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 363:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_Close
+ 364:lib_AT91SAM7S64.h **** //* \brief Close PDC: disable TX and RX reset transfer descriptors
+ 365:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 366:lib_AT91SAM7S64.h **** __inline void AT91F_PDC_Close (
+ 367:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC)       // \arg pointer to a PDC controller
+ 368:lib_AT91SAM7S64.h **** {
+ 369:lib_AT91SAM7S64.h ****     //* Disable the RX and TX PDC transfer requests
+ 370:lib_AT91SAM7S64.h **** 	AT91F_PDC_DisableRx(pPDC);
+ 371:lib_AT91SAM7S64.h **** 	AT91F_PDC_DisableTx(pPDC);
+ 372:lib_AT91SAM7S64.h **** 
+ 373:lib_AT91SAM7S64.h **** 	//* Reset all Counter register Next buffer first
+ 374:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetNextTx(pPDC, (char *) 0, 0);
+ 375:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetNextRx(pPDC, (char *) 0, 0);
+ 376:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetTx(pPDC, (char *) 0, 0);
+ 377:lib_AT91SAM7S64.h **** 	AT91F_PDC_SetRx(pPDC, (char *) 0, 0);
+ 378:lib_AT91SAM7S64.h **** 
+ 379:lib_AT91SAM7S64.h **** }
+ 380:lib_AT91SAM7S64.h **** 
+ 381:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 382:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_SendFrame
+ 383:lib_AT91SAM7S64.h **** //* \brief Close PDC: disable TX and RX reset transfer descriptors
+ 384:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 385:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PDC_SendFrame(
+ 386:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC,
+ 387:lib_AT91SAM7S64.h **** 	char *pBuffer,
+ 388:lib_AT91SAM7S64.h **** 	unsigned int szBuffer,
+ 389:lib_AT91SAM7S64.h **** 	char *pNextBuffer,
+ 390:lib_AT91SAM7S64.h **** 	unsigned int szNextBuffer )
+ 391:lib_AT91SAM7S64.h **** {
+ 392:lib_AT91SAM7S64.h **** 	if (AT91F_PDC_IsTxEmpty(pPDC)) {
+ 393:lib_AT91SAM7S64.h **** 		//* Buffer and next buffer can be initialized
+ 394:lib_AT91SAM7S64.h **** 		AT91F_PDC_SetTx(pPDC, pBuffer, szBuffer);
+ 395:lib_AT91SAM7S64.h **** 		AT91F_PDC_SetNextTx(pPDC, pNextBuffer, szNextBuffer);
+ 396:lib_AT91SAM7S64.h **** 		return 2;
+ 397:lib_AT91SAM7S64.h **** 	}
+ 398:lib_AT91SAM7S64.h **** 	else if (AT91F_PDC_IsNextTxEmpty(pPDC)) {
+ 399:lib_AT91SAM7S64.h **** 		//* Only one buffer can be initialized
+ 400:lib_AT91SAM7S64.h **** 		AT91F_PDC_SetNextTx(pPDC, pBuffer, szBuffer);
+ 401:lib_AT91SAM7S64.h **** 		return 1;
+ 402:lib_AT91SAM7S64.h **** 	}
+ 403:lib_AT91SAM7S64.h **** 	else {
+ 404:lib_AT91SAM7S64.h **** 		//* All buffer are in use...
+ 405:lib_AT91SAM7S64.h **** 		return 0;
+ 406:lib_AT91SAM7S64.h **** 	}
+ 407:lib_AT91SAM7S64.h **** }
+ 408:lib_AT91SAM7S64.h **** 
+ 409:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 410:lib_AT91SAM7S64.h **** //* \fn    AT91F_PDC_ReceiveFrame
+ 411:lib_AT91SAM7S64.h **** //* \brief Close PDC: disable TX and RX reset transfer descriptors
+ 412:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 413:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PDC_ReceiveFrame (
+ 414:lib_AT91SAM7S64.h **** 	AT91PS_PDC pPDC,
+ 415:lib_AT91SAM7S64.h **** 	char *pBuffer,
+ 416:lib_AT91SAM7S64.h **** 	unsigned int szBuffer,
+ 417:lib_AT91SAM7S64.h **** 	char *pNextBuffer,
+ 418:lib_AT91SAM7S64.h **** 	unsigned int szNextBuffer )
+ 419:lib_AT91SAM7S64.h **** {
+ 420:lib_AT91SAM7S64.h **** 	if (AT91F_PDC_IsRxEmpty(pPDC)) {
+ 421:lib_AT91SAM7S64.h **** 		//* Buffer and next buffer can be initialized
+ 422:lib_AT91SAM7S64.h **** 		AT91F_PDC_SetRx(pPDC, pBuffer, szBuffer);
+ 423:lib_AT91SAM7S64.h **** 		AT91F_PDC_SetNextRx(pPDC, pNextBuffer, szNextBuffer);
+ 424:lib_AT91SAM7S64.h **** 		return 2;
+ 425:lib_AT91SAM7S64.h **** 	}
+ 426:lib_AT91SAM7S64.h **** 	else if (AT91F_PDC_IsNextRxEmpty(pPDC)) {
+ 427:lib_AT91SAM7S64.h **** 		//* Only one buffer can be initialized
+ 428:lib_AT91SAM7S64.h **** 		AT91F_PDC_SetNextRx(pPDC, pBuffer, szBuffer);
+ 429:lib_AT91SAM7S64.h **** 		return 1;
+ 430:lib_AT91SAM7S64.h **** 	}
+ 431:lib_AT91SAM7S64.h **** 	else {
+ 432:lib_AT91SAM7S64.h **** 		//* All buffer are in use...
+ 433:lib_AT91SAM7S64.h **** 		return 0;
+ 434:lib_AT91SAM7S64.h **** 	}
+ 435:lib_AT91SAM7S64.h **** }
+ 436:lib_AT91SAM7S64.h **** /* *****************************************************************************
+ 437:lib_AT91SAM7S64.h ****                 SOFTWARE API FOR DBGU
+ 438:lib_AT91SAM7S64.h ****    ***************************************************************************** */
+ 439:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 440:lib_AT91SAM7S64.h **** //* \fn    AT91F_DBGU_InterruptEnable
+ 441:lib_AT91SAM7S64.h **** //* \brief Enable DBGU Interrupt
+ 442:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 443:lib_AT91SAM7S64.h **** __inline void AT91F_DBGU_InterruptEnable(
+ 444:lib_AT91SAM7S64.h ****         AT91PS_DBGU pDbgu,   // \arg  pointer to a DBGU controller
+ 445:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  dbgu interrupt to be enabled
+ 446:lib_AT91SAM7S64.h **** {
+ 447:lib_AT91SAM7S64.h ****         pDbgu->DBGU_IER = flag;
+ 448:lib_AT91SAM7S64.h **** }
+ 449:lib_AT91SAM7S64.h **** 
+ 450:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 451:lib_AT91SAM7S64.h **** //* \fn    AT91F_DBGU_InterruptDisable
+ 452:lib_AT91SAM7S64.h **** //* \brief Disable DBGU Interrupt
+ 453:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 454:lib_AT91SAM7S64.h **** __inline void AT91F_DBGU_InterruptDisable(
+ 455:lib_AT91SAM7S64.h ****         AT91PS_DBGU pDbgu,   // \arg  pointer to a DBGU controller
+ 456:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  dbgu interrupt to be disabled
+ 457:lib_AT91SAM7S64.h **** {
+ 458:lib_AT91SAM7S64.h ****         pDbgu->DBGU_IDR = flag;
+ 459:lib_AT91SAM7S64.h **** }
+ 460:lib_AT91SAM7S64.h **** 
+ 461:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 462:lib_AT91SAM7S64.h **** //* \fn    AT91F_DBGU_GetInterruptMaskStatus
+ 463:lib_AT91SAM7S64.h **** //* \brief Return DBGU Interrupt Mask Status
+ 464:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 465:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_DBGU_GetInterruptMaskStatus( // \return DBGU Interrupt Mask Status
+ 466:lib_AT91SAM7S64.h ****         AT91PS_DBGU pDbgu) // \arg  pointer to a DBGU controller
+ 467:lib_AT91SAM7S64.h **** {
+ 468:lib_AT91SAM7S64.h ****         return pDbgu->DBGU_IMR;
+ 469:lib_AT91SAM7S64.h **** }
+ 470:lib_AT91SAM7S64.h **** 
+ 471:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 472:lib_AT91SAM7S64.h **** //* \fn    AT91F_DBGU_IsInterruptMasked
+ 473:lib_AT91SAM7S64.h **** //* \brief Test if DBGU Interrupt is Masked 
+ 474:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 475:lib_AT91SAM7S64.h **** __inline int AT91F_DBGU_IsInterruptMasked(
+ 476:lib_AT91SAM7S64.h ****         AT91PS_DBGU pDbgu,   // \arg  pointer to a DBGU controller
+ 477:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 478:lib_AT91SAM7S64.h **** {
+ 479:lib_AT91SAM7S64.h ****         return (AT91F_DBGU_GetInterruptMaskStatus(pDbgu) & flag);
+ 480:lib_AT91SAM7S64.h **** }
+ 481:lib_AT91SAM7S64.h **** 
+ 482:lib_AT91SAM7S64.h **** /* *****************************************************************************
+ 483:lib_AT91SAM7S64.h ****                 SOFTWARE API FOR PIO
+ 484:lib_AT91SAM7S64.h ****    ***************************************************************************** */
+ 485:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 486:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_CfgPeriph
+ 487:lib_AT91SAM7S64.h **** //* \brief Enable pins to be drived by peripheral
+ 488:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 489:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_CfgPeriph(
+ 490:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,             // \arg pointer to a PIO controller
+ 491:lib_AT91SAM7S64.h **** 	unsigned int periphAEnable,  // \arg PERIPH A to enable
+ 492:lib_AT91SAM7S64.h **** 	unsigned int periphBEnable)  // \arg PERIPH B to enable
+ 493:lib_AT91SAM7S64.h **** 
+ 494:lib_AT91SAM7S64.h **** {
+ 495:lib_AT91SAM7S64.h **** 	pPio->PIO_ASR = periphAEnable;
+ 496:lib_AT91SAM7S64.h **** 	pPio->PIO_BSR = periphBEnable;
+ 497:lib_AT91SAM7S64.h **** 	pPio->PIO_PDR = (periphAEnable | periphBEnable); // Set in Periph mode
+ 498:lib_AT91SAM7S64.h **** }
+ 499:lib_AT91SAM7S64.h **** 
+ 500:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 501:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_CfgOutput
+ 502:lib_AT91SAM7S64.h **** //* \brief Enable PIO in output mode
+ 503:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 504:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_CfgOutput(
+ 505:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,             // \arg pointer to a PIO controller
+ 506:lib_AT91SAM7S64.h **** 	unsigned int pioEnable)      // \arg PIO to be enabled
+ 507:lib_AT91SAM7S64.h **** {
+ 508:lib_AT91SAM7S64.h **** 	pPio->PIO_PER = pioEnable; // Set in PIO mode
+ 159              		.loc 2 508 0
+ 160 00c0 01C8A0E3 		mov	ip, #65536
+ 161              	.LBE7:
+ 162              	.LBE6:
+ 163              		.loc 1 118 0
+ 164 00c4 04E02DE5 		str	lr, [sp, #-4]!
+ 165              	.LCFI3:
+ 166              		.loc 1 125 0
+ 167 00c8 1E3D83E2 		add	r3, r3, #1920
+ 168              	.LBB8:
+ 169              	.LBB9:
+ 170              		.loc 2 508 0
+ 171 00cc 0BECE0E3 		mvn	lr, #2816
+ 172              	.LBE9:
+ 173              	.LBE8:
+ 174              		.loc 1 125 0
+ 175 00d0 EF3002E5 		str	r3, [r2, #-239]
+ 176              		.loc 1 134 0
+ 177 00d4 18109FE5 		ldr	r1, .L25
+ 178              	.LBB10:
+ 179              	.LBB11:
+ 180              		.loc 2 508 0
+ 181 00d8 FFC00EE5 		str	ip, [lr, #-255]
+ 182              	.LBE11:
+ 183              	.LBE10:
+ 184              		.loc 1 134 0
+ 185 00dc 14009FE5 		ldr	r0, .L25+4
+ 186              	.LBB12:
+ 187              	.LBB13:
+ 509:lib_AT91SAM7S64.h **** 	pPio->PIO_OER = pioEnable; // Configure in Output
+ 188              		.loc 2 509 0
+ 189 00e0 EFC00EE5 		str	ip, [lr, #-239]
+ 190              	.LBE13:
+ 191              	.LBE12:
+ 192              	.LBB14:
+ 193              	.LBB15:
+ 510:lib_AT91SAM7S64.h **** }
+ 511:lib_AT91SAM7S64.h **** 
+ 512:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 513:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_CfgInput
+ 514:lib_AT91SAM7S64.h **** //* \brief Enable PIO in input mode
+ 515:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 516:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_CfgInput(
+ 517:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,             // \arg pointer to a PIO controller
+ 518:lib_AT91SAM7S64.h **** 	unsigned int inputEnable)      // \arg PIO to be enabled
+ 519:lib_AT91SAM7S64.h **** {
+ 520:lib_AT91SAM7S64.h **** 	// Disable output
+ 521:lib_AT91SAM7S64.h **** 	pPio->PIO_ODR  = inputEnable;
+ 522:lib_AT91SAM7S64.h **** 	pPio->PIO_PER  = inputEnable;
+ 523:lib_AT91SAM7S64.h **** }
+ 524:lib_AT91SAM7S64.h **** 
+ 525:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 526:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_CfgOpendrain
+ 527:lib_AT91SAM7S64.h **** //* \brief Configure PIO in open drain
+ 528:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 529:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_CfgOpendrain(
+ 530:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,             // \arg pointer to a PIO controller
+ 531:lib_AT91SAM7S64.h **** 	unsigned int multiDrvEnable) // \arg pio to be configured in open drain
+ 532:lib_AT91SAM7S64.h **** {
+ 533:lib_AT91SAM7S64.h **** 	// Configure the multi-drive option
+ 534:lib_AT91SAM7S64.h **** 	pPio->PIO_MDDR = ~multiDrvEnable;
+ 535:lib_AT91SAM7S64.h **** 	pPio->PIO_MDER = multiDrvEnable;
+ 536:lib_AT91SAM7S64.h **** }
+ 537:lib_AT91SAM7S64.h **** 
+ 538:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 539:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_CfgPullup
+ 540:lib_AT91SAM7S64.h **** //* \brief Enable pullup on PIO
+ 541:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 542:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_CfgPullup(
+ 543:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,             // \arg pointer to a PIO controller
+ 544:lib_AT91SAM7S64.h **** 	unsigned int pullupEnable)   // \arg enable pullup on PIO
+ 545:lib_AT91SAM7S64.h **** {
+ 546:lib_AT91SAM7S64.h **** 		// Connect or not Pullup
+ 547:lib_AT91SAM7S64.h **** 	pPio->PIO_PPUDR = ~pullupEnable;
+ 548:lib_AT91SAM7S64.h **** 	pPio->PIO_PPUER = pullupEnable;
+ 549:lib_AT91SAM7S64.h **** }
+ 550:lib_AT91SAM7S64.h **** 
+ 551:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 552:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_CfgDirectDrive
+ 553:lib_AT91SAM7S64.h **** //* \brief Enable direct drive on PIO
+ 554:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 555:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_CfgDirectDrive(
+ 556:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,             // \arg pointer to a PIO controller
+ 557:lib_AT91SAM7S64.h **** 	unsigned int directDrive)    // \arg PIO to be configured with direct drive
+ 558:lib_AT91SAM7S64.h **** 
+ 559:lib_AT91SAM7S64.h **** {
+ 560:lib_AT91SAM7S64.h **** 	// Configure the Direct Drive
+ 561:lib_AT91SAM7S64.h **** 	pPio->PIO_OWDR  = ~directDrive;
+ 562:lib_AT91SAM7S64.h **** 	pPio->PIO_OWER  = directDrive;
+ 563:lib_AT91SAM7S64.h **** }
+ 564:lib_AT91SAM7S64.h **** 
+ 565:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 566:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_CfgInputFilter
+ 567:lib_AT91SAM7S64.h **** //* \brief Enable input filter on input PIO
+ 568:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 569:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_CfgInputFilter(
+ 570:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,             // \arg pointer to a PIO controller
+ 571:lib_AT91SAM7S64.h **** 	unsigned int inputFilter)    // \arg PIO to be configured with input filter
+ 572:lib_AT91SAM7S64.h **** 
+ 573:lib_AT91SAM7S64.h **** {
+ 574:lib_AT91SAM7S64.h **** 	// Configure the Direct Drive
+ 575:lib_AT91SAM7S64.h **** 	pPio->PIO_IFDR  = ~inputFilter;
+ 576:lib_AT91SAM7S64.h **** 	pPio->PIO_IFER  = inputFilter;
+ 577:lib_AT91SAM7S64.h **** }
+ 578:lib_AT91SAM7S64.h **** 
+ 579:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 580:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetInput
+ 581:lib_AT91SAM7S64.h **** //* \brief Return PIO input value
+ 582:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 583:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetInput( // \return PIO input
+ 584:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 585:lib_AT91SAM7S64.h **** {
+ 586:lib_AT91SAM7S64.h **** 	return pPio->PIO_PDSR;
+ 587:lib_AT91SAM7S64.h **** }
+ 588:lib_AT91SAM7S64.h **** 
+ 589:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 590:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsInputSet
+ 591:lib_AT91SAM7S64.h **** //* \brief Test if PIO is input flag is active
+ 592:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 593:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsInputSet(
+ 594:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 595:lib_AT91SAM7S64.h **** 	unsigned int flag) // \arg  flag to be tested
+ 596:lib_AT91SAM7S64.h **** {
+ 597:lib_AT91SAM7S64.h **** 	return (AT91F_PIO_GetInput(pPio) & flag);
+ 598:lib_AT91SAM7S64.h **** }
+ 599:lib_AT91SAM7S64.h **** 
+ 600:lib_AT91SAM7S64.h **** 
+ 601:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 602:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_SetOutput
+ 603:lib_AT91SAM7S64.h **** //* \brief Set to 1 output PIO
+ 604:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 605:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_SetOutput(
+ 606:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 607:lib_AT91SAM7S64.h **** 	unsigned int flag) // \arg  output to be set
+ 608:lib_AT91SAM7S64.h **** {
+ 609:lib_AT91SAM7S64.h **** 	pPio->PIO_SODR = flag;
+ 610:lib_AT91SAM7S64.h **** }
+ 611:lib_AT91SAM7S64.h **** 
+ 612:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 613:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_ClearOutput
+ 614:lib_AT91SAM7S64.h **** //* \brief Set to 0 output PIO
+ 615:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 616:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_ClearOutput(
+ 617:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 618:lib_AT91SAM7S64.h **** 	unsigned int flag) // \arg  output to be cleared
+ 619:lib_AT91SAM7S64.h **** {
+ 620:lib_AT91SAM7S64.h **** 	pPio->PIO_CODR = flag;
+ 194              		.loc 2 620 0
+ 195 00e4 CBC00EE5 		str	ip, [lr, #-203]
+ 196              	.LBE15:
+ 197              	.LBE14:
+ 198              		.loc 1 134 0
+ 199 00e8 FEFFFFEB 		bl	AT91F_CDC_Open
+ 200              		.loc 1 135 0
+ 201 00ec 04E09DE4 		ldr	lr, [sp], #4
+ 202 00f0 1EFF2FE1 		bx	lr
+ 203              	.L26:
+ 204              		.align	2
+ 205              	.L25:
+ 206 00f4 0000FBFF 		.word	-327680
+ 207 00f8 00000000 		.word	pCDC
+ 208              	.LFE294:
+ 210              		.align	2
+ 211              		.global	aic_software_interrupt
+ 213              	aic_software_interrupt:
+ 214              	.LFB292:
+ 215              		.loc 1 74 0
+ 216              		@ Function supports interworking.
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              		@ link register save eliminated.
+ 220              	.LBB22:
+ 221              	.LBB23:
+ 222              		.loc 2 586 0
+ 223 00fc 0B2CE0E3 		mvn	r2, #2816
+ 224 0100 C33012E5 		ldr	r3, [r2, #-195]
+ 225              	.LBE23:
+ 226              	.LBE22:
+ 227              		.loc 1 76 0
+ 228 0104 020813E3 		tst	r3, #131072
+ 229              	.LBB24:
+ 230              	.LBB25:
+ 231              		.loc 2 620 0
+ 232 0108 0238A013 		movne	r3, #131072
+ 233              	.LBE25:
+ 234              	.LBE24:
+ 235              	.LBB26:
+ 236              	.LBB27:
+ 237              		.loc 2 609 0
+ 238 010c 0238A003 		moveq	r3, #131072
+ 239              	.LBE27:
+ 240              	.LBE26:
+ 241              		.loc 1 74 0
+ 242              		@ lr needed for prologue
+ 243              	.LBB28:
+ 244              	.LBB29:
+ 245              		.loc 2 620 0
+ 246 0110 CB300215 		strne	r3, [r2, #-203]
+ 247              	.LBE29:
+ 248              	.LBE28:
+ 249              	.LBB30:
+ 250              	.LBB31:
+ 251              		.loc 2 609 0
+ 252 0114 CF300205 		streq	r3, [r2, #-207]
+ 253 0118 1EFF2FE1 		bx	lr
+ 254              	.LBE31:
+ 255              	.LBE30:
+ 256              	.LFE292:
+ 258              		.align	2
+ 259              		.global	pio_c_irq_handler
+ 261              	pio_c_irq_handler:
+ 262              	.LFB293:
+ 263              		.loc 1 94 0
+ 264              		@ Function supports interworking.
+ 265              		@ args = 0, pretend = 0, frame = 0
+ 266              		@ frame_needed = 0, uses_anonymous_args = 0
+ 267              		@ link register save eliminated.
+ 268              	.LBB40:
+ 269              	.LBB41:
+ 270              		.loc 2 586 0
+ 271 011c 0B2CE0E3 		mvn	r2, #2816
+ 272 0120 C33012E5 		ldr	r3, [r2, #-195]
+ 273              	.LBE41:
+ 274              	.LBE40:
+ 275              		.loc 1 97 0
+ 276 0124 020813E3 		tst	r3, #131072
+ 277              	.LBB42:
+ 278              	.LBB43:
+ 279              		.loc 2 620 0
+ 280 0128 0238A013 		movne	r3, #131072
+ 281              	.LBE43:
+ 282              	.LBE42:
+ 283              	.LBB44:
+ 284              	.LBB45:
+ 285              		.loc 2 609 0
+ 286 012c 0238A003 		moveq	r3, #131072
+ 287              	.LBE45:
+ 288              	.LBE44:
+ 289              	.LBB46:
+ 290              	.LBB47:
+ 291              		.loc 2 620 0
+ 292 0130 CB300215 		strne	r3, [r2, #-203]
+ 293              	.LBE47:
+ 294              	.LBE46:
+ 295              	.LBB48:
+ 296              	.LBB49:
+ 297              		.loc 2 609 0
+ 298 0134 CF300205 		streq	r3, [r2, #-207]
+ 299              	.LBE49:
+ 300              	.LBE48:
+ 301              		.loc 1 106 0
+ 302 0138 0B3CE0E3 		mvn	r3, #2816
+ 303 013c B33013E5 		ldr	r3, [r3, #-179]
+ 304              		.loc 1 94 0
+ 305              		@ lr needed for prologue
+ 306              	.L36:
+ 307              	.LBB50:
+ 308              	.LBB51:
+ 309              		.loc 2 586 0
+ 310 0140 0B3CE0E3 		mvn	r3, #2816
+ 311 0144 C33013E5 		ldr	r3, [r3, #-195]
+ 312              	.LBE51:
+ 313              	.LBE50:
+ 314              		.loc 1 110 0
+ 315 0148 020713E3 		tst	r3, #524288
+ 316 014c 4E00000A 		beq	.L36
+ 317              		.loc 1 111 0
+ 318 0150 1EFF2FE1 		bx	lr
+ 319              	.LFE293:
+ 321              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 322              		.align	2
+ 323              	.LC0:
+ 324 0000 4641494C 		.ascii	"FAILED\012\000"
+ 324      45440A00 
+ 325              		.align	2
+ 326              	.LC1:
+ 327 0008 434F554E 		.ascii	"COUNTER: %d\012\000"
+ 327      5445523A 
+ 327      2025640A 
+ 327      00
+ 328 0015 000000   		.text
+ 329              		.align	2
+ 330              		.global	main
+ 332              	main:
+ 333              	.LFB297:
+ 157:main.c        **** 
+ 158:main.c        **** //----------------------------------------------------------------------------
+ 159:main.c        **** // Function Name       : main
+ 160:main.c        **** // Object              : Main interrupt function
+ 161:main.c        **** //		level timer 0 => 1
+ 162:main.c        **** //	SW2	level Irq0    => 2
+ 163:main.c        **** //		level timer 1 => 4
+ 164:main.c        **** //	SW4	level PIOA    => 6
+ 165:main.c        **** //		level USART   => 7
+ 166:main.c        **** //		LEVEL FIQ     => MAX
+ 167:main.c        **** // Input Parameters    : none
+ 168:main.c        **** // Output Parameters   : TRUE
+ 169:main.c        **** //----------------------------------------------------------------------------
+ 170:main.c        **** int main( void )
+ 171:main.c        **** // Begin
+ 172:main.c        **** {
+ 334              		.loc 1 172 0
+ 335              		@ Function supports interworking.
+ 336              		@ args = 0, pretend = 0, frame = 0
+ 337              		@ frame_needed = 0, uses_anonymous_args = 0
+ 173:main.c        ****     AT91PS_AIC     pAic;
+ 174:main.c        ****     // Load System pAic Base address
+ 175:main.c        ****         pAic = AT91C_BASE_AIC;
+ 176:main.c        **** 
+ 177:main.c        ****     // Enable User Reset and set its minimal assertion to 960 us
+ 178:main.c        **** 	AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4<<8) | (unsigned int)(0xA5<<24);
+ 338              		.loc 1 178 0
+ 339 0154 B8219FE5 		ldr	r2, .L64
+ 340 0158 023CE0E3 		mvn	r3, #512
+ 341 015c F72003E5 		str	r2, [r3, #-247]
+ 179:main.c        **** 
+ 180:main.c        **** 	// Init
+ 181:main.c        ****     cnt = 0;
+ 342              		.loc 1 181 0
+ 343 0160 B0319FE5 		ldr	r3, .L64+4
+ 344 0164 0010A0E3 		mov	r1, #0
+ 345 0168 001083E5 		str	r1, [r3, #0]
+ 182:main.c        ****     status_irq = 0;
+ 346              		.loc 1 182 0
+ 347 016c A8319FE5 		ldr	r3, .L64+8
+ 348              		.loc 1 172 0
+ 349 0170 30402DE9 		stmfd	sp!, {r4, r5, lr}
+ 350              	.LCFI4:
+ 351              		.loc 1 182 0
+ 352 0174 001083E5 		str	r1, [r3, #0]
+ 183:main.c        **** 
+ 184:main.c        ****     // Init USB device
+ 185:main.c        ****     AT91F_USB_Open();
+ 353              		.loc 1 185 0
+ 354 0178 FEFFFFEB 		bl	AT91F_USB_Open
+ 355              	.L42:
+ 186:main.c        ****     // Init USB device
+ 187:main.c        ****     // Wait for the end of enumeration
+ 188:main.c        ****     while (!pCDC.IsConfigured(&pCDC));
+ 356              		.loc 1 188 0
+ 357 017c 9C319FE5 		ldr	r3, .L64+12
+ 358 0180 0300A0E1 		mov	r0, r3
+ 359 0184 0CC093E5 		ldr	ip, [r3, #12]
+ 360 0188 0FE0A0E1 		mov	lr, pc
+ 361 018c 1CFF2FE1 		bx	ip
+ 362 0190 000050E3 		cmp	r0, #0
+ 363 0194 5D00000A 		beq	.L42
+ 364              	.LBB80:
+ 365              	.LBB81:
+ 621:lib_AT91SAM7S64.h **** }
+ 622:lib_AT91SAM7S64.h **** 
+ 623:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 624:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_ForceOutput
+ 625:lib_AT91SAM7S64.h **** //* \brief Force output when Direct drive option is enabled
+ 626:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 627:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_ForceOutput(
+ 628:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 629:lib_AT91SAM7S64.h **** 	unsigned int flag) // \arg  output to be forced
+ 630:lib_AT91SAM7S64.h **** {
+ 631:lib_AT91SAM7S64.h **** 	pPio->PIO_ODSR = flag;
+ 632:lib_AT91SAM7S64.h **** }
+ 633:lib_AT91SAM7S64.h **** 
+ 634:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 635:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_Enable
+ 636:lib_AT91SAM7S64.h **** //* \brief Enable PIO
+ 637:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 638:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_Enable(
+ 639:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 640:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio to be enabled 
+ 641:lib_AT91SAM7S64.h **** {
+ 642:lib_AT91SAM7S64.h ****         pPio->PIO_PER = flag;
+ 643:lib_AT91SAM7S64.h **** }
+ 644:lib_AT91SAM7S64.h **** 
+ 645:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 646:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_Disable
+ 647:lib_AT91SAM7S64.h **** //* \brief Disable PIO
+ 648:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 649:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_Disable(
+ 650:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 651:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio to be disabled 
+ 652:lib_AT91SAM7S64.h **** {
+ 653:lib_AT91SAM7S64.h ****         pPio->PIO_PDR = flag;
+ 654:lib_AT91SAM7S64.h **** }
+ 655:lib_AT91SAM7S64.h **** 
+ 656:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 657:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetStatus
+ 658:lib_AT91SAM7S64.h **** //* \brief Return PIO Status
+ 659:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 660:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetStatus( // \return PIO Status
+ 661:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 662:lib_AT91SAM7S64.h **** {
+ 663:lib_AT91SAM7S64.h ****         return pPio->PIO_PSR;
+ 664:lib_AT91SAM7S64.h **** }
+ 665:lib_AT91SAM7S64.h **** 
+ 666:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 667:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsSet
+ 668:lib_AT91SAM7S64.h **** //* \brief Test if PIO is Set
+ 669:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 670:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsSet(
+ 671:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 672:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 673:lib_AT91SAM7S64.h **** {
+ 674:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetStatus(pPio) & flag);
+ 675:lib_AT91SAM7S64.h **** }
+ 676:lib_AT91SAM7S64.h **** 
+ 677:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 678:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_OutputEnable
+ 679:lib_AT91SAM7S64.h **** //* \brief Output Enable PIO
+ 680:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 681:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_OutputEnable(
+ 682:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 683:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio output to be enabled
+ 684:lib_AT91SAM7S64.h **** {
+ 685:lib_AT91SAM7S64.h ****         pPio->PIO_OER = flag;
+ 686:lib_AT91SAM7S64.h **** }
+ 687:lib_AT91SAM7S64.h **** 
+ 688:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 689:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_OutputDisable
+ 690:lib_AT91SAM7S64.h **** //* \brief Output Enable PIO
+ 691:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 692:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_OutputDisable(
+ 693:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 694:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio output to be disabled
+ 695:lib_AT91SAM7S64.h **** {
+ 696:lib_AT91SAM7S64.h ****         pPio->PIO_ODR = flag;
+ 697:lib_AT91SAM7S64.h **** }
+ 698:lib_AT91SAM7S64.h **** 
+ 699:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 700:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetOutputStatus
+ 701:lib_AT91SAM7S64.h **** //* \brief Return PIO Output Status
+ 702:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 703:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetOutputStatus( // \return PIO Output Status
+ 704:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 705:lib_AT91SAM7S64.h **** {
+ 706:lib_AT91SAM7S64.h ****         return pPio->PIO_OSR;
+ 707:lib_AT91SAM7S64.h **** }
+ 708:lib_AT91SAM7S64.h **** 
+ 709:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 710:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsOuputSet
+ 711:lib_AT91SAM7S64.h **** //* \brief Test if PIO Output is Set
+ 712:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 713:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsOutputSet(
+ 714:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 715:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 716:lib_AT91SAM7S64.h **** {
+ 717:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetOutputStatus(pPio) & flag);
+ 718:lib_AT91SAM7S64.h **** }
+ 719:lib_AT91SAM7S64.h **** 
+ 720:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 721:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_InputFilterEnable
+ 722:lib_AT91SAM7S64.h **** //* \brief Input Filter Enable PIO
+ 723:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 724:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_InputFilterEnable(
+ 725:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 726:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio input filter to be enabled
+ 727:lib_AT91SAM7S64.h **** {
+ 728:lib_AT91SAM7S64.h ****         pPio->PIO_IFER = flag;
+ 729:lib_AT91SAM7S64.h **** }
+ 730:lib_AT91SAM7S64.h **** 
+ 731:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 732:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_InputFilterDisable
+ 733:lib_AT91SAM7S64.h **** //* \brief Input Filter Disable PIO
+ 734:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 735:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_InputFilterDisable(
+ 736:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 737:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio input filter to be disabled
+ 738:lib_AT91SAM7S64.h **** {
+ 739:lib_AT91SAM7S64.h ****         pPio->PIO_IFDR = flag;
+ 740:lib_AT91SAM7S64.h **** }
+ 741:lib_AT91SAM7S64.h **** 
+ 742:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 743:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetInputFilterStatus
+ 744:lib_AT91SAM7S64.h **** //* \brief Return PIO Input Filter Status
+ 745:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 746:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetInputFilterStatus( // \return PIO Input Filter Status
+ 747:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 748:lib_AT91SAM7S64.h **** {
+ 749:lib_AT91SAM7S64.h ****         return pPio->PIO_IFSR;
+ 750:lib_AT91SAM7S64.h **** }
+ 751:lib_AT91SAM7S64.h **** 
+ 752:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 753:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsInputFilterSet
+ 754:lib_AT91SAM7S64.h **** //* \brief Test if PIO Input filter is Set
+ 755:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 756:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsInputFilterSet(
+ 757:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 758:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 759:lib_AT91SAM7S64.h **** {
+ 760:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetInputFilterStatus(pPio) & flag);
+ 761:lib_AT91SAM7S64.h **** }
+ 762:lib_AT91SAM7S64.h **** 
+ 763:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 764:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetOutputDataStatus
+ 765:lib_AT91SAM7S64.h **** //* \brief Return PIO Output Data Status 
+ 766:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 767:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetOutputDataStatus( // \return PIO Output Data Status 
+ 768:lib_AT91SAM7S64.h **** 	AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 769:lib_AT91SAM7S64.h **** {
+ 770:lib_AT91SAM7S64.h ****         return pPio->PIO_ODSR;
+ 771:lib_AT91SAM7S64.h **** }
+ 772:lib_AT91SAM7S64.h **** 
+ 773:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 774:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_InterruptEnable
+ 775:lib_AT91SAM7S64.h **** //* \brief Enable PIO Interrupt
+ 776:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 777:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_InterruptEnable(
+ 778:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 779:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio interrupt to be enabled
+ 780:lib_AT91SAM7S64.h **** {
+ 781:lib_AT91SAM7S64.h ****         pPio->PIO_IER = flag;
+ 782:lib_AT91SAM7S64.h **** }
+ 783:lib_AT91SAM7S64.h **** 
+ 784:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 785:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_InterruptDisable
+ 786:lib_AT91SAM7S64.h **** //* \brief Disable PIO Interrupt
+ 787:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 788:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_InterruptDisable(
+ 789:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 790:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio interrupt to be disabled
+ 791:lib_AT91SAM7S64.h **** {
+ 792:lib_AT91SAM7S64.h ****         pPio->PIO_IDR = flag;
+ 793:lib_AT91SAM7S64.h **** }
+ 794:lib_AT91SAM7S64.h **** 
+ 795:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 796:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetInterruptMaskStatus
+ 797:lib_AT91SAM7S64.h **** //* \brief Return PIO Interrupt Mask Status
+ 798:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 799:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetInterruptMaskStatus( // \return PIO Interrupt Mask Status
+ 800:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 801:lib_AT91SAM7S64.h **** {
+ 802:lib_AT91SAM7S64.h ****         return pPio->PIO_IMR;
+ 803:lib_AT91SAM7S64.h **** }
+ 804:lib_AT91SAM7S64.h **** 
+ 805:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 806:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetInterruptStatus
+ 807:lib_AT91SAM7S64.h **** //* \brief Return PIO Interrupt Status
+ 808:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 809:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetInterruptStatus( // \return PIO Interrupt Status
+ 810:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 811:lib_AT91SAM7S64.h **** {
+ 812:lib_AT91SAM7S64.h ****         return pPio->PIO_ISR;
+ 813:lib_AT91SAM7S64.h **** }
+ 814:lib_AT91SAM7S64.h **** 
+ 815:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 816:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsInterruptMasked
+ 817:lib_AT91SAM7S64.h **** //* \brief Test if PIO Interrupt is Masked 
+ 818:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 819:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsInterruptMasked(
+ 820:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 821:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 822:lib_AT91SAM7S64.h **** {
+ 823:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetInterruptMaskStatus(pPio) & flag);
+ 824:lib_AT91SAM7S64.h **** }
+ 825:lib_AT91SAM7S64.h **** 
+ 826:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 827:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsInterruptSet
+ 828:lib_AT91SAM7S64.h **** //* \brief Test if PIO Interrupt is Set
+ 829:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 830:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsInterruptSet(
+ 831:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 832:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 833:lib_AT91SAM7S64.h **** {
+ 834:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetInterruptStatus(pPio) & flag);
+ 835:lib_AT91SAM7S64.h **** }
+ 836:lib_AT91SAM7S64.h **** 
+ 837:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 838:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_MultiDriverEnable
+ 839:lib_AT91SAM7S64.h **** //* \brief Multi Driver Enable PIO
+ 840:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 841:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_MultiDriverEnable(
+ 842:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 843:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio to be enabled
+ 844:lib_AT91SAM7S64.h **** {
+ 845:lib_AT91SAM7S64.h ****         pPio->PIO_MDER = flag;
+ 846:lib_AT91SAM7S64.h **** }
+ 847:lib_AT91SAM7S64.h **** 
+ 848:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 849:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_MultiDriverDisable
+ 850:lib_AT91SAM7S64.h **** //* \brief Multi Driver Disable PIO
+ 851:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 852:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_MultiDriverDisable(
+ 853:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 854:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio to be disabled
+ 855:lib_AT91SAM7S64.h **** {
+ 856:lib_AT91SAM7S64.h ****         pPio->PIO_MDDR = flag;
+ 857:lib_AT91SAM7S64.h **** }
+ 858:lib_AT91SAM7S64.h **** 
+ 859:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 860:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetMultiDriverStatus
+ 861:lib_AT91SAM7S64.h **** //* \brief Return PIO Multi Driver Status
+ 862:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 863:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetMultiDriverStatus( // \return PIO Multi Driver Status
+ 864:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 865:lib_AT91SAM7S64.h **** {
+ 866:lib_AT91SAM7S64.h ****         return pPio->PIO_MDSR;
+ 867:lib_AT91SAM7S64.h **** }
+ 868:lib_AT91SAM7S64.h **** 
+ 869:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 870:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsMultiDriverSet
+ 871:lib_AT91SAM7S64.h **** //* \brief Test if PIO MultiDriver is Set
+ 872:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 873:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsMultiDriverSet(
+ 874:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 875:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 876:lib_AT91SAM7S64.h **** {
+ 877:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetMultiDriverStatus(pPio) & flag);
+ 878:lib_AT91SAM7S64.h **** }
+ 879:lib_AT91SAM7S64.h **** 
+ 880:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 881:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_A_RegisterSelection
+ 882:lib_AT91SAM7S64.h **** //* \brief PIO A Register Selection 
+ 883:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 884:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_A_RegisterSelection(
+ 885:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 886:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio A register selection
+ 887:lib_AT91SAM7S64.h **** {
+ 888:lib_AT91SAM7S64.h ****         pPio->PIO_ASR = flag;
+ 889:lib_AT91SAM7S64.h **** }
+ 890:lib_AT91SAM7S64.h **** 
+ 891:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 892:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_B_RegisterSelection
+ 893:lib_AT91SAM7S64.h **** //* \brief PIO B Register Selection 
+ 894:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 895:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_B_RegisterSelection(
+ 896:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 897:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio B register selection 
+ 898:lib_AT91SAM7S64.h **** {
+ 899:lib_AT91SAM7S64.h ****         pPio->PIO_BSR = flag;
+ 900:lib_AT91SAM7S64.h **** }
+ 901:lib_AT91SAM7S64.h **** 
+ 902:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 903:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_Get_AB_RegisterStatus
+ 904:lib_AT91SAM7S64.h **** //* \brief Return PIO Interrupt Status
+ 905:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 906:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_Get_AB_RegisterStatus( // \return PIO AB Register Status
+ 907:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 908:lib_AT91SAM7S64.h **** {
+ 909:lib_AT91SAM7S64.h ****         return pPio->PIO_ABSR;
+ 910:lib_AT91SAM7S64.h **** }
+ 911:lib_AT91SAM7S64.h **** 
+ 912:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 913:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsAB_RegisterSet
+ 914:lib_AT91SAM7S64.h **** //* \brief Test if PIO AB Register is Set
+ 915:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 916:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsAB_RegisterSet(
+ 917:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 918:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 919:lib_AT91SAM7S64.h **** {
+ 920:lib_AT91SAM7S64.h ****         return (AT91F_PIO_Get_AB_RegisterStatus(pPio) & flag);
+ 921:lib_AT91SAM7S64.h **** }
+ 922:lib_AT91SAM7S64.h **** 
+ 923:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 924:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_OutputWriteEnable
+ 925:lib_AT91SAM7S64.h **** //* \brief Output Write Enable PIO
+ 926:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 927:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_OutputWriteEnable(
+ 928:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 929:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio output write to be enabled
+ 930:lib_AT91SAM7S64.h **** {
+ 931:lib_AT91SAM7S64.h ****         pPio->PIO_OWER = flag;
+ 932:lib_AT91SAM7S64.h **** }
+ 933:lib_AT91SAM7S64.h **** 
+ 934:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 935:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_OutputWriteDisable
+ 936:lib_AT91SAM7S64.h **** //* \brief Output Write Disable PIO
+ 937:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 938:lib_AT91SAM7S64.h **** __inline void AT91F_PIO_OutputWriteDisable(
+ 939:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 940:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  pio output write to be disabled
+ 941:lib_AT91SAM7S64.h **** {
+ 942:lib_AT91SAM7S64.h ****         pPio->PIO_OWDR = flag;
+ 943:lib_AT91SAM7S64.h **** }
+ 944:lib_AT91SAM7S64.h **** 
+ 945:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 946:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetOutputWriteStatus
+ 947:lib_AT91SAM7S64.h **** //* \brief Return PIO Output Write Status
+ 948:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 949:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetOutputWriteStatus( // \return PIO Output Write Status
+ 950:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 951:lib_AT91SAM7S64.h **** {
+ 952:lib_AT91SAM7S64.h ****         return pPio->PIO_OWSR;
+ 953:lib_AT91SAM7S64.h **** }
+ 954:lib_AT91SAM7S64.h **** 
+ 955:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 956:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsOutputWriteSet
+ 957:lib_AT91SAM7S64.h **** //* \brief Test if PIO OutputWrite is Set
+ 958:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 959:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsOutputWriteSet(
+ 960:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 961:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 962:lib_AT91SAM7S64.h **** {
+ 963:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetOutputWriteStatus(pPio) & flag);
+ 964:lib_AT91SAM7S64.h **** }
+ 965:lib_AT91SAM7S64.h **** 
+ 966:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 967:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_GetCfgPullup
+ 968:lib_AT91SAM7S64.h **** //* \brief Return PIO Configuration Pullup
+ 969:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 970:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PIO_GetCfgPullup( // \return PIO Configuration Pullup 
+ 971:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio) // \arg  pointer to a PIO controller
+ 972:lib_AT91SAM7S64.h **** {
+ 973:lib_AT91SAM7S64.h ****         return pPio->PIO_PPUSR;
+ 974:lib_AT91SAM7S64.h **** }
+ 975:lib_AT91SAM7S64.h **** 
+ 976:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 977:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsOutputDataStatusSet
+ 978:lib_AT91SAM7S64.h **** //* \brief Test if PIO Output Data Status is Set 
+ 979:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 980:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsOutputDataStatusSet(
+ 981:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 982:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 983:lib_AT91SAM7S64.h **** {
+ 984:lib_AT91SAM7S64.h ****         return (AT91F_PIO_GetOutputDataStatus(pPio) & flag);
+ 985:lib_AT91SAM7S64.h **** }
+ 986:lib_AT91SAM7S64.h **** 
+ 987:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 988:lib_AT91SAM7S64.h **** //* \fn    AT91F_PIO_IsCfgPullupStatusSet
+ 989:lib_AT91SAM7S64.h **** //* \brief Test if PIO Configuration Pullup Status is Set
+ 990:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+ 991:lib_AT91SAM7S64.h **** __inline int AT91F_PIO_IsCfgPullupStatusSet(
+ 992:lib_AT91SAM7S64.h ****         AT91PS_PIO pPio,   // \arg  pointer to a PIO controller
+ 993:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+ 994:lib_AT91SAM7S64.h **** {
+ 995:lib_AT91SAM7S64.h ****         return (~AT91F_PIO_GetCfgPullup(pPio) & flag);
+ 996:lib_AT91SAM7S64.h **** }
+ 997:lib_AT91SAM7S64.h **** 
+ 998:lib_AT91SAM7S64.h **** /* *****************************************************************************
+ 999:lib_AT91SAM7S64.h ****                 SOFTWARE API FOR PMC
+1000:lib_AT91SAM7S64.h ****    ***************************************************************************** */
+1001:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1002:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_CfgSysClkEnableReg
+1003:lib_AT91SAM7S64.h **** //* \brief Configure the System Clock Enable Register of the PMC controller
+1004:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1005:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_CfgSysClkEnableReg (
+1006:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1007:lib_AT91SAM7S64.h **** 	unsigned int mode)
+1008:lib_AT91SAM7S64.h **** {
+1009:lib_AT91SAM7S64.h **** 	//* Write to the SCER register
+1010:lib_AT91SAM7S64.h **** 	pPMC->PMC_SCER = mode;
+1011:lib_AT91SAM7S64.h **** }
+1012:lib_AT91SAM7S64.h **** 
+1013:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1014:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_CfgSysClkDisableReg
+1015:lib_AT91SAM7S64.h **** //* \brief Configure the System Clock Disable Register of the PMC controller
+1016:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1017:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_CfgSysClkDisableReg (
+1018:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1019:lib_AT91SAM7S64.h **** 	unsigned int mode)
+1020:lib_AT91SAM7S64.h **** {
+1021:lib_AT91SAM7S64.h **** 	//* Write to the SCDR register
+1022:lib_AT91SAM7S64.h **** 	pPMC->PMC_SCDR = mode;
+1023:lib_AT91SAM7S64.h **** }
+1024:lib_AT91SAM7S64.h **** 
+1025:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1026:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_GetSysClkStatusReg
+1027:lib_AT91SAM7S64.h **** //* \brief Return the System Clock Status Register of the PMC controller
+1028:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1029:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_GetSysClkStatusReg (
+1030:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC // pointer to a CAN controller
+1031:lib_AT91SAM7S64.h **** 	)
+1032:lib_AT91SAM7S64.h **** {
+1033:lib_AT91SAM7S64.h **** 	return pPMC->PMC_SCSR;
+1034:lib_AT91SAM7S64.h **** }
+1035:lib_AT91SAM7S64.h **** 
+1036:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1037:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_EnablePeriphClock
+1038:lib_AT91SAM7S64.h **** //* \brief Enable peripheral clock
+1039:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1040:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_EnablePeriphClock (
+1041:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1042:lib_AT91SAM7S64.h **** 	unsigned int periphIds)  // \arg IDs of peripherals to enable
+1043:lib_AT91SAM7S64.h **** {
+1044:lib_AT91SAM7S64.h **** 	pPMC->PMC_PCER = periphIds;
+ 366              		.loc 2 1044 0
+ 367 0198 0410A0E3 		mov	r1, #4
+ 368 019c 033CE0E3 		mvn	r3, #768
+ 369 01a0 EF1003E5 		str	r1, [r3, #-239]
+ 370              	.LBE81:
+ 371              	.LBE80:
+ 372              	.LBB82:
+ 373              	.LBB83:
+ 374              		.loc 2 508 0
+ 375 01a4 78019FE5 		ldr	r0, .L64+16
+ 376              	.LBE83:
+ 377              	.LBE82:
+ 378              	.LBB84:
+ 379              	.LBB85:
+1045:lib_AT91SAM7S64.h **** }
+1046:lib_AT91SAM7S64.h **** 
+1047:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1048:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_DisablePeriphClock
+1049:lib_AT91SAM7S64.h **** //* \brief Disable peripheral clock
+1050:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1051:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_DisablePeriphClock (
+1052:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1053:lib_AT91SAM7S64.h **** 	unsigned int periphIds)  // \arg IDs of peripherals to enable
+1054:lib_AT91SAM7S64.h **** {
+1055:lib_AT91SAM7S64.h **** 	pPMC->PMC_PCDR = periphIds;
+1056:lib_AT91SAM7S64.h **** }
+1057:lib_AT91SAM7S64.h **** 
+1058:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1059:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_GetPeriphClock
+1060:lib_AT91SAM7S64.h **** //* \brief Get peripheral clock status
+1061:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1062:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_GetPeriphClock (
+1063:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC) // \arg pointer to PMC controller
+1064:lib_AT91SAM7S64.h **** {
+1065:lib_AT91SAM7S64.h **** 	return pPMC->PMC_PCSR;
+1066:lib_AT91SAM7S64.h **** }
+1067:lib_AT91SAM7S64.h **** 
+1068:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1069:lib_AT91SAM7S64.h **** //* \fn    AT91F_CKGR_CfgMainOscillatorReg
+1070:lib_AT91SAM7S64.h **** //* \brief Cfg the main oscillator
+1071:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1072:lib_AT91SAM7S64.h **** __inline void AT91F_CKGR_CfgMainOscillatorReg (
+1073:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR, // \arg pointer to CKGR controller
+1074:lib_AT91SAM7S64.h **** 	unsigned int mode)
+1075:lib_AT91SAM7S64.h **** {
+1076:lib_AT91SAM7S64.h **** 	pCKGR->CKGR_MOR = mode;
+1077:lib_AT91SAM7S64.h **** }
+1078:lib_AT91SAM7S64.h **** 
+1079:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1080:lib_AT91SAM7S64.h **** //* \fn    AT91F_CKGR_GetMainOscillatorReg
+1081:lib_AT91SAM7S64.h **** //* \brief Cfg the main oscillator
+1082:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1083:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_CKGR_GetMainOscillatorReg (
+1084:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR) // \arg pointer to CKGR controller
+1085:lib_AT91SAM7S64.h **** {
+1086:lib_AT91SAM7S64.h **** 	return pCKGR->CKGR_MOR;
+1087:lib_AT91SAM7S64.h **** }
+1088:lib_AT91SAM7S64.h **** 
+1089:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1090:lib_AT91SAM7S64.h **** //* \fn    AT91F_CKGR_EnableMainOscillator
+1091:lib_AT91SAM7S64.h **** //* \brief Enable the main oscillator
+1092:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1093:lib_AT91SAM7S64.h **** __inline void AT91F_CKGR_EnableMainOscillator(
+1094:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR) // \arg pointer to CKGR controller
+1095:lib_AT91SAM7S64.h **** {
+1096:lib_AT91SAM7S64.h **** 	pCKGR->CKGR_MOR |= AT91C_CKGR_MOSCEN;
+1097:lib_AT91SAM7S64.h **** }
+1098:lib_AT91SAM7S64.h **** 
+1099:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1100:lib_AT91SAM7S64.h **** //* \fn    AT91F_CKGR_DisableMainOscillator
+1101:lib_AT91SAM7S64.h **** //* \brief Disable the main oscillator
+1102:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1103:lib_AT91SAM7S64.h **** __inline void AT91F_CKGR_DisableMainOscillator (
+1104:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR) // \arg pointer to CKGR controller
+1105:lib_AT91SAM7S64.h **** {
+1106:lib_AT91SAM7S64.h **** 	pCKGR->CKGR_MOR &= ~AT91C_CKGR_MOSCEN;
+1107:lib_AT91SAM7S64.h **** }
+1108:lib_AT91SAM7S64.h **** 
+1109:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1110:lib_AT91SAM7S64.h **** //* \fn    AT91F_CKGR_CfgMainOscStartUpTime
+1111:lib_AT91SAM7S64.h **** //* \brief Cfg MOR Register according to the main osc startup time
+1112:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1113:lib_AT91SAM7S64.h **** __inline void AT91F_CKGR_CfgMainOscStartUpTime (
+1114:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR, // \arg pointer to CKGR controller
+1115:lib_AT91SAM7S64.h **** 	unsigned int startup_time,  // \arg main osc startup time in microsecond (us)
+1116:lib_AT91SAM7S64.h **** 	unsigned int slowClock)  // \arg slowClock in Hz
+1117:lib_AT91SAM7S64.h **** {
+1118:lib_AT91SAM7S64.h **** 	pCKGR->CKGR_MOR &= ~AT91C_CKGR_OSCOUNT;
+1119:lib_AT91SAM7S64.h **** 	pCKGR->CKGR_MOR |= ((slowClock * startup_time)/(8*1000000)) << 8;
+1120:lib_AT91SAM7S64.h **** }
+1121:lib_AT91SAM7S64.h **** 
+1122:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1123:lib_AT91SAM7S64.h **** //* \fn    AT91F_CKGR_GetMainClockFreqReg
+1124:lib_AT91SAM7S64.h **** //* \brief Cfg the main oscillator
+1125:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1126:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_CKGR_GetMainClockFreqReg (
+1127:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR) // \arg pointer to CKGR controller
+1128:lib_AT91SAM7S64.h **** {
+1129:lib_AT91SAM7S64.h **** 	return pCKGR->CKGR_MCFR;
+1130:lib_AT91SAM7S64.h **** }
+1131:lib_AT91SAM7S64.h **** 
+1132:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1133:lib_AT91SAM7S64.h **** //* \fn    AT91F_CKGR_GetMainClock
+1134:lib_AT91SAM7S64.h **** //* \brief Return Main clock in Hz
+1135:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1136:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_CKGR_GetMainClock (
+1137:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR, // \arg pointer to CKGR controller
+1138:lib_AT91SAM7S64.h **** 	unsigned int slowClock)  // \arg slowClock in Hz
+1139:lib_AT91SAM7S64.h **** {
+1140:lib_AT91SAM7S64.h **** 	return ((pCKGR->CKGR_MCFR  & AT91C_CKGR_MAINF) * slowClock) >> 4;
+1141:lib_AT91SAM7S64.h **** }
+1142:lib_AT91SAM7S64.h **** 
+1143:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1144:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_CfgMCKReg
+1145:lib_AT91SAM7S64.h **** //* \brief Cfg Master Clock Register
+1146:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1147:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_CfgMCKReg (
+1148:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1149:lib_AT91SAM7S64.h **** 	unsigned int mode)
+1150:lib_AT91SAM7S64.h **** {
+1151:lib_AT91SAM7S64.h **** 	pPMC->PMC_MCKR = mode;
+1152:lib_AT91SAM7S64.h **** }
+1153:lib_AT91SAM7S64.h **** 
+1154:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1155:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_GetMCKReg
+1156:lib_AT91SAM7S64.h **** //* \brief Return Master Clock Register
+1157:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1158:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_GetMCKReg(
+1159:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC) // \arg pointer to PMC controller
+1160:lib_AT91SAM7S64.h **** {
+1161:lib_AT91SAM7S64.h **** 	return pPMC->PMC_MCKR;
+1162:lib_AT91SAM7S64.h **** }
+1163:lib_AT91SAM7S64.h **** 
+1164:lib_AT91SAM7S64.h **** //*------------------------------------------------------------------------------
+1165:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_GetMasterClock
+1166:lib_AT91SAM7S64.h **** //* \brief Return master clock in Hz which correponds to processor clock for ARM7
+1167:lib_AT91SAM7S64.h **** //*------------------------------------------------------------------------------
+1168:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_GetMasterClock (
+1169:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1170:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR, // \arg pointer to CKGR controller
+1171:lib_AT91SAM7S64.h **** 	unsigned int slowClock)  // \arg slowClock in Hz
+1172:lib_AT91SAM7S64.h **** {
+1173:lib_AT91SAM7S64.h **** 	unsigned int reg = pPMC->PMC_MCKR;
+1174:lib_AT91SAM7S64.h **** 	unsigned int prescaler = (1 << ((reg & AT91C_PMC_PRES) >> 2));
+1175:lib_AT91SAM7S64.h **** 	unsigned int pllDivider, pllMultiplier;
+1176:lib_AT91SAM7S64.h **** 
+1177:lib_AT91SAM7S64.h **** 	switch (reg & AT91C_PMC_CSS) {
+1178:lib_AT91SAM7S64.h **** 		case AT91C_PMC_CSS_SLOW_CLK: // Slow clock selected
+1179:lib_AT91SAM7S64.h **** 			return slowClock / prescaler;
+1180:lib_AT91SAM7S64.h **** 		case AT91C_PMC_CSS_MAIN_CLK: // Main clock is selected
+1181:lib_AT91SAM7S64.h **** 			return AT91F_CKGR_GetMainClock(pCKGR, slowClock) / prescaler;
+1182:lib_AT91SAM7S64.h **** 		case AT91C_PMC_CSS_PLL_CLK: // PLLB clock is selected
+1183:lib_AT91SAM7S64.h **** 			reg = pCKGR->CKGR_PLLR;
+1184:lib_AT91SAM7S64.h **** 			pllDivider    = (reg  & AT91C_CKGR_DIV);
+1185:lib_AT91SAM7S64.h **** 			pllMultiplier = ((reg  & AT91C_CKGR_MUL) >> 16) + 1;
+1186:lib_AT91SAM7S64.h **** 			return AT91F_CKGR_GetMainClock(pCKGR, slowClock) / pllDivider * pllMultiplier / prescaler;
+1187:lib_AT91SAM7S64.h **** 	}
+1188:lib_AT91SAM7S64.h **** 	return 0;
+1189:lib_AT91SAM7S64.h **** }
+1190:lib_AT91SAM7S64.h **** 
+1191:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1192:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_EnablePCK
+1193:lib_AT91SAM7S64.h **** //* \brief Enable peripheral clock
+1194:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1195:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_EnablePCK (
+1196:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1197:lib_AT91SAM7S64.h **** 	unsigned int pck,  // \arg Peripheral clock identifier 0 .. 7
+1198:lib_AT91SAM7S64.h **** 	unsigned int mode)
+1199:lib_AT91SAM7S64.h **** {
+1200:lib_AT91SAM7S64.h **** 	pPMC->PMC_PCKR[pck] = mode;
+1201:lib_AT91SAM7S64.h **** 	pPMC->PMC_SCER = (1 << pck) << 8;
+1202:lib_AT91SAM7S64.h **** }
+1203:lib_AT91SAM7S64.h **** 
+1204:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1205:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_DisablePCK
+1206:lib_AT91SAM7S64.h **** //* \brief Enable peripheral clock
+1207:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1208:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_DisablePCK (
+1209:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
+1210:lib_AT91SAM7S64.h **** 	unsigned int pck)  // \arg Peripheral clock identifier 0 .. 7
+1211:lib_AT91SAM7S64.h **** {
+1212:lib_AT91SAM7S64.h **** 	pPMC->PMC_SCDR = (1 << pck) << 8;
+1213:lib_AT91SAM7S64.h **** }
+1214:lib_AT91SAM7S64.h **** 
+1215:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1216:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_EnableIt
+1217:lib_AT91SAM7S64.h **** //* \brief Enable PMC interrupt
+1218:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1219:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_EnableIt (
+1220:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC,     // pointer to a PMC controller
+1221:lib_AT91SAM7S64.h **** 	unsigned int flag)   // IT to be enabled
+1222:lib_AT91SAM7S64.h **** {
+1223:lib_AT91SAM7S64.h **** 	//* Write to the IER register
+1224:lib_AT91SAM7S64.h **** 	pPMC->PMC_IER = flag;
+1225:lib_AT91SAM7S64.h **** }
+1226:lib_AT91SAM7S64.h **** 
+1227:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1228:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_DisableIt
+1229:lib_AT91SAM7S64.h **** //* \brief Disable PMC interrupt
+1230:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1231:lib_AT91SAM7S64.h **** __inline void AT91F_PMC_DisableIt (
+1232:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC, // pointer to a PMC controller
+1233:lib_AT91SAM7S64.h **** 	unsigned int flag) // IT to be disabled
+1234:lib_AT91SAM7S64.h **** {
+1235:lib_AT91SAM7S64.h **** 	//* Write to the IDR register
+1236:lib_AT91SAM7S64.h **** 	pPMC->PMC_IDR = flag;
+1237:lib_AT91SAM7S64.h **** }
+1238:lib_AT91SAM7S64.h **** 
+1239:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1240:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_GetStatus
+1241:lib_AT91SAM7S64.h **** //* \brief Return PMC Interrupt Status
+1242:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1243:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_GetStatus( // \return PMC Interrupt Status
+1244:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC) // pointer to a PMC controller
+1245:lib_AT91SAM7S64.h **** {
+1246:lib_AT91SAM7S64.h **** 	return pPMC->PMC_SR;
+1247:lib_AT91SAM7S64.h **** }
+1248:lib_AT91SAM7S64.h **** 
+1249:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1250:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_GetInterruptMaskStatus
+1251:lib_AT91SAM7S64.h **** //* \brief Return PMC Interrupt Mask Status
+1252:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1253:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_GetInterruptMaskStatus( // \return PMC Interrupt Mask Status
+1254:lib_AT91SAM7S64.h **** 	AT91PS_PMC pPMC) // pointer to a PMC controller
+1255:lib_AT91SAM7S64.h **** {
+1256:lib_AT91SAM7S64.h **** 	return pPMC->PMC_IMR;
+1257:lib_AT91SAM7S64.h **** }
+1258:lib_AT91SAM7S64.h **** 
+1259:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1260:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_IsInterruptMasked
+1261:lib_AT91SAM7S64.h **** //* \brief Test if PMC Interrupt is Masked
+1262:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1263:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_IsInterruptMasked(
+1264:lib_AT91SAM7S64.h ****         AT91PS_PMC pPMC,   // \arg  pointer to a PMC controller
+1265:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+1266:lib_AT91SAM7S64.h **** {
+1267:lib_AT91SAM7S64.h **** 	return (AT91F_PMC_GetInterruptMaskStatus(pPMC) & flag);
+1268:lib_AT91SAM7S64.h **** }
+1269:lib_AT91SAM7S64.h **** 
+1270:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1271:lib_AT91SAM7S64.h **** //* \fn    AT91F_PMC_IsStatusSet
+1272:lib_AT91SAM7S64.h **** //* \brief Test if PMC Status is Set
+1273:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1274:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_PMC_IsStatusSet(
+1275:lib_AT91SAM7S64.h ****         AT91PS_PMC pPMC,   // \arg  pointer to a PMC controller
+1276:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  flag to be tested
+1277:lib_AT91SAM7S64.h **** {
+1278:lib_AT91SAM7S64.h **** 	return (AT91F_PMC_GetStatus(pPMC) & flag);
+1279:lib_AT91SAM7S64.h **** }
+1280:lib_AT91SAM7S64.h **** 
+1281:lib_AT91SAM7S64.h **** // ----------------------------------------------------------------------------
+1282:lib_AT91SAM7S64.h **** //  \fn    AT91F_CKGR_CfgPLLReg
+1283:lib_AT91SAM7S64.h **** //  \brief Cfg the PLL Register
+1284:lib_AT91SAM7S64.h **** // ----------------------------------------------------------------------------
+1285:lib_AT91SAM7S64.h **** __inline void AT91F_CKGR_CfgPLLReg (
+1286:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR, // \arg pointer to CKGR controller
+1287:lib_AT91SAM7S64.h **** 	unsigned int mode)
+1288:lib_AT91SAM7S64.h **** {
+1289:lib_AT91SAM7S64.h **** 	pCKGR->CKGR_PLLR = mode;
+1290:lib_AT91SAM7S64.h **** }
+1291:lib_AT91SAM7S64.h **** 
+1292:lib_AT91SAM7S64.h **** // ----------------------------------------------------------------------------
+1293:lib_AT91SAM7S64.h **** //  \fn    AT91F_CKGR_GetPLLReg
+1294:lib_AT91SAM7S64.h **** //  \brief Get the PLL Register
+1295:lib_AT91SAM7S64.h **** // ----------------------------------------------------------------------------
+1296:lib_AT91SAM7S64.h **** __inline unsigned int AT91F_CKGR_GetPLLReg (
+1297:lib_AT91SAM7S64.h **** 	AT91PS_CKGR pCKGR) // \arg pointer to CKGR controller
+1298:lib_AT91SAM7S64.h **** {
+1299:lib_AT91SAM7S64.h **** 	return pCKGR->CKGR_PLLR;
+1300:lib_AT91SAM7S64.h **** }
+1301:lib_AT91SAM7S64.h **** 
+1302:lib_AT91SAM7S64.h **** 
+1303:lib_AT91SAM7S64.h **** 
+1304:lib_AT91SAM7S64.h **** /* *****************************************************************************
+1305:lib_AT91SAM7S64.h ****                 SOFTWARE API FOR RSTC
+1306:lib_AT91SAM7S64.h ****    ***************************************************************************** */
+1307:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1308:lib_AT91SAM7S64.h **** //* \fn    AT91F_RSTSoftReset
+1309:lib_AT91SAM7S64.h **** //* \brief Start Software Reset
+1310:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1311:lib_AT91SAM7S64.h **** __inline void AT91F_RSTSoftReset(
+1312:lib_AT91SAM7S64.h ****         AT91PS_RSTC pRSTC,
+1313:lib_AT91SAM7S64.h ****         unsigned int reset)
+1314:lib_AT91SAM7S64.h **** {
+1315:lib_AT91SAM7S64.h **** 	pRSTC->RSTC_RCR = (0xA5000000 | reset);
+1316:lib_AT91SAM7S64.h **** }
+1317:lib_AT91SAM7S64.h **** 
+1318:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1319:lib_AT91SAM7S64.h **** //* \fn    AT91F_RSTSetMode
+1320:lib_AT91SAM7S64.h **** //* \brief Set Reset Mode
+1321:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
+1322:lib_AT91SAM7S64.h **** __inline void AT91F_RSTSetMode(
+1323:lib_AT91SAM7S64.h ****         AT91PS_RSTC pRSTC,
+1324:lib_AT91SAM7S64.h ****         unsigned int mode)
+1325:lib_AT91SAM7S64.h **** {
+1326:lib_AT91SAM7S64.h **** 	pRSTC->RSTC_RMR = (0xA5000000 | mode);
+ 380              		.loc 2 1326 0
+ 381 01a8 78119FE5 		ldr	r1, .L64+20
+ 382              	.LBE85:
+ 383              	.LBE84:
+ 384              	.LBB86:
+ 385              	.LBB87:
+ 386              		.loc 2 508 0
+ 387 01ac 0B2CE0E3 		mvn	r2, #2816
+ 388              	.LBE87:
+ 389              	.LBE86:
+ 390              	.LBB88:
+ 391              	.LBB89:
+ 392              		.loc 2 1326 0
+ 393 01b0 013C83E2 		add	r3, r3, #256
+ 394              	.LBE89:
+ 395              	.LBE88:
+ 396              	.LBB90:
+ 397              	.LBB91:
+ 398              		.loc 2 508 0
+ 399 01b4 FF0002E5 		str	r0, [r2, #-255]
+ 400              	.LBE91:
+ 401              	.LBE90:
+ 402              	.LBB92:
+ 403              	.LBB93:
+ 404              		.loc 2 521 0
+ 405 01b8 06C7A0E3 		mov	ip, #1572864
+ 406              	.LBE93:
+ 407              	.LBE92:
+ 408              	.LBB94:
+ 409              	.LBB95:
+ 410              		.loc 2 509 0
+ 411 01bc EF0002E5 		str	r0, [r2, #-239]
+ 412              	.LBE95:
+ 413              	.LBE94:
+ 414              	.LBB96:
+ 415              	.LBB97:
+ 416              		.loc 2 495 0
+ 417 01c0 01E6A0E3 		mov	lr, #1048576
+ 418              	.LBE97:
+ 419              	.LBE96:
+ 420              	.LBB98:
+ 421              	.LBB99:
+ 422              		.loc 2 609 0
+ 423 01c4 CF0002E5 		str	r0, [r2, #-207]
+ 424              	.LBE99:
+ 425              	.LBE98:
+ 426              	.LBB100:
+ 427              	.LBB101:
+ 428              		.loc 2 1326 0
+ 429 01c8 F71003E5 		str	r1, [r3, #-247]
+ 430              	.LBE101:
+ 431              	.LBE100:
+ 432              	.LBB102:
+ 433              	.LBB103:
+ 434              		.loc 2 496 0
+ 435 01cc 0030A0E3 		mov	r3, #0
+ 436              	.LBE103:
+ 437              	.LBE102:
+ 438              	.LBB104:
+ 439              	.LBB105:
+ 440              		.loc 2 521 0
+ 441 01d0 EBC002E5 		str	ip, [r2, #-235]
+ 442              		.loc 2 522 0
+ 443 01d4 FFC002E5 		str	ip, [r2, #-255]
+ 444              	.LBE105:
+ 445              	.LBE104:
+ 446              	.LBB106:
+ 447              	.LBB107:
+ 448              		.loc 2 495 0
+ 449 01d8 8FE002E5 		str	lr, [r2, #-143]
+ 450              		.loc 2 496 0
+ 451 01dc 8B3002E5 		str	r3, [r2, #-139]
+ 452              		.loc 2 497 0
+ 453 01e0 FBE002E5 		str	lr, [r2, #-251]
+ 454              	.LBE107:
+ 455              	.LBE106:
+ 456              	.LBB108:
+ 457              	.LBB109:
+ 458              		.loc 2 62 0
+ 459 01e4 012B42E2 		sub	r2, r2, #1024
+ 460 01e8 073012E5 		ldr	r3, [r2, #-7]
+ 461              	.LVL5:
+ 462              		.loc 2 68 0
+ 463 01ec 38319FE5 		ldr	r3, .L64+24
+ 464              	.LVL6:
+ 465              		.loc 2 66 0
+ 466 01f0 0111A0E3 		mov	r1, #1073741824
+ 467 01f4 251082E5 		str	r1, [r2, #37]
+ 468              		.loc 2 68 0
+ 469 01f8 073002E5 		str	r3, [r2, #-7]
+ 470              		.loc 2 70 0
+ 471 01fc 2230A0E3 		mov	r3, #34
+ 472 0200 873002E5 		str	r3, [r2, #-135]
+ 473              		.loc 2 72 0
+ 474 0204 291082E5 		str	r1, [r2, #41]
+ 475              	.LBE109:
+ 476              	.LBE108:
+ 477              	.LBB110:
+ 478              	.LBB111:
+ 479              		.loc 2 86 0
+ 480 0208 211082E5 		str	r1, [r2, #33]
+ 481              	.L63:
+ 482              	.LBE111:
+ 483              	.LBE110:
+ 189:main.c        **** 
+ 190:main.c        **** 	// First, enable the clock of the PIOB
+ 191:main.c        **** 	AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA ) ;
+ 192:main.c        **** 
+ 193:main.c        ****    	// then, we configure the PIO Lines corresponding to LED1 to LED8
+ 194:main.c        ****    	// to be outputs. No need to set these pins to be driven by the PIO because it is GPIO pins onl
+ 195:main.c        ****     	AT91F_PIO_CfgOutput( AT91C_BASE_PIOA, LED_MASK ) ;
+ 196:main.c        ****    	// Clear the LED's. On the EB55 we must apply a "1" to turn off LEDs
+ 197:main.c        ****    	AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED_MASK ) ;
+ 198:main.c        **** 
+ 199:main.c        **** 	// mt: added reset enable to make the board reset-button "useful"
+ 200:main.c        **** 	AT91F_RSTSetMode( AT91C_BASE_RSTC , AT91C_RSTC_URSTEN );
+ 201:main.c        **** 
+ 202:main.c        ****     // open external PIO interrupt
+ 203:main.c        ****     // define switch SW1 at PIO input for interrupt IRQ loop
+ 204:main.c        **** 	AT91F_PIO_CfgInput(AT91C_BASE_PIOA, SW1_MASK | SW2_MASK);
+ 205:main.c        **** 
+ 206:main.c        **** /*
+ 207:main.c        **** 	AT91F_AIC_ConfigureIt ( pAic, AT91C_ID_PIOA, PIO_INTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL,
+ 208:main.c        **** 	AT91F_PIO_InterruptEnable(AT91C_BASE_PIOA,SW1_MASK);
+ 209:main.c        **** 	// set the interrupt by software
+ 210:main.c        **** 	AT91F_AIC_EnableIt (pAic, AT91C_ID_PIOA);
+ 211:main.c        **** */
+ 212:main.c        ****     // open external IRQ interrupt
+ 213:main.c        ****    	AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, SW2_MASK, 0);
+ 214:main.c        ****    	// open external IRQ0 interrupt
+ 215:main.c        **** 	AT91F_AIC_ConfigureIt ( pAic, AT91C_ID_IRQ0, IRQ0_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_
+ 216:main.c        **** 	AT91F_AIC_EnableIt (pAic, AT91C_ID_IRQ0);
+ 217:main.c        **** /*
+ 218:main.c        ****     // Open the software interrupt on the AIC
+ 219:main.c        **** 	AT91F_AIC_ConfigureIt ( pAic, AT91C_ID_SYS, SOFT_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_POSITIVE_E
+ 220:main.c        **** 	AT91F_AIC_EnableIt (pAic, AT91C_ID_SYS);
+ 221:main.c        **** 
+ 222:main.c        ****     // open  FIQ interrupt
+ 223:main.c        **** 	AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA,SW1_MASK,0);
+ 224:main.c        **** 	AT91F_AIC_ConfigureIt ( pAic, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDG
+ 225:main.c        **** 	AT91F_AIC_EnableIt (pAic, AT91C_ID_FIQ);
+ 226:main.c        **** 	// generate FIQ interrupt by software
+ 227:main.c        **** 	AT91F_AIC_Trig (pAic,AT91C_ID_FIQ) ;
+ 228:main.c        **** 
+ 229:main.c        ****     // Init timer interrupt
+ 230:main.c        ****         timer_init();
+ 231:main.c        **** 
+ 232:main.c        ****     // Init Usart
+ 233:main.c        ****         Usart_init();
+ 234:main.c        **** 
+ 235:main.c        ****     // generate software interrupt
+ 236:main.c        ****         AT91F_AIC_Trig(pAic,AT91C_ID_SYS) ;
+ 237:main.c        **** */
+ 238:main.c        ****     for (;;)
+ 239:main.c        ****     {
+ 240:main.c        ****         if (status_irq == 0)
+ 484              		.loc 1 240 0
+ 485 020c 08319FE5 		ldr	r3, .L64+8
+ 486 0210 003093E5 		ldr	r3, [r3, #0]
+ 487 0214 000053E3 		cmp	r3, #0
+ 488 0218 9600001A 		bne	.L61
+ 489              	.LBB112:
+ 490              	.LBB113:
+ 491              		.loc 2 609 0
+ 492 021c 0B5CE0E3 		mvn	r5, #2816
+ 493 0220 0147A0E3 		mov	r4, #262144
+ 494              	.LBE113:
+ 495              	.LBE112:
+ 241:main.c        ****         {
+ 242:main.c        ****             AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED1 );
+ 243:main.c        ****             Delay(10);
+ 496              		.loc 1 243 0
+ 497 0224 0A00A0E3 		mov	r0, #10
+ 498              	.LBB114:
+ 499              	.LBB115:
+ 500              		.loc 2 609 0
+ 501 0228 CF4005E5 		str	r4, [r5, #-207]
+ 502              	.LBE115:
+ 503              	.LBE114:
+ 504              		.loc 1 243 0
+ 505 022c FEFFFFEB 		bl	Delay
+ 506              	.LBB116:
+ 507              	.LBB117:
+ 508              		.loc 2 86 0
+ 509 0230 0121A0E3 		mov	r2, #1073741824
+ 510 0234 0F3CE0E3 		mvn	r3, #3840
+ 511              	.LBE117:
+ 512              	.LBE116:
+ 513              	.LBB118:
+ 514              	.LBB119:
+ 515              		.loc 2 620 0
+ 516 0238 CB4005E5 		str	r4, [r5, #-203]
+ 517              	.LBE119:
+ 518              	.LBE118:
+ 519              	.LBB120:
+ 520              	.LBB121:
+ 521              		.loc 2 86 0
+ 522 023c 212083E5 		str	r2, [r3, #33]
+ 523 0240 960000EA 		b	.L61
+ 524              	.L47:
+ 525              	.LBE121:
+ 526              	.LBE120:
+ 244:main.c        ****             AT91F_PIO_ClearOutput( AT91C_BASE_PIOA, LED1 );
+ 245:main.c        ****             AT91F_AIC_EnableIt(pAic, AT91C_ID_IRQ0);
+ 246:main.c        ****         }
+ 247:main.c        **** 
+ 248:main.c        ****         while (status_irq == 0)
+ 249:main.c        ****         {
+ 250:main.c        ****             cnt++;
+ 527              		.loc 1 250 0
+ 528 0244 003092E5 		ldr	r3, [r2, #0]
+ 529 0248 013083E2 		add	r3, r3, #1
+ 530 024c 003082E5 		str	r3, [r2, #0]
+ 251:main.c        ****             if (cnt > 50000)
+ 531              		.loc 1 251 0
+ 532 0250 D8309FE5 		ldr	r3, .L64+28
+ 533 0254 002092E5 		ldr	r2, [r2, #0]
+ 534 0258 030052E1 		cmp	r2, r3
+ 535 025c 9B00008A 		bhi	.L48
+ 536              	.L61:
+ 537              		.loc 1 248 0
+ 538 0260 B4309FE5 		ldr	r3, .L64+8
+ 539 0264 003093E5 		ldr	r3, [r3, #0]
+ 540 0268 000053E3 		cmp	r3, #0
+ 541              		.loc 1 250 0
+ 542 026c A4209FE5 		ldr	r2, .L64+4
+ 543              		.loc 1 248 0
+ 544 0270 8F00000A 		beq	.L47
+ 545              	.L48:
+ 252:main.c        ****             break;
+ 253:main.c        ****         }
+ 254:main.c        **** 
+ 255:main.c        ****         if (status_irq == 1 || cnt > 50000)
+ 546              		.loc 1 255 0
+ 547 0274 A0309FE5 		ldr	r3, .L64+8
+ 548 0278 003093E5 		ldr	r3, [r3, #0]
+ 549 027c 010053E3 		cmp	r3, #1
+ 550 0280 A400000A 		beq	.L49
+ 551 0284 8C309FE5 		ldr	r3, .L64+4
+ 552 0288 002093E5 		ldr	r2, [r3, #0]
+ 553 028c 9C309FE5 		ldr	r3, .L64+28
+ 554 0290 030052E1 		cmp	r2, r3
+ 555 0294 8100009A 		bls	.L63
+ 556              	.L49:
+ 557              	.LBB122:
+ 558              	.LBB123:
+ 559              		.loc 2 99 0
+ 560 0298 0F2CE0E3 		mvn	r2, #3840
+ 561 029c 0131A0E3 		mov	r3, #1073741824
+ 562 02a0 253082E5 		str	r3, [r2, #37]
+ 563              	.LBE123:
+ 564              	.LBE122:
+ 256:main.c        ****         {
+ 257:main.c        ****             AT91F_AIC_DisableIt(pAic, AT91C_ID_IRQ0);
+ 258:main.c        ****             if (cnt > 50000)
+ 565              		.loc 1 258 0
+ 566 02a4 6C109FE5 		ldr	r1, .L64+4
+ 567              	.LBB124:
+ 568              	.LBB125:
+ 569              		.loc 2 101 0
+ 570 02a8 293082E5 		str	r3, [r2, #41]
+ 571              	.LBE125:
+ 572              	.LBE124:
+ 573              		.loc 1 258 0
+ 574 02ac 7C309FE5 		ldr	r3, .L64+28
+ 575 02b0 002091E5 		ldr	r2, [r1, #0]
+ 576 02b4 030052E1 		cmp	r2, r3
+ 577 02b8 B100009A 		bls	.L51
+ 259:main.c        ****             {
+ 260:main.c        ****                 sprintf((char *)msg, "FAILED\n");
+ 578              		.loc 1 260 0
+ 579 02bc 70109FE5 		ldr	r1, .L64+32
+ 580 02c0 70009FE5 		ldr	r0, .L64+36
+ 581 02c4 FEFFFFEB 		bl	strcpy
+ 582 02c8 B50000EA 		b	.L53
+ 583              	.L51:
+ 261:main.c        ****             }
+ 262:main.c        ****             else
+ 263:main.c        ****             {
+ 264:main.c        ****                 sprintf((char *)msg, "COUNTER: %d\n", cnt);
+ 584              		.loc 1 264 0
+ 585 02cc 002091E5 		ldr	r2, [r1, #0]
+ 586 02d0 60009FE5 		ldr	r0, .L64+36
+ 587 02d4 60109FE5 		ldr	r1, .L64+40
+ 588 02d8 FEFFFFEB 		bl	sprintf
+ 589              	.L53:
+ 265:main.c        ****             }
+ 266:main.c        ****             printTrace(msg);
+ 590              		.loc 1 266 0
+ 591 02dc 54009FE5 		ldr	r0, .L64+36
+ 592 02e0 FEFFFFEB 		bl	printTrace
+ 267:main.c        **** 
+ 268:main.c        ****             status_irq = 0;
+ 593              		.loc 1 268 0
+ 594 02e4 30309FE5 		ldr	r3, .L64+8
+ 595 02e8 0020A0E3 		mov	r2, #0
+ 596 02ec 002083E5 		str	r2, [r3, #0]
+ 269:main.c        ****             cnt = 0;
+ 597              		.loc 1 269 0
+ 598 02f0 20309FE5 		ldr	r3, .L64+4
+ 599              	.LBB126:
+ 600              	.LBB127:
+ 601              		.loc 2 620 0
+ 602 02f4 0B5CE0E3 		mvn	r5, #2816
+ 603 02f8 0248A0E3 		mov	r4, #131072
+ 604              	.LBE127:
+ 605              	.LBE126:
+ 606              		.loc 1 269 0
+ 607 02fc 002083E5 		str	r2, [r3, #0]
+ 270:main.c        **** 
+ 271:main.c        ****             AT91F_PIO_ClearOutput( AT91C_BASE_PIOA, LED2 );
+ 272:main.c        ****             Delay(100000);
+ 608              		.loc 1 272 0
+ 609 0300 38009FE5 		ldr	r0, .L64+44
+ 610              	.LBB128:
+ 611              	.LBB129:
+ 612              		.loc 2 620 0
+ 613 0304 CB4005E5 		str	r4, [r5, #-203]
+ 614              	.LBE129:
+ 615              	.LBE128:
+ 616              		.loc 1 272 0
+ 617 0308 FEFFFFEB 		bl	Delay
+ 618              	.LBB130:
+ 619              	.LBB131:
+ 620              		.loc 2 609 0
+ 621 030c CF4005E5 		str	r4, [r5, #-207]
+ 622 0310 810000EA 		b	.L63
+ 623              	.L65:
+ 624              		.align	2
+ 625              	.L64:
+ 626 0314 010400A5 		.word	-1526725631
+ 627 0318 04000000 		.word	cnt
+ 628 031c 00000000 		.word	status_irq
+ 629 0320 00000000 		.word	pCDC
+ 630 0324 0C000600 		.word	393228
+ 631 0328 010000A5 		.word	-1526726655
+ 632 032c 00000000 		.word	at91_IRQ0_handler
+ 633 0330 50C30000 		.word	50000
+ 634 0334 00000000 		.word	.LC0
+ 635 0338 00000000 		.word	msg
+ 636 033c 08000000 		.word	.LC1
+ 637 0340 A0860100 		.word	100000
+ 638              	.LBE131:
+ 639              	.LBE130:
+ 640              	.LFE297:
+ 642              		.bss
+ 643              		.align	2
+ 644              	status_irq:
+ 645 0000 00000000 		.space	4
+ 646              		.align	2
+ 647              	cnt:
+ 648 0004 00000000 		.space	4
+ 649              		.comm	msg,1000,1
+ 650              		.comm	pCDC,24,4
+ 767              	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+     /tmp/cc0SQFfZ.s:13     .text:00000000 at91_IRQ0_handler
+     /tmp/cc0SQFfZ.s:22     .text:00000000 $a
+     /tmp/cc0SQFfZ.s:33     .text:00000010 $d
+     /tmp/cc0SQFfZ.s:644    .bss:00000000 status_irq
+     /tmp/cc0SQFfZ.s:39     .text:00000014 delay
+     /tmp/cc0SQFfZ.s:46     .text:00000014 $a
+     /tmp/cc0SQFfZ.s:70     .text:00000044 $d
+     /tmp/cc0SQFfZ.s:76     .text:00000048 Delay
+     /tmp/cc0SQFfZ.s:84     .text:00000048 $a
+     /tmp/cc0SQFfZ.s:109    .text:00000074 printTrace
+     /tmp/cc0SQFfZ.s:136    .text:000000a4 $d
+                            *COM*:00000018 pCDC
+     /tmp/cc0SQFfZ.s:142    .text:000000a8 AT91F_USB_Open
+     /tmp/cc0SQFfZ.s:149    .text:000000a8 $a
+     /tmp/cc0SQFfZ.s:206    .text:000000f4 $d
+     /tmp/cc0SQFfZ.s:213    .text:000000fc aic_software_interrupt
+     /tmp/cc0SQFfZ.s:223    .text:000000fc $a
+     /tmp/cc0SQFfZ.s:261    .text:0000011c pio_c_irq_handler
+     /tmp/cc0SQFfZ.s:332    .text:00000154 main
+     /tmp/cc0SQFfZ.s:626    .text:00000314 $d
+     /tmp/cc0SQFfZ.s:647    .bss:00000004 cnt
+                            *COM*:000003e8 msg
+
+UNDEFINED SYMBOLS
+strlen
+AT91F_CDC_Open
+strcpy
+sprintf
