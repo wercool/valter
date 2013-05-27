@@ -33,8 +33,8 @@ extern "C"
     #endif
 
     // used board
-    #define ATMEL_AT91SAM7S_EK
-    // #define OX_SAM7_P
+    //#define ATMEL_AT91SAM7S_EK
+    #define OX_SAM7_P
 
     #define __inline static inline
 
@@ -118,8 +118,8 @@ extern "C"
     /* USART Definition */
     /*------------------*/
     /* SUB-D 9 points J3 DBGU */
-    #define DBGU_RXD        AT91C_PA9_DRXD	  /* JP11 must be close */
-    #define DBGU_TXD        AT91C_PA10_DTXD	  /* JP12 must be close */
+    #define DBGU_RXD        AT91C_PA9_DRXD    /* JP11 must be close */
+    #define DBGU_TXD        AT91C_PA10_DTXD   /* JP12 must be close */
     #define AT91C_DBGU_BAUD    115200   // Baud rate
 
     #define US_RXD_PIN      AT91C_PA5_RXD0    /* JP9 must be close */

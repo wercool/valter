@@ -18,7 +18,8 @@ After that, you just have to type  arm-elf-gcc --version   to verify that the in
 
 
 
-===========================================================================================================
+==================was not working==================================================
+==================the following were don===========================================
 
 ./src
 this folder contains all necessary sources and docs to build and install arm-elf toolchain

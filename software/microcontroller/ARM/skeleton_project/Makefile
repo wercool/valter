@@ -24,9 +24,8 @@
 # - 24. Aprl 2007  - added "both" option for format (.bin and .hex)
 
 # Toolchain prefix (i.e arm-elf -> arm-elf-gcc.exe)
-#TCHAIN = arm-elf
+TCHAIN = arm-elf
 #TCHAIN = arm-none-eabi
-TCHAIN = arm-linux-gnueabi
 
 USE_THUMB_MODE = YES
 #USE_THUMB_MODE = NO

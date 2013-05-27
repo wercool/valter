@@ -8,7 +8,7 @@
 #if 0
 extern "C"
 {
-    int	_EXFUN(iscanf, (const char *, ...) _ATTRIBUTE ((__format__ (__scanf__, 1, 2))));
+    int _EXFUN(iscanf, (const char *, ...) _ATTRIBUTE ((__format__ (__scanf__, 1, 2))));
 }
 #endif
 #include "Board.h"
@@ -16,8 +16,19 @@ extern "C"
 #include "swi.h"
 
 
-#define RTTC_INTERRUPT_LEVEL   0
+#define RTTC_INTERRUPT_LEVEL    0
+#define FIQ_INTERRUPT_LEVEL     0
 #define PIV_200_MS             600000  //* 200 ms for 48 MHz
+
+//*----------------------------------------------------------------------------
+//* Function Name       : FIQ_init_handler
+//* Object              : Irq Handler called by the FIQ interrupt with AT91
+//*                       compatibility
+///*----------------------------------------------------------------------------
+void FIQ_init_handler(void)
+{
+    AT91F_AIC_DisableIt (AT91C_BASE_AIC, AT91C_ID_SYS);
+}
 
 void Periodic_Interval_Timer_handler(void)
 {
@@ -45,24 +56,29 @@ static void device_init(void)
 
     // Set-up the PIO
     // First, enable the clock of the PIO and set the LEDs in output
-    AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA ) ;
+    AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA );
 
     // then, we configure the PIO Lines corresponding to LEDs
     // to be outputs. No need to set these pins to be driven by the PIO because it is GPIO pins only.
     /// AT91F_PIO_CfgOutput( AT91C_BASE_PIOA, LED_MASK ) ;
-    AT91F_PIO_CfgOutput( AT91C_BASE_PIOA, LED1 ) ;
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, LED1);
 
     // Clear the LED's. On the SAM7S-EK we must apply a "1" to turn off LEDs
     /// AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED_MASK ) ;
-    AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED1 ) ;
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, LED1);
 
     // define switch SW1 at PIO input
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA,SW1_MASK);
 
     // Set-up PIT interrupt
-    AT91F_AIC_ConfigureIt ( AT91C_BASE_AIC, AT91C_ID_SYS, RTTC_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE, Periodic_Interval_Timer_handler);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_SYS, RTTC_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE, Periodic_Interval_Timer_handler);
     AT91C_BASE_PITC->PITC_PIMR = AT91C_PITC_PITEN | AT91C_PITC_PITIEN | PIV_200_MS;  //  IRQ enable CPC
-    AT91F_AIC_EnableIt (AT91C_BASE_AIC, AT91C_ID_SYS);
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_SYS);
+
+    // open  FIQ interrupt
+    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, SW1_MASK, 0);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, FIQ_init_handler);
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
 
     // Set-up DBGU Usart ("UART2")
     AT91F_DBGU_Init();
