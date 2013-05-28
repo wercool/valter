@@ -68,7 +68,7 @@ static void device_init(void)
     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, LED1);
 
     // define switch SW1 at PIO input
-    AT91F_PIO_CfgInput(AT91C_BASE_PIOA,SW1_MASK);
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, SW1_MASK);
 
     // Set-up PIT interrupt
     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_SYS, RTTC_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE, Periodic_Interval_Timer_handler);

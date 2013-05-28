@@ -1,3 +1,7 @@
+On 64 bits version install 32 bits libraries: 
+
+apt-get install ia32-libs
+
 Once downloaded, it will be necessary to uncompress this file.
 To do that, open a console in the directory containing this downloaded file and just type:
 
@@ -15,23 +19,3 @@ When everything is done, it's necessary to logout your session, and login a new 
 By this way, the system will take your modifications in consideration.
 
 After that, you just have to type  arm-elf-gcc --version   to verify that the installation of your new compiler is OK.
-
-
-
-==================was not working==================================================
-==================the following were done===========================================
-
-./src
-this folder contains all necessary sources and docs to build and install arm-elf toolchain
-
-=========IMPORTANT!=================
-=============was launched twice:============================
-
- binutils
-
-You must compile and install binutils prior to compiling GCC
-
-tar -jxvf binutils-2.17.tar.bz2
-cd binutils-2.17
-./configure --disable-werror --target=arm-elf --prefix=/usr/local/arm7
-sudo make all install

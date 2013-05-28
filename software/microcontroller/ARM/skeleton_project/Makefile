@@ -114,8 +114,6 @@ DEBUG = dwarf-2
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
 EXTRAINCDIRS = ./common
-EXTRAINCDIRS += ./common/arm-elf/include
-EXTRAINCDIRS += ./common/arm-elf/sys-include
 
 # List any extra directories to look for library files here.
 #     Each directory must be seperated by a space.
