@@ -1,3 +1,14 @@
+On 64 bits version install 32 bits libraries: 
+
+apt-get install ia32-libs
+
+==============
+
+ia32-libs - ia32 shared libraries - transitional package
+ia32-libs-multiarch - Multi-arch versions of former ia32-libraries
+
+
+
 Useful links:
 
 AT91 ARM-Projects
