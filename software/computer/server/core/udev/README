@@ -1,0 +1,8 @@
+sudo apt-get install libudev-dev
+
+
+to get system for 
+
+udev_enumerate_add_match_subsystem(enumerate, "hidraw"); 
+
+/sbin/udevadm info --query all --name=/dev/video0
