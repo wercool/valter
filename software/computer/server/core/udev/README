@@ -1,7 +1,7 @@
 sudo apt-get install libudev-dev
 
 
-to get system for 
+to get 'subsystem' parameter for 
 
 udev_enumerate_add_match_subsystem(enumerate, "hidraw"); 
 
