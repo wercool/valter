@@ -21,8 +21,9 @@ int main (void)
 
     /* Create a list of the devices in the 'hidraw' subsystem. */
     enumerate = udev_enumerate_new(udev);
-    udev_enumerate_add_match_subsystem(enumerate, "hidraw");
-    //udev_enumerate_add_match_subsystem(enumerate, "video4linux");
+    //udev_enumerate_add_match_subsystem(enumerate, "hidraw");
+    udev_enumerate_add_match_subsystem(enumerate, "video4linux");
+    //udev_enumerate_add_match_subsystem(enumerate, "tty");
     udev_enumerate_scan_devices(enumerate);
     devices = udev_enumerate_get_list_entry(enumerate);
     /* For each item enumerated, print out its information.
@@ -54,7 +55,7 @@ int main (void)
                "usb",
                "usb_device");
         if (!dev) {
-            printf("Unable to find parent usb device.");
+            printf("Unable to find parent usb device.\n");
             exit(1);
         }
 

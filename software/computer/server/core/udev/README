@@ -6,3 +6,6 @@ to get 'subsystem' parameter for
 udev_enumerate_add_match_subsystem(enumerate, "hidraw"); 
 
 /sbin/udevadm info --query all --name=/dev/video0
+
+
+gcc -Wall -g -o udev_list udev_list.c -ludev
