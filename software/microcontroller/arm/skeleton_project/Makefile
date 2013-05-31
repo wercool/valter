@@ -52,7 +52,8 @@ TARGET = main
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
-SRC  = dbgu.c 
+SRC  = $(TARGET).c
+SRC += dbgu.c 
 SRC += syscalls.c
 SRC += swi_handler_user.c
 SRC += cdc_enumerate.c
@@ -69,7 +70,7 @@ CPPSRC =
 
 # List C++ source files here which must be compiled in ARM-Mode.
 # use file-extension cpp for C++-files (use extension .cpp)
-CPPSRCARM = $(TARGET).cpp
+CPPSRCARM =
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s
@@ -81,11 +82,11 @@ CPPSRCARM = $(TARGET).cpp
 ASRC = 
 
 # List Assembler source files here which must be assembled in ARM-Mode..
-ASRCARM   = common/Cstartup.S
-ASRCARM  += common/swi_handler.S
+ASRCARM   = ./common/Cstartup.S
+ASRCARM  += ./common/swi_handler.S
 
 # Path to Linker-Scripts
-LINKERSCRIPTPATH = ./common/
+LINKERSCRIPTPATH = ./common
 
 ## Output format. (can be ihex or binary or both)
 ## (binary i.e. for openocd and SAM-BA, hex i.e. for lpc21isp and uVision)
