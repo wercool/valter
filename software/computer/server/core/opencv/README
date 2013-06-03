@@ -1,0 +1,13 @@
+http://docs.opencv.org/trunk/doc/tutorials/introduction/linux_install/linux_install.html
+========================================================================================
+
+
+cd ~
+git clone https://github.com/Itseez/opencv.git
+git pull
+cd ~/opencv
+mkdir release
+cd release
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
+make
+sudo make install
