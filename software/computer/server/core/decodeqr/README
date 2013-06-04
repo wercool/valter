@@ -8,3 +8,8 @@ EXIT with exit(0)
 in  imagereader.cpp
 
 sudo make CXXFLAGS+=-fpermissive
+
+
+cd samples/simple/
+
+g++ `pkg-config --libs --cflags opencv` simpletest.cpp -o simpletest /usr/lib/libdecodeqr.so.0
