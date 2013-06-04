@@ -7,21 +7,21 @@
 int main(int argc, char* argv[])
 {
     FILE *fp= NULL;
-    pid_t process_id = 0;
+    pid_t pid = 0;
     pid_t sid = 0;
     // Create child process
-    process_id = fork();
+    pid = fork();
     // Indication of fork() failure
-    if (process_id < 0)
+    if (pid < 0)
     {
         printf("fork failed!\n");
         // Return failure in exit status
         exit(1);
     }
     // PARENT PROCESS. Need to kill it.
-    if (process_id > 0)
+    if (pid > 0)
     {
-        printf("PID of child process: %d \n", process_id);
+        printf("PID of child process: %d \n", pid);
         // return success in exit status
         exit(0);
     }
@@ -33,6 +33,10 @@ int main(int argc, char* argv[])
     {
         // Return failure
         exit(1);
+    }
+    else
+    {
+        printf("SID of child process: %d \n", sid);
     }
     // Change the current working directory to root.
     chdir("/");
