@@ -1,1 +1,10 @@
+TODO: 
+replace
+
+__BEGIN__ with __CV_BEGIN__
+ __END__ with __CV_END__
+EXIT with exit(0)
+
+in  imagereader.cpp
+
 sudo make CXXFLAGS+=-fpermissive

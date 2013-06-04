@@ -1050,31 +1050,30 @@ namespace Qr{
         CvMat src_stub, dst_stub;
         CvMat *srcMat,*dstMat,*mean,*mask;
         
-//        __BEGIN__
-
-        if( adaptive_method != CV_ADAPTIVE_THRESH_MEAN_C && adaptive_method != CV_ADAPTIVE_THRESH_GAUSSIAN_C )
-            //CV_ERROR( CV_StsBadArg, "Only CV_ADAPTIVE_THRESH_MEAN_C and CV_ADAPTIVE_THRESH_GAUSSIAN_C adaptive method are acceptable" );
-            return;
+        __CV_BEGIN__
+        if( adaptive_method != CV_ADAPTIVE_THRESH_MEAN_C &&
+            adaptive_method != CV_ADAPTIVE_THRESH_GAUSSIAN_C )
+            CV_ERROR( CV_StsBadArg,
+                      "Only CV_ADAPTIVE_THRESH_MEAN_C and CV_ADAPTIVE_THRESH_GAUSSIAN_C "
+                      "adaptive method are acceptable" );
         
-        if( threshold_type != CV_THRESH_BINARY && threshold_type != CV_THRESH_BINARY_INV )
-            //CV_ERROR( CV_StsBadArg, "Only CV_TRESH_BINARY and CV_THRESH_BINARY_INV threshold types are acceptable" );
-            return;
-      
+        if( threshold_type != CV_THRESH_BINARY &&
+            threshold_type != CV_THRESH_BINARY_INV )
+            CV_ERROR( CV_StsBadArg, "Only CV_TRESH_BINARY and CV_THRESH_BINARY_INV "
+                      "threshold types are acceptable" );
+        
         srcMat=cvGetMat(src, &src_stub );
         dstMat=cvGetMat(dst, &dst_stub );
-      
+        
         if( !CV_ARE_CNS_EQ( srcMat, dstMat ))
-            //CV_ERROR( CV_StsUnmatchedFormats, "" );
-            return;
+            CV_ERROR( CV_StsUnmatchedFormats, "" );
         
         if( CV_MAT_TYPE(dstMat->type) != CV_8UC1 )
-            //CV_ERROR( CV_StsUnsupportedFormat, "" );
-            return;
+            CV_ERROR( CV_StsUnsupportedFormat, "" );
         
         if( !CV_ARE_SIZES_EQ( srcMat, dstMat ) )
-            //CV_ERROR( CV_StsUnmatchedSizes, "" );
-            return;
-      
+            CV_ERROR( CV_StsUnmatchedSizes, "" );
+        
         mean=cvCreateMat(srcMat->rows,srcMat->cols,CV_8UC1);
         mask=cvCreateMat(srcMat->rows,srcMat->cols,CV_8UC1);
         
@@ -1093,7 +1092,7 @@ namespace Qr{
         cvReleaseMat( &mask );
         cvReleaseMat( &mean );
         
-//        __END__
+        __CV_END__
             
     }
     
