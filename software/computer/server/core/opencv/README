@@ -1,7 +1,11 @@
 http://docs.opencv.org/trunk/doc/tutorials/introduction/linux_install/linux_install.html
 ========================================================================================
 
+=====================================prerequisites======================================
+sudo apt-get install pkg-config
+sudo apt-get install libgtk2.0-dev
 
+=================================build and install======================================
 cd ~
 git clone https://github.com/Itseez/opencv.git
 git pull
