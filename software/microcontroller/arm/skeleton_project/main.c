@@ -136,7 +136,7 @@ static void DeviceInit(void)
     AT91FUSBOpen();
     // Wait for the end of enumeration
     while (!pCDC.IsConfigured(&pCDC));
-
+/*
     // then, we configure the PIO Lines corresponding to LEDs
     // to be outputs. No need to set these pins to be driven by the PIO because it is GPIO pins only.
     /// AT91F_PIO_CfgOutput( AT91C_BASE_PIOA, LED_MASK ) ;
@@ -162,7 +162,7 @@ static void DeviceInit(void)
 
     // Set-up DBGU USART ("UART2")
     //AT91F_DBGU_Init();
-
+*/
     IntEnable();  // the swi-call
 }
 
