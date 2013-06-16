@@ -128,6 +128,10 @@ static void DeviceInit(void)
     // First, enable the clock of the PIO and set the LEDs in output
     AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA );
 
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+
+
     // Initialize USB device
     AT91FUSBOpen();
     // Wait for the end of enumeration
@@ -176,13 +180,27 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
+/*
             memcpy(msg, cdcMessageObj.data, cdcMessageObj.length);
 
             sprintf((char *)cmd,"MSG:%s\n", msg);
             pCDC.Write(&pCDC, cmd, strlen(cmd));
+*/
+            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
+            pCDC.Write(&pCDC, msg, strlen(msg));
 
-            sprintf((char *)cmd,"CMD:%s\n", msg);
-            pCDC.Write(&pCDC, cmd, strlen(cmd));
+            if (strcmp(cdcMessageObj.data, "SETPIO15ON") == 0)
+            {
+                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA15 );
+                sprintf((char *)msg,"PIO15 SET ON\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+            }
+            if (strcmp(cdcMessageObj.data, "SETPIO15OFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+                sprintf((char *)msg,"PIO15 SET OFF\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+            }
         }
     }
 
