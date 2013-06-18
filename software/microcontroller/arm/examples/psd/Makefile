@@ -58,7 +58,7 @@ RUN_MODE=ROM_RUN
 #VECTOR_LOCATION=VECTORS_IN_RAM
 
 # Target file name (without extension).
-TARGET = ultrasound
+TARGET = main
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
@@ -67,11 +67,8 @@ SRC += Cstartup_SAM7.c
 SRC += syscalls.c
 SRC += cdc_enumerate.c 
 SRC += adc.c
-SRC += system.c
-SRC += mmc.c
 SRC += interrupt_Usart.c
 SRC += fastfunc.c
-SRC += ExtInt.c
 
 # List C source files here which must be compiled in ARM-Mode.
 # use file-extension c for "c-only"-files

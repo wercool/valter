@@ -58,6 +58,7 @@ SRC += syscalls.c
 SRC += swi_handler_user.c
 SRC += cdc_enumerate.c
 SRC += adc.c
+SRC += delay.c
 
 # List C source files here which must be compiled in ARM-Mode.
 # use file-extension c for "c-only"-files

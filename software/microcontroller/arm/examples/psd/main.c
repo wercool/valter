@@ -549,14 +549,14 @@ int main(void)
 
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, SW1_MASK);
 
-    startBlinking(250000);
+//    startBlinking(250000);
 
     while (1)
     {
         pressure = (int)GetValue_chanel6();
-        position = (int)GetValue_chanel5();
+        position = (int)GetValue_chanel0();//(int)GetValue_chanel5();
 
-
+/*
         if (aatDiag == 0)
         {
             setPosition(curForce);
@@ -700,5 +700,9 @@ int main(void)
 
         pos[strlen(pos)] = '\0';
         res[strlen(res)] = '\0';
+*/
+        sprintf((char *)res,"%d\r\n",position);
+        pCDC.Write(&pCDC, res, strlen(res));
+        Delay(10000);
     }
 }
