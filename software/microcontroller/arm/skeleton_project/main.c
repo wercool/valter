@@ -118,6 +118,29 @@ void PeriodicIntervalTimerHandler(void)
     }
 }
 
+static void InitPIO(void)
+{
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15); //mainAccumulatorRelay
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //inputChannel1 A
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //inputChannel1 B
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //inputChannel1 C
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //inputChannel1 D
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //leftAccumulatorRelay
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //rightAccumulatorRelay
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //dcdc5VEnable
+
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA17);  // ADC Channel 0
+
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+}
+
 //*----------------------------------------------------------------------------
 //* Function Name       : DeviceInit
 //* Object              : Device peripherals initialization
@@ -131,19 +154,7 @@ static void DeviceInit(void)
     // First, enable the clock of the PIO and set the LEDs in output
     AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA );
 
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
-
-    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA17);
-
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
+    InitPIO();
 
     // Initialize USB device
     AT91FUSBOpen();
@@ -177,19 +188,7 @@ static void DeviceInit(void)
     //AT91F_DBGU_Init();
 */
     IntEnable();  // the swi-call
-
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
-
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
-
+    InitPIO();
     InitADC();
 }
 
@@ -219,17 +218,61 @@ int main(void)
             sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
             pCDC.Write(&pCDC, msg, strlen(msg));
 
-            if (strcmp(cdcMessageObj.data, "SETPIO15ON") == 0)
+            if (strcmp(cdcMessageObj.data, "MAINACCUMULATORRELAYON") == 0)
             {
                 AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA15 );
-                sprintf((char *)msg,"PIO15 SET ON\n", cdcMessageObj.data);
+                sprintf((char *)msg,"MAIN ACCUMULATOR RELAY SET ON\n", cdcMessageObj.data);
                 pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
             }
-            if (strcmp(cdcMessageObj.data, "SETPIO15OFF") == 0)
+            if (strcmp(cdcMessageObj.data, "MAINACCUMULATORRELAYOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
-                sprintf((char *)msg,"PIO15 SET OFF\n", cdcMessageObj.data);
+                sprintf((char *)msg,"MAIN ACCUMULATOR RELAY SET OFF\n", cdcMessageObj.data);
                 pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
+            }
+            if (strcmp(cdcMessageObj.data, "DCDC5VENABLEON") == 0)
+            {
+                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA3 );
+                sprintf((char *)msg,"DC/DC 5V ENABLED\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
+            }
+            if (strcmp(cdcMessageObj.data, "DCDC5VENABLEOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+                sprintf((char *)msg,"DC/DC 5V DISABLED\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
+            }
+            if (strcmp(cdcMessageObj.data, "LEFTACCUMULATORRELAYON") == 0)
+            {
+                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA8 );
+                sprintf((char *)msg,"LEFT ACCUMULATOR RELAY SET ON\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
+            }
+            if (strcmp(cdcMessageObj.data, "LEFTACCUMULATORRELAYOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                sprintf((char *)msg,"LEFT ACCUMULATOR RELAY SET OFF\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
+            }
+            if (strcmp(cdcMessageObj.data, "RIGHTACCUMULATORRELAYON") == 0)
+            {
+                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA7 );
+                sprintf((char *)msg,"RIGHT ACCUMULATOR RELAY SET ON\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
+            }
+            if (strcmp(cdcMessageObj.data, "RIGHTACCUMULATORRELAYOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
+                sprintf((char *)msg,"RIGHT ACCUMULATOR RELAY SET OFF\n", cdcMessageObj.data);
+                pCDC.Write(&pCDC, msg, strlen(msg));
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL0") == 0)
             {
@@ -238,6 +281,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 0;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL1") == 0)
             {
@@ -246,6 +290,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 1;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL2") == 0)
             {
@@ -254,6 +299,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 2;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL3") == 0)
             {
@@ -262,6 +308,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 3;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL4") == 0)
             {
@@ -270,6 +317,7 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 4;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL5") == 0)
             {
@@ -278,6 +326,7 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 5;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL6") == 0)
             {
@@ -286,6 +335,7 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 6;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL7") == 0)
             {
@@ -294,6 +344,7 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 7;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL8") == 0)
             {
@@ -302,14 +353,17 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 8;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "STARTINPUT1READINGS") == 0)
             {
                 input1Readings = 1;
+                continue;
             }
             if (strcmp(cdcMessageObj.data, "STOPINPUT1READINGS") == 0)
             {
                 input1Readings = 0;
+                continue;
             }
         }
         if (input1Readings)
