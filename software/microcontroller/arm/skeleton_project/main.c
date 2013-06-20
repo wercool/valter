@@ -13,7 +13,6 @@ extern "C"
 }
 #endif
 #include "Board.h"
-#include "dbgu.h"
 #include "swi.h"
 #include "cdc_enumerate.h"
 #include "adc.h"
@@ -55,8 +54,8 @@ void AT91FUSBOpen(void)
 
 #define CDC_MSG_SIZE            512
 
-unsigned char msg[CDC_MSG_SIZE];
-unsigned char cmd[CDC_MSG_SIZE];
+char *msg[CDC_MSG_SIZE];
+char *cmd[CDC_MSG_SIZE];
 /*
  * Structure to keep CDC message
  */
@@ -128,8 +127,16 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //leftAccumulatorRelay
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //rightAccumulatorRelay
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //dcdc5VEnable
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31); //chargerButton
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16); //leftAccumulatorEnable
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22); //rightAccumulatorEnable
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //inputChannel2 A
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //inputChannel2 B
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //inputChannel2 C
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //inputChannel2 D
 
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA17);  // ADC Channel 0
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  // inputChannel2
 
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
@@ -139,6 +146,13 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
 }
 
 //*----------------------------------------------------------------------------
@@ -153,8 +167,6 @@ static void DeviceInit(void)
     // Set-up the PIO
     // First, enable the clock of the PIO and set the LEDs in output
     AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA );
-
-    InitPIO();
 
     // Initialize USB device
     AT91FUSBOpen();
@@ -201,6 +213,9 @@ int main(void)
     unsigned int input1Readings = 0;
     unsigned int input1Channel = 0;
     unsigned int input1Reading = 0;
+    unsigned int input2Readings = 0;
+    unsigned int input2Channel = 0;
+    unsigned int input2Reading = 0;
 
     DeviceInit();
 
@@ -209,72 +224,68 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
-/*
-            memcpy(msg, cdcMessageObj.data, cdcMessageObj.length);
-
-            sprintf((char *)cmd,"MSG:%s\n", msg);
-            pCDC.Write(&pCDC, cmd, strlen(cmd));
-*/
             sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
-            pCDC.Write(&pCDC, msg, strlen(msg));
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
 
-            if (strcmp(cdcMessageObj.data, "MAINACCUMULATORRELAYON") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "MAINACCUMULATORRELAYON") == 0)
             {
-                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA15 );
-                sprintf((char *)msg,"MAIN ACCUMULATOR RELAY SET ON\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+                sprintf((char *)msg,"MAIN ACCUMULATOR RELAY SET ON\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "MAINACCUMULATORRELAYOFF") == 0)
+            if (strcmp((char *)cdcMessageObj.data, "MAINACCUMULATORRELAYOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
-                sprintf((char *)msg,"MAIN ACCUMULATOR RELAY SET OFF\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                sprintf((char *)msg,"MAIN ACCUMULATOR RELAY SET OFF\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "DCDC5VENABLEON") == 0)
+            if (strcmp((char *)cdcMessageObj.data, "DCDC5VENABLEON") == 0)
             {
-                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA3 );
-                sprintf((char *)msg,"DC/DC 5V ENABLED\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+                sprintf((char *)msg,"DC/DC 5V ENABLED\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "DCDC5VENABLEOFF") == 0)
+            if (strcmp((char *)cdcMessageObj.data, "DCDC5VENABLEOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
-                sprintf((char *)msg,"DC/DC 5V DISABLED\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                sprintf((char *)msg,"DC/DC 5V DISABLED\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "LEFTACCUMULATORRELAYON") == 0)
+            if (strcmp((char *)cdcMessageObj.data, "LEFTACCUMULATORRELAYON") == 0)
             {
-                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA8 );
-                sprintf((char *)msg,"LEFT ACCUMULATOR RELAY SET ON\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                sprintf((char *)msg,"LEFT ACCUMULATOR RELAY SET ON\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "LEFTACCUMULATORRELAYOFF") == 0)
+            if (strcmp((char *)cdcMessageObj.data, "LEFTACCUMULATORRELAYOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
-                sprintf((char *)msg,"LEFT ACCUMULATOR RELAY SET OFF\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                sprintf((char *)msg,"LEFT ACCUMULATOR RELAY SET OFF\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "RIGHTACCUMULATORRELAYON") == 0)
+            if (strcmp((char *)cdcMessageObj.data, "RIGHTACCUMULATORRELAYON") == 0)
             {
-                AT91F_PIO_SetOutput( AT91C_BASE_PIOA, AT91C_PIO_PA7 );
-                sprintf((char *)msg,"RIGHT ACCUMULATOR RELAY SET ON\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
+                sprintf((char *)msg,"RIGHT ACCUMULATOR RELAY SET ON\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "RIGHTACCUMULATORRELAYOFF") == 0)
+            if (strcmp((char *)cdcMessageObj.data, "RIGHTACCUMULATORRELAYOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
-                sprintf((char *)msg,"RIGHT ACCUMULATOR RELAY SET OFF\n", cdcMessageObj.data);
-                pCDC.Write(&pCDC, msg, strlen(msg));
+                sprintf((char *)msg,"RIGHT ACCUMULATOR RELAY SET OFF\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL0") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
@@ -283,94 +294,353 @@ int main(void)
                 input1Channel = 0;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL1") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL1") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 1;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL2") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 2;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL3") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL3") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 3;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL4") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL4") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 4;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL5") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL5") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 5;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL6") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL6") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 6;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL7") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL7") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
                 input1Channel = 7;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "GETINPUT1CHANNEL8") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL8") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //D
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
                 input1Channel = 8;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "STARTINPUT1READINGS") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL9") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
+                input1Channel = 9;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL10") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
+                input1Channel = 10;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL11") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
+                input1Channel = 11;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL12") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
+                input1Channel = 12;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL13") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
+                input1Channel = 13;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL14") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
+                input1Channel = 14;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT1CHANNEL15") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
+                input1Channel = 15;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "CHARGERBUTTONPRESS") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+                delay_ms(500);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "LEFTACCUMULATORCONNECT") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+                sprintf((char *)msg,"LEFT ACCUMULATOR CONNECTED\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "LEFTACCUMULATORDISCONNECT") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+                sprintf((char *)msg,"LEFT ACCUMULATOR DISCONNECTED\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "RIGHTACCUMULATORCONNECT") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+                sprintf((char *)msg,"RIGHT ACCUMULATOR CONNECTED\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "RIGHTACCUMULATORDISCONNECT") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+                sprintf((char *)msg,"RIGHT ACCUMULATOR DISCONNECTED\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL0") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //D
+                input2Channel = 0;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL1") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //D
+                input2Channel = 1;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL2") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //D
+                input2Channel = 2;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL3") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //D
+                input2Channel = 3;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL4") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //D
+                input2Channel = 4;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL5") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);  //D
+                input2Channel = 5;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL6") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //D
+                input2Channel = 6;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL7") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //D
+                input2Channel = 7;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL8") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 8;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL9") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 9;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL10") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 10;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL11") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 11;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL12") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 12;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL13") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 13;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL14") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 14;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "SETINPUT2CHANNEL15") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //D
+                input2Channel = 15;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "STARTINPUT1READINGS") == 0)
             {
                 input1Readings = 1;
                 continue;
             }
-            if (strcmp(cdcMessageObj.data, "STOPINPUT1READINGS") == 0)
+            if (strcmp((char*)cdcMessageObj.data, "STOPINPUT1READINGS") == 0)
             {
                 input1Readings = 0;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "STARTINPUT2READINGS") == 0)
+            {
+                input2Readings = 1;
+                continue;
+            }
+            if (strcmp((char*)cdcMessageObj.data, "STOPINPUT2READINGS") == 0)
+            {
+                input2Readings = 0;
                 continue;
             }
         }
         if (input1Readings)
         {
             input1Reading = getValueChannel0();
-            sprintf((char *)msg,"CHANNEL[%u]: %u\n", input1Channel, input1Reading);
-            pCDC.Write(&pCDC, msg, strlen(msg));
+            sprintf((char *)msg,"INPUT1 CHANNEL [%u]: %u\n", input1Channel, input1Reading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (input2Readings)
+        {
+            input2Reading = (AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA14)) ? 1 : 0;
+            sprintf((char *)msg,"INPUT2 CHANNEL [%u]: %u\n", input2Channel, input2Reading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
     }
