@@ -132,7 +132,7 @@ extern "C"
     /*--------------*/
 
     #define EXT_OC          18432000   // Exetrnal ocilator MAINCK
-    #define MCK             48054857   // MCK (PLLRC div by 2)
+    #define MCK             18432000   // MCK (PLLRC div by 2)
     #define MCKKHz          (MCK/1000) //
 
     #ifdef __cplusplus

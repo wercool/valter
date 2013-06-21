@@ -35,21 +35,16 @@ unsigned int getValueChannel0()
   return a_pADC->ADC_CDR0;
 }
 
-unsigned int GetValue_chanel4() {
+unsigned int getValueChannel5()
+{
   a_pADC->ADC_CR = 0x2; // set Start Bit
-  while(!(a_pADC->ADC_SR&0x10)); //wait until conversion complete
-  return a_pADC->ADC_CDR4;
-}
-
-unsigned int GetValue_chanel5() {
-  a_pADC->ADC_CR = 0x2; // set Start Bit
-  while(!(a_pADC->ADC_SR&0x10)); //wait until conversion complete
+  while(!(a_pADC->ADC_SR & ADC_CHN_5)); //wait until conversion complete
   return a_pADC->ADC_CDR5;
 }
 
-unsigned int GetValue_chanel6() {
+unsigned int getValueChannel6()
+{
   a_pADC->ADC_CR = 0x2; // set Start Bit
-  while(!(a_pADC->ADC_SR&0x10)); //wait until conversion complete
+  while(!(a_pADC->ADC_SR & ADC_CHN_6)); //wait until conversion complete
   return a_pADC->ADC_CDR6;
 }
-

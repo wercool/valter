@@ -2,10 +2,8 @@
 
 void InitADC(void);
 unsigned int getValueChannel0(void);
-unsigned int GetValue_chanel4(void);
-unsigned int GetValue_chanel5(void);
-unsigned int GetValue_chanel6(void);
-unsigned int GetValue_chanel7(void);
+unsigned int getValueChannel5(void);
+unsigned int getValueChannel6(void);
 
 
 
