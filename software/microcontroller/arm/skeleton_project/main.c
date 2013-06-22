@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 // newlib 1.14.0 workaround
 #if 0
 extern "C"
@@ -17,7 +18,6 @@ extern "C"
 #include "cdc_enumerate.h"
 #include "adc.h"
 #include "delay.h"
-#include "pwm.h"
 
 
 #define RTTC_INTERRUPT_LEVEL    0
@@ -78,7 +78,7 @@ struct cdcMessage getCDCMEssage(void)
         cdcMessageObj.data[r] = '\0';
     }
 
-    cdcMessageObj.length = pCDC.Read(&pCDC, cdcMessageObj.data, CDC_MSG_SIZE);
+    cdcMessageObj.length = pCDC.Read(&pCDC, (char *)cdcMessageObj.data, CDC_MSG_SIZE);
 
     return cdcMessageObj;
 }
@@ -120,27 +120,37 @@ void PeriodicIntervalTimerHandler(void)
 
 static void InitPWM(void)
 {
-    AT91F_PMC_EnablePeriphClock( AT91C_BASE_PMC, (1 << AT91C_ID_PIOA) );
+    // enable PWM peripherals on PA0, PA1, PA2
+    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA0_PWM0, 0);
+    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA1_PWM1, 0);
+    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA2_PWM2, 0);
 
-    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, ((unsigned int) AT91C_PA0_PWM0), 0);
-    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, ((unsigned int) AT91C_PA1_PWM1), 0);
-    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, ((unsigned int) AT91C_PA2_PWM2), 0);
+    AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+    AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+    AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
 
+    AT91F_PMC_EnablePeriphClock( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA);
+
+    // enable PWM clock in PMC
     AT91F_PWMC_CfgPMC();
 
-    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0, 1 | AT91C_PWMC_CPOL, 100000, 0);
-    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1, 1 | AT91C_PWMC_CPOL, 100000, 0);
-    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2, 1 | AT91C_PWMC_CPOL, 100000, 0);
-
-    AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0, 0);
-    AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1, 0);
-    AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2, 0);
-
+    // disable PWM channels 0, 1, 2
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
 
+    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 0, 1 | AT91C_PWMC_CPOL, 2000, 1);
+    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 1, 1 | AT91C_PWMC_CPOL, 2000, 1);
+    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 2, 1 | AT91C_PWMC_CPOL, 2000, 1);
 
+    AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
+    AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
+    AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
+
+    // enable PWM channels 0, 1, 2
+    AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+    AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+    AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
 }
 
 static void InitPIO(void)
@@ -160,6 +170,15 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25); //inputChannel2 B
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24); //inputChannel2 C
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13); //inputChannel2 D
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);  //leftMotorPWM PWM0
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);  //rightMotorPWM PWM1
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);  //turretMotorPWM PWM2
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
 
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA17);  // ADC Channel 0
 
@@ -178,6 +197,15 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
 }
 
 //*----------------------------------------------------------------------------
@@ -186,6 +214,8 @@ static void InitPIO(void)
 ///*----------------------------------------------------------------------------
 static void DeviceInit(void)
 {
+    InitPIO();
+
     // Enable User Reset and set its minimal assertion to 960 us
     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4<<8) | (unsigned int)(0xA5<<24);
 
@@ -248,13 +278,8 @@ int main(void)
     unsigned int turretReadings = 0;
     unsigned int turretReading = 0;
 
-    unsigned int leftMotorPWMFreq = 0;
     unsigned int leftMotorPWMDuty = 0;
-
-    unsigned int rightMotorPWMFreq = 0;
     unsigned int rightMotorPWMDuty = 0;
-
-    unsigned int turretMotorPWMFreq = 0;
     unsigned int turretMotorPWMDuty = 0;
 
     DeviceInit();
@@ -276,8 +301,6 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
                 sprintf((char *)msg,"MAIN ACCUMULATOR RELAY SET ON\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                 continue;
             }
             if (strcmp((char*) cmdParts, "MAINACCUMULATORRELAYOFF") == 0)
@@ -682,67 +705,116 @@ int main(void)
                 turretReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETLEFTMOTORPWMFREQANDDUTY") == 0)
+            /*
+            SETLEFTMOTORPWMDUTY#1
+            SETLEFTMOTORPWMDUTY#250
+            SETLEFTMOTORPWMDUTY#500
+            SETLEFTMOTORPWMDUTY#750
+            SETLEFTMOTORPWMDUTY#1000
+            SETLEFTMOTORPWMDUTY#1250
+            SETLEFTMOTORPWMDUTY#1500
+            SETLEFTMOTORPWMDUTY#1750
+            SETLEFTMOTORPWMDUTY#1999
+            */
+            if (strcmp((char*) cmdParts, "SETLEFTMOTORPWMDUTY") == 0)
             {
-                leftMotorPWMFreq = atoi(strtok( NULL, "#" ));
                 leftMotorPWMDuty = atoi(strtok( NULL, "#" ));
-
-                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
-                pwmFreqSet(0, leftMotorPWMFreq);
-                pwmDutySetPercent(0, leftMotorPWMDuty);
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, leftMotorPWMDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETRIGHTMOTORPWMFREQANDDUTY") == 0)
+            /*
+            SETRIGHTMOTORPWMDUTY#1
+            SETRIGHTMOTORPWMDUTY#250
+            SETRIGHTMOTORPWMDUTY#500
+            SETRIGHTMOTORPWMDUTY#750
+            SETRIGHTMOTORPWMDUTY#1000
+            SETRIGHTMOTORPWMDUTY#1250
+            SETRIGHTMOTORPWMDUTY#1500
+            SETRIGHTMOTORPWMDUTY#1750
+            SETRIGHTMOTORPWMDUTY#1999
+            */
+            if (strcmp((char*) cmdParts, "SETRIGHTMOTORPWMDUTY") == 0)
             {
-                rightMotorPWMFreq = atoi(strtok( NULL, "#" ));
                 rightMotorPWMDuty = atoi(strtok( NULL, "#" ));
-
-                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
-                pwmFreqSet(1, rightMotorPWMFreq);
-                pwmDutySetPercent(1, rightMotorPWMDuty);
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, rightMotorPWMDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETTURRETMOTORPWMFREQANDDUTY") == 0)
+            /*
+            SETTURRETMOTORPWMDUTY#1
+            SETTURRETMOTORPWMDUTY#250
+            SETTURRETMOTORPWMDUTY#500
+            SETTURRETMOTORPWMDUTY#750
+            SETTURRETMOTORPWMDUTY#1000
+            SETTURRETMOTORPWMDUTY#1250
+            SETTURRETMOTORPWMDUTY#1750
+            SETTURRETMOTORPWMDUTY#1999
+            */
+            if (strcmp((char*) cmdParts, "SETTURRETMOTORPWMDUTY") == 0)
             {
-                turretMotorPWMFreq = atoi(strtok( NULL, "#" ));
                 turretMotorPWMDuty = atoi(strtok( NULL, "#" ));
-
-                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-                pwmFreqSet(2, turretMotorPWMFreq);
-                pwmDutySetPercent(2, turretMotorPWMDuty);
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, turretMotorPWMDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTLEFTMOTOR") == 0)
+            /*
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+             */
+            if (strcmp((char*) cmdParts, "LEFTMOTORCW") == 0)
             {
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //leftMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPLEFTMOTOR") == 0)
+            if (strcmp((char*) cmdParts, "LEFTMOTORCCW") == 0)
             {
-                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //leftMotorINb
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTRIGHTMOTOR") == 0)
+            if (strcmp((char*) cmdParts, "LEFTMOTORSTOP") == 0)
             {
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPRIGHTMOTOR") == 0)
+            if (strcmp((char*) cmdParts, "RIGHTMOTORCW") == 0)
             {
-                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);    //rightMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTTURRETMOTOR") == 0)
+            if (strcmp((char*) cmdParts, "RIGHTMOTORCCW") == 0)
             {
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);   //rightMotorINb
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPTURRETMOTOR") == 0)
+            if (strcmp((char*) cmdParts, "RIGHTMOTORSTOP") == 0)
             {
-                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "TURRETMOTORCW") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //turretMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "TURRETMOTORCCW") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //turretMotorINb
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "TURRETMOTORSTOP") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
                 continue;
             }
         }

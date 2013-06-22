@@ -1488,7 +1488,7 @@ __inline unsigned int AT91F_RTTReadValue(
    ***************************************************************************** */
 //*----------------------------------------------------------------------------
 //* \fn    AT91F_PITInit
-//* \brief System timer init : period in µsecond, system clock freq in MHz
+//* \brief System timer init : period in ï¿½second, system clock freq in MHz
 //*----------------------------------------------------------------------------
 __inline void AT91F_PITInit(
         AT91PS_PITC pPITC,
@@ -2959,8 +2959,8 @@ __inline void AT91F_PWMC_CfgChannel(
         unsigned int duty) // \arg PWM duty cycle
 {
 	pPWM->PWMC_CH[channelId].PWMC_CMR = mode;
-	pPWM->PWMC_CH[channelId].PWMC_CDTYR = duty;
 	pPWM->PWMC_CH[channelId].PWMC_CPRDR = period;
+	pPWM->PWMC_CH[channelId].PWMC_CDTYR = duty;
 }
 
 //*----------------------------------------------------------------------------
@@ -2992,7 +2992,7 @@ __inline void AT91F_PWMC_StopChannel(
 __inline void AT91F_PWMC_UpdateChannel(
         AT91PS_PWMC pPWM,   // \arg  pointer to a PWM controller
         unsigned int channelId, // \arg PWM channel ID
-        unsigned int update) // \arg  Channels IDs to be enabled
+        unsigned int update) // \arg  Channels IDs to be enabled (maska: it is duty)
 {
 	pPWM->PWMC_CH[channelId].PWMC_CUPDR = update;
 }
