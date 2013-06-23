@@ -2230,27 +2230,27 @@
  767              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/cc0SQFfZ.s:13     .text:00000000 at91_IRQ0_handler
-     /tmp/cc0SQFfZ.s:22     .text:00000000 $a
-     /tmp/cc0SQFfZ.s:33     .text:00000010 $d
-     /tmp/cc0SQFfZ.s:644    .bss:00000000 status_irq
-     /tmp/cc0SQFfZ.s:39     .text:00000014 delay
-     /tmp/cc0SQFfZ.s:46     .text:00000014 $a
-     /tmp/cc0SQFfZ.s:70     .text:00000044 $d
-     /tmp/cc0SQFfZ.s:76     .text:00000048 Delay
-     /tmp/cc0SQFfZ.s:84     .text:00000048 $a
-     /tmp/cc0SQFfZ.s:109    .text:00000074 printTrace
-     /tmp/cc0SQFfZ.s:136    .text:000000a4 $d
+     /tmp/ccXZx6Zm.s:13     .text:00000000 at91_IRQ0_handler
+     /tmp/ccXZx6Zm.s:22     .text:00000000 $a
+     /tmp/ccXZx6Zm.s:33     .text:00000010 $d
+     /tmp/ccXZx6Zm.s:644    .bss:00000000 status_irq
+     /tmp/ccXZx6Zm.s:39     .text:00000014 delay
+     /tmp/ccXZx6Zm.s:46     .text:00000014 $a
+     /tmp/ccXZx6Zm.s:70     .text:00000044 $d
+     /tmp/ccXZx6Zm.s:76     .text:00000048 Delay
+     /tmp/ccXZx6Zm.s:84     .text:00000048 $a
+     /tmp/ccXZx6Zm.s:109    .text:00000074 printTrace
+     /tmp/ccXZx6Zm.s:136    .text:000000a4 $d
                             *COM*:00000018 pCDC
-     /tmp/cc0SQFfZ.s:142    .text:000000a8 AT91F_USB_Open
-     /tmp/cc0SQFfZ.s:149    .text:000000a8 $a
-     /tmp/cc0SQFfZ.s:206    .text:000000f4 $d
-     /tmp/cc0SQFfZ.s:213    .text:000000fc aic_software_interrupt
-     /tmp/cc0SQFfZ.s:223    .text:000000fc $a
-     /tmp/cc0SQFfZ.s:261    .text:0000011c pio_c_irq_handler
-     /tmp/cc0SQFfZ.s:332    .text:00000154 main
-     /tmp/cc0SQFfZ.s:626    .text:00000314 $d
-     /tmp/cc0SQFfZ.s:647    .bss:00000004 cnt
+     /tmp/ccXZx6Zm.s:142    .text:000000a8 AT91F_USB_Open
+     /tmp/ccXZx6Zm.s:149    .text:000000a8 $a
+     /tmp/ccXZx6Zm.s:206    .text:000000f4 $d
+     /tmp/ccXZx6Zm.s:213    .text:000000fc aic_software_interrupt
+     /tmp/ccXZx6Zm.s:223    .text:000000fc $a
+     /tmp/ccXZx6Zm.s:261    .text:0000011c pio_c_irq_handler
+     /tmp/ccXZx6Zm.s:332    .text:00000154 main
+     /tmp/ccXZx6Zm.s:626    .text:00000314 $d
+     /tmp/ccXZx6Zm.s:647    .bss:00000004 cnt
                             *COM*:000003e8 msg
 
 UNDEFINED SYMBOLS

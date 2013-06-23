@@ -1,6 +1,6 @@
 /***********************************************************************/
 /*                                                                     */
-/*  SYSCALLS.C:  System Calls for the newlib                                      */
+/*  SYSCALLS.C:  System Calls                                          */
 /*  most of this is from newlib-lpc and a Keil-demo                    */
 /*                                                                     */
 /*  These are "reentrant functions" as needed by                       */
@@ -9,7 +9,6 @@
 /*                                                                     */
 /***********************************************************************/
 
-/* adapted for the SAM7 at91_lib DBGU - mthomas 4/2006 */
 
 #include <stdlib.h>
 #include <reent.h>
@@ -17,6 +16,22 @@
 
 #include "Board.h"
 
+static void my_putc(char c) 
+{
+	while (!AT91F_US_TxReady((AT91PS_USART)AT91C_BASE_DBGU));
+	AT91F_US_PutChar((AT91PS_USART)AT91C_BASE_DBGU, c);
+}
+
+static int  my_kbhit( void ) 
+{
+	if ((AT91F_US_RxReady((AT91PS_USART)AT91C_BASE_DBGU)) == 0) return 0;
+	else return 1;
+}
+
+static char my_getc( void )
+{
+	return AT91F_US_GetChar((AT91PS_USART)AT91C_BASE_DBGU);
+}
 
 _ssize_t _read_r(
     struct _reent *r, 
@@ -24,17 +39,25 @@ _ssize_t _read_r(
     void *ptr, 
     size_t len)
 {
+	char c;
+	int  i;
 	unsigned char *p;
 	
-	while ( AT91F_US_RxReady((AT91PS_USART)AT91C_BASE_DBGU) == 0 ) {
-		;
-	}
-    
-	p = ptr;
+	p = (unsigned char*)ptr;
 	
-	*p= AT91F_US_GetChar((AT91PS_USART)AT91C_BASE_DBGU);
-    
-	return (_ssize_t)1;
+	for (i = 0; i < len; i++) {
+		// c = uart0Getch();
+		// c = uart0GetchW();
+		while ( !my_kbhit() ) ;
+		c = (char) my_getc();
+		if (c == 0x0D) {
+			*p='\0';
+			break;
+		}
+		*p++ = c;
+		////// uart0_putc(c);
+	}
+	return len - i;
 }
 
 
@@ -44,26 +67,17 @@ _ssize_t _write_r (
     const void *ptr, 
     size_t len)
 {
-	size_t todo;
+	int i;
 	const unsigned char *p;
 	
-	todo = len;
-	p = ptr;
+	p = (const unsigned char*) ptr;
 	
-	for( ; todo != 0; todo--) {
-		if ( *p == '\n' ) {
-			while (!AT91F_US_TxReady((AT91PS_USART)AT91C_BASE_DBGU)) {
-				;
-			}
-			AT91F_US_PutChar((AT91PS_USART)AT91C_BASE_DBGU, '\r');
-		}
-		while (!AT91F_US_TxReady((AT91PS_USART)AT91C_BASE_DBGU)) {
-			;
-		}
-		AT91F_US_PutChar((AT91PS_USART)AT91C_BASE_DBGU, *p++);
-    }
+	for (i = 0; i < len; i++) {
+		if (*p == '\n' ) my_putc('\r');
+		my_putc(*p++);
+	}
 	
-	return (_ssize_t)len;			/* Number of bytes written.	*/
+	return len;
 }
 
 
@@ -107,10 +121,6 @@ int isatty(int file)
 	return 1;
 }
 
-void abort(void)
-{
-	while(1);
-}
 
 #if 0
 static void _exit (int n) {

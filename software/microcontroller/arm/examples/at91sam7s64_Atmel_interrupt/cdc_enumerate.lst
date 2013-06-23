@@ -1485,23 +1485,23 @@
  1148              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 cdc_enumerate.c
-     /tmp/ccAHIxNc.s:13     .text:00000000 AT91F_CDC_Open
-     /tmp/ccAHIxNc.s:23     .text:00000000 $a
-     /tmp/ccAHIxNc.s:51     .text:00000034 $d
-     /tmp/ccAHIxNc.s:815    .text:00000674 AT91F_UDP_Read
-     /tmp/ccAHIxNc.s:215    .text:00000168 AT91F_UDP_IsConfigured
-     /tmp/ccAHIxNc.s:683    .text:00000580 AT91F_UDP_Write
-     /tmp/ccAHIxNc.s:58     .text:00000040 AT91F_USB_SendData
-     /tmp/ccAHIxNc.s:65     .text:00000040 $a
-     /tmp/ccAHIxNc.s:146    .text:00000100 AT91F_USB_SendZlp
-     /tmp/ccAHIxNc.s:181    .text:00000134 AT91F_USB_SendStall
-     /tmp/ccAHIxNc.s:671    .text:00000560 $d
-     /tmp/ccAHIxNc.s:904    .rodata:00000000 devDescriptor
-     /tmp/ccAHIxNc.s:926    .rodata:00000012 cfgDescriptor
-     /tmp/ccAHIxNc.s:999    .data:00000000 line
-     /tmp/ccAHIxNc.s:690    .text:00000580 $a
-     /tmp/ccAHIxNc.s:1000   .data:00000000 $d
-     /tmp/ccAHIxNc.s:1009   .bss:00000000 csrIdx
+     /tmp/ccFANNjX.s:13     .text:00000000 AT91F_CDC_Open
+     /tmp/ccFANNjX.s:23     .text:00000000 $a
+     /tmp/ccFANNjX.s:51     .text:00000034 $d
+     /tmp/ccFANNjX.s:815    .text:00000674 AT91F_UDP_Read
+     /tmp/ccFANNjX.s:215    .text:00000168 AT91F_UDP_IsConfigured
+     /tmp/ccFANNjX.s:683    .text:00000580 AT91F_UDP_Write
+     /tmp/ccFANNjX.s:58     .text:00000040 AT91F_USB_SendData
+     /tmp/ccFANNjX.s:65     .text:00000040 $a
+     /tmp/ccFANNjX.s:146    .text:00000100 AT91F_USB_SendZlp
+     /tmp/ccFANNjX.s:181    .text:00000134 AT91F_USB_SendStall
+     /tmp/ccFANNjX.s:671    .text:00000560 $d
+     /tmp/ccFANNjX.s:904    .rodata:00000000 devDescriptor
+     /tmp/ccFANNjX.s:926    .rodata:00000012 cfgDescriptor
+     /tmp/ccFANNjX.s:999    .data:00000000 line
+     /tmp/ccFANNjX.s:690    .text:00000580 $a
+     /tmp/ccFANNjX.s:1000   .data:00000000 $d
+     /tmp/ccFANNjX.s:1009   .bss:00000000 csrIdx
                             *COM*:00000190 csrTab
 
 NO UNDEFINED SYMBOLS

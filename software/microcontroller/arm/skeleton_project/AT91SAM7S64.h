@@ -14,29 +14,29 @@
 //  ----------------------------------------------------------------------------
 // File Name           : AT91SAM7S64.h
 // Object              : AT91SAM7S64 definitions
-// Generated           : AT91 SW Application Group  08/18/2006 (15:29:16)
+// Generated           : AT91 SW Application Group  08/30/2005 (15:52:59)
 // 
-// CVS Reference       : /AT91SAM7S64.pl/1.22/Thu Aug  3 12:22:33 2006//
-// CVS Reference       : /SYS_SAM7S.pl/1.2/Thu Feb  3 10:47:39 2005//
-// CVS Reference       : /MC_SAM7S.pl/1.4/Thu Feb 16 16:45:50 2006//
-// CVS Reference       : /PMC_SAM7S_USB.pl/1.4/Tue Feb  8 14:00:19 2005//
-// CVS Reference       : /RSTC_SAM7S.pl/1.2/Wed Jul 13 15:25:17 2005//
-// CVS Reference       : /UDP_SAM7S.pl/1.3/Thu Aug  3 12:26:00 2006//
-// CVS Reference       : /PWM_SAM7S.pl/1.1/Tue May 10 12:38:54 2005//
-// CVS Reference       : /RTTC_6081A.pl/1.2/Thu Nov  4 13:57:22 2004//
-// CVS Reference       : /PITC_6079A.pl/1.2/Thu Nov  4 13:56:22 2004//
-// CVS Reference       : /WDTC_6080A.pl/1.3/Thu Nov  4 13:58:52 2004//
-// CVS Reference       : /VREG_6085B.pl/1.1/Tue Feb  1 16:40:38 2005//
-// CVS Reference       : /AIC_6075B.pl/1.3/Fri May 20 14:21:42 2005//
-// CVS Reference       : /PIO_6057A.pl/1.2/Thu Feb  3 10:29:42 2005//
-// CVS Reference       : /DBGU_6059D.pl/1.1/Mon Jan 31 13:54:41 2005//
-// CVS Reference       : /US_6089C.pl/1.1/Mon Jan 31 13:56:02 2005//
-// CVS Reference       : /SPI_6088D.pl/1.3/Fri May 20 14:23:02 2005//
-// CVS Reference       : /SSC_6078A.pl/1.1/Tue Jul 13 07:10:41 2004//
-// CVS Reference       : /TC_6082A.pl/1.7/Wed Mar  9 16:31:51 2005//
-// CVS Reference       : /TWI_6061A.pl/1.1/Tue Jul 13 06:38:23 2004//
-// CVS Reference       : /PDC_6074C.pl/1.2/Thu Feb  3 09:02:11 2005//
-// CVS Reference       : /ADC_6051C.pl/1.1/Mon Jan 31 13:12:40 2005//
+// CVS Reference       : /AT91SAM7S64.pl/1.21/Tue Aug 30 11:55:03 2005//
+// CVS Reference       : /SYS_SAM7S.pl/1.2/Tue Feb  1 17:01:52 2005//
+// CVS Reference       : /MC_SAM7S.pl/1.3/Fri May 20 14:12:30 2005//
+// CVS Reference       : /PMC_SAM7S_USB.pl/1.4/Tue Feb  8 13:58:22 2005//
+// CVS Reference       : /RSTC_SAM7S.pl/1.2/Wed Jul 13 14:57:40 2005//
+// CVS Reference       : /UDP_SAM7S.pl/1.1/Tue May 10 11:34:52 2005//
+// CVS Reference       : /PWM_SAM7S.pl/1.1/Tue May 10 11:53:07 2005//
+// CVS Reference       : /RTTC_6081A.pl/1.2/Tue Nov  9 14:43:58 2004//
+// CVS Reference       : /PITC_6079A.pl/1.2/Tue Nov  9 14:43:56 2004//
+// CVS Reference       : /WDTC_6080A.pl/1.3/Tue Nov  9 14:44:00 2004//
+// CVS Reference       : /VREG_6085B.pl/1.1/Tue Feb  1 16:05:48 2005//
+// CVS Reference       : /AIC_6075B.pl/1.3/Fri May 20 14:01:30 2005//
+// CVS Reference       : /PIO_6057A.pl/1.2/Thu Feb  3 10:18:28 2005//
+// CVS Reference       : /DBGU_6059D.pl/1.1/Mon Jan 31 13:15:32 2005//
+// CVS Reference       : /US_6089C.pl/1.1/Mon Jul 12 18:23:26 2004//
+// CVS Reference       : /SPI_6088D.pl/1.3/Fri May 20 14:08:59 2005//
+// CVS Reference       : /SSC_6078A.pl/1.1/Tue Jul 13 07:45:40 2004//
+// CVS Reference       : /TC_6082A.pl/1.7/Fri Mar 11 12:52:17 2005//
+// CVS Reference       : /TWI_6061A.pl/1.1/Tue Jul 13 07:38:06 2004//
+// CVS Reference       : /PDC_6074C.pl/1.2/Thu Feb  3 08:48:54 2005//
+// CVS Reference       : /ADC_6051C.pl/1.1/Fri Oct 17 09:12:38 2003//
 //  ----------------------------------------------------------------------------
 
 #ifndef AT91SAM7S64_H
@@ -1355,7 +1355,6 @@ typedef struct _AT91S_UDP {
 #define AT91C_UDP_RX_DATA_BK0 ((unsigned int) 0x1 <<  1) // (UDP) Receive Data Bank 0
 #define AT91C_UDP_RXSETUP     ((unsigned int) 0x1 <<  2) // (UDP) Sends STALL to the Host (Control endpoints)
 #define AT91C_UDP_ISOERROR    ((unsigned int) 0x1 <<  3) // (UDP) Isochronous error (Isochronous endpoints)
-#define AT91C_UDP_STALLSENT   ((unsigned int) 0x1 <<  3) // (UDP) Stall sent (Control, bulk, interrupt endpoints)
 #define AT91C_UDP_TXPKTRDY    ((unsigned int) 0x1 <<  4) // (UDP) Transmit Packet Ready
 #define AT91C_UDP_FORCESTALL  ((unsigned int) 0x1 <<  5) // (UDP) Force Stall (used by Control, Bulk and Isochronous endpoints).
 #define AT91C_UDP_RX_DATA_BK1 ((unsigned int) 0x1 <<  6) // (UDP) Receive Data Bank 1 (only used by endpoints with ping-pong attributes).
@@ -1912,7 +1911,7 @@ typedef struct _AT91S_UDP {
 #define AT91C_IFLASH_SIZE	 ((unsigned int) 0x00010000) // Internal FLASH size in byte (64 Kbytes)
 #define AT91C_IFLASH_PAGE_SIZE	 ((unsigned int) 128) // Internal FLASH Page Size: 128 bytes
 #define AT91C_IFLASH_LOCK_REGION_SIZE	 ((unsigned int) 4096) // Internal FLASH Lock Region Size: 4 Kbytes
-#define AT91C_IFLASH_NB_OF_PAGES	 ((unsigned int) 512) // Internal FLASH Number of Pages: 512 bytes
-#define AT91C_IFLASH_NB_OF_LOCK_BITS	 ((unsigned int) 16) // Internal FLASH Number of Lock Bits: 16 bytes
+#define AT91C_IFLASH_NB_OF_PAGES	 ((unsigned int) 256) // Internal FLASH Number of Pages: 256 bytes
+#define AT91C_IFLASH_NB_OF_LOCK_BITS	 ((unsigned int) 8) // Internal FLASH Number of Lock Bits: 8 bytes
 
 #endif

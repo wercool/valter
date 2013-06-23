@@ -26,6 +26,9 @@ void InitADC(void)
 
     // enable all needed channels
     a_pADC->ADC_CHER = AT91C_ADC_CH0;
+    a_pADC->ADC_CHER = AT91C_ADC_CH1;
+    a_pADC->ADC_CHER = AT91C_ADC_CH2;
+    a_pADC->ADC_CHER = AT91C_ADC_CH4;
     a_pADC->ADC_CHER = AT91C_ADC_CH5;
     a_pADC->ADC_CHER = AT91C_ADC_CH6;
 }
@@ -35,6 +38,27 @@ unsigned int getValueChannel0()
   a_pADC->ADC_CR = 0x2; // set Start Bit
   while(!(a_pADC->ADC_SR & ADC_CHN_0)); //wait until conversion complete
   return a_pADC->ADC_CDR0;
+}
+
+unsigned int getValueChannel1()
+{
+  a_pADC->ADC_CR = 0x2; // set Start Bit
+  while(!(a_pADC->ADC_SR & ADC_CHN_1)); //wait until conversion complete
+  return a_pADC->ADC_CDR1;
+}
+
+unsigned int getValueChannel2()
+{
+  a_pADC->ADC_CR = 0x2; // set Start Bit
+  while(!(a_pADC->ADC_SR & ADC_CHN_2)); //wait until conversion complete
+  return a_pADC->ADC_CDR2;
+}
+
+unsigned int getValueChannel4()
+{
+  a_pADC->ADC_CR = 0x2; // set Start Bit
+  while(!(a_pADC->ADC_SR & ADC_CHN_4)); //wait until conversion complete
+  return a_pADC->ADC_CDR4;
 }
 
 unsigned int getValueChannel5()

@@ -1,8 +1,23 @@
+# Hey Emacs, this is a -*- makefile -*-
+#
+# WinARM template makefile 
+# by Martin Thomas, Kaiserslautern, Germany 
+# <eversmith@heizung-thomas.de>
+#
+# based on the WinAVR makefile written by Eric B. Weddington, J�rg Wunsch, et al.
+# Released to the Public Domain
+# Please read the make user manual!
+#
+#
 # On command line:
 #
 # make all = Make software.
 #
 # make clean = Clean out built project files.
+#
+# make program = Download the hex file to the device
+#
+# (TODO: make filename.s = Just compile filename.c into the assembler code only)
 #
 # To rebuild project do "make clean" then "make all".
 #
@@ -16,62 +31,56 @@
 # - 22. Feb. 2006  - added AT91LIBNOWARN setting (mth)
 # - 19. Apr. 2006  - option FLASH_TOOL (default lpc21isp); variable IMGEXT (mth)
 # - 23. Jun. 2006  - option USE_THUMB_MODE -> THUMB/THUMB_IW
-# -  3. Aug. 2006  - added -ffunction-sections -fdata-sections to CFLAGS
-#                    and --gc-sections to LDFLAGS. Only available for gcc 4 (mth)
-# -  4. Aug. 2006  - pass SUBMDL-define to frontend (mth)
-# - 11. Nov. 2006  - FLASH_TOOL-config, TCHAIN-config (mth)
-# - 28. Mar. 2007  - remove .dep-Directory with rm -r -f and force "no error"
-# - 24. Aprl 2007  - added "both" option for format (.bin and .hex)
+#
 
-# Toolchain prefix (i.e arm-elf -> arm-elf-gcc.exe)
-TCHAIN = arm-elf
-#TCHAIN = arm-none-eabi
+FLASH_TOOL = UVISION
+#FLASH_TOOL = OPENOCD
+
+# MCU name and submodel
+MCU      = arm7tdmi
+SUBMDL   = AT91SAM7S64
 
 USE_THUMB_MODE = YES
 #USE_THUMB_MODE = NO
 
-# MCU name and submodel
-MCU      = arm7tdmi
-SUBMDL   = AT91SAM7S256
-
 ## Create ROM-Image (final)
 RUN_MODE=ROM_RUN
-## Create RAM-Image (debugging) - not used in this example
+## Create RAM-Image (debugging) 
+##( not used: example does not fit in AT91SAM7S64 RAM )
 #RUN_MODE=RAM_RUN
 
+# not used in this example!
 ## Exception-Vector placement only supported for "ROM_RUN"
 ## (placement settings ignored when using "RAM_RUN")
 ## - Exception vectors in ROM:
-VECTOR_LOCATION=VECTORS_IN_ROM
+#VECTOR_LOCATION=VECTORS_IN_ROM
 ## - Exception vectors in RAM:
 #VECTOR_LOCATION=VECTORS_IN_RAM
-
 
 # Target file name (without extension).
 TARGET = main
 
 # List C source files here. (C dependencies are automatically generated.)
 # use file-extension c for "c-only"-files
-SRC  = $(TARGET).c
-SRC += dbgu.c 
-SRC += syscalls.c
-SRC += swi_handler_user.c
-SRC += cdc_enumerate.c
-SRC += adc.c
-SRC += delay.c
+SRC = 
 
 # List C source files here which must be compiled in ARM-Mode.
 # use file-extension c for "c-only"-files
-SRCARM  = common/Cstartup_SAM7.c
+SRCARM = $(TARGET).c
+SRCARM += Cstartup_SAM7.c
+SRCARM += syscalls.c 
+SRCARM += cdc_enumerate.c
+SRCARM  += adc.c
+SRCARM  += delay.c
 
 # List C++ source files here.
 # use file-extension cpp for C++-files (use extension .cpp)
-#CPPSRC = $(TARGET).cpp
 CPPSRC = 
 
 # List C++ source files here which must be compiled in ARM-Mode.
 # use file-extension cpp for C++-files (use extension .cpp)
-CPPSRCARM =
+#CPPSRCARM = $(TARGET).cpp
+CPPSRCARM = 
 
 # List Assembler source files here.
 # Make them always end in a capital .S.  Files ending in a lowercase .s
@@ -83,29 +92,18 @@ CPPSRCARM =
 ASRC = 
 
 # List Assembler source files here which must be assembled in ARM-Mode..
-ASRCARM   = ./common/Cstartup.S
-ASRCARM  += ./common/swi_handler.S
+ASRCARM  = Cstartup.S
 
-# Path to Linker-Scripts
-LINKERSCRIPTPATH = ./common
-
-## Output format. (can be ihex or binary or both)
+## Output format. (can be ihex or binary)
 ## (binary i.e. for openocd and SAM-BA, hex i.e. for lpc21isp and uVision)
 #FORMAT = ihex
 FORMAT = binary
-#FORMAT = both
 
 # Optimization level, can be [0, 1, 2, 3, s]. 
 # 0 = turn off optimization. s = optimize for size.
 # (Note: 3 is not always the best optimization level. See avr-libc FAQ.)
 OPT = s
 #OPT = 0
-
-## Using the Atmel AT91_lib produces warning with
-## the default warning-levels. 
-## yes - disable these warnings; no - keep default settings
-AT91LIBNOWARN = yes
-#AT91LIBNOWARN = no
 
 # Debugging format.
 # Native formats for AVR-GCC's -g are stabs [default], or dwarf-2.
@@ -115,12 +113,18 @@ DEBUG = dwarf-2
 
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
-EXTRAINCDIRS = ./common
+EXTRAINCDIRS = 
 
 # List any extra directories to look for library files here.
 #     Each directory must be seperated by a space.
-EXTRA_LIBDIRS = ./common
+#EXTRA_LIBDIRS = ../arm7_efsl_0_2_4
+EXTRA_LIBDIRS = 
 
+## Using the Atmel AT91_lib produces warning with
+## the default warning-levels. 
+## yes - disable these warnings; no - keep default settings
+AT91LIBNOWARN = yes
+#AT91LIBNOWARN = no
 
 # Compiler flag to set the C Standard level.
 # c89   - "ANSI" C
@@ -142,6 +146,9 @@ ifdef VECTOR_LOCATION
 CDEFS += -D$(VECTOR_LOCATION)
 ADEFS += -D$(VECTOR_LOCATION)
 endif
+
+CDEFS += -D__WinARM__
+ADEFS += -D__WinARM__
 
 # Compiler flags.
 
@@ -166,10 +173,10 @@ CFLAGS += $(CDEFS) $(CINCS)
 CFLAGS += -O$(OPT)
 CFLAGS += -Wall -Wcast-align -Wimplicit 
 CFLAGS += -Wpointer-arith -Wswitch
-CFLAGS += -ffunction-sections -fdata-sections
 CFLAGS += -Wredundant-decls -Wreturn-type -Wshadow -Wunused
 CFLAGS += -Wa,-adhlns=$(subst $(suffix $<),.lst,$<) 
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
+#### CFLAGS += -ffunction-sections -fdata-sections
 
 # flags only for C
 CONLYFLAGS += -Wnested-externs 
@@ -191,7 +198,7 @@ CPPFLAGS =
 #  -Wa,...:    tell GCC to pass this to the assembler.
 #  -ahlns:     create listing
 #  -g$(DEBUG): have the assembler create line number information
-ASFLAGS = $(ADEFS) -Wa,-adhlns=$(<:.S=.lst),-g$(DEBUG)
+ASFLAGS = $(ADEFS) -Wa,-adhlns=$(<:.S=.lst),--g$(DEBUG)
 
 
 #Additional libraries.
@@ -215,32 +222,57 @@ MATH_LIB = -lm
 #  -Wl,...:     tell GCC to pass this to linker.
 #    -Map:      create map file
 #    --cref:    add cross reference to  map file
-LDFLAGS = -nostartfiles -Wl,-Map=$(TARGET).map,--cref,--gc-sections
+LDFLAGS = -nostartfiles
+LDFLAGS += -Wl,-Map=$(TARGET).map,--cref
 LDFLAGS += -lc
 LDFLAGS += $(NEWLIBLPC) $(MATH_LIB)
 LDFLAGS += -lc -lgcc 
 LDFLAGS += $(CPLUSPLUS_LIB)
 LDFLAGS += $(patsubst %,-L%,$(EXTRA_LIBDIRS))
 LDFLAGS += $(patsubst %,-l%,$(EXTRA_LIBS))
+####LDFLAGS += -Wl,--gc-sections
 
 # Set Linker-Script Depending On Selected Memory and Controller
 ifeq ($(RUN_MODE),RAM_RUN)
-LDFLAGS +=-T$(LINKERSCRIPTPATH)/$(SUBMDL)-RAM.ld
+LDFLAGS +=-T$(SUBMDL)-RAM.ld
 else 
-LDFLAGS +=-T$(LINKERSCRIPTPATH)/$(SUBMDL)-ROM.ld
+LDFLAGS +=-T$(SUBMDL)-ROM.ld
 endif
+
+
+# ---------------------------------------------------------------------------
+# Flash-Programming support using lpc21isp by Martin Maurer 
+# only for Philips LPC and Analog ADuC ARMs
+#
+# Settings and variables:
+#LPC21ISP = lpc21isp
+LPC21ISP = lpc21isp
+LPC21ISP_PORT = com1
+LPC21ISP_BAUD = 38400
+LPC21ISP_XTAL = 12000
+LPC21ISP_FLASHFILE = $(TARGET).hex
+# verbose output:
+#LPC21ISP_DEBUG = -debug
+# enter bootloader via RS232 DTR/RTS (only if hardware supports this
+# feature - see Philips AppNote):
+LPC21ISP_CONTROL = -control
+# ---------------------------------------------------------------------------
+
+
+# Define directories, if needed.
+## DIRARM = c:/WinARM/
+## DIRARMBIN = $(DIRAVR)/bin/
+## DIRAVRUTILS = $(DIRAVR)/utils/bin/
 
 # Define programs and commands.
 SHELL = sh
-CC = $(TCHAIN)-gcc
-CPP = $(TCHAIN)-g++
-AR = $(TCHAIN)-ar
-OBJCOPY = $(TCHAIN)-objcopy
-OBJDUMP = $(TCHAIN)-objdump
-SIZE = $(TCHAIN)-size
-NM = $(TCHAIN)-nm
+CC = arm-elf-gcc
+CPP = arm-elf-g++
+OBJCOPY = arm-elf-objcopy
+OBJDUMP = arm-elf-objdump
+SIZE = arm-elf-size
+NM = arm-elf-nm
 REMOVE = rm -f
-REMOVEDIR = rm -f -r
 COPY = cp
 
 # Define Messages
@@ -299,13 +331,7 @@ build: elf bin lss sym
 bin: $(TARGET).bin
 IMGEXT=bin
 else 
-ifeq ($(FORMAT),both)
-build: elf hex bin lss sym
-hex: $(TARGET).hex
-bin: $(TARGET).bin
-else 
 $(error "$(MSG_FORMATERROR) $(FORMAT)")
-endif
 endif
 endif
 
@@ -340,17 +366,45 @@ sizeafter:
 gccversion : 
 	@$(CC) --version
 
+
+# Program the device.
+ifeq ($(FLASH_TOOL),UVISION)
+# Program the device with Keil's uVision (needs configured uVision-Workspace). 
+program: $(TARGET).$(IMGEXT)
+	@echo
+	@echo "Programming with uVision"
+	C:\Keil\uv3\Uv3.exe -f uvisionflash.Uv2 -ouvisionflash.txt
+#	$(REMOVE) ../Common_WinARM/$(TARGET).hex
+#	$(COPY) $(TARGET).hex ../Common_WinARM/
+#	C:\Keil\uv3\Uv3.exe -f ..\Common_WinARM\uvisionflash.Uv2
+else
+ifeq ($(FLASH_TOOL),OPENOCD)
+# Program the device with Dominic Rath's OPENOCD in "batch-mode", needs cfg and "reset-script".
+program: $(TARGET).$(IMGEXT)
+	@echo
+	@echo "Programming with OPENOCD"
+	C:\WinARM\utils\openocd\openocd_svn59\openocd.exe -f oocd_sam7_flash.cfg
+else
+# Program the device.  - lpc21isp will not work for SAM7
+program: $(TARGET).$(IMGEXT)
+	@echo
+	@echo $(MSG_LPC21_RESETREMINDER)
+	$(LPC21ISP) $(LPC21ISP_OPTIONS) $(LPC21ISP_DEBUG) $(LPC21ISP_FLASHFILE) $(LPC21ISP_PORT) $(LPC21ISP_BAUD) $(LPC21ISP_XTAL)
+endif
+endif
+
+
 # Create final output file (.hex) from ELF output file.
 %.hex: %.elf
 	@echo
 	@echo $(MSG_FLASH) $@
-	$(OBJCOPY) -O ihex $< $@
+	$(OBJCOPY) -O $(FORMAT) $< $@
 	
 # Create final output file (.bin) from ELF output file.
 %.bin: %.elf
 	@echo
 	@echo $(MSG_FLASH) $@
-	$(OBJCOPY) -O binary $< $@
+	$(OBJCOPY) -O $(FORMAT) $< $@
 
 
 # Create extended listing file from ELF output file.
@@ -374,8 +428,9 @@ gccversion :
 %.elf:  $(AOBJARM) $(AOBJ) $(COBJARM) $(COBJ) $(CPPOBJ) $(CPPOBJARM)
 	@echo
 	@echo $(MSG_LINKING) $@
+#	$(CC) $(THUMB) $(AOBJARM) $(AOBJ) $(COBJARM) $(COBJ) $(CPPOBJ) $(CPPOBJARM) --output $@ $(LDFLAGS)
 	$(CC) $(THUMB) $(ALL_CFLAGS) $(AOBJARM) $(AOBJ) $(COBJARM) $(COBJ) $(CPPOBJ) $(CPPOBJARM) --output $@ $(LDFLAGS)
-	#	$(CPP) $(THUMB) $(ALL_CFLAGS) $(AOBJARM) $(AOBJ) $(COBJARM) $(COBJ) $(CPPOBJ) $(CPPOBJARM) --output $@ $(LDFLAGS)
+#	$(CPP) $(THUMB) $(ALL_CFLAGS) $(AOBJARM) $(AOBJ) $(COBJARM) $(COBJ) $(CPPOBJ) $(CPPOBJARM) --output $@ $(LDFLAGS)
 
 # Compile: create object files from C source files. ARM/Thumb
 $(COBJ) : %.o : %.c
@@ -429,6 +484,7 @@ clean: begin clean_list finished end
 clean_list :
 	@echo
 	@echo $(MSG_CLEANING)
+	$(REMOVE) ../Common_WinARM/$(TARGET).hex
 	$(REMOVE) $(TARGET).hex
 	$(REMOVE) $(TARGET).bin
 	$(REMOVE) $(TARGET).obj
@@ -454,8 +510,7 @@ clean_list :
 	$(REMOVE) $(CPPSRC:.cpp=.d)
 	$(REMOVE) $(CPPSRCARM:.cpp=.s) 
 	$(REMOVE) $(CPPSRCARM:.cpp=.d)
-#	$(REMOVEDIR) .dep | exit 0
-	$(REMOVE) .dep/* | exit 0
+	$(REMOVE) .dep/*
 
 
 # Include the dependency files.

@@ -1,28 +1,36 @@
-/*
- AT91SAM7S example application "C++" - simple version
-*/
-
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-// newlib 1.14.0 workaround
-#if 0
-extern "C"
-{
-    int _EXFUN(iscanf, (const char *, ...) _ATTRIBUTE ((__format__ (__scanf__, 1, 2))));
-}
-#endif
+
 #include "Board.h"
-#include "swi.h"
 #include "cdc_enumerate.h"
 #include "adc.h"
 #include "delay.h"
 
+static volatile unsigned int leftMotorCounter = 0;
+static volatile unsigned int rightMotorCounter = 0;
 
-#define RTTC_INTERRUPT_LEVEL    0
-#define FIQ_INTERRUPT_LEVEL     0
-#define PIV_200_MS              600000  //* 200 ms for 48 MHz
+//*----------------------------------------------------------------------------
+//* Function Name       : IRQ0Handler
+//* Object              : Interrupt Handler called by the IRQ0 interrupt with AT91
+//*                       compatibility
+//*----------------------------------------------------------------------------
+__ramfunc void IRQ0Handler(void)
+{
+    leftMotorCounter++;
+}
+
+
+//*----------------------------------------------------------------------------
+//* Function Name       : IRQ0Handler
+//* Object              : Interrupt Handler called by the IRQ1 interrupt with AT91
+//*                       compatibility
+//*----------------------------------------------------------------------------
+__ramfunc void IRQ1Handler(void)
+{
+    rightMotorCounter++;
+}
 
 /*
  *  CDC Functions
@@ -81,41 +89,6 @@ struct cdcMessage getCDCMEssage(void)
     cdcMessageObj.length = pCDC.Read(&pCDC, (char *)cdcMessageObj.data, CDC_MSG_SIZE);
 
     return cdcMessageObj;
-}
-
-
-//*----------------------------------------------------------------------------
-//* Function Name       : FIQInitHandler
-//* Object              : IRQ Handler called by the FIQ interrupt with AT91
-//*                       compatibility
-///*----------------------------------------------------------------------------
-void FIQInitHandler(void)
-{
-    AT91F_AIC_DisableIt (AT91C_BASE_AIC, AT91C_ID_SYS);
-}
-
-//*----------------------------------------------------------------------------
-//* Function Name       : PeriodicIntervalTimerHandler
-//* Object              : IRQ Handler called by the SYS interrupt with AT91
-//*                       compatibility
-///*----------------------------------------------------------------------------
-void PeriodicIntervalTimerHandler(void)
-{
-    volatile uint32_t status;
-
-    // Interrupt Acknowledge
-    status = AT91C_BASE_PITC->PITC_PIVR;
-    // status = status;
-
-    // toggle LED1
-    if ((AT91F_PIO_GetInput(AT91C_BASE_PIOA) & LED1 ) == LED1 )
-    {
-        AT91F_PIO_ClearOutput( AT91C_BASE_PIOA, LED1 );
-    }
-    else
-    {
-        AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED1 );
-    }
 }
 
 static void InitPWM(void)
@@ -181,6 +154,8 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
 
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA17);  // ADC Channel 0
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA18);  // ADC Channel 2
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);  // ADC Channel 2
 
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
@@ -208,13 +183,34 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
 }
 
+static void InitIRQ()
+{
+    // IRQ0 initialization
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);
+    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA20, 0);
+    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PIO_PA20);
+    //AT91F_PIO_CfgInputFilter( AT91C_BASE_PIOA, AT91C_PIO_PA20 );
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ0Handler);
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+
+/*
+    // IRQ1 initialization
+    //AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA30, 0);
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);
+    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PIO_PA30);
+    //AT91F_PIO_CfgInputFilter( AT91C_BASE_PIOA, AT91C_PIO_PA30 );
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ1Handler);
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+*/
+}
+
 //*----------------------------------------------------------------------------
 //* Function Name       : DeviceInit
 //* Object              : Device peripherals initialization
 ///*----------------------------------------------------------------------------
 static void DeviceInit(void)
 {
-    InitPIO();
+    //InitPIO();
 
     // Enable User Reset and set its minimal assertion to 960 us
     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4<<8) | (unsigned int)(0xA5<<24);
@@ -227,37 +223,11 @@ static void DeviceInit(void)
     AT91FUSBOpen();
     // Wait for the end of enumeration
     while (!pCDC.IsConfigured(&pCDC));
-/*
-    // then, we configure the PIO Lines corresponding to LEDs
-    // to be outputs. No need to set these pins to be driven by the PIO because it is GPIO pins only.
-    /// AT91F_PIO_CfgOutput( AT91C_BASE_PIOA, LED_MASK ) ;
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, LED1);
 
-    // Clear the LED's. On the SAM7S-EK we must apply a "1" to turn off LEDs
-    /// AT91F_PIO_SetOutput( AT91C_BASE_PIOA, LED_MASK ) ;
-    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, LED1);
-
-    // define switch SW1 at PIO input
-    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, SW1_MASK);
-    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
-
-    // Set-up PIT interrupt
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_SYS, RTTC_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_POSITIVE_EDGE, PeriodicIntervalTimerHandler);
-    AT91C_BASE_PITC->PITC_PIMR = AT91C_PITC_PITEN | AT91C_PITC_PITIEN | PIV_200_MS;  //  IRQ enable CPC
-    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_SYS);
-
-    // open  FIQ interrupt
-    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, SW1_MASK, 0);
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, FIQInitHandler);
-    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
-
-    // Set-up DBGU USART ("UART2")
-    //AT91F_DBGU_Init();
-*/
-    IntEnable();  // the swi-call
-    InitPIO();
+    //InitPIO();
     InitADC();
     InitPWM();
+    InitIRQ();
 }
 
 /*
@@ -281,6 +251,13 @@ int main(void)
     unsigned int leftMotorPWMDuty = 0;
     unsigned int rightMotorPWMDuty = 0;
     unsigned int turretMotorPWMDuty = 0;
+
+    unsigned int leftMotorCurrentReadings = 0;
+    unsigned int leftMotorCurrentReading = 0;
+    unsigned int rightMotorCurrentReadings = 0;
+    unsigned int rightMotorCurrentReading = 0;
+    unsigned int turretMotorCurrentReadings = 0;
+    unsigned int turretMotorCurrentReading = 0;
 
     DeviceInit();
 
@@ -817,6 +794,58 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
                 continue;
             }
+            if (strcmp((char*) cmdParts, "STARTLEFTMOTORCURRENTREADINGS") == 0)
+            {
+                leftMotorCurrentReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPLEFTMOTORCURRENTREADINGS") == 0)
+            {
+                leftMotorCurrentReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STARTRIGHTMOTORCURRENTREADINGS") == 0)
+            {
+                rightMotorCurrentReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPRIGHTMOTORCURRENTREADINGS") == 0)
+            {
+                rightMotorCurrentReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STARTTURRETMOTORCURRENTREADINGS") == 0)
+            {
+                turretMotorCurrentReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPTURRETMOTORCURRENTREADINGS") == 0)
+            {
+                turretMotorCurrentReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETLEFTMOTORCOUNTER") == 0)
+            {
+                sprintf((char *)msg,"LEFT MOTOR COUNTER: %u\n", leftMotorCounter);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RESETLEFTMOTORCOUNTER") == 0)
+            {
+                leftMotorCounter = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETRIGHTMOTORCOUNTER") == 0)
+            {
+                sprintf((char *)msg,"RIGHT MOTOR COUNTER: %u\n", rightMotorCounter);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RESETRIGHTMOTORCOUNTER") == 0)
+            {
+                rightMotorCounter = 0;
+                continue;
+            }
         }
         if (input1Readings)
         {
@@ -836,6 +865,27 @@ int main(void)
         {
             turretReading = getValueChannel5();
             sprintf((char *)msg,"TURRET: %u\n", turretReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (leftMotorCurrentReadings)
+        {
+            leftMotorCurrentReading = getValueChannel1();
+            sprintf((char *)msg,"LEFT MOTOR CURRENT: %u\n", leftMotorCurrentReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (rightMotorCurrentReadings)
+        {
+            rightMotorCurrentReading = getValueChannel2();
+            sprintf((char *)msg,"RIGHT MOTOR CURRENT: %u\n", rightMotorCurrentReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (turretMotorCurrentReadings)
+        {
+            turretMotorCurrentReading = getValueChannel4();
+            sprintf((char *)msg,"TURRET MOTOR CURRENT: %u\n", turretMotorCurrentReading);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }

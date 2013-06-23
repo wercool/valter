@@ -14,27 +14,27 @@
 //* ----------------------------------------------------------------------------
 //* File Name           : lib_AT91SAM7S64.h
 //* Object              : AT91SAM7S64 inlined functions
-//* Generated           : AT91 SW Application Group  08/18/2006 (15:29:16)
+//* Generated           : AT91 SW Application Group  08/30/2005 (15:52:59)
 //*
-//* CVS Reference       : /lib_dbgu.h/1.1/Fri Jan 31 12:18:40 2003//
-//* CVS Reference       : /lib_pmc_SAM7S.h/1.5/Fri Nov  4 09:46:55 2005//
-//* CVS Reference       : /lib_VREG_6085B.h/1.1/Tue Feb  1 16:40:38 2005//
-//* CVS Reference       : /lib_rstc_6098A.h/1.1/Wed Oct  6 09:39:19 2004//
+//* CVS Reference       : /lib_dbgu.h/1.1/Thu Aug 25 12:56:22 2005//
+//* CVS Reference       : /lib_pmc_SAM7S.h/1.4/Tue Aug 30 13:00:43 2005//
+//* CVS Reference       : /lib_VREG_6085B.h/1.1/Tue Feb  1 16:20:47 2005//
+//* CVS Reference       : /lib_rstc_6098A.h/1.1/Wed Oct  6 10:39:20 2004//
 //* CVS Reference       : /lib_ssc.h/1.4/Fri Jan 31 12:19:20 2003//
-//* CVS Reference       : /lib_wdtc_6080A.h/1.1/Wed Oct  6 09:38:30 2004//
-//* CVS Reference       : /lib_usart.h/1.5/Thu Nov 21 16:01:53 2002//
-//* CVS Reference       : /lib_spi2.h/1.2/Tue Aug 23 15:43:14 2005//
-//* CVS Reference       : /lib_pitc_6079A.h/1.2/Thu Nov  4 14:01:11 2004//
-//* CVS Reference       : /lib_aic_6075b.h/1.2/Mon Jul 18 11:06:01 2005//
-//* CVS Reference       : /lib_twi.h/1.5/Fri Aug  4 08:43:37 2006//
-//* CVS Reference       : /lib_adc.h/1.6/Fri Oct 17 08:12:38 2003//
-//* CVS Reference       : /lib_rttc_6081A.h/1.1/Wed Oct  6 09:39:38 2004//
-//* CVS Reference       : /lib_udp.h/1.5/Mon Aug 29 08:17:54 2005//
+//* CVS Reference       : /lib_wdtc_6080A.h/1.1/Wed Oct  6 10:38:30 2004//
+//* CVS Reference       : /lib_usart.h/1.5/Thu Nov 21 16:01:54 2002//
+//* CVS Reference       : /lib_spi2.h/1.2/Tue Aug 23 15:37:28 2005//
+//* CVS Reference       : /lib_pitc_6079A.h/1.2/Tue Nov  9 14:43:56 2004//
+//* CVS Reference       : /lib_aic_6075b.h/1.2/Thu Jul  7 07:48:22 2005//
+//* CVS Reference       : /lib_twi.h/1.3/Mon Jul 19 14:27:58 2004//
+//* CVS Reference       : /lib_adc.h/1.6/Fri Oct 17 09:12:38 2003//
+//* CVS Reference       : /lib_rttc_6081A.h/1.1/Wed Oct  6 10:39:38 2004//
+//* CVS Reference       : /lib_udp.h/1.5/Tue Aug 30 12:13:47 2005//
 //* CVS Reference       : /lib_tc_1753b.h/1.1/Fri Jan 31 12:20:02 2003//
-//* CVS Reference       : /lib_MC_SAM7S.h/1.1/Tue Feb  1 14:13:05 2005//
+//* CVS Reference       : /lib_MC_SAM7S.h/1.1/Thu Mar 25 15:19:14 2004//
 //* CVS Reference       : /lib_pio.h/1.3/Fri Jan 31 12:18:56 2003//
-//* CVS Reference       : /lib_PWM_SAM.h/1.3/Wed Dec  3 10:23:10 2003//
-//* CVS Reference       : /lib_pdc.h/1.2/Tue Jul  2 12:29:40 2002//
+//* CVS Reference       : /lib_PWM_SAM.h/1.3/Thu Jan 22 10:10:50 2004//
+//* CVS Reference       : /lib_pdc.h/1.2/Tue Jul  2 13:29:40 2002//
 //* ----------------------------------------------------------------------------
 
 #ifndef lib_AT91SAM7S64_H
@@ -1039,7 +1039,7 @@ __inline unsigned int AT91F_PMC_GetSysClkStatusReg (
 //*----------------------------------------------------------------------------
 __inline void AT91F_PMC_EnablePeriphClock (
 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
-	unsigned int periphIds)  // \arg IDs of peripherals
+	unsigned int periphIds)  // \arg IDs of peripherals to enable
 {
 	pPMC->PMC_PCER = periphIds;
 }
@@ -1050,7 +1050,7 @@ __inline void AT91F_PMC_EnablePeriphClock (
 //*----------------------------------------------------------------------------
 __inline void AT91F_PMC_DisablePeriphClock (
 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
-	unsigned int periphIds)  // \arg IDs of peripherals
+	unsigned int periphIds)  // \arg IDs of peripherals to enable
 {
 	pPMC->PMC_PCDR = periphIds;
 }
@@ -1190,11 +1190,11 @@ __inline unsigned int AT91F_PMC_GetMasterClock (
 
 //*----------------------------------------------------------------------------
 //* \fn    AT91F_PMC_EnablePCK
-//* \brief Enable Programmable Clock x Output
+//* \brief Enable peripheral clock
 //*----------------------------------------------------------------------------
 __inline void AT91F_PMC_EnablePCK (
 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
-	unsigned int pck,  // \arg Programmable Clock x Output
+	unsigned int pck,  // \arg Peripheral clock identifier 0 .. 7
 	unsigned int mode)
 {
 	pPMC->PMC_PCKR[pck] = mode;
@@ -1203,11 +1203,11 @@ __inline void AT91F_PMC_EnablePCK (
 
 //*----------------------------------------------------------------------------
 //* \fn    AT91F_PMC_DisablePCK
-//* \brief Disable Programmable Clock x Output
+//* \brief Enable peripheral clock
 //*----------------------------------------------------------------------------
 __inline void AT91F_PMC_DisablePCK (
 	AT91PS_PMC pPMC, // \arg pointer to PMC controller
-	unsigned int pck)  // \arg Programmable Clock x Output
+	unsigned int pck)  // \arg Peripheral clock identifier 0 .. 7
 {
 	pPMC->PMC_SCDR = (1 << pck) << 8;
 }
@@ -1488,7 +1488,7 @@ __inline unsigned int AT91F_RTTReadValue(
    ***************************************************************************** */
 //*----------------------------------------------------------------------------
 //* \fn    AT91F_PITInit
-//* \brief System timer init : period in ï¿½second, system clock freq in MHz
+//* \brief System timer init : period in µsecond, system clock freq in MHz
 //*----------------------------------------------------------------------------
 __inline void AT91F_PITInit(
         AT91PS_PITC pPITC,
@@ -2959,8 +2959,8 @@ __inline void AT91F_PWMC_CfgChannel(
         unsigned int duty) // \arg PWM duty cycle
 {
 	pPWM->PWMC_CH[channelId].PWMC_CMR = mode;
-	pPWM->PWMC_CH[channelId].PWMC_CPRDR = period;
 	pPWM->PWMC_CH[channelId].PWMC_CDTYR = duty;
+	pPWM->PWMC_CH[channelId].PWMC_CPRDR = period;
 }
 
 //*----------------------------------------------------------------------------
@@ -2992,7 +2992,7 @@ __inline void AT91F_PWMC_StopChannel(
 __inline void AT91F_PWMC_UpdateChannel(
         AT91PS_PWMC pPWM,   // \arg  pointer to a PWM controller
         unsigned int channelId, // \arg PWM channel ID
-        unsigned int update) // \arg  Channels IDs to be enabled (maska: it is duty)
+        unsigned int update) // \arg  Channels IDs to be enabled
 {
 	pPWM->PWMC_CH[channelId].PWMC_CUPDR = update;
 }
