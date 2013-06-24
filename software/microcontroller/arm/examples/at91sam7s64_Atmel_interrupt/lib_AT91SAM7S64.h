@@ -1488,7 +1488,7 @@ __inline unsigned int AT91F_RTTReadValue(
    ***************************************************************************** */
 //*----------------------------------------------------------------------------
 //* \fn    AT91F_PITInit
-//* \brief System timer init : period in µsecond, system clock freq in MHz
+//* \brief System timer init : period in ï¿½second, system clock freq in MHz
 //*----------------------------------------------------------------------------
 __inline void AT91F_PITInit(
         AT91PS_PITC pPITC,

@@ -156,6 +156,9 @@ static void InitPIO(void)
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA17);  // ADC Channel 0
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA18);  // ADC Channel 2
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);  // ADC Channel 2
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);  // IRQ0
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);  // IRQ1
+
 
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
@@ -181,27 +184,22 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
+
+    // disable all pull-ups
+    AT91C_BASE_PIOA->PIO_PPUDR = ~0;
 }
 
 static void InitIRQ()
 {
     // IRQ0 initialization
-    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA20, 0);
-    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PIO_PA20);
-    //AT91F_PIO_CfgInputFilter( AT91C_BASE_PIOA, AT91C_PIO_PA20 );
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ0Handler);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) IRQ0Handler);
     AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
 
-/*
     // IRQ1 initialization
-    //AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA30, 0);
-    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);
-    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PIO_PA30);
-    //AT91F_PIO_CfgInputFilter( AT91C_BASE_PIOA, AT91C_PIO_PA30 );
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ1Handler);
+    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA30, 0);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) IRQ1Handler);
     AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
-*/
 }
 
 //*----------------------------------------------------------------------------
@@ -210,7 +208,7 @@ static void InitIRQ()
 ///*----------------------------------------------------------------------------
 static void DeviceInit(void)
 {
-    //InitPIO();
+    InitPIO();
 
     // Enable User Reset and set its minimal assertion to 960 us
     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4<<8) | (unsigned int)(0xA5<<24);
@@ -224,7 +222,7 @@ static void DeviceInit(void)
     // Wait for the end of enumeration
     while (!pCDC.IsConfigured(&pCDC));
 
-    //InitPIO();
+    InitPIO();
     InitADC();
     InitPWM();
     InitIRQ();
@@ -258,6 +256,9 @@ int main(void)
     unsigned int rightMotorCurrentReading = 0;
     unsigned int turretMotorCurrentReadings = 0;
     unsigned int turretMotorCurrentReading = 0;
+
+    unsigned int leftMotorCounterReadings = 0;
+    unsigned int rightMotorCounterReadings = 0;
 
     DeviceInit();
 
@@ -732,14 +733,6 @@ int main(void)
                 AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, turretMotorPWMDuty);
                 continue;
             }
-            /*
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
-             */
             if (strcmp((char*) cmdParts, "LEFTMOTORCW") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //leftMotorINa
@@ -846,6 +839,26 @@ int main(void)
                 rightMotorCounter = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "LEFTMOTORCOUNTERSTART") == 0)
+            {
+                leftMotorCounterReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LEFTMOTORCOUNTERSTOP") == 0)
+            {
+                leftMotorCounterReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTMOTORCOUNTERSTART") == 0)
+            {
+                rightMotorCounterReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTMOTORCOUNTERSTOP") == 0)
+            {
+                rightMotorCounterReadings = 0;
+                continue;
+            }
         }
         if (input1Readings)
         {
@@ -886,6 +899,18 @@ int main(void)
         {
             turretMotorCurrentReading = getValueChannel4();
             sprintf((char *)msg,"TURRET MOTOR CURRENT: %u\n", turretMotorCurrentReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (leftMotorCounterReadings)
+        {
+            sprintf((char *)msg,"LEFT MOTOR COUNTER: %u\n", leftMotorCounter);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (rightMotorCounterReadings)
+        {
+            sprintf((char *)msg,"RIGHT MOTOR COUNTER: %u\n", rightMotorCounter);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
