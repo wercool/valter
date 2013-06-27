@@ -273,7 +273,7 @@ int main(void)
             char *cmdParts;
 
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
-
+            // CAUTION!!! Use only when AC/DC 12V connected.
             if (strcmp((char*) cmdParts, "MAINACCUMULATORRELAYON") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
