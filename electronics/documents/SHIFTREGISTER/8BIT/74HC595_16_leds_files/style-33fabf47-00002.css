@@ -1,0 +1,318 @@
+BODY {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT-FAMILY: arial, helvetica, sans-serif; BACKGROUND: #ffffff; COLOR: #000000; PADDING-TOP: 0px
+}
+A:visited {
+	COLOR: #333399
+}
+body_avisited {
+	COLOR: #333399
+}
+A:hover {
+	COLOR: #cc0000
+}
+A:active {
+	COLOR: #cc0000
+}
+body_ahover {
+	COLOR: #cc0000
+}
+.page {
+	BACKGROUND: #ffffff; COLOR: #000000
+}
+TD {
+	FONT-FAMILY: arial, helvetica, sans-serif
+}
+TH {
+	FONT-FAMILY: arial, helvetica, sans-serif
+}
+P {
+	FONT-FAMILY: arial, helvetica, sans-serif
+}
+LI {
+	FONT-FAMILY: arial, helvetica, sans-serif
+}
+.tborder {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; BACKGROUND: #ffffcc; COLOR: #000000; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid
+}
+.tcat {
+	FONT-FAMILY: arial, helvetica, sans-serif; BACKGROUND: #f0f0c2; COLOR: #336633; FONT-WEIGHT: bold
+}
+.tcat A:link {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tcat_alink {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tcat A:visited {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tcat_avisited {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tcat A:hover {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.tcat A:active {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.tcat_ahover {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.thead {
+	FONT: 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; BACKGROUND: #ffeb99; COLOR: #000000
+}
+.thead A:link {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+.thead_alink {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+.thead A:visited {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+.thead_avisited {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+.thead A:hover {
+	COLOR: #ff0000; TEXT-DECORATION: underline
+}
+.thead A:active {
+	COLOR: #ff0000; TEXT-DECORATION: underline
+}
+.thead_ahover {
+	COLOR: #ff0000; TEXT-DECORATION: underline
+}
+.tfoot {
+	BACKGROUND: #f0f0c2; COLOR: #336633
+}
+.tfoot A:link {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tfoot_alink {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tfoot A:visited {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tfoot_avisited {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.tfoot A:hover {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.tfoot A:active {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.tfoot_ahover {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.alt1 {
+	BACKGROUND: #ffffcc; COLOR: #000000
+}
+.alt1Active {
+	BACKGROUND: #ffffcc; COLOR: #000000
+}
+.alt2 {
+	BACKGROUND: #ffeb99; COLOR: #000000
+}
+.alt2Active {
+	BACKGROUND: #ffeb99; COLOR: #000000
+}
+TD.inlinemod {
+	BACKGROUND: #ffffcc; COLOR: #000000
+}
+.wysiwyg {
+	FONT: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; BACKGROUND: #ffffff; COLOR: #000000
+}
+TEXTAREA {
+	FONT: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif
+}
+.bginput {
+	FONT: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif
+}
+.button {
+	FONT: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif
+}
+SELECT {
+	FONT: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif
+}
+OPTION {
+	FONT-FAMILY: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; FONT-SIZE: 11px
+}
+OPTGROUP {
+	FONT-FAMILY: verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; FONT-SIZE: 11px
+}
+.smallfont {
+	FONT: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif
+}
+.time {
+	COLOR: #666686
+}
+.navbar {
+	COLOR: #cc0000
+}
+.highlight {
+	COLOR: #ff0000; FONT-WEIGHT: bold
+}
+.fjsel {
+	BACKGROUND: #3e5c92; COLOR: #e0e0f6
+}
+.fjdpth0 {
+	BACKGROUND: #f7f7f7; COLOR: #000000
+}
+.panel {
+	BORDER-BOTTOM: 2px outset; BORDER-LEFT: 2px outset; PADDING-BOTTOM: 10px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; BACKGROUND: #ffffcc; COLOR: #000000; BORDER-TOP: 2px outset; BORDER-RIGHT: 2px outset; PADDING-TOP: 10px
+}
+.panelsurround {
+	BACKGROUND: #ffeb99; COLOR: #000000
+}
+LEGEND {
+	FONT: 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; COLOR: #22229c
+}
+.vbmenu_control {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 6px; PADDING-RIGHT: 6px; FONT: bold 12px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; WHITE-SPACE: nowrap; BACKGROUND: #f0f0c2; COLOR: #336633; PADDING-TOP: 3px
+}
+.vbmenu_control A:link {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.vbmenu_control_alink {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.vbmenu_control A:visited {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.vbmenu_control_avisited {
+	COLOR: #336633; TEXT-DECORATION: underline
+}
+.vbmenu_control A:hover {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.vbmenu_control A:active {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.vbmenu_control_ahover {
+	COLOR: #cc0000; TEXT-DECORATION: underline
+}
+.vbmenu_popup {
+	BORDER-BOTTOM: #0b198c 1px solid; BORDER-LEFT: #0b198c 1px solid; BACKGROUND: #ffffff; COLOR: #000000; BORDER-TOP: #0b198c 1px solid; BORDER-RIGHT: #0b198c 1px solid
+}
+.vbmenu_option {
+	FONT: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; WHITE-SPACE: nowrap; BACKGROUND: #bbc7ce; COLOR: #000000; CURSOR: pointer
+}
+.vbmenu_option A:link {
+	COLOR: #22229c; TEXT-DECORATION: none
+}
+.vbmenu_option_alink {
+	COLOR: #22229c; TEXT-DECORATION: none
+}
+.vbmenu_option A:visited {
+	COLOR: #22229c; TEXT-DECORATION: none
+}
+.vbmenu_option_avisited {
+	COLOR: #22229c; TEXT-DECORATION: none
+}
+.vbmenu_option A:hover {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_option A:active {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_option_ahover {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_hilite {
+	FONT: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif; WHITE-SPACE: nowrap; BACKGROUND: #8a949e; COLOR: #ffffff; CURSOR: pointer
+}
+.vbmenu_hilite A:link {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_hilite_alink {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_hilite A:visited {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_hilite_avisited {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_hilite A:hover {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_hilite A:active {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.vbmenu_hilite_ahover {
+	COLOR: #ffffff; TEXT-DECORATION: none
+}
+.bigusername {
+	FONT-SIZE: 14pt
+}
+TD.thead {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; PADDING-TOP: 4px
+}
+TH.thead {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; PADDING-TOP: 4px
+}
+DIV.thead {
+	PADDING-BOTTOM: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; PADDING-TOP: 4px
+}
+.pagenav A {
+	TEXT-DECORATION: none
+}
+.pagenav TD {
+	PADDING-BOTTOM: 2px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; PADDING-TOP: 2px
+}
+.shade {
+	COLOR: #777777; TEXT-DECORATION: none
+}
+A.shade:link {
+	COLOR: #777777; TEXT-DECORATION: none
+}
+A.shade:visited {
+	COLOR: #777777; TEXT-DECORATION: none
+}
+A.shade:active {
+	COLOR: #ff4400; TEXT-DECORATION: underline
+}
+A.shade:hover {
+	COLOR: #ff4400; TEXT-DECORATION: underline
+}
+.tcat .shade {
+	COLOR: #dddddd
+}
+.thead .shade {
+	COLOR: #dddddd
+}
+.tfoot .shade {
+	COLOR: #dddddd
+}
+.fieldset {
+	MARGIN-BOTTOM: 6px
+}
+.fieldset {
+	FONT-SIZE: 11px
+}
+.fieldset TD {
+	FONT-SIZE: 11px
+}
+.fieldset P {
+	FONT-SIZE: 11px
+}
+.fieldset LI {
+	FONT-SIZE: 11px
+}
+FORM {
+	MARGIN: 0px
+}
+LABEL {
+	CURSOR: default
+}
+.normal {
+	FONT-WEIGHT: normal
+}
+.inlineimg {
+	VERTICAL-ALIGN: middle
+}
+.underline {
+	TEXT-DECORATION: underline
+}

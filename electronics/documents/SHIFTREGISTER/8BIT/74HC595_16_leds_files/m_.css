@@ -1,0 +1,852 @@
+BODY {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; BACKGROUND: #fff; COLOR: #000; PADDING-TOP: 0px
+}
+TD {
+	FONT-FAMILY: Arial
+}
+FORM {
+	MARGIN: 0px
+}
+.u {
+	FONT-FAMILY: Arial; FONT-SIZE: 10pt
+}
+.forum_3 {
+	FONT-FAMILY: Arial; FONT-SIZE: 10pt
+}
+.u0 {
+	COLOR: #00f
+}
+A.u0 {
+	COLOR: #00f
+}
+A.u0:visited {
+	COLOR: #00f
+}
+A.u0:link {
+	COLOR: #00f
+}
+.u1 {
+	COLOR: #00f; FONT-SIZE: 10pt
+}
+A.u1 {
+	COLOR: #00f; FONT-SIZE: 10pt
+}
+A.u1:visited {
+	COLOR: #00f; FONT-SIZE: 10pt
+}
+A.u1:link {
+	COLOR: #00f; FONT-SIZE: 10pt
+}
+.u2 {
+	COLOR: #00f; FONT-SIZE: 8pt
+}
+A.u2 {
+	COLOR: #00f; FONT-SIZE: 8pt
+}
+A.u2:visited {
+	COLOR: #00f; FONT-SIZE: 8pt
+}
+A.u2:link {
+	COLOR: #00f; FONT-SIZE: 8pt
+}
+A:hover {
+	COLOR: #c00
+}
+A.u0:hover {
+	COLOR: #c00
+}
+A.u1:hover {
+	COLOR: #c00
+}
+A.u2:hover {
+	COLOR: #c00
+}
+.ul {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #000000; FONT-SIZE: 8pt; TEXT-DECORATION: none
+}
+A.ul {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #000000; FONT-SIZE: 8pt; TEXT-DECORATION: none
+}
+A.ul:visited {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #000000; FONT-SIZE: 8pt; TEXT-DECORATION: none
+}
+A.ul:link {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #000000; FONT-SIZE: 8pt; TEXT-DECORATION: none
+}
+.up {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+A.up {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+A.up:visited {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+A.up:link {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+.adv {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+A.adv {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+A.adv:visited {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+A.adv:link {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 8pt
+}
+.up1 {
+	FONT-FAMILY: Tahoma, Arial; FONT-SIZE: 8pt
+}
+.up2 {
+	FONT-FAMILY: Tahoma, Arial; FONT-SIZE: 6pt
+}
+.up3 {
+	FONT-FAMILY: Tahoma, Arial; COLOR: #666; FONT-SIZE: 7pt
+}
+.forum_an {
+	PADDING-BOTTOM: 8px; PADDING-LEFT: 0px; PADDING-RIGHT: 5px; PADDING-TOP: 5px
+}
+#tbm1 {
+	MARGIN-TOP: 5px; BORDER-SPACING: 0px; BORDER-COLLAPSE: collapse
+}
+.tdm11 {
+	BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 1px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; WHITE-SPACE: nowrap; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 0px
+}
+.tdm13 {
+	BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 1px; BACKGROUND-COLOR: #ffffe0; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; WHITE-SPACE: nowrap; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 0px
+}
+.tdm12 {
+	BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 1px; BACKGROUND-COLOR: #ffeb99; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; WHITE-SPACE: nowrap; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 0px
+}
+.vm {
+	VERTICAL-ALIGN: middle
+}
+.z1 {
+	MARGIN: 0px 2px 0px 0px; COLOR: #c00; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+#tbm2 {
+	BACKGROUND-COLOR: #ffeb99; BORDER-SPACING: 0px; BORDER-COLLAPSE: collapse
+}
+#tbm2a {
+	BACKGROUND-COLOR: #ffeb99; BORDER-SPACING: 0px; BORDER-COLLAPSE: collapse
+}
+.tdm21 {
+	PADDING-BOTTOM: 7px; PADDING-LEFT: 9px; WIDTH: 540px; PADDING-RIGHT: 3px; PADDING-TOP: 7px
+}
+.tdm22 {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 6px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.tdm23 {
+	TEXT-ALIGN: left; PADDING-BOTTOM: 0px; PADDING-LEFT: 6px; PADDING-RIGHT: 12px; WHITE-SPACE: nowrap; PADDING-TOP: 0px
+}
+.tdm24 {
+	TEXT-ALIGN: center; WIDTH: 240px; FONT-FAMILY: Arial; WHITE-SPACE: nowrap; FONT-SIZE: 10pt
+}
+.tdm25 {
+	PADDING-BOTTOM: 2px; PADDING-LEFT: 9px; PADDING-RIGHT: 3px; FONT-FAMILY: Arial; FONT-SIZE: 10pt; PADDING-TOP: 2px
+}
+.tdm32 {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; WIDTH: 240px; PADDING-RIGHT: 0px; FONT-FAMILY: Arial; FONT-SIZE: 10pt; PADDING-TOP: 0px
+}
+#sh_all {
+	BORDER-SPACING: 0px; WIDTH: 100%; BORDER-COLLAPSE: collapse
+}
+#sh_all TD.all {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#sh_rz_fr {
+	BORDER-SPACING: 0px; WIDTH: 100%; BORDER-COLLAPSE: collapse; FONT-FAMILY: Arial; FONT-SIZE: 10pt
+}
+#sh_rz_fr TD.rz_fr {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#sh_rz {
+	MARGIN-TOP: 5px; BORDER-SPACING: 0px; WIDTH: 100%; BORDER-COLLAPSE: collapse; FONT-FAMILY: Arial; FONT-SIZE: 10pt
+}
+#sh_rz TD.rz {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 6px; PADDING-LEFT: 5px; WIDTH: 100%; PADDING-RIGHT: 4px; BACKGROUND: #fcfcee; FONT-SIZE: 10pt; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 3px
+}
+#sh_rz1 {
+	BORDER-SPACING: 0px; BORDER-COLLAPSE: collapse; FONT-FAMILY: Arial; FONT-SIZE: 10pt
+}
+.sh_rz1 TD.rz1 {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 100px; PADDING-TOP: 0px; pading-right: 120px
+}
+#sh_fr {
+	MARGIN-TOP: 5px; BORDER-SPACING: 0px; WIDTH: 100%; BORDER-COLLAPSE: collapse; FONT-FAMILY: Arial; FONT-SIZE: 10pt
+}
+#sh_fr TD.fr {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 6px; PADDING-LEFT: 5px; WIDTH: 100%; PADDING-RIGHT: 4px; BACKGROUND: #fcfcee; FONT-SIZE: 10pt; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 3px
+}
+.sh_bl2 {
+	PADDING-BOTTOM: 6px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; FONT-SIZE: 10pt; PADDING-TOP: 5px
+}
+#tb_fa {
+	WIDTH: 240px; BORDER-COLLAPSE: collapse
+}
+#td_fa {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+#tb_op0 {
+	BORDER-COLLAPSE: collapse
+}
+#td_op0 {
+	TEXT-ALIGN: right; FONT-SIZE: 10pt
+}
+#tb_op {
+	BORDER-BOTTOM: #ffeb99 2px solid; BORDER-LEFT: #ffeb99 2px solid; MARGIN-TOP: 3px; BORDER-COLLAPSE: collapse; BORDER-TOP: #ffeb99 2px solid; BORDER-RIGHT: #ffeb99 2px solid
+}
+#td_op {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 5px
+}
+#tdt_op {
+	BORDER-BOTTOM: #ffeb99 1px solid; TEXT-ALIGN: center; BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 5px; BACKGROUND-COLOR: #ffffcc; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 5px
+}
+#tdv_op {
+	BORDER-BOTTOM: #ffeb99 1px solid; TEXT-ALIGN: center; BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 5px
+}
+#tb_f0 {
+	MARGIN-TOP: 2px; WIDTH: 100%; BORDER-COLLAPSE: collapse
+}
+#td_f0 {
+	TEXT-ALIGN: left; FONT-SIZE: 10pt
+}
+#td_f1 {
+	TEXT-ALIGN: center; PADDING-BOTTOM: 2px; PADDING-LEFT: 10px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.r5 {
+	MARGIN-LEFT: 5px
+}
+#tb_f {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; MARGIN-TOP: 3px; WIDTH: 100%; BORDER-COLLAPSE: collapse; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid
+}
+.stm {
+	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; WIDTH: 100%; PADDING-RIGHT: 0px; BORDER-COLLAPSE: collapse; BACKGROUND: #fff; PADDING-TOP: 0px
+}
+.tt {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 0px; PADDING-RIGHT: 5px; FONT-SIZE: 11pt; PADDING-TOP: 5px
+}
+.st1 {
+	BACKGROUND: #fff
+}
+.st2 {
+	BACKGROUND: #f5f5eb
+}
+.st1:hover {
+	BACKGROUND: #ccffcc
+}
+.st2:hover {
+	BACKGROUND: #ccffcc
+}
+TABLE TR.st1:hover TD {
+	BACKGROUND: #ccffcc
+}
+TABLE TR.st2:hover TD {
+	BACKGROUND: #ccffcc
+}
+.sd4 {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 10px; PADDING-RIGHT: 5px; PADDING-TOP: 0px
+}
+.nb {
+	MARGIN-RIGHT: 5px
+}
+.blink1 {
+	BACKGROUND-COLOR: #ffffcc
+}
+.op_group {
+	BACKGROUND-COLOR: #f0f1f3
+}
+.adv {
+	MARGIN-RIGHT: 210px
+}
+.shop_td {
+	BACKGROUND: #ffffff; FONT-SIZE: 10pt
+}
+.shop_td2 {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 6px; PADDING-LEFT: 5px; PADDING-RIGHT: 4px; BACKGROUND: #ffffff; FONT-SIZE: 10pt; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 3px
+}
+.shop_tab2 {
+	MARGIN-TOP: 5px
+}
+.shop_fr {
+	COLOR: #666666
+}
+.shop_mod_td {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 4px; PADDING-TOP: 0px
+}
+.st {
+	FONT-SIZE: 12px
+}
+.men {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 10pt
+}
+A.men {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 10pt
+}
+A.men:visited {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 10pt
+}
+A.men:link {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 10pt
+}
+A.men:hover {
+	FONT-FAMILY: Arial; COLOR: red; FONT-SIZE: 10pt
+}
+.mu {
+	FONT-FAMILY: Arial; COLOR: #999966; FONT-SIZE: 10pt
+}
+A.mu {
+	FONT-FAMILY: Arial; COLOR: #999966; FONT-SIZE: 10pt
+}
+A.mu:visited {
+	FONT-FAMILY: Arial; COLOR: #999966; FONT-SIZE: 10pt
+}
+A.mu:link {
+	FONT-FAMILY: Arial; COLOR: #999966; FONT-SIZE: 10pt
+}
+A.mu:hover {
+	FONT-FAMILY: Arial; COLOR: #ff0000; FONT-SIZE: 10pt
+}
+.mrt {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+.f {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+A.mrt {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+A.f {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+A.mrt:visited {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+A.f:visited {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+A.mrt:link {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+A.f:link {
+	COLOR: #cc0000; FONT-SIZE: 10pt
+}
+.mr {
+	COLOR: #cc0000; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.mr {
+	COLOR: #cc0000; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.mr:visited {
+	COLOR: #cc0000; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.mr:link {
+	COLOR: #cc0000; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.mrt:hover {
+	COLOR: #ff0000; FONT-SIZE: 10pt
+}
+.mrb {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt
+}
+A.mrb {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt
+}
+A.mrb:visited {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt
+}
+A.mrb:link {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt
+}
+A.mrb:hover {
+	FONT-FAMILY: Arial; COLOR: #000; FONT-SIZE: 10pt
+}
+.forum_2 {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.forum_2 {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.forum_2:visited {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.forum_2:link {
+	FONT-FAMILY: Arial; COLOR: #c00; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.mr:hover {
+	FONT-FAMILY: Arial; COLOR: #000; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+A.forum_2:hover {
+	FONT-FAMILY: Arial; COLOR: #000; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.bo {
+	FONT-WEIGHT: bold
+}
+A.bo {
+	FONT-WEIGHT: bold
+}
+A.bo:visited {
+	FONT-WEIGHT: bold
+}
+A.bo:link {
+	FONT-WEIGHT: bold
+}
+.forum_1 {
+	FONT-WEIGHT: bold
+}
+.forum_1 {
+	FONT-SIZE: 10pt
+}
+.mens {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 8pt
+}
+A.mens {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 8pt
+}
+A.mens:visited {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 8pt
+}
+A.mens:link {
+	FONT-FAMILY: Arial; COLOR: #333399; FONT-SIZE: 8pt
+}
+A.mens:hover {
+	FONT-FAMILY: Arial; COLOR: red; FONT-SIZE: 8pt
+}
+.men2 {
+	FONT-FAMILY: Arial; COLOR: blue; FONT-SIZE: 10pt
+}
+A.men2 {
+	FONT-FAMILY: Arial; COLOR: blue; FONT-SIZE: 10pt
+}
+A.men2:visited {
+	FONT-FAMILY: Arial; COLOR: blue; FONT-SIZE: 10pt
+}
+A.men2:link {
+	FONT-FAMILY: Arial; COLOR: blue; FONT-SIZE: 10pt
+}
+A.men2:hover {
+	FONT-FAMILY: Arial; COLOR: red; FONT-SIZE: 10pt
+}
+.san_sm {
+	FONT-FAMILY: sans-serif, Arial; FONT-SIZE: 8pt
+}
+A.san_sm {
+	FONT-FAMILY: sans-serif, Arial; FONT-SIZE: 8pt
+}
+A.san_sm:link {
+	FONT-FAMILY: sans-serif, Arial; FONT-SIZE: 8pt
+}
+A.san_sm:visited {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #333399; FONT-SIZE: 8pt
+}
+A.san_sm:hover {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt
+}
+.smr {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt
+}
+A.smr {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt
+}
+A.smr:visited {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt
+}
+A.smr:link {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt
+}
+A.smr:hover {
+	FONT-FAMILY: sans-serif, Arial; COLOR: red; FONT-SIZE: 8pt
+}
+.smg {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #006600; FONT-SIZE: 8pt
+}
+A.smg {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #006600; FONT-SIZE: 8pt
+}
+A.smg:visited {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #006600; FONT-SIZE: 8pt
+}
+A.smg:link {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #006600; FONT-SIZE: 8pt
+}
+A.smg:hover {
+	FONT-FAMILY: sans-serif, Arial; COLOR: red; FONT-SIZE: 8pt
+}
+.smru {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt
+}
+A.smru {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt; TEXT-DECORATION: none
+}
+A.smru:visited {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt; TEXT-DECORATION: none
+}
+A.smru:link {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt; TEXT-DECORATION: none
+}
+A.smru:hover {
+	FONT-FAMILY: sans-serif, Arial; COLOR: navy; FONT-SIZE: 8pt
+}
+.smb {
+	FONT-FAMILY: sans-serif, Arial; COLOR: black; FONT-SIZE: 8pt
+}
+A.smb {
+	FONT-FAMILY: sans-serif, Arial; COLOR: black; FONT-SIZE: 8pt
+}
+A.smb:visited {
+	FONT-FAMILY: sans-serif, Arial; COLOR: black; FONT-SIZE: 8pt
+}
+A.smb:link {
+	FONT-FAMILY: sans-serif, Arial; COLOR: black; FONT-SIZE: 8pt
+}
+A.smb:hover {
+	FONT-FAMILY: sans-serif, Arial; COLOR: #cc0000; FONT-SIZE: 8pt
+}
+.s2 {
+	FONT-FAMILY: sans-serif, Arial; COLOR: black; FONT-SIZE: 8pt
+}
+A.s2 {
+	FONT-FAMILY: sans-serif, Arial; COLOR: blue; FONT-SIZE: 8pt
+}
+A.s2:visited {
+	FONT-FAMILY: sans-serif, Arial; COLOR: blue; FONT-SIZE: 8pt
+}
+A.s2:link {
+	FONT-FAMILY: sans-serif, Arial; COLOR: blue; FONT-SIZE: 8pt
+}
+A.s2:hover {
+	FONT-FAMILY: sans-serif, Arial; COLOR: red; FONT-SIZE: 8pt
+}
+.oz {
+	BORDER-BOTTOM-COLOR: black; BORDER-TOP-COLOR: black; BORDER-RIGHT-COLOR: black; BORDER-LEFT-COLOR: black; MARGIN-RIGHT: 7px
+}
+.oz0 {
+	MARGIN-RIGHT: 24px
+}
+.oz1 {
+	BORDER-BOTTOM-COLOR: black; BORDER-TOP-COLOR: black; BORDER-RIGHT-COLOR: black; MARGIN-LEFT: 7px; BORDER-LEFT-COLOR: black
+}
+.oz2 {
+	BORDER-BOTTOM-COLOR: black; TEXT-ALIGN: left; BORDER-TOP-COLOR: black; MARGIN-BOTTOM: 5px; BORDER-RIGHT-COLOR: black; BORDER-LEFT-COLOR: black; MARGIN-RIGHT: 7px
+}
+.s {
+	COLOR: #999
+}
+.ss {
+	COLOR: #999; FONT-SIZE: 8pt
+}
+.red {
+	COLOR: red
+}
+.green {
+	COLOR: green
+}
+H1 {
+	COLOR: navy; FONT-SIZE: 14pt
+}
+.h1a {
+	COLOR: navy; FONT-SIZE: 14pt
+}
+A.h1a {
+	COLOR: navy; FONT-SIZE: 14pt
+}
+A.h1a:visited {
+	COLOR: navy; FONT-SIZE: 14pt
+}
+A.h1a:link {
+	COLOR: navy; FONT-SIZE: 14pt
+}
+H2 {
+	COLOR: #060; FONT-SIZE: 13pt
+}
+H3 {
+	COLOR: navy; FONT-SIZE: 12pt
+}
+.viol {
+	COLOR: navy; FONT-SIZE: 12pt
+}
+.white {
+	COLOR: white; FONT-SIZE: 10pt
+}
+A.white {
+	COLOR: white; FONT-SIZE: 10pt
+}
+A.white:visited {
+	COLOR: white; FONT-SIZE: 10pt
+}
+A.white:link {
+	COLOR: white; FONT-SIZE: 10pt
+}
+.navy {
+	COLOR: navy
+}
+.br {
+	COLOR: #c00
+}
+A.br {
+	COLOR: #c00
+}
+A.br:visited {
+	COLOR: #c00
+}
+A.br:link {
+	COLOR: #c00
+}
+A.br:hover {
+	COLOR: #000
+}
+.brb {
+	COLOR: #c00; FONT-WEIGHT: bold
+}
+A.brb {
+	COLOR: #c00; FONT-WEIGHT: bold
+}
+A.brb:visited {
+	COLOR: #c00; FONT-WEIGHT: bold
+}
+A.brb:link {
+	COLOR: #c00; FONT-WEIGHT: bold
+}
+A.brb:hover {
+	COLOR: #000; FONT-WEIGHT: bold
+}
+.g_b {
+	BACKGROUND-COLOR: #ffeb99
+}
+.bg1 {
+	TEXT-ALIGN: center; BACKGROUND-COLOR: #ffeb99
+}
+#drg {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; BACKGROUND-COLOR: #fcfcee; WIDTH: 100%; FONT-SIZE: 10pt; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid
+}
+#drv {
+	BORDER-BOTTOM: #ffeb99 1px solid; BORDER-LEFT: #ffeb99 1px solid; BACKGROUND-COLOR: #fcfcee; WIDTH: 100%; FONT-SIZE: 10pt; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid
+}
+#drv {
+	MARGIN-TOP: 4px
+}
+#drg TD {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 5px
+}
+#drv TD {
+	PADDING-BOTTOM: 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 5px
+}
+#drg .tov {
+	FONT-SIZE: 11pt
+}
+#drv .tov {
+	FONT-SIZE: 11pt
+}
+.sr {
+	BACKGROUND-COLOR: #e8f0ff
+}
+DIV.bp_num {
+	FONT-WEIGHT: bold
+}
+SPAN.bp_act {
+	BACKGROUND-COLOR: #fff; COLOR: #c00
+}
+.b {
+	COLOR: #000000
+}
+A.b {
+	COLOR: #000000
+}
+A.b:visited {
+	COLOR: #000000
+}
+A.b:link {
+	COLOR: #000000
+}
+.g {
+	COLOR: #006600
+}
+A.g {
+	COLOR: #006600
+}
+A.g:visited {
+	COLOR: #006600
+}
+A.g:link {
+	COLOR: #006600
+}
+A.b:hover {
+	COLOR: #c00
+}
+A.g:hover {
+	COLOR: #c00
+}
+.wb {
+	COLOR: #ffffff; FONT-WEIGHT: bold
+}
+A.wb {
+	COLOR: #ffffff; FONT-WEIGHT: bold
+}
+A.wb:visited {
+	COLOR: #ffffff; FONT-WEIGHT: bold
+}
+A.wb:link {
+	COLOR: #ffffff; FONT-WEIGHT: bold
+}
+.t {
+	MARGIN-TOP: 5px
+}
+.tc {
+	TEXT-ALIGN: center; MARGIN-TOP: 5px
+}
+.sd {
+	COLOR: #666666
+}
+OL.res LI {
+	MARGIN-TOP: 1em
+}
+OL.res DIV.tit {
+	FONT-SIZE: 120%
+}
+OL.res DIV.inf {
+	MARGIN-TOP: 0.2em
+}
+UL.res LI {
+	MARGIN-TOP: 1em
+}
+UL.res0 LI {
+	MARGIN-TOP: 0px
+}
+OL.res0 LI {
+	MARGIN-TOP: 0px
+}
+UL.res1 LI {
+	MARGIN-TOP: 0.3em
+}
+OL.res0 LI {
+	MARGIN-TOP: 0.3em
+}
+.fs2pb2 {
+	PADDING-BOTTOM: 0.2em
+}
+.pb3 {
+	PADDING-BOTTOM: 0.2em
+}
+.pb2 {
+	PADDING-BOTTOM: 0.2em; FONT-SIZE: 10pt
+}
+.pb4 {
+	PADDING-BOTTOM: 5px; FONT-SIZE: 10pt
+}
+.za {
+	TEXT-DECORATION: none
+}
+.za:hover {
+	TEXT-DECORATION: underline
+}
+.rl_news_t_sim {
+	COLOR: #cc0000; FONT-SIZE: 10pt; FONT-WEIGHT: bold
+}
+.rl_news_ul1 {
+	MARGIN-TOP: 4px; MARGIN-BOTTOM: -2px
+}
+.forum_3 {
+	MARGIN-TOP: 4px; MARGIN-BOTTOM: -2px
+}
+.rl_news_li1 {
+	MARGIN-BOTTOM: 6px
+}
+.forum_4 {
+	MARGIN-BOTTOM: 6px
+}
+.li-mb {
+	MARGIN-BOTTOM: 6px
+}
+.rl_news_li2 {
+	MARGIN-BOTTOM: 14px
+}
+HTML BODY TABLE.b-yandex-reklama TH {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY TABLE.b-yandex-reklama TD {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY TABLE.b-yandex-reklama {
+	FONT-FAMILY: Arial, Sans-Serif
+}
+HTML BODY TABLE.b-yandex-reklama * {
+	FONT-FAMILY: Arial, Sans-Serif
+}
+HTML BODY TABLE.yandex_direct TH {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY TABLE.yandex_market TH {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY TABLE.yandex_premium TH {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY TABLE.yandex_direct TD {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY TABLE.yandex_market TD {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY TABLE.yandex_premium TD {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY yandex_direct TABLE {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY yandex_market TABLE {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+HTML BODY yandex_premium TABLE {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px
+}
+.nw {
+	WHITE-SPACE: nowrap
+}
+UL.li_op LI {
+	MARGIN: 0px
+}
+.li_op {
+	MARGIN: 0px
+}
+.se_opul {
+	FONT-SIZE: 10pt
+}
+.se_opli {
+	MARGIN-TOP: 0px
+}
+.se_opl {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; COLOR: #666; PADDING-TOP: 0px
+}
+.anons_bar_tab_0 {
+	MARGIN-TOP: -8px; MARGIN-BOTTOM: 10px
+}
+.anons_bar_tab_1 {
+	MARGIN-TOP: 10px; MARGIN-BOTTOM: 10px
+}
+.bpt {
+	PADDING-BOTTOM: 5px; MARGIN: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 5px; BACKGROUND: #ffeb99; FONT-SIZE: 10pt; PADDING-TOP: 5px
+}
+.pr_tr {
+	BACKGROUND: #fff; VERTICAL-ALIGN: top
+}
+.pr_tr:hover {
+	BACKGROUND: #f5f5eb
+}
+.p_h1 {
+	MARGIN-BOTTOM: 3px; COLOR: navy; FONT-SIZE: 11pt
+}
+.p_td {
+	BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #999 1px solid; PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; BORDER-TOP: #999 1px solid; BORDER-RIGHT: #999 1px solid; PADDING-TOP: 3px
+}
+.p_td_s {
+	BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #999 1px solid; PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; FONT-SIZE: 8pt; BORDER-TOP: #999 1px solid; BORDER-RIGHT: #999 1px solid; PADDING-TOP: 3px
+}
+.p_td_c {
+	BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: center; BORDER-LEFT: #999 1px solid; PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; BORDER-TOP: #999 1px solid; BORDER-RIGHT: #999 1px solid; PADDING-TOP: 3px
+}
+.p_td_r {
+	BORDER-BOTTOM: #999 1px solid; TEXT-ALIGN: right; BORDER-LEFT: #999 1px solid; PADDING-BOTTOM: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px; BORDER-TOP: #999 1px solid; BORDER-RIGHT: #999 1px solid; PADDING-TOP: 3px
+}

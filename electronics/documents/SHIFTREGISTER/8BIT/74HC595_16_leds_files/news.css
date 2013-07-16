@@ -1,0 +1,99 @@
+.tit {
+	COLOR: #cc0000; FONT-SIZE: 11pt
+}
+A.tit {
+	COLOR: #cc0000; FONT-SIZE: 11pt
+}
+A.tit:visited {
+	COLOR: #cc0000; FONT-SIZE: 11pt
+}
+A.tit:link {
+	COLOR: #cc0000; FONT-SIZE: 11pt
+}
+.n_1 {
+	COLOR: #0000ff
+}
+.n_mod {
+	COLOR: #006600
+}
+A.n_mod {
+	COLOR: #006600
+}
+A.n_mod:visited {
+	COLOR: #006600
+}
+A.n_mod:link {
+	COLOR: #006600
+}
+.se {
+	MARGIN-TOP: 0.8em; FONT-SIZE: 10pt
+}
+.pb {
+	FONT-SIZE: 10pt
+}
+OL.res LI {
+	MARGIN-TOP: 1em
+}
+.res {
+	MARGIN-TOP: 1em
+}
+.fs2pb2 {
+	PADDING-BOTTOM: 0.2em; FONT-SIZE: 12pt
+}
+.pb2 {
+	PADDING-BOTTOM: 0.2em; FONT-SIZE: 10pt
+}
+.g {
+	COLOR: #006600
+}
+.b {
+	COLOR: #000000
+}
+A.b {
+	COLOR: #000000
+}
+A.b:visited {
+	COLOR: #000000
+}
+A.b:link {
+	COLOR: #000000
+}
+.sr {
+	BACKGROUND-COLOR: #e8f0ff
+}
+DIV.bp_num {
+	FONT-SIZE: 11pt; FONT-WEIGHT: bold
+}
+SPAN.bp_act {
+	BACKGROUND-COLOR: #ffffff; COLOR: #cc0000
+}
+.so {
+	MARGIN: 0px 0px 10px 5px; FONT-SIZE: 10pt
+}
+.soa {
+	MARGIN: 0px 5px
+}
+.sob {
+	PADDING-BOTTOM: 2px; BACKGROUND-COLOR: #ffeb99; MARGIN: 0px 5px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 0px
+}
+.bnul2 {
+	MARGIN-TOP: 4px; MARGIN-BOTTOM: 8px
+}
+.ul3 {
+	MARGIN-LEFT: -12px
+}
+.cen {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 5px; PADDING-TOP: 5px
+}
+.cen1 {
+	PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; WIDTH: 785px; PADDING-RIGHT: 5px; PADDING-TOP: 0px
+}
+.red {
+	COLOR: #ff0000
+}
+.blue {
+	COLOR: #0000ff
+}
+.t_r {
+	MARGIN-TOP: 6px; MARGIN-BOTTOM: 5px
+}

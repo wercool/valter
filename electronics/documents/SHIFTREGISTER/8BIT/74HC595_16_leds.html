@@ -1,0 +1,582 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<!-- saved from url=(0051)http://www.rlocman.ru/shem/schematics.html -->
+<HTML><HEAD><META content="IE=7.0000" http-equiv="X-UA-Compatible">
+<TITLE>Знакомство с микросхемой регистра сдвига 74HC595 - управление 16 светодиодами Микроконтроллеры Начинающим</TITLE>
+<META content="text/html; charset=windows-1251" http-equiv=Content-Type>
+<META content=ru http-equiv=Content-language>
+<META name=description 
+content="Из этого руководства вы узнаете, как управлять 16 светодиодами используя всего 3 линии управления. Мы осуществим это путем последовательной передачи данных в сдвиговые регистры 74HC595 . Микросхема 74HC595 содержит 8 битный регистр хранения и 8 битный сдвиговый регистр. Данные">
+<META name=keywords 
+content="Знакомство микросхемой регистра сдвига 74HC595 управление 16 светодиодами Микроконтроллеры Начинающим"><LINK 
+id=vbulletin_css rel=stylesheet type=text/css 
+href="74HC595_16_leds_files/style-33fabf47-00002.css"><LINK rel=stylesheet 
+type=text/css href="74HC595_16_leds_files/news.css"><LINK rel=StyleSheet 
+type=text/css href="74HC595_16_leds_files/m_.css">
+<SCRIPT type=text/javascript>
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-17247822-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</SCRIPT>
+
+<META name=GENERATOR content="MSHTML 9.00.8112.16455"></HEAD>
+<BODY>
+<TABLE style="MARGIN-BOTTOM: 0px" border=0 cellSpacing=0 cellPadding=0 
+width="100%" bgColor=#f0f0c2>
+  <TBODY>
+  <TR>
+    <TD 
+    style="PADDING-BOTTOM: 2px; PADDING-LEFT: 5px; PADDING-RIGHT: 0px; PADDING-TOP: 2px" 
+    class=up1 noWrap>
+      <FORM method=get action=/i.php><SELECT onchange=this.form.submit(); 
+      class=up1 name=u> <OPTION selected value="">Быстрый переход</OPTION> 
+        <OPTGROUP label="Навигация по сайту"> <OPTION value=/>Главная 
+          страница</OPTION> <OPTION value=/sot.html>Сотрудничество</OPTION> 
+          <OPTION value=/contacts.html>Контакты</OPTION> </OPTGROUP> <OPTGROUP 
+        label=Срезы> <OPTION value=/chip/>Электронные компоненты</OPTION> 
+          <OPTION value=/mcu/>Микроконтроллеры</OPTION> <OPTION 
+          value=/power/>Силовая электроника</OPTION> <OPTION 
+          value=/measure/>Измерительные приборы</OPTION> <OPTION disabled 
+          value=""></OPTION> <OPTION value=/automation/>Автоматизация</OPTION> 
+          <OPTION value=/sec/>Безопасность</OPTION> <OPTION 
+          value=/wireless/>Беспроводные</OPTION> <OPTION 
+          value=/instrument/>Инструменты и технологии</OPTION> <OPTION 
+          value=/cad/>САПР и ПО</OPTION> <OPTION 
+          value=/light/>Светотехника</OPTION> <OPTION value=/sun/>Солнечная 
+          энергетика</OPTION> <OPTION value=/wind/>Ветроэнергетика</OPTION> 
+        </OPTGROUP></SELECT><INPUT class=up1 value=вперед type=submit> </FORM></TD>
+    <TD width="100%">&nbsp;</TD>
+    <TD 
+    style="PADDING-BOTTOM: 4px; PADDING-LEFT: 0px; PADDING-RIGHT: 36px; PADDING-TOP: 0px"><A 
+      class=up href="http://www.rlocman.ru/sot/author.html"><SPAN 
+      class=br><B>Авторам</B></SPAN></A></TD>
+    <TD 
+    style="PADDING-BOTTOM: 4px; PADDING-LEFT: 0px; PADDING-RIGHT: 5px; PADDING-TOP: 0px" 
+    noWrap><A class=up 
+      onclick="this.style.behavior='url(#default#homepage)';var ohp=this.isHomePage('http://www.rlocman.ru/'); this.setHomePage('http://www.rlocman.ru/'); var nhp=this.isHomePage('http://www.rlocman.ru/'); r(this, 'shp/o=' + ohp + '/n=' + nhp); return false;" 
+      href="http://www.rlocman.ru/">Сделать <SPAN class=br>РадиоЛоцман</SPAN> 
+      стартовой страницей</A></TD></TR></TBODY></TABLE>
+<DIV class=tc><IFRAME height=155 marginHeight=0 
+src="74HC595_16_leds_files/74HC595.htm" frameBorder=0 width=950 marginWidth=0 
+scrolling=no></IFRAME></DIV><!--B2BCONTEXT_CONTENT_BEGIN-->
+<TABLE id=tbm1 width=973 align=center>
+  <TBODY>
+  <TR>
+    <TD class=tdm11><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/"><B>В</B>се</A></TD>
+    <TD class=tdm13><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/news/"><B>Н</B>овости</A></TD>
+    <TD class=tdm13><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/review/"><B>С</B>татьи</A></TD>
+    <TD class=tdm12><SPAN class=z1>»</SPAN><B><A class=mr 
+      href="http://www.rlocman.ru/shem/">Схемы</A></B></TD>
+    <TD class=tdm11><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/book/search.html"><B>К</B>ниги</A></TD>
+    <TD class=tdm11><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/cat/"><B>С</B>айты</A></TD>
+    <TD class=tdm13><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/datasheet/"><B>D</B>ataSheet</A></TD>
+    <TD class=tdm13><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/op/"><B>П</B>риборы</A></TD>
+    <TD class=tdm13><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/program/search.html"><B>П</B>рограммы</A></TD>
+    <TD class=tdm11><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/comp/shop.html"><B>Ц</B>ены</A></TD>
+    <TD class=tdm11><SPAN class=z1>»</SPAN><A class=mrb 
+      href="http://www.rlocman.ru/forum/"><B>Ф</B>орум</A></TD>
+    <TD width="100%">&nbsp; </TD>
+    <TD 
+    style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" 
+    vAlign=bottom width=140 align=right><A href="http://www.rlocman.ru/"><IMG 
+      title=РадиоЛоцман border=0 alt=РадиоЛоцман 
+      src="74HC595_16_leds_files/l1.gif" width=140 height=29></A></TD>
+    <TD class=u width=50 align=right><IMG src="74HC595_16_leds_files/0.gif" 
+      width=50 height=1><BR><A class=b href="http://www.radiolocman.com/" 
+      target=_blank>en</A> </TD></TR></TBODY></TABLE>
+<FORM method=get action=/shem/search.html>
+<TABLE id=tbm2 width=973 align=center>
+  <TBODY>
+  <TR>
+    <TD class=tdm21><INPUT style="WIDTH: 100%" id=Rlocman_TextBoxInput name=q 
+      maxLength=60 size=32></TD>
+    <TD class=tdm22><INPUT value=" Поиск " type=submit></TD>
+    <TD class=tdm23><A class=up 
+      href="http://www.rlocman.ru/shem/search.html?adv=1">расширенный поиск 
+    +</A></TD>
+    <TD 
+    style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" 
+    vAlign=top width=190 align=right><A href="http://www.rlocman.ru/"><IMG 
+      title="все об электронике" border=0 alt="все об электронике" 
+      src="74HC595_16_leds_files/l2.gif" width=140 height=36></A></TD>
+    <TD width=50 align=right><IMG src="74HC595_16_leds_files/0.gif" width=50 
+      height=1><BR></TD></TR></TBODY></TABLE></FORM>
+<TABLE border=0 cellSpacing=0 cellPadding=0 width=973 align=center>
+  <TBODY>
+  <TR vAlign=top>
+    <TD class=cen>
+      <TABLE border=0 cellSpacing=0 cellPadding=0 align=right>
+        <TBODY>
+        <TR class=pb vAlign=top>
+          <TD 
+          style="PADDING-BOTTOM: 0px; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; PADDING-TOP: 0px" 
+          class=sd>Срез:</TD>
+          <TD 
+          style="BORDER-LEFT: #c00 2px solid; PADDING-BOTTOM: 3px; BACKGROUND-COLOR: #fcfcee; PADDING-LEFT: 5px; PADDING-RIGHT: 10px; WHITE-SPACE: nowrap; PADDING-TOP: 0px"><B><A 
+            class=b 
+        href="http://www.rlocman.ru/mcu/">Микроконтроллеры</A></B></TD></TR></TBODY></TABLE>
+      <DIV class=pb><A class=b 
+      href="http://www.rlocman.ru/shem/"><B><B>Схемы</B></B></A> <B>»</B> <A 
+      class=b 
+      href="http://www.rlocman.ru/shem/search.html?rz=0210">Микроконтроллеры</A> 
+      <B>·</B> <A class=b 
+      href="http://www.rlocman.ru/shem/search.html?rz=0229">Начинающим</A></DIV>
+      <P>
+      <DIV class=pb><SPAN class=g>04-06-2010</SPAN></DIV>
+      <H1>Знакомство с микросхемой регистра сдвига 74HC595 - управление 16 
+      светодиодами</H1>
+      <H2>74HC595</H2>
+      <DIV style="MARGIN: 0px 0px 0px -7px">
+      <DIV id=ya_direct></DIV></DIV>
+      <P>Из этого руководства вы узнаете, как управлять 16 светодиодами 
+      используя всего 3 линии управления. Мы осуществим это путем 
+      последовательной передачи данных в сдвиговые регистры <A 
+      href="http://www.datasheet.ru/search.html?cx=005338834574777012439%3Aqye0jsmt8tw&amp;cof=FORID%3A11&amp;q=74HC595&amp;ie=windows-1251&amp;oe=windows-1251&amp;sa=+%CF%EE%E8%F1%EA+#987" 
+      target=_blank>74HC595</A>.</P>
+      <P style="TEXT-ALIGN: center"><IMG 
+      alt="Знакомство с микросхемой регистра сдвига 74HC595" 
+      src="74HC595_16_leds_files/4.jpg" width=400 height=300></P>
+      <P>Микросхема 74HC595 содержит 8 битный регистр хранения и 8 битный 
+      сдвиговый регистр. Данные последовательно передаются в сдвиговый регистр, 
+      затем фиксируются в регистре хранения. К регистру хранения подключены 8 
+      выходных линий. На картинке ниже показано расположение выводов микросхемы 
+      74HC595.</P>
+      <P style="TEXT-ALIGN: center"><IMG alt=74HC595 
+      src="74HC595_16_leds_files/5.jpg" width=200 height=265></P>
+      <P>Вывод 14 (DS) это вывод данных. В некоторых описаниях он обозначается 
+      как «SER».</P>
+      <P>Когда уровень на выводе 11 (SH_CP, иногда обозначается как SRCLK) 
+      переходит из низкого в высокий, значение на выводе DS сохраняется в 
+      сдвиговом регистре, при этом данные сдвигаются на один разряд, чтобы 
+      предоставить место для нового бита.</P>
+      <P>Пока на выводе 12 (ST_CP, иногда обозначается как RCLK) низкий уровень, 
+      данные записываются в регистр сдвига. Когда уровень переходит в высокий, 
+      данные из сдвигового регистра фиксируются в регистре хранения, из которого 
+      поступают на выводы Q0…Q7.</P>
+      <P>На представленной ниже временная диаграмме, показано, каким образом 
+      можно установить на выходах Q0…Q7 микросхемы значение 11000011, учитывая 
+      что изначально там было значение 00000000.</P>
+      <P style="TEXT-ALIGN: center"><IMG 
+      alt="Знакомство с микросхемой регистра сдвига 74HC595" 
+      src="74HC595_16_leds_files/6.jpg" width=400 height=237></P>
+      <P>Ниже показана схема, которую мы соберем в несколько шагов.</P>
+      <P style="TEXT-ALIGN: center"><A href="74HC595_16_leds_files/7.jpg" 
+      target=_blank><IMG border=1 
+      alt="Знакомство с микросхемой регистра сдвига 74HC595" 
+      src="74HC595_16_leds_files/7.jpg" width=600 height=467><BR>Кликните для 
+      увеличения</A></P>
+      <P>Мы используем перфорированную макетную плату с контроллером <A 
+      href="http://www.datasheet.ru/search.html?cx=005338834574777012439%3Aqye0jsmt8tw&amp;cof=FORID%3A11&amp;q=Atmega8&amp;ie=windows-1251&amp;oe=windows-1251&amp;sa=+%CF%EE%E8%F1%EA+#1070" 
+      target=_blank>Atmega8</A>, которую использовали во многих наших проектах. 
+      Добавим еще 2 пустых макетных платы и подведем к ним питание.</P>
+      <P style="TEXT-ALIGN: center"><IMG alt="" 
+      src="74HC595_16_leds_files/8.jpg" width=400 height=300></P>
+      <P>Установим микросхему регистра сдвига и подключим к ней питание +5 В и 
+      общий провод.</P>
+      <P style="TEXT-ALIGN: center"><IMG alt="" 
+      src="74HC595_16_leds_files/9.jpg" width=400 height=300></P>
+      <P>Теперь проведем 3 линии управления между микроконтроллером и регистром 
+      сдвига, для чего подсоединим:</P>
+      <UL>
+        <LI>PC0 к DS 
+        <LI>PC1 к ST_CP 
+        <LI>PC2 к SH_CP </LI></UL>
+      <P>Этими линиями являются 3 синих провода на картинке ниже.</P>
+      <P style="TEXT-ALIGN: center"><IMG alt="" 
+      src="74HC595_16_leds_files/10.jpg" width=400 height=300></P>
+      <P>Затем подключим светодиоды и резисторы. Я использовал резисторы 
+      сопротивлением 510 Ом, но допустимы и другие номиналы.</P>
+      <P style="TEXT-ALIGN: center"><IMG alt="" 
+      src="74HC595_16_leds_files/11.jpg" width=400 height=300></P>
+      <P>Для демонстрации работы схемы я написал <A 
+      href="http://www.rlocman.ru/i/File/2010/06/08/LED_8_Rus.pdf" 
+      target=_blank>небольшую программу</A>, которая выводит перемещающийся из 
+      стороны в сторону огонек на 8 светодиодах.</P>
+      <P>Все это конечно впечатляет, но разве я не говорил, что мы будем 
+      управлять 16 светодиодами? Чтобы сделать это, нам потребуется еще один 
+      сдвиговый регистр 74HC595, больше светодиодов, больше резисторов и больше 
+      оранжевых и голубых проводов.</P>
+      <P>Мы используем вывод Q7, чтобы соединить регистры сдвига в одну 
+      цепочку.</P>
+      <P>Модифицированная схема показана ниже.</P>
+      <P style="TEXT-ALIGN: center"><A href="74HC595_16_leds_files/12.jpg" 
+      target=_blank><IMG border=1 
+      alt="Знакомство с микросхемой регистра сдвига 74HC595" 
+      src="74HC595_16_leds_files/12.jpg" width=600 height=608><BR>Кликните для 
+      увеличения</A></P>
+      <P style="TEXT-ALIGN: center"><IMG 
+      alt="Знакомство с микросхемой регистра сдвига 74HC595" 
+      src="74HC595_16_leds_files/13.jpg" width=400 height=300></P>
+      <P><A href="http://www.rlocman.ru/i/File/2010/06/08/LED_16_Rus.pdf" 
+      target=_blank>Код для реализации скачущего огонька на 16 
+      светодиодах</A>.</P>
+      <P>Мы остановились на 16 светодиодах, но можно соединить в одну цепочку 
+      еще больше регистров сдвига. Эта методика конечно не ограничивается 
+      управлением светодиодами, ее можно использовать для увеличения числа 
+      портов вывода, чтобы управлять другими видами устройств.</P>
+      <P>Одно предупреждение касательно этой методики. Когда вы включаете схему, 
+      на выходах регистров наблюдаются некоторое произвольное значение. Для того 
+      чтобы записать требуемое значение, требуется меньше микросекунды, но для 
+      некоторых схем это может стать причиной проблем. В этом случае вы должны 
+      использовать выводы MR и OE, для сброса регистров хранения.</P>
+      <P><A 
+      href="http://www.protostack.com/forum/blog.php?u=2&amp;b=35&amp;c=1&amp;sid=349349a13ae8b0504a3eac44d51e8a76" 
+      target=_blank>protostack.com</A></P>
+      <P>На английском языке: <B><A 
+      href="http://www.radiolocman.com/shem/schematics.html?di=65110" 
+      target=_blank>Introduction to 74HC595 shift register - Controlling 16 
+      LEDs</A></B></P>
+      <P><I>Перевод: <IMG align=absMiddle src="74HC595_16_leds_files/wand.gif"> 
+      по заказу <A href="http://www.rlocman.ru/" 
+      target=_blank>РадиоЛоцман</A></I></P>
+      <SCRIPT type=text/javascript><!--
+google_ad_client = "ca-pub-9426420834445326";
+google_ad_slot = "2422448488";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</SCRIPT>
+
+      <SCRIPT type=text/javascript 
+      src="74HC595_16_leds_files/show_ads.js">
+</SCRIPT>
+      <A id=forum name=forum></A>
+      <TABLE class=tborder border=0 cellSpacing=1 cellPadding=6 width="100%" 
+      align=center>
+        <TBODY>
+        <TR>
+          <TD class=alt1 width="100%">
+            <DIV style="FONT-SIZE: 10pt">Для комментирования материалов с сайта 
+            и получения полного доступа к нашему форуму Вам необходимо <A 
+            href="http://www.rlocman.ru/forum/register.php?s=" 
+            target=_blank><B>зарегистрироваться</B></A>.</DIV></TD>
+          <TD 
+          style="PADDING-BOTTOM: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px" 
+          class=alt2 noWrap>
+            <FORM 
+            onsubmit=md5hash(vb_login_password,vb_login_md5password,vb_login_md5password_utf) 
+            method=post action=/forum/login.php>
+            <SCRIPT type=text/javascript 
+            src="74HC595_16_leds_files/vbulletin_md5.js"></SCRIPT>
+
+            <TABLE border=0 cellSpacing=3 cellPadding=0>
+              <TBODY>
+              <TR>
+                <TD class=smallfont>Имя</TD>
+                <TD><INPUT accessKey=u style="FONT-SIZE: 11px" 
+                  id=navbar_username class=bginput 
+                  onfocus="if (this.value == 'Имя') this.value = '';" 
+                  tabIndex=101 name=vb_login_username value=Имя size=18></TD>
+                <TD class=smallfont colSpan=2 noWrap><LABEL 
+                  for=cb_cookieuser_navbar><INPUT accessKey=c 
+                  id=cb_cookieuser_navbar tabIndex=103 name=cookieuser value=1 
+                  type=checkbox>Запомнить?</LABEL></TD></TR>
+              <TR>
+                <TD class=smallfont><LABEL 
+                for=navbar_password>Пароль</LABEL></TD>
+                <TD><INPUT style="FONT-SIZE: 11px" id=navbar_password 
+                  class=bginput tabIndex=102 name=vb_login_password size=18 
+                  type=password></TD>
+                <TD><INPUT accessKey=s class=button title="Введите ваше имя пользователя и пароль, чтобы войти, или нажмите кнопку 'Регистрация', чтобы зарегистрироваться." tabIndex=104 value=Вход type=submit></TD></TR></TBODY></TABLE><INPUT 
+            name=s type=hidden> <INPUT name=do value=login type=hidden> <INPUT 
+            name=vb_login_md5password type=hidden> <INPUT 
+            name=vb_login_md5password_utf type=hidden> 
+      </FORM></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellSpacing=1 cellPadding=6 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=forum_1>Фрагменты обсуждения:</TD>
+          <TD align=right><A class=forum_2 
+            href="http://www.rlocman.ru/forum/showthread.php?t=9450">Полный 
+            вариант обсуждения »</A></TD></TR></TBODY></TABLE>
+      <UL class=forum_3>
+        <LI class=forum_4>В програмке на 8 светодиодах есть ошибки... Исправьте, 
+        плиз...
+        <LI class=forum_4>А вы знаете какие именно ошибки в программе. Или 
+        пробовали компилировать и получили ошибки при компиляции? Как таковых 
+        ошибок в программе нет, но есть один нюанс, который был задуман автором, 
+        с целью использовать данный пример на разных контроллерах. Всего 
+        навсего... Так же один момент - не указана тактовая частота в программе, 
+        но я не считаю что это ошибка, а даже наоборот, с этим параметром можно 
+        "поиграться" и увидеть результаты и изменения. Единственное, в тексте 
+        описания не говорится о том, что мега настроена на работу от внутреннего 
+        осциллятора. У меня скомпилировать получилось, все без ошибок 
+        (AVRStudio).
+        <LI class=forum_4>Я компелировал в CodeVisionAVR. Ошибки в delay_ms это 
+        мелочи, компилятор не понимает _BV() и bit_is_set. Схему тестирую в 
+        протеусе. А как в АВРстудио писать на С++, там же вроде ассемблер...
+        <LI class=forum_4>AVRStudio + компилятор WinAVR и пишем на Си в студии.
+        <LI class=forum_4>Поставил WinAVR, не понимает delay.h Какая библиотека 
+        в аврстудио для паузы?
+        <LI class=forum_4>Используем: include &lt;avr/io.h&gt; и include 
+        &lt;util/delay.h&gt;
+        <LI class=forum_4>../new.c:2:26: util/delay.h: No such file or directory 
+        :confused: текст программы в АВРСтудио 4: #include &lt;avr/io.h&gt; 
+        #include &lt;avr/delay.h&gt; #define DS_PORT PORTC #define DS_PIN 0 
+        #define ST_CP_PORT PORTC #define ST_CP_PIN 1 #define SH_CP_PORT PORTC 
+        #define SH_CP_PIN 2 #define DS_low() DS_PORT&amp;=~_BV(DS_PIN) #define 
+        DS_high() DS_PORT|=_BV(DS_PIN) #define ST_CP_low() 
+        ST_CP_PORT&amp;=~_BV(ST_CP_PIN) #define ST_CP_high() 
+        ST_CP_PORT|=_BV(ST_CP_PIN) #define SH_CP_low() 
+        SH_CP_PORT&amp;=~_BV(SH_CP_PIN) #define SH_CP_high() 
+        SH_CP_PORT|=_BV(SH_CP_PIN) //Define functions //====================== 
+        int i; void ioinit(void); void output_led_state(unsigned char 
+        __led_state); //====================== void ioinit (void) { DDRC = 
+        0b00000111; //1 = output, 0 = input PORTC = 0b00000000; } void 
+        output_led_state(unsigned char __led_state) { SH_CP_low(); ST_CP_low(); 
+        for (i=0;i&lt;8;i++) { if (bit_is_set(__led_state, i)) DS_high(); else 
+        DS_low(); SH_CP_high(); SH_CP_low(); } ST_CP_high(); } int main (void) { 
+        ioinit(); //Setup IO pins and defaults while(1) { for (i=7; i&gt;0; i--) 
+        { output_led_state(_BV(i)); _delay_ms(100); } for (i=0; i&lt;8; i++) { 
+        output_led_state(_BV(i)); _delay_ms(100); } } } Запускаю в протеусе. 
+        Один огонек горит =(((
+        <LI class=forum_4>Разобрался с регистром или проблемы остались (а то был 
+        занят, поэтому не отвечал). Если чего, выложи проект в протеусе, 
+        гляну.</LI></UL>
+      <TABLE border=0 cellSpacing=1 cellPadding=6 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=forum_1>
+          <TD align=right><A class=forum_2 
+            href="http://www.rlocman.ru/forum/showthread.php?t=9450">Полный 
+            вариант обсуждения »</A></TD></TR></TBODY></TABLE>
+      <TABLE border=0 cellSpacing=0 cellPadding=3 width="100%">
+        <TBODY>
+        <TR>
+          <TD class=rl_news_t_sim colSpan=2>Рекомендуемые публикации по 
+          теме:</TD></TR>
+        <TR vAlign=top>
+          <TD noWrap>
+            <TABLE border=0 cellSpacing=0 cellPadding=2 width=90 align=left>
+              <TBODY>
+              <TR>
+                <TD bgColor=#ffeb99 width=70 align=center><A class=smru 
+                  href="http://www.rlocman.ru/forum/">Форум</A></TD>
+                <TD>&nbsp;<B><SPAN class=br>»</SPAN></B> 
+          </TD></TR></TBODY></TABLE></TD>
+          <TD width="100%"><A 
+            href="http://www.rlocman.ru/forum/showthread.php?t=16381">Обсуждение: 
+            Одна линия ввода/вывода для управления регистром сдвига со 
+            стробирующим входом. Часть 1 - Принципиальная схема</A></TD></TR>
+        <TR vAlign=top>
+          <TD noWrap>
+            <TABLE border=0 cellSpacing=0 cellPadding=2 width=90 align=left>
+              <TBODY>
+              <TR>
+                <TD bgColor=#ffeb99 width=70 align=center><A class=smru 
+                  href="http://www.rlocman.ru/shem/search.html">Схемы</A></TD>
+                <TD>&nbsp;<B><SPAN class=br>»</SPAN></B> 
+          </TD></TR></TBODY></TABLE></TD>
+          <TD width="100%"><A 
+            href="http://www.rlocman.ru/shem/schematics.html?di=148170">Одна 
+            линия ввода/вывода для управления регистром сдвига со стробирующим 
+            входом. Часть 1 - Принципиальная схема</A></TD></TR>
+        <TR vAlign=top>
+          <TD noWrap>
+            <TABLE border=0 cellSpacing=0 cellPadding=2 width=90 align=left>
+              <TBODY>
+              <TR>
+                <TD bgColor=#ffeb99 width=70 align=center><A class=smru 
+                  href="http://www.rlocman.ru/forum/">Форум</A></TD>
+                <TD>&nbsp;<B><SPAN class=br>»</SPAN></B> 
+          </TD></TR></TBODY></TABLE></TD>
+          <TD width="100%"><A 
+            href="http://www.rlocman.ru/forum/showthread.php?t=2984">Не работает 
+            делитель частоты на 4 битном регистре сдвига</A></TD></TR>
+        <TR vAlign=top>
+          <TD noWrap>
+            <TABLE border=0 cellSpacing=0 cellPadding=2 width=90 align=left>
+              <TBODY>
+              <TR>
+                <TD bgColor=#ffeb99 width=70 align=center><A class=smru 
+                  href="http://www.rlocman.ru/shem/search.html">Схемы</A></TD>
+                <TD>&nbsp;<B><SPAN class=br>»</SPAN></B> 
+          </TD></TR></TBODY></TABLE></TD>
+          <TD width="100%"><A 
+            href="http://www.rlocman.ru/shem/schematics.html?di=148320">Одна 
+            линия ввода/вывода для управления регистром сдвига со стробирующим 
+            входом. Часть 2 - Пояснение принципа работы схемы управления, 
+            осциллограммы управляющих сигналов, демонстрационное 
+видео.</A></TD></TR>
+        <TR vAlign=top>
+          <TD noWrap>
+            <TABLE border=0 cellSpacing=0 cellPadding=2 width=90 align=left>
+              <TBODY>
+              <TR>
+                <TD bgColor=#ffeb99 width=70 align=center><A class=smru 
+                  href="http://www.rlocman.ru/datasheet/">Datasheet</A></TD>
+                <TD>&nbsp;<B><SPAN class=br>»</SPAN></B> 
+          </TD></TR></TBODY></TABLE></TD>
+          <TD width="100%"><A 
+            href="http://www.rlocman.ru/datasheet/data.html?di=65436">ИР2 - два 
+            4-разрядных регистра сдвига 561ИР2 = CD4015A</A></TD></TR></TBODY></TABLE>
+      <P></P><SPAN class=up>
+      <P align=right>При перепечатке материалов с сайта <B>прямая</B> ссылка на 
+      <A class=up href="http://www.rlocman.ru/">РадиоЛоцман</A> 
+      обязательна.</P></SPAN><SPAN class=up>
+      <P align=right>Приглашаем авторов статей и переводов к <A class=up 
+      href="http://www.rlocman.ru/sot.html">публикации материалов</A> на 
+      страницах сайта.</P></SPAN>
+      <P></P></TD>
+    <TD class=u width=240 align=center>
+      <SCRIPT type=text/javascript>
+//<![CDATA[
+yandex_partner_id = 1124;
+yandex_direct_place = 'ya_direct';
+yandex_stat_id = 3;
+yandex_site_bg_color = 'FFFFFF';
+yandex_site_charset = 'windows-1251';
+yandex_ad_format = 'direct';
+yandex_font_size = 0.9;
+yandex_direct_type = 'horizontal';
+yandex_direct_limit = 1;
+yandex_direct_title_color = '0000FF';
+yandex_direct_url_color = '006600';
+yandex_direct_all_color = '666666';
+yandex_direct_text_color = '000000';
+yandex_direct_hover_color = 'CC0000';
+document.write('<sc'+'ript type="text/javascript" src="http://an.yandex.ru/system/context.js"></sc'+'ript>');
+//]]>
+</SCRIPT>
+
+      <DIV class=t>
+      <DIV id=yandex_ad_R-1124-9></DIV>
+      <SCRIPT type=text/javascript>
+    (function(w, n) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "R-1124-9",
+                renderTo: "yandex_ad_R-1124-9",
+                async: false
+            });
+        });
+        document.write('<sc'+'ript type="text/javascript" src="//an.yandex.ru/system/context.js"></sc'+'ript>');
+    })(this, "yandexContextSyncCallbacks");
+</SCRIPT>
+      </DIV>
+      <TABLE 
+      style="MARGIN-TOP: 5px; BORDER-SPACING: 0px; WIDTH: 100%; BORDER-COLLAPSE: collapse" 
+      class=u>
+        <TBODY>
+        <TR 
+        style="BORDER-BOTTOM-COLOR: #ffeb99; BORDER-TOP-COLOR: #ffeb99; BORDER-RIGHT-COLOR: #ffeb99; BORDER-LEFT-COLOR: #ffeb99">
+          <TD 
+          style="BORDER-BOTTOM: #ffeb99 1px solid; TEXT-ALIGN: left; BORDER-LEFT: #ffeb99 1px solid; PADDING-BOTTOM: 5px; BACKGROUND-COLOR: #fcfcee; PADDING-LEFT: 5px; PADDING-RIGHT: 5px; BORDER-TOP: #ffeb99 1px solid; BORDER-RIGHT: #ffeb99 1px solid; PADDING-TOP: 5px">
+            <UL 
+            style="PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0px 20px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px">
+              <LI><A class=br href="http://www.rlocman.ru/advert/"><B>Реклама на 
+              РЛ</B></A> 
+              <UL 
+              style="PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0px 20px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px">
+                <LI><A class=b 
+                href="http://www.rlocman.ru/comp/rec.html">Размещение прайс 
+                листов</A> </LI></UL>
+              <LI><A class=br 
+              href="http://www.rlocman.ru/newsletter/"><B>Подписка на 
+              обновления</B></A> 
+              <LI><B>Журналы:</B> 
+              <UL 
+              style="PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0px 20px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px">
+                <LI><A class=br 
+                href="http://www.rlocman.ru/magazine/"><B>РадиоЛоцман</B></A> 
+                <LI><A class=br 
+                href="http://www.rlocman.ru/radioyearbook/"><B>Радиоежегодник</B></A> 
+                </LI></UL>
+              <LI><A class=br 
+              href="http://www.rlocman.ru/sot/author.html"><B>Авторам</B></A> 
+              <LI><A class=b 
+              href="http://www.rlocman.ru/sot.html">Сотрудничество</A> 
+              <LI><A class=b 
+              href="http://www.rlocman.ru/contacts.html">Контакты</A> 
+        </LI></UL></TD></TR></TBODY></TABLE></TD></TR></TBODY></TABLE><IMG 
+src="74HC595_16_leds_files/0.gif" width=1 height=5><BR><!--B2BCONTEXT_CONTENT_END-->
+<TABLE border=0 cellSpacing=0 cellPadding=0 width=973 align=center>
+  <TBODY>
+  <TR vAlign=top>
+    <TD>
+      <SCRIPT type=text/javascript charset=windows-1251><!--
+var id_comp = 1;
+document.write('<sc'+'ript type="text/javascript" charset="windows-1251" src="http://www.rlocman.ru/bn/?id='+id_comp+'"></'+'sc'+'ript>');
+--></SCRIPT>
+      <BR>
+      <DIV style="MARGIN-BOTTOM: 6px">
+      <SCRIPT language=JavaScript> var loc = ''; </SCRIPT>
+
+      <SCRIPT language=JavaScript1.4>try{ var loc = escape(top.location.href); }catch(e){;}</SCRIPT>
+
+      <SCRIPT language=JavaScript>
+var userid = 67141; var page = 1;
+var rndnum = Math.round(Math.random() * 999111);
+document.write('<iframe src="http://ad.bannerbank.ru/bb.cgi?cmd=ad&hreftarget=_blank&pubid=' + userid + '&pg=' + page + '&vbn=197&w=468&h=60&num=2&r=ssi&ssi=nofillers&r=ssi&nocache=' + rndnum + '&ref=' + escape(document.referrer) + '&loc=' + loc + '" frameborder=0 vspace=0 hspace=0 width=468 height=60 marginwidth=0 marginheight=0 scrolling=no>');
+document.write('<a href="http://ad.bannerbank.ru/bb.cgi?cmd=go&pubid=' + userid + '&pg=' + page + '&vbn=197&num=2&w=468&h=60&nocache=' + rndnum + '&loc=' + loc + '&ref=' + escape(document.referrer) + '" target="_blank">');
+document.write('<img src="http://ad.bannerbank.ru/bb.cgi?cmd=ad&pubid=' + userid + '&pg=' + page + '&vbn=197&num=2&w=468&h=60&nocache=' + rndnum + '&ref=' + escape(document.referrer) + '&loc=' + loc + '" width=468 height=60 Alt="RLBN.ru - electronics banner network" border=0></a></iframe>');
+</SCRIPT>
+      </DIV></TD></TR></TBODY></TABLE>
+<TABLE style="MARGIN-TOP: 12px" border=0 cellSpacing=0 cellPadding=0 width=973 
+align=center>
+  <TBODY>
+  <TR vAlign=top>
+    <TD class=up><NOINDEX>
+      <SCRIPT language=JavaScript><!--
+document.write('<a href="http://www.liveinternet.ru/click" '+
+'target=_blank><img src="http://counter.yadro.ru/hit?t44.6;r'+
+escape(document.referrer)+((typeof(screen)=='undefined')?'':
+';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+';u'+escape(document.URL)+
+';i'+escape('Жж'+document.title.substring(0,80))+';'+Math.random()+
+'" border=0 width=31 height=31 title="liveinternet.ru"></a>')//--></SCRIPT>
+
+      <SCRIPT language=JavaScript type=text/javascript><!--
+d=document;var a='';a+=';r='+escape(d.referrer)
+js=10//--></SCRIPT>
+
+      <SCRIPT language=JavaScript1.1 type=text/javascript><!--
+a+=';j='+navigator.javaEnabled()
+js=11//--></SCRIPT>
+
+      <SCRIPT language=JavaScript1.2 type=text/javascript><!--
+s=screen;a+=';s='+s.width+'*'+s.height
+a+=';d='+(s.colorDepth?s.colorDepth:s.pixelDepth)
+js=12//--></SCRIPT>
+
+      <SCRIPT language=JavaScript1.3 
+      type=text/javascript><!--
+js=13//--></SCRIPT>
+
+      <SCRIPT language=JavaScript type=text/javascript><!--
+d.write('<a href="http://top.mail.ru/jump?from=14081"'+
+' target="_top"><img src="http://d7.c3.b0.a0.top.mail.ru/counter'+
+'?id=14081;t=55;js='+js+a+';rand='+Math.random()+
+'" alt="Рейтинг@Mail.ru"'+' border="0" height="31" width="88"/><\/a>')
+if(11<js)d.write('<'+'!-- ')//--></SCRIPT>
+      <NOSCRIPT></NOSCRIPT>
+      <SCRIPT language=JavaScript type=text/javascript><!--
+if(11<js)d.write('--'+'>')//--></SCRIPT>
+
+      <SCRIPT id=top100Counter type=text/javascript 
+      src="74HC595_16_leds_files/top100.js"></SCRIPT>
+      <NOSCRIPT></NOSCRIPT></NOINDEX></TD></TR></TBODY></TABLE>
+<P></P>
+<SCRIPT type=text/javascript><!--
+var ya_cid=58233;
+//--></SCRIPT>
+
+<SCRIPT type=text/javascript src="74HC595_16_leds_files/watch.js"></SCRIPT>
+</BODY></HTML>
