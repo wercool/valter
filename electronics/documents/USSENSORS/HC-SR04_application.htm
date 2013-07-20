@@ -1,0 +1,524 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0085)http://arduino-ua.com/art5-Podkluchenie_yltrazvykovogo_datchika_rasstoyanii_k_Arduino -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+<link href="./HC-SR04_application_files/style32.css" type="text/css" rel="StyleSheet">
+
+<title>Подключение ультразвукового датчика расстояний к Arduino</title>
+<meta name="Description" content="Продажа плат Arduino, шилдов, датчиков, Raspberry Pi. Официальный представитель Arduino в Украине. Доставка курьером по Киеву и почтой по всей Украине.">
+<meta name="KeyWords" content="arduino, ардуино, шилд, shield, buy, Raspberry Pi, купить">
+
+<link href="./HC-SR04_application_files/style32(1).css" type="text/css" rel="stylesheet">
+
+<script type="text/javascript" async="" src="./HC-SR04_application_files/ga.js"></script><script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-32603122-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+var _gaq = window._gaq || [];
+window.onerror = function(msg, url, line) {
+    var preventErrorAlert = true;
+    _gaq.push(['_trackEvent', 'JS Error', msg, navigator.userAgent + ' -> ' + url + " : " + line]);
+    return preventErrorAlert;
+};
+if(screen.width<640 && screen.width>0)
+	document.location.href='/m/';
+</script>
+<script src="./HC-SR04_application_files/jquery.min.js" type="text/javascript"></script>
+<script src="./HC-SR04_application_files/jquery-ui.min.js" type="text/javascript"></script>
+<script src="./HC-SR04_application_files/scripts.js" type="text/javascript"></script>
+
+</head><body onload="JQerrorInint()">
+<table width="100%"><tbody><tr><td>
+<div class="service-menu">
+<div>
+<ul>
+	<li class="key"><a href="http://arduino-ua.com/index.php?enter_with_password">Вход с паролем</a></li>  
+	<li><a href="http://arduino-ua.com/"><img src="./HC-SR04_application_files/home0000_w.gif"></a></li>
+	<li><a href="http://arduino-ua.com/index.php?feedback=yes"><img src="./HC-SR04_application_files/envelope_w.gif"></a></li>
+	<li><a href="http://arduino-ua.com/index.php?site_map=yes"><img src="./HC-SR04_application_files/map00000_w.gif"></a></li>  
+</ul>
+</div>
+</div><!-- .service -->
+
+<div class="Wrap">
+
+<div class="header">
+<div class="line01"></div>
+<div class="line02"></div>
+<div class="line03"></div>
+<div class="Logo"><a href="http://arduino-ua.com/"><img src="./HC-SR04_application_files/logo.jpg" border="0"></a></div>
+
+<div class="Tel">
+<p><span>(098)</span> 067-12-26 &nbsp;&nbsp;&nbsp;&nbsp; <span>(066)</span> 142-24-48  &nbsp;&nbsp;&nbsp;&nbsp;  <img style="" src="./HC-SR04_application_files/email.gif"></p>
+</div>
+
+<div class="Work">
+<p>Мы работаем:</p>
+<p>Пн-Пт: 10.00 - 19.00</p>
+<p>Сб-Вс: выходные</p>
+<p></p>
+
+</div>
+</div><!-- .header -->
+
+<div id="top-menu">
+<ul>
+<li class="first"><a href="http://arduino-ua.com/">Главная</a></li>
+<li><a href="http://arduino-ua.com/m/">Мобильная версия</a></li>
+<li>
+	<a href="http://arduino-ua.com/index.php?register=yes">Регистрация</a> 
+</li>
+<li><a href="http://arduino-ua.com/index.php?show_price=yes">Прайс-лист</a></li>
+<li><a href="http://arduino-ua.com/index.php?feedback=yes">Контакты</a></li>
+<li><a href="http://arduino-ua.com/index.php?show_aux_page=3">Оплата и доставка</a></li>
+</ul>
+</div><!--#top-menu-->
+
+<div id="cur-search">
+
+<div id="search">
+	<script type="text/javascript">
+var curent = null,list ,items ,itemsCount;
+function ajaxLoad(obj,url,defMessage,post,callback) {
+  var ajaxObj;
+  if (window.XMLHttpRequest) {
+        ajaxObj = new XMLHttpRequest();
+        if (ajaxObj.overrideMimeType) {
+            ajaxObj.overrideMimeType('text/xml');
+            // See note below about this line
+        }
+    // IE
+    } else if (window.ActiveXObject) { // IE
+        try {
+            ajaxObj = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+        try {
+            ajaxObj = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (e) {}
+        }
+    } 
+  
+  //if (defMessage) document.getElementById(obj).innerHTML=defMessage;
+
+  ajaxObj.open ((post?'POST':'GET'), url);
+  if (post&&ajaxObj.setRequestHeader)
+      ajaxObj.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=windows-1251;");
+ 
+  ajaxObj.onreadystatechange = ajaxCallBack(obj,ajaxObj,(callback?callback:null));
+  ajaxObj.send(''); 
+  return false;
+}
+var trans = [];
+for (var i = 0x410; i <= 0x44F; i++)
+  trans[i] = i - 0x350; // А-Яа-я
+trans[0x401] = 0xA8;    // Ё
+trans[0x451] = 0xB8;    // ё
+function escapeWin(str){
+  var ret = [];
+  // Составляем массив кодов символов, попутно переводим кириллицу
+  for (var i = 0; i < str.length; i++)
+  {
+    var n = str.charCodeAt(i);
+    if (typeof trans[n] != 'undefined')
+      n = trans[n];
+    if (n <= 0xFF)
+      ret.push(n);
+  }
+  return escape(String.fromCharCode.apply(null, ret));
+}
+function updateObj(obj, data){
+	var inhtml='';
+	inhtml=data;
+	if(data.length>0)
+		document.getElementById(obj).innerHTML = inhtml;
+    list = document.getElementById('searchSuggest');
+    items = list.getElementsByTagName('li');
+    itemsCount = items.length;
+    if(inhtml=='<ul class="quick-search" id="searchSuggest"><li></li></ul>' || inhtml==''){
+    	document.getElementById(obj).style.display='none';
+    	document.getElementById('backgroundPopup').style.display='none';
+   	}else{
+   		document.getElementById(obj).style.display='block';
+   		document.getElementById('backgroundPopup').style.display='block';
+   		document.getElementById('backgroundPopup').style.opacity='0.1';
+	}
+    //selectItem(0);
+} 
+function ajaxCallBack(obj, ajaxObj, callback){
+return function(){
+    if(ajaxObj.readyState == 4){
+       if(callback) if(!callback(obj,ajaxObj))return;
+       if (ajaxObj.status==200)
+        updateObj(obj, ajaxObj.responseText);
+       else updateObj(obj, ajaxObj.status+' '+ajaxObj.statusText);
+       curent=null;
+    }
+}}
+var laststr='';
+function searchhelp(obj){
+	if(obj.value.length>=3 && laststr!=obj.value){
+		laststr=obj.value;
+		ajaxLoad('searchsuggestdiv','ajaxSearch.php?query='+escapeWin(obj.value), 'Проверка...',1,'');
+	}
+}
+function setSelectedAndSearch(){
+	if(items[curent])
+	document.location.href='index.php?productID='+items[curent].id;
+}
+function checkSelItem(){
+	if(curent!=null)
+		return false;
+	else
+		return true;
+}
+function moveSelect(direction) {
+    var newItem;
+    switch (direction) {
+    case 'up':
+        selectItem((curent - 1 < 0) ? itemsCount - 1 : curent - 1);
+        break;
+    case 'down':
+        selectItem((curent + 1 == itemsCount) ? 0 : curent + 1);
+        break;
+    default:
+        break;
+    }
+}
+
+function selectItem(i) {
+    if(items[curent]){
+        items[curent].className = '';
+    }
+    items[i].className = 'selected-item';
+    curent = i;
+}
+
+function bindEvent(e, callback) {
+    if (document.addEventListener) {
+        document.addEventListener(e, callback, false);
+    } else if (document.attachEvent) {
+        document.attachEvent('on' + e, callback);
+    }
+}
+
+/* init events */
+bindEvent('keydown', function(e) {
+	if(document.getElementById("myInput").value.length>0 && document.getElementById("myInput").value!="Поиск товаров..."){
+    var event = e || window.event;
+    switch (event.keyCode) {
+    case 38:
+        moveSelect('up');
+        break;
+    case 40:
+        moveSelect('down');
+        break;
+    case 13:
+    	setSelectedAndSearch();
+    	break;
+    default:
+        break;
+    }
+    }
+});
+
+</script>
+
+<form action="http://arduino-ua.com/index.php" method="get">
+<table><tbody><tr><td>
+<input type="text" name="searchstring" onkeyup="searchhelp(this);" style="width:200px; border:1px solid #ccc; padding:2px; font-style:italic;" value="Поиск товаров..." id="myInput" onclick="if(document.getElementById(&#39;myInput&#39;).value==&#39;Поиск товаров...&#39;)document.getElementById(&#39;myInput&#39;).value=&#39;&#39;;">
+<div id="searchsuggestdiv" style="background-color:white;z-index:10;display: none;"><ul class="quick-search" id="searchSuggest"><li></li></ul></div></td><td><input type="submit" value="OK" style="padding:0 5px;"></td></tr></tbody></table>
+</form></div>
+
+<div id="cur">
+	<form method="post" name="ChangeCurrencyForm">
+	<script language="JavaScript">
+		function _changeCurrency()	{
+			document.ChangeCurrencyForm.submit();
+		}
+	</script>
+    <table><tbody><tr><td style="padding-right:10px; vertical-align:middle;">Валюта:</td>
+    <td> 
+	<select name="current_currency" style="font-size:11px;" onchange="JavaScript:_changeCurrency()"><option value="1" selected="">Гривна</option><option value="2">Доллары США</option></select></td></tr></tbody></table>
+</form>
+</div>
+
+<div class="Resycler">
+<a href="http://arduino-ua.com/index.php?shopping_cart=yes"><img src="./HC-SR04_application_files/shopping_cart.png"></a>
+<a class="head" href="http://arduino-ua.com/index.php?shopping_cart=yes">Корзина:</a>
+<div id="cart_informer"><span id="shpcrtgc">(нет товаров)</span>
+	        <span id="shpcrtca"></span>
+	        <div id="shpcrtcd"></div></div>
+</div>
+
+<div style="clear:both;"></div>
+
+</div><!--#cur-search-->
+
+
+<div id="content">
+<table width="100%" border="0">
+<tbody><tr>
+<td style="vertical-align:top; text-align:left; padding:5px 0;" width="1%">
+
+<div class="blockHead">Каталог</div>
+<div class="block"><ul class="CatTree">
+						    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat2-Arduino_kontrolleri">Arduino контроллеры</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat3-Plati_rasshirenii_Arduino">Платы расширений (шилды)</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat5-Raspberry_Pi">Raspberry Pi</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat9-Robotehnika">Роботехника</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat6-Datchiki">Датчики</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat10-Radiodetali">Радиодетали</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat11-Maketirovanie">Макетирование</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat12-Drygie_plati">Другие платы</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat4-Provoda_i_kabeli">Провода и кабели</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat8-Prochee">Прочее</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat14-Ekrani_i_svetodiodi">Экраны и светодиоды</a>
+				</li>
+					    			<li class="
+				level1
+				">
+ 		<a href="http://arduino-ua.com/cat13-Istochniki_pitaniya">Источники питания</a>
+				</li>
+			</ul></div>
+<div class="clear"></div>
+
+
+<div class="Left-baner">
+<a href="http://arduino-ua.com/prod370-Nabor_dlya_sozdaniya_ymnogo_robota">
+<h2>Собери прикольного робота!</h2>
+<img src="./HC-SR04_application_files/SmartRobotTortise.jpg">
+<p>Самостоятельная сборка умного робота</p>
+<p>Отличный подарок для начинающего радиолюбителя!</p>
+</a>
+</div>
+
+
+
+
+<div class="tags"><a href="http://arduino-ua.com/tag-.NET" style="font-size: 123%;font-weight: 200;">.NET</a> 
+<a href="http://arduino-ua.com/tag-ARM" style="font-size: 153%;font-weight: 200;">ARM</a> 
+<a href="http://arduino-ua.com/tag-bluetooth" style="font-size: 145%;font-weight: 200;">bluetooth</a> 
+<a href="http://arduino-ua.com/tag-dc-dc" style="font-size: 130%;font-weight: 200;">dc-dc</a> 
+<a href="http://arduino-ua.com/tag-Ethernet" style="font-size: 160%;font-weight: 200;">Ethernet</a> 
+<a href="http://arduino-ua.com/tag-GPS" style="font-size: 130%;font-weight: 200;">GPS</a> 
+<a href="http://arduino-ua.com/tag-GSM" style="font-size: 145%;font-weight: 200;">GSM</a> 
+<a href="http://arduino-ua.com/tag-IR" style="font-size: 168%;font-weight: 200;">IR</a> 
+<a href="http://arduino-ua.com/tag-LCD" style="font-size: 160%;font-weight: 200;">LCD</a> 
+<a href="http://arduino-ua.com/tag-LED" style="font-size: 243%;font-weight: 200;">LED</a> 
+<a href="http://arduino-ua.com/tag-netduino" style="font-size: 138%;font-weight: 200;">netduino</a> 
+<a href="http://arduino-ua.com/tag-Raspberry%20Pi" style="font-size: 183%;font-weight: 200;">Raspberry Pi</a> 
+<a href="http://arduino-ua.com/tag-RF" style="font-size: 130%;font-weight: 200;">RF</a> 
+<a href="http://arduino-ua.com/tag-RFID" style="font-size: 123%;font-weight: 200;">RFID</a> 
+<a href="http://arduino-ua.com/tag-RTC" style="font-size: 123%;font-weight: 200;">RTC</a> 
+<a href="http://arduino-ua.com/tag-SD%20card" style="font-size: 190%;font-weight: 200;">SD card</a> 
+<a href="http://arduino-ua.com/tag-servo" style="font-size: 145%;font-weight: 200;">servo</a> 
+<a href="http://arduino-ua.com/tag-TFT%20LCD" style="font-size: 205%;font-weight: 200;">TFT LCD</a> 
+<a href="http://arduino-ua.com/tag-WiFi" style="font-size: 138%;font-weight: 200;">WiFi</a> 
+<a href="http://arduino-ua.com/tag-XBee" style="font-size: 183%;font-weight: 200;">XBee</a> 
+<a href="http://arduino-ua.com/tag-%E0%ED%E0%EB%EE%E3%EE%E2%FB%E9" style="font-size: 153%;font-weight: 200;">аналоговый</a> 
+<a href="http://arduino-ua.com/tag-%E2%EB%E0%E6%ED%EE%F1%F2%FC" style="font-size: 138%;font-weight: 200;">влажность</a> 
+<a href="http://arduino-ua.com/tag-%C4%F0%E0%E9%E2%E5%F0" style="font-size: 175%;font-weight: 200;">Драйвер</a> 
+<a href="http://arduino-ua.com/tag-%C8%F2%E0%EB%E8%FF" style="font-size: 153%;font-weight: 200;">Италия</a> 
+<a href="http://arduino-ua.com/tag-%CC%EE%F2%EE%F0" style="font-size: 205%;font-weight: 200;">Мотор</a> 
+<a href="http://arduino-ua.com/tag-%EC%E0%EA%E5%F2%ED%E0%FF%20%EF%EB%E0%F2%E0" style="font-size: 213%;font-weight: 200;">макетная плата</a> 
+<a href="http://arduino-ua.com/tag-%ED%E0%E1%EE%F0" style="font-size: 175%;font-weight: 200;">набор</a> 
+<a href="http://arduino-ua.com/tag-%EF%E5%F0%E5%EC%FB%F7%EA%E0" style="font-size: 145%;font-weight: 200;">перемычка</a> 
+<a href="http://arduino-ua.com/tag-%EF%E5%F0%E5%F5%EE%E4%ED%E8%EA" style="font-size: 138%;font-weight: 200;">переходник</a> 
+<a href="http://arduino-ua.com/tag-%EF%F0%EE%E3%F0%E0%EC%EC%E0%F2%EE%F0" style="font-size: 138%;font-weight: 200;">программатор</a> 
+<a href="http://arduino-ua.com/tag-%F0%E5%EB%E5" style="font-size: 168%;font-weight: 200;">реле</a> 
+<a href="http://arduino-ua.com/tag-%F1%E2%E5%F2%EE%E4%E8%EE%E4" style="font-size: 123%;font-weight: 200;">светодиод</a> 
+<a href="http://arduino-ua.com/tag-%F2%E5%EC%EF%E5%F0%E0%F2%F3%F0%E0" style="font-size: 130%;font-weight: 200;">температура</a> 
+<a href="http://arduino-ua.com/tag-%D8%E0%E3%EE%E2%FB%E9" style="font-size: 138%;font-weight: 200;">Шаговый</a> 
+<a href="http://arduino-ua.com/tag-%F8%E8%EB%E4" style="font-size: 130%;font-weight: 200;">шилд</a> 
+</div>
+<div class="clear"></div>
+</td>
+<td style="vertical-align:top; text-align:left; padding:5px;" width="98%">
+<div class="blockHead">
+		<a href="http://arduino-ua.com/">Главная</a>
+		</div>
+<div class="block" style="width:auto;">			<div class="article">
+				<h1>Подключение ультразвукового датчика расстояний к Arduino</h1>
+				<div class="aux-pages">
+					<p>
+	Большинство датчиков расстояний имеют 4-5 выводов, для нормальной работы с <a href="http://arduino-ua.com/">Arduino</a> достаточно четырех: питание, земля, триггер, выход.&nbsp;</p>
+<p>
+	Принцип работы <a href="http://arduino-ua.com/prod182-Yltrazvykovoi_datchik_rasstoyaniya">ультразвуковых датчиков</a> следующий: на ультразвуковой частоте (как правило 40кГц) они посылают серию звуковых сигналов и ждут их обратно, отраженных от помех. Собственно именно так "работают" летучие мыши. Для того, чтобы вычислить расстояние нам нужно замерить время, за которое сигнал дойдет до помехи, отразится и вернется обратно, умножить на скорость звука и поделить на два (ведь сигнал проделал путь до помехи два раза – туда и обратно). Если датчик питается от 5В, то просто подключаем выход 5В и земли <a href="http://arduino-ua.com/">Ардуины</a> к соответствующим пинам питания, а выходы trig и echo подключаем к цифровым выводам Ардуино. Вот пример скетча для Arduino, с помощью которого можно измерять расстояние до помех и выводить результат в терминал:</p>
+<pre>int pingPin = 4;//пин для выхода trig
+
+int inPin = 7;//пин для выхода echo
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(inPin, INPUT);
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+}
+ 
+void loop() {
+  long duration, cm,tmp1;//объявляем переменные
+  //посылаем датчику сигнал начала замера (высокий уровень на 10 мкс)
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pingPin, LOW);
+  //засекаем время в микросекундах
+  tmp1=micros();
+  //ждем пока сигнал на выходе echo не станет низкий
+  while(digitalRead(inPin)==HIGH){
+    //если долго нет ответа от датчика, значит препятствий в зоне видимости нет, выходим по таймауту
+    if(micros()-tmp1 &gt; 15000)
+      break;
+  }
+  //вычисляем время "полета" ультразвукового сигнала
+  duration=micros()-tmp1;
+  cm = microsecondsToCentimeters(duration);//переводим время в сантиметры
+  Serial.print("Distance: ");
+  //если помех не обнаружено сообщаем что расстояние более 1.5 метра
+  if(duration&gt;15000)
+    Serial.println("&gt;1.5m");
+  else
+    Serial.println(cm);//иначе выводим расстояние до помехи в сантиметрах
+  delay(1000);
+}
+long microsecondsToCentimeters(long microseconds)
+{
+  //скорость звука 340 м/с или 29,412 микросекунд/см, а поскольку звук летит до помехи и обратно, делим результат на двое
+  return microseconds / 29.412 / 2;
+}
+
+</pre>
+<p>
+	Не стоит ждать высокой точности замера от ультразвуковых датчиков, если нужна точность – используйте инфракрасные. Зато они просты в настройке и не привязаны к уровню освещенности.<br>
+	Важно! На вход trig надо подавать напряжение 5В, иначе датчик может работать некорректно.</p>
+
+				</div>
+			</div>
+
+
+</div>
+<div class="clear"></div>
+</td>
+<td style="vertical-align:top; text-align:left; padding:5px 0;" width="1%">
+<div class="blockHead"><a href="http://arduino-ua.com/index.php?art=yes" style="color:#FFFFFF;">Статьи</a></div>
+<div class="block" style="padding-bottom:0px;">			<div class="articleS">
+            <div>
+				<h3><a href="http://arduino-ua.com/art10-ARDUINO_Sopryajenie_MEGA2560_s_GSM-modylem">ARDUINO. Сопряжение MEGA2560 с GSM-модулем.</a></h3>
+				
+					Подключаем GSM шилд к Arduino Mega
+                    &nbsp;<a href="http://arduino-ua.com/art10-ARDUINO_Sopryajenie_MEGA2560_s_GSM-modylem">.....</a>
+				</div>
+			</div>
+			<div class="articleS">
+            <div>
+				<h3><a href="http://arduino-ua.com/art9-ARDUINO_Izmerenie_temperatyri_s_ispolzovaniem_datchikov_DS18B20__na_neskolkih_OneWire_shinah__">ARDUINO. Измерение температуры с использованием датчиков DS18B20  на нескольких OneWire шинах.  </a></h3>
+				
+					При практическом создании систем мониторинга температуры в множестве точек крупного объекта, если надо измерять температуру на улице, в нескольких комнатах, в подвале, котельной, санузле, мерять температуру «обратки» в контуре отопительного котла –
+                    &nbsp;<a href="http://arduino-ua.com/art9-ARDUINO_Izmerenie_temperatyri_s_ispolzovaniem_datchikov_DS18B20__na_neskolkih_OneWire_shinah__">.....</a>
+				</div>
+			</div>
+			<div class="articleS">
+            <div>
+				<h3><a href="http://arduino-ua.com/art8-Razgon_Raspberry_Pi">Разгон Raspberry Pi</a></h3>
+				
+					Теперь можно официально разогнать <a href="http://arduino-ua.com/prod302-Raspberry_Pi_model_B">Raspberry Pi</a> до 1 ГГц и не потерять гарантию
+                    &nbsp;<a href="http://arduino-ua.com/art8-Razgon_Raspberry_Pi">.....</a>
+				</div>
+			</div>
+			<div class="articleS">
+            <div>
+				<h3><a href="http://arduino-ua.com/art7-Klaster_iz_64_Raspberry_Pi_i_Lego">Кластер из 64 Raspberry Pi и Lego</a></h3>
+				
+					Одноплатный мини-компьютер Raspberry Pi уже использовали повсеместно — теперь у исследователей из университета Саутгемптона под предводительством профессора Саймона Кокса руки дошли до того, чтобы из Raspberry соорудить суперкомпьютер при помощи
+                    &nbsp;<a href="http://arduino-ua.com/art7-Klaster_iz_64_Raspberry_Pi_i_Lego">.....</a>
+				</div>
+			</div>
+			<div class="articleS">
+            <div>
+				<h3><a href="http://arduino-ua.com/art3-Podkluchenie_matrichnoi_klaviatyri_k_Arduino">Подключение матричной клавиатуры к Arduino</a></h3>
+				
+					Как подключать матричную клавиатуру к плате Arduino
+                    &nbsp;<a href="http://arduino-ua.com/art3-Podkluchenie_matrichnoi_klaviatyri_k_Arduino">.....</a>
+				</div>
+			</div>
+		</div>
+<div class="clear"></div>
+</td>
+</tr>
+</tbody></table>
+</div><!--#content-->
+
+<div style="border-top:2px solid black; height:1px; border-bottom:1px solid #999;"></div>
+<center>
+<ul class="bottom-menu">
+<li><a href="http://arduino-ua.com/">Главная</a></li>
+<li>                                                <a href="http://arduino-ua.com/index.php?register=yes">Регистрация</a> 
+                        </li>
+<li><a href="http://arduino-ua.com/index.php?show_price=yes">Прайс-лист</a></li>
+<li><a href="http://arduino-ua.com/index.php?feedback=yes">Обратная связь</a></li>
+</ul>
+</center>
+<div class="shp_copyright"><a href="http://shoparsenal.com/" target="_blank">Shoparsenal</a> - продажа, аренда интернет-магазинов.<br></div>
+
+</div>
+
+<!-- Yandex.Metrika counter --><div style="display:none;"><script type="text/javascript">(function(w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter11236972 = new Ya.Metrika({id:11236972, enableAll: true}); } catch(e) { } }); })(window, "yandex_metrika_callbacks");</script></div><script src="./HC-SR04_application_files/watch.js" type="text/javascript" defer="defer"></script><noscript>&lt;div&gt;&lt;img src="//mc.yandex.ru/watch/11236972" style="position:absolute; left:-9999px;" alt="" /&gt;&lt;/div&gt;</noscript><!-- /Yandex.Metrika counter -->
+<!--LiveInternet counter--><script type="text/javascript">document.write("<a href='http://www.liveinternet.ru/click' target=_blank><img src='//counter.yadro.ru/hit?t14.11;r" + escape(document.referrer) + ((typeof(screen)=="undefined")?"":";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?screen.colorDepth:screen.pixelDepth)) + ";u" + escape(document.URL) +";h"+escape(document.title.substring(0,80)) +  ";" + Math.random() + "' border=0 width=88 height=31><\/a>")</script><a href="http://www.liveinternet.ru/click" target="_blank"><img src="./HC-SR04_application_files/hit" border="0" width="88" height="31"></a><!--/LiveInternet-->
+<script type="text/javascript">
+var body_element = document.getElementsByTagName('body')[0];
+addEvent(body_element, 'onmouseup', addinfotocopytext); 
+</script>
+
+
+<div id="popupBasket" style="margin:0px;padding:0px;"></div>
+<div id="backgroundPopup" onclick="disablePopupQS();"></div>
+</td></tr></tbody></table>
+
+</body></html>
