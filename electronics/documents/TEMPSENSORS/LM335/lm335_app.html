@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0036)http://gardenbot.org/howTo/soilTemp/ -->
+<html style="direction: ltr;" lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		
+		<title>GardenBot - open source garden automation project</title>
+		<meta name="author" content="Sqrl and Bee Studio">
+		<meta name="description" content="">
+		<link rel="stylesheet" type="text/css" href="./lm335_app_files/main.css">
+		<script type="text/javascript" async="" src="./lm335_app_files/ga.js"></script><script src="./lm335_app_files/general_script.js" type="text/javascript"></script>
+		
+		<link rel="icon" href="http://gardenbot.org/_common/graphics/favicon.png" type="image/png">
+		
+		<!-- lightbox START -->
+		<script src="./lm335_app_files/prototype.js" type="text/javascript"></script>
+		<script src="./lm335_app_files/scriptaculous.js" type="text/javascript"></script><script type="text/javascript" src="./lm335_app_files/effects.js"></script>
+		<script src="./lm335_app_files/lightbox.js" type="text/javascript"></script>
+		<link rel="stylesheet" href="./lm335_app_files/lightbox.css" type="text/css" media="screen">
+		<!-- init lightbox -->
+		<script type="text/javascript">
+			var fileLoadingImage = "../../_common/scripts/lightbox/images/loading.gif"; 
+			var fileBottomNavCloseImage = "../../_common/scripts/lightbox/images/closelabel.gif";
+		</script>
+		<!-- lightbox END -->
+
+		
+		<!-- Google analytics -->
+		<script type="text/javascript">
+		
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-9083870-2']);
+		  _gaq.push(['_trackPageview']);
+		
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+		
+		</script>
+		<!-- end Google analytics -->
+		
+		
+	</head>
+	
+	
+	
+	
+	<body style="background-image:url(&#39;../../_common/graphics/GardenMonitor_web_bkgnd.png&#39;); background-repeat:repeat;">
+		<!-- header graphic repeat to fill -->
+		<!--
+		<div id="" style="position:absolute; left:0px; width:100%; height:100%; background-image:url('../../_common/graphics/GardenMonitor_web_bkgnd.png'); background-repeat:repeat;"></div>
+		<div id="" style="position:absolute; left:0px; bottom:0px; width:100%; height:100px; background-image:url('../../_common/graphics/GardenMonitor_web_footer-fade.png'); background-repeat:repeat-x;"></div>
+		-->
+		<div id="header_sky" style="position:absolute; left:0px; width:100%; height:120px; background-image:url(&#39;../../_common/graphics/GardenMonitor_web_sky.png&#39;); background-repeat:repeat-x;"></div>
+		<div id="header_grass" style="position:absolute; left:0px; width:100%; height:390px; background-image:url(&#39;../../_common/graphics/GardenMonitor_web_header-side.png&#39;); background-repeat:repeat-x;"></div>
+
+
+			<!-- sidebar -->
+			<div id="sidebar">
+				<script type="text/javascript"><!--
+				google_ad_client = "pub-7438423107297960";
+				/* GardenBot side-bar tall */
+				google_ad_slot = "5369731647";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript" src="./lm335_app_files/show_ads.js">
+				</script><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><ins id="aswift_0_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:120px"><iframe width="120" height="600" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;"></iframe></ins></ins>
+			</div>
+		
+		
+		<!-- this pushes the header down
+		 -->
+		<div style="height:47px;"></div>
+		
+		
+		
+		
+		<!-- the main wrapper -->
+		<div id="wrap">
+			
+			
+			<div>
+					<img style="display: block; width:700px; height:222px;" id="banner" src="./lm335_app_files/GardenMonitor_web_header.png" alt="" usemap="#mnb">
+			</div>
+			<!--
+			-->
+																	
+			<div id="contentWrap">
+				
+				<div style="clear:both;height:10px;"></div>
+				
+				<div id="contentWrap_inner">
+					
+					
+
+<br>
+<div style="text-align: center;"><big style="font-weight: bold; text-decoration: underline;"><big>The Soil
+Temperature Sensor</big></big><br>
+</div>
+<br>
+<br>
+<img style="border: 1px solid ; width: 240px; height: 237px; float: right;" src="./lm335_app_files/2010-06-19_0002-b_240px.jpg" alt="" hspace="10"><big><span style="font-weight: bold;"></span></big>You are building a soil
+temperature sensor. We need a waterproof
+thermometer that we can burry in the soil. The sensor is made up of a small circuit enclosed in a piece of heat
+shrink (to waterproof it).<br><br><br><div style="text-align: left;" class="sectionHead">
+Supplies: <br></div><small>
+(see <a href="http://gardenbot.org/parts">the parts page</a>)</small><br>
+
+<ul>
+  <li>an LM335 temperature sensor</li>
+  <li>a 33K and a 56K resistor</li>
+  <li>a short piece of glue-lined heat-shrink tubing </li>
+  <li>soldering iron and solder</li>
+  <li>lead wires</li>
+</ul>
+<big style="color: red;"><big><span style="font-weight: bold;"></span></big></big><br>
+<hr><br>
+<div style="text-align: left;" class="sectionHead">The circuit for the
+actual sensor<br>
+</div>
+<br>
+<a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/soilTemp_circuit_big.png"><img style="border: 0px solid ; width: 150px; height: 200px;" src="./lm335_app_files/soilTemp_circuit_small.png" alt="" align="left" hspace="10"></a>This
+is the circuit for our waterproof sensor (not to be confused with the <a href="http://gardenbot.org/howTo/soilTemp/#The_local_circuit">local circuit below</a>).<br>
+<br>The resistor in this circuit is optional. You can just get the
+value of the LM335 raw and use it in calculations (see below). But if
+we want to know the actual temperature we will need to use a resistor
+to calibrate the sensor.<br><br>If you do want to use a resistor, you can make things simpler to wire up in the garden by soldering
+the&nbsp;resistor(s) inline with this sensor. See <a href="http://gardenbot.org/howTo/soilTemp/content.html#More_detailed_info">more detailed info</a>
+below to
+see why this is technically not correct. This resistor is to calibrate
+the LM335 temperature sensor. The actual value of the resistor will
+vary from unit to unit. You will need to calibrate it by trying
+different resistors.<br>
+<br>
+The ground leg will be tied to the common ground connection with your
+other sensors. The output leg will need a signal wire to get back to
+the brain where it will be connected to the<a href="http://gardenbot.org/howTo/soilTemp/#The_local_circuit">
+local circuit</a> for this module.<br clear="all">
+<br>
+<br>
+<hr><br>
+<div style="text-align: left;" class="sectionHead">Step-By-Step<br>
+</div>
+<br>
+Here are the steps to building one of these water proof sensors. <br>
+<br>
+<table style="text-align: left; width: 100%;" class="basicTable">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 229px;"><a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/2010-07-06_0002_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 93px;" src="./lm335_app_files/2010-07-06_0002_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top; width: 398px;">Solder the two
+resistors together.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 229px;"><a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/2010-07-06_0004_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 160px;" src="./lm335_app_files/2010-07-06_0004_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top; width: 398px;">Attach the two
+resistors to the ADJ leg of the LM335. Attach a piece of lead wire to
+the positive leg that will reach to the end of the ADJ leg.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 229px;"><a rel="lightbox" href="./lm335_app_files/2010-07-06_0007_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 94px;" src="./lm335_app_files/2010-07-06_0007_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top; width: 398px;">Use a piece of
+heat-shrink to cover the two-resistor leg. Wrap the end of the positive
+leg lead wire around the newly covered ADJ leg.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 229px;"><a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/2010-07-06_0013_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 108px;" src="./lm335_app_files/2010-07-06_0013_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top; width: 398px;">Attach a lead wire
+to the new combo positive-ADJ leg. Attach a lead wire to the negative
+leg of the LM335.Use another small piece of heat-shrink to cover the
+negative lead wire where it connects to the LM335.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 229px;"><a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/2010-07-06_0016_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 115px;" src="./lm335_app_files/2010-07-06_0016_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top; width: 398px;">Now use a larger
+diameter piece of heat-shrink to cover the entire package.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 229px;"><a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/2010-07-06_0017_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 92px;" src="./lm335_app_files/2010-07-06_0017_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top; width: 398px;">While the
+heat-shrink is still hot, it is still pliable. So you can squeeze the
+package (careful, it's hot) and help the heat-shrink take the shape of
+the package. Notice that the tip has been squeezed with pliers.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/2010-07-06_0022_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 111px;" src="./lm335_app_files/2010-07-06_0022_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top;">You can even clip the end to get
+rid of the extra material. Just be sure not to clip too far and break
+the seal.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/2010-07-06_0023_b_big.jpg"><img style="border: 0px solid ; width: 200px; height: 172px;" src="./lm335_app_files/2010-07-06_0023_b_small.jpg" alt=""></a></td>
+      <td style="vertical-align: top;">Notice that the end is glued
+together without opening. This assures complete waterproofing.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<br>
+<br>
+<hr><a name="The_local_circuit"></a><br>
+<br>
+<div style="text-align: left;" class="sectionHead">The local circuit<br>
+</div>
+<br>
+<a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/soilTemp_localCircuit_big.png"><img style="border: 0px solid ; width: 250px; height: 150px;" src="./lm335_app_files/soilTemp_localCircuit_small.png" alt="" align="left" hspace="10"></a>Here's
+the diagram for the local circuit portion of this module.<br>
+<br>
+The circuit is mainly a voltage divider - the soil temperature sensor
+is one half and the 1K resistor is the other half.<br>
+<br>
+There is also a noise filter - the 0.1uF capacitor going to ground. And
+of course, an output so the Arduino can take a sensor reading.<br clear="all">
+<br>
+<br>
+<hr><br>
+<a rel="lightbox" href="http://gardenbot.org/howTo/soilTemp/localCircuit_tempSensor_bb_big.png"><img style="border: 0px solid ; width: 434px; height: 280px;" src="./lm335_app_files/localCircuit_tempSensor_bb_small.png" alt="" align="left" hspace="10"></a>And here is what the circuit might look like on your
+local circuit breadboard.<br>
+<br>
+<br clear="all">
+<br>
+<hr><br>
+<div style="text-align: left;" class="sectionHead"><big><span style="font-weight: bold;"><a name="More_detailed_info"></a></span></big>More
+detailed info<br>
+</div>
+<br>
+So technically we should not package the resistor alongside the temp
+sensor. Here's why:<br>
+<br>The reason to make a soil temp sensor is so that we can use it to
+offset the
+simple soil moisture sensor. The reason for this is because soil
+resistance changes with temperature. So to add another layer of
+accuracy, we can include a temperature sensor near our moisture sensor.
+Then we can use the temperature to offset the data from the moisture
+sensor to help mitigate the false dry reading caused by changes in
+temperature.<br>
+<br>
+Remember that the resistor we are soldering alongside the LM335 is an
+ADJ (adjustment) resistor. This means that it is there to calibrate the
+sensor properly. BUT, if resistance changes with temperature, then our
+adjustment is changing with temperature also. Oops. <br>
+<br>
+This effect is negligible enough for the job this sensor is doing, but
+for more accurate results you would want to move the ADJ resistor to
+the local circuit board to shield it from those direct-sunlight
+temperature effects (even the inside of your house changes temperature).<br>
+<br>
+<br>				</div>
+				
+				<div style="clear:both;height:0px;"></div>
+				
+			</div>
+					
+
+			<img style="display: block;" id="" src="./lm335_app_files/GardenMonitor_web_footer.png" alt="">
+			
+		</div>
+		<!-- END the main wrapper -->
+		
+		
+		
+		<div class="breaker"></div>
+		
+		
+		<div id="footer">
+			
+			
+
+
+<a class="footer" href="http://gardenbot.org/">home</a>&nbsp;&nbsp;| &nbsp;<a class="footer" href="http://gardenbot.org/about">about</a>&nbsp;&nbsp;| &nbsp;<a class="footer" href="http://gardenbot.org/contact">contact</a> &nbsp;| &nbsp;<a class="footer" href="http://gardenbot.org/howTo">how to</a> <br><a class="footer" href="http://gardenbot.org/parts">parts and prices</a><br><a style="font-weight: bold;" class="footer" target="_blank" href="http://gardenbot.org/">back to AndrewFrueh.com</a><br><br>
+
+<!-- CreativeCommons -->
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width: 0pt;" src="./lm335_app_files/88x31.png"></a><br><br>
+<span xmlns:dc="http://purl.org/dc/elements/1.1/" property="dc:title">GardenBot</span>
+by <a xmlns:cc="http://creativecommons.org/ns#" href="http://gardenbot.org/" property="cc:attributionName" rel="cc:attributionURL">Andrew Frueh</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative
+Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License</a>
+<!-- CreativeCommons -->
+		</div>
+		
+		
+		<!--
+		<div id="footerFade" style="position:absolute; left:0px; width:100%; height:100px; background-image:url('../../_common/graphics/GardenMonitor_web_footer-fade.png'); background-repeat:repeat-x; "></div>
+		
+		<div style="height:100px;"></div>
+		
+		<div id="darkness" style="position:absolute; left:0px; width:100%; background-color: #211006;"></div>
+		-->
+		
+		<!-- this pushes the header down 
+		<div style="height:300px;"></div>
+		
+		<div id="" style="position:absolute; left:0px; width:100%; height:300px; background-color:#211006;"></div>
+		-->
+
+<map id="mnb" name="mnb">
+<area shape="rect" alt="about" coords="17,128,123,206" href="http://gardenbot.org/about" title="about">
+<area shape="rect" alt="how-to" coords="124,129,269,207" href="http://gardenbot.org/howTo" title="how-to">
+<area shape="rect" alt="parts" coords="272,129,397,208" href="http://gardenbot.org/parts" title="parts">
+<area shape="rect" alt="contact" coords="399,130,540,208" href="http://gardenbot.org/contact" title="contact">
+<area shape="rect" alt="GardenBot home" coords="18,5,698,125" href="http://gardenbot.org/" title="GardenBot home">
+<area shape="rect" alt="forum" coords="543,130,684,206" href="http://gardenbot.org/forum" title="forum">
+</map>
+		
+	
+
+<div id="overlay" style="height: 3297px; opacity: 0.8; display: none;"></div><div id="lightbox" style="top: 980.4px; display: none;"><div id="outerImageContainer" style="width: 620px; height: 301px; font-size: 47.77472000000001px;"><div id="imageContainer"><img id="lightboxImage" src="./lm335_app_files/2010-07-06_0007_b_big.jpg" style=""><div id="hoverNav" style=""><a id="prevLink" href="http://gardenbot.org/howTo/soilTemp/#" style="display: none; height: 281px;"></a><a id="nextLink" href="http://gardenbot.org/howTo/soilTemp/#" style="display: none; height: 281px;"></a></div><div id="loading" style="display: none;"><a id="loadingLink" href="http://gardenbot.org/howTo/soilTemp/#"><img src="./lm335_app_files/loading.gif"></a></div></div></div><div id="imageDataContainer" class="clearfix" style="width: 620px;"><div id="imageData" style=""><div id="imageDetails"><span id="caption" style=""></span><span id="numberDisplay" style="display: none;"></span></div><div id="bottomNav"><a id="bottomNavClose" href="http://gardenbot.org/howTo/soilTemp/#"><img src="./lm335_app_files/closelabel.gif"></a></div></div></div></div></body></html>

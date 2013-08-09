@@ -1,0 +1,212 @@
+a:link {color: #3f2203; text-decoration: underline}     /* unvisited link */
+a:visited {color: #3f2203; text-decoration: underline}  /* visited link */
+a:hover {color: #e0eea6}   /* mouse over link */
+a:active {color: #e0eea6}   /* selected link */
+
+a.footer:link {color: #c09645; text-decoration: underline}     /* unvisited link */
+a.footer:visited {color: #c09645; text-decoration: underline}  /* visited link */
+a.footer:hover {color: #e4bf77}   /* mouse over link */
+a.footer:active {color: #e4bf77}   /* selected link */
+
+/* links within the breadcrumb */
+div.breadcrumb a:link {color: #a97b24; text-decoration: none}     /* unvisited link */
+div.breadcrumb a:visited {color: #a97b24; text-decoration: none}  /* visited link */
+div.breadcrumb a:hover {color: #eed6a8}   /* mouse over link */
+div.breadcrumb a:active {color: #eed6a8}   /* selected link */
+
+
+body {
+	background-color: #211006;
+	font-family: georgia, Arial, sans-serif;
+	/* "text-align" to center the site in IE */
+	text-align:center;
+}
+
+hr {
+	color:#c09645; /* IE */
+	background-color: #c09645; /* Firefox, etc. */
+	border:none;
+	height:1px;
+	width:80%;
+}
+
+div.breadcrumb {
+	font-size:12px;
+	font-weight:bold;
+	border-bottom:solid 1px #c09645;
+	color:#a97b24;
+}
+
+
+div#wrap {
+	width: 700px;
+	background-color: #824218;
+	
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	border: 0px;
+	/*border:none;*/
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-left: 0px;
+	padding-right: 0px;
+
+	/* for IE */
+	text-align:left;
+}
+
+div#contentWrap {
+	width: 700px;
+	background-color: #e4bf77;
+	color:#3f2203;
+	
+	position:relative;
+	/*
+	left:0px;
+	top:0px;
+	float:left;
+	*/
+	
+	display: block;
+	/*border:none;*/
+	
+	text-align:justify;
+	font-size:14px;
+	
+}
+
+div#contentWrap_inner {
+	position: relative;
+	display: block;
+	float: left;
+	width: 660px;
+
+	padding-top: 0px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+div#sidebar {
+	position: absolute;
+	left:0px;
+	top:300px;
+}
+
+img.howTo {
+	border: solid 1px #3f2203;
+	margin-right:20px;
+	margin-left:20px;
+}
+
+img#banner {
+	border: none;
+	position:relative;
+	left:0px; 
+}
+
+img#mnb {
+	border: 0px solid;
+	position:relative;
+	left:100px; 
+}
+
+div#footer {
+	font-size:12px;
+	font-weight:bold;
+	color:#3f2203;
+	margin-bottom:0px;
+}
+
+div.breaker {
+	clear: both;
+}
+
+img.ImageViewer_thumb {
+	border:solid 5px #ACB96C;
+}
+
+/* ---------- */
+
+table.basicTable td{
+	border-bottom:solid 1px #c09645;
+	padding-top:10px;
+	
+}
+
+table.basicTable tr {
+	height:100px;
+}
+
+
+/* ---------- */
+
+img.basicPhoto {
+	border:solid 1px #c09645;
+	margin-left:15px;
+	margin-right:15px;	 
+}
+
+
+/* ---------- */
+
+table.howToTable{
+	padding-left:20px;
+	padding-right:20px;
+}
+
+table.howToTable td{
+	border-bottom:solid 1px #c09645;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+table.howToTable tr {
+	height:50px;
+}
+
+table.howToTable img{
+	border:none;
+}
+
+/* ---------- */
+
+table.partsTable td{
+	border-bottom:solid 1px #c09645;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-left:10px;
+	padding-right:10px;
+	
+}
+
+table.partsTable tr {
+	height:50px;
+}
+
+/* ---------- */
+
+div.codeSnippet {
+	font-family:courier;
+	color:#333333;
+	background-color:#eed6a8;
+	padding-top:20px;
+	padding-left:20px;
+	padding-right:20px;
+	padding-bottom:20px;
+	border:1px solid #c09645;
+	/* border-radius may not work in IE */
+	-webkit-border-radius: 12px 12px;
+	-moz-border-radius: 12px / 12px; 
+}
+
+
+
+/* ---------- */
+
+div.sectionHead {
+	font-size:140%;
+	font-style:bold;
+}
