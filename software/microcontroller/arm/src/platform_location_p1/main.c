@@ -7,6 +7,7 @@
 #include "cdc_enumerate.h"
 #include "adc.h"
 #include "delay.h"
+#include "twi.h"
 
 #define FIQ_INTERRUPT_LEVEL 0
 
@@ -20,6 +21,9 @@ static volatile unsigned int leftUSRadarDelayCounter = 0;
 static volatile unsigned int leftUSRadarPongTrigger = 0;
 static volatile unsigned int rightUSRadarDelayCounter = 0;
 static volatile unsigned int rightUSRadarPongTrigger = 0;
+
+#define AT91C_LSM303DLM_MAGNETOMETER_I2C_ADDRESS (0x0011110B)
+#define AT91C_LSM303DLM_ACCELEROMETER_I2C_ADDRESS (0x0011000B)
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -216,6 +220,11 @@ static void InitIRQ()
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
 }
 
+static void InitTWI()
+{
+    AT91F_TWI_Open(TWI_BUS_CLOCK);
+}
+
 //*----------------------------------------------------------------------------
 //* Function Name       : DeviceInit
 //* Object              : Device peripherals initialization
@@ -240,6 +249,7 @@ static void DeviceInit(void)
     InitADC();
     InitPWM();
     InitIRQ();
+    InitTWI();
 }
 
 /*
