@@ -648,26 +648,25 @@ int AT91F_TWI_ProbeDevices(const AT91PS_TWI pTwi, int SlaveAddr)
     /* In this example the TWI period is 1/400KHz */
      while (!end)
     {
-      status = AT91C_BASE_TWI->TWI_SR;
-      if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-      {
-        Return = AT91C_TWI_NACK ;
-        end=1;
-      }
-    /**  Wait for the Transmit ready is set */
-      else if ((status & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY)
-      {
-        end=1;
-        Return = SlaveAddr>>16;
-      }
-      else
-      {
-        i++;
-        if(i==WAIT)
+        status = AT91C_BASE_TWI->TWI_SR;
+        if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
+        {
+            Return = AT91C_TWI_NACK ;
             end=1;
-        return 0;
-      }
-
+        }
+        /**  Wait for the Transmit ready is set */
+        else if ((status & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY)
+        {
+            end=1;
+            Return = SlaveAddr >> 16;
+        }
+        else
+        {
+            i++;
+            if(i == WAIT)
+                end=1;
+            return 0;
+        }
     }
 
     /* Wait for the Transmit complete is set */
