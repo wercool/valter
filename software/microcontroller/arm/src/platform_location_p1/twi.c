@@ -427,7 +427,7 @@ int AT91F_TWI_ReadSingleIadr(const AT91PS_TWI pTwi,
                        int IntAddrSize,
                        char *data)
 {
-    unsigned int status,error=0, end=0;
+    unsigned int status, error=0, end=0;
 
     /* Enable Master Mode */
     pTwi->TWI_CR = AT91C_TWI_MSEN ;
@@ -581,32 +581,32 @@ int AT91F_TWI_ReadMultipleIadr(const AT91PS_TWI pTwi,
    /* Read and store it into the buffer */
    for ( ReadCount=0; ReadCount <NumOfBytes; ReadCount++ )
    {
-    /* if next-lo-last data send the stop */
-    if (ReadCount == (NumOfBytes -1) )
-      AT91C_BASE_TWI->TWI_CR = AT91C_TWI_STOP;
+        /* if next-lo-last data send the stop */
+        if (ReadCount == (NumOfBytes -1) )
+          AT91C_BASE_TWI->TWI_CR = AT91C_TWI_STOP;
 
-    /* NACK errata handling */
-    /* Do not poll the TWI_SR */
-    /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-    /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-    /* In this example the TWI period is 1/400KHz */
-    AT91F_TWI_WaitMicroSecond (40) ;
+        /* NACK errata handling */
+        /* Do not poll the TWI_SR */
+        /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
+        /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
+        /* In this example the TWI period is 1/400KHz */
+        AT91F_TWI_WaitMicroSecond (40) ;
 
-    while (!end)
-    {
-      status = AT91C_BASE_TWI->TWI_SR;
-      if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-      {
-        error++;
-        end=1;
-      }
-      /* Wait until RXRDY is high to read the next data */
-      if ((status & AT91C_TWI_RXRDY) == AT91C_TWI_RXRDY)
-        end=1;
-    }
-    /*  Read the char received */
-    *data = AT91C_BASE_TWI->TWI_RHR;
-    data++;
+        while (!end)
+        {
+            status = AT91C_BASE_TWI->TWI_SR;
+            if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
+            {
+                error++;
+                end=1;
+            }
+            /* Wait until RXRDY is high to read the next data */
+            if ((status & AT91C_TWI_RXRDY) == AT91C_TWI_RXRDY)
+            end=1;
+        }
+        /*  Read the char received */
+        *data = AT91C_BASE_TWI->TWI_RHR;
+        data++;
    }
 
    /* Wait for the Transmit complete is set */
@@ -629,7 +629,7 @@ Return Value: AT91C_TWI_NACK if so, SlaveAddress otherwise.
 -----------------------------------------------------------------------------*/
 int AT91F_TWI_ProbeDevices(const AT91PS_TWI pTwi, int SlaveAddr)
 {
-    unsigned int end = 0, status,i=0, Return;
+    unsigned int end = 0, status, i=0, Return;
 
     /* Enable Master Mode */
     pTwi->TWI_CR = AT91C_TWI_MSEN ;
@@ -637,8 +637,7 @@ int AT91F_TWI_ProbeDevices(const AT91PS_TWI pTwi, int SlaveAddr)
     /* Set the TWI Master Mode Register */
     pTwi->TWI_MMR =  SlaveAddr & ~AT91C_TWI_MREAD;
 
-    /* Write the data to send into THR. Start conditionn DADDR and R/W bit
-       are sent automatically */
+    /* Write the data to send into THR. Start conditionn DADDR and R/W bit are sent automatically */
     pTwi->TWI_THR = 0x55;
 
     /* NACK errata handling */
@@ -697,4 +696,7 @@ void AT91F_TWI_Open(int TwiClock)
 
     /* Disable pullups */
     AT91C_BASE_PIOA->PIO_PPUDR = AT91C_PA4_TWCK | AT91C_PA3_TWD;
+    /* Enable pullups */
+    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PA4_TWCK);
+    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PA3_TWD);
 }

@@ -19,7 +19,7 @@
 #include <math.h>
 
 /* Global declarations */
-#define TWI_BUS_CLOCK  (unsigned int)8000  //Hz
+#define TWI_BUS_CLOCK  (unsigned int)100000  //Hz
 
 /* TWI Init functions */
 extern void AT91F_TWI_Open(int TwiClock);

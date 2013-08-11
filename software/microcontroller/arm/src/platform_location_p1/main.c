@@ -22,8 +22,8 @@ static volatile unsigned int leftUSRadarPongTrigger = 0;
 static volatile unsigned int rightUSRadarDelayCounter = 0;
 static volatile unsigned int rightUSRadarPongTrigger = 0;
 
-#define AT91C_LSM303DLM_MAGNETOMETER_I2C_ADDRESS (0x0011110B)
-#define AT91C_LSM303DLM_ACCELEROMETER_I2C_ADDRESS (0x0011000B)
+#define LSM303DLM_ACCELEROMETER_I2C_ADDRESS (unsigned int) (0x18)
+#define LSM303DLM_MAGNETOMETER_I2C_ADDRESS (unsigned int) (0x1E)
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -196,7 +196,11 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U12 A
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);  //U12 B
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U12 C
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U12 D
+//    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U12 D
+
+    // DS for U13, U14
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -216,7 +220,7 @@ static void InitIRQ()
 
     // FIQ initialization
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
-    AT91F_AIC_ConfigureIt(AT91C_BASE_PIOA, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) FIQHandler);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) FIQHandler);
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
 }
 
@@ -234,7 +238,7 @@ static void DeviceInit(void)
     InitPIO();
 
     // Enable User Reset and set its minimal assertion to 960 us
-    AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4<<8) | (unsigned int)(0xA5<<24);
+    AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4 << 8) | (unsigned int)(0xA5 << 24);
 
     // Set-up the PIO
     // First, enable the clock of the PIO and set the LEDs in output
@@ -276,6 +280,12 @@ int main(void)
     unsigned int input1Readings = 0;
     unsigned int input1Channel = 0;
     unsigned int input1Reading = 0;
+
+    unsigned int accelerometerReadings = 0;
+    int Ax, Ay, Az;
+
+    unsigned int magnetometerReadings = 0;
+    int Mx, My, Mz;
 
     DeviceInit();
 
@@ -713,6 +723,69 @@ int main(void)
                 input1Channel = 15;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "ACCELEROMETERPROBE") == 0)
+            {
+                int probeResult = AT91F_TWI_ProbeDevices(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS);
+                sprintf((char *)msg,"ACCELEROMETER PROBE RESULT: %d\n", probeResult);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "MAGNETOMETERPROBE") == 0)
+            {
+                int probeResult = AT91F_TWI_ProbeDevices(AT91C_BASE_TWI, LSM303DLM_MAGNETOMETER_I2C_ADDRESS);
+                sprintf((char *)msg,"MAGNETOMETER PROBE RESULT: %d\n", probeResult);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ACCELEROMETERCONFIGURE") == 0)
+            {
+                int configResult;
+                char configRegVal;
+                configRegVal = 0x27;
+                configResult = AT91F_TWI_WriteSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (unsigned int) 0x20, AT91C_TWI_IADRSZ_1_BYTE, &configRegVal);
+                sprintf((char *)msg,"ACCELEROMETER CONFIGURE VALUE [0x27] WRITTEN TO [0x20]: %d\n", configResult);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                configRegVal = 0x40;
+                configResult = AT91F_TWI_WriteSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (unsigned int) 0x23, AT91C_TWI_IADRSZ_1_BYTE, &configRegVal);
+                sprintf((char *)msg,"ACCELEROMETER CONFIGURE VALUE [0x40] WRITTEN TO [0x23]: %d\n", configResult);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "MAGNETOMETERCONFIGURE") == 0)
+            {
+                int configResult;
+                char configRegVal;
+                configRegVal = 0x14;
+                configResult = AT91F_TWI_WriteSingleIadr(AT91C_BASE_TWI, LSM303DLM_MAGNETOMETER_I2C_ADDRESS, (unsigned int) 0x00, AT91C_TWI_IADRSZ_1_BYTE, &configRegVal);
+                sprintf((char *)msg,"MAGNETOMETER CONFIGURE VALUE [0x14] WRITTEN TO [0x00]: %d\n", configResult);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                configRegVal = 0x00;
+                configResult = AT91F_TWI_WriteSingleIadr(AT91C_BASE_TWI, LSM303DLM_MAGNETOMETER_I2C_ADDRESS, (unsigned int) 0x02, AT91C_TWI_IADRSZ_1_BYTE, &configRegVal);
+                sprintf((char *)msg,"MAGNETOMETER CONFIGURE VALUE [0x00] WRITTEN TO [0x02]: %d\n", configResult);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+
+            if (strcmp((char*) cmdParts, "STARTACCELEROMETERREADINGS") == 0)
+            {
+                accelerometerReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPACCELEROMETERREADINGS") == 0)
+            {
+                accelerometerReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STARTMAGNETOMETERREADINGS") == 0)
+            {
+                magnetometerReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPMAGNETOMETERREADINGS") == 0)
+            {
+                magnetometerReadings = 0;
+                continue;
+            }
         }
         if (sensorsIRReadings)
         {
@@ -764,6 +837,41 @@ int main(void)
         {
             input1Reading = getValueChannel5();
             sprintf((char *)msg,"INPUT1 CHANNEL [%u]: %u\n", input1Channel, input1Reading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (accelerometerReadings)
+        {
+            char ACC_Data[6];
+            AT91F_TWI_ReadSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (char) 0x28, AT91C_TWI_IADRSZ_1_BYTE, &ACC_Data[0]); //read OUT_X_L_A (MSB)
+            AT91F_TWI_ReadSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (char) 0x29, AT91C_TWI_IADRSZ_1_BYTE, &ACC_Data[1]); //read OUT_X_H_A (LSB)
+            AT91F_TWI_ReadSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (char) 0x2A, AT91C_TWI_IADRSZ_1_BYTE, &ACC_Data[2]); //read OUT_Y_L_A (MSB)
+            AT91F_TWI_ReadSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (char) 0x2B, AT91C_TWI_IADRSZ_1_BYTE, &ACC_Data[3]); //read OUT_Y_H_A (LSB)
+            AT91F_TWI_ReadSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (char) 0x2C, AT91C_TWI_IADRSZ_1_BYTE, &ACC_Data[4]); //read OUT_Z_L_A (MSB)
+            AT91F_TWI_ReadSingleIadr(AT91C_BASE_TWI, LSM303DLM_ACCELEROMETER_I2C_ADDRESS, (char) 0x2D, AT91C_TWI_IADRSZ_1_BYTE, &ACC_Data[5]); //read OUT_Z_H_A (LSB)
+            Ax = (int) (ACC_Data[0] << 8) + ACC_Data[1];
+            Ay = (int) (ACC_Data[2] << 8) + ACC_Data[3];
+            Az = (int) (ACC_Data[4] << 8) + ACC_Data[5];
+            sprintf((char *)msg,"ACCELEROMETER DATA [x, y, z]: %d, %d, %d\n", Ax, Ay, Az);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (magnetometerReadings)
+        {
+            char temp;
+            char MR_Data[6];
+            AT91F_TWI_ReadSingleIadr(AT91C_BASE_TWI, LSM303DLM_MAGNETOMETER_I2C_ADDRESS, (char) 0x02, AT91C_TWI_IADRSZ_1_BYTE, &temp); //read MR_REG_M
+            //read OUT_X_H_M (MSB)
+            //read OUT_X_L_M (LSB)
+            //read OUT_Y_H_M (MSB)
+            //read OUT_Y_L_M (LSB)
+            //read OUT_Z_H_M (MSB)
+            //read OUT_Z_L_M (LSB)
+            AT91F_TWI_ReadMultiple(AT91C_BASE_TWI, LSM303DLM_MAGNETOMETER_I2C_ADDRESS, 6, MR_Data);
+            Mx = (int) (MR_Data[0] << 8) + MR_Data[1];
+            My = (int) (MR_Data[2] << 8) + MR_Data[3];
+            Mz = (int) (MR_Data[4] << 8) + MR_Data[5];
+            sprintf((char *)msg,"MAGNETOMETER DATA [x, y, z]: %d, %d, %d\n", Mx, My, Mz);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
