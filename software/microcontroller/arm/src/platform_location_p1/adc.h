@@ -7,6 +7,3 @@ unsigned int getValueChannel2(void);
 unsigned int getValueChannel4(void);
 unsigned int getValueChannel5(void);
 unsigned int getValueChannel6(void);
-
-
-

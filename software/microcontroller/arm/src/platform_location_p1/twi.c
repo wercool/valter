@@ -1,702 +1,293 @@
-/*-----------------------------------------------------------------------------
-*      ATMEL Microcontroller Software Support  -  ROUSSET  -
-*------------------------------------------------------------------------------
-* The software is delivered "AS IS" without warranty or condition of any
-* kind, either express, implied or statutory. This includes without
-* limitation any warranty or condition with respect to merchantability or
-* fitness for any particular purpose, or against the infringements of
-* intellectual property rights of others.
-*------------------------------------------------------------------------------
-* File Name         : lib_twi.c
-* Object            : Basic TWI function driver
-* Translator        :
-* 1.0 25/11/02 NL   : Creation
-* 1.1 31/Jan/05 JPP : Clean For basic
-* 1.1 20/Oct/06 PFi : Twi bus clock parameter added to the AT91F_TWI_Open
-*                   : function and in AT91F_SetTwiClock
-* 1.1 23/Nov/06 PFi : Twi reset added in TWI Open function
-* 1.2 19/Dec/06 PFi : Twi Bus recovery fnuction added.
-*                   : configuration of TWD/TWCK in open drain mode
-*                   : added in TWI_Open fct.
-* 1.3 16/Mar/07 PFi : AT91F_SetTwiClock rewrite to set any clock with automatic
-*                   : CKDIV computing.
-*                   : All TWI read/write functions rewrite to match the new
-*                   : flowcharts
-*
-* TO DO             : Add checking of (cldiv x 2pow*ckdiv) < 8192 in
-*                     AT91F_SetTwiClock function according to errata the errata.
------------------------------------------------------------------------------*/
+/* ----------------------------------------------------------------------------
+ *         ATMEL Microcontroller Software Support
+ * ----------------------------------------------------------------------------
+ * Copyright (c) 2008, Atmel Corporation
+ *
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * - Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the disclaimer below.
+ *
+ * Atmel's name may not be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * DISCLAIMER: THIS SOFTWARE IS PROVIDED BY ATMEL "AS IS" AND ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT ARE
+ * DISCLAIMED. IN NO EVENT SHALL ATMEL BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ----------------------------------------------------------------------------
+ */
+
+//------------------------------------------------------------------------------
+/// \unit
+///
+/// !Purpose
+///
+/// Interface for configuration the Two Wire Interface (TWI) peripheral.
+///
+/// !Usage
+///
+/// -# Configures a TWI peripheral to operate in master mode, at the given
+/// frequency (in Hz) using TWI_Configure().
+/// -# Sends a STOP condition on the TWI using TWI_Stop().
+/// -# Starts a read operation on the TWI bus with the specified slave using
+/// TWI_StartRead(). Data must then be read using TWI_ReadByte() whenever
+/// a byte is available (poll using TWI_ByteReceived()).
+/// -# Starts a write operation on the TWI to access the selected slave using
+/// TWI_StartWrite(). A byte of data must be provided to start the write;
+/// other bytes are written next.
+/// -# Sends a byte of data to one of the TWI slaves on the bus using TWI_WriteByte().
+/// This function must be called once before TWI_StartWrite() with the first byte of data
+/// to send, then it shall be called repeatedly after that to send the remaining bytes.
+/// -# Check if a byte has been received and can be read on the given TWI
+/// peripheral using TWI_ByteReceived().
+/// Check if a byte has been sent using TWI_ByteSent().
+/// -# Check if the current transmission is complete (the STOP has been sent)
+/// using TWI_TransferComplete().
+/// -# Enables & disable the selected interrupts sources on a TWI peripheral
+/// using TWI_EnableIt() and TWI_DisableIt().
+/// -# Get current status register of the given TWI peripheral using
+/// TWI_GetStatus(). Get current status register of the given TWI peripheral, but
+/// masking interrupt sources which are not currently enabled using
+/// TWI_GetMaskedStatus().
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+//         Headers
+//------------------------------------------------------------------------------
+
 #include "twi.h"
+#include "math.h"
 
-#define ERROR (AT91C_TWI_NACK)
-#define WAIT 1000
-/* value of the PIT value to have 333ns @ 48 MHz
-3 -1 since real time out = PIV + 1 */
-#define PIT_PIV_MICRO_SECOND_VALUE  0x2
+//------------------------------------------------------------------------------
+//         Global functions
+//------------------------------------------------------------------------------
 
-
-/*-----------------------------------------------------------------------------
-* Wait function with the Periodic Interval Timer (PIT)
-* The wait time is from 1us to 999us.
------------------------------------------------------------------------------*/
-void AT91F_TWI_WaitMicroSecond (unsigned int MicroSecond)
+//------------------------------------------------------------------------------
+/// Configures a TWI peripheral to operate in master mode, at the given
+/// frequency (in Hz). The duty cycle of the TWI clock is set to 50%.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+/// \param twck  Desired TWI clock frequency.
+/// \param mck  Master clock frequency.
+//------------------------------------------------------------------------------
+void TWI_ConfigureMaster(AT91S_TWI *pTwi, unsigned int twck, unsigned int mck)
 {
-    unsigned int PitStatus = 0;     /* Status register of the PIT */
-    unsigned int PitLoop = 0;    /* Store the number of PIT Loop */
+    unsigned int ckdiv = 0;
+    unsigned int cldiv;
+    unsigned char ok = 0;
 
-    AT91C_BASE_PITC->PITC_PIMR = AT91C_PITC_PITEN|PIT_PIV_MICRO_SECOND_VALUE;
+    // Reset the TWI
+    pTwi->TWI_CR = AT91C_TWI_SWRST;
+    pTwi->TWI_RHR;
 
-    for( PitLoop=0; PitLoop <(MicroSecond*3);)   /* One PIT loop equals 333ns */
+    pTwi->TWI_CR = AT91C_TWI_MSDIS;
+
+    // Set master mode
+    pTwi->TWI_CR = AT91C_TWI_MSEN;
+
+    // Configure clock
+    while (!ok)
     {
-        /* Wait for the PIT counter overflow occurs */
-        while ((AT91C_BASE_PITC->PITC_PISR & AT91C_PITC_PITS)==0);
-        /* Read the PIT Interval Value Reg. to clear it for the next overflow */
-        PitStatus = AT91C_BASE_PITC->PITC_PIVR ;
-        /* dummy access to avoid IAR warning */
-        PitStatus = PitStatus ;
-        PitLoop++;
-    }
-}
-
-
-/*----------------------------------------------------------------------------
-Function: AT91F_SetTwiClock (int TwiClock)
-Arguments: - <TwiClock> TWI bus clock in Hertz
-Comments : TO DO:
-
-Return Value: none
------------------------------------------------------------------------------*/
-void AT91F_SetTwiClock(int TwiClock)
-{
-    unsigned int cldiv,ckdiv=1 ;
-
-    /* CLDIV = ((Tlow x 2^CKDIV) -3) x Tmck */
-    /* CHDIV = ((THigh x 2^CKDIV) -3) x Tmck */
-    /* Only CLDIV is computed since CLDIV = CHDIV (50% duty cycle) */
-
-    while ( ( cldiv = ( (MCK/(2*TwiClock))-3 ) / pow(2,ckdiv)) > 255 )
-    ckdiv++ ;
-
-    AT91C_BASE_TWI->TWI_CWGR =(ckdiv<<16)|((unsigned int)cldiv << 8)|(unsigned int)cldiv;
-}
-
-/*----------------------------------------------------------------------------
-Function : AT91F_TWI_WriteSingle
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <data>: Pointer to the data to write
-Comments : Write a single data into a slave device without internal
-           address.
-           Takes into account the NACK errata.
-
-Return Value: AT91C_TWI_NACK if so.
------------------------------------------------------------------------------*/
-int AT91F_TWI_WriteSingle(const AT91PS_TWI pTwi,
-                        int SlaveAddr,
-                        char *data)
-{
-    unsigned int end = 0, status, error=0,i,cycle;
-    cycle=WAIT;
-    i=0;
-    /* Enable Master Mode */
-//    pTwi->TWI_CR = AT91C_TWI_MSEN;
-
-    /* Set the TWI Master Mode Register */
-//    pTwi->TWI_MMR =  SlaveAddr & ~AT91C_TWI_MREAD;
-    pTwi->TWI_MMR =  (AT91C_TWI_DADR & (SlaveAddr<<16)) & ~AT91C_TWI_MREAD;
-
-
-    /* Write the data to send into THR. Start conditionn DADDR and R/W bit
-       are sent automatically */
-    pTwi->TWI_THR = *data;
-    pTwi->TWI_CR = AT91C_TWI_START|AT91C_TWI_MSEN;
-
-    /* NACK errata handling */
-    /* Do not poll the TWI_SR */
-    /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-    /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-    /* In this example the TWI period is 1/400KHz */
-//    AT91F_TWI_WaitMicroSecond (40) ;
-
-    while (!end)
-    {
-      status = AT91C_BASE_TWI->TWI_SR;
-      if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-      {
-        error++;
-        end=1;
-      }
-    /*  Wait for the Transmit ready is set */
-      else if ((status & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY)
-        end=1;
-      else
-      {
-        i++;
-        if(i==WAIT)
-            end=1;
-      }
-    }
-
-    /* Wait for the Transmit complete is set */
-    status = AT91C_BASE_TWI->TWI_SR;
-    while (!(status & AT91C_TWI_TXCOMP))
-      status = AT91C_BASE_TWI->TWI_SR;
-
-    return error;
-}
-
-/*----------------------------------------------------------------------------
-Function : AT91F_TWI_WriteSingleIadr
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <data>: Pointer to the data to write
-           <IntAddr>: Internal slave device address. Set to 0 if no.
-           <IntAddrSize>: Size of the internal address.Set to 0 if no.
- Comments : Write a single data into a slave device with an internal
-            address.
-            Takes into account the NACK errata.
-
-Return Value: AT91C_TWI_NACK if so.
------------------------------------------------------------------------------*/
-int AT91F_TWI_WriteSingleIadr(const AT91PS_TWI pTwi,
-                        int SlaveAddr,
-                        int IntAddr,
-                        int IntAddrSize,
-                        char *data)
-{
-    unsigned int end = 0, status, error=0;
-
-    /* Enable Master Mode */
-    pTwi->TWI_CR = AT91C_TWI_MSEN ;
-
-    /* Set the TWI Master Mode Register */
-    pTwi->TWI_MMR =  (SlaveAddr | IntAddrSize) & ~AT91C_TWI_MREAD;
-
-    /* Set TWI Internal Address Register if needed */
-    pTwi->TWI_IADR = IntAddr;
-
-    /* Write the data to send into THR. Start conditionn DADDR and R/W bit
-       are sent automatically */
-    pTwi->TWI_THR = *data;
-
-    /* NACK errata handling */
-    /* Do not poll the TWI_SR */
-    /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-    /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-    /* In this example the TWI period is 1/400KHz */
-    AT91F_TWI_WaitMicroSecond (40) ;
-
-    while (!end)
-    {
-      status = AT91C_BASE_TWI->TWI_SR;
-      if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-      {
-        error++;
-        end=1;
-      }
-    /*  Wait for the Transmit ready is set */
-      if ((status & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY)
-        end=1;
-    }
-
-    /* Wait for the Transmit complete is set */
-    status = AT91C_BASE_TWI->TWI_SR;
-    while (!(status & AT91C_TWI_TXCOMP))
-      status = AT91C_BASE_TWI->TWI_SR;
-
-    return error;
-}
-
-/*----------------------------------------------------------------------------
-Function : AT91F_TWI_WriteMultiple
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <data>: Pointer to the data to write
-           <NumOfBytes>: Number of data to write
-Comments : Write multiple data into a slave device without internal address.
-           Takes into account the NACK errata.
-
-Return Value: AT91C_TWI_NACK if so.
------------------------------------------------------------------------------*/
-int AT91F_TWI_WriteMultiple(const AT91PS_TWI pTwi,
-                        int SlaveAddr,
-                        char *data,
-                        unsigned int NumOfBytes)
-{
-    unsigned int end = 0, status, error=0, Count;
-
-    /* Enable Master Mode */
-    pTwi->TWI_CR = AT91C_TWI_MSEN ;
-
-   /* Wait until TXRDY is high to transmit */
-   status = AT91C_BASE_TWI->TWI_SR;
-   while (!(status & AT91C_TWI_TXRDY))
-        status = AT91C_BASE_TWI->TWI_SR;
-
-    /* Set the TWI Master Mode Register */
-    pTwi->TWI_MMR =  SlaveAddr & ~AT91C_TWI_MREAD;
-
-   /* Send the data */
-   for ( Count=0; Count < NumOfBytes ;Count++ )
-   {
-       /* Write the data to send into THR. Start conditionn DADDR and R/W bit
-       are sent automatically */
-       AT91C_BASE_TWI->TWI_THR = *data++;
-
-       /* NACK errata handling */
-       /* Do not poll the TWI_SR */
-       /* Wait 3 x 9 TWCK pulse (max) before reading TWI_SR */
-       /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-       /* In this example the TWI period is 1/400KHz */
-       AT91F_TWI_WaitMicroSecond (40) ;
-
-       while (!end)
-       {
-           status = AT91C_BASE_TWI->TWI_SR;
-           if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-           {
-               error++;
-               end=1;
-           }
-
-           /*  Wait for the Transmit ready is set */
-           if ((status & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY)
-            end=1;
-        }
-    }
-
-    /* Wait for the Transmit complete is set */
-    status = AT91C_BASE_TWI->TWI_SR;
-    while (!(status & AT91C_TWI_TXCOMP))
-      status = AT91C_BASE_TWI->TWI_SR;
-
-    return error;
-}
-
-/*----------------------------------------------------------------------------
-Function : AT91F_TWI_WriteMultipleIadr
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <data>: Pointer to the data to write
-           <NumOfBytes>: Number of data to write
-
-Comments : Write multiple data into a slave device with internal address.
-           Takes into account the NACK errata.
-
-Return Value: AT91C_TWI_NACK if so.
------------------------------------------------------------------------------*/
-int AT91F_TWI_WriteMultipleIadr(const AT91PS_TWI pTwi,
-                        int SlaveAddr,
-                        int IntAddr,
-                        int IntAddrSize,
-                        char *data,
-                        unsigned int NumOfBytes)
-{
-    unsigned int end = 0, status, error=0, Count;
-
-    /* Enable Master Mode */
-    pTwi->TWI_CR = AT91C_TWI_MSEN ;
-
-    /* Set the TWI Master Mode Register */
-    pTwi->TWI_MMR =  (SlaveAddr | IntAddrSize) & ~AT91C_TWI_MREAD;
-
-    /* Set TWI Internal Address Register if needed */
-    pTwi->TWI_IADR = IntAddr;
-
-   /* Wait until TXRDY is high to transmit */
-   status = AT91C_BASE_TWI->TWI_SR;
-   while (!(status & AT91C_TWI_TXRDY))
-        status = AT91C_BASE_TWI->TWI_SR;
-
-   /* Send the data */
-   for ( Count=0; Count < NumOfBytes ;Count++ )
-   {
-       /* Write the data to send into THR. Start conditionn DADDR and R/W bit
-       are sent automatically */
-       AT91C_BASE_TWI->TWI_THR = *data++;
-
-       /* NACK errata handling */
-       /* Do not poll the TWI_SR */
-       /* Wait 3 x 9 TWCK pulse (max) before reading TWI_SR */
-       /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-       /* In this example the TWI period is 1/400KHz */
-       AT91F_TWI_WaitMicroSecond (40) ;
-
-       while (!end)
-       {
-           status = AT91C_BASE_TWI->TWI_SR;
-           if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-           {
-               error++;
-               end=1;
-           }
-
-           /*  Wait for the Transmit ready is set */
-           if ((status & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY)
-            end=1;
-        }
-    }
-
-    /* Wait for the Transmit complete is set */
-    status = AT91C_BASE_TWI->TWI_SR;
-    while (!(status & AT91C_TWI_TXCOMP))
-      status = AT91C_BASE_TWI->TWI_SR;
-
-    return error;
-}
-
-
-/*-----------------------------------------------------------------------------
-Function: AT91F_TWI_ReadSingle
-
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <data>: Pointer to the data to read
-
-Comments : Read single data from a slave device without internal address.
-           Takes into account the NACK errata.
-
-
-Return Value: <data>: Data read via a pointer.
------------------------------------------------------------------------------*/
-int AT91F_TWI_ReadSingle(const AT91PS_TWI pTwi,
-                       int SlaveAddr,
-                       char *data)
-{
-    unsigned int status,success=1, end=0,i=0;
-
-    /* Set the TWI Master Mode Register */
-    pTwi->TWI_MMR =  (AT91C_TWI_DADR & (SlaveAddr<<16)) | AT91C_TWI_MREAD;
-
-    pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_STOP;
-
-    /* NACK errata handling */
-    /* Do not poll the TWI_SR */
-    /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-    /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-    /* In this example the TWI period is 1/400KHz */
-    //AT91F_TWI_WaitMicroSecond (40) ;
-    while (!end)
-    {
-      status = AT91C_BASE_TWI->TWI_SR;
-      if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-      {
-        success--;
-        end=1;
-//        return success;
-      }
-   /*  Wait for the receive ready is set */
-      else if ((status & AT91C_TWI_RXRDY) == AT91C_TWI_RXRDY)
-        end=1;
-      else
-      {
-        i++;
-        if(i==WAIT)
-            end=1;
-      }
-
-    }
-
-    *(data) = pTwi->TWI_RHR;
-
-   /* Wait for the Transmit complete is set */
-   status = AT91C_BASE_TWI->TWI_SR;
-   while (!(status & AT91C_TWI_TXCOMP))
-     status = AT91C_BASE_TWI->TWI_SR;
-
-    return success;
-}
-
-/*-----------------------------------------------------------------------------
-Function: AT91F_TWI_ReadSingleIadr
-
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <IntAddr>: Internal slave device address. Set to 0 if no.
-           <IntAddrSize>: Size of the internal address.Set to 0 if no.
-           <data>: Pointer to the data to read
-
-Comments : Read single data from a slave device with internal address.
-           Takes into account the NACK errata.
-
-Return Value: <data>: Data read via a pointer.
------------------------------------------------------------------------------*/
-int AT91F_TWI_ReadSingleIadr(const AT91PS_TWI pTwi,
-                       int SlaveAddr,
-                       int IntAddr,
-                       int IntAddrSize,
-                       char *data)
-{
-    unsigned int status, error=0, end=0;
-
-    /* Enable Master Mode */
-    pTwi->TWI_CR = AT91C_TWI_MSEN ;
-
-    /* Set the TWI Master Mode Register */
-    pTwi->TWI_MMR =  SlaveAddr | IntAddrSize | AT91C_TWI_MREAD;
-
-    /* Set TWI Internal Address Register if needed */
-    pTwi->TWI_IADR = IntAddr;
-
-    pTwi->TWI_CR = AT91C_TWI_START | AT91C_TWI_STOP;
-
-    /* NACK errata handling */
-    /* Do not poll the TWI_SR */
-    /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-    /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-    /* In this example the TWI period is 1/400KHz */
-    AT91F_TWI_WaitMicroSecond (40) ;
-
-    while (!end)
-    {
-      status = AT91C_BASE_TWI->TWI_SR;
-      if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-      {
-        error++;
-        end=1;
-      }
-    /*  Wait for the receive ready is set */
-      if ((status & AT91C_TWI_RXRDY) == AT91C_TWI_RXRDY)
-        end=1;
-    }
-
-    *(data) = pTwi->TWI_RHR;
-
-   /* Wait for the Transmit complete is set */
-   status = AT91C_BASE_TWI->TWI_SR;
-   while (!(status & AT91C_TWI_TXCOMP))
-     status = AT91C_BASE_TWI->TWI_SR;
-
-    return 0;
-}
-
-/*-----------------------------------------------------------------------------
-Function: AT91F_TWI_ReadMultiple
-
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <NumOfBytes>: Number of data to read
-           <data>: Pointer to the data to read
-
-Comments : Read multiple data from a slave device without internal address.
-           Takes into account the NACK errata.
-
-
-Return Value: <data>: Data read via a pointer.
------------------------------------------------------------------------------*/
-int AT91F_TWI_ReadMultiple(const AT91PS_TWI pTwi,
-                       int SlaveAddr,
-                       unsigned int NumOfBytes,
-                       char *data)
-{
-    unsigned int status,error=0, ReadCount, end=0;
-
-   /* Enable Master Mode of the TWI */
-   AT91C_BASE_TWI->TWI_CR = AT91C_TWI_MSEN ;
-
-   /* Set the TWI Master Mode Register */
-   AT91C_BASE_TWI->TWI_MMR =  SlaveAddr | AT91C_TWI_MREAD ;
-
-   /* Send the Start + slave address */
-   AT91C_BASE_TWI->TWI_CR = AT91C_TWI_START;
-
-   /* Read and store it into the buffer */
-   for ( ReadCount=0; ReadCount <NumOfBytes; ReadCount++ )
-   {
-    /* if next-lo-last data send the stop */
-    if (ReadCount == (NumOfBytes -1) )
-      AT91C_BASE_TWI->TWI_CR = AT91C_TWI_STOP;
-
-    /* NACK errata handling */
-    /* Do not poll the TWI_SR */
-    /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-    /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-    /* In this example the TWI period is 1/400KHz */
-    AT91F_TWI_WaitMicroSecond (40) ;
-
-    while (!end)
-    {
-      status = AT91C_BASE_TWI->TWI_SR;
-      if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-      {
-        error++;
-        end=1;
-      }
-      /* Wait until RXRDY is high to read the next data */
-      if ((status & AT91C_TWI_RXRDY) == AT91C_TWI_RXRDY)
-        end=1;
-    }
-
-    /*  Read the char received */
-    *data++ = AT91C_BASE_TWI->TWI_RHR;
-
-   }
-
-   /* Wait for the Transmit complete is set */
-   status = AT91C_BASE_TWI->TWI_SR;
-   while (!(status & AT91C_TWI_TXCOMP))
-     status = AT91C_BASE_TWI->TWI_SR;
-
-   return 0;
-}
-
-/*-----------------------------------------------------------------------------
-Function: AT91F_TWI_ReadMultipleIadr
-
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to read from.
-           <IntAddr>: Internal slave device address. Set to 0 if no.
-           <IntAddrSize>: Size of the internal address.Set to 0 if no.
-           <NumOfBytes>: Number of data to read
-           <data>: Pointer to the data to read
-
-Comments : Read multiple data from a slave device with internal address.
-           Takes into account the NACK errata.
-
-
-Return Value: <data>: Data read via a pointer.
------------------------------------------------------------------------------*/
-int AT91F_TWI_ReadMultipleIadr(const AT91PS_TWI pTwi,
-                       int SlaveAddr,
-                       unsigned int NumOfBytes,
-                       int IntAddr,
-                       int IntAddrSize,
-                       char *data)
-{
-    unsigned int status,error=0, ReadCount, end=0;
-
-   /* Enable Master Mode of the TWI */
-   AT91C_BASE_TWI->TWI_CR = AT91C_TWI_MSEN ;
-
-
-   /* Set the TWI Master Mode Register */
-   pTwi->TWI_MMR =  SlaveAddr | IntAddrSize | AT91C_TWI_MREAD;
-
-   /* Set TWI Internal Address Register if needed */
-   pTwi->TWI_IADR = IntAddr;
-
-   /* Send the Start + slave address */
-   AT91C_BASE_TWI->TWI_CR = AT91C_TWI_START;
-
-   /* Read and store it into the buffer */
-   for ( ReadCount=0; ReadCount <NumOfBytes; ReadCount++ )
-   {
-        /* if next-lo-last data send the stop */
-        if (ReadCount == (NumOfBytes -1) )
-          AT91C_BASE_TWI->TWI_CR = AT91C_TWI_STOP;
-
-        /* NACK errata handling */
-        /* Do not poll the TWI_SR */
-        /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-        /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-        /* In this example the TWI period is 1/400KHz */
-        AT91F_TWI_WaitMicroSecond (40) ;
-
-        while (!end)
+        cldiv = ((mck / (2 * twck)) - 3) / power(2, ckdiv);
+        if (cldiv <= 255)
         {
-            status = AT91C_BASE_TWI->TWI_SR;
-            if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-            {
-                error++;
-                end=1;
-            }
-            /* Wait until RXRDY is high to read the next data */
-            if ((status & AT91C_TWI_RXRDY) == AT91C_TWI_RXRDY)
-            end=1;
-        }
-        /*  Read the char received */
-        *data = AT91C_BASE_TWI->TWI_RHR;
-        data++;
-   }
-
-   /* Wait for the Transmit complete is set */
-   status = AT91C_BASE_TWI->TWI_SR;
-   while (!(status & AT91C_TWI_TXCOMP))
-     status = AT91C_BASE_TWI->TWI_SR;
-
-   return 0;
-}
-
-/*----------------------------------------------------------------------------
-Function : AT91F_TWI_ProbeDevices
-Arguments: <AT91PS_TWI pTwi> : Pointer to the TWI structure.
-           <SlaveAddr>: Address of the slave device to probe.
-
-Comments : Write a single data into a slave device to see if it is connected
-           Takes into account the NACK errata.
-
-Return Value: AT91C_TWI_NACK if so, SlaveAddress otherwise.
------------------------------------------------------------------------------*/
-int AT91F_TWI_ProbeDevices(const AT91PS_TWI pTwi, int SlaveAddr)
-{
-    unsigned int end = 0, status, i=0, Return;
-
-    /* Enable Master Mode */
-    pTwi->TWI_CR = AT91C_TWI_MSEN ;
-
-    /* Set the TWI Master Mode Register */
-    pTwi->TWI_MMR =  SlaveAddr & ~AT91C_TWI_MREAD;
-
-    /* Write the data to send into THR. Start conditionn DADDR and R/W bit are sent automatically */
-    pTwi->TWI_THR = 0x55;
-
-    /* NACK errata handling */
-    /* Do not poll the TWI_SR */
-    /* Wait 3 x 9 TWCK pulse (max) 2 if IADRR not used, before reading TWI_SR */
-    /* From 400Khz down to 1Khz, the time to wait will be in µs range.*/
-    /* In this example the TWI period is 1/400KHz */
-     while (!end)
-    {
-        status = AT91C_BASE_TWI->TWI_SR;
-        if ((status & AT91C_TWI_NACK) == AT91C_TWI_NACK)
-        {
-            Return = AT91C_TWI_NACK ;
-            end=1;
-        }
-        /**  Wait for the Transmit ready is set */
-        else if ((status & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY)
-        {
-            end=1;
-            Return = SlaveAddr >> 16;
+            ok = 1;
         }
         else
         {
-            i++;
-            if(i == WAIT)
-                end=1;
-            return 0;
+            ckdiv++;
         }
     }
-
-    /* Wait for the Transmit complete is set */
-    status = AT91C_BASE_TWI->TWI_SR;
-  /*  while (!(status & AT91C_TWI_TXCOMP))
-      status = AT91C_BASE_TWI->TWI_SR;*/
-
-    return (Return);
+    pTwi->TWI_CWGR = 0;
+    pTwi->TWI_CWGR = (ckdiv << 16) | (cldiv << 8) | cldiv;
 }
 
-/*-----------------------------------------------------------------------------
-* \fn    AT91F_TWI_Open
-* \brief Initializes TWI device
------------------------------------------------------------------------------*/
-void AT91F_TWI_Open(int TwiClock)
+
+//------------------------------------------------------------------------------
+/// Sends a STOP condition on the TWI.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//------------------------------------------------------------------------------
+void TWI_Stop(AT91S_TWI *pTwi)
 {
-    /* Configure TWI PIOs */
-    AT91F_TWI_CfgPIO();
-
-    /* Configure PMC by enabling TWI clock */
-    AT91F_TWI_CfgPMC();
-
-    /* Configure TWI in master mode */
-    AT91F_TWI_Configure(AT91C_BASE_TWI);
-
-    /* Set TWI Clock Waveform Generator Register */
-    AT91F_SetTwiClock(TwiClock);
-
-    /* Disable pullups */
-    AT91C_BASE_PIOA->PIO_PPUDR = AT91C_PA4_TWCK | AT91C_PA3_TWD;
-    /* Enable pullups */
-    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PA4_TWCK);
-    //AT91F_PIO_CfgPullup(AT91C_BASE_PIOA, AT91C_PA3_TWD);
+    pTwi->TWI_CR = AT91C_TWI_STOP;
 }
+
+//------------------------------------------------------------------------------
+/// Starts a read operation on the TWI bus with the specified slave, and returns
+/// immediately. Data must then be read using TWI_ReadByte() whenever a byte is
+/// available (poll using TWI_ByteReceived()).
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+/// \param address  Slave address on the bus.
+/// \param iaddress  Optional internal address bytes.
+/// \param isize  Number of internal address bytes.
+//-----------------------------------------------------------------------------
+void TWI_StartRead(
+    AT91S_TWI *pTwi,
+    unsigned char address,
+    unsigned int iaddress,
+    unsigned char isize)
+{
+    // Set slave address and number of internal address bytes
+    pTwi->TWI_MMR = 0;
+    pTwi->TWI_MMR = (isize << 8) | AT91C_TWI_MREAD | (address << 16);
+
+    // Set internal address bytes
+    pTwi->TWI_IADR = 0;
+    pTwi->TWI_IADR = iaddress;
+
+    // Send START condition
+    pTwi->TWI_CR = AT91C_TWI_START;
+}
+
+//-----------------------------------------------------------------------------
+/// Reads a byte from the TWI bus. The read operation must have been started
+/// using TWI_StartRead() and a byte must be available (check with
+/// TWI_ByteReceived()).
+/// Returns the byte read.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//-----------------------------------------------------------------------------
+unsigned char TWI_ReadByte(AT91S_TWI *pTwi)
+{
+    return pTwi->TWI_RHR;
+}
+
+//-----------------------------------------------------------------------------
+/// Sends a byte of data to one of the TWI slaves on the bus. This function
+/// must be called once before TWI_StartWrite() with the first byte of data
+/// to send, then it shall be called repeatedly after that to send the
+/// remaining bytes.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+/// \param byte  Byte to send.
+//-----------------------------------------------------------------------------
+void TWI_WriteByte(AT91S_TWI *pTwi, unsigned char byte)
+{
+    pTwi->TWI_THR = byte;
+}
+
+//-----------------------------------------------------------------------------
+/// Starts a write operation on the TWI to access the selected slave, then
+/// returns immediately. A byte of data must be provided to start the write;
+/// other bytes are written next.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+/// \param address  Address of slave to acccess on the bus.
+/// \param iaddress  Optional slave internal address.
+/// \param isize  Number of internal address bytes.
+/// \param byte  First byte to send.
+//-----------------------------------------------------------------------------
+void TWI_StartWrite(
+    AT91S_TWI *pTwi,
+    unsigned char address,
+    unsigned int iaddress,
+    unsigned char isize,
+    unsigned char byte)
+{
+    // Set slave address and number of internal address bytes
+    pTwi->TWI_MMR = 0;
+    pTwi->TWI_MMR = (isize << 8) | (address << 16);
+
+    // Set internal address bytes
+    pTwi->TWI_IADR = 0;
+    pTwi->TWI_IADR = iaddress;
+
+    // Write first byte to send
+    TWI_WriteByte(pTwi, byte);
+}
+
+//-----------------------------------------------------------------------------
+/// Returns 1 if a byte has been received and can be read on the given TWI
+/// peripheral; otherwise, returns 0. This function resets the status register
+/// of the TWI.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//-----------------------------------------------------------------------------
+unsigned char TWI_ByteReceived(AT91S_TWI *pTwi)
+{
+    return ((pTwi->TWI_SR & AT91C_TWI_RXRDY) == AT91C_TWI_RXRDY);
+}
+
+//-----------------------------------------------------------------------------
+/// Returns 1 if a byte has been sent, so another one can be stored for
+/// transmission; otherwise returns 0. This function clears the status register
+/// of the TWI.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//-----------------------------------------------------------------------------
+unsigned char TWI_ByteSent(AT91S_TWI *pTwi)
+{
+    return ((pTwi->TWI_SR & AT91C_TWI_TXRDY) == AT91C_TWI_TXRDY);
+}
+
+//-----------------------------------------------------------------------------
+/// Returns 1 if the current transmission is complete (the STOP has been sent);
+/// otherwise returns 0.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//-----------------------------------------------------------------------------
+unsigned char TWI_TransferComplete(AT91S_TWI *pTwi)
+{
+    return ((pTwi->TWI_SR & AT91C_TWI_TXCOMP) == AT91C_TWI_TXCOMP);
+}
+
+//-----------------------------------------------------------------------------
+/// Enables the selected interrupts sources on a TWI peripheral.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+/// \param sources  Bitwise OR of selected interrupt sources.
+//-----------------------------------------------------------------------------
+void TWI_EnableIt(AT91S_TWI *pTwi, unsigned int sources)
+{    pTwi->TWI_IER = sources;
+}
+//-----------------------------------------------------------------------------
+/// Disables the selected interrupts sources on a TWI peripheral.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+/// \param sources  Bitwise OR of selected interrupt sources.
+//-----------------------------------------------------------------------------
+void TWI_DisableIt(AT91S_TWI *pTwi, unsigned int sources)
+{
+    pTwi->TWI_IDR = sources;
+}
+
+//-----------------------------------------------------------------------------
+/// Returns the current status register of the given TWI peripheral. This
+/// resets the internal value of the status register, so further read may yield
+/// different values.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//-----------------------------------------------------------------------------
+unsigned int TWI_GetStatus(AT91S_TWI *pTwi)
+{
+    return pTwi->TWI_SR;
+}
+
+//-----------------------------------------------------------------------------
+/// Returns the current status register of the given TWI peripheral, but
+/// masking interrupt sources which are not currently enabled.
+/// This resets the internal value of the status register, so further read may
+/// yield different values.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//-----------------------------------------------------------------------------
+unsigned int TWI_GetMaskedStatus(AT91S_TWI *pTwi)
+{
+    unsigned int status;
+
+    status = pTwi->TWI_SR;
+    status &= pTwi->TWI_IMR;
+
+    return status;
+}
+//-----------------------------------------------------------------------------
+/// Sends a STOP condition. STOP Condition is sent just after completing
+/// the current byte transmission in master read mode.
+/// \param pTwi  Pointer to an AT91S_TWI instance.
+//-----------------------------------------------------------------------------
+void TWI_SendSTOPCondition(AT91S_TWI *pTwi)
+{
+    pTwi->TWI_CR |= AT91C_TWI_STOP;
+}
+
+
