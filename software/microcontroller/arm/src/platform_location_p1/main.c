@@ -28,7 +28,8 @@ static volatile unsigned int rightUSRadarPongTrigger = 0;
 /// TWI clock frequency in Hz.
 #define TWCK            400000
 
-#define STLM75_ADDR               0x4F
+#define STLM75_ADDR_S1            0x4F
+#define STLM75_ADDR_S2            0x4B
 #define STLM75_REG_TEMP           0x00
 #define STLM75_REG_CONF           0x01
 #define STLM75_REG_TEMP_HYST      0x02
@@ -763,15 +764,25 @@ int main(void)
                 input1Channel = 15;
                 continue;
             }
+            //READSTLM75#1
+            //READSTLM75#2
             if (strcmp((char*) cmdParts, "READSTLM75") == 0)
             {
+                unsigned char sensorNum = atoi(strtok( NULL, "#" ));
                 float TempReg;
                 unsigned char pData[2];
-                TWID_Read(&twid, STLM75_ADDR, STLM75_REG_TEMP, 2, pData, 2, 0);
+                if (sensorNum == 1)
+                {
+                    TWID_Read(&twid, STLM75_ADDR_S1, STLM75_REG_TEMP, 2, pData, 2, 0);
+                }
+                if (sensorNum == 2)
+                {
+                    TWID_Read(&twid, STLM75_ADDR_S2, STLM75_REG_TEMP, 2, pData, 2, 0);
+                }
                 /* Shift the value and format it */
                 TempReg = pData[0] << 1 ;
                 TempReg  += pData[1] >> 7;
-                sprintf((char *)msg,"STLM75: %.2f\n", TempReg);
+                sprintf((char *)msg,"STLM75 [%d]: %.2f\n", sensorNum, TempReg);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(100);
                 continue;
@@ -782,10 +793,6 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "MAGNETOMETERENABLE") == 0)
             {
-                /*
-                sprintf((char *)msg,"MAGNETOMETER ENABLED ERROR: %d\n", result);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                */
                 continue;
             }
 
