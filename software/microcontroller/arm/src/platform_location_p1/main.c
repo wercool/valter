@@ -6,6 +6,7 @@
 #include "Board.h"
 #include "cdc_enumerate.h"
 #include "adc.h"
+#include "pwm.h"
 #include "aic.h"
 #include "twi.h"
 #include "async.h"
@@ -14,12 +15,12 @@
 
 #define FIQ_INTERRUPT_LEVEL 0
 
-const unsigned int usSensors40kHzPeriod = 20000;
+const unsigned int usSensors40kHzFrequency = 40000;
 const unsigned int usSensors40kHzDuty = 10000;
 static volatile unsigned int usSensorsDelayCounter = 0;
 static volatile unsigned int usSensorsPongTrigger = 0;
 
-const unsigned int usRadarServoPeriod = 20000;
+const unsigned int usRadarServoFrequency = 60;
 static volatile unsigned int leftUSRadarDelayCounter = 0;
 static volatile unsigned int leftUSRadarPongTrigger = 0;
 static volatile unsigned int rightUSRadarDelayCounter = 0;
@@ -174,9 +175,14 @@ static void InitPWM(void)
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
 
+    /*
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 0, 1 | AT91C_PWMC_CPOL, usRadarServoPeriod, 1);                       //leftUSRadar  PWM0
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 1, 1 | AT91C_PWMC_CPOL, usRadarServoPeriod, 1);                       //rightUSRadar PWM1
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 2, 1 | AT91C_PWMC_CPOL, usSensors40kHzPeriod, usSensors40kHzDuty);    //usSensors    PWM2 - 40kHz
+    */
+    pwmFreqSet(0, usRadarServoFrequency);
+    pwmFreqSet(1, usRadarServoFrequency);
+    pwmFreqSet(2, usSensors40kHzFrequency);
 
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
@@ -583,17 +589,25 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            //SETLEFTUSRADARSERVODUTY#5
+            //SETLEFTUSRADARSERVODUTY#8
+            //SETLEFTUSRADARSERVODUTY#20
+            //SETLEFTUSRADARSERVODUTY#40
             if (strcmp((char*) cmdParts, "SETLEFTUSRADARSERVODUTY") == 0)
             {
                 leftUSRadarServoDuty = atoi(strtok( NULL, "#" ));
-                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, leftUSRadarServoDuty);
+                pwmDutySet_u8(0, leftUSRadarServoDuty);
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
                 continue;
             }
+            //SETRIGHTUSRADARSERVODUTY#5
+            //SETRIGHTUSRADARSERVODUTY#8
+            //SETRIGHTUSRADARSERVODUTY#20
+            //SETRIGHTUSRADARSERVODUTY#40
             if (strcmp((char*) cmdParts, "SETRIGHTUSRADARSERVODUTY") == 0)
             {
                 rightUSRadarServoDuty = atoi(strtok( NULL, "#" ));
-                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, rightUSRadarServoDuty);
+                pwmDutySet_u8(1, rightUSRadarServoDuty);
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
                 continue;
             }

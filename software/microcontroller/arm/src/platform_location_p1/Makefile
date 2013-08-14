@@ -71,6 +71,7 @@ SRCARM += Cstartup_SAM7.c
 SRCARM += syscalls.c 
 SRCARM += cdc_enumerate.c
 SRCARM  += adc.c
+SRCARM  += pwm.c
 SRCARM  += twi.c
 SRCARM  += twid.c
 SRCARM  += aic.c

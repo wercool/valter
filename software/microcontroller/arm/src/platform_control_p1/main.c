@@ -112,6 +112,7 @@ static void InitPWM(void)
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
 
+    //TODO: use pwm.h from platform_location_p1
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 0, 1 | AT91C_PWMC_CPOL, 2000, 1);
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 1, 1 | AT91C_PWMC_CPOL, 2000, 1);
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 2, 1 | AT91C_PWMC_CPOL, 2000, 1);
@@ -733,6 +734,7 @@ int main(void)
                 AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, turretMotorPWMDuty);
                 continue;
             }
+            //TODO: set Duty 0 before switching
             if (strcmp((char*) cmdParts, "LEFTMOTORCW") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //leftMotorINa
