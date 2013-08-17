@@ -16,7 +16,7 @@
 #define FIQ_INTERRUPT_LEVEL 0
 
 const unsigned int usSensors40kHzFrequency = 40000;
-const unsigned int usSensors40kHzDuty = 10000;
+const unsigned int usSensors40kHzDutyPercent = 50;
 static volatile unsigned int usSensorsDelayCounter = 0;
 static volatile unsigned int usSensorsPongTrigger = 0;
 
@@ -182,7 +182,9 @@ static void InitPWM(void)
     */
     pwmFreqSet(0, usRadarServoFrequency);
     pwmFreqSet(1, usRadarServoFrequency);
+
     pwmFreqSet(2, usSensors40kHzFrequency);
+    pwmDutySetPercent(2, usSensors40kHzDutyPercent);
 
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
@@ -243,6 +245,11 @@ static void InitPIO(void)
     // DS for U13, U14
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+
+    // U7 Digital Pot control
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //U7 INC
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //U7 U/D
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //U7 CS
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -436,6 +443,60 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
                 sprintf((char *)msg,"SENSORS DISABLED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            //USSENSORSVOLTAGEUP#1
+            //USSENSORSVOLTAGEUP#10
+            //USSENSORSVOLTAGEUP#25
+            //USSENSORSVOLTAGEUP#50
+            //USSENSORSVOLTAGEUP#100
+            if (strcmp((char*) cmdParts, "USSENSORSVOLTAGEUP") == 0)
+            {
+                int steps = atoi(strtok( NULL, "#" ));
+                /*
+                AT91C_PIO_PA8    //U7 INC
+                AT91C_PIO_PA9    //U7 U/D
+                AT91C_PIO_PA10   //U7 CS
+                */
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                for (int i = 0; i < steps; i++)
+                {
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                    delay_ms(2);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                    delay_ms(2);
+                }
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
+                continue;
+            }
+            //USSENSORSVOLTAGEDOWN#1
+            //USSENSORSVOLTAGEDOWN#10
+            //USSENSORSVOLTAGEDOWN#25
+            //USSENSORSVOLTAGEDOWN#50
+            //USSENSORSVOLTAGEDOWN#100
+            if (strcmp((char*) cmdParts, "USSENSORSVOLTAGEDOWN") == 0)
+            {
+                int steps = atoi(strtok( NULL, "#" ));
+                /*
+                AT91C_PIO_PA8    //U7 INC
+                AT91C_PIO_PA9    //U7 U/D
+                AT91C_PIO_PA10   //U7 CS
+                */
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                for (int i = 0; i < steps; i++)
+                {
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                    delay_ms(2);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                    delay_ms(2);
+                }
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTIRSENSORSREADINGS") == 0)
