@@ -16,15 +16,15 @@
 #define FIQ_INTERRUPT_LEVEL 0
 
 const unsigned int usSensors40kHzFrequency = 40000;
-const unsigned int usSensors40kHzDutyPercent = 50;
-static volatile unsigned int usSensorsDelayCounter = 0;
-static volatile unsigned int usSensorsPongTrigger = 0;
+const unsigned int usSensors40kHzDuty = 127;
+volatile unsigned int usSensorsDelayCounter = 0;
+volatile unsigned int usSensorsPongTrigger = 0;
 
 const unsigned int usRadarServoFrequency = 60;
-static volatile unsigned int leftUSRadarDelayCounter = 0;
-static volatile unsigned int leftUSRadarPongTrigger = 0;
-static volatile unsigned int rightUSRadarDelayCounter = 0;
-static volatile unsigned int rightUSRadarPongTrigger = 0;
+volatile unsigned int leftUSRadarDelayCounter = 0;
+volatile unsigned int leftUSRadarPongTrigger = 0;
+volatile unsigned int rightUSRadarDelayCounter = 0;
+volatile unsigned int rightUSRadarPongTrigger = 0;
 
 /// TWI clock frequency in Hz.
 #define TWCK            400000
@@ -91,7 +91,10 @@ __ramfunc void IRQ1Handler(void)
 //*----------------------------------------------------------------------------
 __ramfunc void FIQHandler(void)
 {
-    usSensorsPongTrigger = 1;
+    if (usSensorsDelayCounter > 25)
+    {
+        usSensorsPongTrigger = 1;
+    }
 }
 
 
@@ -178,13 +181,13 @@ static void InitPWM(void)
     /*
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 0, 1 | AT91C_PWMC_CPOL, usRadarServoPeriod, 1);                       //leftUSRadar  PWM0
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 1, 1 | AT91C_PWMC_CPOL, usRadarServoPeriod, 1);                       //rightUSRadar PWM1
-    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 2, 1 | AT91C_PWMC_CPOL, usSensors40kHzPeriod, usSensors40kHzDuty);    //usSensors    PWM2 - 40kHz
+    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 2, 1 | AT91C_PWMC_CPOL, usSensors40kHzFrequency, usSensors40kHzDuty);    //usSensors    PWM2 - 40kHz
     */
     pwmFreqSet(0, usRadarServoFrequency);
     pwmFreqSet(1, usRadarServoFrequency);
 
     pwmFreqSet(2, usSensors40kHzFrequency);
-    pwmDutySetPercent(2, usSensors40kHzDutyPercent);
+    pwmDutySet_u8(2, usSensors40kHzDuty);
 
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
@@ -329,6 +332,9 @@ int main(void)
     unsigned int sensorsUSReadings = 0;
     unsigned int sensorsIRReading = 0;
     unsigned int sensorsUSReading = 0;
+    unsigned int sensorsUSDuty = usSensors40kHzDuty;
+    unsigned int sensorsUSBurst = 250;
+    unsigned int sensorsUSDelay = 2500;
 
     unsigned int leftUSRadarServoDuty = 1;
     unsigned int rightUSRadarServoDuty = 1;
@@ -358,21 +364,22 @@ int main(void)
             usSensorsDelayCounter = 0;
             usSensorsPongTrigger = 0;
 
+            pwmDutySet_u8(2, sensorsUSDuty);
             AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-            delay_us(1000);
+            delay_us(sensorsUSBurst);
             AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+            delay_us(sensorsUSDelay);
 
             AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
 
             while (usSensorsPongTrigger == 0)
             {
                 usSensorsDelayCounter++;
-                if (usSensorsDelayCounter > 50000)
-                break;
+                if (usSensorsDelayCounter > 7000)
+                    break;
             }
-
-            AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
             sensorsUSReading = usSensorsDelayCounter;
+            delay_us(2500);
         }
 
         // perform left US Radar measurement
@@ -382,7 +389,7 @@ int main(void)
             leftUSRadarPongTrigger = 0;
 
             AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
-            delay_us(10);
+            delay_us(25);
             AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
 
             AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
@@ -391,10 +398,9 @@ int main(void)
             {
                 leftUSRadarDelayCounter++;
                 if (leftUSRadarDelayCounter > 50000)
-                break;
+                    break;
             }
 
-            AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
             leftUSRadarReading = leftUSRadarDelayCounter;
         }
 
@@ -405,7 +411,7 @@ int main(void)
             rightUSRadarPongTrigger = 0;
 
             AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
-            delay_us(10);
+            delay_us(25);
             AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
 
             AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
@@ -414,10 +420,9 @@ int main(void)
             {
                 rightUSRadarDelayCounter++;
                 if (rightUSRadarDelayCounter > 50000)
-                break;
+                    break;
             }
 
-            AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
             rightUSRadarReading = rightUSRadarDelayCounter;
         }
 
@@ -428,7 +433,6 @@ int main(void)
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
 
             char *cmdParts;
-
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
 
             if (strcmp((char*) cmdParts, "ENABLESENSORS") == 0)
@@ -459,17 +463,19 @@ int main(void)
                 AT91C_PIO_PA10   //U7 CS
                 */
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
+                delay_ms(5);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 for (int i = 0; i < steps; i++)
                 {
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
-                    delay_ms(2);
+                    delay_ms(5);
                     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
-                    delay_ms(2);
+                    delay_ms(5);
                 }
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                delay_ms(5);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
+                delay_ms(5);
                 continue;
             }
             //USSENSORSVOLTAGEDOWN#1
@@ -486,17 +492,58 @@ int main(void)
                 AT91C_PIO_PA10   //U7 CS
                 */
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
+                delay_ms(5);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 for (int i = 0; i < steps; i++)
                 {
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
-                    delay_ms(2);
+                    delay_ms(5);
                     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
-                    delay_ms(2);
+                    delay_ms(5);
                 }
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                delay_ms(5);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
+                delay_ms(5);
+                continue;
+            }
+            //USSENSORSDUTY#1
+            //USSENSORSDUTY#5
+            //USSENSORSDUTY#10
+            //USSENSORSDUTY#50
+            //USSENSORSDUTY#90
+            //USSENSORSDUTY#127
+            if (strcmp((char*) cmdParts, "USSENSORSDUTY") == 0)
+            {
+                sensorsUSDuty = atoi(strtok( NULL, "#" ));
+                continue;
+            }
+            //USSENSORSBURST#50
+            //USSENSORSBURST#100
+            //USSENSORSBURST#150
+            //USSENSORSBURST#200
+            //USSENSORSBURST#250
+            //USSENSORSBURST#300
+            //USSENSORSBURST#350
+            //USSENSORSBURST#400
+            //USSENSORSBURST#450
+            //USSENSORSBURST#500
+            if (strcmp((char*) cmdParts, "USSENSORSBURST") == 0)
+            {
+                sensorsUSBurst = atoi(strtok( NULL, "#" ));
+                continue;
+            }
+            //USSENSORSDELAY#250
+            //USSENSORSDELAY#500
+            //USSENSORSDELAY#1000
+            //USSENSORSDELAY#1500
+            //USSENSORSDELAY#2000
+            //USSENSORSDELAY#2500
+            //USSENSORSDELAY#4000
+            //USSENSORSDELAY#5000
+            if (strcmp((char*) cmdParts, "USSENSORSDELAY") == 0)
+            {
+                sensorsUSDelay = atoi(strtok( NULL, "#" ));
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTIRSENSORSREADINGS") == 0)
@@ -517,6 +564,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "STOPUSSENSORSREADINGS") == 0)
             {
                 sensorsUSReadings = 0;
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
                 continue;
             }
             if (strcmp((char*) cmdParts, "SETSENSORSCHANNEL0") == 0)
@@ -680,6 +728,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "STOPLEFTUSRADARREADINGS") == 0)
             {
                 leftUSRadarReadings = 0;
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTRIGHTUSRADARREADINGS") == 0)
@@ -690,6 +739,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "STOPRIGHTUSRADARREADINGS") == 0)
             {
                 rightUSRadarReadings = 0;
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTINPUT1READINGS") == 0)
@@ -907,7 +957,7 @@ int main(void)
         }
         if (sensorsUSReadings)
         {
-            if (sensorsUSReading > 50000)
+            if (sensorsUSReading > 7000)
             {
                 sprintf((char *)msg,"SENSORS CHANNEL [%u] US: FAILED\n", sensorsChannel);
             }
