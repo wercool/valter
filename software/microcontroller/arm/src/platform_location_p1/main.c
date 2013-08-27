@@ -20,11 +20,11 @@ const unsigned int usSensors40kHzDuty = 127;
 volatile unsigned int usSensorsDelayCounter = 0;
 volatile unsigned int usSensorsPongTrigger = 0;
 
-const unsigned int usRadarServoFrequency = 60;
-volatile unsigned int leftUSRadarDelayCounter = 0;
-volatile unsigned int leftUSRadarPongTrigger = 0;
-volatile unsigned int rightUSRadarDelayCounter = 0;
-volatile unsigned int rightUSRadarPongTrigger = 0;
+const unsigned int usSonarServoFrequency = 60;
+volatile unsigned int leftUSSonarDelayCounter = 0;
+volatile unsigned int leftUSSonarPongTrigger = 0;
+volatile unsigned int rightUSSonarDelayCounter = 0;
+volatile unsigned int rightUSSonarPongTrigger = 0;
 
 /// TWI clock frequency in Hz.
 #define TWCK            400000
@@ -69,7 +69,7 @@ void ISR_Twi(void)
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ0Handler(void)
 {
-    leftUSRadarPongTrigger = 1;
+    leftUSSonarPongTrigger = 1;
 }
 
 
@@ -80,7 +80,7 @@ __ramfunc void IRQ0Handler(void)
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ1Handler(void)
 {
-    rightUSRadarPongTrigger = 1;
+    rightUSSonarPongTrigger = 1;
 }
 
 
@@ -179,12 +179,12 @@ static void InitPWM(void)
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
 
     /*
-    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 0, 1 | AT91C_PWMC_CPOL, usRadarServoPeriod, 1);                       //leftUSRadar  PWM0
-    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 1, 1 | AT91C_PWMC_CPOL, usRadarServoPeriod, 1);                       //rightUSRadar PWM1
+    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 0, 1 | AT91C_PWMC_CPOL, usSonarServoPeriod, 1);                       //leftUSSonar  PWM0
+    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 1, 1 | AT91C_PWMC_CPOL, usSonarServoPeriod, 1);                       //rightUSSonar PWM1
     AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, 2, 1 | AT91C_PWMC_CPOL, usSensors40kHzFrequency, usSensors40kHzDuty);    //usSensors    PWM2 - 40kHz
     */
-    pwmFreqSet(0, usRadarServoFrequency);
-    pwmFreqSet(1, usRadarServoFrequency);
+    pwmFreqSet(0, usSonarServoFrequency);
+    pwmFreqSet(1, usSonarServoFrequency);
 
     pwmFreqSet(2, usSensors40kHzFrequency);
     pwmDutySet_u8(2, usSensors40kHzDuty);
@@ -220,21 +220,21 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
 
     // PWM configuration
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);  //leftUSRadar  PWM0
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);  //rightUSRadar PWM1
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);  //leftUSSonar  PWM0
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);  //rightUSSonar PWM1
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);  //usSensors    PWM2
 
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
 
-    // US radars configuration
-    // US radars interrupts
+    // US Sonars configuration
+    // US Sonars interrupts
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);  // IRQ0
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);  // IRQ1
 
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5); //leftUSRadarTrigger
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6); //leftUSRadarTrigger
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5); //leftUSSonarTrigger
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6); //rightUSSonarTrigger
 
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
@@ -243,16 +243,25 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U12 A
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);  //U12 B
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U12 C
-//    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U12 D
-
-    // DS for U13, U14
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U12 D
 
     // U7 Digital Pot control
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //U7 INC
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //U7 U/D
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //U7 CS
+
+    // U9, U10, U11, U13, U14 Shift registers control pins
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //U9, U10, U11, U13, U14 ST_CP
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);   //U9, U10, U11 DS
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //U9, U10, U11 U7 SH_CP
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U13, U14 DS
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U13, U14 SH_CP
+
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -320,6 +329,48 @@ static void DeviceInit(void)
     InitTWI();
 }
 
+void setLeds(char * ledsState)
+{
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
+    for (signed char i = 23; i >= 0; i--)
+    {
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
+        if (ledsState[i] == '1')
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+        }
+        else
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+        }
+        delay_us(50);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
+        delay_us(50);
+    }
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
+}
+
+void setShRegU13U14(char * regState)
+{
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
+    for (signed char i = 23; i >= 0; i--)
+    {
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+        if (regState[i] == '1')
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+        }
+        else
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+        }
+        delay_us(50);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+        delay_us(50);
+    }
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
+}
+
 /*
  * Main Entry Point and Main Loop
  */
@@ -336,13 +387,13 @@ int main(void)
     unsigned int sensorsUSBurst = 250;
     unsigned int sensorsUSDelay = 2500;
 
-    unsigned int leftUSRadarServoDuty = 1;
-    unsigned int rightUSRadarServoDuty = 1;
+    unsigned int leftUSSonarServoDuty = 1;
+    unsigned int rightUSSonarServoDuty = 1;
 
-    unsigned int leftUSRadarReadings = 0;
-    unsigned int rightUSRadarReadings = 0;
-    unsigned int leftUSRadarReading = 0;
-    unsigned int rightUSRadarReading = 0;
+    unsigned int leftUSSonarReadings = 0;
+    unsigned int rightUSSonarReadings = 0;
+    unsigned int leftUSSonarReading = 0;
+    unsigned int rightUSSonarReading = 0;
 
     unsigned int input1Readings = 0;
     unsigned int input1Channel = 0;
@@ -382,48 +433,48 @@ int main(void)
             delay_us(2500);
         }
 
-        // perform left US Radar measurement
-        if (leftUSRadarReadings)
+        // perform left US Sonar measurement
+        if (leftUSSonarReadings)
         {
-            leftUSRadarDelayCounter = 0;
-            leftUSRadarPongTrigger = 0;
+            leftUSSonarDelayCounter = 0;
+            leftUSSonarPongTrigger = 0;
 
             AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
-            delay_us(25);
+            delay_us(20);
             AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
 
             AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
 
-            while (leftUSRadarPongTrigger == 0)
+            while (leftUSSonarPongTrigger == 0)
             {
-                leftUSRadarDelayCounter++;
-                if (leftUSRadarDelayCounter > 50000)
+                leftUSSonarDelayCounter++;
+                if (leftUSSonarDelayCounter > 50000)
                     break;
             }
-
-            leftUSRadarReading = leftUSRadarDelayCounter;
+            leftUSSonarReading = leftUSSonarDelayCounter;
+            delay_us(2500);
         }
 
-        // perform right US Radar measurement
-        if (rightUSRadarReading)
+        // perform right US Sonar measurement
+        if (rightUSSonarReadings)
         {
-            rightUSRadarDelayCounter = 0;
-            rightUSRadarPongTrigger = 0;
+            rightUSSonarDelayCounter = 0;
+            rightUSSonarPongTrigger = 0;
 
             AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
-            delay_us(25);
+            delay_us(20);
             AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
 
             AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
 
-            while (rightUSRadarPongTrigger == 0)
+            while (rightUSSonarPongTrigger == 0)
             {
-                rightUSRadarDelayCounter++;
-                if (rightUSRadarDelayCounter > 50000)
+                rightUSSonarDelayCounter++;
+                if (rightUSSonarDelayCounter > 50000)
                     break;
             }
-
-            rightUSRadarReading = rightUSRadarDelayCounter;
+            rightUSSonarReading = rightUSSonarDelayCounter;
+            delay_us(2500);
         }
 
         cdcMessageObj = getCDCMEssage();
@@ -684,61 +735,61 @@ int main(void)
                 sensorsChannel = 12;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "DISABLELEFTUSRADARSERVO") == 0)
+            if (strcmp((char*) cmdParts, "DISABLELEFTUSSONARSERVO") == 0)
             {
                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
-                sprintf((char *)msg,"LEFT US RADAR SERVO DISABLED\n");
+                sprintf((char *)msg,"LEFT US SONAR SERVO DISABLED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp((char*) cmdParts, "DISABLERIGHTUSRADARSERVO") == 0)
+            if (strcmp((char*) cmdParts, "DISABLERIGHTUSSONARSERVO") == 0)
             {
                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
-                sprintf((char *)msg,"RIGHT US RADAR SERVO DISABLED\n");
+                sprintf((char *)msg,"RIGHT US SONAR SERVO DISABLED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            //SETLEFTUSRADARSERVODUTY#5
-            //SETLEFTUSRADARSERVODUTY#8
-            //SETLEFTUSRADARSERVODUTY#20
-            //SETLEFTUSRADARSERVODUTY#40
-            if (strcmp((char*) cmdParts, "SETLEFTUSRADARSERVODUTY") == 0)
+            //SETLEFTUSSONARSERVODUTY#5
+            //SETLEFTUSSONARSERVODUTY#8
+            //SETLEFTUSSONARSERVODUTY#20
+            //SETLEFTUSSONARSERVODUTY#40
+            if (strcmp((char*) cmdParts, "SETLEFTUSSONARSERVODUTY") == 0)
             {
-                leftUSRadarServoDuty = atoi(strtok( NULL, "#" ));
-                pwmDutySet_u8(0, leftUSRadarServoDuty);
+                leftUSSonarServoDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySet_u8(0, leftUSSonarServoDuty);
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
                 continue;
             }
-            //SETRIGHTUSRADARSERVODUTY#5
-            //SETRIGHTUSRADARSERVODUTY#8
-            //SETRIGHTUSRADARSERVODUTY#20
-            //SETRIGHTUSRADARSERVODUTY#40
-            if (strcmp((char*) cmdParts, "SETRIGHTUSRADARSERVODUTY") == 0)
+            //SETRIGHTUSSONARSERVODUTY#5
+            //SETRIGHTUSSONARSERVODUTY#8
+            //SETRIGHTUSSONARSERVODUTY#20
+            //SETRIGHTUSSONARSERVODUTY#40
+            if (strcmp((char*) cmdParts, "SETRIGHTUSSONARSERVODUTY") == 0)
             {
-                rightUSRadarServoDuty = atoi(strtok( NULL, "#" ));
-                pwmDutySet_u8(1, rightUSRadarServoDuty);
+                rightUSSonarServoDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySet_u8(1, rightUSSonarServoDuty);
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTLEFTUSRADARREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "STARTLEFTUSSONARREADINGS") == 0)
             {
-                leftUSRadarReadings = 1;
+                leftUSSonarReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPLEFTUSRADARREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "STOPLEFTUSSONARREADINGS") == 0)
             {
-                leftUSRadarReadings = 0;
+                leftUSSonarReadings = 0;
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTRIGHTUSRADARREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "STARTRIGHTUSSONARREADINGS") == 0)
             {
-                rightUSRadarReadings = 1;
+                rightUSSonarReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPRIGHTUSRADARREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "STOPRIGHTUSSONARREADINGS") == 0)
             {
-                rightUSRadarReadings = 0;
+                rightUSSonarReadings = 0;
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 continue;
             }
@@ -947,6 +998,33 @@ int main(void)
                 magnetometerReadings = 0;
                 continue;
             }
+            //SETLEDS#000000000000000000000000
+            //SETLEDS#111111111111111111111111
+            //SETLEDS#010101010101010101010101
+            //SETLEDS#101010101010101010101010
+            if (strcmp((char*) cmdParts, "SETLEDS") == 0)
+            {
+                char * ledsState = strtok( NULL, "#" );
+                sprintf((char *)msg,"LEDS STATE: %s\n", ledsState);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                setLeds(ledsState);
+                continue;
+            }
+            //SETSHREG#0000000000000000
+            //SETSHREG#1111000000000000
+            //SETSHREG#1010000000000000
+            //SETSHREG#0101000000000000
+            //SETSHREG#1100000000000000
+            //SETSHREG#0011000000000000
+            //SETSHREG#1111111111111111
+            if (strcmp((char*) cmdParts, "SETSHREG") == 0)
+            {
+                char * regState = strtok( NULL, "#" );
+                sprintf((char *)msg,"SHIFT REG STATE: %s\n", regState);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                setShRegU13U14(regState);
+                continue;
+            }
         }
         if (sensorsIRReadings)
         {
@@ -968,28 +1046,28 @@ int main(void)
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
-        if (leftUSRadarReadings)
+        if (leftUSSonarReadings)
         {
-            if (leftUSRadarReading > 50000)
+            if (leftUSSonarReading > 50000)
             {
-                sprintf((char *)msg,"LEFT US RADAR: FAILED\n");
+                sprintf((char *)msg,"LEFT US SONAR: FAILED\n");
             }
             else
             {
-                sprintf((char *)msg,"LEFT US RADAR: %u\n", leftUSRadarReading);
+                sprintf((char *)msg,"LEFT US SONAR: %u\n", leftUSSonarReading);
             }
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
-        if (rightUSRadarReadings)
+        if (rightUSSonarReadings)
         {
-            if (rightUSRadarReading > 50000)
+            if (rightUSSonarReading > 50000)
             {
-                sprintf((char *)msg,"RIGHT US RADAR: FAILED\n");
+                sprintf((char *)msg,"RIGHT US SONAR: FAILED\n");
             }
             else
             {
-                sprintf((char *)msg,"RIGHT US RADAR: %u\n", rightUSRadarReading);
+                sprintf((char *)msg,"RIGHT US SONAR: %u\n", rightUSSonarReading);
             }
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
