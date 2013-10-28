@@ -119,8 +119,8 @@
  139              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 delay.c
-     /tmp/ccW4K2Uu.s:13     .text:00000000 delay_us
-     /tmp/ccW4K2Uu.s:23     .text:00000000 $a
-     /tmp/ccW4K2Uu.s:62     .text:00000044 delay_ms
+     /tmp/ccwHWwtT.s:13     .text:00000000 delay_us
+     /tmp/ccwHWwtT.s:23     .text:00000000 $a
+     /tmp/ccwHWwtT.s:62     .text:00000044 delay_ms
 
 NO UNDEFINED SYMBOLS

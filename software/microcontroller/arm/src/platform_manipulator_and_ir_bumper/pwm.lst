@@ -3302,15 +3302,15 @@
  300              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 pwm.c
-     /tmp/ccM4HTyk.s:14     .text:00000000 pwmFreqSet
-     /tmp/ccM4HTyk.s:23     .text:00000000 $a
-     /tmp/ccM4HTyk.s:132    .text:000000b0 $d
-     /tmp/ccM4HTyk.s:139    .text:000000b8 pwmDutySet_u8
-     /tmp/ccM4HTyk.s:148    .text:000000b8 $a
-     /tmp/ccM4HTyk.s:184    .text:000000e8 $d
-     /tmp/ccM4HTyk.s:190    .text:000000ec pwmDutySetPercent
-     /tmp/ccM4HTyk.s:197    .text:000000ec $a
-     /tmp/ccM4HTyk.s:235    .text:00000128 $d
+     /tmp/cceT8nbM.s:14     .text:00000000 pwmFreqSet
+     /tmp/cceT8nbM.s:23     .text:00000000 $a
+     /tmp/cceT8nbM.s:132    .text:000000b0 $d
+     /tmp/cceT8nbM.s:139    .text:000000b8 pwmDutySet_u8
+     /tmp/cceT8nbM.s:148    .text:000000b8 $a
+     /tmp/cceT8nbM.s:184    .text:000000e8 $d
+     /tmp/cceT8nbM.s:190    .text:000000ec pwmDutySetPercent
+     /tmp/cceT8nbM.s:197    .text:000000ec $a
+     /tmp/cceT8nbM.s:235    .text:00000128 $d
 
 UNDEFINED SYMBOLS
 __udivsi3

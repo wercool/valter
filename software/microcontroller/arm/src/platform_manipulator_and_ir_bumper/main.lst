@@ -942,609 +942,958 @@
  112:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA0_PWM0, 0);
  113:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA1_PWM1, 0);
  114:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA2_PWM2, 0);
- 115:main.c        **** 
- 116:main.c        ****     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
- 117:main.c        ****     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
- 118:main.c        ****     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
- 119:main.c        **** 
- 120:main.c        ****     AT91F_PMC_EnablePeriphClock( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA);
+ 115:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA7_PWM3, 0);
+ 116:main.c        **** 
+ 117:main.c        ****     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+ 118:main.c        ****     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+ 119:main.c        ****     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 120:main.c        ****     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
  121:main.c        **** 
- 122:main.c        ****     // enable PWM clock in PMC
- 123:main.c        ****     AT91F_PWMC_CfgPMC();
- 124:main.c        **** 
- 125:main.c        ****     // disable PWM channels 0, 1, 2
- 126:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
- 127:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
- 128:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
- 129:main.c        **** 
- 130:main.c        ****     pwmFreqSet(0, 8000);
- 131:main.c        ****     pwmFreqSet(1, 8000);
- 132:main.c        ****     pwmFreqSet(2, 8000);
- 133:main.c        **** 
- 134:main.c        ****     pwmDutySet_u8(0, 1);
- 135:main.c        ****     pwmDutySet_u8(1, 1);
- 136:main.c        ****     pwmDutySet_u8(2, 1);
+ 122:main.c        ****     AT91F_PMC_EnablePeriphClock( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA);
+ 123:main.c        **** 
+ 124:main.c        ****     // enable PWM clock in PMC
+ 125:main.c        ****     AT91F_PWMC_CfgPMC();
+ 126:main.c        **** 
+ 127:main.c        ****     // disable PWM channels 0, 1, 2
+ 128:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+ 129:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+ 130:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 131:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+ 132:main.c        **** 
+ 133:main.c        ****     pwmFreqSet(0, 8000);
+ 134:main.c        ****     pwmFreqSet(1, 8000);
+ 135:main.c        ****     pwmFreqSet(2, 60); // set by default to control Camera Servo
+ 136:main.c        ****     pwmFreqSet(3, 8000);
  137:main.c        **** 
- 138:main.c        ****     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
- 139:main.c        ****     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
- 140:main.c        ****     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
- 141:main.c        **** 
- 142:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
- 143:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
- 144:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
- 145:main.c        **** 
- 146:main.c        ****     // enable PWM channels 0, 1, 2
- 147:main.c        ****     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
- 148:main.c        ****     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
- 149:main.c        ****     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
- 150:main.c        **** }
- 151:main.c        **** 
- 152:main.c        **** static void InitPIO(void)
- 153:main.c        **** {
- 231              		.loc 2 153 0
+ 138:main.c        ****     pwmDutySet_u8(0, 1);
+ 139:main.c        ****     pwmDutySet_u8(1, 1);
+ 140:main.c        ****     pwmDutySet_u8(2, 1);
+ 141:main.c        ****     pwmDutySet_u8(3, 1);
+ 142:main.c        **** 
+ 143:main.c        ****     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
+ 144:main.c        ****     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
+ 145:main.c        ****     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
+ 146:main.c        ****     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 3, AT91C_PWMC_CHID3);
+ 147:main.c        **** 
+ 148:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+ 149:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+ 150:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 151:main.c        ****     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+ 152:main.c        **** 
+ 153:main.c        ****     // enable PWM channels 0, 1, 2
+ 154:main.c        ****     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+ 155:main.c        ****     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+ 156:main.c        ****     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 157:main.c        ****     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+ 158:main.c        **** }
+ 159:main.c        **** 
+ 160:main.c        **** static void InitPIO(void)
+ 161:main.c        **** {
+ 231              		.loc 2 161 0
  232              		@ Function supports interworking.
  233              		@ args = 0, pretend = 0, frame = 0
  234              		@ frame_needed = 0, uses_anonymous_args = 0
- 235              	.LBB96:
- 236              	.LBB97:
+ 235              	.LBB98:
+ 236              	.LBB99:
  237              		.loc 1 508 0
  238 0100 0B3CE0E3 		mvn	r3, #2816
- 239              	.LBE97:
- 240              	.LBE96:
- 241              		.loc 2 153 0
- 242 0104 F04F2DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
- 243              	.LCFI4:
- 244              	.LBB98:
- 245              	.LBB99:
- 246              		.loc 1 508 0
- 247 0108 8020A0E3 		mov	r2, #128
- 248              	.LBE99:
- 249              	.LBE98:
- 250              	.LBB100:
- 251              	.LBB101:
- 252 010c 0113A0E3 		mov	r1, #67108864
- 253              	.LBE101:
- 254              	.LBE100:
- 255              	.LBB102:
- 256              	.LBB103:
- 257 0110 0203A0E3 		mov	r0, #134217728
- 258              	.LBE103:
- 259              	.LBE102:
- 260              	.LBB104:
- 261              	.LBB105:
- 262 0114 01C2A0E3 		mov	ip, #268435456
- 263              	.LBE105:
- 264              	.LBE104:
- 265              	.LBB106:
- 266              	.LBB107:
- 267 0118 02E2A0E3 		mov	lr, #536870912
- 268              	.LBE107:
- 269              	.LBE106:
- 270              	.LBB108:
- 271              	.LBB109:
- 272 011c FF2003E5 		str	r2, [r3, #-255]
- 273              	.LBE109:
- 274              	.LBE108:
- 275              	.LBB110:
- 276              	.LBB111:
- 277 0120 0140A0E3 		mov	r4, #1
- 278              	.LBE111:
- 279              	.LBE110:
- 280              	.LBB112:
- 281              	.LBB113:
- 282              		.loc 1 509 0
- 283 0124 EF2003E5 		str	r2, [r3, #-239]
- 284              	.LBE113:
- 285              	.LBE112:
- 286              	.LBB114:
- 287              	.LBB115:
- 288              		.loc 1 508 0
- 289 0128 0250A0E3 		mov	r5, #2
- 290              	.LBE115:
- 291              	.LBE114:
- 292              	.LBB116:
- 293              	.LBB117:
- 294 012c FF1003E5 		str	r1, [r3, #-255]
- 295              	.LBE117:
- 296              	.LBE116:
- 297              	.LBB118:
- 298              	.LBB119:
- 299 0130 0460A0E3 		mov	r6, #4
- 300              	.LBE119:
- 301              	.LBE118:
- 302              	.LBB120:
- 303              	.LBB121:
- 304              		.loc 1 509 0
- 305 0134 EF1003E5 		str	r1, [r3, #-239]
- 306              	.LBE121:
- 307              	.LBE120:
- 308              	.LBB122:
- 309              	.LBB123:
- 310              		.loc 1 508 0
- 311 0138 2070A0E3 		mov	r7, #32
- 312              	.LBE123:
- 313              	.LBE122:
- 314              	.LBB124:
- 315              	.LBB125:
- 316 013c FF0003E5 		str	r0, [r3, #-255]
- 317              	.LBE125:
- 318              	.LBE124:
- 319              	.LBB126:
- 320              	.LBB127:
- 321 0140 4080A0E3 		mov	r8, #64
- 322              	.LBE127:
- 323              	.LBE126:
- 324              	.LBB128:
- 325              	.LBB129:
- 326              		.loc 1 509 0
- 327 0144 EF0003E5 		str	r0, [r3, #-239]
- 328              	.LBE129:
- 329              	.LBE128:
- 330              	.LBB130:
- 331              	.LBB131:
- 332              		.loc 1 521 0
- 333 0148 0196A0E3 		mov	r9, #1048576
- 334              	.LBE131:
- 335              	.LBE130:
- 336              	.LBB132:
- 337              	.LBB133:
- 338              		.loc 1 508 0
- 339 014c FFC003E5 		str	ip, [r3, #-255]
- 340              	.LBE133:
- 341              	.LBE132:
- 342              	.LBB134:
- 343              	.LBB135:
- 344              		.loc 1 521 0
- 345 0150 01A1A0E3 		mov	sl, #1073741824
- 346              	.LBE135:
- 347              	.LBE134:
- 348              	.LBB136:
- 349              	.LBB137:
- 350              		.loc 1 509 0
- 351 0154 EFC003E5 		str	ip, [r3, #-239]
- 352              	.LBE137:
- 353              	.LBE136:
- 354              	.LBB138:
- 355              	.LBB139:
- 356              		.loc 1 508 0
- 357 0158 FFE003E5 		str	lr, [r3, #-255]
- 358              		.loc 1 509 0
- 359 015c EFE003E5 		str	lr, [r3, #-239]
- 360              	.LBE139:
- 361              	.LBE138:
- 362              	.LBB140:
- 363              	.LBB141:
- 364              		.loc 1 609 0
- 365 0160 CF2003E5 		str	r2, [r3, #-207]
- 366              	.LBE141:
- 367              	.LBE140:
- 368              	.LBB142:
- 369              	.LBB143:
- 370              		.loc 1 508 0
- 371 0164 FE2D82E2 		add	r2, r2, #16256
- 372              	.LBE143:
- 373              	.LBE142:
- 374              	.LBB144:
- 375              	.LBB145:
- 376              		.loc 1 620 0
- 377 0168 CB1003E5 		str	r1, [r3, #-203]
- 378              	.LBE145:
- 379              	.LBE144:
- 380              	.LBB146:
- 381              	.LBB147:
- 382 016c CB0003E5 		str	r0, [r3, #-203]
- 383              	.LBE147:
- 384              	.LBE146:
- 385              	.LBB148:
- 386              	.LBB149:
- 387 0170 CBC003E5 		str	ip, [r3, #-203]
- 388              	.LBE149:
- 389              	.LBE148:
- 390              	.LBB150:
- 391              	.LBB151:
- 392 0174 CBE003E5 		str	lr, [r3, #-203]
- 393              	.LBE151:
- 394              	.LBE150:
- 395              	.LBB152:
- 396              	.LBB153:
- 397              		.loc 1 508 0
- 398 0178 FF4003E5 		str	r4, [r3, #-255]
- 399              		.loc 1 509 0
- 400 017c EF4003E5 		str	r4, [r3, #-239]
- 401              	.LBE153:
- 402              	.LBE152:
- 403              	.LBB154:
- 404              	.LBB155:
- 405              		.loc 1 508 0
- 406 0180 FF5003E5 		str	r5, [r3, #-255]
- 407              		.loc 1 509 0
- 408 0184 EF5003E5 		str	r5, [r3, #-239]
- 409              	.LBE155:
- 410              	.LBE154:
- 411              	.LBB156:
- 412              	.LBB157:
- 413              		.loc 1 508 0
- 414 0188 FF6003E5 		str	r6, [r3, #-255]
- 415              		.loc 1 509 0
- 416 018c EF6003E5 		str	r6, [r3, #-239]
- 417              	.LBE157:
- 418              	.LBE156:
- 419              	.LBB158:
- 420              	.LBB159:
- 421              		.loc 1 620 0
- 422 0190 CB4003E5 		str	r4, [r3, #-203]
- 423              	.LBE159:
- 424              	.LBE158:
- 425              	.LBB160:
- 426              	.LBB161:
- 427 0194 CB5003E5 		str	r5, [r3, #-203]
- 428              	.LBE161:
- 429              	.LBE160:
- 430              	.LBB162:
- 431              	.LBB163:
- 432 0198 CB6003E5 		str	r6, [r3, #-203]
- 433              	.LBE163:
- 434              	.LBE162:
- 435              	.LBB164:
- 436              	.LBB165:
- 437              		.loc 1 521 0
- 438 019c EB9003E5 		str	r9, [r3, #-235]
- 439              		.loc 1 522 0
- 440 01a0 FF9003E5 		str	r9, [r3, #-255]
- 441              	.LBE165:
- 442              	.LBE164:
- 443              	.LBB166:
- 444              	.LBB167:
- 445              		.loc 1 521 0
- 446 01a4 EBA003E5 		str	sl, [r3, #-235]
- 447              		.loc 1 522 0
- 448 01a8 FFA003E5 		str	sl, [r3, #-255]
- 449              	.LBE167:
- 450              	.LBE166:
- 451              	.LBB168:
- 452              	.LBB169:
- 453              		.loc 1 508 0
- 454 01ac FF7003E5 		str	r7, [r3, #-255]
- 455              		.loc 1 509 0
- 456 01b0 EF7003E5 		str	r7, [r3, #-239]
- 457              	.LBE169:
- 458              	.LBE168:
- 459              	.LBB170:
- 460              	.LBB171:
- 461              		.loc 1 508 0
- 462 01b4 FF8003E5 		str	r8, [r3, #-255]
- 463              		.loc 1 509 0
- 464 01b8 EF8003E5 		str	r8, [r3, #-239]
- 465              	.LBE171:
- 466              	.LBE170:
- 467              	.LBB172:
- 468              	.LBB173:
- 469              		.loc 1 620 0
- 470 01bc CB7003E5 		str	r7, [r3, #-203]
- 471              	.LBE173:
- 472              	.LBE172:
- 473              	.LBB174:
- 474              	.LBB175:
- 475 01c0 CB8003E5 		str	r8, [r3, #-203]
- 476              	.LBE175:
- 477              	.LBE174:
- 478              	.LBB176:
- 479              	.LBB177:
- 480              		.loc 1 508 0
- 481 01c4 FF2003E5 		str	r2, [r3, #-255]
- 482              		.loc 1 509 0
- 483 01c8 EF2003E5 		str	r2, [r3, #-239]
- 484              	.LBE177:
- 485              	.LBE176:
- 486              	.LBB178:
- 487              	.LBB179:
- 488              		.loc 1 508 0
- 489 01cc 022A42E2 		sub	r2, r2, #8192
- 490 01d0 FF2003E5 		str	r2, [r3, #-255]
- 491              		.loc 1 509 0
- 492 01d4 EF2003E5 		str	r2, [r3, #-239]
- 493              	.LBE179:
- 494              	.LBE178:
- 495              	.LBB180:
- 496              	.LBB181:
- 497              		.loc 1 508 0
- 498 01d8 0124A0E3 		mov	r2, #16777216
- 499 01dc FF2003E5 		str	r2, [r3, #-255]
- 500              		.loc 1 509 0
- 501 01e0 EF2003E5 		str	r2, [r3, #-239]
- 502              	.LBE181:
- 503              	.LBE180:
- 504              	.LBB182:
- 505              	.LBB183:
- 506              		.loc 1 508 0
- 507 01e4 022082E0 		add	r2, r2, r2
- 508 01e8 FF2003E5 		str	r2, [r3, #-255]
- 509              		.loc 1 509 0
- 510 01ec EF2003E5 		str	r2, [r3, #-239]
- 511              	.LBE183:
- 512              	.LBE182:
- 513              	.LBB184:
- 514              	.LBB185:
- 515              		.loc 1 508 0
- 516 01f0 012CA0E3 		mov	r2, #256
- 517 01f4 FF2003E5 		str	r2, [r3, #-255]
- 518              		.loc 1 509 0
- 519 01f8 EF2003E5 		str	r2, [r3, #-239]
- 520              	.LBE185:
- 521              	.LBE184:
- 522              	.LBB186:
- 523              	.LBB187:
- 524              		.loc 1 508 0
- 525 01fc 022082E0 		add	r2, r2, r2
- 526 0200 FF2003E5 		str	r2, [r3, #-255]
- 527              		.loc 1 509 0
- 528 0204 EF2003E5 		str	r2, [r3, #-239]
- 529              	.LBE187:
- 530              	.LBE186:
- 531              	.LBB188:
- 532              	.LBB189:
- 533              		.loc 1 508 0
- 534 0208 022C82E2 		add	r2, r2, #512
- 535 020c FF2003E5 		str	r2, [r3, #-255]
- 536              		.loc 1 509 0
- 537 0210 EF2003E5 		str	r2, [r3, #-239]
- 538              	.LBE189:
- 539              	.LBE188:
- 540              	.LBB190:
- 541              	.LBB191:
- 542              		.loc 1 508 0
- 543 0214 032B82E2 		add	r2, r2, #3072
- 544 0218 FF2003E5 		str	r2, [r3, #-255]
- 545              		.loc 1 509 0
- 546 021c EF2003E5 		str	r2, [r3, #-239]
- 547              	.LBE191:
- 548              	.LBE190:
- 549              	.LBB192:
- 550              	.LBB193:
- 551              		.loc 1 508 0
- 552 0220 0221A0E3 		mov	r2, #-2147483648
- 553 0224 FF2003E5 		str	r2, [r3, #-255]
- 554              	.LBE193:
- 555              	.LBE192:
- 556              	.LBB194:
- 557              	.LBB195:
- 558 0228 02BBA0E3 		mov	fp, #2048
- 559              	.LBE195:
- 560              	.LBE194:
- 561              	.LBB196:
- 562              	.LBB197:
- 563              		.loc 1 509 0
- 564 022c EF2003E5 		str	r2, [r3, #-239]
- 565              	.LBE197:
- 566              	.LBE196:
- 567              	.LBB198:
- 568              	.LBB199:
- 569              		.loc 1 508 0
- 570 0230 0128A0E3 		mov	r2, #65536
- 571              	.LBE199:
- 572              	.LBE198:
- 573              	.LBB200:
- 574              	.LBB201:
- 575 0234 FFB003E5 		str	fp, [r3, #-255]
- 576              		.loc 1 509 0
- 577 0238 EFB003E5 		str	fp, [r3, #-239]
- 578              	.LBE201:
- 579              	.LBE200:
- 580              	.LBB202:
- 581              	.LBB203:
- 582              		.loc 1 508 0
- 583 023c FF2003E5 		str	r2, [r3, #-255]
- 584              		.loc 1 509 0
- 585 0240 EF2003E5 		str	r2, [r3, #-239]
- 586              	.LBE203:
- 587              	.LBE202:
- 588              	.LBB204:
- 589              	.LBB205:
- 590              		.loc 1 508 0
- 591 0244 022942E2 		sub	r2, r2, #32768
- 592 0248 FF2003E5 		str	r2, [r3, #-255]
- 593              		.loc 1 509 0
- 594 024c EF2003E5 		str	r2, [r3, #-239]
- 595              	.LBE205:
- 596              	.LBE204:
- 597              	.LBB206:
- 598              	.LBB207:
- 599              		.loc 1 609 0
- 600 0250 072A42E2 		sub	r2, r2, #28672
- 601 0254 CF2003E5 		str	r2, [r3, #-207]
- 602              	.LBE207:
- 603              	.LBE206:
- 604              	.LBB208:
- 605              	.LBB209:
- 606 0258 0221A0E3 		mov	r2, #-2147483648
- 607 025c CF2003E5 		str	r2, [r3, #-207]
- 608              	.LBE209:
- 609              	.LBE208:
- 610              	.LBB210:
- 611              	.LBB211:
- 612 0260 0128A0E3 		mov	r2, #65536
- 613              	.LBE211:
- 614              	.LBE210:
- 615              	.LBB212:
- 616              	.LBB213:
- 617 0264 CFB003E5 		str	fp, [r3, #-207]
- 618              	.LBE213:
- 619              	.LBE212:
- 620              	.LBB214:
- 621              	.LBB215:
- 622 0268 CF2003E5 		str	r2, [r3, #-207]
- 623              	.LBE215:
- 624              	.LBE214:
- 625              	.LBB216:
- 626              	.LBB217:
- 627 026c 022942E2 		sub	r2, r2, #32768
- 628 0270 CF2003E5 		str	r2, [r3, #-207]
- 629              	.LBE217:
- 630              	.LBE216:
- 154:main.c        ****     // U2, U3, U4, U8 PIO configuration
- 155:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);   //U2, U3, U4, U8 EN
- 156:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U2, U3, U4, U8 A
- 157:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);  //U2, U3, U4, U8 B
- 158:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);  //U2, U3, U4, U8 C
- 159:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);  //U2, U3, U4, U8 D
- 160:main.c        **** 
- 161:main.c        ****     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7); //U2, U3, U4, U8 EN - HIGH to disable
- 162:main.c        **** 
- 163:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
- 164:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
- 165:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
- 166:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
- 167:main.c        **** 
- 168:main.c        ****     // PWM configuration
- 169:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);  //leftUSSonar  PWM0
- 170:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);  //rightUSSonar PWM1
- 171:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);  //usSensors    PWM2
- 172:main.c        **** 
- 173:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
- 174:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
- 175:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
- 176:main.c        **** 
- 177:main.c        ****     // US Sonars configuration
- 178:main.c        ****     // US Sonars interrupts
- 179:main.c        ****     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);  // IRQ0
- 180:main.c        ****     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);  // IRQ1
- 181:main.c        **** 
- 182:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5); //leftUSSonarTrigger
- 183:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6); //rightUSSonarTrigger
+ 239 0104 0123A0E3 		mov	r2, #67108864
+ 240              	.LBE99:
+ 241              	.LBE98:
+ 242              	.LBB100:
+ 243              	.LBB101:
+ 244 0108 0214A0E3 		mov	r1, #33554432
+ 245              	.LBE101:
+ 246              	.LBE100:
+ 247              	.LBB102:
+ 248              	.LBB103:
+ 249 010c 0104A0E3 		mov	r0, #16777216
+ 250              	.LBE103:
+ 251              	.LBE102:
+ 252              	.LBB104:
+ 253              	.LBB105:
+ 254 0110 01C9A0E3 		mov	ip, #16384
+ 255              	.LBE105:
+ 256              	.LBE104:
+ 257              	.LBB106:
+ 258              	.LBB107:
+ 259 0114 FF2003E5 		str	r2, [r3, #-255]
+ 260              	.LBE107:
+ 261              	.LBE106:
+ 262              		.loc 2 161 0
+ 263 0118 F04F2DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 264              	.LCFI4:
+ 265              	.LBB108:
+ 266              	.LBB109:
+ 267              		.loc 1 509 0
+ 268 011c EF2003E5 		str	r2, [r3, #-239]
+ 269              	.LBE109:
+ 270              	.LBE108:
+ 271              	.LBB110:
+ 272              	.LBB111:
+ 273              		.loc 1 508 0
+ 274 0120 01E0A0E3 		mov	lr, #1
+ 275              	.LBE111:
+ 276              	.LBE110:
+ 277              	.LBB112:
+ 278              	.LBB113:
+ 279 0124 FF1003E5 		str	r1, [r3, #-255]
+ 280              	.LBE113:
+ 281              	.LBE112:
+ 282              	.LBB114:
+ 283              	.LBB115:
+ 284 0128 0240A0E3 		mov	r4, #2
+ 285              	.LBE115:
+ 286              	.LBE114:
+ 287              	.LBB116:
+ 288              	.LBB117:
+ 289              		.loc 1 509 0
+ 290 012c EF1003E5 		str	r1, [r3, #-239]
+ 291              	.LBE117:
+ 292              	.LBE116:
+ 293              	.LBB118:
+ 294              	.LBB119:
+ 295              		.loc 1 508 0
+ 296 0130 0450A0E3 		mov	r5, #4
+ 297              	.LBE119:
+ 298              	.LBE118:
+ 299              	.LBB120:
+ 300              	.LBB121:
+ 301 0134 FF0003E5 		str	r0, [r3, #-255]
+ 302              	.LBE121:
+ 303              	.LBE120:
+ 304              	.LBB122:
+ 305              	.LBB123:
+ 306 0138 0261A0E3 		mov	r6, #-2147483648
+ 307              	.LBE123:
+ 308              	.LBE122:
+ 309              	.LBB124:
+ 310              	.LBB125:
+ 311              		.loc 1 509 0
+ 312 013c EF0003E5 		str	r0, [r3, #-239]
+ 313              	.LBE125:
+ 314              	.LBE124:
+ 315              	.LBB126:
+ 316              	.LBB127:
+ 317              		.loc 1 508 0
+ 318 0140 8090A0E3 		mov	r9, #128
+ 319              	.LBE127:
+ 320              	.LBE126:
+ 321              	.LBB128:
+ 322              	.LBB129:
+ 323 0144 FFC003E5 		str	ip, [r3, #-255]
+ 324              	.LBE129:
+ 325              	.LBE128:
+ 326              	.LBB130:
+ 327              	.LBB131:
+ 328              		.loc 1 521 0
+ 329 0148 01A6A0E3 		mov	sl, #1048576
+ 330              	.LBE131:
+ 331              	.LBE130:
+ 332              	.LBB132:
+ 333              	.LBB133:
+ 334              		.loc 1 509 0
+ 335 014c EFC003E5 		str	ip, [r3, #-239]
+ 336              	.LBE133:
+ 337              	.LBE132:
+ 338              	.LBB134:
+ 339              	.LBB135:
+ 340              		.loc 1 521 0
+ 341 0150 0181A0E3 		mov	r8, #1073741824
+ 342              	.LBE135:
+ 343              	.LBE134:
+ 344              	.LBB136:
+ 345              	.LBB137:
+ 346              		.loc 1 620 0
+ 347 0154 CB2003E5 		str	r2, [r3, #-203]
+ 348              	.LBE137:
+ 349              	.LBE136:
+ 350              	.LBB138:
+ 351              	.LBB139:
+ 352              		.loc 1 508 0
+ 353 0158 0870A0E3 		mov	r7, #8
+ 354              	.LBE139:
+ 355              	.LBE138:
+ 356              	.LBB140:
+ 357              	.LBB141:
+ 358 015c 072382E2 		add	r2, r2, #469762048
+ 359              	.LBE141:
+ 360              	.LBE140:
+ 361              	.LBB142:
+ 362              	.LBB143:
+ 363              		.loc 1 620 0
+ 364 0160 CB1003E5 		str	r1, [r3, #-203]
+ 365              	.LBE143:
+ 366              	.LBE142:
+ 367              	.LBB144:
+ 368              	.LBB145:
+ 369 0164 CB0003E5 		str	r0, [r3, #-203]
+ 370              	.LBE145:
+ 371              	.LBE144:
+ 372              	.LBB146:
+ 373              	.LBB147:
+ 374 0168 CBC003E5 		str	ip, [r3, #-203]
+ 375              	.LBE147:
+ 376              	.LBE146:
+ 377              	.LBB148:
+ 378              	.LBB149:
+ 379              		.loc 1 508 0
+ 380 016c FFE003E5 		str	lr, [r3, #-255]
+ 381              		.loc 1 509 0
+ 382 0170 EFE003E5 		str	lr, [r3, #-239]
+ 383              	.LBE149:
+ 384              	.LBE148:
+ 385              	.LBB150:
+ 386              	.LBB151:
+ 387              		.loc 1 508 0
+ 388 0174 FF4003E5 		str	r4, [r3, #-255]
+ 389              		.loc 1 509 0
+ 390 0178 EF4003E5 		str	r4, [r3, #-239]
+ 391              	.LBE151:
+ 392              	.LBE150:
+ 393              	.LBB152:
+ 394              	.LBB153:
+ 395              		.loc 1 508 0
+ 396 017c FF5003E5 		str	r5, [r3, #-255]
+ 397              		.loc 1 509 0
+ 398 0180 EF5003E5 		str	r5, [r3, #-239]
+ 399              	.LBE153:
+ 400              	.LBE152:
+ 401              	.LBB154:
+ 402              	.LBB155:
+ 403              		.loc 1 508 0
+ 404 0184 FF9003E5 		str	r9, [r3, #-255]
+ 405              		.loc 1 509 0
+ 406 0188 EF9003E5 		str	r9, [r3, #-239]
+ 407              	.LBE155:
+ 408              	.LBE154:
+ 409              	.LBB156:
+ 410              	.LBB157:
+ 411              		.loc 1 620 0
+ 412 018c CBE003E5 		str	lr, [r3, #-203]
+ 413              	.LBE157:
+ 414              	.LBE156:
+ 415              	.LBB158:
+ 416              	.LBB159:
+ 417 0190 CB4003E5 		str	r4, [r3, #-203]
+ 418              	.LBE159:
+ 419              	.LBE158:
+ 420              	.LBB160:
+ 421              	.LBB161:
+ 422 0194 CB5003E5 		str	r5, [r3, #-203]
+ 423              	.LBE161:
+ 424              	.LBE160:
+ 425              	.LBB162:
+ 426              	.LBB163:
+ 427              		.loc 1 521 0
+ 428 0198 EBA003E5 		str	sl, [r3, #-235]
+ 429              		.loc 1 522 0
+ 430 019c FFA003E5 		str	sl, [r3, #-255]
+ 431              	.LBE163:
+ 432              	.LBE162:
+ 433              	.LBB164:
+ 434              	.LBB165:
+ 435              		.loc 1 521 0
+ 436 01a0 EB8003E5 		str	r8, [r3, #-235]
+ 437              		.loc 1 522 0
+ 438 01a4 FF8003E5 		str	r8, [r3, #-255]
+ 439              	.LBE165:
+ 440              	.LBE164:
+ 441              	.LBB166:
+ 442              	.LBB167:
+ 443              		.loc 1 508 0
+ 444 01a8 FF6003E5 		str	r6, [r3, #-255]
+ 445              		.loc 1 509 0
+ 446 01ac EF6003E5 		str	r6, [r3, #-239]
+ 447              	.LBE167:
+ 448              	.LBE166:
+ 449              	.LBB168:
+ 450              	.LBB169:
+ 451              		.loc 1 620 0
+ 452 01b0 CB6003E5 		str	r6, [r3, #-203]
+ 453              	.LBE169:
+ 454              	.LBE168:
+ 455              	.LBB170:
+ 456              	.LBB171:
+ 457              		.loc 1 508 0
+ 458 01b4 FF7003E5 		str	r7, [r3, #-255]
+ 459              		.loc 1 509 0
+ 460 01b8 EF7003E5 		str	r7, [r3, #-239]
+ 461              	.LBE171:
+ 462              	.LBE170:
+ 463              	.LBB172:
+ 464              	.LBB173:
+ 465              		.loc 1 508 0
+ 466 01bc FF2003E5 		str	r2, [r3, #-255]
+ 467              		.loc 1 509 0
+ 468 01c0 EF2003E5 		str	r2, [r3, #-239]
+ 469              	.LBE173:
+ 470              	.LBE172:
+ 471              	.LBB174:
+ 472              	.LBB175:
+ 473              		.loc 1 508 0
+ 474 01c4 0F2282E2 		add	r2, r2, #-268435456
+ 475 01c8 FF2003E5 		str	r2, [r3, #-255]
+ 476              		.loc 1 509 0
+ 477 01cc EF2003E5 		str	r2, [r3, #-239]
+ 478              	.LBE175:
+ 479              	.LBE174:
+ 480              	.LBB176:
+ 481              	.LBB177:
+ 482              		.loc 1 508 0
+ 483 01d0 3E2382E2 		add	r2, r2, #-134217728
+ 484 01d4 FF2003E5 		str	r2, [r3, #-255]
+ 485              		.loc 1 509 0
+ 486 01d8 EF2003E5 		str	r2, [r3, #-239]
+ 487              	.LBE177:
+ 488              	.LBE176:
+ 489              	.LBB178:
+ 490              	.LBB179:
+ 491              		.loc 1 508 0
+ 492 01dc 1020A0E3 		mov	r2, #16
+ 493 01e0 FF2003E5 		str	r2, [r3, #-255]
+ 494              		.loc 1 509 0
+ 495 01e4 EF2003E5 		str	r2, [r3, #-239]
+ 496              	.LBE179:
+ 497              	.LBE178:
+ 498              	.LBB180:
+ 499              	.LBB181:
+ 500              		.loc 1 508 0
+ 501 01e8 022082E0 		add	r2, r2, r2
+ 502 01ec FF2003E5 		str	r2, [r3, #-255]
+ 503              		.loc 1 509 0
+ 504 01f0 EF2003E5 		str	r2, [r3, #-239]
+ 505              	.LBE181:
+ 506              	.LBE180:
+ 507              	.LBB182:
+ 508              	.LBB183:
+ 509              		.loc 1 508 0
+ 510 01f4 FE2E82E2 		add	r2, r2, #4064
+ 511 01f8 FF2003E5 		str	r2, [r3, #-255]
+ 512              		.loc 1 509 0
+ 513 01fc EF2003E5 		str	r2, [r3, #-239]
+ 514              	.LBE183:
+ 515              	.LBE182:
+ 516              	.LBB184:
+ 517              	.LBB185:
+ 518              		.loc 1 508 0
+ 519 0200 022B42E2 		sub	r2, r2, #2048
+ 520 0204 FF2003E5 		str	r2, [r3, #-255]
+ 521              		.loc 1 509 0
+ 522 0208 EF2003E5 		str	r2, [r3, #-239]
+ 523              	.LBE185:
+ 524              	.LBE184:
+ 525              	.LBB186:
+ 526              	.LBB187:
+ 527              		.loc 1 508 0
+ 528 020c 1F2D42E2 		sub	r2, r2, #1984
+ 529 0210 FF2003E5 		str	r2, [r3, #-255]
+ 530              		.loc 1 509 0
+ 531 0214 EF2003E5 		str	r2, [r3, #-239]
+ 532              	.LBE187:
+ 533              	.LBE186:
+ 534              	.LBB188:
+ 535              	.LBB189:
+ 536              		.loc 1 620 0
+ 537 0218 3F2D82E2 		add	r2, r2, #4032
+ 538 021c CB2003E5 		str	r2, [r3, #-203]
+ 539              	.LBE189:
+ 540              	.LBE188:
+ 541              	.LBB190:
+ 542              	.LBB191:
+ 543 0220 022B42E2 		sub	r2, r2, #2048
+ 544 0224 CB2003E5 		str	r2, [r3, #-203]
+ 545              	.LBE191:
+ 546              	.LBE190:
+ 547              	.LBB192:
+ 548              	.LBB193:
+ 549 0228 1F2D42E2 		sub	r2, r2, #1984
+ 550 022c CB2003E5 		str	r2, [r3, #-203]
+ 551              	.LBE193:
+ 552              	.LBE192:
+ 553              	.LBB194:
+ 554              	.LBB195:
+ 555              		.loc 1 508 0
+ 556 0230 072D82E2 		add	r2, r2, #448
+ 557 0234 FF2003E5 		str	r2, [r3, #-255]
+ 558              	.LBE195:
+ 559              	.LBE194:
+ 560              	.LBB196:
+ 561              	.LBB197:
+ 562 0238 01BBA0E3 		mov	fp, #1024
+ 563              	.LBE197:
+ 564              	.LBE196:
+ 565              	.LBB198:
+ 566              	.LBB199:
+ 567              		.loc 1 509 0
+ 568 023c EF2003E5 		str	r2, [r3, #-239]
+ 569              	.LBE199:
+ 570              	.LBE198:
+ 571              	.LBB200:
+ 572              	.LBB201:
+ 573              		.loc 1 508 0
+ 574 0240 012CA0E3 		mov	r2, #256
+ 575              	.LBE201:
+ 576              	.LBE200:
+ 577              	.LBB202:
+ 578              	.LBB203:
+ 579 0244 FFB003E5 		str	fp, [r3, #-255]
+ 580              		.loc 1 509 0
+ 581 0248 EFB003E5 		str	fp, [r3, #-239]
+ 582              	.LBE203:
+ 583              	.LBE202:
+ 584              	.LBB204:
+ 585              	.LBB205:
+ 586              		.loc 1 508 0
+ 587 024c FF2003E5 		str	r2, [r3, #-255]
+ 588              		.loc 1 509 0
+ 589 0250 EF2003E5 		str	r2, [r3, #-239]
+ 590              	.LBE205:
+ 591              	.LBE204:
+ 592              	.LBB206:
+ 593              	.LBB207:
+ 594              		.loc 1 620 0
+ 595 0254 022082E0 		add	r2, r2, r2
+ 596 0258 CB2003E5 		str	r2, [r3, #-203]
+ 597              	.LBE207:
+ 598              	.LBE206:
+ 599              	.LBB208:
+ 600              	.LBB209:
+ 601 025c 012CA0E3 		mov	r2, #256
+ 602              	.LBE209:
+ 603              	.LBE208:
+ 604              	.LBB210:
+ 605              	.LBB211:
+ 606 0260 CBB003E5 		str	fp, [r3, #-203]
+ 607              	.LBE211:
+ 608              	.LBE210:
+ 609              	.LBB212:
+ 610              	.LBB213:
+ 611 0264 CB2003E5 		str	r2, [r3, #-203]
+ 612              	.LBE213:
+ 613              	.LBE212:
+ 614              	.LBB214:
+ 615              	.LBB215:
+ 616              		.loc 1 521 0
+ 617 0268 0227A0E3 		mov	r2, #524288
+ 618 026c EB2003E5 		str	r2, [r3, #-235]
+ 619              		.loc 1 522 0
+ 620 0270 FF2003E5 		str	r2, [r3, #-255]
+ 621              	.LBE215:
+ 622              	.LBE214:
+ 623              	.LBB216:
+ 624              	.LBB217:
+ 625              		.loc 1 508 0
+ 626 0274 7E2A42E2 		sub	r2, r2, #516096
+ 627 0278 FF2003E5 		str	r2, [r3, #-255]
+ 628              		.loc 1 509 0
+ 629 027c EF2003E5 		str	r2, [r3, #-239]
+ 630              	.LBE217:
+ 631              	.LBE216:
+ 632              	.LBB218:
+ 633              	.LBB219:
+ 634              		.loc 1 620 0
+ 635 0280 CB2003E5 		str	r2, [r3, #-203]
+ 636              	.LBE219:
+ 637              	.LBE218:
+ 162:main.c        ****     // U4 PIO (input1) configuration
+ 163:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //U4 A
+ 164:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);   //U4 B
+ 165:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);   //U4 C
+ 166:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);   //U4 D
+ 167:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+ 168:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+ 169:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+ 170:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
+ 171:main.c        **** 
+ 172:main.c        ****     // PWM configuration
+ 173:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //link1DrivePWM                        
+ 174:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);    //link2DrivePWM                        
+ 175:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);    //cameraServoPWM, IRBumper36kHz        
+ 176:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //gripperRotateDrive                   
+ 177:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
+ 178:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
+ 179:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
+ 180:main.c        **** 
+ 181:main.c        ****     // Platform wheels encoder interrupts
+ 182:main.c        ****     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);    // IRQ0
+ 183:main.c        ****     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);    // IRQ1
  184:main.c        **** 
- 185:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
- 186:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
- 187:main.c        **** 
- 188:main.c        ****     //Input channel 1 configuration
- 189:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U12 A
- 190:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);  //U12 B
- 191:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U12 C
- 192:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U12 D
- 193:main.c        **** 
- 194:main.c        ****     // U7 Digital Pot control
- 195:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //U7 INC
- 196:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //U7 U/D
- 197:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //U7 CS
+ 185:main.c        ****     //24V DCDC Converter
+ 186:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);   //DCDC24VENABLEON / DCDC24VENABLEOFF
+ 187:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+ 188:main.c        **** 
+ 189:main.c        ****     //link1 and link2 INa / INb configuration
+ 190:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //link1DriveINa
+ 191:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //link1DriveINb
+ 192:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //link2DriveINa
+ 193:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);   //link2DriveINb
+ 194:main.c        **** 
+ 195:main.c        ****     //gripper rotate IN1, IN2, IN3, IN4, ENA, ENB configuration U3
+ 196:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);    //gripperRotate IN1
+ 197:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //gripperRotate IN2
  198:main.c        **** 
- 199:main.c        ****     // U9, U10, U11, U13, U14 Shift registers control pins
- 200:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //U9, U10, U11, U13, U14 ST_CP
- 201:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);   //U9, U10, U11 DS
- 202:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //U9, U10, U11 U7 SH_CP
- 203:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U13, U14 DS
- 204:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U13, U14 SH_CP
- 205:main.c        **** 
- 206:main.c        ****     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
- 207:main.c        ****     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
- 208:main.c        ****     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
- 209:main.c        ****     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
- 210:main.c        ****     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
- 211:main.c        **** 
- 212:main.c        ****     // disable all pull-ups
- 213:main.c        ****     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
- 631              		.loc 2 213 0
- 632 0274 0020E0E3 		mvn	r2, #0
- 633 0278 9F2003E5 		str	r2, [r3, #-159]
- 214:main.c        **** }
- 634              		.loc 2 214 0
- 635 027c F04FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
- 636 0280 1EFF2FE1 		bx	lr
- 637              	.LFE296:
- 639              		.section	.rodata.str1.4,"aMS",%progbits,1
- 640              		.align	2
- 641              	.LC0:
- 642 0000 4D53473A 		.ascii	"MSG:%s\012\000"
- 642      25730A00 
- 643              		.align	2
- 644              	.LC1:
- 645 0008 2300     		.ascii	"#\000"
- 646 000a 0000     		.align	2
- 647              	.LC2:
- 648 000c 44454D4F 		.ascii	"DEMOP\000"
- 648      5000
- 649 0012 0000     		.align	2
- 650              	.LC3:
- 651 0014 50415241 		.ascii	"PARALLEL EXECUTION MANIPULATOR DEMO\012\000"
- 651      4C4C454C 
- 651      20455845 
- 651      43555449 
- 651      4F4E204D 
- 652 0039 000000   		.text
- 653              		.align	2
- 654              		.global	main
- 656              	main:
- 657              	.LFB299:
- 215:main.c        **** 
- 216:main.c        **** static void InitIRQ()
- 217:main.c        **** {
- 218:main.c        ****     // IRQ0 initialization
- 219:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA20, 0);
- 220:main.c        ****     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE
- 221:main.c        ****     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
- 222:main.c        **** 
- 223:main.c        ****     // IRQ1 initialization
- 224:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA30, 0);
- 225:main.c        ****     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE
- 226:main.c        ****     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
- 227:main.c        **** 
- 228:main.c        ****     // FIQ initialization
- 229:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
- 230:main.c        ****     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_POSI
- 231:main.c        ****     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
- 232:main.c        **** }
- 233:main.c        **** 
- 234:main.c        **** 
- 235:main.c        **** //*----------------------------------------------------------------------------
- 236:main.c        **** //* Function Name       : DeviceInit
- 237:main.c        **** //* Object              : Device peripherals initialization
- 238:main.c        **** ///*----------------------------------------------------------------------------
- 239:main.c        **** static void DeviceInit(void)
- 240:main.c        **** {
- 241:main.c        ****     InitPIO();
- 242:main.c        **** 
- 243:main.c        ****     // Enable User Reset and set its minimal assertion to 960 us
- 244:main.c        ****     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4 << 8) | (unsigned int)(0xA5 << 24);
- 245:main.c        **** 
- 246:main.c        ****     // Set-up the PIO
- 247:main.c        ****     // First, enable the clock of the PIO and set the LEDs in output
- 248:main.c        ****     AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA );
- 249:main.c        **** 
- 250:main.c        ****     // Initialize USB device
- 251:main.c        ****     AT91FUSBOpen();
- 252:main.c        ****     // Wait for the end of enumeration
- 253:main.c        ****     while (!pCDC.IsConfigured(&pCDC));
- 254:main.c        **** 
- 255:main.c        ****     InitPIO();
- 256:main.c        ****     InitADC();
- 257:main.c        ****     InitPWM();
- 258:main.c        ****     InitIRQ();
- 259:main.c        **** }
- 260:main.c        **** 
- 261:main.c        **** 
- 262:main.c        **** /*
- 263:main.c        ****  * Main Entry Point and Main Loop
- 264:main.c        ****  */
- 265:main.c        **** int main(void)
- 266:main.c        **** {
- 658              		.loc 2 266 0
- 659              		@ Function supports interworking.
- 660              		@ args = 0, pretend = 0, frame = 1032
- 661              		@ frame_needed = 0, uses_anonymous_args = 0
- 662 0284 F0452DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, sl, lr}
- 663              	.LCFI5:
- 664 0288 01DB4DE2 		sub	sp, sp, #1024
- 665              	.LCFI6:
- 666 028c 0CD04DE2 		sub	sp, sp, #12
- 667              	.LCFI7:
- 668              	.LBB271:
- 669              	.LBB272:
- 670              		.loc 2 241 0
- 671 0290 3E0000EB 		bl	InitPIO
- 672              		.loc 2 244 0
- 673 0294 3C229FE5 		ldr	r2, .L38
- 674 0298 023CE0E3 		mvn	r3, #512
- 675 029c F72003E5 		str	r2, [r3, #-247]
- 676              	.LBB273:
- 677              	.LBB274:
+ 199:main.c        ****     //gripper tilt IN1, IN2, ENA configuration U2
+ 200:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //gripperTilt IN1
+ 201:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //gripperTilt IN2
+ 202:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //gripperTilt ENA
+ 203:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
+ 204:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
+ 205:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+ 206:main.c        **** 
+ 207:main.c        ****     //gripper position IN3, IN4, ENB configuration U2
+ 208:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //gripperPosition IN3
+ 209:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //gripperPosition IN4
+ 210:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //gripperPosition ENB
+ 211:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);
+ 212:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);
+ 213:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+ 214:main.c        **** 
+ 215:main.c        ****     // IR bumber interrurp FIQ
+ 216:main.c        ****     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);    // FIQ
+ 217:main.c        ****     // IR bumper set IR radiation OFF
+ 218:main.c        ****     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+ 219:main.c        ****     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+ 220:main.c        ****     
+ 221:main.c        **** 
+ 222:main.c        ****     // disable all pull-ups
+ 223:main.c        ****     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
+ 638              		.loc 2 223 0
+ 639 0284 0020E0E3 		mvn	r2, #0
+ 640 0288 9F2003E5 		str	r2, [r3, #-159]
+ 224:main.c        **** }
+ 641              		.loc 2 224 0
+ 642 028c F04FBDE8 		ldmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 643 0290 1EFF2FE1 		bx	lr
+ 644              	.LFE296:
+ 646              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 647              		.align	2
+ 648              	.LC0:
+ 649 0000 4D53473A 		.ascii	"MSG:%s\012\000"
+ 649      25730A00 
+ 650              		.align	2
+ 651              	.LC1:
+ 652 0008 2300     		.ascii	"#\000"
+ 653 000a 0000     		.align	2
+ 654              	.LC2:
+ 655 000c 44434443 		.ascii	"DCDC24VENABLEON\000"
+ 655      32345645 
+ 655      4E41424C 
+ 655      454F4E00 
+ 656              		.align	2
+ 657              	.LC3:
+ 658 001c 32345620 		.ascii	"24V DCDC Voltage Regulator is ON\012\000"
+ 658      44434443 
+ 658      20566F6C 
+ 658      74616765 
+ 658      20526567 
+ 659 003e 0000     		.align	2
+ 660              	.LC4:
+ 661 0040 44434443 		.ascii	"DCDC24VENABLEOFF\000"
+ 661      32345645 
+ 661      4E41424C 
+ 661      454F4646 
+ 661      00
+ 662 0051 000000   		.align	2
+ 663              	.LC5:
+ 664 0054 32345620 		.ascii	"24V DCDC Voltage Regulator is OFF\012\000"
+ 664      44434443 
+ 664      20566F6C 
+ 664      74616765 
+ 664      20526567 
+ 665 0077 00       		.align	2
+ 666              	.LC6:
+ 667 0078 53455449 		.ascii	"SETINPUT1CHANNEL0\000"
+ 667      4E505554 
+ 667      31434841 
+ 667      4E4E454C 
+ 667      3000
+ 668 008a 0000     		.align	2
+ 669              	.LC7:
+ 670 008c 53455449 		.ascii	"SETINPUT1CHANNEL1\000"
+ 670      4E505554 
+ 670      31434841 
+ 670      4E4E454C 
+ 670      3100
+ 671 009e 0000     		.align	2
+ 672              	.LC8:
+ 673 00a0 53455449 		.ascii	"SETINPUT1CHANNEL2\000"
+ 673      4E505554 
+ 673      31434841 
+ 673      4E4E454C 
+ 673      3200
+ 674 00b2 0000     		.align	2
+ 675              	.LC9:
+ 676 00b4 53455449 		.ascii	"SETINPUT1CHANNEL3\000"
+ 676      4E505554 
+ 676      31434841 
+ 676      4E4E454C 
+ 676      3300
+ 677 00c6 0000     		.align	2
+ 678              	.LC10:
+ 679 00c8 53455449 		.ascii	"SETINPUT1CHANNEL4\000"
+ 679      4E505554 
+ 679      31434841 
+ 679      4E4E454C 
+ 679      3400
+ 680 00da 0000     		.align	2
+ 681              	.LC11:
+ 682 00dc 53455449 		.ascii	"SETINPUT1CHANNEL5\000"
+ 682      4E505554 
+ 682      31434841 
+ 682      4E4E454C 
+ 682      3500
+ 683 00ee 0000     		.align	2
+ 684              	.LC12:
+ 685 00f0 53455449 		.ascii	"SETINPUT1CHANNEL6\000"
+ 685      4E505554 
+ 685      31434841 
+ 685      4E4E454C 
+ 685      3600
+ 686 0102 0000     		.align	2
+ 687              	.LC13:
+ 688 0104 53455449 		.ascii	"SETINPUT1CHANNEL7\000"
+ 688      4E505554 
+ 688      31434841 
+ 688      4E4E454C 
+ 688      3700
+ 689 0116 0000     		.align	2
+ 690              	.LC14:
+ 691 0118 53455449 		.ascii	"SETINPUT1CHANNEL8\000"
+ 691      4E505554 
+ 691      31434841 
+ 691      4E4E454C 
+ 691      3800
+ 692 012a 0000     		.align	2
+ 693              	.LC15:
+ 694 012c 53455449 		.ascii	"SETINPUT1CHANNEL9\000"
+ 694      4E505554 
+ 694      31434841 
+ 694      4E4E454C 
+ 694      3900
+ 695 013e 0000     		.align	2
+ 696              	.LC16:
+ 697 0140 53455449 		.ascii	"SETINPUT1CHANNEL10\000"
+ 697      4E505554 
+ 697      31434841 
+ 697      4E4E454C 
+ 697      313000
+ 698 0153 00       		.align	2
+ 699              	.LC17:
+ 700 0154 53455449 		.ascii	"SETINPUT1CHANNEL11\000"
+ 700      4E505554 
+ 700      31434841 
+ 700      4E4E454C 
+ 700      313100
+ 701 0167 00       		.align	2
+ 702              	.LC18:
+ 703 0168 53455449 		.ascii	"SETINPUT1CHANNEL12\000"
+ 703      4E505554 
+ 703      31434841 
+ 703      4E4E454C 
+ 703      313200
+ 704 017b 00       		.align	2
+ 705              	.LC19:
+ 706 017c 53455449 		.ascii	"SETINPUT1CHANNEL13\000"
+ 706      4E505554 
+ 706      31434841 
+ 706      4E4E454C 
+ 706      313300
+ 707 018f 00       		.align	2
+ 708              	.LC20:
+ 709 0190 53455449 		.ascii	"SETINPUT1CHANNEL14\000"
+ 709      4E505554 
+ 709      31434841 
+ 709      4E4E454C 
+ 709      313400
+ 710 01a3 00       		.align	2
+ 711              	.LC21:
+ 712 01a4 53455449 		.ascii	"SETINPUT1CHANNEL15\000"
+ 712      4E505554 
+ 712      31434841 
+ 712      4E4E454C 
+ 712      313500
+ 713 01b7 00       		.align	2
+ 714              	.LC22:
+ 715 01b8 53544152 		.ascii	"STARTINPUT1READINGS\000"
+ 715      54494E50 
+ 715      55543152 
+ 715      45414449 
+ 715      4E475300 
+ 716              		.align	2
+ 717              	.LC23:
+ 718 01cc 53544F50 		.ascii	"STOPINPUT1READINGS\000"
+ 718      494E5055 
+ 718      54315245 
+ 718      4144494E 
+ 718      475300
+ 719 01df 00       		.align	2
+ 720              	.LC24:
+ 721 01e0 53455443 		.ascii	"SETCAMERASERVODUTY\000"
+ 721      414D4552 
+ 721      41534552 
+ 721      564F4455 
+ 721      545900
+ 722 01f3 00       		.align	2
+ 723              	.LC25:
+ 724 01f4 44495341 		.ascii	"DISABLECAMERASERVO\000"
+ 724      424C4543 
+ 724      414D4552 
+ 724      41534552 
+ 724      564F00
+ 725 0207 00       		.align	2
+ 726              	.LC26:
+ 727 0208 43414D45 		.ascii	"CAMERA SERVO DISABLED\012\000"
+ 727      52412053 
+ 727      4552564F 
+ 727      20444953 
+ 727      41424C45 
+ 728 021f 00       		.align	2
+ 729              	.LC27:
+ 730 0220 5345544C 		.ascii	"SETLINK1DRIVEDUTY\000"
+ 730      494E4B31 
+ 730      44524956 
+ 730      45445554 
+ 730      5900
+ 731 0232 0000     		.align	2
+ 732              	.LC28:
+ 733 0234 4C494E4B 		.ascii	"LINK1GETUP\000"
+ 733      31474554 
+ 733      555000
+ 734 023f 00       		.align	2
+ 735              	.LC29:
+ 736 0240 4C494E4B 		.ascii	"LINK1GETDOWN\000"
+ 736      31474554 
+ 736      444F574E 
+ 736      00
+ 737 024d 000000   		.align	2
+ 738              	.LC30:
+ 739 0250 4C494E4B 		.ascii	"LINK1STOP\000"
+ 739      3153544F 
+ 739      5000
+ 740 025a 0000     		.align	2
+ 741              	.LC31:
+ 742 025c 5345544C 		.ascii	"SETLINK2DRIVEDUTY\000"
+ 742      494E4B32 
+ 742      44524956 
+ 742      45445554 
+ 742      5900
+ 743 026e 0000     		.align	2
+ 744              	.LC32:
+ 745 0270 4C494E4B 		.ascii	"LINK2GETUP\000"
+ 745      32474554 
+ 745      555000
+ 746 027b 00       		.align	2
+ 747              	.LC33:
+ 748 027c 4C494E4B 		.ascii	"LINK2GETDOWN\000"
+ 748      32474554 
+ 748      444F574E 
+ 748      00
+ 749 0289 000000   		.align	2
+ 750              	.LC34:
+ 751 028c 4C494E4B 		.ascii	"LINK2STOP\000"
+ 751      3253544F 
+ 751      5000
+ 752 0296 0000     		.align	2
+ 753              	.LC35:
+ 754 0298 53455447 		.ascii	"SETGRIPPERROTATEDRIVEDUTY\000"
+ 754      52495050 
+ 754      4552524F 
+ 754      54415445 
+ 754      44524956 
+ 755 02b2 0000     		.align	2
+ 756              	.LC36:
+ 757 02b4 47524950 		.ascii	"GRIPPERROTATECW\000"
+ 757      50455252 
+ 757      4F544154 
+ 757      45435700 
+ 758              		.align	2
+ 759              	.LC37:
+ 760 02c4 47524950 		.ascii	"GRIPPERROTATECCW\000"
+ 760      50455252 
+ 760      4F544154 
+ 760      45434357 
+ 760      00
+ 761 02d5 000000   		.align	2
+ 762              	.LC38:
+ 763 02d8 47524950 		.ascii	"GRIPPERROTATESTOP\000"
+ 763      50455252 
+ 763      4F544154 
+ 763      4553544F 
+ 763      5000
+ 764 02ea 0000     		.align	2
+ 765              	.LC39:
+ 766 02ec 47524950 		.ascii	"GRIPPERTILTGETUP\000"
+ 766      50455254 
+ 766      494C5447 
+ 766      45545550 
+ 766      00
+ 767 02fd 000000   		.align	2
+ 768              	.LC40:
+ 769 0300 47524950 		.ascii	"GRIPPERTILTGETDOWN\000"
+ 769      50455254 
+ 769      494C5447 
+ 769      4554444F 
+ 769      574E00
+ 770 0313 00       		.align	2
+ 771              	.LC41:
+ 772 0314 47524950 		.ascii	"GRIPPERTILTSTOP\000"
+ 772      50455254 
+ 772      494C5453 
+ 772      544F5000 
+ 773              		.align	2
+ 774              	.LC42:
+ 775 0324 47524950 		.ascii	"GRIPPERPOSITIONCLOSE\000"
+ 775      50455250 
+ 775      4F534954 
+ 775      494F4E43 
+ 775      4C4F5345 
+ 776 0339 000000   		.align	2
+ 777              	.LC43:
+ 778 033c 47524950 		.ascii	"GRIPPERPOSITIONOPEN\000"
+ 778      50455250 
+ 778      4F534954 
+ 778      494F4E4F 
+ 778      50454E00 
+ 779              		.align	2
+ 780              	.LC44:
+ 781 0350 47524950 		.ascii	"GRIPPERPOSITIONSTOP\000"
+ 781      50455250 
+ 781      4F534954 
+ 781      494F4E53 
+ 781      544F5000 
+ 782              		.align	2
+ 783              	.LC45:
+ 784 0364 44454D4F 		.ascii	"DEMOPSTART\000"
+ 784      50535441 
+ 784      525400
+ 785 036f 00       		.align	2
+ 786              	.LC46:
+ 787 0370 50415241 		.ascii	"PARALLEL EXECUTION MANIPULATOR DEMO STARTED\012\000"
+ 787      4C4C454C 
+ 787      20455845 
+ 787      43555449 
+ 787      4F4E204D 
+ 788 039d 000000   		.align	2
+ 789              	.LC47:
+ 790 03a0 44454D4F 		.ascii	"DEMOPSTOP\000"
+ 790      5053544F 
+ 790      5000
+ 791 03aa 0000     		.align	2
+ 792              	.LC48:
+ 793 03ac 50415241 		.ascii	"PARALLEL EXECUTION MANIPULATOR DEMO STOPPED\012\000"
+ 793      4C4C454C 
+ 793      20455845 
+ 793      43555449 
+ 793      4F4E204D 
+ 794 03d9 000000   		.align	2
+ 795              	.LC49:
+ 796 03dc 44454D4F 		.ascii	"DEMOSSTART\000"
+ 796      53535441 
+ 796      525400
+ 797 03e7 00       		.align	2
+ 798              	.LC50:
+ 799 03e8 53455249 		.ascii	"SERIAL EXECUTION MANIPULATOR DEMO STARTED\012\000"
+ 799      414C2045 
+ 799      58454355 
+ 799      54494F4E 
+ 799      204D414E 
+ 800 0413 00       		.align	2
+ 801              	.LC51:
+ 802 0414 44454D4F 		.ascii	"DEMOSSTOP\000"
+ 802      5353544F 
+ 802      5000
+ 803 041e 0000     		.align	2
+ 804              	.LC52:
+ 805 0420 53455249 		.ascii	"SERIAL EXECUTION MANIPULATOR DEMO STOPPED\012\000"
+ 805      414C2045 
+ 805      58454355 
+ 805      54494F4E 
+ 805      204D414E 
+ 806 044b 00       		.align	2
+ 807              	.LC53:
+ 808 044c 494E5055 		.ascii	"INPUT1 CHANNEL [%u]: %u\012\000"
+ 808      54312043 
+ 808      48414E4E 
+ 808      454C205B 
+ 808      25755D3A 
+ 809 0465 000000   		.text
+ 810              		.align	2
+ 811              		.global	main
+ 813              	main:
+ 814              	.LFB299:
+ 225:main.c        **** 
+ 226:main.c        **** static void InitIRQ()
+ 227:main.c        **** {
+ 228:main.c        ****     // IRQ0 initialization
+ 229:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA20, 0);
+ 230:main.c        ****     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE
+ 231:main.c        ****     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+ 232:main.c        **** 
+ 233:main.c        ****     // IRQ1 initialization
+ 234:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA30, 0);
+ 235:main.c        ****     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE
+ 236:main.c        ****     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+ 237:main.c        **** 
+ 238:main.c        ****     // FIQ initialization
+ 239:main.c        ****     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
+ 240:main.c        ****     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_POSI
+ 241:main.c        ****     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
+ 242:main.c        **** }
+ 243:main.c        **** 
+ 244:main.c        **** 
+ 245:main.c        **** //*----------------------------------------------------------------------------
+ 246:main.c        **** //* Function Name       : DeviceInit
+ 247:main.c        **** //* Object              : Device peripherals initialization
+ 248:main.c        **** ///*----------------------------------------------------------------------------
+ 249:main.c        **** static void DeviceInit(void)
+ 250:main.c        **** {
+ 251:main.c        ****     InitPIO();
+ 252:main.c        **** 
+ 253:main.c        ****     // Enable User Reset and set its minimal assertion to 960 us
+ 254:main.c        ****     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4 << 8) | (unsigned int)(0xA5 << 24);
+ 255:main.c        **** 
+ 256:main.c        ****     // Set-up the PIO
+ 257:main.c        ****     // First, enable the clock of the PIO and set the LEDs in output
+ 258:main.c        ****     AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA );
+ 259:main.c        **** 
+ 260:main.c        ****     // Initialize USB device
+ 261:main.c        ****     AT91FUSBOpen();
+ 262:main.c        ****     // Wait for the end of enumeration
+ 263:main.c        ****     while (!pCDC.IsConfigured(&pCDC));
+ 264:main.c        **** 
+ 265:main.c        ****     InitPIO();
+ 266:main.c        ****     InitADC();
+ 267:main.c        ****     InitPWM();
+ 268:main.c        ****     InitIRQ();
+ 269:main.c        **** }
+ 270:main.c        **** 
+ 271:main.c        **** 
+ 272:main.c        **** /*
+ 273:main.c        ****  * Main Entry Point and Main Loop
+ 274:main.c        ****  */
+ 275:main.c        **** int main(void)
+ 276:main.c        **** {
+ 815              		.loc 2 276 0
+ 816              		@ Function supports interworking.
+ 817              		@ args = 0, pretend = 0, frame = 1032
+ 818              		@ frame_needed = 0, uses_anonymous_args = 0
+ 819 0294 F0472DE9 		stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
+ 820              	.LCFI5:
+ 821 0298 01DB4DE2 		sub	sp, sp, #1024
+ 822              	.LCFI6:
+ 823 029c 0CD04DE2 		sub	sp, sp, #12
+ 824              	.LCFI7:
+ 825              	.LBB503:
+ 826              	.LBB504:
+ 827              		.loc 2 251 0
+ 828 02a0 3E0000EB 		bl	InitPIO
+ 829              		.loc 2 254 0
+ 830 02a4 A02A9FE5 		ldr	r2, .L152
+ 831 02a8 023CE0E3 		mvn	r3, #512
+ 832 02ac F72003E5 		str	r2, [r3, #-247]
+ 833              	.LBB505:
+ 834              	.LBB506:
  621:lib_AT91SAM7S64.h **** }
  622:lib_AT91SAM7S64.h **** 
  623:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
@@ -1969,29 +2318,35 @@
 1042:lib_AT91SAM7S64.h **** 	unsigned int periphIds)  // \arg IDs of peripherals to enable
 1043:lib_AT91SAM7S64.h **** {
 1044:lib_AT91SAM7S64.h **** 	pPMC->PMC_PCER = periphIds;
- 678              		.loc 1 1044 0
- 679 02a0 0420A0E3 		mov	r2, #4
- 680 02a4 033CE0E3 		mvn	r3, #768
- 681 02a8 EF2003E5 		str	r2, [r3, #-239]
- 682              	.LBE274:
- 683              	.LBE273:
- 684              		.loc 2 251 0
- 685 02ac FEFFFFEB 		bl	AT91FUSBOpen
- 686              	.L24:
- 687              	.LBE272:
- 688              		.loc 2 253 0
- 689 02b0 24329FE5 		ldr	r3, .L38+4
- 690 02b4 0300A0E1 		mov	r0, r3
- 691 02b8 0CC093E5 		ldr	ip, [r3, #12]
- 692 02bc 0FE0A0E1 		mov	lr, pc
- 693 02c0 1CFF2FE1 		bx	ip
- 694              	.LBB275:
- 695 02c4 000050E3 		cmp	r0, #0
- 696 02c8 AA00000A 		beq	.L24
- 697              	.LBB276:
- 698              	.LBB277:
- 699              	.LBB278:
- 700              	.LBB279:
+ 835              		.loc 1 1044 0
+ 836 02b0 0420A0E3 		mov	r2, #4
+ 837 02b4 033CE0E3 		mvn	r3, #768
+ 838 02b8 EF2003E5 		str	r2, [r3, #-239]
+ 839              	.LBE506:
+ 840              	.LBE505:
+ 841              		.loc 2 261 0
+ 842 02bc FEFFFFEB 		bl	AT91FUSBOpen
+ 843              	.L24:
+ 844              	.LBE504:
+ 845              		.loc 2 263 0
+ 846 02c0 883A9FE5 		ldr	r3, .L152+4
+ 847 02c4 0300A0E1 		mov	r0, r3
+ 848 02c8 0CC093E5 		ldr	ip, [r3, #12]
+ 849 02cc 0FE0A0E1 		mov	lr, pc
+ 850 02d0 1CFF2FE1 		bx	ip
+ 851              	.LBB507:
+ 852 02d4 000050E3 		cmp	r0, #0
+ 853 02d8 AE00000A 		beq	.L24
+ 854              	.LBB508:
+ 855              	.LBB509:
+ 856              	.LBB510:
+ 857              	.LBB511:
+ 858              		.loc 1 495 0
+ 859 02dc 0B5CE0E3 		mvn	r5, #2816
+ 860              	.LBE511:
+ 861              	.LBE510:
+ 862              	.LBB512:
+ 863              	.LBB513:
 1045:lib_AT91SAM7S64.h **** }
 1046:lib_AT91SAM7S64.h **** 
 1047:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
@@ -3863,128 +4218,155 @@
 2913:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  PWM interrupt to be disabled
 2914:lib_AT91SAM7S64.h **** {
 2915:lib_AT91SAM7S64.h ****         pPwm->PWMC_IDR = flag;
- 701              		.loc 1 2915 0
- 702 02cc 0C629FE5 		ldr	r6, .L38+8
- 703              	.LBE279:
- 704              	.LBE278:
- 705              	.LBB280:
- 706              	.LBB281:
- 707              		.loc 1 495 0
- 708 02d0 0B4CE0E3 		mvn	r4, #2816
- 709 02d4 0150A0E3 		mov	r5, #1
- 710              		.loc 1 496 0
- 711 02d8 00A0A0E3 		mov	sl, #0
- 712              	.LBE281:
- 713              	.LBE280:
- 714              	.LBB282:
- 715              	.LBB283:
- 716              		.loc 1 495 0
- 717 02dc 0270A0E3 		mov	r7, #2
- 718              	.LBE283:
- 719              	.LBE282:
- 720              	.LBB284:
- 721              	.LBB285:
- 722 02e0 0480A0E3 		mov	r8, #4
- 723              	.LBE285:
- 724              	.LBE284:
- 725              	.LBE277:
- 726              	.LBE276:
- 727              		.loc 2 255 0
- 728 02e4 3E0000EB 		bl	InitPIO
- 729              		.loc 2 256 0
- 730 02e8 FEFFFFEB 		bl	InitADC
- 731              	.LBB286:
- 732              	.LBB287:
- 733              	.LBB288:
- 734              	.LBB289:
- 735              		.loc 1 1044 0
- 736 02ec 032CE0E3 		mvn	r2, #768
- 737              	.LBE289:
- 738              	.LBE288:
- 739              	.LBB290:
- 740              	.LBB291:
- 741              	.LBB292:
- 742              	.LBB293:
- 743 02f0 013BA0E3 		mov	r3, #1024
- 744              	.LBE293:
- 745              	.LBE292:
- 746              	.LBE291:
- 747              	.LBE290:
- 748              	.LBB294:
- 749              	.LBB295:
- 750              		.loc 1 495 0
- 751 02f4 8F5004E5 		str	r5, [r4, #-143]
- 752              	.LBE295:
- 753              	.LBE294:
- 754              		.loc 2 130 0
- 755 02f8 7D1DA0E3 		mov	r1, #8000
- 756              	.LBB296:
- 757              	.LBB297:
- 758              		.loc 1 496 0
- 759 02fc 8BA004E5 		str	sl, [r4, #-139]
- 760              	.LBE297:
- 761              	.LBE296:
- 762              		.loc 2 130 0
- 763 0300 0A00A0E1 		mov	r0, sl
- 764              	.LBB298:
- 765              	.LBB299:
- 766              		.loc 1 497 0
- 767 0304 FB5004E5 		str	r5, [r4, #-251]
- 768              	.LBE299:
- 769              	.LBE298:
- 770              	.LBB300:
- 771              	.LBB301:
- 772              		.loc 1 495 0
- 773 0308 8F7004E5 		str	r7, [r4, #-143]
- 774              		.loc 1 496 0
- 775 030c 8BA004E5 		str	sl, [r4, #-139]
- 776              		.loc 1 497 0
- 777 0310 FB7004E5 		str	r7, [r4, #-251]
- 778              	.LBE301:
- 779              	.LBE300:
- 780              	.LBB302:
- 781              	.LBB303:
- 782              		.loc 1 495 0
- 783 0314 8F8004E5 		str	r8, [r4, #-143]
- 784              		.loc 1 496 0
- 785 0318 8BA004E5 		str	sl, [r4, #-139]
- 786              		.loc 1 497 0
- 787 031c FB8004E5 		str	r8, [r4, #-251]
- 788              	.LBE303:
- 789              	.LBE302:
- 790              	.LBB304:
- 791              	.LBB305:
- 792              		.loc 1 2915 0
- 793 0320 EB5006E5 		str	r5, [r6, #-235]
- 794              	.LBE305:
- 795              	.LBE304:
- 796              	.LBB306:
- 797              	.LBB307:
- 798 0324 EB7006E5 		str	r7, [r6, #-235]
- 799              	.LBE307:
- 800              	.LBE306:
- 801              	.LBB308:
- 802              	.LBB309:
- 803 0328 EB8006E5 		str	r8, [r6, #-235]
- 804              	.LBE309:
- 805              	.LBE308:
- 806              	.LBB310:
- 807              	.LBB311:
- 808              		.loc 1 1044 0
- 809 032c EF8002E5 		str	r8, [r2, #-239]
- 810              	.LBE311:
- 811              	.LBE310:
- 812              	.LBB312:
- 813              	.LBB313:
- 814              	.LBB314:
- 815              	.LBB315:
- 816 0330 EF3002E5 		str	r3, [r2, #-239]
- 817              	.LBE315:
- 818              	.LBE314:
- 819              	.LBE313:
- 820              	.LBE312:
- 821              	.LBB316:
- 822              	.LBB317:
+ 864              		.loc 1 2915 0
+ 865 02e0 6C4A9FE5 		ldr	r4, .L152+8
+ 866              	.LBE513:
+ 867              	.LBE512:
+ 868              	.LBB514:
+ 869              	.LBB515:
+ 870              		.loc 1 496 0
+ 871 02e4 0080A0E3 		mov	r8, #0
+ 872              		.loc 1 495 0
+ 873 02e8 0160A0E3 		mov	r6, #1
+ 874              	.LBE515:
+ 875              	.LBE514:
+ 876              	.LBB516:
+ 877              	.LBB517:
+ 878 02ec 0270A0E3 		mov	r7, #2
+ 879              	.LBE517:
+ 880              	.LBE516:
+ 881              	.LBB518:
+ 882              	.LBB519:
+ 883 02f0 04A0A0E3 		mov	sl, #4
+ 884              	.LBE519:
+ 885              	.LBE518:
+ 886              	.LBE509:
+ 887              	.LBE508:
+ 888              		.loc 2 265 0
+ 889 02f4 3E0000EB 		bl	InitPIO
+ 890              		.loc 2 266 0
+ 891 02f8 FEFFFFEB 		bl	InitADC
+ 892              	.LBB520:
+ 893              	.LBB521:
+ 894              	.LBB522:
+ 895              	.LBB523:
+ 896              		.loc 1 495 0
+ 897 02fc 8030A0E3 		mov	r3, #128
+ 898              	.LBE523:
+ 899              	.LBE522:
+ 900              	.LBB524:
+ 901              	.LBB525:
+ 902 0300 8F6005E5 		str	r6, [r5, #-143]
+ 903              	.LBE525:
+ 904              	.LBE524:
+ 905              	.LBB526:
+ 906              	.LBB527:
+ 907              		.loc 1 1044 0
+ 908 0304 032CE0E3 		mvn	r2, #768
+ 909              	.LBE527:
+ 910              	.LBE526:
+ 911              	.LBB528:
+ 912              	.LBB529:
+ 913              		.loc 1 496 0
+ 914 0308 8B8005E5 		str	r8, [r5, #-139]
+ 915              	.LBE529:
+ 916              	.LBE528:
+ 917              	.LBB530:
+ 918              	.LBB531:
+ 919              		.loc 1 2915 0
+ 920 030c 0890A0E3 		mov	r9, #8
+ 921              	.LBE531:
+ 922              	.LBE530:
+ 923              	.LBB532:
+ 924              	.LBB533:
+ 925              		.loc 1 497 0
+ 926 0310 FB6005E5 		str	r6, [r5, #-251]
+ 927              	.LBE533:
+ 928              	.LBE532:
+ 929              	.LBB534:
+ 930              	.LBB535:
+ 931              		.loc 1 495 0
+ 932 0314 8F7005E5 		str	r7, [r5, #-143]
+ 933              		.loc 1 496 0
+ 934 0318 8B8005E5 		str	r8, [r5, #-139]
+ 935              		.loc 1 497 0
+ 936 031c FB7005E5 		str	r7, [r5, #-251]
+ 937              	.LBE535:
+ 938              	.LBE534:
+ 939              	.LBB536:
+ 940              	.LBB537:
+ 941              		.loc 1 495 0
+ 942 0320 8FA005E5 		str	sl, [r5, #-143]
+ 943              		.loc 1 496 0
+ 944 0324 8B8005E5 		str	r8, [r5, #-139]
+ 945              		.loc 1 497 0
+ 946 0328 FBA005E5 		str	sl, [r5, #-251]
+ 947              	.LBE537:
+ 948              	.LBE536:
+ 949              	.LBB538:
+ 950              	.LBB539:
+ 951              		.loc 1 495 0
+ 952 032c 8F3005E5 		str	r3, [r5, #-143]
+ 953              		.loc 1 496 0
+ 954 0330 8B8005E5 		str	r8, [r5, #-139]
+ 955              		.loc 1 497 0
+ 956 0334 FB3005E5 		str	r3, [r5, #-251]
+ 957              	.LBE539:
+ 958              	.LBE538:
+ 959              	.LBB540:
+ 960              	.LBB541:
+ 961              	.LBB542:
+ 962              	.LBB543:
+ 963              		.loc 1 1044 0
+ 964 0338 0E3D83E2 		add	r3, r3, #896
+ 965              	.LBE543:
+ 966              	.LBE542:
+ 967              	.LBE541:
+ 968              	.LBE540:
+ 969              	.LBB544:
+ 970              	.LBB545:
+ 971              		.loc 1 2915 0
+ 972 033c EB6004E5 		str	r6, [r4, #-235]
+ 973              	.LBE545:
+ 974              	.LBE544:
+ 975              		.loc 2 133 0
+ 976 0340 7D1DA0E3 		mov	r1, #8000
+ 977              	.LBB546:
+ 978              	.LBB547:
+ 979              		.loc 1 2915 0
+ 980 0344 EB7004E5 		str	r7, [r4, #-235]
+ 981              	.LBE547:
+ 982              	.LBE546:
+ 983              		.loc 2 133 0
+ 984 0348 0800A0E1 		mov	r0, r8
+ 985              	.LBB548:
+ 986              	.LBB549:
+ 987              		.loc 1 2915 0
+ 988 034c EBA004E5 		str	sl, [r4, #-235]
+ 989              	.LBE549:
+ 990              	.LBE548:
+ 991              	.LBB550:
+ 992              	.LBB551:
+ 993 0350 EB9004E5 		str	r9, [r4, #-235]
+ 994              	.LBE551:
+ 995              	.LBE550:
+ 996              	.LBB552:
+ 997              	.LBB553:
+ 998              		.loc 1 1044 0
+ 999 0354 EFA002E5 		str	sl, [r2, #-239]
+ 1000              	.LBE553:
+ 1001              	.LBE552:
+ 1002              	.LBB554:
+ 1003              	.LBB555:
+ 1004              	.LBB556:
+ 1005              	.LBB557:
+ 1006 0358 EF3002E5 		str	r3, [r2, #-239]
+ 1007              	.LBE557:
+ 1008              	.LBE556:
+ 1009              	.LBE555:
+ 1010              	.LBE554:
+ 1011              	.LBB558:
+ 1012              	.LBB559:
 2916:lib_AT91SAM7S64.h **** }
 2917:lib_AT91SAM7S64.h **** 
 2918:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
@@ -4055,58 +4437,71 @@
 2983:lib_AT91SAM7S64.h ****         unsigned int flag) // \arg  Channels IDs to be enabled
 2984:lib_AT91SAM7S64.h **** {
 2985:lib_AT91SAM7S64.h **** 	pPWM->PWMC_DIS = flag;
- 823              		.loc 1 2985 0
- 824 0334 F75006E5 		str	r5, [r6, #-247]
- 825              	.LBE317:
- 826              	.LBE316:
- 827              	.LBB318:
- 828              	.LBB319:
- 829 0338 F77006E5 		str	r7, [r6, #-247]
- 830              	.LBE319:
- 831              	.LBE318:
- 832              	.LBB320:
- 833              	.LBB321:
- 834 033c F78006E5 		str	r8, [r6, #-247]
- 835              	.LBE321:
- 836              	.LBE320:
- 837              		.loc 2 130 0
- 838 0340 FEFFFFEB 		bl	pwmFreqSet
- 839              		.loc 2 131 0
- 840 0344 7D1DA0E3 		mov	r1, #8000
- 841 0348 0500A0E1 		mov	r0, r5
- 842 034c FEFFFFEB 		bl	pwmFreqSet
- 843              		.loc 2 132 0
- 844 0350 7D1DA0E3 		mov	r1, #8000
- 845 0354 0700A0E1 		mov	r0, r7
- 846 0358 FEFFFFEB 		bl	pwmFreqSet
- 847              		.loc 2 134 0
- 848 035c 0A00A0E1 		mov	r0, sl
- 849 0360 0510A0E1 		mov	r1, r5
- 850 0364 FEFFFFEB 		bl	pwmDutySet_u8
- 851              		.loc 2 135 0
- 852 0368 0500A0E1 		mov	r0, r5
- 853 036c 0510A0E1 		mov	r1, r5
- 854 0370 FEFFFFEB 		bl	pwmDutySet_u8
- 855              		.loc 2 136 0
- 856 0374 0700A0E1 		mov	r0, r7
- 857 0378 0510A0E1 		mov	r1, r5
- 858 037c FEFFFFEB 		bl	pwmDutySet_u8
- 859              	.LBE287:
- 860              	.LBE286:
- 861              	.LBB322:
- 862              	.LBB323:
- 863              	.LBB324:
- 864              	.LBB325:
- 865              		.loc 1 495 0
- 866 0380 01C6A0E3 		mov	ip, #1048576
- 867              	.LBE325:
- 868              	.LBE324:
- 869              	.LBE323:
- 870              	.LBE322:
- 871              	.LBB326:
- 872              	.LBB327:
- 873              	.LBB328:
- 874              	.LBB329:
+ 1013              		.loc 1 2985 0
+ 1014 035c F76004E5 		str	r6, [r4, #-247]
+ 1015              	.LBE559:
+ 1016              	.LBE558:
+ 1017              	.LBB560:
+ 1018              	.LBB561:
+ 1019 0360 F77004E5 		str	r7, [r4, #-247]
+ 1020              	.LBE561:
+ 1021              	.LBE560:
+ 1022              	.LBB562:
+ 1023              	.LBB563:
+ 1024 0364 F7A004E5 		str	sl, [r4, #-247]
+ 1025              	.LBE563:
+ 1026              	.LBE562:
+ 1027              	.LBB564:
+ 1028              	.LBB565:
+ 1029 0368 F79004E5 		str	r9, [r4, #-247]
+ 1030              	.LBE565:
+ 1031              	.LBE564:
+ 1032              		.loc 2 133 0
+ 1033 036c FEFFFFEB 		bl	pwmFreqSet
+ 1034              		.loc 2 134 0
+ 1035 0370 7D1DA0E3 		mov	r1, #8000
+ 1036 0374 0600A0E1 		mov	r0, r6
+ 1037 0378 FEFFFFEB 		bl	pwmFreqSet
+ 1038              		.loc 2 135 0
+ 1039 037c 3C10A0E3 		mov	r1, #60
+ 1040 0380 0700A0E1 		mov	r0, r7
+ 1041 0384 FEFFFFEB 		bl	pwmFreqSet
+ 1042              		.loc 2 136 0
+ 1043 0388 7D1DA0E3 		mov	r1, #8000
+ 1044 038c 0300A0E3 		mov	r0, #3
+ 1045 0390 FEFFFFEB 		bl	pwmFreqSet
+ 1046              		.loc 2 138 0
+ 1047 0394 0800A0E1 		mov	r0, r8
+ 1048 0398 0610A0E1 		mov	r1, r6
+ 1049 039c FEFFFFEB 		bl	pwmDutySet_u8
+ 1050              		.loc 2 139 0
+ 1051 03a0 0600A0E1 		mov	r0, r6
+ 1052 03a4 0610A0E1 		mov	r1, r6
+ 1053 03a8 FEFFFFEB 		bl	pwmDutySet_u8
+ 1054              		.loc 2 140 0
+ 1055 03ac 0700A0E1 		mov	r0, r7
+ 1056 03b0 0610A0E1 		mov	r1, r6
+ 1057 03b4 FEFFFFEB 		bl	pwmDutySet_u8
+ 1058              		.loc 2 141 0
+ 1059 03b8 0300A0E3 		mov	r0, #3
+ 1060 03bc 0610A0E1 		mov	r1, r6
+ 1061 03c0 FEFFFFEB 		bl	pwmDutySet_u8
+ 1062              	.LBE521:
+ 1063              	.LBE520:
+ 1064              	.LBB566:
+ 1065              	.LBB567:
+ 1066              	.LBB568:
+ 1067              	.LBB569:
+ 1068              		.loc 1 495 0
+ 1069 03c4 01C6A0E3 		mov	ip, #1048576
+ 1070              	.LBE569:
+ 1071              	.LBE568:
+ 1072              	.LBE567:
+ 1073              	.LBE566:
+ 1074              	.LBB570:
+ 1075              	.LBB571:
+ 1076              	.LBB572:
+ 1077              	.LBB573:
 2986:lib_AT91SAM7S64.h **** }
 2987:lib_AT91SAM7S64.h **** 
 2988:lib_AT91SAM7S64.h **** //*----------------------------------------------------------------------------
@@ -4119,227 +4514,1849 @@
 2995:lib_AT91SAM7S64.h ****         unsigned int update) // \arg  Channels IDs to be enabled
 2996:lib_AT91SAM7S64.h **** {
 2997:lib_AT91SAM7S64.h **** 	pPWM->PWMC_CH[channelId].PWMC_CUPDR = update;
- 875              		.loc 1 2997 0
- 876 0384 115186E5 		str	r5, [r6, #273]
- 877              	.LBE329:
- 878              	.LBE328:
- 879              	.LBB330:
- 880              	.LBB331:
- 881 0388 317186E5 		str	r7, [r6, #305]
- 882              	.LBE331:
- 883              	.LBE330:
- 884              	.LBB332:
- 885              	.LBB333:
- 886 038c 518186E5 		str	r8, [r6, #337]
- 887              	.LBE333:
- 888              	.LBE332:
- 889              	.LBB334:
- 890              	.LBB335:
- 891              		.loc 1 2985 0
- 892 0390 F75006E5 		str	r5, [r6, #-247]
- 893              	.LBE335:
- 894              	.LBE334:
- 895              	.LBB336:
- 896              	.LBB337:
- 897 0394 F77006E5 		str	r7, [r6, #-247]
- 898              	.LBE337:
- 899              	.LBE336:
- 900              	.LBB338:
- 901              	.LBB339:
- 902 0398 F78006E5 		str	r8, [r6, #-247]
- 903              	.LBE339:
- 904              	.LBE338:
- 905              	.LBE327:
- 906              	.LBE326:
- 907              	.LBB340:
- 908              	.LBB341:
- 909              	.LBB342:
- 910              	.LBB343:
- 911              		.loc 1 495 0
- 912 039c 8FC004E5 		str	ip, [r4, #-143]
- 913              		.loc 1 496 0
- 914 03a0 8BA004E5 		str	sl, [r4, #-139]
- 915              		.loc 1 497 0
- 916 03a4 FBC004E5 		str	ip, [r4, #-251]
- 917              	.LBE343:
- 918              	.LBE342:
- 919              		.loc 2 220 0
- 920 03a8 34C19FE5 		ldr	ip, .L38+12
- 921 03ac 1E10A0E3 		mov	r1, #30
- 922 03b0 0720A0E3 		mov	r2, #7
- 923 03b4 2030A0E3 		mov	r3, #32
- 924 03b8 28019FE5 		ldr	r0, .L38+16
- 925 03bc 00C08DE5 		str	ip, [sp, #0]
- 926 03c0 FEFFFFEB 		bl	AT91F_AIC_ConfigureIt
- 927              	.LBB344:
- 928              	.LBB345:
- 929              		.loc 1 495 0
- 930 03c4 01C1A0E3 		mov	ip, #1073741824
- 931 03c8 8FC004E5 		str	ip, [r4, #-143]
- 932              		.loc 1 496 0
- 933 03cc 8BA004E5 		str	sl, [r4, #-139]
- 934              		.loc 1 497 0
- 935 03d0 FBC004E5 		str	ip, [r4, #-251]
- 936              	.LBE345:
- 937              	.LBE344:
- 938              		.loc 2 225 0
- 939 03d4 10C19FE5 		ldr	ip, .L38+20
- 940 03d8 1F10A0E3 		mov	r1, #31
- 941 03dc 0720A0E3 		mov	r2, #7
- 942 03e0 2030A0E3 		mov	r3, #32
- 943 03e4 FC009FE5 		ldr	r0, .L38+16
- 944 03e8 00C08DE5 		str	ip, [sp, #0]
- 945 03ec FEFFFFEB 		bl	AT91F_AIC_ConfigureIt
- 946              	.LBB346:
- 947              	.LBB347:
- 948              		.loc 1 495 0
- 949 03f0 02C7A0E3 		mov	ip, #524288
- 950 03f4 8FC004E5 		str	ip, [r4, #-143]
- 951              		.loc 1 496 0
- 952 03f8 8BA004E5 		str	sl, [r4, #-139]
- 953              		.loc 1 497 0
- 954 03fc FBC004E5 		str	ip, [r4, #-251]
- 955              	.LBE347:
- 956              	.LBE346:
- 957              		.loc 2 230 0
- 958 0400 E8C09FE5 		ldr	ip, .L38+24
- 959 0404 0A10A0E1 		mov	r1, sl
- 960 0408 D8009FE5 		ldr	r0, .L38+16
- 961 040c 0A20A0E1 		mov	r2, sl
- 962 0410 6030A0E3 		mov	r3, #96
- 963 0414 00C08DE5 		str	ip, [sp, #0]
- 964 0418 FEFFFFEB 		bl	AT91F_AIC_ConfigureIt
- 965              	.L37:
- 966              	.LBE341:
- 967              	.LBE340:
- 968              	.LBE275:
- 969              	.LBE271:
- 267:main.c        ****     struct cdcMessage cdcMessageObj;
- 268:main.c        **** 
- 269:main.c        ****     DeviceInit();
- 270:main.c        **** 
- 271:main.c        ****     while (1)
- 272:main.c        ****     {
- 273:main.c        ****         cdcMessageObj = getCDCMEssage();
- 970              		.loc 2 273 0
- 971 041c 0C408DE2 		add	r4, sp, #12
- 972 0420 084044E2 		sub	r4, r4, #8
- 973 0424 825F8DE2 		add	r5, sp, #520
- 974 0428 0400A0E1 		mov	r0, r4
- 975 042c FEFFFFEB 		bl	getCDCMEssage
- 976 0430 0410A0E1 		mov	r1, r4
- 977 0434 812FA0E3 		mov	r2, #516
- 978 0438 0500A0E1 		mov	r0, r5
- 979 043c FEFFFFEB 		bl	memcpy
- 274:main.c        ****         if (cdcMessageObj.length > 0)
- 980              		.loc 2 274 0
- 981 0440 08349DE5 		ldr	r3, [sp, #1032]
- 982 0444 000053E3 		cmp	r3, #0
- 983              	.LBB348:
- 275:main.c        ****         {
- 276:main.c        ****             sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
- 277:main.c        ****             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
- 984              		.loc 2 277 0
- 985 0448 8C609FE5 		ldr	r6, .L38+4
- 986              		.loc 2 276 0
- 987 044c 0520A0E1 		mov	r2, r5
- 988 0450 9C109FE5 		ldr	r1, .L38+28
- 989 0454 9C009FE5 		ldr	r0, .L38+32
- 990              	.LBE348:
- 991              		.loc 2 274 0
- 992 0458 0501000A 		beq	.L37
- 993              	.LBB349:
- 994              		.loc 2 276 0
- 995 045c FEFFFFEB 		bl	sprintf
- 996              		.loc 2 277 0
- 997 0460 90009FE5 		ldr	r0, .L38+32
- 998 0464 FEFFFFEB 		bl	strlen
- 999 0468 88109FE5 		ldr	r1, .L38+32
- 1000 046c 0020A0E1 		mov	r2, r0
- 1001 0470 0600A0E1 		mov	r0, r6
- 1002 0474 10C096E5 		ldr	ip, [r6, #16]
- 1003 0478 0FE0A0E1 		mov	lr, pc
- 1004 047c 1CFF2FE1 		bx	ip
+ 1078              		.loc 1 2997 0
+ 1079 03c8 116184E5 		str	r6, [r4, #273]
+ 1080              	.LBE573:
+ 1081              	.LBE572:
+ 1082              	.LBB574:
+ 1083              	.LBB575:
+ 1084 03cc 317184E5 		str	r7, [r4, #305]
+ 1085              	.LBE575:
+ 1086              	.LBE574:
+ 1087              	.LBB576:
+ 1088              	.LBB577:
+ 1089 03d0 51A184E5 		str	sl, [r4, #337]
+ 1090              	.LBE577:
+ 1091              	.LBE576:
+ 1092              	.LBB578:
+ 1093              	.LBB579:
+ 1094 03d4 719184E5 		str	r9, [r4, #369]
+ 1095              	.LBE579:
+ 1096              	.LBE578:
+ 1097              	.LBB580:
+ 1098              	.LBB581:
+ 1099              		.loc 1 2985 0
+ 1100 03d8 F76004E5 		str	r6, [r4, #-247]
+ 1101              	.LBE581:
+ 1102              	.LBE580:
+ 1103              	.LBB582:
+ 1104              	.LBB583:
+ 1105 03dc F77004E5 		str	r7, [r4, #-247]
+ 1106              	.LBE583:
+ 1107              	.LBE582:
+ 1108              	.LBB584:
+ 1109              	.LBB585:
+ 1110 03e0 F7A004E5 		str	sl, [r4, #-247]
+ 1111              	.LBE585:
+ 1112              	.LBE584:
+ 1113              	.LBB586:
+ 1114              	.LBB587:
+ 1115 03e4 F79004E5 		str	r9, [r4, #-247]
+ 1116              	.LBE587:
+ 1117              	.LBE586:
+ 1118              	.LBE571:
+ 1119              	.LBE570:
+ 1120              	.LBB588:
+ 1121              	.LBB589:
+ 1122              	.LBB590:
+ 1123              	.LBB591:
+ 1124              		.loc 1 495 0
+ 1125 03e8 8FC005E5 		str	ip, [r5, #-143]
+ 1126              		.loc 1 496 0
+ 1127 03ec 8B8005E5 		str	r8, [r5, #-139]
+ 1128              		.loc 1 497 0
+ 1129 03f0 FBC005E5 		str	ip, [r5, #-251]
+ 1130              	.LBE591:
+ 1131              	.LBE590:
+ 1132              		.loc 2 230 0
+ 1133 03f4 5CC99FE5 		ldr	ip, .L152+12
+ 1134 03f8 1E10A0E3 		mov	r1, #30
+ 1135 03fc 0720A0E3 		mov	r2, #7
+ 1136 0400 2030A0E3 		mov	r3, #32
+ 1137 0404 50099FE5 		ldr	r0, .L152+16
+ 1138 0408 00C08DE5 		str	ip, [sp, #0]
+ 1139 040c FEFFFFEB 		bl	AT91F_AIC_ConfigureIt
+ 1140              	.LBB592:
+ 1141              	.LBB593:
+ 1142              		.loc 1 495 0
+ 1143 0410 01C1A0E3 		mov	ip, #1073741824
+ 1144 0414 8FC005E5 		str	ip, [r5, #-143]
+ 1145              		.loc 1 496 0
+ 1146 0418 8B8005E5 		str	r8, [r5, #-139]
+ 1147              		.loc 1 497 0
+ 1148 041c FBC005E5 		str	ip, [r5, #-251]
+ 1149              	.LBE593:
+ 1150              	.LBE592:
+ 1151              		.loc 2 235 0
+ 1152 0420 38C99FE5 		ldr	ip, .L152+20
+ 1153 0424 1F10A0E3 		mov	r1, #31
+ 1154 0428 0720A0E3 		mov	r2, #7
+ 1155 042c 2030A0E3 		mov	r3, #32
+ 1156 0430 24099FE5 		ldr	r0, .L152+16
+ 1157 0434 00C08DE5 		str	ip, [sp, #0]
+ 1158 0438 FEFFFFEB 		bl	AT91F_AIC_ConfigureIt
+ 1159              	.LBB594:
+ 1160              	.LBB595:
+ 1161              		.loc 1 495 0
+ 1162 043c 02C7A0E3 		mov	ip, #524288
+ 1163 0440 8FC005E5 		str	ip, [r5, #-143]
+ 1164              		.loc 1 496 0
+ 1165 0444 8B8005E5 		str	r8, [r5, #-139]
+ 1166              		.loc 1 497 0
+ 1167 0448 FBC005E5 		str	ip, [r5, #-251]
+ 1168              	.LBE595:
+ 1169              	.LBE594:
+ 1170              		.loc 2 240 0
+ 1171 044c 10C99FE5 		ldr	ip, .L152+24
+ 1172 0450 04099FE5 		ldr	r0, .L152+16
+ 1173 0454 0810A0E1 		mov	r1, r8
+ 1174 0458 0820A0E1 		mov	r2, r8
+ 1175 045c 6030A0E3 		mov	r3, #96
+ 1176 0460 00C08DE5 		str	ip, [sp, #0]
+ 1177 0464 FEFFFFEB 		bl	AT91F_AIC_ConfigureIt
+ 1178              	.LVL8:
+ 1179 0468 08A0A0E1 		mov	sl, r8
+ 1180              	.LVL9:
+ 1181              	.LVL10:
+ 1182              	.L151:
+ 1183              	.LBE589:
+ 1184              	.LBE588:
+ 1185              	.LBE507:
+ 1186              	.LBE503:
+ 277:main.c        ****     struct cdcMessage cdcMessageObj;
  278:main.c        **** 
- 279:main.c        ****             char *cmdParts;
- 280:main.c        ****             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
- 1005              		.loc 2 280 0
- 1006 0480 74109FE5 		ldr	r1, .L38+36
- 1007 0484 0500A0E1 		mov	r0, r5
- 1008 0488 FEFFFFEB 		bl	strtok
- 281:main.c        **** 
- 282:main.c        ****             if (strcmp((char*) cmdParts, "DEMOP") == 0)
- 1009              		.loc 2 282 0
- 1010 048c 6C109FE5 		ldr	r1, .L38+40
- 1011 0490 FEFFFFEB 		bl	strcmp
- 1012 0494 000050E3 		cmp	r0, #0
- 283:main.c        ****             {
- 284:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
- 285:main.c        ****                 sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO\n");
- 1013              		.loc 2 285 0
- 1014 0498 64109FE5 		ldr	r1, .L38+44
- 1015 049c 54009FE5 		ldr	r0, .L38+32
- 1016              		.loc 2 282 0
- 1017 04a0 0501001A 		bne	.L37
- 1018              	.LBB350:
- 1019              	.LBB351:
- 1020              		.loc 1 620 0
- 1021 04a4 8030A0E3 		mov	r3, #128
- 1022 04a8 0B2CE0E3 		mvn	r2, #2816
- 1023 04ac CB3002E5 		str	r3, [r2, #-203]
- 1024              	.LBE351:
- 1025              	.LBE350:
- 1026              		.loc 2 285 0
- 1027 04b0 FEFFFFEB 		bl	strcpy
- 286:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
- 1028              		.loc 2 286 0
- 1029 04b4 3C009FE5 		ldr	r0, .L38+32
- 1030 04b8 FEFFFFEB 		bl	strlen
- 1031 04bc 34109FE5 		ldr	r1, .L38+32
- 1032 04c0 0020A0E1 		mov	r2, r0
- 1033 04c4 0600A0E1 		mov	r0, r6
- 1034 04c8 10C096E5 		ldr	ip, [r6, #16]
- 1035 04cc 0FE0A0E1 		mov	lr, pc
- 1036 04d0 1CFF2FE1 		bx	ip
- 1037 04d4 050100EA 		b	.L37
- 1038              	.L39:
- 1039              		.align	2
- 1040              	.L38:
- 1041 04d8 010400A5 		.word	-1526725631
- 1042 04dc 00000000 		.word	pCDC
- 1043 04e0 FFC0FCFF 		.word	-212737
- 1044 04e4 00000000 		.word	IRQ0Handler
- 1045 04e8 00F0FFFF 		.word	-4096
- 1046 04ec 00000000 		.word	IRQ1Handler
- 1047 04f0 00000000 		.word	FIQHandler
- 1048 04f4 00000000 		.word	.LC0
- 1049 04f8 00000000 		.word	msg
- 1050 04fc 08000000 		.word	.LC1
- 1051 0500 0C000000 		.word	.LC2
- 1052 0504 14000000 		.word	.LC3
- 1053              	.LBE349:
- 1054              	.LFE299:
- 1056              		.comm	pCDC,24,4
- 1057              		.comm	msg,2048,4
- 1058              		.comm	cmd,2048,4
- 1217              	.Letext0:
+ 279:main.c        ****     unsigned int input1Channel = 0;
+ 280:main.c        ****     unsigned int input1Readings = 0;
+ 281:main.c        ****     unsigned int input1Reading = 0;
+ 282:main.c        ****     unsigned int cameraServoDuty = 1;
+ 283:main.c        ****     unsigned int link1DriveDuty = 1;
+ 284:main.c        ****     unsigned int link2DriveDuty = 1;
+ 285:main.c        ****     unsigned int gripperRotateDriveDuty = 1;
+ 286:main.c        ****     unsigned int parallelDemo = 0;
+ 287:main.c        ****     unsigned int serialDemo = 0;
+ 288:main.c        **** 
+ 289:main.c        ****     DeviceInit();
+ 290:main.c        **** 
+ 291:main.c        ****     while (1)
+ 292:main.c        ****     {
+ 293:main.c        ****         cdcMessageObj = getCDCMEssage();
+ 1187              		.loc 2 293 0
+ 1188 046c 0C408DE2 		add	r4, sp, #12
+ 1189              	.LVL11:
+ 1190 0470 084044E2 		sub	r4, r4, #8
+ 1191 0474 0400A0E1 		mov	r0, r4
+ 1192 0478 825F8DE2 		add	r5, sp, #520
+ 1193 047c FEFFFFEB 		bl	getCDCMEssage
+ 1194 0480 0410A0E1 		mov	r1, r4
+ 1195 0484 0500A0E1 		mov	r0, r5
+ 1196 0488 812FA0E3 		mov	r2, #516
+ 1197 048c FEFFFFEB 		bl	memcpy
+ 294:main.c        ****         if (cdcMessageObj.length > 0)
+ 1198              		.loc 2 294 0
+ 1199 0490 08349DE5 		ldr	r3, [sp, #1032]
+ 1200 0494 000053E3 		cmp	r3, #0
+ 1201 0498 3D03000A 		beq	.L28
+ 1202              	.LBB596:
+ 295:main.c        ****         {
+ 296:main.c        ****             sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
+ 1203              		.loc 2 296 0
+ 1204 049c C4189FE5 		ldr	r1, .L152+28
+ 1205 04a0 0520A0E1 		mov	r2, r5
+ 1206 04a4 C0089FE5 		ldr	r0, .L152+32
+ 1207 04a8 FEFFFFEB 		bl	sprintf
+ 297:main.c        ****             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 1208              		.loc 2 297 0
+ 1209 04ac B8089FE5 		ldr	r0, .L152+32
+ 1210 04b0 FEFFFFEB 		bl	strlen
+ 1211 04b4 94689FE5 		ldr	r6, .L152+4
+ 1212 04b8 0020A0E1 		mov	r2, r0
+ 1213 04bc A8189FE5 		ldr	r1, .L152+32
+ 1214 04c0 0600A0E1 		mov	r0, r6
+ 1215 04c4 10C096E5 		ldr	ip, [r6, #16]
+ 1216 04c8 0FE0A0E1 		mov	lr, pc
+ 1217 04cc 1CFF2FE1 		bx	ip
+ 298:main.c        **** 
+ 299:main.c        ****             char *cmdParts;
+ 300:main.c        ****             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
+ 1218              		.loc 2 300 0
+ 1219 04d0 98189FE5 		ldr	r1, .L152+36
+ 1220 04d4 0500A0E1 		mov	r0, r5
+ 1221 04d8 FEFFFFEB 		bl	strtok
+ 301:main.c        **** 
+ 302:main.c        ****             if (strcmp((char*) cmdParts, "DCDC24VENABLEON") == 0)
+ 1222              		.loc 2 302 0
+ 1223 04dc 90189FE5 		ldr	r1, .L152+40
+ 1224              		.loc 2 300 0
+ 1225 04e0 0040A0E1 		mov	r4, r0
+ 1226              	.LVL12:
+ 1227              		.loc 2 302 0
+ 1228 04e4 FEFFFFEB 		bl	strcmp
+ 1229 04e8 000050E3 		cmp	r0, #0
+ 1230 04ec 4301001A 		bne	.L30
+ 1231              	.LBB597:
+ 1232              	.LBB598:
+ 1233              		.loc 1 609 0
+ 1234 04f0 0231A0E3 		mov	r3, #-2147483648
+ 1235 04f4 0B2CE0E3 		mvn	r2, #2816
+ 1236              	.LBE598:
+ 1237              	.LBE597:
+ 303:main.c        ****             {
+ 304:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+ 305:main.c        ****                 sprintf((char *)msg,"24V DCDC Voltage Regulator is ON\n");
+ 1238              		.loc 2 305 0
+ 1239 04f8 78189FE5 		ldr	r1, .L152+44
+ 1240              	.LBB599:
+ 1241              	.LBB600:
+ 1242              		.loc 1 609 0
+ 1243 04fc CF3002E5 		str	r3, [r2, #-207]
+ 1244              	.LBE600:
+ 1245              	.LBE599:
+ 1246              		.loc 2 305 0
+ 1247 0500 64089FE5 		ldr	r0, .L152+32
+ 1248 0504 FEFFFFEB 		bl	strcpy
+ 306:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 1249              		.loc 2 306 0
+ 1250 0508 5C089FE5 		ldr	r0, .L152+32
+ 1251 050c FEFFFFEB 		bl	strlen
+ 1252 0510 500100EA 		b	.L125
+ 1253              	.L30:
+ 307:main.c        ****                 continue;
+ 308:main.c        ****             }
+ 309:main.c        ****             if (strcmp((char*) cmdParts, "DCDC24VENABLEOFF") == 0)
+ 1254              		.loc 2 309 0
+ 1255 0514 0400A0E1 		mov	r0, r4
+ 1256 0518 5C189FE5 		ldr	r1, .L152+48
+ 1257 051c FEFFFFEB 		bl	strcmp
+ 1258 0520 000050E3 		cmp	r0, #0
+ 1259 0524 5701001A 		bne	.L32
+ 1260              	.LBB601:
+ 1261              	.LBB602:
+ 1262              		.loc 1 620 0
+ 1263 0528 0231A0E3 		mov	r3, #-2147483648
+ 1264 052c 0B2CE0E3 		mvn	r2, #2816
+ 1265              	.LBE602:
+ 1266              	.LBE601:
+ 310:main.c        ****             {
+ 311:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+ 312:main.c        ****                 sprintf((char *)msg,"24V DCDC Voltage Regulator is OFF\n");
+ 1267              		.loc 2 312 0
+ 1268 0530 48189FE5 		ldr	r1, .L152+52
+ 1269 0534 30089FE5 		ldr	r0, .L152+32
+ 1270              	.LBB603:
+ 1271              	.LBB604:
+ 1272              		.loc 1 620 0
+ 1273 0538 CB3002E5 		str	r3, [r2, #-203]
+ 1274              	.LBE604:
+ 1275              	.LBE603:
+ 1276              		.loc 2 312 0
+ 1277 053c FEFFFFEB 		bl	strcpy
+ 313:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 1278              		.loc 2 313 0
+ 1279 0540 24089FE5 		ldr	r0, .L152+32
+ 1280 0544 FEFFFFEB 		bl	strlen
+ 1281              	.L125:
+ 1282 0548 0020A0E1 		mov	r2, r0
+ 1283 054c 18189FE5 		ldr	r1, .L152+32
+ 1284 0550 0600A0E1 		mov	r0, r6
+ 1285 0554 10C096E5 		ldr	ip, [r6, #16]
+ 1286 0558 0FE0A0E1 		mov	lr, pc
+ 1287 055c 1CFF2FE1 		bx	ip
+ 1288 0560 190100EA 		b	.L151
+ 1289              	.L32:
+ 314:main.c        ****                 continue;
+ 315:main.c        ****             }
+ 316:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL0") == 0)
+ 1290              		.loc 2 316 0
+ 1291 0564 0400A0E1 		mov	r0, r4
+ 1292 0568 14189FE5 		ldr	r1, .L152+56
+ 1293 056c FEFFFFEB 		bl	strcmp
+ 1294 0570 000050E3 		cmp	r0, #0
+ 1295              	.LBB605:
+ 1296              	.LBB606:
+ 1297              		.loc 1 620 0
+ 1298 0574 0B2CE003 		mvneq	r2, #2816
+ 1299 0578 0133A003 		moveq	r3, #67108864
+ 1300              	.LBE606:
+ 1301              	.LBE605:
+ 1302              	.LBB607:
+ 1303              	.LBB608:
+ 1304 057c 0080A001 		moveq	r8, r0
+ 1305              	.LBE608:
+ 1306              	.LBE607:
+ 1307              	.LBB609:
+ 1308              	.LBB610:
+ 1309 0580 CB300205 		streq	r3, [r2, #-203]
+ 1310 0584 6901000A 		beq	.L126
+ 1311              	.L34:
+ 1312              	.LBE610:
+ 1313              	.LBE609:
+ 317:main.c        ****             {
+ 318:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 319:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 320:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 321:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 322:main.c        ****                 input1Channel = 0;
+ 323:main.c        ****                 continue;
+ 324:main.c        ****             }
+ 325:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL1") == 0)
+ 1314              		.loc 2 325 0
+ 1315 0588 0400A0E1 		mov	r0, r4
+ 1316 058c F4179FE5 		ldr	r1, .L152+60
+ 1317 0590 FEFFFFEB 		bl	strcmp
+ 1318 0594 000050E3 		cmp	r0, #0
+ 1319 0598 7001001A 		bne	.L36
+ 1320              	.LBB611:
+ 1321              	.LBB612:
+ 1322              		.loc 1 609 0
+ 1323 059c 0B2CE0E3 		mvn	r2, #2816
+ 1324 05a0 0133A0E3 		mov	r3, #67108864
+ 1325 05a4 CF3002E5 		str	r3, [r2, #-207]
+ 1326              	.LBE612:
+ 1327              	.LBE611:
+ 1328              	.LBB613:
+ 1329              	.LBB614:
+ 1330              		.loc 1 620 0
+ 1331 05a8 0180A0E3 		mov	r8, #1
+ 1332              	.L126:
+ 1333              	.LBE614:
+ 1334              	.LBE613:
+ 1335              	.LBB615:
+ 1336              	.LBB616:
+ 1337 05ac FE3483E2 		add	r3, r3, #-33554432
+ 1338 05b0 CB3002E5 		str	r3, [r2, #-203]
+ 1339              	.L127:
+ 1340              	.LBE616:
+ 1341              	.LBE615:
+ 1342              	.LBB617:
+ 1343              	.LBB618:
+ 1344 05b4 FF3483E2 		add	r3, r3, #-16777216
+ 1345 05b8 CB3002E5 		str	r3, [r2, #-203]
+ 1346              	.L137:
+ 1347              	.LBE618:
+ 1348              	.LBE617:
+ 1349              	.LBB619:
+ 1350              	.LBB620:
+ 1351 05bc 0139A0E3 		mov	r3, #16384
+ 1352              	.L129:
+ 1353 05c0 CB3002E5 		str	r3, [r2, #-203]
+ 1354 05c4 190100EA 		b	.L151
+ 1355              	.L36:
+ 1356              	.LBE620:
+ 1357              	.LBE619:
+ 326:main.c        ****             {
+ 327:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 328:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 329:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 330:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 331:main.c        ****                 input1Channel = 1;
+ 332:main.c        ****                 continue;
+ 333:main.c        ****             }
+ 334:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL2") == 0)
+ 1358              		.loc 2 334 0
+ 1359 05c8 0400A0E1 		mov	r0, r4
+ 1360 05cc B8179FE5 		ldr	r1, .L152+64
+ 1361 05d0 FEFFFFEB 		bl	strcmp
+ 1362 05d4 000050E3 		cmp	r0, #0
+ 1363              	.LBB621:
+ 1364              	.LBB622:
+ 1365              		.loc 1 620 0
+ 1366 05d8 0B2CE003 		mvneq	r2, #2816
+ 1367 05dc 0133A003 		moveq	r3, #67108864
+ 1368              	.LBE622:
+ 1369              	.LBE621:
+ 1370              	.LBB623:
+ 1371              	.LBB624:
+ 1372 05e0 0280A003 		moveq	r8, #2
+ 1373              	.LBE624:
+ 1374              	.LBE623:
+ 1375              	.LBB625:
+ 1376              	.LBB626:
+ 1377 05e4 CB300205 		streq	r3, [r2, #-203]
+ 1378 05e8 8201000A 		beq	.L136
+ 1379              	.L38:
+ 1380              	.LBE626:
+ 1381              	.LBE625:
+ 335:main.c        ****             {
+ 336:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 337:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 338:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 339:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 340:main.c        ****                 input1Channel = 2;
+ 341:main.c        ****                 continue;
+ 342:main.c        ****             }
+ 343:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL3") == 0)
+ 1382              		.loc 2 343 0
+ 1383 05ec 0400A0E1 		mov	r0, r4
+ 1384 05f0 98179FE5 		ldr	r1, .L152+68
+ 1385 05f4 FEFFFFEB 		bl	strcmp
+ 1386 05f8 000050E3 		cmp	r0, #0
+ 1387 05fc 8501001A 		bne	.L40
+ 1388              	.LBB627:
+ 1389              	.LBB628:
+ 1390              		.loc 1 609 0
+ 1391 0600 0B2CE0E3 		mvn	r2, #2816
+ 1392 0604 0133A0E3 		mov	r3, #67108864
+ 1393 0608 CF3002E5 		str	r3, [r2, #-207]
+ 1394              	.LBE628:
+ 1395              	.LBE627:
+ 1396              	.LBB629:
+ 1397              	.LBB630:
+ 1398              		.loc 1 620 0
+ 1399 060c 0380A0E3 		mov	r8, #3
+ 1400              	.L136:
+ 1401              	.LBE630:
+ 1402              	.LBE629:
+ 1403              	.LBB631:
+ 1404              	.LBB632:
+ 1405              		.loc 1 609 0
+ 1406 0610 FE3483E2 		add	r3, r3, #-33554432
+ 1407 0614 CF3002E5 		str	r3, [r2, #-207]
+ 1408 0618 6B0100EA 		b	.L127
+ 1409              	.L40:
+ 1410              	.LBE632:
+ 1411              	.LBE631:
+ 344:main.c        ****             {
+ 345:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 346:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 347:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 348:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 349:main.c        ****                 input1Channel = 3;
+ 350:main.c        ****                 continue;
+ 351:main.c        ****             }
+ 352:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL4") == 0)
+ 1412              		.loc 2 352 0
+ 1413 061c 0400A0E1 		mov	r0, r4
+ 1414 0620 6C179FE5 		ldr	r1, .L152+72
+ 1415 0624 FEFFFFEB 		bl	strcmp
+ 1416 0628 000050E3 		cmp	r0, #0
+ 1417              	.LBB633:
+ 1418              	.LBB634:
+ 1419              		.loc 1 620 0
+ 1420 062c 0B2CE003 		mvneq	r2, #2816
+ 1421 0630 0133A003 		moveq	r3, #67108864
+ 1422              	.LBE634:
+ 1423              	.LBE633:
+ 1424              	.LBB635:
+ 1425              	.LBB636:
+ 1426 0634 0480A003 		moveq	r8, #4
+ 1427              	.LBE636:
+ 1428              	.LBE635:
+ 1429              	.LBB637:
+ 1430              	.LBB638:
+ 1431 0638 CB300205 		streq	r3, [r2, #-203]
+ 1432 063c 9701000A 		beq	.L143
+ 1433              	.L42:
+ 1434              	.LBE638:
+ 1435              	.LBE637:
+ 353:main.c        ****             {
+ 354:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 355:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 356:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 357:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 358:main.c        ****                 input1Channel = 4;
+ 359:main.c        ****                 continue;
+ 360:main.c        ****             }
+ 361:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL5") == 0)
+ 1436              		.loc 2 361 0
+ 1437 0640 0400A0E1 		mov	r0, r4
+ 1438 0644 4C179FE5 		ldr	r1, .L152+76
+ 1439 0648 FEFFFFEB 		bl	strcmp
+ 1440 064c 000050E3 		cmp	r0, #0
+ 1441 0650 9A01001A 		bne	.L44
+ 1442              	.LBB639:
+ 1443              	.LBB640:
+ 1444              		.loc 1 609 0
+ 1445 0654 0B2CE0E3 		mvn	r2, #2816
+ 1446 0658 0133A0E3 		mov	r3, #67108864
+ 1447 065c CF3002E5 		str	r3, [r2, #-207]
+ 1448              	.LBE640:
+ 1449              	.LBE639:
+ 1450              	.LBB641:
+ 1451              	.LBB642:
+ 1452              		.loc 1 620 0
+ 1453 0660 0580A0E3 		mov	r8, #5
+ 1454              	.L143:
+ 1455              	.LBE642:
+ 1456              	.LBE641:
+ 1457              	.LBB643:
+ 1458              	.LBB644:
+ 1459 0664 FE3483E2 		add	r3, r3, #-33554432
+ 1460 0668 CB3002E5 		str	r3, [r2, #-203]
+ 1461 066c AE0100EA 		b	.L142
+ 1462              	.L44:
+ 1463              	.LBE644:
+ 1464              	.LBE643:
+ 362:main.c        ****             {
+ 363:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 364:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 365:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 366:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 367:main.c        ****                 input1Channel = 5;
+ 368:main.c        ****                 continue;
+ 369:main.c        ****             }
+ 370:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL6") == 0)
+ 1465              		.loc 2 370 0
+ 1466 0670 0400A0E1 		mov	r0, r4
+ 1467 0674 20179FE5 		ldr	r1, .L152+80
+ 1468 0678 FEFFFFEB 		bl	strcmp
+ 1469 067c 000050E3 		cmp	r0, #0
+ 1470              	.LBB645:
+ 1471              	.LBB646:
+ 1472              		.loc 1 620 0
+ 1473 0680 0B2CE003 		mvneq	r2, #2816
+ 1474 0684 0133A003 		moveq	r3, #67108864
+ 1475              	.LBE646:
+ 1476              	.LBE645:
+ 1477              	.LBB647:
+ 1478              	.LBB648:
+ 1479 0688 0680A003 		moveq	r8, #6
+ 1480              	.LBE648:
+ 1481              	.LBE647:
+ 1482              	.LBB649:
+ 1483              	.LBB650:
+ 1484 068c CB300205 		streq	r3, [r2, #-203]
+ 1485 0690 AC01000A 		beq	.L144
+ 1486              	.L46:
+ 1487              	.LBE650:
+ 1488              	.LBE649:
+ 371:main.c        ****             {
+ 372:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 373:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 374:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 375:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 376:main.c        ****                 input1Channel = 6;
+ 377:main.c        ****                 continue;
+ 378:main.c        ****             }
+ 379:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL7") == 0)
+ 1489              		.loc 2 379 0
+ 1490 0694 0400A0E1 		mov	r0, r4
+ 1491 0698 00179FE5 		ldr	r1, .L152+84
+ 1492 069c FEFFFFEB 		bl	strcmp
+ 1493 06a0 000050E3 		cmp	r0, #0
+ 1494 06a4 B101001A 		bne	.L48
+ 1495              	.LBB651:
+ 1496              	.LBB652:
+ 1497              		.loc 1 609 0
+ 1498 06a8 0B2CE0E3 		mvn	r2, #2816
+ 1499 06ac 0133A0E3 		mov	r3, #67108864
+ 1500 06b0 CF3002E5 		str	r3, [r2, #-207]
+ 1501              	.LBE652:
+ 1502              	.LBE651:
+ 1503              	.LBB653:
+ 1504              	.LBB654:
+ 1505              		.loc 1 620 0
+ 1506 06b4 0780A0E3 		mov	r8, #7
+ 1507              	.L144:
+ 1508              	.LBE654:
+ 1509              	.LBE653:
+ 1510              	.LBB655:
+ 1511              	.LBB656:
+ 1512              		.loc 1 609 0
+ 1513 06b8 FE3483E2 		add	r3, r3, #-33554432
+ 1514 06bc CF3002E5 		str	r3, [r2, #-207]
+ 1515              	.L142:
+ 1516              	.LBE656:
+ 1517              	.LBE655:
+ 1518              	.LBB657:
+ 1519              	.LBB658:
+ 1520 06c0 FF3483E2 		add	r3, r3, #-16777216
+ 1521 06c4 CF3002E5 		str	r3, [r2, #-207]
+ 1522 06c8 6D0100EA 		b	.L137
+ 1523              	.L48:
+ 1524              	.LBE658:
+ 1525              	.LBE657:
+ 380:main.c        ****             {
+ 381:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 382:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 383:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 384:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+ 385:main.c        ****                 input1Channel = 7;
+ 386:main.c        ****                 continue;
+ 387:main.c        ****             }
+ 388:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL8") == 0)
+ 1526              		.loc 2 388 0
+ 1527 06cc 0400A0E1 		mov	r0, r4
+ 1528 06d0 CC169FE5 		ldr	r1, .L152+88
+ 1529 06d4 FEFFFFEB 		bl	strcmp
+ 1530 06d8 000050E3 		cmp	r0, #0
+ 1531              	.LBB659:
+ 1532              	.LBB660:
+ 1533              		.loc 1 620 0
+ 1534 06dc 0B2CE003 		mvneq	r2, #2816
+ 1535 06e0 0133A003 		moveq	r3, #67108864
+ 1536              	.LBE660:
+ 1537              	.LBE659:
+ 1538              	.LBB661:
+ 1539              	.LBB662:
+ 1540              		.loc 1 609 0
+ 1541 06e4 0880A003 		moveq	r8, #8
+ 1542              	.LBE662:
+ 1543              	.LBE661:
+ 1544              	.LBB663:
+ 1545              	.LBB664:
+ 1546              		.loc 1 620 0
+ 1547 06e8 CB300205 		streq	r3, [r2, #-203]
+ 1548 06ec C301000A 		beq	.L149
+ 1549              	.L50:
+ 1550              	.LBE664:
+ 1551              	.LBE663:
+ 389:main.c        ****             {
+ 390:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 391:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 392:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 393:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 394:main.c        ****                 input1Channel = 8;
+ 395:main.c        ****                 continue;
+ 396:main.c        ****             }
+ 397:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL9") == 0)
+ 1552              		.loc 2 397 0
+ 1553 06f0 0400A0E1 		mov	r0, r4
+ 1554 06f4 AC169FE5 		ldr	r1, .L152+92
+ 1555 06f8 FEFFFFEB 		bl	strcmp
+ 1556 06fc 000050E3 		cmp	r0, #0
+ 1557 0700 C601001A 		bne	.L52
+ 1558              	.LBB665:
+ 1559              	.LBB666:
+ 1560              		.loc 1 609 0
+ 1561 0704 0B2CE0E3 		mvn	r2, #2816
+ 1562 0708 0133A0E3 		mov	r3, #67108864
+ 1563 070c CF3002E5 		str	r3, [r2, #-207]
+ 1564              	.LBE666:
+ 1565              	.LBE665:
+ 1566              	.LBB667:
+ 1567              	.LBB668:
+ 1568 0710 0980A0E3 		mov	r8, #9
+ 1569              	.L149:
+ 1570              	.LBE668:
+ 1571              	.LBE667:
+ 1572              	.LBB669:
+ 1573              	.LBB670:
+ 1574              		.loc 1 620 0
+ 1575 0714 FE3483E2 		add	r3, r3, #-33554432
+ 1576 0718 CB3002E5 		str	r3, [r2, #-203]
+ 1577 071c DA0100EA 		b	.L146
+ 1578              	.L52:
+ 1579              	.LBE670:
+ 1580              	.LBE669:
+ 398:main.c        ****             {
+ 399:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 400:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 401:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 402:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 403:main.c        ****                 input1Channel = 9;
+ 404:main.c        ****                 continue;
+ 405:main.c        ****             }
+ 406:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL10") == 0)
+ 1581              		.loc 2 406 0
+ 1582 0720 0400A0E1 		mov	r0, r4
+ 1583 0724 80169FE5 		ldr	r1, .L152+96
+ 1584 0728 FEFFFFEB 		bl	strcmp
+ 1585 072c 000050E3 		cmp	r0, #0
+ 1586              	.LBB671:
+ 1587              	.LBB672:
+ 1588              		.loc 1 620 0
+ 1589 0730 0B2CE003 		mvneq	r2, #2816
+ 1590 0734 0133A003 		moveq	r3, #67108864
+ 1591              	.LBE672:
+ 1592              	.LBE671:
+ 1593              	.LBB673:
+ 1594              	.LBB674:
+ 1595              		.loc 1 609 0
+ 1596 0738 0A80A003 		moveq	r8, #10
+ 1597              	.LBE674:
+ 1598              	.LBE673:
+ 1599              	.LBB675:
+ 1600              	.LBB676:
+ 1601              		.loc 1 620 0
+ 1602 073c CB300205 		streq	r3, [r2, #-203]
+ 1603 0740 D801000A 		beq	.L145
+ 1604              	.L54:
+ 1605              	.LBE676:
+ 1606              	.LBE675:
+ 407:main.c        ****             {
+ 408:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 409:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 410:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 411:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 412:main.c        ****                 input1Channel = 10;
+ 413:main.c        ****                 continue;
+ 414:main.c        ****             }
+ 415:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL11") == 0)
+ 1607              		.loc 2 415 0
+ 1608 0744 0400A0E1 		mov	r0, r4
+ 1609 0748 60169FE5 		ldr	r1, .L152+100
+ 1610 074c FEFFFFEB 		bl	strcmp
+ 1611 0750 000050E3 		cmp	r0, #0
+ 1612 0754 DD01001A 		bne	.L56
+ 1613              	.LBB677:
+ 1614              	.LBB678:
+ 1615              		.loc 1 609 0
+ 1616 0758 0B2CE0E3 		mvn	r2, #2816
+ 1617 075c 0133A0E3 		mov	r3, #67108864
+ 1618 0760 CF3002E5 		str	r3, [r2, #-207]
+ 1619              	.LBE678:
+ 1620              	.LBE677:
+ 1621              	.LBB679:
+ 1622              	.LBB680:
+ 1623 0764 0B80A0E3 		mov	r8, #11
+ 1624              	.L145:
+ 1625              	.LBE680:
+ 1626              	.LBE679:
+ 1627              	.LBB681:
+ 1628              	.LBB682:
+ 1629 0768 FE3483E2 		add	r3, r3, #-33554432
+ 1630 076c CF3002E5 		str	r3, [r2, #-207]
+ 1631              	.L146:
+ 1632              	.LBE682:
+ 1633              	.LBE681:
+ 1634              	.LBB683:
+ 1635              	.LBB684:
+ 1636              		.loc 1 620 0
+ 1637 0770 FF3483E2 		add	r3, r3, #-16777216
+ 1638 0774 CB3002E5 		str	r3, [r2, #-203]
+ 1639 0778 080200EA 		b	.L141
+ 1640              	.L56:
+ 1641              	.LBE684:
+ 1642              	.LBE683:
+ 416:main.c        ****             {
+ 417:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 418:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 419:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+ 420:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 421:main.c        ****                 input1Channel = 11;
+ 422:main.c        ****                 continue;
+ 423:main.c        ****             }
+ 424:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL12") == 0)
+ 1643              		.loc 2 424 0
+ 1644 077c 0400A0E1 		mov	r0, r4
+ 1645 0780 2C169FE5 		ldr	r1, .L152+104
+ 1646 0784 FEFFFFEB 		bl	strcmp
+ 1647 0788 000050E3 		cmp	r0, #0
+ 1648              	.LBB685:
+ 1649              	.LBB686:
+ 1650              		.loc 1 620 0
+ 1651 078c 0B2CE003 		mvneq	r2, #2816
+ 1652 0790 0133A003 		moveq	r3, #67108864
+ 1653              	.LBE686:
+ 1654              	.LBE685:
+ 1655              	.LBB687:
+ 1656              	.LBB688:
+ 1657              		.loc 1 609 0
+ 1658 0794 0C80A003 		moveq	r8, #12
+ 1659              	.LBE688:
+ 1660              	.LBE687:
+ 1661              	.LBB689:
+ 1662              	.LBB690:
+ 1663              		.loc 1 620 0
+ 1664 0798 CB300205 		streq	r3, [r2, #-203]
+ 1665 079c EF01000A 		beq	.L150
+ 1666              	.L58:
+ 1667              	.LBE690:
+ 1668              	.LBE689:
+ 425:main.c        ****             {
+ 426:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 427:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 428:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 429:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 430:main.c        ****                 input1Channel = 12;
+ 431:main.c        ****                 continue;
+ 432:main.c        ****             }
+ 433:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL13") == 0)
+ 1669              		.loc 2 433 0
+ 1670 07a0 0400A0E1 		mov	r0, r4
+ 1671 07a4 0C169FE5 		ldr	r1, .L152+108
+ 1672 07a8 FEFFFFEB 		bl	strcmp
+ 1673 07ac 000050E3 		cmp	r0, #0
+ 1674 07b0 F201001A 		bne	.L60
+ 1675              	.LBB691:
+ 1676              	.LBB692:
+ 1677              		.loc 1 609 0
+ 1678 07b4 0B2CE0E3 		mvn	r2, #2816
+ 1679 07b8 0133A0E3 		mov	r3, #67108864
+ 1680 07bc CF3002E5 		str	r3, [r2, #-207]
+ 1681              	.LBE692:
+ 1682              	.LBE691:
+ 1683              	.LBB693:
+ 1684              	.LBB694:
+ 1685 07c0 0D80A0E3 		mov	r8, #13
+ 1686              	.L150:
+ 1687              	.LBE694:
+ 1688              	.LBE693:
+ 1689              	.LBB695:
+ 1690              	.LBB696:
+ 1691              		.loc 1 620 0
+ 1692 07c4 FE3483E2 		add	r3, r3, #-33554432
+ 1693 07c8 CB3002E5 		str	r3, [r2, #-203]
+ 1694 07cc 060200EA 		b	.L148
+ 1695              	.L60:
+ 1696              	.LBE696:
+ 1697              	.LBE695:
+ 434:main.c        ****             {
+ 435:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 436:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+ 437:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 438:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 439:main.c        ****                 input1Channel = 13;
+ 440:main.c        ****                 continue;
+ 441:main.c        ****             }
+ 442:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL14") == 0)
+ 1698              		.loc 2 442 0
+ 1699 07d0 0400A0E1 		mov	r0, r4
+ 1700 07d4 E0159FE5 		ldr	r1, .L152+112
+ 1701 07d8 FEFFFFEB 		bl	strcmp
+ 1702 07dc 000050E3 		cmp	r0, #0
+ 1703              	.LBB697:
+ 1704              	.LBB698:
+ 1705              		.loc 1 620 0
+ 1706 07e0 0B2CE003 		mvneq	r2, #2816
+ 1707 07e4 0133A003 		moveq	r3, #67108864
+ 1708              	.LBE698:
+ 1709              	.LBE697:
+ 1710              	.LBB699:
+ 1711              	.LBB700:
+ 1712              		.loc 1 609 0
+ 1713 07e8 0E80A003 		moveq	r8, #14
+ 1714              	.LBE700:
+ 1715              	.LBE699:
+ 1716              	.LBB701:
+ 1717              	.LBB702:
+ 1718              		.loc 1 620 0
+ 1719 07ec CB300205 		streq	r3, [r2, #-203]
+ 1720 07f0 0402000A 		beq	.L147
+ 1721              	.L62:
+ 1722              	.LBE702:
+ 1723              	.LBE701:
+ 443:main.c        ****             {
+ 444:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+ 445:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 446:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 447:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 448:main.c        ****                 input1Channel = 14;
+ 449:main.c        ****                 continue;
+ 450:main.c        ****             }
+ 451:main.c        ****             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL15") == 0)
+ 1724              		.loc 2 451 0
+ 1725 07f4 0400A0E1 		mov	r0, r4
+ 1726 07f8 C0159FE5 		ldr	r1, .L152+116
+ 1727 07fc FEFFFFEB 		bl	strcmp
+ 1728 0800 000050E3 		cmp	r0, #0
+ 1729 0804 0A02001A 		bne	.L64
+ 1730              	.LBB703:
+ 1731              	.LBB704:
+ 1732              		.loc 1 609 0
+ 1733 0808 0B2CE0E3 		mvn	r2, #2816
+ 1734 080c 0133A0E3 		mov	r3, #67108864
+ 1735 0810 CF3002E5 		str	r3, [r2, #-207]
+ 1736              	.LBE704:
+ 1737              	.LBE703:
+ 1738              	.LBB705:
+ 1739              	.LBB706:
+ 1740 0814 0F80A0E3 		mov	r8, #15
+ 1741              	.L147:
+ 1742              	.LBE706:
+ 1743              	.LBE705:
+ 1744              	.LBB707:
+ 1745              	.LBB708:
+ 1746 0818 FE3483E2 		add	r3, r3, #-33554432
+ 1747 081c CF3002E5 		str	r3, [r2, #-207]
+ 1748              	.L148:
+ 1749              	.LBE708:
+ 1750              	.LBE707:
+ 1751              	.LBB709:
+ 1752              	.LBB710:
+ 1753 0820 FF3483E2 		add	r3, r3, #-16777216
+ 1754 0824 CF3002E5 		str	r3, [r2, #-207]
+ 1755              	.L141:
+ 1756              	.LBE710:
+ 1757              	.LBE709:
+ 1758              	.LBB711:
+ 1759              	.LBB712:
+ 1760 0828 0139A0E3 		mov	r3, #16384
+ 1761 082c F90200EA 		b	.L131
+ 1762              	.L64:
+ 1763              	.LBE712:
+ 1764              	.LBE711:
+ 452:main.c        ****             {
+ 453:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+ 454:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+ 455:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+ 456:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+ 457:main.c        ****                 input1Channel = 15;
+ 458:main.c        ****                 continue;
+ 459:main.c        ****             }
+ 460:main.c        ****             if (strcmp((char*) cmdParts, "STARTINPUT1READINGS") == 0)
+ 1765              		.loc 2 460 0
+ 1766 0830 0400A0E1 		mov	r0, r4
+ 1767 0834 88159FE5 		ldr	r1, .L152+120
+ 1768 0838 FEFFFFEB 		bl	strcmp
+ 1769 083c 000050E3 		cmp	r0, #0
+ 1770              	.LBE596:
+ 1771              	.LBB713:
+ 1772              	.LBB714:
+ 1773              	.LBB715:
+ 1774              	.LBB716:
+ 1775              		.loc 2 240 0
+ 1776 0840 01A0A003 		moveq	sl, #1
+ 1777              	.LBE716:
+ 1778              	.LBE715:
+ 1779              	.LBE714:
+ 1780              	.LBE713:
+ 1781              	.LBB717:
+ 1782              		.loc 2 460 0
+ 1783 0844 1901000A 		beq	.L151
+ 461:main.c        ****             {
+ 462:main.c        ****                 input1Readings = 1;
+ 463:main.c        ****                 continue;
+ 464:main.c        ****             }
+ 465:main.c        ****             if (strcmp((char*) cmdParts, "STOPINPUT1READINGS") == 0)
+ 1784              		.loc 2 465 0
+ 1785 0848 0400A0E1 		mov	r0, r4
+ 1786 084c 74159FE5 		ldr	r1, .L152+124
+ 1787 0850 FEFFFFEB 		bl	strcmp
+ 1788 0854 000050E3 		cmp	r0, #0
+ 1789 0858 00A0A001 		moveq	sl, r0
+ 1790 085c 1901000A 		beq	.L151
+ 466:main.c        ****             {
+ 467:main.c        ****                 input1Readings = 0;
+ 468:main.c        ****                 continue;
+ 469:main.c        ****             }
+ 470:main.c        ****             //SETCAMERASERVODUTY#5
+ 471:main.c        ****             //SETCAMERASERVODUTY#8
+ 472:main.c        ****             //SETCAMERASERVODUTY#20
+ 473:main.c        ****             //SETCAMERASERVODUTY#40
+ 474:main.c        ****             if (strcmp((char*) cmdParts, "SETCAMERASERVODUTY") == 0)
+ 1791              		.loc 2 474 0
+ 1792 0860 0400A0E1 		mov	r0, r4
+ 1793 0864 60159FE5 		ldr	r1, .L152+128
+ 1794 0868 FEFFFFEB 		bl	strcmp
+ 1795 086c 007050E2 		subs	r7, r0, #0
+ 1796 0870 3102001A 		bne	.L69
+ 475:main.c        ****             {
+ 476:main.c        ****                 cameraServoDuty = atoi(strtok( NULL, "#" ));
+ 1797              		.loc 2 476 0
+ 1798 0874 F4149FE5 		ldr	r1, .L152+36
+ 1799 0878 FEFFFFEB 		bl	strtok
+ 1800 087c FEFFFFEB 		bl	atoi
+ 1801              	.LBB718:
+ 1802              	.LBB719:
+ 1803              		.loc 1 2915 0
+ 1804 0880 CC649FE5 		ldr	r6, .L152+8
+ 1805              	.LBE719:
+ 1806              	.LBE718:
+ 1807              	.LBB720:
+ 1808              	.LBB721:
+ 1809              		.loc 1 495 0
+ 1810 0884 0440A0E3 		mov	r4, #4
+ 1811              	.LVL13:
+ 1812 0888 0B3CE0E3 		mvn	r3, #2816
+ 1813              	.LBE721:
+ 1814              	.LBE720:
+ 1815              		.loc 2 476 0
+ 1816 088c 0050A0E1 		mov	r5, r0
+ 1817              	.LBB722:
+ 1818              	.LBB723:
+ 1819              		.loc 1 495 0
+ 1820 0890 8F4003E5 		str	r4, [r3, #-143]
+ 1821              	.LBE723:
+ 1822              	.LBE722:
+ 477:main.c        **** 
+ 478:main.c        ****                 AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA2_PWM2, 0);
+ 479:main.c        ****                 AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 480:main.c        ****                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 481:main.c        ****                 AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
+ 482:main.c        ****                 pwmFreqSet(2, 60);
+ 1823              		.loc 2 482 0
+ 1824 0894 3C10A0E3 		mov	r1, #60
+ 1825              	.LBB724:
+ 1826              	.LBB725:
+ 1827              		.loc 1 496 0
+ 1828 0898 8B7003E5 		str	r7, [r3, #-139]
+ 1829              	.LBE725:
+ 1830              	.LBE724:
+ 1831              		.loc 2 482 0
+ 1832 089c 0200A0E3 		mov	r0, #2
+ 1833              	.LBB726:
+ 1834              	.LBB727:
+ 1835              		.loc 1 497 0
+ 1836 08a0 FB4003E5 		str	r4, [r3, #-251]
+ 1837              	.LBE727:
+ 1838              	.LBE726:
+ 483:main.c        ****                 pwmDutySet_u8(2, cameraServoDuty);
+ 1839              		.loc 2 483 0
+ 1840 08a4 0558A0E1 		mov	r5, r5, asl #16
+ 1841              	.LBB728:
+ 1842              	.LBB729:
+ 1843              		.loc 1 2915 0
+ 1844 08a8 EB4006E5 		str	r4, [r6, #-235]
+ 1845              	.LBE729:
+ 1846              	.LBE728:
+ 1847              	.LBB730:
+ 1848              	.LBB731:
+ 1849              		.loc 1 2985 0
+ 1850 08ac F74006E5 		str	r4, [r6, #-247]
+ 1851              	.LBE731:
+ 1852              	.LBE730:
+ 1853              	.LBB732:
+ 1854              	.LBB733:
+ 1855              		.loc 1 2997 0
+ 1856 08b0 514186E5 		str	r4, [r6, #337]
+ 1857              	.LBE733:
+ 1858              	.LBE732:
+ 1859              		.loc 2 482 0
+ 1860 08b4 FEFFFFEB 		bl	pwmFreqSet
+ 1861              		.loc 2 483 0
+ 1862 08b8 2518A0E1 		mov	r1, r5, lsr #16
+ 1863 08bc 0200A0E3 		mov	r0, #2
+ 1864 08c0 FEFFFFEB 		bl	pwmDutySet_u8
+ 1865              	.LBB734:
+ 1866              	.LBB735:
+ 1867              		.loc 1 2974 0
+ 1868 08c4 FB4006E5 		str	r4, [r6, #-251]
+ 1869 08c8 190100EA 		b	.L151
+ 1870              	.LVL14:
+ 1871              	.L69:
+ 1872              	.LBE735:
+ 1873              	.LBE734:
+ 484:main.c        ****                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 485:main.c        ****                 continue;
+ 486:main.c        ****             }
+ 487:main.c        ****             if (strcmp((char*) cmdParts, "DISABLECAMERASERVO") == 0)
+ 1874              		.loc 2 487 0
+ 1875 08cc 0400A0E1 		mov	r0, r4
+ 1876 08d0 F8149FE5 		ldr	r1, .L152+132
+ 1877 08d4 FEFFFFEB 		bl	strcmp
+ 1878 08d8 000050E3 		cmp	r0, #0
+ 1879 08dc 4002001A 		bne	.L71
+ 1880              	.LBB736:
+ 1881              	.LBB737:
+ 1882              		.loc 1 2985 0
+ 1883 08e0 6C349FE5 		ldr	r3, .L152+8
+ 1884 08e4 0420A0E3 		mov	r2, #4
+ 1885              	.LBE737:
+ 1886              	.LBE736:
+ 488:main.c        ****             {
+ 489:main.c        ****                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+ 490:main.c        ****                 sprintf((char *)msg,"CAMERA SERVO DISABLED\n");
+ 1887              		.loc 2 490 0
+ 1888 08e8 E4149FE5 		ldr	r1, .L152+136
+ 1889              	.LBB738:
+ 1890              	.LBB739:
+ 1891              		.loc 1 2985 0
+ 1892 08ec F72003E5 		str	r2, [r3, #-247]
+ 1893              	.LBE739:
+ 1894              	.LBE738:
+ 1895              		.loc 2 490 0
+ 1896 08f0 74049FE5 		ldr	r0, .L152+32
+ 1897 08f4 FEFFFFEB 		bl	strcpy
+ 491:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 1898              		.loc 2 491 0
+ 1899 08f8 6C049FE5 		ldr	r0, .L152+32
+ 1900 08fc 4C449FE5 		ldr	r4, .L152+4
+ 1901              	.LVL15:
+ 1902 0900 FEFFFFEB 		bl	strlen
+ 1903 0904 360300EA 		b	.L128
+ 1904              	.LVL16:
+ 1905              	.L71:
+ 492:main.c        ****                 continue;
+ 493:main.c        ****             }
+ 494:main.c        ****             //SETLINK1DRIVEDUTY#1
+ 495:main.c        ****             //SETLINK1DRIVEDUTY#5
+ 496:main.c        ****             //SETLINK1DRIVEDUTY#10
+ 497:main.c        ****             //SETLINK1DRIVEDUTY#20
+ 498:main.c        ****             //SETLINK1DRIVEDUTY#30
+ 499:main.c        ****             //SETLINK1DRIVEDUTY#40
+ 500:main.c        ****             //SETLINK1DRIVEDUTY#50
+ 501:main.c        ****             //SETLINK1DRIVEDUTY#60
+ 502:main.c        ****             //SETLINK1DRIVEDUTY#70
+ 503:main.c        ****             //SETLINK1DRIVEDUTY#80
+ 504:main.c        ****             //SETLINK1DRIVEDUTY#90
+ 505:main.c        ****             //SETLINK1DRIVEDUTY#100
+ 506:main.c        ****             if (strcmp((char*) cmdParts, "SETLINK1DRIVEDUTY") == 0)
+ 1906              		.loc 2 506 0
+ 1907 0908 0400A0E1 		mov	r0, r4
+ 1908 090c C4149FE5 		ldr	r1, .L152+140
+ 1909 0910 FEFFFFEB 		bl	strcmp
+ 1910 0914 005050E2 		subs	r5, r0, #0
+ 1911 0918 4E02001A 		bne	.L73
+ 507:main.c        ****             {
+ 508:main.c        ****                 link1DriveDuty = atoi(strtok( NULL, "#" ));
+ 1912              		.loc 2 508 0
+ 1913 091c 4C149FE5 		ldr	r1, .L152+36
+ 1914 0920 FEFFFFEB 		bl	strtok
+ 1915 0924 FEFFFFEB 		bl	atoi
+ 509:main.c        ****                 pwmDutySetPercent(0, link1DriveDuty);
+ 1916              		.loc 2 509 0
+ 1917 0928 0018A0E1 		mov	r1, r0, asl #16
+ 1918 092c 2118A0E1 		mov	r1, r1, lsr #16
+ 1919 0930 0500A0E1 		mov	r0, r5
+ 1920 0934 FEFFFFEB 		bl	pwmDutySetPercent
+ 1921              	.LBB740:
+ 1922              	.LBB741:
+ 1923              		.loc 1 2974 0
+ 1924 0938 0120A0E3 		mov	r2, #1
+ 1925 093c 9F0200EA 		b	.L135
+ 1926              	.L73:
+ 1927              	.LBE741:
+ 1928              	.LBE740:
+ 510:main.c        ****                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+ 511:main.c        ****                 continue;
+ 512:main.c        ****             }
+ 513:main.c        ****             if (strcmp((char*) cmdParts, "LINK1GETUP") == 0)
+ 1929              		.loc 2 513 0
+ 1930 0940 0400A0E1 		mov	r0, r4
+ 1931 0944 90149FE5 		ldr	r1, .L152+144
+ 1932 0948 FEFFFFEB 		bl	strcmp
+ 1933 094c 000050E3 		cmp	r0, #0
+ 1934              	.LBB742:
+ 1935              	.LBB743:
+ 1936              		.loc 1 620 0
+ 1937 0950 0820A003 		moveq	r2, #8
+ 1938 0954 0B3CE003 		mvneq	r3, #2816
+ 1939 0958 CB200305 		streq	r2, [r3, #-203]
+ 1940              	.LBE743:
+ 1941              	.LBE742:
+ 1942              	.LBB744:
+ 1943              	.LBB745:
+ 1944              		.loc 1 609 0
+ 1945 095c 0222A003 		moveq	r2, #536870912
+ 1946 0960 AB02000A 		beq	.L134
+ 1947              	.L75:
+ 1948              	.LBE745:
+ 1949              	.LBE744:
+ 514:main.c        ****             {
+ 515:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
+ 516:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //link1DriveINb
+ 517:main.c        ****                 continue;
+ 518:main.c        ****             }
+ 519:main.c        ****             if (strcmp((char*) cmdParts, "LINK1GETDOWN") == 0)
+ 1950              		.loc 2 519 0
+ 1951 0964 0400A0E1 		mov	r0, r4
+ 1952 0968 70149FE5 		ldr	r1, .L152+148
+ 1953 096c FEFFFFEB 		bl	strcmp
+ 1954 0970 000050E3 		cmp	r0, #0
+ 1955              	.LBB746:
+ 1956              	.LBB747:
+ 1957              		.loc 1 609 0
+ 1958 0974 0B3CE003 		mvneq	r3, #2816
+ 1959 0978 0820A003 		moveq	r2, #8
+ 1960 097c CF200305 		streq	r2, [r3, #-207]
+ 1961              	.LBE747:
+ 1962              	.LBE746:
+ 1963              		.loc 2 519 0
+ 1964 0980 6702000A 		beq	.L139
+ 520:main.c        ****             {
+ 521:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //link1DriveINa
+ 522:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
+ 523:main.c        ****                 continue;
+ 524:main.c        ****             }
+ 525:main.c        ****             if (strcmp((char*) cmdParts, "LINK1STOP") == 0)
+ 1965              		.loc 2 525 0
+ 1966 0984 0400A0E1 		mov	r0, r4
+ 1967 0988 54149FE5 		ldr	r1, .L152+152
+ 1968 098c FEFFFFEB 		bl	strcmp
+ 1969 0990 000050E3 		cmp	r0, #0
+ 1970 0994 6902001A 		bne	.L79
+ 1971              	.LBB748:
+ 1972              	.LBB749:
+ 1973              		.loc 1 620 0
+ 1974 0998 0B3CE0E3 		mvn	r3, #2816
+ 1975 099c 0820A0E3 		mov	r2, #8
+ 1976 09a0 CB2003E5 		str	r2, [r3, #-203]
+ 1977              	.L139:
+ 1978              	.LBE749:
+ 1979              	.LBE748:
+ 1980              	.LBB750:
+ 1981              	.LBB751:
+ 1982 09a4 0222A0E3 		mov	r2, #536870912
+ 1983 09a8 BE0200EA 		b	.L133
+ 1984              	.L79:
+ 1985              	.LBE751:
+ 1986              	.LBE750:
+ 526:main.c        ****             {
+ 527:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
+ 528:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
+ 529:main.c        ****                 continue;
+ 530:main.c        ****             }
+ 531:main.c        ****             //SETLINK2DRIVEDUTY#1
+ 532:main.c        ****             //SETLINK2DRIVEDUTY#5
+ 533:main.c        ****             //SETLINK2DRIVEDUTY#10
+ 534:main.c        ****             //SETLINK2DRIVEDUTY#20
+ 535:main.c        ****             //SETLINK2DRIVEDUTY#30
+ 536:main.c        ****             //SETLINK2DRIVEDUTY#40
+ 537:main.c        ****             //SETLINK2DRIVEDUTY#50
+ 538:main.c        ****             //SETLINK2DRIVEDUTY#60
+ 539:main.c        ****             //SETLINK2DRIVEDUTY#70
+ 540:main.c        ****             //SETLINK2DRIVEDUTY#80
+ 541:main.c        ****             //SETLINK2DRIVEDUTY#90
+ 542:main.c        ****             //SETLINK2DRIVEDUTY#100
+ 543:main.c        ****             if (strcmp((char*) cmdParts, "SETLINK2DRIVEDUTY") == 0)
+ 1987              		.loc 2 543 0
+ 1988 09ac 0400A0E1 		mov	r0, r4
+ 1989 09b0 30149FE5 		ldr	r1, .L152+156
+ 1990 09b4 FEFFFFEB 		bl	strcmp
+ 1991 09b8 000050E3 		cmp	r0, #0
+ 1992 09bc 7702001A 		bne	.L81
+ 544:main.c        ****             {
+ 545:main.c        ****                 link2DriveDuty = atoi(strtok( NULL, "#" ));
+ 1993              		.loc 2 545 0
+ 1994 09c0 A8139FE5 		ldr	r1, .L152+36
+ 1995 09c4 FEFFFFEB 		bl	strtok
+ 1996 09c8 FEFFFFEB 		bl	atoi
+ 546:main.c        ****                 pwmDutySetPercent(1, link2DriveDuty);
+ 1997              		.loc 2 546 0
+ 1998 09cc 0018A0E1 		mov	r1, r0, asl #16
+ 1999 09d0 2118A0E1 		mov	r1, r1, lsr #16
+ 2000 09d4 0100A0E3 		mov	r0, #1
+ 2001 09d8 FEFFFFEB 		bl	pwmDutySetPercent
+ 2002              	.LBB752:
+ 2003              	.LBB753:
+ 2004              		.loc 1 2974 0
+ 2005 09dc 0220A0E3 		mov	r2, #2
+ 2006 09e0 9F0200EA 		b	.L135
+ 2007              	.L81:
+ 2008              	.LBE753:
+ 2009              	.LBE752:
+ 547:main.c        ****                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+ 548:main.c        ****                 continue;
+ 549:main.c        ****             }
+ 550:main.c        ****             if (strcmp((char*) cmdParts, "LINK2GETUP") == 0)
+ 2010              		.loc 2 550 0
+ 2011 09e4 0400A0E1 		mov	r0, r4
+ 2012 09e8 FC139FE5 		ldr	r1, .L152+160
+ 2013 09ec FEFFFFEB 		bl	strcmp
+ 2014 09f0 000050E3 		cmp	r0, #0
+ 2015              	.LBB754:
+ 2016              	.LBB755:
+ 2017              		.loc 1 620 0
+ 2018 09f4 0122A003 		moveq	r2, #268435456
+ 2019 09f8 0B3CE003 		mvneq	r3, #2816
+ 2020 09fc CB200305 		streq	r2, [r3, #-203]
+ 2021              	.LBE755:
+ 2022              	.LBE754:
+ 2023              	.LBB756:
+ 2024              	.LBB757:
+ 2025              		.loc 1 609 0
+ 2026 0a00 3E238202 		addeq	r2, r2, #-134217728
+ 2027 0a04 AB02000A 		beq	.L134
+ 2028              	.L83:
+ 2029              	.LBE757:
+ 2030              	.LBE756:
+ 551:main.c        ****             {
+ 552:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);  //link2DriveINa
+ 553:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);    //link2DriveINb
+ 554:main.c        ****                 continue;
+ 555:main.c        ****             }
+ 556:main.c        ****             if (strcmp((char*) cmdParts, "LINK2GETDOWN") == 0)
+ 2031              		.loc 2 556 0
+ 2032 0a08 0400A0E1 		mov	r0, r4
+ 2033 0a0c DC139FE5 		ldr	r1, .L152+164
+ 2034 0a10 FEFFFFEB 		bl	strcmp
+ 2035 0a14 000050E3 		cmp	r0, #0
+ 2036              	.LBB758:
+ 2037              	.LBB759:
+ 2038              		.loc 1 609 0
+ 2039 0a18 0B3CE003 		mvneq	r3, #2816
+ 2040 0a1c 0122A003 		moveq	r2, #268435456
+ 2041 0a20 CF200305 		streq	r2, [r3, #-207]
+ 2042              	.LBE759:
+ 2043              	.LBE758:
+ 2044              		.loc 2 556 0
+ 2045 0a24 9002000A 		beq	.L138
+ 557:main.c        ****             {
+ 558:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //link2DriveINa
+ 559:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
+ 560:main.c        ****                 continue;
+ 561:main.c        ****             }
+ 562:main.c        ****             if (strcmp((char*) cmdParts, "LINK2STOP") == 0)
+ 2046              		.loc 2 562 0
+ 2047 0a28 0400A0E1 		mov	r0, r4
+ 2048 0a2c C0139FE5 		ldr	r1, .L152+168
+ 2049 0a30 FEFFFFEB 		bl	strcmp
+ 2050 0a34 000050E3 		cmp	r0, #0
+ 2051 0a38 9202001A 		bne	.L87
+ 2052              	.LBB760:
+ 2053              	.LBB761:
+ 2054              		.loc 1 620 0
+ 2055 0a3c 0B3CE0E3 		mvn	r3, #2816
+ 2056 0a40 0122A0E3 		mov	r2, #268435456
+ 2057 0a44 CB2003E5 		str	r2, [r3, #-203]
+ 2058              	.L138:
+ 2059              	.LBE761:
+ 2060              	.LBE760:
+ 2061              	.LBB762:
+ 2062              	.LBB763:
+ 2063 0a48 3E2382E2 		add	r2, r2, #-134217728
+ 2064 0a4c BE0200EA 		b	.L133
+ 2065              	.L87:
+ 2066              	.LBE763:
+ 2067              	.LBE762:
+ 563:main.c        ****             {
+ 564:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //link2DriveINa
+ 565:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
+ 566:main.c        ****                 continue;
+ 567:main.c        ****             }
+ 568:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#1
+ 569:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#5
+ 570:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#10
+ 571:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#20
+ 572:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#30
+ 573:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#40
+ 574:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#50
+ 575:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#60
+ 576:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#70
+ 577:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#80
+ 578:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#90
+ 579:main.c        ****             //SETGRIPPERROTATEDRIVEDUTY#100
+ 580:main.c        ****             if (strcmp((char*) cmdParts, "SETGRIPPERROTATEDRIVEDUTY") == 0)
+ 2068              		.loc 2 580 0
+ 2069 0a50 0400A0E1 		mov	r0, r4
+ 2070 0a54 9C139FE5 		ldr	r1, .L152+172
+ 2071 0a58 FEFFFFEB 		bl	strcmp
+ 2072 0a5c 000050E3 		cmp	r0, #0
+ 2073 0a60 A202001A 		bne	.L89
+ 581:main.c        ****             {
+ 582:main.c        ****                 gripperRotateDriveDuty = atoi(strtok( NULL, "#" ));
+ 2074              		.loc 2 582 0
+ 2075 0a64 04139FE5 		ldr	r1, .L152+36
+ 2076 0a68 FEFFFFEB 		bl	strtok
+ 2077 0a6c FEFFFFEB 		bl	atoi
+ 583:main.c        ****                 pwmDutySetPercent(3, gripperRotateDriveDuty);
+ 2078              		.loc 2 583 0
+ 2079 0a70 0018A0E1 		mov	r1, r0, asl #16
+ 2080 0a74 2118A0E1 		mov	r1, r1, lsr #16
+ 2081 0a78 0300A0E3 		mov	r0, #3
+ 2082 0a7c FEFFFFEB 		bl	pwmDutySetPercent
+ 2083              	.LBB764:
+ 2084              	.LBB765:
+ 2085              		.loc 1 2974 0
+ 2086 0a80 0820A0E3 		mov	r2, #8
+ 2087              	.L135:
+ 2088 0a84 C8329FE5 		ldr	r3, .L152+8
+ 2089 0a88 FB2003E5 		str	r2, [r3, #-251]
+ 2090 0a8c 190100EA 		b	.L151
+ 2091              	.L89:
+ 2092              	.LBE765:
+ 2093              	.LBE764:
+ 584:main.c        ****                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+ 585:main.c        ****                 continue;
+ 586:main.c        ****             }
+ 587:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERROTATECW") == 0)
+ 2094              		.loc 2 587 0
+ 2095 0a90 0400A0E1 		mov	r0, r4
+ 2096 0a94 60139FE5 		ldr	r1, .L152+176
+ 2097 0a98 FEFFFFEB 		bl	strcmp
+ 2098 0a9c 000050E3 		cmp	r0, #0
+ 2099 0aa0 AD02001A 		bne	.L91
+ 2100              	.LBB766:
+ 2101              	.LBB767:
+ 2102              		.loc 1 620 0
+ 2103 0aa4 1020A0E3 		mov	r2, #16
+ 2104 0aa8 0B3CE0E3 		mvn	r3, #2816
+ 2105 0aac CB2003E5 		str	r2, [r3, #-203]
+ 2106              	.LBE767:
+ 2107              	.LBE766:
+ 2108              	.LBB768:
+ 2109              	.LBB769:
+ 2110              		.loc 1 609 0
+ 2111 0ab0 022082E0 		add	r2, r2, r2
+ 2112              	.L134:
+ 2113 0ab4 CF2003E5 		str	r2, [r3, #-207]
+ 2114 0ab8 190100EA 		b	.L151
+ 2115              	.L91:
+ 2116              	.LBE769:
+ 2117              	.LBE768:
+ 588:main.c        ****             {
+ 589:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
+ 590:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //gripperRotate IN2
+ 591:main.c        ****                 continue;
+ 592:main.c        ****             }
+ 593:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERROTATECCW") == 0)
+ 2118              		.loc 2 593 0
+ 2119 0abc 0400A0E1 		mov	r0, r4
+ 2120 0ac0 38139FE5 		ldr	r1, .L152+180
+ 2121 0ac4 FEFFFFEB 		bl	strcmp
+ 2122 0ac8 000050E3 		cmp	r0, #0
+ 2123              	.LBB770:
+ 2124              	.LBB771:
+ 2125              		.loc 1 609 0
+ 2126 0acc 0B3CE003 		mvneq	r3, #2816
+ 2127 0ad0 1020A003 		moveq	r2, #16
+ 2128 0ad4 CF200305 		streq	r2, [r3, #-207]
+ 2129              	.LBE771:
+ 2130              	.LBE770:
+ 2131              		.loc 2 593 0
+ 2132 0ad8 BD02000A 		beq	.L132
+ 594:main.c        ****             {
+ 595:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);    //gripperRotate IN1
+ 596:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+ 597:main.c        ****                 continue;
+ 598:main.c        ****             }
+ 599:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERROTATESTOP") == 0)
+ 2133              		.loc 2 599 0
+ 2134 0adc 0400A0E1 		mov	r0, r4
+ 2135 0ae0 1C139FE5 		ldr	r1, .L152+184
+ 2136 0ae4 FEFFFFEB 		bl	strcmp
+ 2137 0ae8 000050E3 		cmp	r0, #0
+ 2138 0aec C002001A 		bne	.L95
+ 2139              	.LBB772:
+ 2140              	.LBB773:
+ 2141              		.loc 1 620 0
+ 2142 0af0 0B3CE0E3 		mvn	r3, #2816
+ 2143 0af4 1020A0E3 		mov	r2, #16
+ 2144 0af8 CB2003E5 		str	r2, [r3, #-203]
+ 2145              	.L132:
+ 2146              	.LBE773:
+ 2147              	.LBE772:
+ 2148              	.LBB774:
+ 2149              	.LBB775:
+ 2150 0afc 022082E0 		add	r2, r2, r2
+ 2151              	.L133:
+ 2152 0b00 CB2003E5 		str	r2, [r3, #-203]
+ 2153 0b04 190100EA 		b	.L151
+ 2154              	.L95:
+ 2155              	.LBE775:
+ 2156              	.LBE774:
+ 600:main.c        ****             {
+ 601:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
+ 602:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+ 603:main.c        ****                 continue;
+ 604:main.c        ****             }
+ 605:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERTILTGETUP") == 0)
+ 2157              		.loc 2 605 0
+ 2158 0b08 0400A0E1 		mov	r0, r4
+ 2159 0b0c F4129FE5 		ldr	r1, .L152+188
+ 2160 0b10 FEFFFFEB 		bl	strcmp
+ 2161 0b14 000050E3 		cmp	r0, #0
+ 2162 0b18 CB02001A 		bne	.L97
+ 2163              	.LBB776:
+ 2164              	.LBB777:
+ 2165              		.loc 1 620 0
+ 2166 0b1c 0B2CE0E3 		mvn	r2, #2816
+ 2167 0b20 013AA0E3 		mov	r3, #4096
+ 2168 0b24 CB3002E5 		str	r3, [r2, #-203]
+ 2169              	.LBE777:
+ 2170              	.LBE776:
+ 2171              	.LBB778:
+ 2172              	.LBB779:
+ 2173              		.loc 1 609 0
+ 2174 0b28 023B43E2 		sub	r3, r3, #2048
+ 2175 0b2c CF3002E5 		str	r3, [r2, #-207]
+ 2176 0b30 D50200EA 		b	.L140
+ 2177              	.L97:
+ 2178              	.LBE779:
+ 2179              	.LBE778:
+ 606:main.c        ****             {
+ 607:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
+ 608:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //gripperTilt IN2
+ 609:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //gripperTilt ENA
+ 610:main.c        ****                 continue;
+ 611:main.c        ****             }
+ 612:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERTILTGETDOWN") == 0)
+ 2180              		.loc 2 612 0
+ 2181 0b34 0400A0E1 		mov	r0, r4
+ 2182 0b38 CC129FE5 		ldr	r1, .L152+192
+ 2183 0b3c FEFFFFEB 		bl	strcmp
+ 2184 0b40 000050E3 		cmp	r0, #0
+ 2185 0b44 D702001A 		bne	.L99
+ 2186              	.LBB780:
+ 2187              	.LBB781:
+ 2188              		.loc 1 609 0
+ 2189 0b48 0B2CE0E3 		mvn	r2, #2816
+ 2190 0b4c 013AA0E3 		mov	r3, #4096
+ 2191 0b50 CF3002E5 		str	r3, [r2, #-207]
+ 2192              	.LBE781:
+ 2193              	.LBE780:
+ 2194              	.LBB782:
+ 2195              	.LBB783:
+ 2196              		.loc 1 620 0
+ 2197 0b54 023B43E2 		sub	r3, r3, #2048
+ 2198 0b58 CB3002E5 		str	r3, [r2, #-203]
+ 2199              	.L140:
+ 2200              	.LBE783:
+ 2201              	.LBE782:
+ 2202              	.LBB784:
+ 2203              	.LBB785:
+ 2204              		.loc 1 609 0
+ 2205 0b5c 1F3D43E2 		sub	r3, r3, #1984
+ 2206 0b60 F90200EA 		b	.L131
+ 2207              	.L99:
+ 2208              	.LBE785:
+ 2209              	.LBE784:
+ 613:main.c        ****             {
+ 614:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //gripperTilt IN1
+ 615:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
+ 616:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //gripperTilt ENA
+ 617:main.c        ****                 continue;
+ 618:main.c        ****             }
+ 619:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERTILTSTOP") == 0)
+ 2210              		.loc 2 619 0
+ 2211 0b64 0400A0E1 		mov	r0, r4
+ 2212 0b68 A0129FE5 		ldr	r1, .L152+196
+ 2213 0b6c FEFFFFEB 		bl	strcmp
+ 2214 0b70 000050E3 		cmp	r0, #0
+ 2215 0b74 E302001A 		bne	.L101
+ 2216              	.LBB786:
+ 2217              	.LBB787:
+ 2218              		.loc 1 620 0
+ 2219 0b78 0B2CE0E3 		mvn	r2, #2816
+ 2220 0b7c 013AA0E3 		mov	r3, #4096
+ 2221 0b80 CB3002E5 		str	r3, [r2, #-203]
+ 2222              	.LBE787:
+ 2223              	.LBE786:
+ 2224              	.LBB788:
+ 2225              	.LBB789:
+ 2226 0b84 023B43E2 		sub	r3, r3, #2048
+ 2227 0b88 CB3002E5 		str	r3, [r2, #-203]
+ 2228              	.LBE789:
+ 2229              	.LBE788:
+ 2230              	.LBB790:
+ 2231              	.LBB791:
+ 2232 0b8c 1F3D43E2 		sub	r3, r3, #1984
+ 2233 0b90 6E0100EA 		b	.L129
+ 2234              	.L101:
+ 2235              	.LBE791:
+ 2236              	.LBE790:
+ 620:main.c        ****             {
+ 621:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
+ 622:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
+ 623:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //gripperTilt ENA
+ 624:main.c        ****                 continue;
+ 625:main.c        ****             }
+ 626:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERPOSITIONCLOSE") == 0)
+ 2237              		.loc 2 626 0
+ 2238 0b94 0400A0E1 		mov	r0, r4
+ 2239 0b98 74129FE5 		ldr	r1, .L152+200
+ 2240 0b9c FEFFFFEB 		bl	strcmp
+ 2241 0ba0 000050E3 		cmp	r0, #0
+ 2242 0ba4 EE02001A 		bne	.L103
+ 2243              	.LBB792:
+ 2244              	.LBB793:
+ 2245              		.loc 1 620 0
+ 2246 0ba8 0B2CE0E3 		mvn	r2, #2816
+ 2247 0bac 023CA0E3 		mov	r3, #512
+ 2248 0bb0 CB3002E5 		str	r3, [r2, #-203]
+ 2249              	.LBE793:
+ 2250              	.LBE792:
+ 2251              	.LBB794:
+ 2252              	.LBB795:
+ 2253              		.loc 1 609 0
+ 2254 0bb4 033083E0 		add	r3, r3, r3
+ 2255 0bb8 CF3002E5 		str	r3, [r2, #-207]
+ 2256 0bbc F80200EA 		b	.L130
+ 2257              	.L103:
+ 2258              	.LBE795:
+ 2259              	.LBE794:
+ 627:main.c        ****             {
+ 628:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9); //gripperPosition IN3
+ 629:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //gripperPosition IN4
+ 630:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //gripperPosition ENB
+ 631:main.c        ****                 continue;
+ 632:main.c        ****             }
+ 633:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERPOSITIONOPEN") == 0)
+ 2260              		.loc 2 633 0
+ 2261 0bc0 0400A0E1 		mov	r0, r4
+ 2262 0bc4 4C129FE5 		ldr	r1, .L152+204
+ 2263 0bc8 FEFFFFEB 		bl	strcmp
+ 2264 0bcc 000050E3 		cmp	r0, #0
+ 2265 0bd0 FB02001A 		bne	.L105
+ 2266              	.LBB796:
+ 2267              	.LBB797:
+ 2268              		.loc 1 609 0
+ 2269 0bd4 0B2CE0E3 		mvn	r2, #2816
+ 2270 0bd8 023CA0E3 		mov	r3, #512
+ 2271 0bdc CF3002E5 		str	r3, [r2, #-207]
+ 2272              	.LBE797:
+ 2273              	.LBE796:
+ 2274              	.LBB798:
+ 2275              	.LBB799:
+ 2276              		.loc 1 620 0
+ 2277 0be0 033083E0 		add	r3, r3, r3
+ 2278 0be4 CB3002E5 		str	r3, [r2, #-203]
+ 2279              	.L130:
+ 2280              	.LBE799:
+ 2281              	.LBE798:
+ 2282              	.LBB800:
+ 2283              	.LBB801:
+ 2284              		.loc 1 609 0
+ 2285 0be8 033C43E2 		sub	r3, r3, #768
+ 2286              	.L131:
+ 2287 0bec CF3002E5 		str	r3, [r2, #-207]
+ 2288 0bf0 190100EA 		b	.L151
+ 2289              	.L105:
+ 2290              	.LBE801:
+ 2291              	.LBE800:
+ 634:main.c        ****             {
+ 635:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //gripperPosition IN3
+ 636:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
+ 637:main.c        ****                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //gripperPosition ENB
+ 638:main.c        ****                 continue;
+ 639:main.c        ****             }
+ 640:main.c        ****             if (strcmp((char*) cmdParts, "GRIPPERPOSITIONSTOP") == 0)
+ 2292              		.loc 2 640 0
+ 2293 0bf4 0400A0E1 		mov	r0, r4
+ 2294 0bf8 1C129FE5 		ldr	r1, .L152+208
+ 2295 0bfc FEFFFFEB 		bl	strcmp
+ 2296 0c00 000050E3 		cmp	r0, #0
+ 2297 0c04 0703001A 		bne	.L107
+ 2298              	.LBB802:
+ 2299              	.LBB803:
+ 2300              		.loc 1 620 0
+ 2301 0c08 0B2CE0E3 		mvn	r2, #2816
+ 2302 0c0c 023CA0E3 		mov	r3, #512
+ 2303 0c10 CB3002E5 		str	r3, [r2, #-203]
+ 2304              	.LBE803:
+ 2305              	.LBE802:
+ 2306              	.LBB804:
+ 2307              	.LBB805:
+ 2308 0c14 033083E0 		add	r3, r3, r3
+ 2309 0c18 CB3002E5 		str	r3, [r2, #-203]
+ 2310              	.LBE805:
+ 2311              	.LBE804:
+ 2312              	.LBB806:
+ 2313              	.LBB807:
+ 2314 0c1c 033C43E2 		sub	r3, r3, #768
+ 2315 0c20 6E0100EA 		b	.L129
+ 2316              	.L107:
+ 2317              	.LBE807:
+ 2318              	.LBE806:
+ 641:main.c        ****             {
+ 642:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //gripperPosition IN3
+ 643:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
+ 644:main.c        ****                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
+ 645:main.c        ****                 continue;
+ 646:main.c        ****             }
+ 647:main.c        ****             if (strcmp((char*) cmdParts, "DEMOPSTART") == 0)
+ 2319              		.loc 2 647 0
+ 2320 0c24 0400A0E1 		mov	r0, r4
+ 2321 0c28 F0119FE5 		ldr	r1, .L152+212
+ 2322 0c2c FEFFFFEB 		bl	strcmp
+ 2323 0c30 000050E3 		cmp	r0, #0
+ 2324 0c34 1303001A 		bne	.L109
+ 648:main.c        ****             {
+ 649:main.c        ****                 parallelDemo = 1;
+ 650:main.c        ****                 sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO STARTED\n");
+ 2325              		.loc 2 650 0
+ 2326 0c38 E4119FE5 		ldr	r1, .L152+216
+ 2327 0c3c 28019FE5 		ldr	r0, .L152+32
+ 2328 0c40 FEFFFFEB 		bl	strcpy
+ 651:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 2329              		.loc 2 651 0
+ 2330 0c44 20019FE5 		ldr	r0, .L152+32
+ 2331 0c48 00419FE5 		ldr	r4, .L152+4
+ 2332              	.LVL17:
+ 2333 0c4c FEFFFFEB 		bl	strlen
+ 2334 0c50 360300EA 		b	.L128
+ 2335              	.LVL18:
+ 2336              	.L109:
+ 652:main.c        ****                 continue;
+ 653:main.c        ****             }
+ 654:main.c        ****             if (strcmp((char*) cmdParts, "DEMOPSTOP") == 0)
+ 2337              		.loc 2 654 0
+ 2338 0c54 0400A0E1 		mov	r0, r4
+ 2339 0c58 C8119FE5 		ldr	r1, .L152+220
+ 2340 0c5c FEFFFFEB 		bl	strcmp
+ 2341 0c60 000050E3 		cmp	r0, #0
+ 2342 0c64 1F03001A 		bne	.L111
+ 655:main.c        ****             {
+ 656:main.c        ****                 parallelDemo = 0;
+ 657:main.c        ****                 sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO STOPPED\n");
+ 2343              		.loc 2 657 0
+ 2344 0c68 BC119FE5 		ldr	r1, .L152+224
+ 2345 0c6c F8009FE5 		ldr	r0, .L152+32
+ 2346 0c70 FEFFFFEB 		bl	strcpy
+ 658:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 2347              		.loc 2 658 0
+ 2348 0c74 F0009FE5 		ldr	r0, .L152+32
+ 2349 0c78 D0409FE5 		ldr	r4, .L152+4
+ 2350              	.LVL19:
+ 2351 0c7c FEFFFFEB 		bl	strlen
+ 2352 0c80 360300EA 		b	.L128
+ 2353              	.LVL20:
+ 2354              	.L111:
+ 659:main.c        ****                 continue;
+ 660:main.c        ****             }
+ 661:main.c        ****             if (strcmp((char*) cmdParts, "DEMOSSTART") == 0)
+ 2355              		.loc 2 661 0
+ 2356 0c84 0400A0E1 		mov	r0, r4
+ 2357 0c88 A0119FE5 		ldr	r1, .L152+228
+ 2358 0c8c FEFFFFEB 		bl	strcmp
+ 2359 0c90 000050E3 		cmp	r0, #0
+ 2360 0c94 2B03001A 		bne	.L113
+ 662:main.c        ****             {
+ 663:main.c        ****                 serialDemo = 1;
+ 664:main.c        ****                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STARTED\n");
+ 2361              		.loc 2 664 0
+ 2362 0c98 94119FE5 		ldr	r1, .L152+232
+ 2363 0c9c C8009FE5 		ldr	r0, .L152+32
+ 2364 0ca0 FEFFFFEB 		bl	strcpy
+ 665:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 2365              		.loc 2 665 0
+ 2366 0ca4 C0009FE5 		ldr	r0, .L152+32
+ 2367 0ca8 A0409FE5 		ldr	r4, .L152+4
+ 2368              	.LVL21:
+ 2369 0cac FEFFFFEB 		bl	strlen
+ 2370 0cb0 360300EA 		b	.L128
+ 2371              	.LVL22:
+ 2372              	.L113:
+ 666:main.c        ****                 continue;
+ 667:main.c        ****             }
+ 668:main.c        ****             if (strcmp((char*) cmdParts, "DEMOSSTOP") == 0)
+ 2373              		.loc 2 668 0
+ 2374 0cb4 0400A0E1 		mov	r0, r4
+ 2375 0cb8 78119FE5 		ldr	r1, .L152+236
+ 2376 0cbc FEFFFFEB 		bl	strcmp
+ 2377 0cc0 000050E3 		cmp	r0, #0
+ 2378 0cc4 3D03001A 		bne	.L28
+ 669:main.c        ****             {
+ 670:main.c        ****                 serialDemo = 0;
+ 671:main.c        ****                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STOPPED\n");
+ 2379              		.loc 2 671 0
+ 2380 0cc8 6C119FE5 		ldr	r1, .L152+240
+ 2381 0ccc 98009FE5 		ldr	r0, .L152+32
+ 2382 0cd0 FEFFFFEB 		bl	strcpy
+ 672:main.c        ****                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 2383              		.loc 2 672 0
+ 2384 0cd4 90009FE5 		ldr	r0, .L152+32
+ 2385 0cd8 70409FE5 		ldr	r4, .L152+4
+ 2386              	.LVL23:
+ 2387 0cdc FEFFFFEB 		bl	strlen
+ 2388              	.L128:
+ 2389 0ce0 0020A0E1 		mov	r2, r0
+ 2390 0ce4 80109FE5 		ldr	r1, .L152+32
+ 2391 0ce8 0400A0E1 		mov	r0, r4
+ 2392 0cec 10C094E5 		ldr	ip, [r4, #16]
+ 2393 0cf0 0FE0A0E1 		mov	lr, pc
+ 2394 0cf4 1CFF2FE1 		bx	ip
+ 2395 0cf8 190100EA 		b	.L151
+ 2396              	.LVL24:
+ 2397              	.L28:
+ 2398              	.LBE717:
+ 673:main.c        ****                 continue;
+ 674:main.c        ****             }
+ 675:main.c        ****         }
+ 676:main.c        ****         if (input1Readings)
+ 2399              		.loc 2 676 0
+ 2400 0cfc 00005AE3 		cmp	sl, #0
+ 2401 0d00 1901000A 		beq	.L151
+ 677:main.c        ****         {
+ 678:main.c        ****             input1Reading = getValueChannel6();
+ 2402              		.loc 2 678 0
+ 2403 0d04 FEFFFFEB 		bl	getValueChannel6
+ 679:main.c        ****             sprintf((char *)msg,"INPUT1 CHANNEL [%u]: %u\n", input1Channel, input1Reading);
+ 2404              		.loc 2 679 0
+ 2405 0d08 0820A0E1 		mov	r2, r8
+ 2406              		.loc 2 678 0
+ 2407 0d0c 0030A0E1 		mov	r3, r0
+ 2408              	.LVL25:
+ 2409              		.loc 2 679 0
+ 2410 0d10 28119FE5 		ldr	r1, .L152+244
+ 2411 0d14 50009FE5 		ldr	r0, .L152+32
+ 2412 0d18 FEFFFFEB 		bl	sprintf
+ 2413              	.LVL26:
+ 680:main.c        ****             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+ 2414              		.loc 2 680 0
+ 2415 0d1c 48009FE5 		ldr	r0, .L152+32
+ 2416 0d20 FEFFFFEB 		bl	strlen
+ 2417 0d24 24409FE5 		ldr	r4, .L152+4
+ 2418              	.LVL27:
+ 2419 0d28 0020A0E1 		mov	r2, r0
+ 2420 0d2c 38109FE5 		ldr	r1, .L152+32
+ 2421 0d30 0400A0E1 		mov	r0, r4
+ 2422 0d34 10C094E5 		ldr	ip, [r4, #16]
+ 2423 0d38 0FE0A0E1 		mov	lr, pc
+ 2424 0d3c 1CFF2FE1 		bx	ip
+ 681:main.c        ****             delay_ms(100);
+ 2425              		.loc 2 681 0
+ 2426 0d40 6400A0E3 		mov	r0, #100
+ 2427 0d44 FEFFFFEB 		bl	delay_ms
+ 2428 0d48 190100EA 		b	.L151
+ 2429              	.L153:
+ 2430              		.align	2
+ 2431              	.L152:
+ 2432 0d4c 010400A5 		.word	-1526725631
+ 2433 0d50 00000000 		.word	pCDC
+ 2434 0d54 FFC0FCFF 		.word	-212737
+ 2435 0d58 00000000 		.word	IRQ0Handler
+ 2436 0d5c 00F0FFFF 		.word	-4096
+ 2437 0d60 00000000 		.word	IRQ1Handler
+ 2438 0d64 00000000 		.word	FIQHandler
+ 2439 0d68 00000000 		.word	.LC0
+ 2440 0d6c 00000000 		.word	msg
+ 2441 0d70 08000000 		.word	.LC1
+ 2442 0d74 0C000000 		.word	.LC2
+ 2443 0d78 1C000000 		.word	.LC3
+ 2444 0d7c 40000000 		.word	.LC4
+ 2445 0d80 54000000 		.word	.LC5
+ 2446 0d84 78000000 		.word	.LC6
+ 2447 0d88 8C000000 		.word	.LC7
+ 2448 0d8c A0000000 		.word	.LC8
+ 2449 0d90 B4000000 		.word	.LC9
+ 2450 0d94 C8000000 		.word	.LC10
+ 2451 0d98 DC000000 		.word	.LC11
+ 2452 0d9c F0000000 		.word	.LC12
+ 2453 0da0 04010000 		.word	.LC13
+ 2454 0da4 18010000 		.word	.LC14
+ 2455 0da8 2C010000 		.word	.LC15
+ 2456 0dac 40010000 		.word	.LC16
+ 2457 0db0 54010000 		.word	.LC17
+ 2458 0db4 68010000 		.word	.LC18
+ 2459 0db8 7C010000 		.word	.LC19
+ 2460 0dbc 90010000 		.word	.LC20
+ 2461 0dc0 A4010000 		.word	.LC21
+ 2462 0dc4 B8010000 		.word	.LC22
+ 2463 0dc8 CC010000 		.word	.LC23
+ 2464 0dcc E0010000 		.word	.LC24
+ 2465 0dd0 F4010000 		.word	.LC25
+ 2466 0dd4 08020000 		.word	.LC26
+ 2467 0dd8 20020000 		.word	.LC27
+ 2468 0ddc 34020000 		.word	.LC28
+ 2469 0de0 40020000 		.word	.LC29
+ 2470 0de4 50020000 		.word	.LC30
+ 2471 0de8 5C020000 		.word	.LC31
+ 2472 0dec 70020000 		.word	.LC32
+ 2473 0df0 7C020000 		.word	.LC33
+ 2474 0df4 8C020000 		.word	.LC34
+ 2475 0df8 98020000 		.word	.LC35
+ 2476 0dfc B4020000 		.word	.LC36
+ 2477 0e00 C4020000 		.word	.LC37
+ 2478 0e04 D8020000 		.word	.LC38
+ 2479 0e08 EC020000 		.word	.LC39
+ 2480 0e0c 00030000 		.word	.LC40
+ 2481 0e10 14030000 		.word	.LC41
+ 2482 0e14 24030000 		.word	.LC42
+ 2483 0e18 3C030000 		.word	.LC43
+ 2484 0e1c 50030000 		.word	.LC44
+ 2485 0e20 64030000 		.word	.LC45
+ 2486 0e24 70030000 		.word	.LC46
+ 2487 0e28 A0030000 		.word	.LC47
+ 2488 0e2c AC030000 		.word	.LC48
+ 2489 0e30 DC030000 		.word	.LC49
+ 2490 0e34 E8030000 		.word	.LC50
+ 2491 0e38 14040000 		.word	.LC51
+ 2492 0e3c 20040000 		.word	.LC52
+ 2493 0e40 4C040000 		.word	.LC53
+ 2494              	.LFE299:
+ 2496              		.comm	pCDC,24,4
+ 2497              		.comm	msg,2048,4
+ 2498              		.comm	cmd,2048,4
+ 2659              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-     /tmp/ccXjzIW0.s:12     .text:00000000 AT91F_AIC_ConfigureIt
-     /tmp/ccXjzIW0.s:21     .text:00000000 $a
-     /tmp/ccXjzIW0.s:55     .text:00000038 IRQ0Handler
-     /tmp/ccXjzIW0.s:71     .text:0000003c IRQ1Handler
-     /tmp/ccXjzIW0.s:86     .text:00000040 FIQHandler
-     /tmp/ccXjzIW0.s:101    .text:00000044 getCDCMEssage
-     /tmp/ccXjzIW0.s:154    .text:000000a8 $d
+     /tmp/cc0BuXbX.s:12     .text:00000000 AT91F_AIC_ConfigureIt
+     /tmp/cc0BuXbX.s:21     .text:00000000 $a
+     /tmp/cc0BuXbX.s:55     .text:00000038 IRQ0Handler
+     /tmp/cc0BuXbX.s:71     .text:0000003c IRQ1Handler
+     /tmp/cc0BuXbX.s:86     .text:00000040 FIQHandler
+     /tmp/cc0BuXbX.s:101    .text:00000044 getCDCMEssage
+     /tmp/cc0BuXbX.s:154    .text:000000a8 $d
                             *COM*:00000018 pCDC
-     /tmp/ccXjzIW0.s:160    .text:000000ac AT91FUSBOpen
-     /tmp/ccXjzIW0.s:167    .text:000000ac $a
-     /tmp/ccXjzIW0.s:223    .text:000000f8 $d
-     /tmp/ccXjzIW0.s:229    .text:00000100 InitPIO
-     /tmp/ccXjzIW0.s:238    .text:00000100 $a
-     /tmp/ccXjzIW0.s:656    .text:00000284 main
-     /tmp/ccXjzIW0.s:1041   .text:000004d8 $d
+     /tmp/cc0BuXbX.s:160    .text:000000ac AT91FUSBOpen
+     /tmp/cc0BuXbX.s:167    .text:000000ac $a
+     /tmp/cc0BuXbX.s:223    .text:000000f8 $d
+     /tmp/cc0BuXbX.s:229    .text:00000100 InitPIO
+     /tmp/cc0BuXbX.s:238    .text:00000100 $a
+     /tmp/cc0BuXbX.s:813    .text:00000294 main
+     /tmp/cc0BuXbX.s:2432   .text:00000d4c $d
                             *COM*:00000800 msg
                             *COM*:00000800 cmd
 
@@ -4354,3 +6371,7 @@ strlen
 strtok
 strcmp
 strcpy
+atoi
+pwmDutySetPercent
+getValueChannel6
+delay_ms

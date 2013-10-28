@@ -72,7 +72,7 @@
   59              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 async.c
-     /tmp/ccs6wOFr.s:13     .text:00000000 ASYNC_IsFinished
-     /tmp/ccs6wOFr.s:23     .text:00000000 $a
+     /tmp/ccAaXIRU.s:13     .text:00000000 ASYNC_IsFinished
+     /tmp/ccAaXIRU.s:23     .text:00000000 $a
 
 NO UNDEFINED SYMBOLS

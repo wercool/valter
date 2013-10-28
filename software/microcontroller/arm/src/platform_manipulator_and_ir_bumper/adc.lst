@@ -29,315 +29,329 @@
   17:adc.c         ****     // enable clock frequency for ADC
   18:adc.c         ****     a_pPMC->PMC_PCER = 1 << AT91C_ID_ADC;
   21              		.loc 1 18 0
-  22 0000 38309FE5 		ldr	r3, .L3
-  23 0004 001093E5 		ldr	r1, [r3, #0]
+  22 0000 54309FE5 		ldr	r3, .L3
+  23 0004 000093E5 		ldr	r0, [r3, #0]
   19:adc.c         **** 
   20:adc.c         ****     // reset ADC
   21:adc.c         ****     a_pADC->ADC_CR = 0x1;
   24              		.loc 1 21 0
-  25 0008 34309FE5 		ldr	r3, .L3+4
+  25 0008 50309FE5 		ldr	r3, .L3+4
   26 000c 002093E5 		ldr	r2, [r3, #0]
   27              		.loc 1 18 0
-  28 0010 1000A0E3 		mov	r0, #16
+  28 0010 10C0A0E3 		mov	ip, #16
   29              		.loc 1 21 0
-  30 0014 0130A0E3 		mov	r3, #1
-  31              		.loc 1 18 0
-  32 0018 100081E5 		str	r0, [r1, #16]
-  33              		.loc 1 21 0
-  34 001c 003082E5 		str	r3, [r2, #0]
+  30 0014 0110A0E3 		mov	r1, #1
   22:adc.c         ****     a_pADC->ADC_CR = 0x0;
-  35              		.loc 1 22 0
-  36 0020 0030A0E3 		mov	r3, #0
-  37 0024 003082E5 		str	r3, [r2, #0]
+  31              		.loc 1 22 0
+  32 0018 0030A0E3 		mov	r3, #0
+  33              		.loc 1 18 0
+  34 001c 10C080E5 		str	ip, [r0, #16]
+  35              		.loc 1 21 0
+  36 0020 001082E5 		str	r1, [r2, #0]
+  37              		.loc 1 22 0
+  38 0024 003082E5 		str	r3, [r2, #0]
   23:adc.c         **** 
   24:adc.c         ****     // max for startup time и hold time
   25:adc.c         ****     a_pADC->ADC_MR = 0x0F1F0F00;
-  38              		.loc 1 25 0
-  39 0028 18309FE5 		ldr	r3, .L3+8
-  40 002c 043082E5 		str	r3, [r2, #4]
+  39              		.loc 1 25 0
+  40 0028 34309FE5 		ldr	r3, .L3+8
+  41 002c 043082E5 		str	r3, [r2, #4]
   26:adc.c         **** 
   27:adc.c         ****     // enable all needed channels
-  28:adc.c         ****     //a_pADC->ADC_CHER = AT91C_ADC_CH0;
-  29:adc.c         ****     //a_pADC->ADC_CHER = AT91C_ADC_CH1;
-  30:adc.c         ****     //a_pADC->ADC_CHER = AT91C_ADC_CH2;
+  28:adc.c         ****     a_pADC->ADC_CHER = AT91C_ADC_CH0;
+  29:adc.c         ****     a_pADC->ADC_CHER = AT91C_ADC_CH1;
+  42              		.loc 1 29 0
+  43 0030 0230A0E3 		mov	r3, #2
+  44              		.loc 1 28 0
+  45 0034 101082E5 		str	r1, [r2, #16]
+  46              		.loc 1 29 0
+  47 0038 103082E5 		str	r3, [r2, #16]
+  30:adc.c         ****     a_pADC->ADC_CHER = AT91C_ADC_CH2;
+  48              		.loc 1 30 0
+  49 003c 033083E0 		add	r3, r3, r3
+  50 0040 103082E5 		str	r3, [r2, #16]
   31:adc.c         ****     a_pADC->ADC_CHER = AT91C_ADC_CH4;
   32:adc.c         ****     a_pADC->ADC_CHER = AT91C_ADC_CH5;
-  41              		.loc 1 32 0
-  42 0030 2030A0E3 		mov	r3, #32
-  43              		.loc 1 31 0
-  44 0034 100082E5 		str	r0, [r2, #16]
-  45              		.loc 1 16 0
-  46              		@ lr needed for prologue
-  47              		.loc 1 32 0
-  48 0038 103082E5 		str	r3, [r2, #16]
-  33:adc.c         ****     //a_pADC->ADC_CHER = AT91C_ADC_CH6;
+  51              		.loc 1 32 0
+  52 0044 1C3083E2 		add	r3, r3, #28
+  53              		.loc 1 31 0
+  54 0048 10C082E5 		str	ip, [r2, #16]
+  55              		.loc 1 32 0
+  56 004c 103082E5 		str	r3, [r2, #16]
+  33:adc.c         ****     a_pADC->ADC_CHER = AT91C_ADC_CH6;
+  57              		.loc 1 33 0
+  58 0050 203083E2 		add	r3, r3, #32
+  59              		.loc 1 16 0
+  60              		@ lr needed for prologue
+  61              		.loc 1 33 0
+  62 0054 103082E5 		str	r3, [r2, #16]
   34:adc.c         **** }
-  49              		.loc 1 34 0
-  50 003c 1EFF2FE1 		bx	lr
-  51              	.L4:
-  52              		.align	2
-  53              	.L3:
-  54 0040 00000000 		.word	a_pPMC
-  55 0044 00000000 		.word	a_pADC
-  56 0048 000F1F0F 		.word	253693696
-  57              	.LFE2:
-  59              		.align	2
-  60              		.global	getValueChannel0
-  62              	getValueChannel0:
-  63              	.LFB3:
+  63              		.loc 1 34 0
+  64 0058 1EFF2FE1 		bx	lr
+  65              	.L4:
+  66              		.align	2
+  67              	.L3:
+  68 005c 00000000 		.word	a_pPMC
+  69 0060 00000000 		.word	a_pADC
+  70 0064 000F1F0F 		.word	253693696
+  71              	.LFE2:
+  73              		.align	2
+  74              		.global	getValueChannel0
+  76              	getValueChannel0:
+  77              	.LFB3:
   35:adc.c         **** 
   36:adc.c         **** unsigned int getValueChannel0()
   37:adc.c         **** {
-  64              		.loc 1 37 0
-  65              		@ Function supports interworking.
-  66              		@ args = 0, pretend = 0, frame = 0
-  67              		@ frame_needed = 0, uses_anonymous_args = 0
-  68              		@ link register save eliminated.
+  78              		.loc 1 37 0
+  79              		@ Function supports interworking.
+  80              		@ args = 0, pretend = 0, frame = 0
+  81              		@ frame_needed = 0, uses_anonymous_args = 0
+  82              		@ link register save eliminated.
   38:adc.c         ****   a_pADC->ADC_CR = 0x2; // set Start Bit
-  69              		.loc 1 38 0
-  70 004c 1C309FE5 		ldr	r3, .L11
-  71 0050 002093E5 		ldr	r2, [r3, #0]
-  72 0054 0230A0E3 		mov	r3, #2
-  73 0058 003082E5 		str	r3, [r2, #0]
-  74              		.loc 1 37 0
-  75              		@ lr needed for prologue
-  76              	.L6:
+  83              		.loc 1 38 0
+  84 0068 1C309FE5 		ldr	r3, .L11
+  85 006c 002093E5 		ldr	r2, [r3, #0]
+  86 0070 0230A0E3 		mov	r3, #2
+  87 0074 003082E5 		str	r3, [r2, #0]
+  88              		.loc 1 37 0
+  89              		@ lr needed for prologue
+  90              	.L6:
   39:adc.c         ****   while(!(a_pADC->ADC_SR & ADC_CHN_0)); //wait until conversion complete
-  77              		.loc 1 39 0
-  78 005c 1C3092E5 		ldr	r3, [r2, #28]
-  79 0060 010013E3 		tst	r3, #1
-  80 0064 1500000A 		beq	.L6
+  91              		.loc 1 39 0
+  92 0078 1C3092E5 		ldr	r3, [r2, #28]
+  93 007c 010013E3 		tst	r3, #1
+  94 0080 1C00000A 		beq	.L6
   40:adc.c         ****   return a_pADC->ADC_CDR0;
-  81              		.loc 1 40 0
-  82 0068 300092E5 		ldr	r0, [r2, #48]
+  95              		.loc 1 40 0
+  96 0084 300092E5 		ldr	r0, [r2, #48]
   41:adc.c         **** }
-  83              		.loc 1 41 0
-  84 006c 1EFF2FE1 		bx	lr
-  85              	.L12:
-  86              		.align	2
-  87              	.L11:
-  88 0070 00000000 		.word	a_pADC
-  89              	.LFE3:
-  91              		.align	2
-  92              		.global	getValueChannel1
-  94              	getValueChannel1:
-  95              	.LFB4:
+  97              		.loc 1 41 0
+  98 0088 1EFF2FE1 		bx	lr
+  99              	.L12:
+ 100              		.align	2
+ 101              	.L11:
+ 102 008c 00000000 		.word	a_pADC
+ 103              	.LFE3:
+ 105              		.align	2
+ 106              		.global	getValueChannel1
+ 108              	getValueChannel1:
+ 109              	.LFB4:
   42:adc.c         **** 
   43:adc.c         **** unsigned int getValueChannel1()
   44:adc.c         **** {
-  96              		.loc 1 44 0
-  97              		@ Function supports interworking.
-  98              		@ args = 0, pretend = 0, frame = 0
-  99              		@ frame_needed = 0, uses_anonymous_args = 0
- 100              		@ link register save eliminated.
+ 110              		.loc 1 44 0
+ 111              		@ Function supports interworking.
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 0, uses_anonymous_args = 0
+ 114              		@ link register save eliminated.
   45:adc.c         ****   a_pADC->ADC_CR = 0x2; // set Start Bit
- 101              		.loc 1 45 0
- 102 0074 1C309FE5 		ldr	r3, .L19
- 103 0078 002093E5 		ldr	r2, [r3, #0]
- 104 007c 0230A0E3 		mov	r3, #2
- 105 0080 003082E5 		str	r3, [r2, #0]
- 106              		.loc 1 44 0
- 107              		@ lr needed for prologue
- 108              	.L14:
+ 115              		.loc 1 45 0
+ 116 0090 1C309FE5 		ldr	r3, .L19
+ 117 0094 002093E5 		ldr	r2, [r3, #0]
+ 118 0098 0230A0E3 		mov	r3, #2
+ 119 009c 003082E5 		str	r3, [r2, #0]
+ 120              		.loc 1 44 0
+ 121              		@ lr needed for prologue
+ 122              	.L14:
   46:adc.c         ****   while(!(a_pADC->ADC_SR & ADC_CHN_1)); //wait until conversion complete
- 109              		.loc 1 46 0
- 110 0084 1C3092E5 		ldr	r3, [r2, #28]
- 111 0088 020013E3 		tst	r3, #2
- 112 008c 1F00000A 		beq	.L14
+ 123              		.loc 1 46 0
+ 124 00a0 1C3092E5 		ldr	r3, [r2, #28]
+ 125 00a4 020013E3 		tst	r3, #2
+ 126 00a8 2600000A 		beq	.L14
   47:adc.c         ****   return a_pADC->ADC_CDR1;
- 113              		.loc 1 47 0
- 114 0090 340092E5 		ldr	r0, [r2, #52]
+ 127              		.loc 1 47 0
+ 128 00ac 340092E5 		ldr	r0, [r2, #52]
   48:adc.c         **** }
- 115              		.loc 1 48 0
- 116 0094 1EFF2FE1 		bx	lr
- 117              	.L20:
- 118              		.align	2
- 119              	.L19:
- 120 0098 00000000 		.word	a_pADC
- 121              	.LFE4:
- 123              		.align	2
- 124              		.global	getValueChannel2
- 126              	getValueChannel2:
- 127              	.LFB5:
+ 129              		.loc 1 48 0
+ 130 00b0 1EFF2FE1 		bx	lr
+ 131              	.L20:
+ 132              		.align	2
+ 133              	.L19:
+ 134 00b4 00000000 		.word	a_pADC
+ 135              	.LFE4:
+ 137              		.align	2
+ 138              		.global	getValueChannel2
+ 140              	getValueChannel2:
+ 141              	.LFB5:
   49:adc.c         **** 
   50:adc.c         **** unsigned int getValueChannel2()
   51:adc.c         **** {
- 128              		.loc 1 51 0
- 129              		@ Function supports interworking.
- 130              		@ args = 0, pretend = 0, frame = 0
- 131              		@ frame_needed = 0, uses_anonymous_args = 0
- 132              		@ link register save eliminated.
+ 142              		.loc 1 51 0
+ 143              		@ Function supports interworking.
+ 144              		@ args = 0, pretend = 0, frame = 0
+ 145              		@ frame_needed = 0, uses_anonymous_args = 0
+ 146              		@ link register save eliminated.
   52:adc.c         ****   a_pADC->ADC_CR = 0x2; // set Start Bit
- 133              		.loc 1 52 0
- 134 009c 1C309FE5 		ldr	r3, .L27
- 135 00a0 002093E5 		ldr	r2, [r3, #0]
- 136 00a4 0230A0E3 		mov	r3, #2
- 137 00a8 003082E5 		str	r3, [r2, #0]
- 138              		.loc 1 51 0
- 139              		@ lr needed for prologue
- 140              	.L22:
+ 147              		.loc 1 52 0
+ 148 00b8 1C309FE5 		ldr	r3, .L27
+ 149 00bc 002093E5 		ldr	r2, [r3, #0]
+ 150 00c0 0230A0E3 		mov	r3, #2
+ 151 00c4 003082E5 		str	r3, [r2, #0]
+ 152              		.loc 1 51 0
+ 153              		@ lr needed for prologue
+ 154              	.L22:
   53:adc.c         ****   while(!(a_pADC->ADC_SR & ADC_CHN_2)); //wait until conversion complete
- 141              		.loc 1 53 0
- 142 00ac 1C3092E5 		ldr	r3, [r2, #28]
- 143 00b0 040013E3 		tst	r3, #4
- 144 00b4 2900000A 		beq	.L22
+ 155              		.loc 1 53 0
+ 156 00c8 1C3092E5 		ldr	r3, [r2, #28]
+ 157 00cc 040013E3 		tst	r3, #4
+ 158 00d0 3000000A 		beq	.L22
   54:adc.c         ****   return a_pADC->ADC_CDR2;
- 145              		.loc 1 54 0
- 146 00b8 380092E5 		ldr	r0, [r2, #56]
+ 159              		.loc 1 54 0
+ 160 00d4 380092E5 		ldr	r0, [r2, #56]
   55:adc.c         **** }
- 147              		.loc 1 55 0
- 148 00bc 1EFF2FE1 		bx	lr
- 149              	.L28:
- 150              		.align	2
- 151              	.L27:
- 152 00c0 00000000 		.word	a_pADC
- 153              	.LFE5:
- 155              		.align	2
- 156              		.global	getValueChannel4
- 158              	getValueChannel4:
- 159              	.LFB6:
+ 161              		.loc 1 55 0
+ 162 00d8 1EFF2FE1 		bx	lr
+ 163              	.L28:
+ 164              		.align	2
+ 165              	.L27:
+ 166 00dc 00000000 		.word	a_pADC
+ 167              	.LFE5:
+ 169              		.align	2
+ 170              		.global	getValueChannel4
+ 172              	getValueChannel4:
+ 173              	.LFB6:
   56:adc.c         **** 
   57:adc.c         **** unsigned int getValueChannel4()
   58:adc.c         **** {
- 160              		.loc 1 58 0
- 161              		@ Function supports interworking.
- 162              		@ args = 0, pretend = 0, frame = 0
- 163              		@ frame_needed = 0, uses_anonymous_args = 0
- 164              		@ link register save eliminated.
+ 174              		.loc 1 58 0
+ 175              		@ Function supports interworking.
+ 176              		@ args = 0, pretend = 0, frame = 0
+ 177              		@ frame_needed = 0, uses_anonymous_args = 0
+ 178              		@ link register save eliminated.
   59:adc.c         ****   a_pADC->ADC_CR = 0x2; // set Start Bit
- 165              		.loc 1 59 0
- 166 00c4 1C309FE5 		ldr	r3, .L35
- 167 00c8 002093E5 		ldr	r2, [r3, #0]
- 168 00cc 0230A0E3 		mov	r3, #2
- 169 00d0 003082E5 		str	r3, [r2, #0]
- 170              		.loc 1 58 0
- 171              		@ lr needed for prologue
- 172              	.L30:
+ 179              		.loc 1 59 0
+ 180 00e0 1C309FE5 		ldr	r3, .L35
+ 181 00e4 002093E5 		ldr	r2, [r3, #0]
+ 182 00e8 0230A0E3 		mov	r3, #2
+ 183 00ec 003082E5 		str	r3, [r2, #0]
+ 184              		.loc 1 58 0
+ 185              		@ lr needed for prologue
+ 186              	.L30:
   60:adc.c         ****   while(!(a_pADC->ADC_SR & ADC_CHN_4)); //wait until conversion complete
- 173              		.loc 1 60 0
- 174 00d4 1C3092E5 		ldr	r3, [r2, #28]
- 175 00d8 100013E3 		tst	r3, #16
- 176 00dc 3300000A 		beq	.L30
+ 187              		.loc 1 60 0
+ 188 00f0 1C3092E5 		ldr	r3, [r2, #28]
+ 189 00f4 100013E3 		tst	r3, #16
+ 190 00f8 3A00000A 		beq	.L30
   61:adc.c         ****   return a_pADC->ADC_CDR4;
- 177              		.loc 1 61 0
- 178 00e0 400092E5 		ldr	r0, [r2, #64]
+ 191              		.loc 1 61 0
+ 192 00fc 400092E5 		ldr	r0, [r2, #64]
   62:adc.c         **** }
- 179              		.loc 1 62 0
- 180 00e4 1EFF2FE1 		bx	lr
- 181              	.L36:
- 182              		.align	2
- 183              	.L35:
- 184 00e8 00000000 		.word	a_pADC
- 185              	.LFE6:
- 187              		.align	2
- 188              		.global	getValueChannel5
- 190              	getValueChannel5:
- 191              	.LFB7:
+ 193              		.loc 1 62 0
+ 194 0100 1EFF2FE1 		bx	lr
+ 195              	.L36:
+ 196              		.align	2
+ 197              	.L35:
+ 198 0104 00000000 		.word	a_pADC
+ 199              	.LFE6:
+ 201              		.align	2
+ 202              		.global	getValueChannel5
+ 204              	getValueChannel5:
+ 205              	.LFB7:
   63:adc.c         **** 
   64:adc.c         **** unsigned int getValueChannel5()
   65:adc.c         **** {
- 192              		.loc 1 65 0
- 193              		@ Function supports interworking.
- 194              		@ args = 0, pretend = 0, frame = 0
- 195              		@ frame_needed = 0, uses_anonymous_args = 0
- 196              		@ link register save eliminated.
+ 206              		.loc 1 65 0
+ 207              		@ Function supports interworking.
+ 208              		@ args = 0, pretend = 0, frame = 0
+ 209              		@ frame_needed = 0, uses_anonymous_args = 0
+ 210              		@ link register save eliminated.
   66:adc.c         ****   a_pADC->ADC_CR = 0x2; // set Start Bit
- 197              		.loc 1 66 0
- 198 00ec 1C309FE5 		ldr	r3, .L43
- 199 00f0 002093E5 		ldr	r2, [r3, #0]
- 200 00f4 0230A0E3 		mov	r3, #2
- 201 00f8 003082E5 		str	r3, [r2, #0]
- 202              		.loc 1 65 0
- 203              		@ lr needed for prologue
- 204              	.L38:
+ 211              		.loc 1 66 0
+ 212 0108 1C309FE5 		ldr	r3, .L43
+ 213 010c 002093E5 		ldr	r2, [r3, #0]
+ 214 0110 0230A0E3 		mov	r3, #2
+ 215 0114 003082E5 		str	r3, [r2, #0]
+ 216              		.loc 1 65 0
+ 217              		@ lr needed for prologue
+ 218              	.L38:
   67:adc.c         ****   while(!(a_pADC->ADC_SR & ADC_CHN_5)); //wait until conversion complete
- 205              		.loc 1 67 0
- 206 00fc 1C3092E5 		ldr	r3, [r2, #28]
- 207 0100 200013E3 		tst	r3, #32
- 208 0104 3D00000A 		beq	.L38
+ 219              		.loc 1 67 0
+ 220 0118 1C3092E5 		ldr	r3, [r2, #28]
+ 221 011c 200013E3 		tst	r3, #32
+ 222 0120 4400000A 		beq	.L38
   68:adc.c         ****   return a_pADC->ADC_CDR5;
- 209              		.loc 1 68 0
- 210 0108 440092E5 		ldr	r0, [r2, #68]
+ 223              		.loc 1 68 0
+ 224 0124 440092E5 		ldr	r0, [r2, #68]
   69:adc.c         **** }
- 211              		.loc 1 69 0
- 212 010c 1EFF2FE1 		bx	lr
- 213              	.L44:
- 214              		.align	2
- 215              	.L43:
- 216 0110 00000000 		.word	a_pADC
- 217              	.LFE7:
- 219              		.align	2
- 220              		.global	getValueChannel6
- 222              	getValueChannel6:
- 223              	.LFB8:
+ 225              		.loc 1 69 0
+ 226 0128 1EFF2FE1 		bx	lr
+ 227              	.L44:
+ 228              		.align	2
+ 229              	.L43:
+ 230 012c 00000000 		.word	a_pADC
+ 231              	.LFE7:
+ 233              		.align	2
+ 234              		.global	getValueChannel6
+ 236              	getValueChannel6:
+ 237              	.LFB8:
   70:adc.c         **** 
   71:adc.c         **** unsigned int getValueChannel6()
   72:adc.c         **** {
- 224              		.loc 1 72 0
- 225              		@ Function supports interworking.
- 226              		@ args = 0, pretend = 0, frame = 0
- 227              		@ frame_needed = 0, uses_anonymous_args = 0
- 228              		@ link register save eliminated.
+ 238              		.loc 1 72 0
+ 239              		@ Function supports interworking.
+ 240              		@ args = 0, pretend = 0, frame = 0
+ 241              		@ frame_needed = 0, uses_anonymous_args = 0
+ 242              		@ link register save eliminated.
   73:adc.c         ****   a_pADC->ADC_CR = 0x2; // set Start Bit
- 229              		.loc 1 73 0
- 230 0114 1C309FE5 		ldr	r3, .L51
- 231 0118 002093E5 		ldr	r2, [r3, #0]
- 232 011c 0230A0E3 		mov	r3, #2
- 233 0120 003082E5 		str	r3, [r2, #0]
- 234              		.loc 1 72 0
- 235              		@ lr needed for prologue
- 236              	.L46:
+ 243              		.loc 1 73 0
+ 244 0130 1C309FE5 		ldr	r3, .L51
+ 245 0134 002093E5 		ldr	r2, [r3, #0]
+ 246 0138 0230A0E3 		mov	r3, #2
+ 247 013c 003082E5 		str	r3, [r2, #0]
+ 248              		.loc 1 72 0
+ 249              		@ lr needed for prologue
+ 250              	.L46:
   74:adc.c         ****   while(!(a_pADC->ADC_SR & ADC_CHN_6)); //wait until conversion complete
- 237              		.loc 1 74 0
- 238 0124 1C3092E5 		ldr	r3, [r2, #28]
- 239 0128 400013E3 		tst	r3, #64
- 240 012c 4700000A 		beq	.L46
+ 251              		.loc 1 74 0
+ 252 0140 1C3092E5 		ldr	r3, [r2, #28]
+ 253 0144 400013E3 		tst	r3, #64
+ 254 0148 4E00000A 		beq	.L46
   75:adc.c         ****   return a_pADC->ADC_CDR6;
- 241              		.loc 1 75 0
- 242 0130 480092E5 		ldr	r0, [r2, #72]
+ 255              		.loc 1 75 0
+ 256 014c 480092E5 		ldr	r0, [r2, #72]
   76:adc.c         **** }
- 243              		.loc 1 76 0
- 244 0134 1EFF2FE1 		bx	lr
- 245              	.L52:
- 246              		.align	2
- 247              	.L51:
- 248 0138 00000000 		.word	a_pADC
- 249              	.LFE8:
- 251              		.global	a_pADC
- 252              		.data
- 253              		.align	2
- 256              	a_pADC:
- 257 0000 0080FDFF 		.word	-163840
- 258              		.global	a_pPMC
- 259              		.align	2
- 262              	a_pPMC:
- 263 0004 00FCFFFF 		.word	-1024
- 337              	.Letext0:
+ 257              		.loc 1 76 0
+ 258 0150 1EFF2FE1 		bx	lr
+ 259              	.L52:
+ 260              		.align	2
+ 261              	.L51:
+ 262 0154 00000000 		.word	a_pADC
+ 263              	.LFE8:
+ 265              		.global	a_pADC
+ 266              		.data
+ 267              		.align	2
+ 270              	a_pADC:
+ 271 0000 0080FDFF 		.word	-163840
+ 272              		.global	a_pPMC
+ 273              		.align	2
+ 276              	a_pPMC:
+ 277 0004 00FCFFFF 		.word	-1024
+ 351              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 adc.c
-     /tmp/ccam2zej.s:13     .text:00000000 InitADC
-     /tmp/ccam2zej.s:22     .text:00000000 $a
-     /tmp/ccam2zej.s:54     .text:00000040 $d
-     /tmp/ccam2zej.s:262    .data:00000004 a_pPMC
-     /tmp/ccam2zej.s:256    .data:00000000 a_pADC
-     /tmp/ccam2zej.s:62     .text:0000004c getValueChannel0
-     /tmp/ccam2zej.s:70     .text:0000004c $a
-     /tmp/ccam2zej.s:88     .text:00000070 $d
-     /tmp/ccam2zej.s:94     .text:00000074 getValueChannel1
-     /tmp/ccam2zej.s:102    .text:00000074 $a
-     /tmp/ccam2zej.s:120    .text:00000098 $d
-     /tmp/ccam2zej.s:126    .text:0000009c getValueChannel2
-     /tmp/ccam2zej.s:134    .text:0000009c $a
-     /tmp/ccam2zej.s:152    .text:000000c0 $d
-     /tmp/ccam2zej.s:158    .text:000000c4 getValueChannel4
-     /tmp/ccam2zej.s:166    .text:000000c4 $a
-     /tmp/ccam2zej.s:184    .text:000000e8 $d
-     /tmp/ccam2zej.s:190    .text:000000ec getValueChannel5
-     /tmp/ccam2zej.s:198    .text:000000ec $a
-     /tmp/ccam2zej.s:216    .text:00000110 $d
-     /tmp/ccam2zej.s:222    .text:00000114 getValueChannel6
-     /tmp/ccam2zej.s:230    .text:00000114 $a
-     /tmp/ccam2zej.s:248    .text:00000138 $d
-     /tmp/ccam2zej.s:257    .data:00000000 $d
+     /tmp/ccCCeSGa.s:13     .text:00000000 InitADC
+     /tmp/ccCCeSGa.s:22     .text:00000000 $a
+     /tmp/ccCCeSGa.s:68     .text:0000005c $d
+     /tmp/ccCCeSGa.s:276    .data:00000004 a_pPMC
+     /tmp/ccCCeSGa.s:270    .data:00000000 a_pADC
+     /tmp/ccCCeSGa.s:76     .text:00000068 getValueChannel0
+     /tmp/ccCCeSGa.s:84     .text:00000068 $a
+     /tmp/ccCCeSGa.s:102    .text:0000008c $d
+     /tmp/ccCCeSGa.s:108    .text:00000090 getValueChannel1
+     /tmp/ccCCeSGa.s:116    .text:00000090 $a
+     /tmp/ccCCeSGa.s:134    .text:000000b4 $d
+     /tmp/ccCCeSGa.s:140    .text:000000b8 getValueChannel2
+     /tmp/ccCCeSGa.s:148    .text:000000b8 $a
+     /tmp/ccCCeSGa.s:166    .text:000000dc $d
+     /tmp/ccCCeSGa.s:172    .text:000000e0 getValueChannel4
+     /tmp/ccCCeSGa.s:180    .text:000000e0 $a
+     /tmp/ccCCeSGa.s:198    .text:00000104 $d
+     /tmp/ccCCeSGa.s:204    .text:00000108 getValueChannel5
+     /tmp/ccCCeSGa.s:212    .text:00000108 $a
+     /tmp/ccCCeSGa.s:230    .text:0000012c $d
+     /tmp/ccCCeSGa.s:236    .text:00000130 getValueChannel6
+     /tmp/ccCCeSGa.s:244    .text:00000130 $a
+     /tmp/ccCCeSGa.s:262    .text:00000154 $d
+     /tmp/ccCCeSGa.s:271    .data:00000000 $d
 
 NO UNDEFINED SYMBOLS

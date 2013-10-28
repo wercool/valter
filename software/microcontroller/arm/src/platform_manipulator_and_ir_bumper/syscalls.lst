@@ -3171,17 +3171,17 @@
  412              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 syscalls.c
-     /tmp/ccpo9qkf.s:12     .text:00000000 my_putc
-     /tmp/ccpo9qkf.s:22     .text:00000000 $a
-     /tmp/ccpo9qkf.s:50     .text:00000024 _read_r
-     /tmp/ccpo9qkf.s:136    .text:0000008c _write_r
-     /tmp/ccpo9qkf.s:184    .text:000000d0 _close_r
-     /tmp/ccpo9qkf.s:204    .text:000000d8 _lseek_r
-     /tmp/ccpo9qkf.s:224    .text:000000e0 _fstat_r
-     /tmp/ccpo9qkf.s:248    .text:000000f0 isatty
-     /tmp/ccpo9qkf.s:268    .text:000000f8 _sbrk_r
-     /tmp/ccpo9qkf.s:298    .text:0000011c $d
-     /tmp/ccpo9qkf.s:304    .bss:00000000 heap_ptr
+     /tmp/ccmWXEjA.s:12     .text:00000000 my_putc
+     /tmp/ccmWXEjA.s:22     .text:00000000 $a
+     /tmp/ccmWXEjA.s:50     .text:00000024 _read_r
+     /tmp/ccmWXEjA.s:136    .text:0000008c _write_r
+     /tmp/ccmWXEjA.s:184    .text:000000d0 _close_r
+     /tmp/ccmWXEjA.s:204    .text:000000d8 _lseek_r
+     /tmp/ccmWXEjA.s:224    .text:000000e0 _fstat_r
+     /tmp/ccmWXEjA.s:248    .text:000000f0 isatty
+     /tmp/ccmWXEjA.s:268    .text:000000f8 _sbrk_r
+     /tmp/ccmWXEjA.s:298    .text:0000011c $d
+     /tmp/ccmWXEjA.s:304    .bss:00000000 heap_ptr
 
 UNDEFINED SYMBOLS
 end
