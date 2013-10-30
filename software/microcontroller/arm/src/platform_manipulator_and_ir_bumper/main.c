@@ -470,6 +470,7 @@ int main(void)
             //SETCAMERASERVODUTY#5
             //SETCAMERASERVODUTY#8
             //SETCAMERASERVODUTY#20
+            //SETCAMERASERVODUTY#30
             //SETCAMERASERVODUTY#40
             if (strcmp((char*) cmdParts, "SETCAMERASERVODUTY") == 0)
             {
