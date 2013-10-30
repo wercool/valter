@@ -158,9 +158,9 @@
  122              	.Letext0:
 DEFINED SYMBOLS
                             *ABS*:00000000 math.c
-     /tmp/ccOVaY5V.s:13     .text:00000000 min
-     /tmp/ccOVaY5V.s:23     .text:00000000 $a
-     /tmp/ccOVaY5V.s:35     .text:0000000c absv
-     /tmp/ccOVaY5V.s:56     .text:00000018 power
+     /tmp/ccpIgagP.s:13     .text:00000000 min
+     /tmp/ccpIgagP.s:23     .text:00000000 $a
+     /tmp/ccpIgagP.s:35     .text:0000000c absv
+     /tmp/ccpIgagP.s:56     .text:00000018 power
 
 NO UNDEFINED SYMBOLS
