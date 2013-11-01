@@ -285,6 +285,10 @@ int main(void)
     unsigned int gripperRotateDriveDuty = 1;
     unsigned int parallelDemo = 0;
     unsigned int serialDemo = 0;
+    unsigned int link1Readings = 0;
+    unsigned int link2Readings = 0;
+    unsigned int link1Reading = 0;
+    unsigned int link2Reading = 0;
 
     DeviceInit();
 
@@ -313,6 +317,8 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            // get down threshold 0
+            // get up threshold 940
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
@@ -322,6 +328,8 @@ int main(void)
                 input1Channel = 0;
                 continue;
             }
+            // cw 167
+            // ccw 875
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL1") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
@@ -331,6 +339,8 @@ int main(void)
                 input1Channel = 1;
                 continue;
             }
+            // open 180
+            // close 795
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
@@ -340,6 +350,7 @@ int main(void)
                 input1Channel = 2;
                 continue;
             }
+            //no contact < 800
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
@@ -367,6 +378,8 @@ int main(void)
                 input1Channel = 5;
                 continue;
             }
+            // no object 1023 - noisy
+            // object ~287
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL6") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
@@ -467,6 +480,26 @@ int main(void)
                 input1Readings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "READLINK1START") == 0)
+            {
+                link1Readings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "READLINK1STOP") == 0)
+            {
+                link1Readings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "READLINK2START") == 0)
+            {
+                link2Readings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "READLINK2STOP") == 0)
+            {
+                link2Readings = 0;
+                continue;
+            }
             //SETCAMERASERVODUTY#5
             //SETCAMERASERVODUTY#8
             //SETCAMERASERVODUTY#20
@@ -554,6 +587,7 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);    //link2DriveINb
                 continue;
             }
+            //reverse
             if (strcmp((char*) cmdParts, "LINK2GETDOWN") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //link2DriveINa
@@ -585,6 +619,7 @@ int main(void)
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
                 continue;
             }
+            //reverse
             if (strcmp((char*) cmdParts, "GRIPPERROTATECW") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
@@ -603,6 +638,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
                 continue;
             }
+            //reverse
             if (strcmp((char*) cmdParts, "GRIPPERTILTGETUP") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
@@ -624,6 +660,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //gripperTilt ENA
                 continue;
             }
+            //reverse
             if (strcmp((char*) cmdParts, "GRIPPERPOSITIONCLOSE") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9); //gripperPosition IN3
@@ -678,6 +715,24 @@ int main(void)
         {
             input1Reading = getValueChannel6();
             sprintf((char *)msg,"INPUT1 CHANNEL [%u]: %u\n", input1Channel, input1Reading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        //initial 1023
+        //threshold 0
+        if (link1Readings)
+        {
+            link1Reading = getValueChannel4();
+            sprintf((char *)msg,"LINK1: %u\n", link1Reading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        //initial 135
+        //threshold 930
+        if (link2Readings)
+        {
+            link2Reading = getValueChannel5();
+            sprintf((char *)msg,"LINK2: %u\n", link2Reading);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
