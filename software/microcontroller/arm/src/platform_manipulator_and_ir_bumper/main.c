@@ -17,6 +17,7 @@
 
 #define FIQ_INTERRUPT_LEVEL 0
 
+unsigned char allManipulatorDrivesStopped = 0;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -272,246 +273,7 @@ static void DeviceInit(void)
     InitIRQ();
 }
 
-int getLink1Position()
-{
-    return getValueChannel4();
-}
-
-int getLink2Position()
-{
-    return getValueChannel5();
-}
-
-int getLink3Position()
-{
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
-    delay_ms(1);
-    input1Channel = 0;
-    return getValueChannel6();
-}
-
-int getGripperRotation()
-{
-    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
-    input1Channel = 1;
-    delay_ms(1);
-    return getValueChannel6();
-}
-
-int getGripperGraspPosition()
-{
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
-    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
-    input1Channel = 2;
-    delay_ms(1);
-    return getValueChannel6();
-}
-
-unsigned int setLink1Position(unsigned int goalPosition)
-{
-    unsigned int curPosition = getLink1Position();
-    if (curPosition != goalPosition)
-    {
-        unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
-        unsigned int positionTrend = round((absv(goalPosition - curPosition) / link1Range) * 100);
-        if (positionTrend >= 90)
-        {
-            pwmDutySetPercent(0, 20);
-        }
-        else if (positionTrend < 90 && positionTrend >= 50)
-        {
-            pwmDutySetPercent(0, 100);
-        }
-        else if (positionTrend < 50 && positionTrend >= 25)
-        {
-            pwmDutySetPercent(0, 40);
-        }
-        else if (positionTrend < 25)
-        {
-            pwmDutySetPercent(0, 20);
-        }
-        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
-        if (positionVector == 0)
-        {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //link1DriveINb
-        }
-        else
-        {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //link1DriveINa
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
-        }
-    }
-    else
-    {
-        pwmDutySetPercent(0, 1);
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
-    }
-    sprintf((char *)msg,"LINK1 [%d]->[%d]\n", curPosition, goalPosition);
-    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-    return curPosition;
-}
-
-unsigned int setLink2Position(unsigned int goalPosition)
-{
-    unsigned int curPosition = getLink2Position();
-    if (curPosition != goalPosition)
-    {
-        unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
-        unsigned int positionTrend = round((absv(goalPosition - curPosition) / link2Range) * 100);
-        if (positionTrend >= 90)
-        {
-            pwmDutySetPercent(1, 20);
-        }
-        else if (positionTrend < 90 && positionTrend >= 50)
-        {
-            pwmDutySetPercent(1, 100);
-        }
-        else if (positionTrend < 50 && positionTrend >= 25)
-        {
-            pwmDutySetPercent(1, 40);
-        }
-        else if (positionTrend < 25)
-        {
-            pwmDutySetPercent(1, 20);
-        }
-        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
-        if (positionVector == 0)
-        {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);  //link2DriveINa
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);    //link2DriveINb
-        }
-        else
-        {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //link2DriveINa
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
-        }
-    }
-    else
-    {
-        pwmDutySetPercent(1, 1);
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //link2DriveINa
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
-    }
-    sprintf((char *)msg,"LINK2 [%d]->[%d]\n", curPosition, goalPosition);
-    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-    return curPosition;
-}
-
-unsigned int setLink3Position(unsigned int goalPosition)
-{
-    unsigned int curPosition = getLink3Position();
-    if (curPosition != goalPosition)
-    {
-        unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
-        if (positionVector == 0)
-        {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //gripperTilt IN2
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //gripperTilt ENA
-        }
-        else
-        {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //gripperTilt IN1
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //gripperTilt ENA
-        }
-    }
-    else
-    {
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //gripperTilt ENA
-    }
-    sprintf((char *)msg,"LINK3 (GRIPPER TILIT) [%d]->[%d]\n", curPosition, goalPosition);
-    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-    return curPosition;
-}
-
-unsigned int setGripperRotation(unsigned int goalPosition)
-{
-    unsigned int curPosition = getGripperRotation();
-    if (curPosition != goalPosition)
-    {
-        unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
-        unsigned int positionTrend = round((absv(goalPosition - curPosition) / gripperRotateRange) * 100);
-        if (positionTrend >= 90)
-        {
-            pwmDutySetPercent(3, 20);
-        }
-        else if (positionTrend < 90 && positionTrend >= 50)
-        {
-            pwmDutySetPercent(3, 100);
-        }
-        else if (positionTrend < 50 && positionTrend >= 25)
-        {
-            pwmDutySetPercent(3, 40);
-        }
-        else if (positionTrend < 25)
-        {
-            pwmDutySetPercent(3, 20);
-        }
-        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
-        if (positionVector == 0)
-        {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //gripperRotate IN2
-        }
-        else
-        {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);    //gripperRotate IN1
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
-        }
-    }
-    else
-    {
-        pwmDutySetPercent(3, 1);
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
-    }
-    sprintf((char *)msg,"GRIPPER ROTATION [%d]->[%d]\n", curPosition, goalPosition);
-    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-    return curPosition;
-}
-
-unsigned int setGripperGrasp(unsigned int goalPosition)
-{
-    unsigned int curPosition = getLink3Position();
-    if (curPosition != goalPosition)
-    {
-        unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
-        if (positionVector == 0)
-        {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9); //gripperPosition IN3
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //gripperPosition IN4
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //gripperPosition ENB
-        }
-        else
-        {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //gripperPosition IN3
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //gripperPosition ENB
-        }
-    }
-    else
-    {
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //gripperPosition IN3
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
-        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
-    }
-    sprintf((char *)msg,"GRIPPER GRASP [%d]->[%d]\n", curPosition, goalPosition);
-    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-    return curPosition;
-}
+// Specific functions
 
 void stopAllManipulatorDrives()
 {
@@ -537,6 +299,366 @@ void stopAllManipulatorDrives()
 }
 
 
+int getLink1Position()
+{
+    return getValueChannel4();
+}
+
+int getLink2Position()
+{
+    return getValueChannel5();
+}
+
+int getLink3Position()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+    input1Channel = 0;
+    return getValueChannel6();
+}
+
+int getGripperRotation()
+{
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+    input1Channel = 1;
+    return getValueChannel6();
+}
+
+int getGripperGraspPosition()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+    input1Channel = 2;
+    return getValueChannel6();
+}
+
+unsigned int setLink1Position(unsigned int goalPosition, unsigned char enforced)
+{
+    unsigned int curPosition = getLink1Position();
+    unsigned int positionTrend = round((absv(goalPosition - curPosition) / link1Range) * 100);
+    if (curPosition != goalPosition)
+    {
+        unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
+        unsigned int duty = 1;
+        if (positionTrend >= 90)
+        {
+            duty = 20;
+        }
+        else if (positionTrend < 90 && positionTrend >= 50)
+        {
+            duty = 40;
+        }
+        else if (positionTrend < 50 && positionTrend >= 25)
+        {
+            duty = 30;
+        }
+        else if (positionTrend < 25)
+        {
+            duty = 20;
+        }
+        pwmDutySetPercent(0, duty);
+        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+        if (positionVector == 0)
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //link1DriveINb
+        }
+        else
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //link1DriveINa
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
+        }
+    }
+    else
+    {
+        pwmDutySetPercent(0, 1);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
+        return curPosition;
+    }
+    sprintf((char *)msg,"LINK1 TREND[%d] CUR[%d]->GOAL[%d]\n", positionTrend, curPosition, goalPosition);
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    if (enforced && allManipulatorDrivesStopped == 0)
+    {
+        setLink1Position(goalPosition, 1);
+    }
+    else if (allManipulatorDrivesStopped == 1)
+    {
+        stopAllManipulatorDrives();
+    }
+    return curPosition;
+}
+
+unsigned int setLink2Position(unsigned int goalPosition, unsigned char enforced)
+{
+    unsigned int curPosition = getLink2Position();
+    unsigned int positionTrend = round((absv(goalPosition - curPosition) / link2Range) * 100);
+    if (curPosition != goalPosition)
+    {
+        unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
+        unsigned int duty = 1;
+        if (positionTrend >= 90)
+        {
+            duty = 20;
+        }
+        else if (positionTrend < 90 && positionTrend >= 50)
+        {
+            duty = 40;
+        }
+        else if (positionTrend < 50 && positionTrend >= 25)
+        {
+            duty = 30;
+        }
+        else if (positionTrend < 25)
+        {
+            duty = 20;
+        }
+        pwmDutySetPercent(1, duty);
+        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+        if (positionVector == 0)
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);  //link2DriveINa
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);    //link2DriveINb
+        }
+        else
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //link2DriveINa
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
+        }
+    }
+    else
+    {
+        pwmDutySetPercent(1, 1);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //link2DriveINa
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
+        return curPosition;
+    }
+    sprintf((char *)msg,"LINK2 TREND[%d] CUR[%d]->GOAL[%d]\n", positionTrend, curPosition, goalPosition);
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    if (enforced && allManipulatorDrivesStopped == 0)
+    {
+        setLink2Position(goalPosition, 1);
+    }
+    else if (allManipulatorDrivesStopped == 1)
+    {
+        stopAllManipulatorDrives();
+    }
+    return curPosition;
+}
+
+unsigned int setLink3Position(unsigned int goalPosition, unsigned char enforced)
+{
+    unsigned int curPosition = getLink3Position();
+    if (curPosition != goalPosition)
+    {
+        unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
+        if (positionVector == 0)
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //gripperTilt IN2
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //gripperTilt ENA
+        }
+        else
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //gripperTilt IN1
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //gripperTilt ENA
+        }
+    }
+    else
+    {
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //gripperTilt ENA
+        return curPosition;
+    }
+    sprintf((char *)msg,"LINK3 (GRIPPER TILIT) CUR[%d]->GOAL[%d]\n", curPosition, goalPosition);
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    if (enforced && allManipulatorDrivesStopped == 0)
+    {
+        setLink3Position(goalPosition, 1);
+    }
+    else if (allManipulatorDrivesStopped == 1)
+    {
+        stopAllManipulatorDrives();
+    }
+    return curPosition;
+}
+
+unsigned int setGripperRotation(unsigned int goalPosition, unsigned char enforced, unsigned char statiMode)
+{
+    unsigned int curPosition = getGripperRotation();
+    unsigned int positionTrend = round((absv(goalPosition - curPosition) / gripperRotateRange) * 100);
+    unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
+    if (curPosition != goalPosition)
+    {
+        unsigned int duty = 1;
+        if (positionTrend >= 90)
+        {
+            duty = 20;
+        }
+        else if (positionTrend < 90 && positionTrend >= 50)
+        {
+            duty = 40;
+        }
+        else if (positionTrend < 50 && positionTrend >= 25)
+        {
+            duty = 30;
+        }
+        else if (positionTrend < 25)
+        {
+            duty = 20;
+        }
+        pwmDutySetPercent(3, duty);
+        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+        if (positionVector == 0)
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //gripperRotate IN2
+        }
+        else
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);    //gripperRotate IN1
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+        }
+    }
+    else
+    {
+        if (statiMode)
+        {
+            pwmDutySetPercent(3, 5);
+            AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+            if (positionVector == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //gripperRotate IN2
+            }
+            else
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);    //gripperRotate IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+            }
+        }
+        else
+        {
+            pwmDutySetPercent(3, 1);
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+        }
+        return curPosition;
+    }
+    sprintf((char *)msg,"GRIPPER ROTATION TREND[%d] CUR[%d]->GOAL[%d]\n", positionTrend, curPosition, goalPosition);
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    if (enforced && allManipulatorDrivesStopped == 0)
+    {
+        setGripperRotation(goalPosition, 1, statiMode);
+    }
+    else if (allManipulatorDrivesStopped == 1)
+    {
+        stopAllManipulatorDrives();
+    }
+    return curPosition;
+}
+
+unsigned int setGripperGrasp(unsigned int goalPosition, unsigned char enforced)
+{
+    unsigned int curPosition = getLink3Position();
+    if (curPosition != goalPosition)
+    {
+        unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
+        if (positionVector == 0)
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9); //gripperPosition IN3
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //gripperPosition IN4
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //gripperPosition ENB
+        }
+        else
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //gripperPosition IN3
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //gripperPosition ENB
+        }
+    }
+    else
+    {
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //gripperPosition IN3
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
+        return curPosition;
+    }
+    sprintf((char *)msg,"GRIPPER GRASP CUR[%d]->GOAL[%d]\n", curPosition, goalPosition);
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    if (enforced && allManipulatorDrivesStopped == 0)
+    {
+        setGripperGrasp(goalPosition, 1);
+    }
+    else if (allManipulatorDrivesStopped == 1)
+    {
+        stopAllManipulatorDrives();
+    }
+    return curPosition;
+}
+
+unsigned char isObjectDetected()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);    //U4   C
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+    input1Channel = 6;
+    unsigned int detectionCouter = 0;
+    unsigned int objectDetection = 0;
+    while (detectionCouter < 50)
+    {
+        objectDetection += getValueChannel6();
+        delay_us(100);
+        detectionCouter++;
+    }
+    objectDetection = round(objectDetection / 50);
+    if (objectDetection > 700)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+unsigned char isObjectGrasped(unsigned int force)
+{
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);  //U4   D
+    input1Channel = 3;
+    unsigned int senseCouter = 0;
+    unsigned int objectSense = 0;
+    while (senseCouter < 10)
+    {
+        objectSense += getValueChannel6();
+        delay_us(50);
+        senseCouter++;
+    }
+    objectSense = round(objectSense / 10);
+    if (objectSense > force)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+
 /*
  * Main Entry Point and Main Loop
  */
@@ -544,22 +666,28 @@ int main(void)
 {
     struct cdcMessage cdcMessageObj;
 
-    unsigned int input1Readings = 0;
+    unsigned char input1Readings = 0;
     unsigned int input1Reading = 0;
     unsigned int cameraServoDuty = 1;
     unsigned int link1DriveDuty = 1;
     unsigned int link2DriveDuty = 1;
     unsigned int gripperRotateDriveDuty = 1;
-    unsigned int parallelDemo = 0;
-    unsigned int serialDemo = 0;
-    unsigned int link1Readings = 0;
-    unsigned int link2Readings = 0;
+    unsigned char parallelDemo = 0;
+    unsigned char serialDemo = 0;
+    unsigned char link1Readings = 0;
+    unsigned char link2Readings = 0;
     unsigned int link1Reading = 0;
     unsigned int link2Reading = 0;
     unsigned int link3Reading = 0;
+
     unsigned int gripperRotation = 0;
+    unsigned int gripperRotationStaticVal = 0;
+    unsigned char gripperRotationStaticMode = 0;
+
     unsigned int gripperGraspPosition = 0;
+
     unsigned int serialDemoVec = 0;
+    unsigned int parallelDemoVec = 0;
 
     DeviceInit();
 
@@ -575,33 +703,33 @@ int main(void)
 
             if (serialDemoVec == 0)
             {
-                if (link1Reading > link1upperThreshold)
+                if (link2Reading < link2lowerThreshold)
                 {
-                    setLink1Position(link1upperThreshold);
+                    setLink2Position(link2lowerThreshold, 0);
                 }
                 else
                 {
-                    if (link2Reading < link2lowerThreshold)
+                    if (link1Reading > link1upperThreshold)
                     {
-                        setLink1Position(link2lowerThreshold);
+                        setLink1Position(link1upperThreshold, 0);
                     }
                     else
                     {
                         if (link3Reading > link3lowerThreshold)
                         {
-                            setLink3Position(link3lowerThreshold);
+                            setLink3Position(link3lowerThreshold, 0);
                         }
                         else
                         {
                             if (gripperRotation > gripperRotateCWThreshold)
                             {
-                                setGripperRotation(gripperRotateCWThreshold);
+                                setGripperRotation(gripperRotateCWThreshold, 0, 0);
                             }
                             else
                             {
-                                if (gripperGraspPosition < gripperClosedThreshold)
+                                if (gripperGraspPosition > gripperOpenedThreshold)
                                 {
-                                    setGripperGrasp(gripperClosedThreshold);
+                                    setGripperGrasp(gripperOpenedThreshold, 0);
                                 }
                                 else
                                 {
@@ -614,37 +742,41 @@ int main(void)
             }
             else
             {
-                if (link1Reading > link1upperThreshold)
+                if (isObjectDetected())
                 {
-                    setLink1Position(link1upperThreshold);
-                }
-                else
-                {
-                    if (link2Reading > link2upperThreshold)
+                    unsigned char objectIsGrasped = isObjectGrasped(850);
+                    if (gripperGraspPosition < gripperClosedThreshold || objectIsGrasped == 0)
                     {
-                        setLink1Position(link2upperThreshold);
+                        setGripperGrasp(gripperClosedThreshold, 0);
                     }
                     else
                     {
-                        if (link3Reading < link3upperThreshold)
+                        if (gripperRotation < gripperRotateCWWThreshold)
                         {
-                            setLink3Position(link3upperThreshold);
+                            setGripperRotation(gripperRotateCWWThreshold, 0, 0);
                         }
                         else
                         {
-                            if (gripperRotation < gripperRotateCWWThreshold)
+                            if (link3Reading < link3upperThreshold)
                             {
-                                setGripperRotation(gripperRotateCWWThreshold);
+                                setLink3Position(link3upperThreshold, 0);
                             }
                             else
                             {
-                                if (gripperGraspPosition > gripperOpenedThreshold)
+                                if (link1Reading > link1upperThreshold)
                                 {
-                                    setGripperGrasp(gripperOpenedThreshold);
+                                    setLink1Position(link1upperThreshold, 0);
                                 }
                                 else
                                 {
-                                    serialDemoVec = 0;
+                                    if (link2Reading > link2upperThreshold)
+                                    {
+                                        setLink2Position(link2upperThreshold, 0);
+                                    }
+                                    else
+                                    {
+                                        serialDemoVec = 0;
+                                    }
                                 }
                             }
                         }
@@ -653,9 +785,129 @@ int main(void)
             }
         }
 
+        if (parallelDemo)
+        {
+            link1Reading = getLink1Position();
+            link2Reading = getLink2Position();
+            link3Reading = getLink3Position();
+            gripperRotation = getGripperRotation();
+            gripperGraspPosition = getGripperGraspPosition();
+
+            if (parallelDemoVec == 0)
+            {
+                unsigned char stepsPending = 5;
+                if (link2Reading < link2lowerThreshold)
+                {
+                    setLink2Position(link2lowerThreshold, 0);
+                }
+                else
+                {
+                    stepsPending--;
+                }
+                if (link2Reading > 400)
+                {
+                    if (link1Reading > link1upperThreshold)
+                    {
+                        setLink1Position(link1upperThreshold, 0);
+                    }
+                    else
+                    {
+                        stepsPending--;
+                    }
+                    if (gripperRotation > gripperRotateCWThreshold)
+                    {
+                        setGripperRotation(gripperRotateCWThreshold, 0, 0);
+                    }
+                    else
+                    {
+                        stepsPending--;
+                    }
+                }
+                if (link3Reading > link3lowerThreshold)
+                {
+                    setLink3Position(link3lowerThreshold, 0);
+                }
+                else
+                {
+                    stepsPending--;
+                }
+                if (gripperGraspPosition > gripperOpenedThreshold)
+                {
+                    setGripperGrasp(gripperOpenedThreshold, 0);
+                }
+                else
+                {
+                    stepsPending--;
+                }
+                if (stepsPending == 0)
+                {
+                    parallelDemoVec = 1;
+                }
+            }
+            else
+            {
+                unsigned char stepsPending = 5;
+                if (isObjectDetected())
+                {
+                    unsigned char objectIsGrasped = isObjectGrasped(850);
+                    if (gripperGraspPosition < gripperClosedThreshold || objectIsGrasped == 0)
+                    {
+                        setGripperGrasp(gripperClosedThreshold, 0);
+                    }
+                    else
+                    {
+                        stepsPending--;
+                    }
+                    if (gripperRotation < gripperRotateCWWThreshold)
+                    {
+                        setGripperRotation(gripperRotateCWWThreshold, 0, 0);
+                    }
+                    else
+                    {
+                        stepsPending--;
+                    }
+                    if (link3Reading < link3upperThreshold)
+                    {
+                        setLink3Position(link3upperThreshold, 0);
+                    }
+                    else
+                    {
+                        stepsPending--;
+                    }
+                    if (link1Reading > link1upperThreshold)
+                    {
+                        setLink1Position(link1upperThreshold, 0);
+                    }
+                    else
+                    {
+                        stepsPending--;
+                    }
+                    if (link2Reading > link2upperThreshold)
+                    {
+                        setLink2Position(link2upperThreshold, 0);
+                    }
+                    else
+                    {
+                        stepsPending--;
+                    }
+                }
+                if (stepsPending == 0)
+                {
+                    parallelDemoVec = 0;
+                }
+            }
+        }
+
+        if (gripperRotationStaticMode)
+        {
+            setGripperRotation(gripperRotationStaticVal, 1, 1);
+        }
+
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
+            allManipulatorDrivesStopped = 0;
+
             sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
 
@@ -875,6 +1127,23 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            //SETLINK1POSITION#0
+            //SETLINK1POSITION#100
+            //SETLINK1POSITION#200
+            //SETLINK1POSITION#300
+            //SETLINK1POSITION#400
+            //SETLINK1POSITION#500
+            //SETLINK1POSITION#600
+            //SETLINK1POSITION#700
+            //SETLINK1POSITION#800
+            //SETLINK1POSITION#900
+            //SETLINK1POSITION#1023
+            if (strcmp((char*) cmdParts, "SETLINK1POSITION") == 0)
+            {
+                int link1GoalPosition = atoi(strtok( NULL, "#" ));
+                setLink1Position(link1GoalPosition, 1);
+                continue;
+            }
             //SETLINK1DRIVEDUTY#1
             //SETLINK1DRIVEDUTY#5
             //SETLINK1DRIVEDUTY#10
@@ -908,8 +1177,24 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "LINK1STOP") == 0)
             {
+                allManipulatorDrivesStopped = 1;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
+                continue;
+            }
+            //SETLINK2POSITION#135
+            //SETLINK2POSITION#200
+            //SETLINK2POSITION#300
+            //SETLINK2POSITION#400
+            //SETLINK2POSITION#500
+            //SETLINK2POSITION#600
+            //SETLINK2POSITION#700
+            //SETLINK2POSITION#800
+            //SETLINK2POSITION#930
+            if (strcmp((char*) cmdParts, "SETLINK2POSITION") == 0)
+            {
+                int link2GoalPosition = atoi(strtok( NULL, "#" ));
+                setLink2Position(link2GoalPosition, 1);
                 continue;
             }
             //SETLINK2DRIVEDUTY#1
@@ -945,8 +1230,43 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "LINK2STOP") == 0)
             {
+                allManipulatorDrivesStopped = 1;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //link2DriveINa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
+                continue;
+            }
+            //SETGRIPPERROTATION#167
+            //SETGRIPPERROTATION#200
+            //SETGRIPPERROTATION#300
+            //SETGRIPPERROTATION#400
+            //SETGRIPPERROTATION#500
+            //SETGRIPPERROTATION#600
+            //SETGRIPPERROTATION#700
+            //SETGRIPPERROTATION#875
+            if (strcmp((char*) cmdParts, "SETGRIPPERROTATION") == 0)
+            {
+                int gripperRotationVal = atoi(strtok( NULL, "#" ));
+                setGripperRotation(gripperRotationVal, 1, 0);
+                continue;
+            }
+            //SETSTATICGRIPPERROTATION#167
+            //SETSTATICGRIPPERROTATION#200
+            //SETSTATICGRIPPERROTATION#300
+            //SETSTATICGRIPPERROTATION#400
+            //SETSTATICGRIPPERROTATION#500
+            //SETSTATICGRIPPERROTATION#600
+            //SETSTATICGRIPPERROTATION#700
+            //SETSTATICGRIPPERROTATION#875
+            if (strcmp((char*) cmdParts, "SETSTATICGRIPPERROTATION") == 0)
+            {
+                gripperRotationStaticVal = atoi(strtok( NULL, "#" ));
+                setGripperRotation(gripperRotationStaticVal, 1, 1);
+                gripperRotationStaticMode = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RELEASEGRIPPERROTATION") == 0)
+            {
+                gripperRotationStaticMode = 0;
                 continue;
             }
             //SETGRIPPERROTATEDRIVEDUTY#1
@@ -982,8 +1302,25 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "GRIPPERROTATESTOP") == 0)
             {
+                allManipulatorDrivesStopped = 1;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+                continue;
+            }
+            //SETLINK3POSITION#0
+            //SETLINK3POSITION#100
+            //SETLINK3POSITION#200
+            //SETLINK3POSITION#300
+            //SETLINK3POSITION#400
+            //SETLINK3POSITION#500
+            //SETLINK3POSITION#600
+            //SETLINK3POSITION#700
+            //SETLINK3POSITION#800
+            //SETLINK3POSITION#940
+            if (strcmp((char*) cmdParts, "SETLINK3POSITION") == 0)
+            {
+                int link3GoalPosition = atoi(strtok( NULL, "#" ));
+                setLink3Position(link3GoalPosition, 1);
                 continue;
             }
             if (strcmp((char*) cmdParts, "GRIPPERTILTGETDOWN") == 0)
@@ -1002,9 +1339,24 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "GRIPPERTILTSTOP") == 0)
             {
+                allManipulatorDrivesStopped = 1;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //gripperTilt ENA
+                continue;
+            }
+            //SETGRIPPERGRASP#180
+            //SETGRIPPERGRASP#200
+            //SETGRIPPERGRASP#300
+            //SETGRIPPERGRASP#400
+            //SETGRIPPERGRASP#500
+            //SETGRIPPERGRASP#600
+            //SETGRIPPERGRASP#700
+            //SETGRIPPERGRASP#795
+            if (strcmp((char*) cmdParts, "SETGRIPPERGRASP") == 0)
+            {
+                int gripperGraspVal = atoi(strtok( NULL, "#" ));
+                setGripperGrasp(gripperGraspVal, 1);
                 continue;
             }
             if (strcmp((char*) cmdParts, "GRIPPERPOSITIONOPEN") == 0)
@@ -1023,6 +1375,7 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "GRIPPERPOSITIONSTOP") == 0)
             {
+                allManipulatorDrivesStopped = 1;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //gripperPosition IN3
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
@@ -1039,6 +1392,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "DEMOPSTOP") == 0)
             {
                 parallelDemo = 0;
+                allManipulatorDrivesStopped = 1;
                 sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO STOPPED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
@@ -1054,14 +1408,17 @@ int main(void)
             if (strcmp((char*) cmdParts, "DEMOSSTOP") == 0)
             {
                 serialDemo = 0;
+                allManipulatorDrivesStopped = 1;
                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STOPPED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "MANSTOP") == 0)
             {
+                allManipulatorDrivesStopped = 1;
                 serialDemo = 0;
                 parallelDemo = 0;
+                gripperRotationStaticMode = 0;
                 stopAllManipulatorDrives();
                 sprintf((char *)msg,"ALL MANIPULATOR DRIVES HAVE BEEN STOPPED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
