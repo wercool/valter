@@ -1,7 +1,7 @@
 unsigned int input1Channel = 0;
 
-volatile unsigned int link1upperThreshold = 1023;
-volatile unsigned int link1lowerThreshold = 0;
+volatile unsigned int link1upperThreshold = 0;
+volatile unsigned int link1lowerThreshold = 1023;
 volatile unsigned int link1Range = 1023;
 
 volatile unsigned int link2upperThreshold = 135;

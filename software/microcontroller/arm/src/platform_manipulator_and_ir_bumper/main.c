@@ -341,13 +341,13 @@ unsigned int setLink1Position(unsigned int goalPosition)
         AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
         if (positionVector == 0)
         {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //link1DriveINa
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //link1DriveINb
         }
         else
         {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //link1DriveINb
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //link1DriveINa
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
         }
     }
     else
@@ -575,9 +575,9 @@ int main(void)
 
             if (serialDemoVec == 0)
             {
-                if (link1Reading > link1lowerThreshold)
+                if (link1Reading > link1upperThreshold)
                 {
-                    setLink1Position(link1lowerThreshold);
+                    setLink1Position(link1upperThreshold);
                 }
                 else
                 {
@@ -614,7 +614,7 @@ int main(void)
             }
             else
             {
-                if (link1Reading < link1upperThreshold)
+                if (link1Reading > link1upperThreshold)
                 {
                     setLink1Position(link1upperThreshold);
                 }
