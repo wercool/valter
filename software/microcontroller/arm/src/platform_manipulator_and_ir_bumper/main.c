@@ -1242,6 +1242,7 @@ int main(void)
             //SETTHRESHOLDSIGMA#4
             //SETTHRESHOLDSIGMA#5
             //SETTHRESHOLDSIGMA#6
+            //SETTHRESHOLDSIGMA#20
             if (strcmp((char*) cmdParts, "SETTHRESHOLDSIGMA") == 0)
             {
                 thresholdSigma = atoi(strtok( NULL, "#" ));

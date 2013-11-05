@@ -289,6 +289,13 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            if (strcmp((char*) cmdParts, "CHARGERBUTTONPRESS") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+                delay_ms(500);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+                continue;
+            }
             if (strcmp((char*) cmdParts, "DCDC5VENABLEON") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
@@ -473,13 +480,6 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //C
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //D
                 input1Channel = 15;
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "CHARGERBUTTONPRESS") == 0)
-            {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
-                delay_ms(500);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTACCUMULATORCONNECT") == 0)
