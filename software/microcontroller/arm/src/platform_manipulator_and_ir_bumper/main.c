@@ -1345,6 +1345,7 @@ int main(void)
                                 }
                                 else
                                 {
+                                    stopGripperGraspDrive();
                                     serialDemoVec = 1;
                                 }
                             }
@@ -1357,12 +1358,13 @@ int main(void)
                 if (isObjectDetected())
                 {
                     unsigned char objectIsGrasped = isObjectGrasped(875);
-                    if ((absv((signed int) (gripperGraspPosition - gripperClosedThreshold)) > thresholdSigma) || objectIsGrasped == 0)
+                    if (objectIsGrasped == 0)
                     {
                         setGripperGrasp(gripperClosedThreshold);
                     }
                     else
                     {
+                        stopGripperGraspDrive();
                         if (absv((signed int) (gripperRotation - gripperRotateCWWThreshold)) > thresholdSigma)
                         {
                             setGripperRotation(gripperRotateCWWThreshold);
