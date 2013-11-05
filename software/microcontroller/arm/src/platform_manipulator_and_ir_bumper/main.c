@@ -728,7 +728,7 @@ int main(void)
             if (absv((signed int) (curVal - gripperGraspStaticVal)) <= thresholdSigma)
             {
                 gripperGraspStaticMode = 0;
-                stopGripperGraspDrive()
+                stopGripperGraspDrive();
             }
         }
 
