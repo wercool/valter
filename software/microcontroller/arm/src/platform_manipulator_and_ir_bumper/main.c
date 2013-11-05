@@ -615,6 +615,37 @@ unsigned char isObjectGrasped(unsigned int force)
     }
 }
 
+void stopLink1Drive()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);  //link1DriveINa
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
+}
+
+void stopLink2Drive()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //link2DriveINa
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //link2DriveINb
+}
+
+void stopLink3Drive()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //gripperTilt IN1
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11); //gripperTilt IN2
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //gripperTilt ENA
+}
+
+void stopGripperRotationDrive()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+}
+
+void stopGripperGraspDrive()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //gripperPosition IN3
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
+}
 
 /*
  * Main Entry Point and Main Loop
@@ -638,17 +669,17 @@ int main(void)
     unsigned int link3Reading = 0;
     unsigned int gripperRotation = 0;
 
-    unsigned char link1StaticMode = 0;
-    unsigned char link2StaticMode = 0;
-    unsigned char link3StaticMode = 0;
-    unsigned char gripperGraspStaticMode = 0;
-    unsigned char gripperRotationStaticMode = 0;
-
     unsigned int link1StaticVal = 0;
     unsigned int link2StaticVal = 0;
     unsigned int link3StaticVal = 0;
     unsigned int gripperGraspStaticVal = 0;
     unsigned int gripperRotationStaticVal = 0;
+
+    unsigned char link1StaticMode = 0;
+    unsigned char link2StaticMode = 0;
+    unsigned char link3StaticMode = 0;
+    unsigned char gripperGraspStaticMode = 0;
+    unsigned char gripperRotationStaticMode = 0;
 
     unsigned int gripperGraspPosition = 0;
 
@@ -666,6 +697,7 @@ int main(void)
             if (absv((signed int) (curVal - link1StaticVal)) <= thresholdSigma)
             {
                 link1StaticMode = 0;
+                stopLink1Drive();
             }
         }
         if (link2StaticMode)
@@ -674,6 +706,7 @@ int main(void)
             if (absv((signed int) (curVal - link2StaticVal)) <= thresholdSigma)
             {
                 link2StaticMode = 0;
+                stopLink2Drive();
             }
         }
         if (link3StaticMode)
@@ -682,6 +715,7 @@ int main(void)
             if (absv((signed int) (curVal - link3StaticVal)) <= thresholdSigma)
             {
                 link3StaticMode = 0;
+                stopLink3Drive();
             }
         }
         if (gripperRotationStaticMode)
@@ -694,6 +728,7 @@ int main(void)
             if (absv((signed int) (curVal - gripperGraspStaticVal)) <= thresholdSigma)
             {
                 gripperGraspStaticMode = 0;
+                stopGripperGraspDrive()
             }
         }
 
@@ -1078,6 +1113,7 @@ int main(void)
                 gripperRotationStaticMode = 0;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //gripperRotate IN1
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //gripperRotate IN2
+                stopGripperRotationDrive();
                 continue;
             }
             //SETLINK3POSITION#0
