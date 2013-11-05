@@ -492,7 +492,7 @@ unsigned int setLink3Position(unsigned int goalPosition, unsigned char enforced)
     return curPosition;
 }
 
-unsigned int setGripperRotation(unsigned int goalPosition, unsigned char enforced, unsigned char statiMode)
+unsigned int setGripperRotation(unsigned int goalPosition, unsigned char enforced, unsigned char staticMode)
 {
     unsigned int curPosition = getGripperRotation();
     unsigned int positionTrend = round((absv(goalPosition - curPosition) / gripperRotateRange) * 100);
@@ -531,7 +531,7 @@ unsigned int setGripperRotation(unsigned int goalPosition, unsigned char enforce
     }
     else
     {
-        if (statiMode)
+        if (staticMode)
         {
             pwmDutySetPercent(3, 5);
             AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
@@ -558,7 +558,7 @@ unsigned int setGripperRotation(unsigned int goalPosition, unsigned char enforce
     pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
     if (enforced && allManipulatorDrivesStopped == 0)
     {
-        setGripperRotation(goalPosition, 1, statiMode);
+        setGripperRotation(goalPosition, 1, staticMode);
     }
     else if (allManipulatorDrivesStopped == 1)
     {
@@ -688,6 +688,7 @@ int main(void)
 
     unsigned int serialDemoVec = 0;
     unsigned int parallelDemoVec = 0;
+    unsigned int serialDemoStep = 0;
 
     DeviceInit();
 
@@ -703,31 +704,39 @@ int main(void)
 
             if (serialDemoVec == 0)
             {
-                if (link2Reading < link2lowerThreshold)
+                if (link2Reading < link2lowerThreshold && serialDemoStep == 1)
                 {
                     setLink2Position(link2lowerThreshold, 0);
                 }
                 else
                 {
-                    if (link1Reading > link1upperThreshold)
+                    if (serialDemoStep == 1)
+                        serialDemoStep = 2;
+                    if (link1Reading > link1upperThreshold && serialDemoStep == 2)
                     {
                         setLink1Position(link1upperThreshold, 0);
                     }
                     else
                     {
-                        if (link3Reading > link3lowerThreshold)
+                        if (serialDemoStep == 2)
+                            serialDemoStep = 3;
+                        if (link3Reading > link3lowerThreshold && serialDemoStep == 3)
                         {
                             setLink3Position(link3lowerThreshold, 0);
                         }
                         else
                         {
-                            if (gripperRotation > gripperRotateCWThreshold)
+                            if (serialDemoStep == 3)
+                                serialDemoStep = 4;
+                            if (gripperRotation > gripperRotateCWThreshold && serialDemoStep == 4)
                             {
                                 setGripperRotation(gripperRotateCWThreshold, 0, 0);
                             }
                             else
                             {
-                                if (gripperGraspPosition > gripperOpenedThreshold)
+                                if (serialDemoStep == 4)
+                                    serialDemoStep = 5;
+                                if (gripperGraspPosition > gripperOpenedThreshold && serialDemoStep == 5)
                                 {
                                     setGripperGrasp(gripperOpenedThreshold, 0);
                                 }
@@ -744,38 +753,47 @@ int main(void)
             {
                 if (isObjectDetected())
                 {
-                    unsigned char objectIsGrasped = isObjectGrasped(850);
+                    unsigned char objectIsGrasped = isObjectGrasped(830);
                     if (gripperGraspPosition < gripperClosedThreshold || objectIsGrasped == 0)
                     {
                         setGripperGrasp(gripperClosedThreshold, 0);
                     }
                     else
                     {
-                        if (gripperRotation < gripperRotateCWWThreshold)
+                        if (serialDemoStep == 5)
+                            serialDemoStep = 6;
+                        if (gripperRotation < gripperRotateCWWThreshold && serialDemoStep == 6)
                         {
                             setGripperRotation(gripperRotateCWWThreshold, 0, 0);
                         }
                         else
                         {
-                            if (link3Reading < link3upperThreshold)
+                            if (serialDemoStep == 6)
+                                serialDemoStep = 7;
+                            if (link3Reading < link3upperThreshold && serialDemoStep == 7)
                             {
                                 setLink3Position(link3upperThreshold, 0);
                             }
                             else
                             {
-                                if (link1Reading > link1upperThreshold)
+                                if (serialDemoStep == 7)
+                                    serialDemoStep = 8;
+                                if (link1Reading > link1upperThreshold && serialDemoStep == 8)
                                 {
                                     setLink1Position(link1upperThreshold, 0);
                                 }
                                 else
                                 {
-                                    if (link2Reading > link2upperThreshold)
+                                    if (serialDemoStep == 8)
+                                        serialDemoStep = 9;
+                                    if (link2Reading > link2upperThreshold && serialDemoStep == 9)
                                     {
                                         setLink2Position(link2upperThreshold, 0);
                                     }
                                     else
                                     {
                                         serialDemoVec = 0;
+                                        serialDemoStep = 1;
                                     }
                                 }
                             }
@@ -1400,6 +1418,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "DEMOSSTART") == 0)
             {
                 serialDemo = 1;
+                serialDemoStep = 1;
                 parallelDemo = 0;
                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STARTED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
@@ -1408,6 +1427,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "DEMOSSTOP") == 0)
             {
                 serialDemo = 0;
+                serialDemoStep = 0;
                 allManipulatorDrivesStopped = 1;
                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STOPPED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
