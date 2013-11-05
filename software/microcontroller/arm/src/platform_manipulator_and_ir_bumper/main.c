@@ -681,6 +681,9 @@ int main(void)
     unsigned char gripperGraspStaticMode = 0;
     unsigned char gripperRotationStaticMode = 0;
 
+    unsigned char isObjectDetectedFlag = 0;
+    unsigned char isObjectGraspedFlag = 0;
+
     unsigned int gripperGraspPosition = 0;
 
     unsigned int serialDemoVec = 0;
@@ -730,6 +733,16 @@ int main(void)
                 gripperGraspStaticMode = 0;
                 stopGripperGraspDrive();
             }
+        }
+
+        if (isObjectDetectedFlag)
+        {
+            isObjectDetected();
+        }
+
+        if (isObjectGraspedFlag)
+        {
+            isObjectGrasped(850);
         }
 
         cdcMessageObj = getCDCMEssage();
@@ -1246,6 +1259,26 @@ int main(void)
             if (strcmp((char*) cmdParts, "SETTHRESHOLDSIGMA") == 0)
             {
                 thresholdSigma = atoi(strtok( NULL, "#" ));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ISOBJECTDETECTEDSTART") == 0)
+            {
+                isObjectDetectedFlag = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ISOBJECTDETECTEDSTOP") == 0)
+            {
+                isObjectDetectedFlag = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ISOBJECTGRASPEDSTART") == 0)
+            {
+                isObjectGraspedFlag = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ISOBJECTGRASPEDSTOP") == 0)
+            {
+                isObjectGraspedFlag = 0;
                 continue;
             }
         }
