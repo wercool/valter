@@ -12,7 +12,7 @@ volatile unsigned int link2Range = 795;
 
 volatile unsigned int link3upperThreshold = 940;
 volatile unsigned int link3lowerThreshold = 0;
-volatile unsigned int link3Initial = 0;
+volatile unsigned int link3Initial = 730;
 
 volatile unsigned int gripperRotateCWThreshold = 167;
 volatile unsigned int gripperRotateCWWThreshold = 875;

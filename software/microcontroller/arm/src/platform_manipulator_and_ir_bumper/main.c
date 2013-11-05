@@ -527,7 +527,7 @@ unsigned int setGripperRotation(unsigned int goalPosition)
 
 unsigned int setGripperGrasp(unsigned int goalPosition)
 {
-    unsigned int curPosition = getLink3Position();
+    unsigned int curPosition = getGripperGraspPosition();
     if (curPosition != goalPosition)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
@@ -939,6 +939,7 @@ int main(void)
             //SETLINK1DRIVEDUTY#1
             //SETLINK1DRIVEDUTY#5
             //SETLINK1DRIVEDUTY#10
+            //SETLINK1DRIVEDUTY#15
             //SETLINK1DRIVEDUTY#20
             //SETLINK1DRIVEDUTY#30
             //SETLINK1DRIVEDUTY#40
@@ -1298,9 +1299,9 @@ int main(void)
                         }
                         else
                         {
-                            if (absv((signed int) (link3Reading - link3upperThreshold)) > thresholdSigma)
+                            if (absv((signed int) (link3Reading - link3Initial)) > thresholdSigma)
                             {
-                                setLink3Position(link3upperThreshold);
+                                setLink3Position(link3Initial);
                             }
                             else
                             {
@@ -1405,9 +1406,9 @@ int main(void)
                     {
                         stepsPending--;
                     }
-                    if (absv((signed int) (link3Reading - link3upperThreshold)) > thresholdSigma)
+                    if (absv((signed int) (link3Reading - link3Initial)) > thresholdSigma)
                     {
-                        setLink3Position(link3upperThreshold);
+                        setLink3Position(link3Initial);
                     }
                     else
                     {
