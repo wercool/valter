@@ -24,4 +24,4 @@ volatile unsigned int gripperClosedThreshold = 795;
 
 volatile unsigned int gripperContactThreshold = 800;
 
-volatile unsigned int gripperObjectDetectedThreshold = 500;
+volatile unsigned int gripperObjectDetectedThreshold = 300;

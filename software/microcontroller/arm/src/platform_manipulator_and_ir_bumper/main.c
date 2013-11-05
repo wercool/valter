@@ -567,11 +567,11 @@ unsigned char isObjectDetected()
     while (detectionCouter < 50)
     {
         objectDetection += getValueChannel6();
-        delay_us(100);
+        delay_us(500);
         detectionCouter++;
     }
-    objectDetection = round(objectDetection / 50);
-    if (objectDetection > 700)
+    objectDetection = round((double)objectDetection / (double)50);
+    if (objectDetection < gripperObjectDetectedThreshold)
     {
         sprintf((char *)msg,"OBJECT DETECTED\n");
         pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
@@ -597,10 +597,10 @@ unsigned char isObjectGrasped(unsigned int force)
     while (senseCouter < 10)
     {
         objectSense += getValueChannel6();
-        delay_us(50);
+        delay_us(250);
         senseCouter++;
     }
-    objectSense = round(objectSense / 10);
+    objectSense = round((double)objectSense / (double)10);
     if (objectSense > force)
     {
         sprintf((char *)msg,"OBJECT GRASPED\n");
@@ -742,7 +742,7 @@ int main(void)
 
         if (isObjectGraspedFlag)
         {
-            isObjectGrasped(850);
+            isObjectGrasped(875);
         }
 
         cdcMessageObj = getCDCMEssage();
@@ -1356,7 +1356,7 @@ int main(void)
             {
                 if (isObjectDetected())
                 {
-                    unsigned char objectIsGrasped = isObjectGrasped(850);
+                    unsigned char objectIsGrasped = isObjectGrasped(875);
                     if ((absv((signed int) (gripperGraspPosition - gripperClosedThreshold)) > thresholdSigma) || objectIsGrasped == 0)
                     {
                         setGripperGrasp(gripperClosedThreshold);
