@@ -343,7 +343,7 @@ unsigned int setLink1Position(unsigned int goalPosition)
 {
     unsigned int curPosition = getLink1Position();
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)link1Range) * 100);
-    if (curPosition != goalPosition)
+    if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
         unsigned int duty = 1;
@@ -395,7 +395,7 @@ unsigned int setLink2Position(unsigned int goalPosition)
 {
     unsigned int curPosition = getLink2Position();
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)link2Range) * 100);
-    if (curPosition != goalPosition)
+    if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
         unsigned int duty = 1;
@@ -446,7 +446,7 @@ unsigned int setLink2Position(unsigned int goalPosition)
 unsigned int setLink3Position(unsigned int goalPosition)
 {
     unsigned int curPosition = getLink3Position();
-    if (curPosition != goalPosition)
+    if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
         if (positionVector == 0)
@@ -478,7 +478,7 @@ unsigned int setGripperRotation(unsigned int goalPosition)
     unsigned int curPosition = getGripperRotation();
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)gripperRotateRange) * 100);
     unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
-    if (curPosition != goalPosition)
+    if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
         unsigned int duty = 1;
         if (positionTrend >= 90)
@@ -528,7 +528,7 @@ unsigned int setGripperRotation(unsigned int goalPosition)
 unsigned int setGripperGrasp(unsigned int goalPosition)
 {
     unsigned int curPosition = getGripperGraspPosition();
-    if (curPosition != goalPosition)
+    if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
         if (positionVector == 0)
