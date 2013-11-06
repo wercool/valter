@@ -17,7 +17,7 @@
 
 #define FIQ_INTERRUPT_LEVEL 0
 
-unsigned char thresholdSigma = 4;
+unsigned char thresholdSigma = 2;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -349,23 +349,23 @@ unsigned int setLink1Position(unsigned int goalPosition)
         unsigned int duty = 1;
         if (positionTrend >= 90)
         {
-            duty = 20;
+            duty = 30;
         }
         else if (positionTrend < 90 && positionTrend >= 80)
         {
-            duty = 30;
+            duty = 40;
         }
         else if (positionTrend < 80 && positionTrend >= 50)
         {
-            duty = 40;
+            duty = 50;
         }
         else if (positionTrend < 50 && positionTrend >= 25)
         {
-            duty = 30;
+            duty = 40;
         }
         else if (positionTrend < 25)
         {
-            duty = 20;
+            duty = 30;
         }
         pwmDutySetPercent(0, duty);
         AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
@@ -1206,6 +1206,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "DEMOPSTART") == 0)
             {
                 parallelDemo = 1;
+                thresholdSigma = 10;
                 serialDemo = 0;
                 sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO STARTED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
@@ -1215,6 +1216,7 @@ int main(void)
             {
                 parallelDemo = 0;
                 stopAllManipulatorDrives();
+                thresholdSigma = 2;
                 sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO STOPPED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
@@ -1222,6 +1224,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "DEMOSSTART") == 0)
             {
                 serialDemo = 1;
+                thresholdSigma = 10;
                 parallelDemo = 0;
                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STARTED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
@@ -1231,6 +1234,7 @@ int main(void)
             {
                 serialDemo = 0;
                 stopAllManipulatorDrives();
+                thresholdSigma = 2;
                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STOPPED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
@@ -1255,6 +1259,7 @@ int main(void)
             //SETTHRESHOLDSIGMA#4
             //SETTHRESHOLDSIGMA#5
             //SETTHRESHOLDSIGMA#6
+            //SETTHRESHOLDSIGMA#10
             //SETTHRESHOLDSIGMA#20
             if (strcmp((char*) cmdParts, "SETTHRESHOLDSIGMA") == 0)
             {
@@ -1371,24 +1376,28 @@ int main(void)
                         }
                         else
                         {
+                            stopGripperRotationDrive();
                             if (absv((signed int) (link3Reading - link3Initial)) > thresholdSigma)
                             {
                                 setLink3Position(link3Initial);
                             }
                             else
                             {
+                                stopLink3Drive();
                                 if (absv((signed int) (link1Reading - link1lowerThreshold)) > thresholdSigma)
                                 {
                                     setLink1Position(link1lowerThreshold);
                                 }
                                 else
                                 {
+                                    stopLink1Drive();
                                     if (absv((signed int) (link2Reading - link2upperThreshold)) > thresholdSigma)
                                     {
                                         setLink2Position(link2upperThreshold);
                                     }
                                     else
                                     {
+                                        stopAllManipulatorDrives();
                                         serialDemo = 0;
                                         serialDemoVec = 0;
                                     }
@@ -1396,6 +1405,10 @@ int main(void)
                             }
                         }
                     }
+                }
+                else
+                {
+                    stopGripperGraspDrive();
                 }
             }
         }
@@ -1417,6 +1430,7 @@ int main(void)
                 }
                 else
                 {
+                    stopLink1Drive();
                     stepsPending--;
                 }
                 if (absv((signed int) (link2Reading - link2lowerThreshold)) > thresholdSigma)
@@ -1425,6 +1439,7 @@ int main(void)
                 }
                 else
                 {
+                    stopLink2Drive();
                     stepsPending--;
                 }
                 if (absv((signed int) (gripperRotation - gripperRotateCWThreshold)) > thresholdSigma)
@@ -1433,6 +1448,7 @@ int main(void)
                 }
                 else
                 {
+                    stopGripperRotationDrive();
                     stepsPending--;
                 }
                 if (absv((signed int) (link3Reading - link3lowerThreshold)) > thresholdSigma)
@@ -1441,6 +1457,7 @@ int main(void)
                 }
                 else
                 {
+                    stopLink3Drive();
                     stepsPending--;
                 }
                 if (absv((signed int) (gripperGraspPosition - gripperOpenedThreshold)) > thresholdSigma)
@@ -1449,6 +1466,7 @@ int main(void)
                 }
                 else
                 {
+                    stopGripperGraspDrive();
                     stepsPending--;
                 }
                 if (stepsPending == 0)
@@ -1461,13 +1479,14 @@ int main(void)
                 unsigned char stepsPending = 5;
                 if (isObjectDetected())
                 {
-                    unsigned char objectIsGrasped = isObjectGrasped(850);
-                    if ((absv((signed int) (gripperGraspPosition - gripperClosedThreshold)) > thresholdSigma) || objectIsGrasped == 0)
+                    unsigned char objectIsGrasped = isObjectGrasped(875);
+                    if (objectIsGrasped == 0)
                     {
                         setGripperGrasp(gripperClosedThreshold);
                     }
                     else
                     {
+                        stopGripperGraspDrive();
                         stepsPending--;
                     }
                     if (absv((signed int) (gripperRotation - gripperRotateCWWThreshold)) > thresholdSigma)
@@ -1476,6 +1495,7 @@ int main(void)
                     }
                     else
                     {
+                        stopGripperRotationDrive();
                         stepsPending--;
                     }
                     if (absv((signed int) (link3Reading - link3Initial)) > thresholdSigma)
@@ -1484,6 +1504,7 @@ int main(void)
                     }
                     else
                     {
+                        stopLink3Drive();
                         stepsPending--;
                     }
                     if (absv((signed int) (link1Reading - link1lowerThreshold)) > thresholdSigma)
@@ -1492,6 +1513,7 @@ int main(void)
                     }
                     else
                     {
+                        stopLink1Drive();
                         stepsPending--;
                     }
                     if (absv((signed int) (link2Reading - link2upperThreshold)) > thresholdSigma)
@@ -1500,11 +1522,17 @@ int main(void)
                     }
                     else
                     {
+                        stopLink2Drive();
                         stepsPending--;
                     }
                 }
+                else
+                {
+                    stopGripperGraspDrive();
+                }
                 if (stepsPending == 0)
                 {
+                    stopAllManipulatorDrives();
                     parallelDemoVec = 0;
                     parallelDemo = 0;
                 }
