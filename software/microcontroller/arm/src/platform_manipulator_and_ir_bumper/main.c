@@ -339,6 +339,25 @@ int getGripperGraspPosition()
     return getValueChannel6();
 }
 
+unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char maxDuty, unsigned char minDuty)
+{
+    unsigned int duty = round((((double)(absv(trend - trendShift))) / (double) 100) * maxDuty);
+    if (trend > absv(trendShift))
+    {
+        duty = round((double)duty * (double)((double)50 / (double)trend));
+    }
+    if (duty < minDuty)
+    {
+        return minDuty;
+    }
+    if (duty > maxDuty)
+    {
+        return maxDuty;
+    }
+    return duty;
+}
+
+
 unsigned int setLink1Position(unsigned int goalPosition)
 {
     unsigned int curPosition = getLink1Position();
@@ -346,27 +365,7 @@ unsigned int setLink1Position(unsigned int goalPosition)
     if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
-        unsigned int duty = 1;
-        if (positionTrend >= 90)
-        {
-            duty = 30;
-        }
-        else if (positionTrend < 90 && positionTrend >= 80)
-        {
-            duty = 40;
-        }
-        else if (positionTrend < 80 && positionTrend >= 50)
-        {
-            duty = 50;
-        }
-        else if (positionTrend < 50 && positionTrend >= 25)
-        {
-            duty = 40;
-        }
-        else if (positionTrend < 25)
-        {
-            duty = 30;
-        }
+        unsigned int duty = getDynamicDutyVal(positionTrend, -50, 32, 25);
         pwmDutySetPercent(0, duty);
         AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
         if (positionVector == 0)
@@ -398,27 +397,7 @@ unsigned int setLink2Position(unsigned int goalPosition)
     if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
-        unsigned int duty = 1;
-        if (positionTrend >= 90)
-        {
-            duty = 20;
-        }
-        else if (positionTrend < 90 && positionTrend >= 80)
-        {
-            duty = 30;
-        }
-        else if (positionTrend < 80 && positionTrend >= 50)
-        {
-            duty = 40;
-        }
-        else if (positionTrend < 50 && positionTrend >= 25)
-        {
-            duty = 30;
-        }
-        else if (positionTrend < 25)
-        {
-            duty = 20;
-        }
+        unsigned int duty = getDynamicDutyVal(positionTrend, -50, 32, 22);
         pwmDutySetPercent(1, duty);
         AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
         if (positionVector == 0)
@@ -480,27 +459,7 @@ unsigned int setGripperRotation(unsigned int goalPosition)
     unsigned char positionVector = (goalPosition > curPosition) ? 0 : 1;
     if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
     {
-        unsigned int duty = 1;
-        if (positionTrend >= 90)
-        {
-            duty = 20;
-        }
-        else if (positionTrend < 90 && positionTrend >= 80)
-        {
-            duty = 30;
-        }
-        else if (positionTrend < 80 && positionTrend >= 50)
-        {
-            duty = 40;
-        }
-        else if (positionTrend < 50 && positionTrend >= 25)
-        {
-            duty = 30;
-        }
-        else if (positionTrend < 25)
-        {
-            duty = 20;
-        }
+        unsigned int duty = getDynamicDutyVal(positionTrend, -50, 32, 22);
         pwmDutySetPercent(3, duty);
         AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
         if (positionVector == 0)
