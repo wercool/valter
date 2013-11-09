@@ -753,6 +753,7 @@ int main(void)
             //SETLEFTUSSONARSERVODUTY#8
             //SETLEFTUSSONARSERVODUTY#20
             //SETLEFTUSSONARSERVODUTY#40
+            //SETLEFTUSSONARSERVODUTY#14
             if (strcmp((char*) cmdParts, "SETLEFTUSSONARSERVODUTY") == 0)
             {
                 leftUSSonarServoDuty = atoi(strtok( NULL, "#" ));
@@ -764,6 +765,7 @@ int main(void)
             //SETRIGHTUSSONARSERVODUTY#8
             //SETRIGHTUSSONARSERVODUTY#20
             //SETRIGHTUSSONARSERVODUTY#40
+            //SETRIGHTUSSONARSERVODUTY#27
             if (strcmp((char*) cmdParts, "SETRIGHTUSSONARSERVODUTY") == 0)
             {
                 rightUSSonarServoDuty = atoi(strtok( NULL, "#" ));
