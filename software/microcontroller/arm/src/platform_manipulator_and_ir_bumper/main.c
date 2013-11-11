@@ -619,14 +619,14 @@ unsigned int inspectGraspDriveCurrent()
     graspCurrentSUM += getValueChannel6();
     graspCurrentMeasureStep++;
 
-    if (graspCurrentMeasureStep > 5)
+    if (graspCurrentMeasureStep > 10)
     {
-        unsigned int inspectedValue = round((double)graspCurrentSUM / (double) 5);
+        unsigned int inspectedValue = round((double)graspCurrentSUM / (double) 10);
 
         graspCurrentSUM = 0;
         graspCurrentMeasureStep = 0;
 
-        if (inspectedValue > 25)
+        if (inspectedValue > 24)
         {
             //overload
             return 0;
