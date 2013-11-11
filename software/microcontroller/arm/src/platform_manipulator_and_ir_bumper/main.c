@@ -339,6 +339,16 @@ int getGripperGraspPosition()
     return getValueChannel6();
 }
 
+int getGraspDriveCurrent()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+    input1Channel = 8;
+    return getValueChannel6();
+}
+
 unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char maxDuty, unsigned char minDuty)
 {
     unsigned int duty = round((((double)(absv(trend - trendShift))) / (double) 100) * maxDuty);
@@ -619,7 +629,6 @@ int main(void)
     unsigned int link1DriveDuty = 1;
     unsigned int link2DriveDuty = 1;
     unsigned int gripperRotateDriveDuty = 1;
-    unsigned char parallelDemo = 0;
     unsigned char serialDemo = 0;
     unsigned char link1Readings = 0;
     unsigned char link2Readings = 0;
@@ -646,7 +655,6 @@ int main(void)
     unsigned int gripperGraspPosition = 0;
 
     unsigned int serialDemoVec = 0;
-    unsigned int parallelDemoVec = 0;
 
     DeviceInit();
 
@@ -1162,29 +1170,10 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
                 continue;
             }
-            if (strcmp((char*) cmdParts, "DEMOPSTART") == 0)
-            {
-                parallelDemo = 1;
-                thresholdSigma = 10;
-                serialDemo = 0;
-                sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO STARTED\n");
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "DEMOPSTOP") == 0)
-            {
-                parallelDemo = 0;
-                stopAllManipulatorDrives();
-                thresholdSigma = 2;
-                sprintf((char *)msg,"PARALLEL EXECUTION MANIPULATOR DEMO STOPPED\n");
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                continue;
-            }
             if (strcmp((char*) cmdParts, "DEMOSSTART") == 0)
             {
                 serialDemo = 1;
                 thresholdSigma = 10;
-                parallelDemo = 0;
                 sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STARTED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
@@ -1201,7 +1190,6 @@ int main(void)
             if (strcmp((char*) cmdParts, "MANSTOP") == 0)
             {
                 serialDemo = 0;
-                parallelDemo = 0;
                 link1StaticMode = 0;
                 link2StaticMode = 0;
                 link3StaticMode = 0;
@@ -1246,6 +1234,14 @@ int main(void)
                 continue;
             }
         }
+
+
+        if (getGraspDriveCurrent() >= 15)
+        {
+            stopGripperGraspDrive();
+            gripperGraspStaticMode = 0;
+        }
+
         if (input1Readings)
         {
             input1Reading = getValueChannel6();
@@ -1267,7 +1263,6 @@ int main(void)
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
-
 
         if (serialDemo)
         {
@@ -1368,132 +1363,6 @@ int main(void)
                 else
                 {
                     stopGripperGraspDrive();
-                }
-            }
-        }
-
-        if (parallelDemo)
-        {
-            link1Reading = getLink1Position();
-            link2Reading = getLink2Position();
-            link3Reading = getLink3Position();
-            gripperRotation = getGripperRotation();
-            gripperGraspPosition = getGripperGraspPosition();
-
-            if (parallelDemoVec == 0)
-            {
-                unsigned char stepsPending = 5;
-                if (absv((signed int) (link1Reading - link1upperThreshold)) > thresholdSigma)
-                {
-                    setLink1Position(link1upperThreshold);
-                }
-                else
-                {
-                    stopLink1Drive();
-                    stepsPending--;
-                }
-                if (absv((signed int) (link2Reading - link2lowerThreshold)) > thresholdSigma)
-                {
-                    setLink2Position(link2lowerThreshold);
-                }
-                else
-                {
-                    stopLink2Drive();
-                    stepsPending--;
-                }
-                if (absv((signed int) (gripperRotation - gripperRotateCWThreshold)) > thresholdSigma)
-                {
-                    setGripperRotation(gripperRotateCWThreshold);
-                }
-                else
-                {
-                    stopGripperRotationDrive();
-                    stepsPending--;
-                }
-                if (absv((signed int) (link3Reading - link3lowerThreshold)) > thresholdSigma)
-                {
-                    setLink3Position(link3lowerThreshold);
-                }
-                else
-                {
-                    stopLink3Drive();
-                    stepsPending--;
-                }
-                if (absv((signed int) (gripperGraspPosition - gripperOpenedThreshold)) > thresholdSigma)
-                {
-                    setGripperGrasp(gripperOpenedThreshold);
-                }
-                else
-                {
-                    stopGripperGraspDrive();
-                    stepsPending--;
-                }
-                if (stepsPending == 0)
-                {
-                    parallelDemoVec = 1;
-                }
-            }
-            else
-            {
-                unsigned char stepsPending = 5;
-                if (isObjectDetected())
-                {
-                    unsigned char objectIsGrasped = isObjectGrasped(875);
-                    if (objectIsGrasped == 0)
-                    {
-                        setGripperGrasp(gripperClosedThreshold);
-                    }
-                    else
-                    {
-                        stopGripperGraspDrive();
-                        stepsPending--;
-                    }
-                    if (absv((signed int) (gripperRotation - gripperRotateCWWThreshold)) > thresholdSigma)
-                    {
-                        setGripperRotation(gripperRotateCWWThreshold);
-                    }
-                    else
-                    {
-                        stopGripperRotationDrive();
-                        stepsPending--;
-                    }
-                    if (absv((signed int) (link3Reading - link3Initial)) > thresholdSigma)
-                    {
-                        setLink3Position(link3Initial);
-                    }
-                    else
-                    {
-                        stopLink3Drive();
-                        stepsPending--;
-                    }
-                    if (absv((signed int) (link1Reading - link1lowerThreshold)) > thresholdSigma)
-                    {
-                        setLink1Position(link1lowerThreshold);
-                    }
-                    else
-                    {
-                        stopLink1Drive();
-                        stepsPending--;
-                    }
-                    if (absv((signed int) (link2Reading - link2upperThreshold)) > thresholdSigma)
-                    {
-                        setLink2Position(link2upperThreshold);
-                    }
-                    else
-                    {
-                        stopLink2Drive();
-                        stepsPending--;
-                    }
-                }
-                else
-                {
-                    stopGripperGraspDrive();
-                }
-                if (stepsPending == 0)
-                {
-                    stopAllManipulatorDrives();
-                    parallelDemoVec = 0;
-                    parallelDemo = 0;
                 }
             }
         }
