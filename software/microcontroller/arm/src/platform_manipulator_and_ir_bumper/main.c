@@ -18,6 +18,8 @@
 #define FIQ_INTERRUPT_LEVEL 0
 
 unsigned char thresholdSigma = 2;
+unsigned char graspCurrentMeasureStep = 0;
+unsigned char graspCurrentSUM = 0;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -339,16 +341,6 @@ int getGripperGraspPosition()
     return getValueChannel6();
 }
 
-int getGraspDriveCurrent()
-{
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
-    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
-    input1Channel = 8;
-    return getValueChannel6();
-}
-
 unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char maxDuty, unsigned char minDuty)
 {
     unsigned int duty = round((((double)(absv(trend - trendShift))) / (double) 100) * maxDuty);
@@ -614,6 +606,40 @@ void stopGripperGraspDrive()
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);  //gripperPosition IN3
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10); //gripperPosition IN4
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
+}
+
+unsigned int inspectGraspDriveCurrent()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);  //U4   C
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);    //U4   D
+    input1Channel = 8;
+
+    graspCurrentSUM += getValueChannel6();
+    graspCurrentMeasureStep++;
+
+    if (graspCurrentMeasureStep > 5)
+    {
+        unsigned int inspectedValue = round((double)graspCurrentSUM / (double) 5);
+
+        graspCurrentSUM = 0;
+        graspCurrentMeasureStep = 0;
+
+        if (inspectedValue > 25)
+        {
+            //overload
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 /*
@@ -1235,11 +1261,12 @@ int main(void)
             }
         }
 
-        if (getGraspDriveCurrent() >= 25)
+        //Inspecting grasp drive current
+        if (!inspectGraspDriveCurrent())
         {
-//            stopGripperGraspDrive();
-//            gripperGraspStaticMode = 0;
-//            serialDemo = 0;
+            stopGripperGraspDrive();
+            gripperGraspStaticMode = 0;
+            serialDemo = 0;
         }
 
         if (input1Readings)
