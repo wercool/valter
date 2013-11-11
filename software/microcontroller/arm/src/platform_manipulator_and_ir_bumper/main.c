@@ -1235,11 +1235,11 @@ int main(void)
             }
         }
 
-
-        if (getGraspDriveCurrent() >= 15)
+        if (getGraspDriveCurrent() >= 25)
         {
-            stopGripperGraspDrive();
-            gripperGraspStaticMode = 0;
+//            stopGripperGraspDrive();
+//            gripperGraspStaticMode = 0;
+//            serialDemo = 0;
         }
 
         if (input1Readings)
