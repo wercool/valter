@@ -918,6 +918,7 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "TURRETMOTORSTOP") == 0)
             {
+                turretStaticMode = 0;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
                 continue;
