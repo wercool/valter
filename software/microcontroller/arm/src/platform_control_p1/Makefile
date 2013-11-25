@@ -72,6 +72,8 @@ SRCARM += syscalls.c
 SRCARM += cdc_enumerate.c
 SRCARM  += adc.c
 SRCARM  += delay.c
+SRCARM  += pwm.c
+SRCARM  += util_math.c
 
 # List C++ source files here.
 # use file-extension cpp for C++-files (use extension .cpp)

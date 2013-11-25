@@ -2,14 +2,22 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "Board.h"
 #include "cdc_enumerate.h"
 #include "adc.h"
 #include "delay.h"
+#include "pwm.h"
+#include "util_math.h"
 
 static volatile unsigned int leftMotorCounter = 0;
 static volatile unsigned int rightMotorCounter = 0;
+volatile unsigned int pwmFrequency = 8000;
+
+unsigned int turretReading = 0;
+unsigned int turretPositionRange = 1000;
+unsigned char thresholdSigma = 2;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -229,6 +237,70 @@ static void DeviceInit(void)
     InitIRQ();
 }
 
+int getTurretPosition()
+{
+    turretReading = getValueChannel5();
+    sprintf((char *)msg,"TURRET: %u\n", turretReading);
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    return turretReading;
+}
+
+unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char maxDuty, unsigned char minDuty)
+{
+    unsigned int duty = round((((double)(absv(trend - trendShift))) / (double) 100) * maxDuty);
+    if (trend > absv(trendShift))
+    {
+        duty = round((double)duty * (double)((double)50 / (double)trend));
+    }
+    if (duty < minDuty)
+    {
+        return minDuty;
+    }
+    if (duty > maxDuty)
+    {
+        return maxDuty;
+    }
+    return duty;
+}
+
+unsigned int setTurretPosition(unsigned int goalPosition)
+{
+    unsigned int curPosition = getTurretPosition();
+    unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
+    if (absv((signed int) (curPosition - goalPosition)) > thresholdSigma)
+    {
+        unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
+        unsigned int duty = getDynamicDutyVal(positionTrend, -50, 30, 20);
+        pwmDutySetPercent(2, duty);
+        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+        if (positionVector == 0)
+        {
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //turretMotorINa
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+        }
+        else
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //turretMotorINb
+        }
+    }
+    else
+    {
+        pwmDutySetPercent(2, 1);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+    }
+    sprintf((char *)msg,"TURRET TREND[%d] CUR[%d]->GOAL[%d]\n", positionTrend, curPosition, goalPosition);
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    return curPosition;
+}
+
+void stopTurretDrive()
+{
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+}
+
 /*
  * Main Entry Point and Main Loop
  */
@@ -245,7 +317,6 @@ int main(void)
     unsigned int input2Reading = 0;
 
     unsigned int turretReadings = 0;
-    unsigned int turretReading = 0;
 
     unsigned int leftMotorPWMDuty = 0;
     unsigned int rightMotorPWMDuty = 0;
@@ -258,6 +329,9 @@ int main(void)
     unsigned int turretMotorCurrentReadings = 0;
     unsigned int turretMotorCurrentReading = 0;
 
+    unsigned char turretStaticMode = 0;
+    unsigned int turretStaticVal = 0;
+
     unsigned int leftMotorCounterReadings = 0;
     unsigned int rightMotorCounterReadings = 0;
 
@@ -265,6 +339,17 @@ int main(void)
 
     while (1)
     {
+
+        if (turretStaticMode)
+        {
+            unsigned int curVal = setTurretPosition(turretStaticVal);
+            if (absv((signed int) (curVal - turretStaticVal)) <= thresholdSigma)
+            {
+                turretStaticMode = 0;
+                stopTurretDrive();
+            }
+        }
+
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
@@ -684,65 +769,96 @@ int main(void)
                 turretReadings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "SETPWMFREQUENCY") == 0)
+            {
+                pwmFrequency = atoi(strtok( NULL, "#" ));
+                pwmFreqSet(0, pwmFrequency);
+                pwmFreqSet(1, pwmFrequency);
+                pwmFreqSet(2, pwmFrequency);
+                continue;
+            }
             /*
             SETLEFTMOTORPWMDUTY#1
-            SETLEFTMOTORPWMDUTY#250
-            SETLEFTMOTORPWMDUTY#500
-            SETLEFTMOTORPWMDUTY#750
-            SETLEFTMOTORPWMDUTY#1000
-            SETLEFTMOTORPWMDUTY#1250
-            SETLEFTMOTORPWMDUTY#1500
-            SETLEFTMOTORPWMDUTY#1750
-            SETLEFTMOTORPWMDUTY#1999
+            SETLEFTMOTORPWMDUTY#5
+            SETLEFTMOTORPWMDUTY#10
+            SETLEFTMOTORPWMDUTY#15
+            SETLEFTMOTORPWMDUTY#20
+            SETLEFTMOTORPWMDUTY#25
+            SETLEFTMOTORPWMDUTY#30
+            SETLEFTMOTORPWMDUTY#35
+            SETLEFTMOTORPWMDUTY#40
             */
             if (strcmp((char*) cmdParts, "SETLEFTMOTORPWMDUTY") == 0)
             {
                 leftMotorPWMDuty = atoi(strtok( NULL, "#" ));
-                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, leftMotorPWMDuty);
+                pwmDutySetPercent(0, leftMotorPWMDuty);
                 continue;
             }
             /*
             SETRIGHTMOTORPWMDUTY#1
-            SETRIGHTMOTORPWMDUTY#250
-            SETRIGHTMOTORPWMDUTY#500
-            SETRIGHTMOTORPWMDUTY#750
-            SETRIGHTMOTORPWMDUTY#1000
-            SETRIGHTMOTORPWMDUTY#1250
-            SETRIGHTMOTORPWMDUTY#1500
-            SETRIGHTMOTORPWMDUTY#1750
-            SETRIGHTMOTORPWMDUTY#1999
+            SETRIGHTMOTORPWMDUTY#5
+            SETRIGHTMOTORPWMDUTY#10
+            SETRIGHTMOTORPWMDUTY#15
+            SETRIGHTMOTORPWMDUTY#20
+            SETRIGHTMOTORPWMDUTY#25
+            SETRIGHTMOTORPWMDUTY#30
+            SETRIGHTMOTORPWMDUTY#35
+            SETRIGHTMOTORPWMDUTY#40
             */
             if (strcmp((char*) cmdParts, "SETRIGHTMOTORPWMDUTY") == 0)
             {
                 rightMotorPWMDuty = atoi(strtok( NULL, "#" ));
-                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, rightMotorPWMDuty);
+                pwmDutySetPercent(1, rightMotorPWMDuty);
                 continue;
             }
             /*
             SETTURRETMOTORPWMDUTY#1
-            SETTURRETMOTORPWMDUTY#250
-            SETTURRETMOTORPWMDUTY#500
-            SETTURRETMOTORPWMDUTY#750
-            SETTURRETMOTORPWMDUTY#1000
-            SETTURRETMOTORPWMDUTY#1250
-            SETTURRETMOTORPWMDUTY#1750
-            SETTURRETMOTORPWMDUTY#1999
+            SETTURRETMOTORPWMDUTY#5
+            SETTURRETMOTORPWMDUTY#10
+            SETTURRETMOTORPWMDUTY#15
+            SETTURRETMOTORPWMDUTY#20
+            SETTURRETMOTORPWMDUTY#25
+            SETTURRETMOTORPWMDUTY#30
+            SETTURRETMOTORPWMDUTY#35
+            SETTURRETMOTORPWMDUTY#40
             */
             if (strcmp((char*) cmdParts, "SETTURRETMOTORPWMDUTY") == 0)
             {
                 turretMotorPWMDuty = atoi(strtok( NULL, "#" ));
-                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, turretMotorPWMDuty);
+                pwmDutySetPercent(2, turretMotorPWMDuty);
                 continue;
             }
-            //TODO: set Duty 0 before switching
+            //SETTURRETPOSITION#0
+            //SETTURRETPOSITION#100
+            //SETTURRETPOSITION#200
+            //SETTURRETPOSITION#300
+            //SETTURRETPOSITION#400
+            //SETTURRETPOSITION#500
+            //SETTURRETPOSITION#600
+            //SETTURRETPOSITION#700
+            //SETTURRETPOSITION#800
+            //SETTURRETPOSITION#900
+            //SETTURRETPOSITION#1023
+            if (strcmp((char*) cmdParts, "SETTURRETPOSITION") == 0)
+            {
+                turretStaticMode = 1;
+                turretStaticVal = atoi(strtok( NULL, "#" ));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "LEFTMOTORCW") == 0)
             {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
+                delay_ms(100);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);    //leftMotorINa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTMOTORCCW") == 0)
             {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //leftMotorINb
+                delay_ms(100);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //leftMotorINa
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //leftMotorINb
                 continue;
@@ -755,12 +871,18 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "RIGHTMOTORCW") == 0)
             {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
+                delay_ms(100);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);    //rightMotorINa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTMOTORCCW") == 0)
             {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27); //rightMotorINb
+                delay_ms(100);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //rightMotorINa
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);   //rightMotorINb
                 continue;
@@ -773,12 +895,18 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "TURRETMOTORCW") == 0)
             {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+                delay_ms(100);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //turretMotorINa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
                 continue;
             }
             if (strcmp((char*) cmdParts, "TURRETMOTORCCW") == 0)
             {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+                delay_ms(100);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //turretMotorINb
                 continue;
