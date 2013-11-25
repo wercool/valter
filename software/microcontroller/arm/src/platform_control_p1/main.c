@@ -266,12 +266,19 @@ unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char
 unsigned int setTurretPosition(unsigned int goalPosition)
 {
     unsigned int curPosition = getTurretPosition();
-    if (prevTurretReading < 900 && curPosition == 1023)
+    if (absv(prevTurretReading - curPosition) > 35)
     {
-        curPosition = prevTurretReading + 50;
+        if (goalPosition < prevTurretReading)
+        {
+            curPosition = prevTurretReading - 35;
+        }
+        else
+        {
+            curPosition = prevTurretReading + 35;
+        }
     }
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
-    if (absv((signed int) (curPosition - goalPosition)) > 50)
+    if (absv((signed int) (curPosition - goalPosition)) > 35)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
         unsigned int duty = getDynamicDutyVal(positionTrend, -50, 30, 20);
@@ -348,7 +355,7 @@ int main(void)
         if (turretStaticMode)
         {
             unsigned int curVal = setTurretPosition(turretStaticVal);
-            if (absv((signed int) (curVal - turretStaticVal)) <= 50)
+            if (absv((signed int) (curVal - turretStaticVal)) <= 35)
             {
                 turretStaticMode = 0;
                 stopTurretDrive();
