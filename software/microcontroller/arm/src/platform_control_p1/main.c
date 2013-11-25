@@ -861,7 +861,7 @@ int main(void)
             //SETTURRETPOSITION#700
             //SETTURRETPOSITION#800
             //SETTURRETPOSITION#900
-            //SETTURRETPOSITION#1023
+            //SETTURRETPOSITION#1000
             if (strcmp((char*) cmdParts, "SETTURRETPOSITION") == 0)
             {
                 prevTurretReading = getTurretPosition();
