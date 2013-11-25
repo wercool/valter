@@ -853,6 +853,7 @@ int main(void)
             //SETTURRETPOSITION#1023
             if (strcmp((char*) cmdParts, "SETTURRETPOSITION") == 0)
             {
+                prevTurretReading = getTurretPosition();
                 turretStaticMode = 1;
                 turretStaticVal = atoi(strtok( NULL, "#" ));
                 continue;
