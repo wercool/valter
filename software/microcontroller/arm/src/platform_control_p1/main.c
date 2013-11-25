@@ -277,13 +277,14 @@ unsigned int setTurretPosition(unsigned int goalPosition)
             curPosition = prevTurretReading + 35;
         }
     }
+    sprintf((char *)msg,"TURRET POSITION DELTA:%d\n", absv(prevTurretReading - curPosition));
+    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
     if (absv((signed int) (curPosition - goalPosition)) > 35)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
         unsigned int duty = getDynamicDutyVal(positionTrend, -50, 30, 20);
         pwmDutySetPercent(2, duty);
-        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
         if (positionVector == 0)
         {
             AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
