@@ -266,16 +266,16 @@ unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char
 unsigned int setTurretPosition(unsigned int goalPosition)
 {
     unsigned int curPosition = getTurretPosition();
-    if (absv(prevTurretReading - curPosition) > 500)
+    if (curPosition > 1020)
     {
         if (goalPosition < prevTurretReading)
         {
-            prevTurretReading -= 35;
+            prevTurretReading -= 5;
             curPosition = prevTurretReading;
         }
         else
         {
-            prevTurretReading += 35;
+            prevTurretReading += 5;
             curPosition = prevTurretReading;
         }
     }
@@ -283,7 +283,7 @@ unsigned int setTurretPosition(unsigned int goalPosition)
     {
         prevTurretReading = curPosition;
     }
-    sprintf((char *)msg,"TURRET POSITION DELTA:%d\n", absv(prevTurretReading - curPosition));
+    sprintf((char *)msg,"TURRET POSITION DELTA:%d\n", absv((signed int)(prevTurretReading - curPosition)));
     pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
     if (absv((signed int) (curPosition - goalPosition)) > 35)
