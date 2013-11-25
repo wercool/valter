@@ -18,6 +18,7 @@ volatile unsigned int pwmFrequency = 8000;
 unsigned int prevTurretReading = 0;
 unsigned int turretReading = 0;
 unsigned int turretPositionRange = 1000;
+unsigned int turretRotationDirection = 0;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -240,6 +241,29 @@ static void DeviceInit(void)
 int getTurretPosition()
 {
     turretReading = getValueChannel5();
+    if (turretReading == 1023)
+    {
+        if (turretRotationDirection == 1)
+        {
+            turretReading = prevTurretReading + 35;
+        }
+        else
+        {
+            turretReading = prevTurretReading - 35;
+        }
+    }
+    else
+    {
+        if (turretReading > prevTurretReading)
+        {
+            turretRotationDirection = 1;
+        }
+        else
+        {
+            turretRotationDirection = 0;
+        }
+        prevTurretReading = turretReading;
+    }
     sprintf((char *)msg,"TURRET: %u\n", turretReading);
     pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
     return turretReading;
@@ -266,25 +290,6 @@ unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char
 unsigned int setTurretPosition(unsigned int goalPosition)
 {
     unsigned int curPosition = getTurretPosition();
-    if (curPosition > 1020)
-    {
-        if (goalPosition < prevTurretReading)
-        {
-            prevTurretReading -= 5;
-            curPosition = prevTurretReading;
-        }
-        else
-        {
-            prevTurretReading += 5;
-            curPosition = prevTurretReading;
-        }
-    }
-    else
-    {
-        prevTurretReading = curPosition;
-    }
-    sprintf((char *)msg,"TURRET POSITION DELTA:%d\n", absv((signed int)(prevTurretReading - curPosition)));
-    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
     if (absv((signed int) (curPosition - goalPosition)) > 35)
     {
