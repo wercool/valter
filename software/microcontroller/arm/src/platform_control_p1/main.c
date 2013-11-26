@@ -245,11 +245,11 @@ int getTurretPosition()
     {
         if (turretRotationDirection == 1)
         {
-            turretReading = prevTurretReading + 35;
+            turretReading = prevTurretReading + 25;
         }
         else
         {
-            turretReading = prevTurretReading - 35;
+            turretReading = prevTurretReading - 25;
         }
     }
     else
@@ -291,7 +291,7 @@ unsigned int setTurretPosition(unsigned int goalPosition)
 {
     unsigned int curPosition = getTurretPosition();
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
-    if (absv((signed int) (curPosition - goalPosition)) > 35)
+    if (absv((signed int) (curPosition - goalPosition)) > 15)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
         unsigned int duty = getDynamicDutyVal(positionTrend, -50, 30, 20);
@@ -366,7 +366,7 @@ int main(void)
         if (turretStaticMode)
         {
             unsigned int curVal = setTurretPosition(turretStaticVal);
-            if (absv((signed int) (curVal - turretStaticVal)) <= 35)
+            if (absv((signed int) (curVal - turretStaticVal)) <= 15)
             {
                 turretStaticMode = 0;
                 stopTurretDrive();
@@ -382,6 +382,12 @@ int main(void)
             char *cmdParts;
 
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
+            if (strcmp((char*) cmdParts, "GETID") == 0)
+            {
+                sprintf((char *)msg,"PLATFORM-CONTROL-P1\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             // CAUTION!!! Use only when AC/DC 12V connected.
             if (strcmp((char*) cmdParts, "MAINACCUMULATORRELAYON") == 0)
             {
@@ -851,17 +857,26 @@ int main(void)
                 pwmDutySetPercent(2, turretMotorPWMDuty);
                 continue;
             }
-            //SETTURRETPOSITION#0
+            //SETTURRETPOSITION#25
+            //SETTURRETPOSITION#50
             //SETTURRETPOSITION#100
+            //SETTURRETPOSITION#150
             //SETTURRETPOSITION#200
+            //SETTURRETPOSITION#250
             //SETTURRETPOSITION#300
+            //SETTURRETPOSITION#350
             //SETTURRETPOSITION#400
+            //SETTURRETPOSITION#450
             //SETTURRETPOSITION#500
             //SETTURRETPOSITION#550
             //SETTURRETPOSITION#600
+            //SETTURRETPOSITION#650
             //SETTURRETPOSITION#700
+            //SETTURRETPOSITION#750
             //SETTURRETPOSITION#800
+            //SETTURRETPOSITION#850
             //SETTURRETPOSITION#900
+            //SETTURRETPOSITION#950
             //SETTURRETPOSITION#1000
             if (strcmp((char*) cmdParts, "SETTURRETPOSITION") == 0)
             {
