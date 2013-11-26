@@ -486,6 +486,12 @@ int main(void)
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
 
+            if (strcmp((char*) cmdParts, "GETID") == 0)
+            {
+                sprintf((char *)msg,"PLATFORM-LOCATION-P1\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "ENABLESENSORS") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);

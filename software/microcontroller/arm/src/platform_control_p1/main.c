@@ -245,11 +245,11 @@ int getTurretPosition()
     {
         if (turretRotationDirection == 1)
         {
-            turretReading = prevTurretReading + 25;
+            turretReading = prevTurretReading + 35;
         }
         else
         {
-            turretReading = prevTurretReading - 25;
+            turretReading = prevTurretReading - 35;
         }
     }
     else
@@ -382,6 +382,7 @@ int main(void)
             char *cmdParts;
 
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
+
             if (strcmp((char*) cmdParts, "GETID") == 0)
             {
                 sprintf((char *)msg,"PLATFORM-CONTROL-P1\n");
@@ -816,6 +817,17 @@ int main(void)
             SETLEFTMOTORPWMDUTY#30
             SETLEFTMOTORPWMDUTY#35
             SETLEFTMOTORPWMDUTY#40
+            SETLEFTMOTORPWMDUTY#45
+            SETLEFTMOTORPWMDUTY#50
+            SETLEFTMOTORPWMDUTY#55
+            SETLEFTMOTORPWMDUTY#60
+            SETLEFTMOTORPWMDUTY#65
+            SETLEFTMOTORPWMDUTY#70
+            SETLEFTMOTORPWMDUTY#75
+            SETLEFTMOTORPWMDUTY#80
+            SETLEFTMOTORPWMDUTY#85
+            SETLEFTMOTORPWMDUTY#90
+            SETLEFTMOTORPWMDUTY#100
             */
             if (strcmp((char*) cmdParts, "SETLEFTMOTORPWMDUTY") == 0)
             {
@@ -833,6 +845,17 @@ int main(void)
             SETRIGHTMOTORPWMDUTY#30
             SETRIGHTMOTORPWMDUTY#35
             SETRIGHTMOTORPWMDUTY#40
+            SETRIGHTMOTORPWMDUTY#45
+            SETRIGHTMOTORPWMDUTY#50
+            SETRIGHTMOTORPWMDUTY#55
+            SETRIGHTMOTORPWMDUTY#60
+            SETRIGHTMOTORPWMDUTY#65
+            SETRIGHTMOTORPWMDUTY#70
+            SETRIGHTMOTORPWMDUTY#75
+            SETRIGHTMOTORPWMDUTY#80
+            SETRIGHTMOTORPWMDUTY#85
+            SETRIGHTMOTORPWMDUTY#90
+            SETRIGHTMOTORPWMDUTY#100
             */
             if (strcmp((char*) cmdParts, "SETRIGHTMOTORPWMDUTY") == 0)
             {

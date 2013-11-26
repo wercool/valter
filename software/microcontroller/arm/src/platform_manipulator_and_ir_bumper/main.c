@@ -747,6 +747,12 @@ int main(void)
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
 
+            if (strcmp((char*) cmdParts, "GETID") == 0)
+            {
+                sprintf((char *)msg,"PLATFORM-MANIPULATOR-AND-IR-BUMPER\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "DCDC24VENABLEON") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
