@@ -239,7 +239,7 @@ static void DeviceInit(void)
     InitIRQ();
 }
 
-int getTurretPosition(tracing)
+int getTurretPosition(unsigned char tracing)
 {
     turretReading = getValueChannel5();
     if (turretReading == 1023)
