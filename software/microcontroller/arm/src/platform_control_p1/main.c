@@ -19,6 +19,7 @@ unsigned int prevTurretReading = 0;
 unsigned int turretReading = 0;
 unsigned int turretPositionRange = 1000;
 unsigned int turretRotationDirection = 0;
+unsigned int turretPositioning = 0;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -245,11 +246,11 @@ int getTurretPosition()
     {
         if (turretRotationDirection == 1)
         {
-            turretReading = prevTurretReading + 35;
+            turretReading = prevTurretReading + 20;
         }
         else
         {
-            turretReading = prevTurretReading - 35;
+            turretReading = prevTurretReading - 20;
         }
     }
     else
@@ -291,24 +292,28 @@ unsigned int setTurretPosition(unsigned int goalPosition)
 {
     unsigned int curPosition = getTurretPosition();
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
-    if (absv((signed int) (curPosition - goalPosition)) > 15)
+    if (absv((signed int) (curPosition - goalPosition)) > 20)
     {
         unsigned char positionVector = (goalPosition > curPosition) ? 1 : 0;
         unsigned int duty = getDynamicDutyVal(positionTrend, -50, 30, 20);
         pwmDutySetPercent(2, duty);
-        if (positionVector == 0)
+        if (turretPositioning == 1)
         {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //turretMotorINb
-        }
-        else
-        {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //turretMotorINa
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+            if (positionVector == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //turretMotorINb
+            }
+            else
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //turretMotorINa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+            }
         }
     }
     else
     {
+        turretPositioning = 0;
         pwmDutySetPercent(2, 1);
         AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
         AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
@@ -322,6 +327,7 @@ void stopTurretDrive()
 {
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28); //turretMotorINa
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
+    turretPositioning = 0;
 }
 
 /*
@@ -366,8 +372,9 @@ int main(void)
         if (turretStaticMode)
         {
             unsigned int curVal = setTurretPosition(turretStaticVal);
-            if (absv((signed int) (curVal - turretStaticVal)) <= 15)
+            if (absv((signed int) (curVal - turretStaticVal)) <= 20)
             {
+                turretPositioning = 0;
                 turretStaticMode = 0;
                 stopTurretDrive();
             }
@@ -904,6 +911,7 @@ int main(void)
             //SETTURRETPOSITION#1000
             if (strcmp((char*) cmdParts, "SETTURRETPOSITION") == 0)
             {
+                turretPositioning = 1;
                 prevTurretReading = getTurretPosition();
                 turretStaticMode = 1;
                 turretStaticVal = atoi(strtok( NULL, "#" ));
