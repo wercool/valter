@@ -387,6 +387,8 @@ int main(void)
         unsigned int turret_pos = getTurretPosition(0);
         if ((turret_pos <= 25 || turret_pos >= 999) && turret_pos != 1023)
         {
+            sprintf((char *)msg,"TURRET EMERGENCY STOP\n");
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             turretStaticMode = 0;
             stopTurretDrive();
         }
