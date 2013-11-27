@@ -976,7 +976,7 @@ int main(void)
             //SETLINK1POSITION#700
             //SETLINK1POSITION#800
             //SETLINK1POSITION#900
-            //SETLINK1POSITION#1023
+            //SETLINK1POSITION#1023 INITIAL
             if (strcmp((char*) cmdParts, "SETLINK1POSITION") == 0)
             {
                 link1StaticMode = 1;
@@ -1022,7 +1022,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
                 continue;
             }
-            //SETLINK2POSITION#135
+            //SETLINK2POSITION#135 INITIAL
             //SETLINK2POSITION#200
             //SETLINK2POSITION#300
             //SETLINK2POSITION#400
