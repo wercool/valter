@@ -372,14 +372,6 @@ int main(void)
     while (1)
     {
 
-        //IMPORTANT!!! Implement in a working firmware
-        unsigned int turret_pos = getTurretPosition(0);
-        if ((turret_pos < 25 || turret_pos > 999) && turret_pos != 1023)
-        {
-            turretStaticMode = 0;
-            stopTurretDrive();
-        }
-
         if (turretStaticMode)
         {
             unsigned int curVal = setTurretPosition(turretStaticVal);
@@ -389,6 +381,14 @@ int main(void)
                 turretStaticMode = 0;
                 stopTurretDrive();
             }
+        }
+
+        //IMPORTANT!!! Implement in a working firmware
+        unsigned int turret_pos = getTurretPosition(0);
+        if ((turret_pos <= 25 || turret_pos >= 999) && turret_pos != 1023)
+        {
+            turretStaticMode = 0;
+            stopTurretDrive();
         }
 
         cdcMessageObj = getCDCMEssage();
