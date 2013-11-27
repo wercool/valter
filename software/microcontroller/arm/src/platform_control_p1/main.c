@@ -239,7 +239,7 @@ static void DeviceInit(void)
     InitIRQ();
 }
 
-int getTurretPosition()
+int getTurretPosition(tracing)
 {
     turretReading = getValueChannel5();
     if (turretReading == 1023)
@@ -265,8 +265,11 @@ int getTurretPosition()
         }
         prevTurretReading = turretReading;
     }
-    sprintf((char *)msg,"TURRET: %u\n", turretReading);
-    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    if (tracing)
+    {
+        sprintf((char *)msg,"TURRET: %u\n", turretReading);
+        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+    }
     return turretReading;
 }
 
@@ -290,7 +293,7 @@ unsigned int getDynamicDutyVal(unsigned int trend, int trendShift, unsigned char
 
 unsigned int setTurretPosition(unsigned int goalPosition)
 {
-    unsigned int curPosition = getTurretPosition();
+    unsigned int curPosition = getTurretPosition(1);
     unsigned int positionTrend = round(((double)absv(goalPosition - curPosition) / (double)turretPositionRange) * 100);
     if (absv((signed int) (curPosition - goalPosition)) > 20)
     {
@@ -368,6 +371,14 @@ int main(void)
 
     while (1)
     {
+
+        //IMPORTANT!!! Implement in a working firmware
+        unsigned int turret_pos = getTurretPosition(0);
+        if ((turret_pos < 25 || turret_pos > 999) && turret_pos != 1023)
+        {
+            turretStaticMode = 0;
+            stopTurretDrive();
+        }
 
         if (turretStaticMode)
         {
@@ -912,7 +923,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "SETTURRETPOSITION") == 0)
             {
                 turretPositioning = 1;
-                prevTurretReading = getTurretPosition();
+                prevTurretReading = getTurretPosition(1);
                 turretStaticMode = 1;
                 turretStaticVal = atoi(strtok( NULL, "#" ));
                 continue;
