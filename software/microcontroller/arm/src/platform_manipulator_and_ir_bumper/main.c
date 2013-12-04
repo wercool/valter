@@ -21,6 +21,8 @@ unsigned char thresholdSigma = 2;
 unsigned char graspCurrentMeasureStep = 0;
 unsigned char graspCurrentSUM = 0;
 
+unsigned char irBumperCnt = 0;
+
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
 //* Object              : Interrupt Handler called by the IRQ0 interrupt with AT91
@@ -50,7 +52,7 @@ __ramfunc void IRQ1Handler(void)
 //*----------------------------------------------------------------------------
 __ramfunc void FIQHandler(void)
 {
-
+    irBumperCnt++;
 }
 
 
@@ -176,10 +178,23 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
 
+    // U5, U6 PIO (irBumperCh) configuration
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);   //U5, U6 ENABLE
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);   //disable U5, U6
+
+
     // PWM configuration
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //link1DrivePWM                         PWM0
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);    //link2DrivePWM                         PWM1
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);    //cameraServoPWM, IRBumper36kHz         PWM2
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);    //cameraServoPWM                        PWM2
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //gripperRotateDrive                    PWM3
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
@@ -224,7 +239,7 @@ static void InitPIO(void)
     // IR bumper set IR radiation OFF
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
-    
+
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -244,7 +259,7 @@ static void InitIRQ()
 
     // FIQ initialization
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) FIQHandler);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) FIQHandler);
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
 }
 
@@ -682,6 +697,11 @@ int main(void)
 
     unsigned int serialDemoVec = 0;
 
+    unsigned int irBumperInitialized = 0;
+    unsigned int irBumperDutyPercent = 1;
+    unsigned int irBumperFreq = 38000;
+    unsigned int irBumperChannel = 0;
+
     DeviceInit();
 
     while (1)
@@ -950,6 +970,7 @@ int main(void)
             {
                 cameraServoDuty = atoi(strtok( NULL, "#" ));
 
+                irBumperInitialized = 0;
                 AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA2_PWM2, 0);
                 AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
@@ -1263,6 +1284,256 @@ int main(void)
             if (strcmp((char*) cmdParts, "ISOBJECTGRASPEDSTOP") == 0)
             {
                 isObjectGraspedFlag = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL0") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL1") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL2") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 2;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL3") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 3;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL4") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 4;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL5") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 5;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL6") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 6;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL7") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U5, U6 D
+                irBumperChannel = 7;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL8") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 8;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL9") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 9;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL10") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 10;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL11") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 11;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL12") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 12;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL13") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 13;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL14") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 14;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL15") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);     //U5, U6 C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);     //U5, U6 D
+                irBumperChannel = 15;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERENABLE") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERDISABLE") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERINIT") == 0)
+            {
+                AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA13_PWM2, 0);
+                AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
+                pwmFreqSet(2, irBumperFreq);
+                pwmDutySetPercent(2, 1);
+                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                sprintf((char *)msg,"IR BUMPER HAS BEEN INITIALIZED\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                irBumperInitialized = 1;
+                continue;
+            }
+            //IRBUMPERFREQ#37500
+            //IRBUMPERFREQ#37600
+            //IRBUMPERFREQ#37700
+            //IRBUMPERFREQ#37800
+            //IRBUMPERFREQ#37900
+            //IRBUMPERFREQ#38000
+            //IRBUMPERFREQ#38100
+            //IRBUMPERFREQ#38200
+            //IRBUMPERFREQ#38300
+            //IRBUMPERFREQ#38400
+            //IRBUMPERFREQ#38500
+            if (strcmp((char*) cmdParts, "IRBUMPERFREQ") == 0)
+            {
+                if (irBumperInitialized)
+                {
+                    irBumperFreq = atoi(strtok( NULL, "#" ));
+                    pwmFreqSet(2, irBumperFreq);
+                }
+                else
+                {
+                    sprintf((char *)msg,"IR BUMPER IN NOT INITIALIZED\n");
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                }
+                continue;
+            }
+            //SETIRBUMPERTRDUTY#1
+            //SETIRBUMPERTRDUTY#2
+            //SETIRBUMPERTRDUTY#3
+            //SETIRBUMPERTRDUTY#4
+            //SETIRBUMPERTRDUTY#5
+            //SETIRBUMPERTRDUTY#10
+            //SETIRBUMPERTRDUTY#15
+            //SETIRBUMPERTRDUTY#20
+            //SETIRBUMPERTRDUTY#25
+            //SETIRBUMPERTRDUTY#30
+            //SETIRBUMPERTRDUTY#35
+            //SETIRBUMPERTRDUTY#40
+            //SETIRBUMPERTRDUTY#45
+            //SETIRBUMPERTRDUTY#50
+            //SETIRBUMPERTRDUTY#60
+            //SETIRBUMPERTRDUTY#70
+            //SETIRBUMPERTRDUTY#80
+            //SETIRBUMPERTRDUTY#90
+            if (strcmp((char*) cmdParts, "SETIRBUMPERTRDUTY") == 0)
+            {
+                if (irBumperInitialized)
+                {
+                    irBumperDutyPercent = atoi(strtok( NULL, "#" ));
+                    pwmDutySetPercent(2, irBumperDutyPercent);
+                }
+                else
+                {
+                    sprintf((char *)msg,"IR BUMPER IN NOT INITIALIZED\n");
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                }
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "IRBUMPERREADING") == 0)
+            {
+                if (irBumperInitialized)
+                {
+                    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
+                    irBumperCnt = 0;
+                    for (unsigned char i = 0; i < 101; i++)
+                    {
+                        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                        delay_us(600);
+                        AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                        delay_us(600);
+                    }
+                    AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+                    sprintf((char *)msg,"IR BUMPER [%u][%u]: %u\n", irBumperChannel, irBumperDutyPercent, irBumperCnt);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                }
+                else
+                {
+                    sprintf((char *)msg,"IR BUMPER IN NOT INITIALIZED\n");
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                }
                 continue;
             }
         }
