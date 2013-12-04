@@ -1,0 +1,31 @@
+[Erasing AT91SAM7S Flash using the ERASE Pin]
+
+AT91SAM7S microcontrollers have a dedicated ERASE pin that can be used to erase the on-chip Flash memory and lock bits.
+The erase pin is pulled low by a 15k internal pull-down resistor.
+To use the ERASE pin feature, the board containing the AT91SAM7S must have a jumper that can pull the ERASE pin high.
+The AT91SAM7S-EK (AT91SAM7S evaluation board) has a jumper marked "ERASE" that is connected to the ERASE pin.
+Closing the jumper will pull the ERASE pin high.
+
+[Erasing the Flash and Lock Bits]
+To erase the flash and lock bits, the TST pin must be low - usually done by removing the TST pin jumper.
+Power must then be applied to the AT91SAM7S board.
+Now pull the ERASE pin high for more than 220ms, e.g. by closing the ERASE jumper.
+Pull the ERASE pin low again, e.g. by removing the ERASE jumper.
+Cycle the power.
+Note that the ERASE pin does not work the same way as the TST pin.
+The TST pin is used to restore the SAM-BA boot software to the first two sectors of flash.
+The TST pin must be pulled high and then power cycled to restore SAM-BA (The TST jumper must remain closed before and after cycling the power. When cycling the power, power is left on for 10 seconds. After switching the power off, the jumper is removed). The ERASE pin must be pulled high and then low again while the power is on. Power is only cycled after the erase operation.
+
+[Lock Bits Affected by the ERASE Pin]
+All NVM lock bits protecting the regions of Flash memory will be cleared.
+This will unlock the entire Flash memory. (e.g. the AT91SAM7S256 has 16 lock regions that can be protected by 16 NVM lock bits)
+The NVM security bit will be cleared.
+When enabled, the security bit will prevent any access to Flash through the ICE interface and the Fast Flash Programming Interface (FFPI).
+Using the ERASE pin is the only way to clear the security bit.
+GPNVM bit 0 and 1 are cleared.
+These bits are associated with the brownout detector.
+Clearing them will disable the brownout detector.
+
+[Hardware Design Notes]
+It may be preferable to connect a stronger pull-down resistor on the ERASE pin such as a 4k7 resistor.
+The ERASE pin can also be pulled permanently down to ground, but in this case it will not be possible to erase and re-program the microcontroller should the security bit be set.
