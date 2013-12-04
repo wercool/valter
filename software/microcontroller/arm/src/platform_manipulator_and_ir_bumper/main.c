@@ -1526,7 +1526,7 @@ int main(void)
                     }
                     AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
                     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
-                    sprintf((char *)msg,"IR BUMPER [%u][%u]: %u\n", irBumperChannel, irBumperDutyPercent, irBumperCnt);
+                    sprintf((char *)msg,"IR BUMPER CH[%u] FREQ[%u] DUTY[%u]: %u\n", irBumperChannel, irBumperFreq, irBumperDutyPercent, irBumperCnt);
                     pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 }
                 else
