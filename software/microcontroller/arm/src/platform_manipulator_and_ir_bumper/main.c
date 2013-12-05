@@ -21,7 +21,7 @@ unsigned char thresholdSigma = 2;
 unsigned char graspCurrentMeasureStep = 0;
 unsigned char graspCurrentSUM = 0;
 
-unsigned char irBumperCnt = 0;
+unsigned int irBumperCnt = 0;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -236,10 +236,10 @@ static void InitPIO(void)
 
     // IR bumber interrurp FIQ
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);    // FIQ
+
     // IR bumper set IR radiation OFF
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
-
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -697,6 +697,7 @@ int main(void)
 
     unsigned int serialDemoVec = 0;
 
+    unsigned int irBumperEnabled = 0;
     unsigned int irBumperInitialized = 0;
     unsigned int irBumperDutyPercent = 1;
     unsigned int irBumperFreq = 38000;
@@ -983,6 +984,8 @@ int main(void)
             if (strcmp((char*) cmdParts, "DISABLECAMERASERVO") == 0)
             {
                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
                 sprintf((char *)msg,"CAMERA SERVO DISABLED\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
@@ -1432,21 +1435,23 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "IRBUMPERENABLE") == 0)
             {
+                irBumperEnabled = 1;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
                 continue;
             }
             if (strcmp((char*) cmdParts, "IRBUMPERDISABLE") == 0)
             {
+                irBumperEnabled = 0;
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
                 continue;
             }
             if (strcmp((char*) cmdParts, "IRBUMPERINIT") == 0)
             {
-                AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA13_PWM2, 0);
+                AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, 0, AT91C_PA13_PWM2);
                 AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
                 AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
-                pwmFreqSet(2, irBumperFreq);
+                pwmFreqSetInv(2, irBumperFreq);
                 pwmDutySetPercent(2, 1);
                 AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
                 sprintf((char *)msg,"IR BUMPER HAS BEEN INITIALIZED\n");
@@ -1470,11 +1475,11 @@ int main(void)
                 if (irBumperInitialized)
                 {
                     irBumperFreq = atoi(strtok( NULL, "#" ));
-                    pwmFreqSet(2, irBumperFreq);
+                    pwmFreqSetInv(2, irBumperFreq);
                 }
                 else
                 {
-                    sprintf((char *)msg,"IR BUMPER IN NOT INITIALIZED\n");
+                    sprintf((char *)msg,"IR BUMPER IS NOT INITIALIZED\n");
                     pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 }
                 continue;
@@ -1493,10 +1498,6 @@ int main(void)
             //SETIRBUMPERTRDUTY#40
             //SETIRBUMPERTRDUTY#45
             //SETIRBUMPERTRDUTY#50
-            //SETIRBUMPERTRDUTY#60
-            //SETIRBUMPERTRDUTY#70
-            //SETIRBUMPERTRDUTY#80
-            //SETIRBUMPERTRDUTY#90
             if (strcmp((char*) cmdParts, "SETIRBUMPERTRDUTY") == 0)
             {
                 if (irBumperInitialized)
@@ -1506,32 +1507,51 @@ int main(void)
                 }
                 else
                 {
-                    sprintf((char *)msg,"IR BUMPER IN NOT INITIALIZED\n");
+                    sprintf((char *)msg,"IR BUMPER IS NOT INITIALIZED\n");
                     pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 }
                 continue;
             }
             if (strcmp((char*) cmdParts, "IRBUMPERREADING") == 0)
             {
-                if (irBumperInitialized)
+                if (irBumperEnabled)
                 {
-                    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
-                    irBumperCnt = 0;
-                    for (unsigned char i = 0; i < 101; i++)
+                    if (irBumperInitialized)
                     {
-                        AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-                        delay_us(600);
+                        AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, 0, AT91C_PA13_PWM2);
+                        AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
                         AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-                        delay_us(600);
+                        AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
+                        pwmFreqSetInv(2, irBumperFreq);
+                        pwmDutySetPercent(2, irBumperDutyPercent);
+
+                        AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
+                        irBumperCnt = 0;
+                        for (unsigned int i = 0; i < 256; i++)
+                        {
+                            AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                            delay_us(600);
+                            AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                            delay_us(600);
+                        }
+                        AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
+
+                        AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                        AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+                        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+
+                        sprintf((char *)msg,"IR BUMPER CH[%u] FREQ[%u] DUTY[%u]: %u\n", irBumperChannel, irBumperFreq, irBumperDutyPercent, irBumperCnt);
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                     }
-                    AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
-                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
-                    sprintf((char *)msg,"IR BUMPER CH[%u] FREQ[%u] DUTY[%u]: %u\n", irBumperChannel, irBumperFreq, irBumperDutyPercent, irBumperCnt);
-                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    else
+                    {
+                        sprintf((char *)msg,"IR BUMPER IS NOT INITIALIZED\n");
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    }
                 }
                 else
                 {
-                    sprintf((char *)msg,"IR BUMPER IN NOT INITIALIZED\n");
+                    sprintf((char *)msg,"IR BUMPER IS DISABLED\n");
                     pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 }
                 continue;

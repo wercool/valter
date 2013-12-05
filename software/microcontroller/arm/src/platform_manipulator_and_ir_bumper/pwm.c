@@ -54,6 +54,44 @@ int pwmFreqSet(int channel, uint32_t freq)
     return 0;
 }
 
+/* set frequency of PWM signal to freq */
+int pwmFreqSetInv(int channel, uint32_t freq)
+{
+    /* in order to get maximum resolution, the pre-scaler must be set to
+     * something like freq << 16.  However, the mimimum pre-scaled frequency
+     * we can get is MCLK (48MHz), the minimum is MCLK/(1024*255) =
+     * 48MHz/261120 = 183Hz */
+    uint32_t overall_div;
+    uint32_t presc_total;
+    uint8_t cpre = 0;
+    uint16_t cprd;
+
+    if (freq > MCK)
+        return -1;
+    overall_div = MCK / freq;
+
+    if (overall_div > 0x7fff)
+    {
+        // divisor is larger than half the maximum CPRD register, we
+        // have to configure prescalers
+        presc_total = overall_div >> 15;
+        // find highest 2^n fitting in prescaler (highest bit set)
+        cpre = fhs(presc_total);
+        if (cpre > 0)
+        {
+            // subtract one, because of fhs semantics //
+            cpre--;
+        }
+        cprd = overall_div / (1 << cpre);
+    }
+    else
+        cprd = overall_div;
+
+    AT91F_PWMC_CfgChannel(AT91C_BASE_PWMC, channel, cpre, cprd, 2);
+
+    return 0;
+}
+
 void pwmDutySetPercent(int channel, uint16_t duty)
 {
     uint32_t tmp = pwm->PWMC_CH[channel].PWMC_CPRDR & 0xffff;
