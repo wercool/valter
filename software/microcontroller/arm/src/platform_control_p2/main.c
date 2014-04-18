@@ -316,11 +316,20 @@ int main(void)
                 rightWheelEncoderTicks = 0;
                 continue;
             }
-            //SETSONARSERVODUTY#5
             //SETSONARSERVODUTY#8
+            //SETSONARSERVODUTY#9
+            //SETSONARSERVODUTY#10
+            //SETSONARSERVODUTY#11
+            //SETSONARSERVODUTY#12
+            //SETSONARSERVODUTY#13
+            //SETSONARSERVODUTY#14
+            //SETSONARSERVODUTY#15
+            //SETSONARSERVODUTY#16
+            //SETSONARSERVODUTY#17
+            //SETSONARSERVODUTY#18 - center
+            //SETSONARSERVODUTY#19
             //SETSONARSERVODUTY#20
-            //SETSONARSERVODUTY#30
-            //SETSONARSERVODUTY#40
+            //SETSONARSERVODUTY#28
             if (strcmp((char*) cmdParts, "SETSONARSERVODUTY") == 0)
             {
                 platformFrontSonarServoDuty = atoi(strtok( NULL, "#" ));
@@ -402,17 +411,10 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //CHARGER MOTOR IN2
                 continue;
             }
-            //CHARGERDRIVEPUSH#1#25#250
-            //CHARGERDRIVEPUSH#1#50#250
-            //CHARGERDRIVEPUSH#1#75#250
+            //CHARGERDRIVEPUSH#1#95#250
             //CHARGERDRIVEPUSH#1#100#250
-            //CHARGERDRIVEPUSH#1#100#50
-            //CHARGERDRIVEPUSH#1#100#25
-            //CHARGERDRIVEPUSH#2#25#250
-            //CHARGERDRIVEPUSH#2#50#250
-            //CHARGERDRIVEPUSH#2#75#250
-            //CHARGERDRIVEPUSH#2#100#50
-            //CHARGERDRIVEPUSH#2#100#25
+            //CHARGERDRIVEPUSH#2#95#250
+            //CHARGERDRIVEPUSH#2#100#250
             if (strcmp((char*) cmdParts, "CHARGERDRIVEPUSH") == 0)
             {
                 chargerDriveDirection = atoi(strtok( NULL, "#" ));

@@ -819,6 +819,7 @@ int main(void)
                 turretReadings = 0;
                 continue;
             }
+            //SETPWMFREQUENCY#8000
             if (strcmp((char*) cmdParts, "SETPWMFREQUENCY") == 0)
             {
                 pwmFrequency = atoi(strtok( NULL, "#" ));
