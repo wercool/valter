@@ -138,8 +138,8 @@ static void InitPWM(void)
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 
     pwmFreqSet(0, 60); // set by default to control Platform Front Sonar Drive
-    pwmFreqSet(1, 8000);
-    pwmFreqSet(2, 8000);
+    pwmFreqSet(1, 2000);
+    pwmFreqSet(2, 2000);
 
     pwmDutySet_u8(0, 1);
     pwmDutySet_u8(1, 1);
@@ -164,8 +164,8 @@ static void InitPWM(void)
 
 static void InitPIO(void)
 {
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);   //Alarm
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);   //Alarm
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
 
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);   //CHARGER LEDs
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
@@ -366,6 +366,7 @@ int main(void)
             //SETCHARGERDRIVEDUTY#70
             //SETCHARGERDRIVEDUTY#80
             //SETCHARGERDRIVEDUTY#90
+            //SETCHARGERDRIVEDUTY#95
             //SETCHARGERDRIVEDUTY#100
             if (strcmp((char*) cmdParts, "SETCHARGERDRIVEDUTY") == 0)
             {
@@ -374,11 +375,13 @@ int main(void)
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
                 continue;
             }
+            //CHARGERDRIVEDIRECTION#1
+            //CHARGERDRIVEDIRECTION#2
             if (strcmp((char*) cmdParts, "CHARGERDRIVEDIRECTION") == 0)
             {
                 chargerDriveDirection = atoi(strtok( NULL, "#" ));
                 pwmDutySetPercent(1, 1);
-                delay_ms(100);
+                delay_ms(500);
                 if (chargerDriveDirection == 1)
                 {
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //CHARGER MOTOR IN1
@@ -392,10 +395,24 @@ int main(void)
                 pwmDutySetPercent(1, chargerDriveDuty);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "CHARGERDRIVESTOP") == 0)
+            {
+                pwmDutySetPercent(1, 1);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //CHARGER MOTOR IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //CHARGER MOTOR IN2
+                continue;
+            }
             //CHARGERDRIVEPUSH#1#25#250
             //CHARGERDRIVEPUSH#1#50#250
+            //CHARGERDRIVEPUSH#1#75#250
+            //CHARGERDRIVEPUSH#1#100#250
+            //CHARGERDRIVEPUSH#1#100#50
+            //CHARGERDRIVEPUSH#1#100#25
             //CHARGERDRIVEPUSH#2#25#250
             //CHARGERDRIVEPUSH#2#50#250
+            //CHARGERDRIVEPUSH#2#75#250
+            //CHARGERDRIVEPUSH#2#100#50
+            //CHARGERDRIVEPUSH#2#100#25
             if (strcmp((char*) cmdParts, "CHARGERDRIVEPUSH") == 0)
             {
                 chargerDriveDirection = atoi(strtok( NULL, "#" ));
@@ -423,26 +440,27 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "ALARMON") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 sprintf((char *)msg,"ALARM is ON\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "ALARMOFF") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 sprintf((char *)msg,"ALARM is OFF\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            //ALARMBEEP#50
             //ALARMBEEP#100
             //ALARMBEEP#200
             if (strcmp((char*) cmdParts, "ALARMBEEP") == 0)
             {
                 unsigned int alarmBeepDuration = atoi(strtok( NULL, "#" ));
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 delay_ms(alarmBeepDuration);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 sprintf((char *)msg,"ALARM BEEP\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
