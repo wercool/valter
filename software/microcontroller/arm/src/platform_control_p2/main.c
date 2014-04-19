@@ -15,11 +15,57 @@
 
 #include "thresholds.h"
 
-#define FIQ_INTERRUPT_LEVEL 0
+#define FIQ_INTERRUPT_LEVEL     0
+#define TIMER0_INTERRUPT_LEVEL  1
 
 unsigned int leftWheelEncoderTicks = 0;
 unsigned int rightWheelEncoderTicks = 0;
 
+unsigned char timerLeft = 0;
+unsigned char timerRight = 0;
+
+/*-----------------*/
+/* Clock Selection */
+/*-----------------*/
+#define TC_CLKS                  0x7
+#define TC_CLKS_MCK2             0x0
+#define TC_CLKS_MCK8             0x1
+#define TC_CLKS_MCK32            0x2
+#define TC_CLKS_MCK128           0x3
+#define TC_CLKS_MCK1024          0x4
+
+
+
+//*------------------------- Internal Function --------------------------------
+//*----------------------------------------------------------------------------
+//* Function Name       : AT91F_TC_Open
+//* Object              : Initialize Timer Counter Channel and enable is clock
+//* Input Parameters    : <tc_pt> = TC Channel Descriptor Pointer
+//*                       <mode> = Timer Counter Mode
+//*                     : <TimerId> = Timer peripheral ID definitions
+//* Output Parameters   : None
+//*----------------------------------------------------------------------------
+void AT91F_TC_Open ( AT91PS_TC TC_pt, unsigned int Mode, unsigned int TimerId)
+{
+    unsigned int dummy;
+
+    // First, enable the clock of the TIMER
+    AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1<< TimerId ) ;
+
+    // Disable the clock and the interrupts
+    TC_pt->TC_CCR = AT91C_TC_CLKDIS ;
+    TC_pt->TC_IDR = 0xFFFFFFFF ;
+
+    // Clear status bit
+        dummy = TC_pt->TC_SR;
+    // Suppress warning variable "dummy" was set but never used
+        dummy = dummy;
+    // Set the Mode of the Timer Counter
+    TC_pt->TC_CMR = Mode ;
+
+    // Enable the clock
+    TC_pt->TC_CCR = AT91C_TC_CLKEN ;
+}
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -28,7 +74,11 @@ unsigned int rightWheelEncoderTicks = 0;
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ0Handler(void)
 {
-    leftWheelEncoderTicks++;
+    if (timerLeft == 1)
+    {
+        leftWheelEncoderTicks++;
+        timerLeft = 0;
+    }
 }
 
 
@@ -39,7 +89,11 @@ __ramfunc void IRQ0Handler(void)
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ1Handler(void)
 {
-    rightWheelEncoderTicks++;
+    if (timerRight == 1)
+    {
+        rightWheelEncoderTicks++;
+        timerRight = 0;
+    }
 }
 
 
@@ -51,6 +105,22 @@ __ramfunc void IRQ1Handler(void)
 __ramfunc void FIQHandler(void)
 {
 
+}
+
+__ramfunc void SoftIQRHandler(void)
+{
+    AT91PS_TC TC_pt = AT91C_BASE_TC0;
+    unsigned int dummy;
+    //* Acknowledge interrupt status
+    dummy = TC_pt->TC_SR;
+    //* Suppress warning variable "dummy" was set but never used
+    dummy = dummy;
+
+    if (timerLeft == 0)
+        timerLeft = 1;
+
+    if (timerRight == 0)
+        timerRight = 1;
 }
 
 
@@ -216,6 +286,15 @@ static void InitIRQ()
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) FIQHandler);
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
+
+    //Open timer0
+    AT91F_TC_Open(AT91C_BASE_TC0, TC_CLKS_MCK8, AT91C_ID_TC0);
+    //Open Timer 0 interrupt
+    AT91F_AIC_ConfigureIt ( AT91C_BASE_AIC, AT91C_ID_TC0, TIMER0_INTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandler);
+    AT91C_BASE_TC0->TC_IER = AT91C_TC_CPCS;             // IRQ enable CPC
+    AT91F_AIC_EnableIt (AT91C_BASE_AIC, AT91C_ID_TC0);
+    //Start timer0
+    AT91C_BASE_TC0->TC_CCR = AT91C_TC_SWTRG ;
 }
 
 
@@ -515,17 +594,20 @@ int main(void)
         {
             sprintf((char *)msg,"LEFT WHEEL ENCODER: %u\n", leftWheelEncoderTicks);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(25);
         }
         if (rightWheelEncoderReadings)
         {
             sprintf((char *)msg,"RIGHT WHEEL ENCODER: %u\n", rightWheelEncoderTicks);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(25);
         }
         if (platformFrontSonarReadings)
         {
             platformFrontSonarReading = getValueChannel6();
             sprintf((char *)msg,"FRONT SONAR: %u\n", platformFrontSonarReading);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(25);
         }
     }
 
