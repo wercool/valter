@@ -965,7 +965,8 @@ int main(void)
             //SETCAMERASERVODUTY#5
             //SETCAMERASERVODUTY#8
             //SETCAMERASERVODUTY#20
-            //SETCAMERASERVODUTY#30
+            //SETCAMERASERVODUTY#30 INITIAL
+            //SETCAMERASERVODUTY#35
             //SETCAMERASERVODUTY#40
             if (strcmp((char*) cmdParts, "SETCAMERASERVODUTY") == 0)
             {
@@ -1000,7 +1001,7 @@ int main(void)
             //SETLINK1POSITION#700
             //SETLINK1POSITION#800
             //SETLINK1POSITION#900
-            //SETLINK1POSITION#1023 INITIAL
+            //SETLINK1POSITION#1023 INITIAL (tied to platform, pointing down)
             if (strcmp((char*) cmdParts, "SETLINK1POSITION") == 0)
             {
                 link1StaticMode = 1;
@@ -1046,7 +1047,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //link1DriveINb
                 continue;
             }
-            //SETLINK2POSITION#135 INITIAL
+            //SETLINK2POSITION#135 INITIAL (it is tied to LINK1)
             //SETLINK2POSITION#200
             //SETLINK2POSITION#300
             //SETLINK2POSITION#400
@@ -1102,7 +1103,9 @@ int main(void)
             //SETGRIPPERROTATION#167
             //SETGRIPPERROTATION#200
             //SETGRIPPERROTATION#300
+            //SETGRIPPERROTATION#350 INITIAL
             //SETGRIPPERROTATION#400
+            //SETGRIPPERROTATION#450
             //SETGRIPPERROTATION#500
             //SETGRIPPERROTATION#600
             //SETGRIPPERROTATION#700
@@ -1160,7 +1163,7 @@ int main(void)
             //SETLINK3POSITION#500
             //SETLINK3POSITION#600
             //SETLINK3POSITION#700
-            //SETLINK3POSITION#800
+            //SETLINK3POSITION#800 INITIAL
             //SETLINK3POSITION#940
             if (strcmp((char*) cmdParts, "SETLINK3POSITION") == 0)
             {
@@ -1192,7 +1195,7 @@ int main(void)
             }
             //SETGRIPPERGRASP#180
             //SETGRIPPERGRASP#200
-            //SETGRIPPERGRASP#300
+            //SETGRIPPERGRASP#300 INTITIAL
             //SETGRIPPERGRASP#400
             //SETGRIPPERGRASP#500
             //SETGRIPPERGRASP#600
@@ -1498,6 +1501,7 @@ int main(void)
             //SETIRBUMPERTRDUTY#40
             //SETIRBUMPERTRDUTY#45
             //SETIRBUMPERTRDUTY#50
+            //SETIRBUMPERTRDUTY#60
             if (strcmp((char*) cmdParts, "SETIRBUMPERTRDUTY") == 0)
             {
                 if (irBumperInitialized)

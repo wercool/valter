@@ -533,6 +533,10 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            //ALARMBEEP#1
+            //ALARMBEEP#2
+            //ALARMBEEP#5
+            //ALARMBEEP#10
             //ALARMBEEP#50
             //ALARMBEEP#100
             //ALARMBEEP#200
