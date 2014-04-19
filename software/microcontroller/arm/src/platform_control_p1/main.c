@@ -910,10 +910,12 @@ int main(void)
             //SETTURRETPOSITION#300
             //SETTURRETPOSITION#350
             //SETTURRETPOSITION#400
+            //!!!
             //SETTURRETPOSITION#450
             //SETTURRETPOSITION#500
-            //SETTURRETPOSITION#525
+            //SETTURRETPOSITION#525 INTITIAL !!!
             //SETTURRETPOSITION#550
+            //!!!
             //SETTURRETPOSITION#600
             //SETTURRETPOSITION#650
             //SETTURRETPOSITION#700
