@@ -569,7 +569,7 @@ int main(void)
             //USSENSORSDUTY#10
             //USSENSORSDUTY#50
             //USSENSORSDUTY#90
-            //USSENSORSDUTY#127
+            //USSENSORSDUTY#127 INITIAL
             if (strcmp((char*) cmdParts, "USSENSORSDUTY") == 0)
             {
                 sensorsUSDuty = atoi(strtok( NULL, "#" ));
@@ -579,7 +579,7 @@ int main(void)
             //USSENSORSBURST#100
             //USSENSORSBURST#150
             //USSENSORSBURST#200
-            //USSENSORSBURST#250
+            //USSENSORSBURST#250 INITIAL
             //USSENSORSBURST#300
             //USSENSORSBURST#350
             //USSENSORSBURST#400
@@ -595,7 +595,7 @@ int main(void)
             //USSENSORSDELAY#1000
             //USSENSORSDELAY#1500
             //USSENSORSDELAY#2000
-            //USSENSORSDELAY#2500
+            //USSENSORSDELAY#2500 INITIAL
             //USSENSORSDELAY#4000
             //USSENSORSDELAY#5000
             if (strcmp((char*) cmdParts, "USSENSORSDELAY") == 0)
