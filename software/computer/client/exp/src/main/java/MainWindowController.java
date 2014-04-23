@@ -53,9 +53,11 @@ public class MainWindowController
         deviceTable.setItems(valterCDCDevices);
     }
 
+    @FXML
     protected void connectBoardBtnAction(ActionEvent event)
     {
         CDCDevice device = deviceTable.getSelectionModel().getSelectedItem();
         device.connect();
+        device.sendCommand("STARTINPUT1READINGS");
     }
 }

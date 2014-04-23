@@ -171,9 +171,8 @@ public class CDCDevice
             try
             {
                 out = devicePort.getOutputStream();
-                System.out.println("[" + cmd + "]");
+                System.out.println(cmd + " >> " + this.getDeviceName());
                 out.write(cmd.getBytes());
-                out.close();
             } catch (IOException e)
             {
                 e.printStackTrace();
@@ -202,7 +201,7 @@ public class CDCDevice
         serialPortReader.cancel();
         this.devicePort.close();
         setDeviceConnected(false);
-        System.out.println(this.deviceName + " disconnected.");
+        System.out.println(this.deviceName + " disconnected");
     }
 
     public static class SerialPortReader implements Runnable
