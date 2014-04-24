@@ -1,5 +1,6 @@
 import gnu.io.CommPortIdentifier;
 
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javafx.collections.FXCollections;
@@ -24,7 +25,7 @@ public class MainWindowController
     @FXML
     private Button scanBoardsBtn;
     @FXML
-    private Button connectBoardBtn;
+    private Button connectDisconnectBoardBtn;
 
     @FXML
     private TableView<CDCDevice> deviceTable;
@@ -34,8 +35,10 @@ public class MainWindowController
     private TableColumn<CDCDevice, String> portNameCol;
     @FXML
     private TableColumn<CDCDevice, Boolean> deviceConnectedCol;
+    final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
 
     ObservableList<CDCDevice> valterCDCDevices = FXCollections.observableArrayList();
+    public final HashMap<String, CDCDevice> valterBoards = new HashMap<String, CDCDevice>();
 
     public MainWindowController(ValterExpClient mainAppObject)
     {
@@ -45,39 +48,72 @@ public class MainWindowController
     @FXML
     void initialize()
     {
-        //deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
+        deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
         portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
         deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
     }
 
     // Button Handlers
+    @SuppressWarnings("unchecked")
     @FXML
     protected void scanBoardsBtnAction(ActionEvent event)
     {
         CDCCommunicator cdcCommunicator = new CDCCommunicator();
         cdcCommunicator.searchForCDCDevicesPorts();
 
-        int idx = 0;
+        for (int i = 0; i < deviceTable.getItems().size(); i++)
+        {
+            if (!deviceTable.getItems().get(i).getDeviceConnected())
+            {
+                deviceTable.getItems().remove(i);
+            }
+        }
+
+        for (int i = 0; i < valterCDCDevices.size(); i++)
+        {
+            if (!valterCDCDevices.get(i).getDeviceConnected())
+            {
+                valterCDCDevices.remove(i);
+            }
+        }
+
         for (Entry<String, CommPortIdentifier> entry : cdcCommunicator.portMap.entrySet())
         {
             String portName = entry.getKey();
             CommPortIdentifier portId = entry.getValue();
 
             CDCDevice CDCDeviceObj = new CDCDevice(portId);
-            CDCDeviceObj.deviceIndex = idx++;
             valterCDCDevices.add(CDCDeviceObj);
         }
-        deviceTable.getItems().clear();
         deviceTable.setItems(valterCDCDevices);
     }
 
     @FXML
-    protected void connectBoardBtnAction(ActionEvent event)
+    protected void connectDisconnectBoardBtnAction(ActionEvent event)
     {
         if (deviceTable.getSelectionModel().getSelectedItem() != null)
         {
             CDCDevice cdcDevice = deviceTable.getSelectionModel().getSelectedItem();
-            cdcDevice.connect();
+            if (cdcDevice.getDeviceConnected())
+            {
+                cdcDevice.disconnect();
+            } else
+            {
+                if (cdcDevice.connect())
+                {
+                    long dataStringId = cdcDevice.dataStringId;
+                    cdcDevice.writeData("GETID");
+                    connectDisconnectBoardBtn.setDisable(true);
+                    long startTime = System.currentTimeMillis();
+                    while (dataStringId == cdcDevice.dataStringId)
+                    {
+                        if (System.currentTimeMillis() - startTime > 250)
+                            break;
+                    }
+                    cdcDevice.setDeviceName(cdcDevice.dataString);
+                    connectDisconnectBoardBtn.setDisable(false);
+                }
+            }
         }
     }
 }

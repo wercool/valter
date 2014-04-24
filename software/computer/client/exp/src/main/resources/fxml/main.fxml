@@ -30,7 +30,7 @@
                   </columns>
                 </TableView>
                 <Button fx:id="scanBoardsBtn" onAction="#scanBoardsBtnAction" mnemonicParsing="false" text="Scan" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="215.0" />
-                <Button  fx:id="connectBoardBtn" onAction="#connectBoardBtnAction" mnemonicParsing="false" text="Connect Selected" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="215.0" />
+                <Button  fx:id="connectDisconnectBoardBtn" onAction="#connectDisconnectBoardBtnAction" mnemonicParsing="false" text="Connect / Disconnect Selected" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="215.0" />
               </children>
             </AnchorPane>
           </content>

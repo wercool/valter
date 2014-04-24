@@ -18,6 +18,7 @@ public class CDCCommunicator
     {
         ports = CommPortIdentifier.getPortIdentifiers();
 
+        System.out.println("Available CDC ACM ports:");
         while (ports.hasMoreElements())
         {
             CommPortIdentifier curPort = (CommPortIdentifier) ports.nextElement();
@@ -26,6 +27,7 @@ public class CDCCommunicator
             if (curPort.getPortType() == CommPortIdentifier.PORT_SERIAL && curPort.getName().contains("ttyACM"))
             {
                 portMap.put(curPort.getName(), curPort);
+                System.out.println(curPort.getName());
             }
         }
     }
