@@ -19,6 +19,8 @@ import javafx.beans.property.StringProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import app.MainWindowController;
+
 public class CDCDevice
 {
     private static final Logger log = LoggerFactory.getLogger(CDCDevice.class);
@@ -28,13 +30,15 @@ public class CDCDevice
 
     final static int NEW_LINE_ASCII = 10;
 
+    MainWindowController mainWindowController = null;
+
     // this is the object that contains the opened port
     private CommPortIdentifier selectedPortIdentifier = null;
     private SerialPort serialPort = null;
     private String portName = null;
 
-    private BooleanProperty deviceConnected = new SimpleBooleanProperty();
-    private StringProperty deviceName = new SimpleStringProperty();
+    private final BooleanProperty deviceConnected = new SimpleBooleanProperty();
+    private final StringProperty deviceName = new SimpleStringProperty();
 
     BufferedReader inputDataBufferedReader = null;
     public String dataString = null;
@@ -45,7 +49,7 @@ public class CDCDevice
     private OutputStream output = null;
 
     Thread serialPortReadThread = null;
-    SerialPortReader serialPortReader;
+    public SerialPortReader serialPortReader;
 
     public String getPortName()
     {
@@ -87,12 +91,26 @@ public class CDCDevice
         deviceConnected.set(connected);
     }
 
+    private void logToConsole(String msg)
+    {
+        mainWindowController.logToConsole(msg);
+    }
+
     public CDCDevice(CommPortIdentifier selectedPortIdentifier)
     {
         super();
         this.selectedPortIdentifier = selectedPortIdentifier;
         setPortName(selectedPortIdentifier.getName());
         setDeviceConnected(false);
+    }
+
+    public CDCDevice(CommPortIdentifier selectedPortIdentifier, MainWindowController mainWindowController)
+    {
+        super();
+        this.selectedPortIdentifier = selectedPortIdentifier;
+        setPortName(selectedPortIdentifier.getName());
+        setDeviceConnected(false);
+        this.mainWindowController = mainWindowController;
     }
 
     // connect to the selected port
@@ -151,7 +169,7 @@ public class CDCDevice
     }
 
     //open the input and output streams
-    public boolean initIOStream()
+    private boolean initIOStream()
     {
         //return value for whether opening the streams is successful or not
         boolean successful = false;
@@ -177,6 +195,13 @@ public class CDCDevice
         {
             output.write(data.getBytes());
             output.flush();
+            try
+            {
+                logToConsole(getDeviceName() + " < " + data);
+            } catch (NullPointerException e)
+            {
+                log.error("Log not ready to write data (" + e.toString() + ")");
+            }
         } catch (Exception e)
         {
             log.error("Failed to write data. (" + e.toString() + ")");
@@ -187,7 +212,7 @@ public class CDCDevice
     {
         private volatile boolean isCancelled = false;
         BufferedReader in;
-        CDCDevice device;
+        public CDCDevice device;
 
         public SerialPortReader(BufferedReader in, CDCDevice device)
         {
@@ -206,7 +231,16 @@ public class CDCDevice
                     {
                         device.dataString = in.readLine();
                         device.dataStringId++;
-                        //System.out.println(device.dataStringId + ": " + device.dataString);
+                        try
+                        {
+                            device.logToConsole(device.getDeviceName() + " [" + device.dataStringId + "] > " + device.dataString);
+                        } catch (NullPointerException e)
+                        {
+                            log.error("Log not ready to write data (" + e.toString() + ")");
+                        } catch (IndexOutOfBoundsException e)
+                        {
+                            log.error("Log not ready to write data (" + e.toString() + ")");
+                        }
                     }
                 } catch (IOException e)
                 {
@@ -218,6 +252,12 @@ public class CDCDevice
         public void cancel()
         {
             isCancelled = true;
+        }
+
+        @SuppressWarnings("unused")
+        public void setDeviceName(String devName)
+        {
+            this.device.setDeviceName(devName);
         }
     }
 }
