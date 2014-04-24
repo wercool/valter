@@ -24,8 +24,8 @@
               <children>
                 <TableView fx:id="deviceTable" minWidth="-1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <columns>
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="301.0" text="Device Name" fx:id="deviceNameCol" />
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="136.0" text="Device Port" fx:id="portNameCol" />
+                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="301.0" text="Device Name" fx:id="deviceNameCol" />
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="115.0" text="Connected" fx:id="deviceConnectedCol" />
                   </columns>
                 </TableView>

@@ -1,3 +1,7 @@
+import gnu.io.CommPortIdentifier;
+
+import java.util.Map.Entry;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import valter.CDCCommunicator;
 import valter.CDCDevice;
 
 public class MainWindowController
@@ -40,7 +45,7 @@ public class MainWindowController
     @FXML
     void initialize()
     {
-        deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
+        //deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
         portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
         deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
     }
@@ -49,15 +54,30 @@ public class MainWindowController
     @FXML
     protected void scanBoardsBtnAction(ActionEvent event)
     {
-        valterCDCDevices = CDCDevice.getDevices();
+        CDCCommunicator cdcCommunicator = new CDCCommunicator();
+        cdcCommunicator.searchForCDCDevicesPorts();
+
+        int idx = 0;
+        for (Entry<String, CommPortIdentifier> entry : cdcCommunicator.portMap.entrySet())
+        {
+            String portName = entry.getKey();
+            CommPortIdentifier portId = entry.getValue();
+
+            CDCDevice CDCDeviceObj = new CDCDevice(portId);
+            CDCDeviceObj.deviceIndex = idx++;
+            valterCDCDevices.add(CDCDeviceObj);
+        }
+        deviceTable.getItems().clear();
         deviceTable.setItems(valterCDCDevices);
     }
 
     @FXML
     protected void connectBoardBtnAction(ActionEvent event)
     {
-        CDCDevice device = deviceTable.getSelectionModel().getSelectedItem();
-        device.connect();
-        device.sendCommand("STARTINPUT1READINGS");
+        if (deviceTable.getSelectionModel().getSelectedItem() != null)
+        {
+            CDCDevice cdcDevice = deviceTable.getSelectionModel().getSelectedItem();
+            cdcDevice.connect();
+        }
     }
 }

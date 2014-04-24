@@ -4,241 +4,89 @@ import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
-import gnu.io.UnsupportedCommOperationException;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Enumeration;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class CDCDevice
+public class CDCDevice implements SerialPortEventListener
 {
-    private final String OS;
-    static String comPortPrefix = "ttyACM";
-    private SerialPort devicePort = null;
+    private static final Logger log = LoggerFactory.getLogger(CDCDevice.class);
 
-    public SerialPort getDevicePort()
-    {
-        return devicePort;
-    }
+    public int deviceIndex = 0;
 
-    public void setDevicePort(SerialPort devicePort)
-    {
-        this.devicePort = devicePort;
-    }
+    // the timeout value for connecting with the port
+    final static int TIMEOUT = 2000;
 
-    Boolean isConnected = false;
-    private final SimpleStringProperty portName = new SimpleStringProperty();
+    // this is the object that contains the opened port
+    private CommPortIdentifier selectedPortIdentifier = null;
+    private SerialPort serialPort = null;
+    private String devicePortName = "";
+    private Boolean deviceConnected = false;
+
+    // input and output streams for sending and receiving data
+    private final InputStream input = null;
+    private final OutputStream output = null;
 
     public String getPortName()
     {
-        return portName.get();
+        return devicePortName;
     }
 
     public void setPortName(String portName)
     {
-        this.portName.set(portName);
+        this.devicePortName = portName;
     }
 
-    private final SimpleStringProperty deviceName = new SimpleStringProperty();
-
-    public String getDeviceName()
+    public Boolean getDeviceConnected()
     {
-        return deviceName.get();
+        return deviceConnected;
     }
 
-    public void setDeviceName(String deviceName)
+    public void setDeviceConnected(Boolean connected)
     {
-        this.deviceName.set(deviceName);
+        this.deviceConnected = connected;
     }
 
-    private final SimpleBooleanProperty deviceConnected = new SimpleBooleanProperty();
-
-    public boolean getDeviceConnected()
+    public CDCDevice(CommPortIdentifier selectedPortIdentifier)
     {
-        return deviceConnected.get();
+        super();
+        this.selectedPortIdentifier = selectedPortIdentifier;
+        setPortName(selectedPortIdentifier.getName());
+        setDeviceConnected(false);
     }
 
-    public void setDeviceConnected(boolean deviceConnected)
-    {
-        this.deviceConnected.set(deviceConnected);
-    }
-
-    BufferedReader input = null;
-    Thread serialPortReadThread = null;
-    SerialPortReader serialPortReader;
-    public volatile String dataLine = null;
-    public volatile Long dataLineId = (long) 0;
-
-    public CDCDevice()
-    {
-        OS = System.getProperty("os.name");
-        if (OS.contains("Linux"))
-        {
-            comPortPrefix = "ttyACM";
-        } else
-        {
-            comPortPrefix = "COM";
-        }
-    }
-
-    public static ObservableList<CDCDevice> getDevices()
-    {
-        ObservableList<CDCDevice> CDCDevices = FXCollections.observableArrayList();
-
-        Enumeration<?> portEnum = CommPortIdentifier.getPortIdentifiers();
-        System.out.println("Available serial ports:");
-        while (portEnum.hasMoreElements())
-        {
-            CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-            System.out.println(currPortId.getName());
-        }
-        System.out.println();
-        portEnum = CommPortIdentifier.getPortIdentifiers();
-        while (portEnum.hasMoreElements())
-        {
-            CDCDevice device = new CDCDevice();
-
-            CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-            if (currPortId.getName().contains(comPortPrefix))
-            {
-                device.setPortName(currPortId.getName());
-                try
-                {
-                    CommPort commPort = currPortId.open(device.getClass().getName(), 2000);
-                    if (commPort instanceof SerialPort)
-                    {
-                        SerialPort serialPort = (SerialPort) commPort;
-                        try
-                        {
-                            serialPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-                            try
-                            {
-                                BufferedReader in = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-                                OutputStream out;
-                                out = serialPort.getOutputStream();
-                                out.write("GETID".getBytes());
-                                out.close();
-                                out = null;
-                                try
-                                {
-                                    String result = null;
-                                    while ((result = in.readLine()).contains("MSG:GETID"))
-                                    {
-                                        result = in.readLine();
-                                        device.setDeviceName(result);
-                                        device.setDevicePort(serialPort);
-                                        device.setDeviceConnected(false);
-                                        CDCDevices.add(device);
-                                        break;
-                                    }
-                                    in.close();
-                                    in = null;
-                                } catch (IOException e)
-                                {
-                                    System.out.println(e.toString());
-                                }
-                            } catch (IOException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        } catch (UnsupportedCommOperationException e)
-                        {
-                            System.out.println(currPortId.getName() + " does not support target port settings!");
-                        }
-                        serialPort.close();
-                    }
-                } catch (PortInUseException e)
-                {
-                    System.out.println(currPortId.getName() + " is already in use!");
-                }
-            }
-        }
-        return CDCDevices;
-    }
-
-    public void sendCommand(String cmd)
-    {
-        if (this.devicePort != null)
-        {
-            OutputStream out;
-            try
-            {
-                out = devicePort.getOutputStream();
-                System.out.println(cmd + " >> " + this.getDeviceName());
-                out.write(cmd.getBytes());
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
+    // connect to the selected port
     public void connect()
     {
+        CommPort commPort = null;
+
         try
         {
-            input = new BufferedReader(new InputStreamReader(this.devicePort.getInputStream()));
-        } catch (IOException e)
+            // the method below returns an object of type CommPort
+            commPort = selectedPortIdentifier.open(getClass().getName(), TIMEOUT);
+            // the CommPort object can be casted to a SerialPort object
+            serialPort = (SerialPort) commPort;
+            serialPort.setSerialPortParams(115200, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+            setDeviceConnected(true);
+        } catch (PortInUseException e)
         {
-            e.printStackTrace();
+            log.error(this.selectedPortIdentifier + " is in use. (" + e.toString() + ")");
+            setDeviceConnected(false);
+        } catch (Exception e)
+        {
+            log.error("Failed to open " + this.selectedPortIdentifier + "(" + e.toString() + ")");
+            setDeviceConnected(false);
         }
-        serialPortReader = new SerialPortReader(input, this);
-        serialPortReadThread = new Thread(serialPortReader);
-        serialPortReadThread.start();
-        setDeviceConnected(true);
     }
 
-    public void disconnect()
+    @Override
+    public void serialEvent(SerialPortEvent arg0)
     {
-        serialPortReadThread.interrupt();
-        serialPortReader.cancel();
-        this.devicePort.close();
-        setDeviceConnected(false);
-        System.out.println(this.deviceName + " disconnected");
     }
 
-    public static class SerialPortReader implements Runnable
-    {
-        private volatile boolean isCancelled = false;
-        BufferedReader in;
-        CDCDevice device;
-
-        public SerialPortReader(BufferedReader in, CDCDevice device)
-        {
-            this.in = in;
-            this.device = device;
-        }
-
-        @Override
-        public void run()
-        {
-            while (!isCancelled)
-            {
-                try
-                {
-                    if (in.ready())
-                    {
-                        device.dataLine = in.readLine();
-                        System.out.println(device.dataLine);
-                        device.dataLineId++;
-                    }
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void cancel()
-        {
-            isCancelled = true;
-        }
-    }
 }
