@@ -16,6 +16,9 @@ And modify the PATH of the system:
 echo 'export PATH=/usr/local/arm/bin:$PATH' >> ~/.profile
 source ~/.profile
 
+echo 'export PATH=/usr/local/arm/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
 When everything is done, it's necessary to logout your session, and login a new one. 
 By this way, the system will take your modifications in consideration.
 

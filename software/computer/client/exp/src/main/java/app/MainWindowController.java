@@ -70,9 +70,14 @@ public class MainWindowController
     ObservableList<CDCDevice> valterCDCDevices = FXCollections.observableArrayList();
     public final HashMap<String, CDCDevice> valterBoards = new HashMap<String, CDCDevice>();
 
-    public MainWindowController(ValterExpClient mainAppObject)
+    public MainWindowController()
     {
         log.info("Starting Valter Commands Client MainWindowController");
+
+    }
+
+    public void setMainApp(ValterExpClient mainAppObject)
+    {
         this.mainAppObject = mainAppObject;
     }
 
@@ -204,7 +209,7 @@ public class MainWindowController
                     {
                         cdcDevice.writeData("GETID");
                         dataString = cdcDevice.dataString;
-                        if (dataString.contains("PLATFORM-CONTROL-P1") || dataString.contains("PLATFORM-CONTROL-P2"))
+                        if (dataString.contains("PLATFORM-CONTROL-P1") || dataString.contains("PLATFORM-LOCATION-P1") || dataString.contains("PLATFORM-CONTROL-P2"))
                         {
                             break;
                         }

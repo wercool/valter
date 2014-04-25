@@ -1,4 +1,5 @@
 package app;
+
 import java.net.URL;
 
 import javafx.application.Application;
@@ -17,7 +18,7 @@ public class ValterExpClient extends Application
 {
     private static final Logger log = LoggerFactory.getLogger(ValterExpClient.class);
 
-    public Stage primaryStage;
+    public Stage stage;
     public Scene scene;
     private MainWindowController mainWindowController;
 
@@ -29,18 +30,16 @@ public class ValterExpClient extends Application
     @Override
     public void start(Stage stage) throws Exception
     {
-        log.info("Starting Valter Commands Client JavaFX and Maven application");
+        log.info("Starting VidConf Client JavaFX and Maven application");
 
-        mainWindowController = new MainWindowController(this);
+        this.stage = stage;
 
-        this.primaryStage = stage;
-
+        //String fxmlFile = "/resources/fxml/main.fxml";
         String fxmlFile = "/fxml/main.fxml";
-        log.info("Loading FXML for main view from: {}", fxmlFile);
+        log.debug("Loading FXML for main view from: {}", fxmlFile);
 
         URL location = getClass().getResource(fxmlFile);
         FXMLLoader loader = new FXMLLoader(location);
-        loader.setController(mainWindowController);
         Parent rootNode = (Parent) loader.load();
 
         scene = new Scene(rootNode, 800, 600);
@@ -48,12 +47,16 @@ public class ValterExpClient extends Application
         stage.setTitle("Valter Command Client");
         stage.setScene(scene);
 
+        //Image appIcon = new Image(getClass().getResourceAsStream("/resources/images/camera-web.png"));
         Image appIcon = new Image(getClass().getResourceAsStream("/images/camera-web.png"));
         stage.getIcons().add(appIcon);
 
-        primaryStage.show();
+        stage.show();
 
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
+        mainWindowController = loader.getController();
+        mainWindowController.setMainApp(this);
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>()
         {
             @Override
             public void handle(WindowEvent event)
@@ -62,6 +65,13 @@ public class ValterExpClient extends Application
                 // event.consume();
             }
         });
+    }
+
+    @Override
+    public void stop() throws Exception
+    {
+        //mainWindowController.close();
+        super.stop();
     }
 
     public void logMsgToConsole(String msg)

@@ -63,7 +63,13 @@ public class CDCDevice
 
     public String getDeviceName()
     {
-        return deviceName.get();
+        if (deviceName.get() != null)
+        {
+            return deviceName.get();
+        } else
+        {
+            return "<?>";
+        }
     }
 
     public SimpleStringProperty deviceNameProperty()
@@ -197,7 +203,8 @@ public class CDCDevice
             output.flush();
             try
             {
-                logToConsole(getDeviceName() + " ← " + data);
+                String msg = getDeviceName() + " ← " + data;
+                logToConsole(msg);
             } catch (NullPointerException e)
             {
                 log.error("Log not ready to write data (" + e.toString() + ")");
@@ -259,7 +266,6 @@ public class CDCDevice
             isCancelled = true;
         }
 
-        @SuppressWarnings("unused")
         public void setDeviceName(String devName)
         {
             this.device.setDeviceName(devName);

@@ -49,12 +49,12 @@ public class PLATFORM_CONTROL_P1
                 }
             } else
             {
-                MainWindowController.showTooltip(mainWindowController.mainAppObject.primaryStage, mainWindowController.forwardBtn, "CDC Device disconnected", null);
+                MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.forwardBtn, "CDC Device disconnected", null);
                 mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device disconnected");
             }
         } else
         {
-            MainWindowController.showTooltip(mainWindowController.mainAppObject.primaryStage, mainWindowController.forwardBtn, "CDC Device is not assigned", null);
+            MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.forwardBtn, "CDC Device is not assigned", null);
             mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device is not assigned");
         }
     }
