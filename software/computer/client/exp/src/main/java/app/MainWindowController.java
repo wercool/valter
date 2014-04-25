@@ -17,6 +17,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -47,6 +48,8 @@ public class MainWindowController
     @FXML
     private Button clearConsoleBtn;
     @FXML
+    private Button sendCMDBtn;
+    @FXML
     private TextArea logConsole;
     @FXML
     private TableView<CDCDevice> deviceTable;
@@ -58,7 +61,10 @@ public class MainWindowController
     private TableColumn<CDCDevice, Boolean> deviceConnectedCol;
     @FXML
     public CheckBox logIncoming;
+    @FXML
     public CheckBox logOutgoing;
+    @FXML
+    private TextField cmdTextField;
 
     //PLATFORM_CONTROL_P1
     @FXML
@@ -74,6 +80,14 @@ public class MainWindowController
     {
         log.info("Starting Valter Commands Client MainWindowController");
 
+    }
+
+    public void close()
+    {
+        for (int i = 0; i < valterCDCDevices.size(); i++)
+        {
+            valterCDCDevices.get(i).disconnect();
+        }
     }
 
     public void setMainApp(ValterExpClient mainAppObject)
@@ -110,7 +124,7 @@ public class MainWindowController
             if (msg.contains("←"))
                 return;
         }
-        logConsole.appendText(msg + "\n");
+        logConsole.appendText(System.currentTimeMillis() + ": " + msg + "\n");
         logConsole.setScrollTop(Double.MAX_VALUE);
     }
 
@@ -186,6 +200,19 @@ public class MainWindowController
             valterCDCDevices.add(CDCDeviceObj);
         }
         deviceTable.setItems(valterCDCDevices);
+    }
+
+    @FXML
+    protected void sendCMDBtnAction(ActionEvent event)
+    {
+        if (deviceTable.getSelectionModel().getSelectedItem() != null)
+        {
+            CDCDevice cdcDevice = deviceTable.getSelectionModel().getSelectedItem();
+            if (cdcDevice.getDeviceConnected())
+            {
+                cdcDevice.writeData(cmdTextField.getText());
+            }
+        }
     }
 
     @FXML

@@ -7,7 +7,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -48,8 +47,8 @@ public class ValterExpClient extends Application
         stage.setScene(scene);
 
         //Image appIcon = new Image(getClass().getResourceAsStream("/resources/images/camera-web.png"));
-        Image appIcon = new Image(getClass().getResourceAsStream("/images/camera-web.png"));
-        stage.getIcons().add(appIcon);
+        //Image appIcon = new Image(getClass().getResourceAsStream("/images/camera-web.png"));
+        //stage.getIcons().add(appIcon);
 
         stage.show();
 
@@ -70,7 +69,7 @@ public class ValterExpClient extends Application
     @Override
     public void stop() throws Exception
     {
-        //mainWindowController.close();
+        mainWindowController.close();
         super.stop();
     }
 

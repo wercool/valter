@@ -2,12 +2,13 @@
 
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:controller="app.MainWindowController" id="BorderPane" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<BorderPane id="BorderPane" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="app.MainWindowController">
   <center>
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -15,21 +16,58 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <GridPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <GridPane prefHeight="500.0" prefWidth="776.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                   <children>
-                    <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" disable="false" expanded="true" focusTraversable="true" text="Platform Main Drives" underline="false" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <TitledPane alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" prefHeight="297.0" prefWidth="250.0" text="Platform drives general control" underline="false" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
                       <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="200.0">
                           <children>
-                            <Button fx:id="forwardBtn" layoutX="40.0" layoutY="4.0" mnemonicParsing="false" styleClass="forward-button" text="">
+                            <Button fx:id="forwardBtn" mnemonicParsing="false" styleClass="forward-button" text="↑" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="2.0">
+                              <!-- 
                               <stylesheets>
                                 <URL value="@buttons.css" />
                               </stylesheets>
+                             -->
+                              <font>
+                                <Font size="20.0" fx:id="x1" />
+                              </font>
                             </Button>
-                            <Button id="backwardBtn" fx:id="backwardtn" layoutX="40.0" layoutY="59.0" mnemonicParsing="false" styleClass="backward-button" text="">
+                            <Button id="backwardBtn" fx:id="backwardtn" font="$x1" mnemonicParsing="false" styleClass="backward-button" text="↓" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="85.0">
+                              <!-- 
                               <stylesheets>
                                 <URL value="@buttons.css" />
                               </stylesheets>
+                             -->
+                            </Button>
+                            <Slider id="platformMotorsAcceleration" fx:id="platformMotorsDeceleration" majorTickUnit="24.0" min="1.0" minorTickCount="5" showTickLabels="false" showTickMarks="false" value="1.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                            <Label text="Deceleration" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="5.0" />
+                            <Label text="Duty" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="5.0" />
+                            <Slider id="platformMotorsPower" fx:id="platformMotorsDuty" majorTickUnit="1.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                            <Button id="forwardBtn" fx:id="turnCCWBtn" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="←" AnchorPane.leftAnchor="21.0" AnchorPane.topAnchor="45.0">
+                              <!-- 
+                              <stylesheets>
+                                <URL value="@buttons.css" />
+                              </stylesheets>
+                             -->
+                            </Button>
+                            <Button id="forwardBtn" fx:id="turnCWBtn" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="→" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="44.0">
+                              <!-- 
+                              <stylesheets>
+                                <URL value="@buttons.css" />
+                              </stylesheets>
+                             -->
+                            </Button>
+                            <Slider id="platformMotorsAcceleration" fx:id="platformMotorsAсceleration" majorTickUnit="24.0" min="1.0" minorTickCount="5" prefWidth="245.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                            <Label text="Aсceleration" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="5.0" />
+                            <Button id="backwardBtn" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="48.0">
+                              <font>
+                                <Font name="System Bold" size="16.0" />
+                              </font>
+                              <!-- 
+                              <stylesheets>
+                                <URL value="@buttons.css" />
+                              </stylesheets>
+                             -->
                             </Button>
                           </children>
                         </AnchorPane>
@@ -38,6 +76,7 @@
                         <Insets />
                       </GridPane.margin>
                     </TitledPane>
+                    <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
                   </children>
                   <columnConstraints>
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -45,9 +84,6 @@
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   </columnConstraints>
                   <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   </rowConstraints>
@@ -72,17 +108,29 @@
                     <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="115.0" style="" text="Connected" fx:id="deviceConnectedCol" />
                   </columns>
                 </TableView>
-                <Button fx:id="scanBoardsBtn" mnemonicParsing="false" onAction="#scanBoardsBtnAction" text="Scan" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="215.0" />
-                <Button fx:id="connectDisconnectBoardBtn" mnemonicParsing="false" onAction="#connectDisconnectBoardBtnAction" text="Connect / Disconnect Selected" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="215.0" />
+                <Button fx:id="scanBoardsBtn" mnemonicParsing="false" onAction="#scanBoardsBtnAction" text="Scan" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="205.0" />
+                <Button fx:id="connectDisconnectBoardBtn" mnemonicParsing="false" onAction="#connectDisconnectBoardBtnAction" text="Connect / Disconnect Selected" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="205.0" />
                 <TextArea fx:id="logConsole" maxHeight="200.0" minHeight="280.0" prefWidth="775.0" style="-fx-background-color: #FBFBEF;" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="280.0" />
-                <Label text="Log console" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="250.0">
+                <Label text="Log" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="260.0">
                   <font>
                     <Font size="13.0" />
                   </font>
                 </Label>
                 <Button fx:id="clearConsoleBtn" mnemonicParsing="false" onAction="#clearConsoleBtnAction" text="Clear console" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="250.0" />
-                <CheckBox fx:id="logIncoming" mnemonicParsing="false" text="Incoming" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="250.0" />
-                <CheckBox fx:id="logOutgoing" mnemonicParsing="false" text="Outgoing" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="250.0" />
+                <CheckBox fx:id="logIncoming" mnemonicParsing="false" text="Incoming" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="260.0" />
+                <CheckBox fx:id="logOutgoing" mnemonicParsing="false" text="Outgoing" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="260.0" />
+                <TextField fx:id="cmdTextField" prefWidth="200.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="205.0" />
+                <Label layoutX="245.0" text="CMD:" AnchorPane.topAnchor="208.0" />
+                <Button fx:id="sendCMDBtn" mnemonicParsing="false" onAction="#sendCMDBtnAction" text="Send" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="205.0" />
+                <ComboBox fx:id="cmdTextFieldHistory" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="230.0">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="Item 1" />
+                      <String fx:value="Item 2" />
+                      <String fx:value="Item 3" />
+                    </FXCollections>
+                  </items>
+                </ComboBox>
               </children>
             </AnchorPane>
           </content>

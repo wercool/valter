@@ -159,18 +159,21 @@ public class CDCDevice
     //disconnect the serial port
     public void disconnect()
     {
-        //close the serial port
-        try
+        if (this.getDeviceConnected())
         {
-            serialPortReadThread.interrupt();
-            serialPortReader.cancel();
-            serialPort.close();
-            input.close();
-            output.close();
-            setDeviceConnected(false);
-        } catch (Exception e)
-        {
-            log.error("Failed to close " + serialPort.getName() + "(" + e.toString() + ")");
+            //close the serial port
+            try
+            {
+                serialPortReadThread.interrupt();
+                serialPortReader.cancel();
+                serialPort.close();
+                input.close();
+                output.close();
+                setDeviceConnected(false);
+            } catch (Exception e)
+            {
+                log.error("Failed to close " + serialPort.getName() + "(" + e.toString() + ")");
+            }
         }
     }
 
