@@ -5,6 +5,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <BorderPane id="BorderPane" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <center>
@@ -20,7 +21,12 @@
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
-                            <Button fx:id="forwardBtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" styleClass="forward-button" text="">
+                            <Button fx:id="forwardBtn" layoutX="40.0" layoutY="4.0" mnemonicParsing="false" styleClass="forward-button" text="">
+                              <stylesheets>
+                                <URL value="@../css/buttons.css" />
+                              </stylesheets>
+                            </Button>
+                            <Button id="backwardBtn" fx:id="backwardtn" layoutX="40.0" layoutY="59.0" mnemonicParsing="false" styleClass="backward-button" text="">
                               <stylesheets>
                                 <URL value="@../css/buttons.css" />
                               </stylesheets>
@@ -34,6 +40,7 @@
                     </TitledPane>
                   </children>
                   <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   </columnConstraints>
@@ -68,8 +75,14 @@
                 <Button fx:id="scanBoardsBtn" mnemonicParsing="false" onAction="#scanBoardsBtnAction" text="Scan" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="215.0" />
                 <Button fx:id="connectDisconnectBoardBtn" mnemonicParsing="false" onAction="#connectDisconnectBoardBtnAction" text="Connect / Disconnect Selected" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="215.0" />
                 <TextArea fx:id="logConsole" maxHeight="200.0" minHeight="280.0" prefWidth="775.0" style="-fx-background-color: #FBFBEF;" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="280.0" />
-                <Label text="Log console" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="250.0" />
+                <Label text="Log console" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="250.0">
+                  <font>
+                    <Font size="13.0" />
+                  </font>
+                </Label>
                 <Button fx:id="clearConsoleBtn" mnemonicParsing="false" onAction="#clearConsoleBtnAction" text="Clear console" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="250.0" />
+                <CheckBox fx:id="logIncoming" mnemonicParsing="false" text="Incoming" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="250.0" />
+                <CheckBox fx:id="logOutgoing" mnemonicParsing="false" text="Outgoing" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="250.0" />
               </children>
             </AnchorPane>
           </content>

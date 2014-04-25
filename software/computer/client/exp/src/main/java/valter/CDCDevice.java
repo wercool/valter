@@ -41,7 +41,7 @@ public class CDCDevice
     private final StringProperty deviceName = new SimpleStringProperty();
 
     BufferedReader inputDataBufferedReader = null;
-    public String dataString = null;
+    public String dataString = "";
     public Long dataStringId = (long) 0;
 
     // input and output streams for sending and receiving data
@@ -197,7 +197,7 @@ public class CDCDevice
             output.flush();
             try
             {
-                logToConsole(getDeviceName() + " < " + data);
+                logToConsole(getDeviceName() + " ← " + data);
             } catch (NullPointerException e)
             {
                 log.error("Log not ready to write data (" + e.toString() + ")");
@@ -229,17 +229,22 @@ public class CDCDevice
                 {
                     if (in.ready())
                     {
-                        device.dataString = in.readLine();
-                        device.dataStringId++;
-                        try
+                        String dataString = in.readLine();
+                        if (!dataString.contains("MSG:"))
                         {
-                            device.logToConsole(device.getDeviceName() + " [" + device.dataStringId + "] > " + device.dataString);
-                        } catch (NullPointerException e)
-                        {
-                            log.error("Log not ready to write data (" + e.toString() + ")");
-                        } catch (IndexOutOfBoundsException e)
-                        {
-                            log.error("Log not ready to write data (" + e.toString() + ")");
+                            device.dataString = dataString;
+                            device.dataStringId++;
+                            try
+                            {
+                                String msg = device.getDeviceName() + " [" + device.dataStringId + "] → " + device.dataString;
+                                device.logToConsole(msg);
+                            } catch (NullPointerException e)
+                            {
+                                log.error("Log not ready to write data (" + e.toString() + ")");
+                            } catch (IndexOutOfBoundsException e)
+                            {
+                                log.error("Log not ready to write data (" + e.toString() + ")");
+                            }
                         }
                     }
                 } catch (IOException e)

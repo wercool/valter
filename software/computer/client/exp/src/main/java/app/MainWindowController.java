@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -55,6 +56,9 @@ public class MainWindowController
     private TableColumn<CDCDevice, String> portNameCol;
     @FXML
     private TableColumn<CDCDevice, Boolean> deviceConnectedCol;
+    @FXML
+    public CheckBox logIncoming;
+    public CheckBox logOutgoing;
 
     //PLATFORM_CONTROL_P1
     @FXML
@@ -87,6 +91,20 @@ public class MainWindowController
 
     public void logToConsole(String msg)
     {
+        if (!logIncoming.isSelected() && !logOutgoing.isSelected())
+        {
+            return;
+        }
+        if (!logIncoming.isSelected())
+        {
+            if (msg.contains("→"))
+                return;
+        }
+        if (!logOutgoing.isSelected())
+        {
+            if (msg.contains("←"))
+                return;
+        }
         logConsole.appendText(msg + "\n");
         logConsole.setScrollTop(Double.MAX_VALUE);
     }
@@ -107,6 +125,7 @@ public class MainWindowController
         PLATFORM_CONTROL_P1_INST = PLATFORM_CONTROL_P1.getInstance();
         PLATFORM_CONTROL_P1_INST.setMainController(this);
 
+        //Forward button
         forwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -120,7 +139,7 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-
+                PLATFORM_CONTROL_P1_INST.executeCommand("STOP");
             }
         });
 
@@ -178,20 +197,24 @@ public class MainWindowController
             {
                 if (cdcDevice.connect())
                 {
-                    long dataStringId = cdcDevice.dataStringId;
-                    cdcDevice.writeData("GETID");
                     connectDisconnectBoardBtn.setDisable(true);
-                    //GETID command invokes two line as an asnswer
-                    dataStringId++;
                     long startTime = System.currentTimeMillis();
-                    while (dataStringId > cdcDevice.dataStringId)
+                    String dataString = "<failed to get device name>";
+                    while (true)
                     {
-                        if (System.currentTimeMillis() - startTime > 50)
+                        cdcDevice.writeData("GETID");
+                        dataString = cdcDevice.dataString;
+                        if (dataString.contains("PLATFORM-CONTROL-P1") || dataString.contains("PLATFORM-CONTROL-P2"))
+                        {
+                            break;
+                        }
+                        if (System.currentTimeMillis() - startTime > 5000)
                             break;
                     }
-                    cdcDevice.setDeviceName(cdcDevice.dataString);
+                    cdcDevice.setDeviceName(dataString);
                     cdcDevice.serialPortReader.setDeviceName(cdcDevice.getDeviceName());
                     connectDisconnectBoardBtn.setDisable(false);
+
                     //assign CDC to boards controllers
                     if (cdcDevice.getDeviceName().contains("PLATFORM-CONTROL-P1"))
                     {

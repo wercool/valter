@@ -34,14 +34,23 @@ public class PLATFORM_CONTROL_P1
     {
         if (cdcDevice != null)
         {
-            switch (cmd)
+            if (cdcDevice.getDeviceConnected())
             {
-            case "MOVE FORWARD":
-                cdcDevice.writeData("STARTINPUT1READINGS");
-                break;
-
-            default:
-                break;
+                switch (cmd)
+                {
+                case "MOVE FORWARD":
+                    cdcDevice.writeData("STARTINPUT1READINGS");
+                    break;
+                case "STOP":
+                    cdcDevice.writeData("STOPINPUT1READINGS");
+                    break;
+                default:
+                    break;
+                }
+            } else
+            {
+                MainWindowController.showTooltip(mainWindowController.mainAppObject.primaryStage, mainWindowController.forwardBtn, "CDC Device disconnected", null);
+                mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device disconnected");
             }
         } else
         {
