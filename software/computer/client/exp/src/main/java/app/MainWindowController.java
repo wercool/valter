@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -65,10 +66,20 @@ public class MainWindowController
     public CheckBox logOutgoing;
     @FXML
     private TextField cmdTextField;
+    @FXML
+    private CheckBox scanAndConnectCB;
 
     //PLATFORM_CONTROL_P1
     @FXML
     public Button forwardBtn;
+    @FXML
+    public Button stopBtn;
+    @FXML
+    public Slider platformMotorsDuty;
+    @FXML
+    public Slider platformMotorsAсceleration;
+    @FXML
+    public Slider platformMotorsDeceleration;
 
     @SuppressWarnings("rawtypes")
     final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
@@ -84,6 +95,8 @@ public class MainWindowController
 
     public void close()
     {
+        PLATFORM_CONTROL_P1_INST.stopExecutionOfAllCommads();
+
         for (int i = 0; i < valterCDCDevices.size(); i++)
         {
             valterCDCDevices.get(i).disconnect();
@@ -139,18 +152,16 @@ public class MainWindowController
     {
         mainTabPane.getSelectionModel().select(2);
 
-        //PLATFORM_CONTROL_P1
-        new PLATFORM_CONTROL_P1();
         PLATFORM_CONTROL_P1_INST = PLATFORM_CONTROL_P1.getInstance();
         PLATFORM_CONTROL_P1_INST.setMainController(this);
 
-        //Forward button
+        //Forward button actions    
         forwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(MouseEvent e)
             {
-                PLATFORM_CONTROL_P1_INST.executeCommand("MOVE FORWARD");
+                PLATFORM_CONTROL_P1_INST.executeCommand("FORWARD EXECUTE");
             }
         });
         forwardBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
@@ -158,7 +169,16 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                PLATFORM_CONTROL_P1_INST.executeCommand("STOP");
+                PLATFORM_CONTROL_P1_INST.executeCommand("FORWARD CANCEL");
+            }
+        });
+
+        stopBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("STOP ALL");
             }
         });
 
@@ -200,6 +220,16 @@ public class MainWindowController
             valterCDCDevices.add(CDCDeviceObj);
         }
         deviceTable.setItems(valterCDCDevices);
+        if (scanAndConnectCB.isSelected())
+        {
+            for (int i = 0; i < valterCDCDevices.size(); i++)
+            {
+                if (!valterCDCDevices.get(i).getDeviceConnected())
+                {
+                    connectCDCDevice(valterCDCDevices.get(i));
+                }
+            }
+        }
     }
 
     @FXML
@@ -222,36 +252,42 @@ public class MainWindowController
         if (deviceTable.getSelectionModel().getSelectedItem() != null)
         {
             CDCDevice cdcDevice = deviceTable.getSelectionModel().getSelectedItem();
-            if (cdcDevice.getDeviceConnected())
-            {
-                cdcDevice.disconnect();
-            } else
-            {
-                if (cdcDevice.connect())
-                {
-                    connectDisconnectBoardBtn.setDisable(true);
-                    long startTime = System.currentTimeMillis();
-                    String dataString = "<failed to get device name>";
-                    while (true)
-                    {
-                        cdcDevice.writeData("GETID");
-                        dataString = cdcDevice.dataString;
-                        if (dataString.contains("PLATFORM-CONTROL-P1") || dataString.contains("PLATFORM-LOCATION-P1") || dataString.contains("PLATFORM-CONTROL-P2"))
-                        {
-                            break;
-                        }
-                        if (System.currentTimeMillis() - startTime > 5000)
-                            break;
-                    }
-                    cdcDevice.setDeviceName(dataString);
-                    cdcDevice.serialPortReader.setDeviceName(cdcDevice.getDeviceName());
-                    connectDisconnectBoardBtn.setDisable(false);
+            connectCDCDevice(cdcDevice);
+        }
+    }
 
-                    //assign CDC to boards controllers
-                    if (cdcDevice.getDeviceName().contains("PLATFORM-CONTROL-P1"))
+    private void connectCDCDevice(CDCDevice cdcDevice)
+    {
+        if (cdcDevice.getDeviceConnected())
+        {
+            cdcDevice.disconnect();
+        } else
+        {
+            if (cdcDevice.connect())
+            {
+                connectDisconnectBoardBtn.setDisable(true);
+                long startTime = System.currentTimeMillis();
+                String dataString = "<failed to get device name>";
+                while (true)
+                {
+                    cdcDevice.writeData("GETID");
+                    dataString = cdcDevice.dataString;
+                    if (dataString.contains("PLATFORM-CONTROL-P1") || dataString.contains("PLATFORM-LOCATION-P1") || dataString.contains("PLATFORM-CONTROL-P2"))
                     {
-                        PLATFORM_CONTROL_P1_INST.setCdcDevice(cdcDevice);
+                        break;
                     }
+                    if (System.currentTimeMillis() - startTime > 5000)
+                        break;
+                }
+                cdcDevice.setDeviceName(dataString);
+                cdcDevice.serialPortReader.setDeviceName(cdcDevice.getDeviceName());
+                connectDisconnectBoardBtn.setDisable(false);
+
+                //assign CDC to boards controllers
+                if (cdcDevice.getDeviceName().contains("PLATFORM-CONTROL-P1"))
+                {
+                    PLATFORM_CONTROL_P1_INST.initialize();
+                    PLATFORM_CONTROL_P1_INST.setCdcDevice(cdcDevice);
                 }
             }
         }
