@@ -125,6 +125,8 @@ public class PLATFORM_CONTROL_P1
                         curDuty = setDuty;
                         isAccelerating = false;
                     }
+                    this.platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + curDuty);
+                    this.platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + curDuty);
                     System.out.println("MoveForward is Accelerating [" + "Δ " + acceleration + " (" + curDuty + " → " + setDuty + ")]");
                 }
                 if (isDecelerating)
@@ -137,10 +139,10 @@ public class PLATFORM_CONTROL_P1
                         curDuty = 1;
                         isDecelerating = false;
                     }
+                    this.platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + curDuty);
+                    this.platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + curDuty);
                     System.out.println("MoveForward is Decelerating [" + "Δ " + deceleration + " (" + curDuty + " → 1)]");
                 }
-                this.platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + curDuty);
-                this.platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + curDuty);
 
                 try
                 {
