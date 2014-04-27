@@ -2,7 +2,10 @@ package app;
 
 import gnu.io.CommPortIdentifier;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
 import javafx.collections.FXCollections;
@@ -13,12 +16,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -40,6 +45,7 @@ public class MainWindowController
 
     public PLATFORM_CONTROL_P1 PLATFORM_CONTROL_P1_INST;
 
+    //General components and from Settings tab
     @FXML
     private TabPane mainTabPane;
     @FXML
@@ -71,7 +77,24 @@ public class MainWindowController
 
     //PLATFORM_CONTROL_P1
     @FXML
+    public TitledPane platformDrivesControlPane;
+    @FXML
     public Button forwardBtn;
+    @FXML
+    public Button backwardtn;
+    @FXML
+    public Button turnCCWBtn;
+    @FXML
+    public Button turnCWBtn;
+    @FXML
+    public Button leftForwardBtn;
+    @FXML
+    public Button leftBackwardBtn;
+    @FXML
+    public Button rightForwardBtn;
+    @FXML
+    public Button rightBackwardBtn;
+
     @FXML
     public Button stopBtn;
     @FXML
@@ -80,6 +103,12 @@ public class MainWindowController
     public Slider platformMotorsAсceleration;
     @FXML
     public Slider platformMotorsDeceleration;
+    @FXML
+    public ProgressBar leftDutyProgressBar;
+    @FXML
+    public ProgressBar rightDutyProgressBar;
+
+    List<Button> platformDriveButtons = new ArrayList<Button>();
 
     @SuppressWarnings("rawtypes")
     final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
@@ -155,13 +184,23 @@ public class MainWindowController
         PLATFORM_CONTROL_P1_INST = PLATFORM_CONTROL_P1.getInstance();
         PLATFORM_CONTROL_P1_INST.setMainController(this);
 
+        platformDriveButtons.add(forwardBtn);
+        platformDriveButtons.add(backwardtn);
+        platformDriveButtons.add(turnCCWBtn);
+        platformDriveButtons.add(turnCWBtn);
+        platformDriveButtons.add(leftForwardBtn);
+        platformDriveButtons.add(leftBackwardBtn);
+        platformDriveButtons.add(rightForwardBtn);
+        platformDriveButtons.add(rightBackwardBtn);
+
         //Forward button actions    
         forwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(MouseEvent e)
             {
-                PLATFORM_CONTROL_P1_INST.executeCommand("FORWARD EXECUTE");
+                setPlatformDriveButtonsState(false, forwardBtn);
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_FORWARD_EXECUTE");
             }
         });
         forwardBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
@@ -169,7 +208,140 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                PLATFORM_CONTROL_P1_INST.executeCommand("FORWARD CANCEL");
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_FORWARD_CANCEL");
+            }
+        });
+
+        //Backward button actions    
+        backwardtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setPlatformDriveButtonsState(false, backwardtn);
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_BACKWARD_EXECUTE");
+            }
+        });
+        backwardtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_BACKWARD_CANCEL");
+            }
+        });
+
+        //Rotate CCW button actions    
+        turnCCWBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setPlatformDriveButtonsState(false, turnCCWBtn);
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_CCW_EXECUTE");
+            }
+        });
+        turnCCWBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_CCW_CANCEL");
+            }
+        });
+
+        //Rotate CW button actions    
+        turnCWBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setPlatformDriveButtonsState(false, turnCWBtn);
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_CW_EXECUTE");
+            }
+        });
+        turnCWBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_CW_CANCEL");
+            }
+        });
+
+        //Left forward actions
+        leftForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setPlatformDriveButtonsState(false, new ArrayList<Button>(Arrays.asList(leftForwardBtn, rightForwardBtn)));
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_LEFT_FORWARD_EXECUTE");
+            }
+        });
+        leftForwardBtn.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_LEFT_FORWARD_CANCEL");
+            }
+        });
+
+        //Left backward actions
+        leftBackwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setPlatformDriveButtonsState(false, new ArrayList<Button>(Arrays.asList(leftBackwardBtn, rightBackwardBtn)));
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_LEFT_BACKWARD_EXECUTE");
+            }
+        });
+        leftBackwardBtn.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_LEFT_BACKWARD_CANCEL");
+            }
+        });
+
+        //Right forward actions
+        rightForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setPlatformDriveButtonsState(false, new ArrayList<Button>(Arrays.asList(rightForwardBtn, leftForwardBtn)));
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_RIGHT_FORWARD_EXECUTE");
+            }
+        });
+        rightForwardBtn.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_RIGHT_FORWARD_CANCEL");
+            }
+        });
+
+        //Right backward actions
+        rightBackwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setPlatformDriveButtonsState(false, new ArrayList<Button>(Arrays.asList(rightBackwardBtn, leftBackwardBtn)));
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_RIGHT_BACKWARD_EXECUTE");
+            }
+        });
+        rightBackwardBtn.addEventFilter(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("PLATFORM_RIGHT_BACKWARD_CANCEL");
             }
         });
 
@@ -178,7 +350,7 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                PLATFORM_CONTROL_P1_INST.executeCommand("STOP ALL");
+                PLATFORM_CONTROL_P1_INST.executeCommand("STOP_ALL");
             }
         });
 
@@ -186,6 +358,28 @@ public class MainWindowController
         deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
         portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
         deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
+    }
+
+    public void setPlatformDriveButtonsState(boolean state, Button exceptButton)
+    {
+        for (Button button : platformDriveButtons)
+        {
+            if (button != exceptButton)
+            {
+                button.setDisable(!state);
+            }
+        }
+    }
+
+    public void setPlatformDriveButtonsState(boolean state, List<Button> exceptButtons)
+    {
+        for (Button button : platformDriveButtons)
+        {
+            if (!exceptButtons.contains(button))
+            {
+                button.setDisable(!state);
+            }
+        }
     }
 
     // Button Handlers
