@@ -384,6 +384,7 @@ int main(void)
         }
 
         //IMPORTANT!!! Implement in a working firmware
+        /*
         unsigned int turret_pos = getTurretPosition(0);
         if ((turret_pos <= 25 || turret_pos >= 999) && turret_pos != 1023)
         {
@@ -392,6 +393,7 @@ int main(void)
             turretStaticMode = 0;
             stopTurretDrive();
         }
+        */
 
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
