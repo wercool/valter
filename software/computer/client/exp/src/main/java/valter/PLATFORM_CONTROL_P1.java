@@ -11,10 +11,10 @@ import platform_control_p1.commands.platfromMainDrives.PlatformMoveRightBackward
 import platform_control_p1.commands.platfromMainDrives.PlatformMoveRightForward;
 import platform_control_p1.commands.platfromMainDrives.PlatformRotateCCW;
 import platform_control_p1.commands.platfromMainDrives.PlatformRotateCW;
-import platform_control_p1.commands.switches.GetChargerConnected;
-import platform_control_p1.commands.switches.GetTurretPosition;
+import platform_control_p1.commands.turretDrive.GetTurretPosition;
 import platform_control_p1.commands.turretDrive.TurretRotateCCW;
 import platform_control_p1.commands.turretDrive.TurretRotateCW;
+import platform_control_p1.listeners.ChargerListener;
 import app.MainWindowController;
 
 public class PLATFORM_CONTROL_P1
@@ -65,7 +65,7 @@ public class PLATFORM_CONTROL_P1
     Thread getTurretPositionThread = null;
 
     //Power Status
-    public GetChargerConnected getChargerConnectedRunnable = null;
+    public ChargerListener getChargerConnectedRunnable = null;
     Thread getChargerConnectedThread = null;
 
     public PLATFORM_CONTROL_P1()
@@ -127,7 +127,7 @@ public class PLATFORM_CONTROL_P1
         getTurretPositionThread.start();
 
         //Power Status
-        getChargerConnectedRunnable = new GetChargerConnected(this);
+        getChargerConnectedRunnable = new ChargerListener(this);
         getTurretPositionThread = new Thread(getChargerConnectedRunnable);
         getTurretPositionThread.start();
 
@@ -311,11 +311,30 @@ public class PLATFORM_CONTROL_P1
                 //Switches
                 case "5V_ENABLE":
                     this.cdcDevice.writeData("DCDC5VENABLEON");
-                    this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setText("5V Enabled");
                     break;
                 case "5V_DISABLE":
                     this.cdcDevice.writeData("DCDC5VENABLEOFF");
-                    this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setText("5V Disabled");
+                    break;
+                case "MAINACCUMULATORRELAYON":
+                    this.cdcDevice.writeData("MAINACCUMULATORRELAYON");
+                    break;
+                case "MAINACCUMULATORRELAYOFF":
+                    this.cdcDevice.writeData("MAINACCUMULATORRELAYOFF");
+                    break;
+                case "LEFTACCUMULATORRELAYON":
+                    this.cdcDevice.writeData("LEFTACCUMULATORRELAYON");
+                    break;
+                case "LEFTACCUMULATORRELAYOFF":
+                    this.cdcDevice.writeData("LEFTACCUMULATORRELAYOFF");
+                    break;
+                case "RIGHTACCUMULATORRELAYON":
+                    this.cdcDevice.writeData("RIGHTACCUMULATORRELAYON");
+                    break;
+                case "RIGHTACCUMULATORRELAYOFF":
+                    this.cdcDevice.writeData("RIGHTACCUMULATORRELAYOFF");
+                    break;
+                case "CHARGERBUTTONPRESS":
+                    this.cdcDevice.writeData("CHARGERBUTTONPRESS");
                     break;
 
                 //Power Status
@@ -328,21 +347,11 @@ public class PLATFORM_CONTROL_P1
                 }
             } else
             {
-                MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.mainTabPane, "CDC Device disconnected", null);
-                mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device disconnected");
-                mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
-                mainWindowController.setTurretControlButtonsState(true, (ArrayList<Button>) null);
-
-                this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setSelected(false);
+                mainWindowController.cdcIsNotConnectedActions();
             }
         } else
         {
-            MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.mainTabPane, "CDC Device is not assigned", null);
-            mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device is not assigned");
-            mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
-            mainWindowController.setTurretControlButtonsState(true, (ArrayList<Button>) null);
-
-            this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setSelected(false);
+            mainWindowController.cdcIsNotConnectedActions();
         }
     }
 

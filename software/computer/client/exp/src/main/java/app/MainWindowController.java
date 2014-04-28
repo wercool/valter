@@ -135,12 +135,30 @@ public class MainWindowController
     //Switches
     @FXML
     public ToggleButton platform_conrol_p1_5VEnableToggleButton;
+    @FXML
+    public ToggleButton platform_conrol_p1_MainAccumulatorOnOffBtn;
+    @FXML
+    public ToggleButton platform_conrol_p1_LeftAccumulatorOnOffBtn;
+    @FXML
+    public ToggleButton platform_conrol_p1RightAccumulatorOnOffBtn;
+    @FXML
+    public Button platform_conrol_p1ChargerButtonPressBtn;
 
     //Power Status
     @FXML
     public RadioButton chargerConnectedRadioButton;
     @FXML
     public CheckBox chargerConnectedInspectCheckBox;
+    @FXML
+    public RadioButton charger35AhModeRadioButton;
+    @FXML
+    public RadioButton charger120AhModeRadioButton;
+    @FXML
+    public RadioButton chargeInProgressRadioButton;
+    @FXML
+    public RadioButton chargeCompleteRadioButton;
+    @FXML
+    public Label chargerVoltageLabel;
 
     @SuppressWarnings("rawtypes")
     final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
@@ -180,6 +198,14 @@ public class MainWindowController
         customTooltip.setAutoHide(true);
 
         customTooltip.show(owner, p.getX() + control.getScene().getX() + control.getScene().getWindow().getX(), p.getY() + control.getScene().getY() + control.getScene().getWindow().getY());
+    }
+
+    public void cdcIsNotConnectedActions()
+    {
+        showTooltip(this.mainAppObject.stage, mainTabPane, "CDC Device Not Ready", null);
+        logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device Not Ready");
+        setPlatformDriveButtonsState(true, (Button) null);
+        setTurretControlButtonsState(true, (ArrayList<Button>) null);
     }
 
     public void logToConsole(String msg)
@@ -481,24 +507,76 @@ public class MainWindowController
                 if (!platform_conrol_p1_5VEnableToggleButton.isSelected())
                 {
                     PLATFORM_CONTROL_P1_INST.executeCommand("5V_DISABLE");
+                    platform_conrol_p1_5VEnableToggleButton.setText("5V Enable");
+
                 } else
                 {
                     PLATFORM_CONTROL_P1_INST.executeCommand("5V_ENABLE");
+                    platform_conrol_p1_5VEnableToggleButton.setText("5V Disable");
                 }
+            }
+        });
+        platform_conrol_p1_MainAccumulatorOnOffBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!platform_conrol_p1_MainAccumulatorOnOffBtn.isSelected())
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("MAINACCUMULATORRELAYOFF");
+                    platform_conrol_p1_MainAccumulatorOnOffBtn.setText("Main Accumulator Relay ON");
+                } else
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("MAINACCUMULATORRELAYON");
+                    platform_conrol_p1_MainAccumulatorOnOffBtn.setText("Main Accumulator Relay OFF");
+                }
+            }
+        });
+        platform_conrol_p1_LeftAccumulatorOnOffBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!platform_conrol_p1_LeftAccumulatorOnOffBtn.isSelected())
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("LEFTACCUMULATORRELAYOFF");
+                    platform_conrol_p1_LeftAccumulatorOnOffBtn.setText("Left Accumulator Relay ON");
+                } else
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("LEFTACCUMULATORRELAYON");
+                    platform_conrol_p1_LeftAccumulatorOnOffBtn.setText("Left Accumulator Relay OFF");
+
+                }
+            }
+        });
+        platform_conrol_p1RightAccumulatorOnOffBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!platform_conrol_p1RightAccumulatorOnOffBtn.isSelected())
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("RIGHTACCUMULATORRELAYOFF");
+                    platform_conrol_p1RightAccumulatorOnOffBtn.setText("Right Accumulator Relay ON");
+                } else
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("RIGHTACCUMULATORRELAYON");
+                    platform_conrol_p1RightAccumulatorOnOffBtn.setText("Right Accumulator Relay OFF");
+                }
+            }
+        });
+        platform_conrol_p1ChargerButtonPressBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("CHARGERBUTTONPRESS");
             }
         });
     }
 
     private void initializePowerStatus()
     {
-        chargerConnectedRadioButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(MouseEvent e)
-            {
-                chargerConnectedRadioButton.setSelected(!chargerConnectedRadioButton.isSelected());
-            }
-        });
         chargerConnectedInspectCheckBox.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -518,6 +596,13 @@ public class MainWindowController
                 }
             }
         });
+    }
+
+    @FXML
+    public void mousePressedEventConsume(MouseEvent event)
+    {
+        RadioButton clickedRadioButton = (RadioButton) event.getSource();
+        clickedRadioButton.setSelected(!clickedRadioButton.isSelected());
     }
 
     public void setPlatformDriveButtonsState(boolean state, Button exceptButton)
