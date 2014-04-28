@@ -16,7 +16,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
@@ -24,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -47,7 +50,7 @@ public class MainWindowController
 
     //General components and from Settings tab
     @FXML
-    private TabPane mainTabPane;
+    public TabPane mainTabPane;
     @FXML
     private Button scanBoardsBtn;
     @FXML
@@ -77,6 +80,8 @@ public class MainWindowController
 
     //PLATFORM_CONTROL_P1
     //Main Platform Drives Control
+    List<Button> platformDriveButtons = new ArrayList<Button>();
+    List<Button> platformTurretButtons = new ArrayList<Button>();
     @FXML
     public TitledPane platformDrivesControlPane;
     @FXML
@@ -122,9 +127,20 @@ public class MainWindowController
     public Slider turretMotorDeceleration;
     @FXML
     public Slider turretMotorDuty;
+    @FXML
+    public Button getTurrePositionBtn;
+    @FXML
+    public Label currentTurretPositionLabel;
 
-    List<Button> platformDriveButtons = new ArrayList<Button>();
-    List<Button> platformTurretButtons = new ArrayList<Button>();
+    //Switches
+    @FXML
+    public ToggleButton platform_conrol_p1_5VEnableToggleButton;
+
+    //Power Status
+    @FXML
+    public RadioButton chargerConnectedRadioButton;
+    @FXML
+    public CheckBox chargerConnectedInspectCheckBox;
 
     @SuppressWarnings("rawtypes")
     final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
@@ -202,6 +218,8 @@ public class MainWindowController
 
         initializePlatfromMainDrivesControlElements();
         initializeTurretControlElements();
+        initializePlatformControlP1SwitchesElements();
+        initializePowerStatus();
 
         //Settings
         deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
@@ -433,6 +451,73 @@ public class MainWindowController
                 PLATFORM_CONTROL_P1_INST.executeCommand("STOP_TURRET");
             }
         });
+
+        getTurrePositionBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("GET_TURRET_POSITION_EXECUTE");
+            }
+        });
+
+        getTurrePositionBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("GET_TURRET_POSITION_CANCEL");
+            }
+        });
+    }
+
+    private void initializePlatformControlP1SwitchesElements()
+    {
+        platform_conrol_p1_5VEnableToggleButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!platform_conrol_p1_5VEnableToggleButton.isSelected())
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("5V_DISABLE");
+                } else
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("5V_ENABLE");
+                }
+            }
+        });
+    }
+
+    private void initializePowerStatus()
+    {
+        chargerConnectedRadioButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                chargerConnectedRadioButton.setSelected(!chargerConnectedRadioButton.isSelected());
+            }
+        });
+        chargerConnectedInspectCheckBox.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+
+                if (chargerConnectedInspectCheckBox.isSelected())
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("GET_CHARGER_CONNECTED_START");
+                } else
+                {
+                    PLATFORM_CONTROL_P1_INST.executeCommand("GET_CHARGER_CONNECTED_STOP");
+                }
+                if (!PLATFORM_CONTROL_P1_INST.isReady())
+                {
+                    chargerConnectedInspectCheckBox.setSelected(!chargerConnectedInspectCheckBox.isSelected());
+                }
+            }
+        });
     }
 
     public void setPlatformDriveButtonsState(boolean state, Button exceptButton)
@@ -552,6 +637,7 @@ public class MainWindowController
     {
         if (cdcDevice.getDeviceConnected())
         {
+            PLATFORM_CONTROL_P1_INST.stopExecutionOfAllCommads();
             cdcDevice.disconnect();
         } else
         {

@@ -3,18 +3,19 @@ package valter;
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
+import platform_control_p1.commands.platfromMainDrives.PlatformMoveBackward;
+import platform_control_p1.commands.platfromMainDrives.PlatformMoveForward;
+import platform_control_p1.commands.platfromMainDrives.PlatformMoveLeftBackward;
+import platform_control_p1.commands.platfromMainDrives.PlatformMoveLeftForward;
+import platform_control_p1.commands.platfromMainDrives.PlatformMoveRightBackward;
+import platform_control_p1.commands.platfromMainDrives.PlatformMoveRightForward;
+import platform_control_p1.commands.platfromMainDrives.PlatformRotateCCW;
+import platform_control_p1.commands.platfromMainDrives.PlatformRotateCW;
+import platform_control_p1.commands.switches.GetChargerConnected;
+import platform_control_p1.commands.switches.GetTurretPosition;
+import platform_control_p1.commands.turretDrive.TurretRotateCCW;
+import platform_control_p1.commands.turretDrive.TurretRotateCW;
 import app.MainWindowController;
-
-import commands.platfromMainDrives.PlatformMoveBackward;
-import commands.platfromMainDrives.PlatformMoveForward;
-import commands.platfromMainDrives.PlatformMoveLeftBackward;
-import commands.platfromMainDrives.PlatformMoveLeftForward;
-import commands.platfromMainDrives.PlatformMoveRightBackward;
-import commands.platfromMainDrives.PlatformMoveRightForward;
-import commands.platfromMainDrives.PlatformRotateCCW;
-import commands.platfromMainDrives.PlatformRotateCW;
-import commands.turretDrive.TurretRotateCCW;
-import commands.turretDrive.TurretRotateCW;
 
 public class PLATFORM_CONTROL_P1
 {
@@ -59,6 +60,13 @@ public class PLATFORM_CONTROL_P1
 
     public TurretRotateCCW turretRotateCCWRunnable = null;
     Thread turretRotateCCWThread = null;
+
+    public GetTurretPosition getTurretPositionRunnable = null;
+    Thread getTurretPositionThread = null;
+
+    //Power Status
+    public GetChargerConnected getChargerConnectedRunnable = null;
+    Thread getChargerConnectedThread = null;
 
     public PLATFORM_CONTROL_P1()
     {
@@ -114,6 +122,15 @@ public class PLATFORM_CONTROL_P1
         turretRotateCCWThread = new Thread(turretRotateCCWRunnable);
         turretRotateCCWThread.start();
 
+        getTurretPositionRunnable = new GetTurretPosition(this);
+        getTurretPositionThread = new Thread(getTurretPositionRunnable);
+        getTurretPositionThread.start();
+
+        //Power Status
+        getChargerConnectedRunnable = new GetChargerConnected(this);
+        getTurretPositionThread = new Thread(getChargerConnectedRunnable);
+        getTurretPositionThread.start();
+
         isInitialized = true;
     }
 
@@ -130,6 +147,19 @@ public class PLATFORM_CONTROL_P1
     public void setCdcDevice(CDCDevice cdcDevice)
     {
         this.cdcDevice = cdcDevice;
+        stopExecutionOfAllCommads();
+        initialize();
+    }
+
+    public boolean isReady()
+    {
+        if (this.cdcDevice != null && this.cdcDevice.getDeviceConnected())
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 
     public void stopExecutionOfAllCommads()
@@ -167,6 +197,15 @@ public class PLATFORM_CONTROL_P1
 
             turretRotateCCWRunnable.stop();
             turretRotateCCWThread.interrupt();
+
+            getTurretPositionRunnable.stop();
+            getTurretPositionThread.interrupt();
+
+            //Power Status
+            getChargerConnectedRunnable.stop();
+            getTurretPositionThread.interrupt();
+
+            isInitialized = false;
         }
     }
 
@@ -240,15 +279,18 @@ public class PLATFORM_CONTROL_P1
                     Thread terminatingPlatfromDrivesThread = new Thread(new TerminatingPlatfromDrivesRunnable(this.mainWindowController, this));
                     terminatingPlatfromDrivesThread.start();
                     break;
+
                 //Turret Control
                 case "TURRET_CW_EXECUTE":
                     turretRotateCWRunnable.execute();
+                    getTurretPositionRunnable.execute();
                     break;
                 case "TURRET_CW_CANCEL":
                     turretRotateCWRunnable.cancel();
                     break;
                 case "TURRET_CCW_EXECUTE":
                     turretRotateCCWRunnable.execute();
+                    getTurretPositionRunnable.execute();
                     break;
                 case "TURRET_CCW_CANCEL":
                     turretRotateCCWRunnable.cancel();
@@ -256,22 +298,51 @@ public class PLATFORM_CONTROL_P1
                 case "STOP_TURRET":
                     turretRotateCWRunnable.terminate();
                     turretRotateCCWRunnable.terminate();
-
                     Thread terminatingTurretControlThread = new Thread(new TerminatingTurretControlRunnable(this.mainWindowController, this));
                     terminatingTurretControlThread.start();
+                    break;
+                case "GET_TURRET_POSITION_EXECUTE":
+                    getTurretPositionRunnable.execute();
+                    break;
+                case "GET_TURRET_POSITION_CANCEL":
+                    getTurretPositionRunnable.cancel();
+                    break;
+
+                //Switches
+                case "5V_ENABLE":
+                    this.cdcDevice.writeData("DCDC5VENABLEON");
+                    this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setText("5V Enabled");
+                    break;
+                case "5V_DISABLE":
+                    this.cdcDevice.writeData("DCDC5VENABLEOFF");
+                    this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setText("5V Disabled");
+                    break;
+
+                //Power Status
+                case "GET_CHARGER_CONNECTED_START":
+                    getChargerConnectedRunnable.execute();
+                    break;
+                case "GET_CHARGER_CONNECTED_STOP":
+                    getChargerConnectedRunnable.cancel();
                     break;
                 }
             } else
             {
-                MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.platformDrivesControlPane, "CDC Device disconnected", null);
+                MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.mainTabPane, "CDC Device disconnected", null);
                 mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device disconnected");
                 mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
+                mainWindowController.setTurretControlButtonsState(true, (ArrayList<Button>) null);
+
+                this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setSelected(false);
             }
         } else
         {
-            MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.platformDrivesControlPane, "CDC Device is not assigned", null);
+            MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.mainTabPane, "CDC Device is not assigned", null);
             mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device is not assigned");
             mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
+            mainWindowController.setTurretControlButtonsState(true, (ArrayList<Button>) null);
+
+            this.mainWindowController.platform_conrol_p1_5VEnableToggleButton.setSelected(false);
         }
     }
 
@@ -362,10 +433,13 @@ public class PLATFORM_CONTROL_P1
 
                 this.mainWindowController.setTurretControlButtonsState(true, (ArrayList<Button>) null);
 
+                this.platform_control_p1.getTurretPositionRunnable.cancel();
+
             } catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
     }
+
 }

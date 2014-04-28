@@ -33,8 +33,8 @@ public class ValterExpClient extends Application
 
         this.stage = stage;
 
-        String fxmlFile = "/resources/fxml/main.fxml";
-        //String fxmlFile = "/fxml/main.fxml";
+        //String fxmlFile = "/resources/fxml/main.fxml";
+        String fxmlFile = "/fxml/main.fxml";
         log.debug("Loading FXML for main view from: {}", fxmlFile);
 
         URL location = getClass().getResource(fxmlFile);

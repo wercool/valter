@@ -1,6 +1,4 @@
-package commands.turretDrive;
-
-import java.util.ArrayList;
+package platform_control_p1.commands.platfromMainDrives;
 
 import javafx.scene.control.Button;
 import valter.PLATFORM_CONTROL_P1;
@@ -8,17 +6,18 @@ import app.MainWindowController;
 
 import commands.CommandRunnable;
 
-public class TurretRotateCCW implements Runnable, CommandRunnable
+public class PlatformMoveBackward implements Runnable, CommandRunnable
 {
     MainWindowController mainWindowController;
     PLATFORM_CONTROL_P1 platform_control_p1;
+
     private volatile boolean isAccelerating = false;
     private volatile boolean isDecelerating = false;
     private volatile boolean isTerminated = false;
     private volatile boolean isStopped = false;
     private volatile int curDuty = 1;
 
-    public TurretRotateCCW(PLATFORM_CONTROL_P1 platform_control_p1)
+    public PlatformMoveBackward(PLATFORM_CONTROL_P1 platform_control_p1)
     {
         this.mainWindowController = platform_control_p1.mainWindowController;
         this.platform_control_p1 = platform_control_p1;
@@ -32,13 +31,20 @@ public class TurretRotateCCW implements Runnable, CommandRunnable
         {
             if (isTerminated)
             {
+                try
+                {
+                    Thread.sleep(100);
+                } catch (InterruptedException e)
+                {
+                    //e.printStackTrace();
+                }
                 curDuty = 1;
                 continue;
             }
 
-            int setDuty = (int) mainWindowController.turretMotorDuty.getValue();
-            int acceleration = (int) mainWindowController.turretMotorAсceleration.getValue();
-            int deceleration = (int) mainWindowController.turretMotorDeceleration.getValue();
+            int setDuty = (int) mainWindowController.platformMotorsDuty.getValue();
+            int acceleration = (int) mainWindowController.platformMotorsAсceleration.getValue();
+            int deceleration = (int) mainWindowController.platformMotorsDeceleration.getValue();
 
             if (isAccelerating)
             {
@@ -50,10 +56,12 @@ public class TurretRotateCCW implements Runnable, CommandRunnable
                     curDuty = setDuty;
                     isAccelerating = false;
                 }
-                this.platform_control_p1.cdcDevice.writeData("SETTURRETMOTORPWMDUTY#" + curDuty);
+                this.platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + curDuty);
+                this.platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + curDuty);
                 System.out.println(this.getClass().getName() + " is Accelerating [" + "Δ " + acceleration + " (" + curDuty + " → " + setDuty + ")]");
                 double dutyVal = (double) curDuty / 100;
-                this.mainWindowController.turretDutyProgressBar.setProgress(dutyVal);
+                this.mainWindowController.leftDutyProgressBar.setProgress(dutyVal);
+                this.mainWindowController.rightDutyProgressBar.setProgress(dutyVal);
             }
             if (isDecelerating)
             {
@@ -64,12 +72,14 @@ public class TurretRotateCCW implements Runnable, CommandRunnable
                 {
                     curDuty = 1;
                     isDecelerating = false;
-                    this.mainWindowController.setTurretControlButtonsState(true, (ArrayList<Button>) null);
+                    this.mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
                 }
-                this.platform_control_p1.cdcDevice.writeData("SETTURRETMOTORPWMDUTY#" + curDuty);
+                this.platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + curDuty);
+                this.platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + curDuty);
                 System.out.println(this.getClass().getName() + " is Decelerating [" + "Δ " + deceleration + " (" + curDuty + " → 1)]");
                 double dutyVal = (double) curDuty / 100;
-                this.mainWindowController.turretDutyProgressBar.setProgress(dutyVal);
+                this.mainWindowController.leftDutyProgressBar.setProgress(dutyVal);
+                this.mainWindowController.rightDutyProgressBar.setProgress(dutyVal);
             }
 
             try
@@ -86,7 +96,8 @@ public class TurretRotateCCW implements Runnable, CommandRunnable
     public void execute()
     {
         isTerminated = false;
-        this.platform_control_p1.cdcDevice.writeData("TURRETMOTORCCW");
+        this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCCW");
+        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCW");
         isAccelerating = true;
         isDecelerating = false;
         System.out.println(this.getClass().getName() + " execute()");
@@ -95,7 +106,8 @@ public class TurretRotateCCW implements Runnable, CommandRunnable
     @Override
     public void cancel()
     {
-        this.platform_control_p1.cdcDevice.writeData("TURRETMOTORCCW");
+        this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCCW");
+        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCW");
         isDecelerating = true;
         isAccelerating = false;
         System.out.println(this.getClass().getName() + " cancel()");
@@ -124,4 +136,5 @@ public class TurretRotateCCW implements Runnable, CommandRunnable
         isStopped = true;
         System.out.println(this.getClass().getName() + " stop()");
     }
+
 }

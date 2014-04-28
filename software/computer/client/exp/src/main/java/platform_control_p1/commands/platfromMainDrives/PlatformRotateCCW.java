@@ -1,23 +1,22 @@
-package commands.platfromMainDrives;
-
-import commands.CommandRunnable;
+package platform_control_p1.commands.platfromMainDrives;
 
 import javafx.scene.control.Button;
 import valter.PLATFORM_CONTROL_P1;
 import app.MainWindowController;
 
-public class PlatformMoveBackward implements Runnable, CommandRunnable
+import commands.CommandRunnable;
+
+public class PlatformRotateCCW implements Runnable, CommandRunnable
 {
     MainWindowController mainWindowController;
     PLATFORM_CONTROL_P1 platform_control_p1;
-
     private volatile boolean isAccelerating = false;
     private volatile boolean isDecelerating = false;
     private volatile boolean isTerminated = false;
     private volatile boolean isStopped = false;
     private volatile int curDuty = 1;
 
-    public PlatformMoveBackward(PLATFORM_CONTROL_P1 platform_control_p1)
+    public PlatformRotateCCW(PLATFORM_CONTROL_P1 platform_control_p1)
     {
         this.mainWindowController = platform_control_p1.mainWindowController;
         this.platform_control_p1 = platform_control_p1;
@@ -31,6 +30,13 @@ public class PlatformMoveBackward implements Runnable, CommandRunnable
         {
             if (isTerminated)
             {
+                try
+                {
+                    Thread.sleep(100);
+                } catch (InterruptedException e)
+                {
+                    //e.printStackTrace();
+                }
                 curDuty = 1;
                 continue;
             }
@@ -90,7 +96,7 @@ public class PlatformMoveBackward implements Runnable, CommandRunnable
     {
         isTerminated = false;
         this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCCW");
-        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCW");
+        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCCW");
         isAccelerating = true;
         isDecelerating = false;
         System.out.println(this.getClass().getName() + " execute()");
@@ -100,7 +106,7 @@ public class PlatformMoveBackward implements Runnable, CommandRunnable
     public void cancel()
     {
         this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCCW");
-        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCW");
+        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCCW");
         isDecelerating = true;
         isAccelerating = false;
         System.out.println(this.getClass().getName() + " cancel()");
@@ -129,5 +135,4 @@ public class PlatformMoveBackward implements Runnable, CommandRunnable
         isStopped = true;
         System.out.println(this.getClass().getName() + " stop()");
     }
-
 }

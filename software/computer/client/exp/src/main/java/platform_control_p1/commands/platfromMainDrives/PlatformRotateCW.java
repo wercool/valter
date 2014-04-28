@@ -1,12 +1,12 @@
-package commands.platfromMainDrives;
-
-import commands.CommandRunnable;
+package platform_control_p1.commands.platfromMainDrives;
 
 import javafx.scene.control.Button;
 import valter.PLATFORM_CONTROL_P1;
 import app.MainWindowController;
 
-public class PlatformMoveLeftForward implements Runnable, CommandRunnable
+import commands.CommandRunnable;
+
+public class PlatformRotateCW implements Runnable, CommandRunnable
 {
     MainWindowController mainWindowController;
     PLATFORM_CONTROL_P1 platform_control_p1;
@@ -16,7 +16,7 @@ public class PlatformMoveLeftForward implements Runnable, CommandRunnable
     private volatile boolean isStopped = false;
     private volatile int curDuty = 1;
 
-    public PlatformMoveLeftForward(PLATFORM_CONTROL_P1 platform_control_p1)
+    public PlatformRotateCW(PLATFORM_CONTROL_P1 platform_control_p1)
     {
         this.mainWindowController = platform_control_p1.mainWindowController;
         this.platform_control_p1 = platform_control_p1;
@@ -30,6 +30,13 @@ public class PlatformMoveLeftForward implements Runnable, CommandRunnable
         {
             if (isTerminated)
             {
+                try
+                {
+                    Thread.sleep(100);
+                } catch (InterruptedException e)
+                {
+                    //e.printStackTrace();
+                }
                 curDuty = 1;
                 continue;
             }
@@ -49,9 +56,11 @@ public class PlatformMoveLeftForward implements Runnable, CommandRunnable
                     isAccelerating = false;
                 }
                 this.platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + curDuty);
+                this.platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + curDuty);
                 System.out.println(this.getClass().getName() + " is Accelerating [" + "Δ " + acceleration + " (" + curDuty + " → " + setDuty + ")]");
                 double dutyVal = (double) curDuty / 100;
                 this.mainWindowController.leftDutyProgressBar.setProgress(dutyVal);
+                this.mainWindowController.rightDutyProgressBar.setProgress(dutyVal);
             }
             if (isDecelerating)
             {
@@ -62,15 +71,14 @@ public class PlatformMoveLeftForward implements Runnable, CommandRunnable
                 {
                     curDuty = 1;
                     isDecelerating = false;
-                    if (!platform_control_p1.platformMoveRightForwardRunnable.isEcecuting())
-                    {
-                        this.mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
-                    }
+                    this.mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
                 }
                 this.platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + curDuty);
+                this.platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + curDuty);
                 System.out.println(this.getClass().getName() + " is Decelerating [" + "Δ " + deceleration + " (" + curDuty + " → 1)]");
                 double dutyVal = (double) curDuty / 100;
                 this.mainWindowController.leftDutyProgressBar.setProgress(dutyVal);
+                this.mainWindowController.rightDutyProgressBar.setProgress(dutyVal);
             }
 
             try
@@ -88,6 +96,7 @@ public class PlatformMoveLeftForward implements Runnable, CommandRunnable
     {
         isTerminated = false;
         this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCW");
+        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCW");
         isAccelerating = true;
         isDecelerating = false;
         System.out.println(this.getClass().getName() + " execute()");
@@ -97,6 +106,7 @@ public class PlatformMoveLeftForward implements Runnable, CommandRunnable
     public void cancel()
     {
         this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCW");
+        this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCW");
         isDecelerating = true;
         isAccelerating = false;
         System.out.println(this.getClass().getName() + " cancel()");
