@@ -1,10 +1,12 @@
-package commands;
+package commands.platfromMainDrives;
+
+import commands.CommandRunnable;
 
 import javafx.scene.control.Button;
 import valter.PLATFORM_CONTROL_P1;
 import app.MainWindowController;
 
-public class PlatformRotateCCW implements Runnable, CommandRunnable
+public class PlatformMoveForward implements Runnable, CommandRunnable
 {
     MainWindowController mainWindowController;
     PLATFORM_CONTROL_P1 platform_control_p1;
@@ -14,7 +16,7 @@ public class PlatformRotateCCW implements Runnable, CommandRunnable
     private volatile boolean isStopped = false;
     private volatile int curDuty = 1;
 
-    public PlatformRotateCCW(PLATFORM_CONTROL_P1 platform_control_p1)
+    public PlatformMoveForward(PLATFORM_CONTROL_P1 platform_control_p1)
     {
         this.mainWindowController = platform_control_p1.mainWindowController;
         this.platform_control_p1 = platform_control_p1;
@@ -86,7 +88,7 @@ public class PlatformRotateCCW implements Runnable, CommandRunnable
     public void execute()
     {
         isTerminated = false;
-        this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCCW");
+        this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCW");
         this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCCW");
         isAccelerating = true;
         isDecelerating = false;
@@ -96,7 +98,7 @@ public class PlatformRotateCCW implements Runnable, CommandRunnable
     @Override
     public void cancel()
     {
-        this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCCW");
+        this.platform_control_p1.cdcDevice.writeData("LEFTMOTORCW");
         this.platform_control_p1.cdcDevice.writeData("RIGHTMOTORCCW");
         isDecelerating = true;
         isAccelerating = false;

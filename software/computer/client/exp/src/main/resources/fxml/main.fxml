@@ -6,6 +6,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <BorderPane id="BorderPane" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="app.MainWindowController">
@@ -18,7 +19,7 @@
               <children>
                 <GridPane prefHeight="520.0" prefWidth="776.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                   <children>
-                    <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" prefHeight="297.0" prefWidth="250.0" text="Platform drives general control" underline="false" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                    <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" prefHeight="297.0" prefWidth="250.0" text="Platform Drives General Control" underline="false" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.valignment="TOP">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                           <children>
@@ -61,7 +62,7 @@
                             <Label text="Aсceleration" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="5.0" />
                             <Button id="backwardBtn" fx:id="stopBtn" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="48.0">
                               <font>
-                                <Font name="System Bold" size="16.0" />
+                                <Font name="System Bold" size="16.0" fx:id="x2" />
                               </font>
                               <!-- 
                               <stylesheets>
@@ -106,7 +107,48 @@
                         <Insets />
                       </GridPane.margin>
                     </TitledPane>
-                    <FlowPane prefHeight="308.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <FlowPane prefHeight="308.0" prefWidth="276.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                      <children>
+                        <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" prefHeight="297.0" prefWidth="250.0" text="Turret Control" underline="false">
+                          <content>
+                            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
+                              <children>
+                                <Slider id="platformMotorsAcceleration" fx:id="turretMotorDeceleration" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" showTickLabels="false" showTickMarks="false" value="1.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                <Label text="Deceleration" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="5.0" />
+                                <Label text="Duty" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="5.0" />
+                                <Slider id="platformMotorsPower" fx:id="turretMotorDuty" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" />
+                                <Button id="forwardBtn" fx:id="turnTurretCCWBtn" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↺" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="2.0">
+                                  <!-- 
+                              <stylesheets>
+                                <URL value="@buttons.css" />
+                              </stylesheets>
+                             -->
+                                </Button>
+                                <Button id="forwardBtn" fx:id="turnTurretCWBtn" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↻" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="2.0">
+                                  <!-- 
+                              <stylesheets>
+                                <URL value="@buttons.css" />
+                              </stylesheets>
+                             -->
+                                </Button>
+                                <Slider id="platformMotorsAcceleration" fx:id="turretMotorAсceleration" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" prefWidth="245.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                <Label text="Aсceleration" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="5.0" />
+                                <Button id="backwardBtn" fx:id="turnTurretStopBtn" font="$x2" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="5.0">
+                                  <!-- 
+                              <stylesheets>
+                                <URL value="@buttons.css" />
+                              </stylesheets>
+                             -->
+                                </Button>
+                                <ProgressBar id="dutyProgressBar" fx:id="turretDutyProgressBar" disable="false" focusTraversable="false" prefWidth="120.0" progress="0.0" rotate="0.0" visible="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="140.0" />
+                                <Label text="Current Position:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
+                                <Arc fill="#dfdfdf" length="270.0" radiusX="40.0" radiusY="40.0" startAngle="315.0" stroke="BLACK" strokeLineJoin="MITER" strokeType="CENTERED" type="ROUND" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="62.0" />
+                              </children>
+                            </AnchorPane>
+                          </content>
+                        </TitledPane>
+                      </children>
+                    </FlowPane>
                   </children>
                   <columnConstraints>
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

@@ -1,16 +1,20 @@
 package valter;
 
+import java.util.ArrayList;
+
 import javafx.scene.control.Button;
 import app.MainWindowController;
 
-import commands.PlatformMoveBackward;
-import commands.PlatformMoveForward;
-import commands.PlatformMoveLeftBackward;
-import commands.PlatformMoveLeftForward;
-import commands.PlatformMoveRightBackward;
-import commands.PlatformMoveRightForward;
-import commands.PlatformRotateCCW;
-import commands.PlatformRotateCW;
+import commands.platfromMainDrives.PlatformMoveBackward;
+import commands.platfromMainDrives.PlatformMoveForward;
+import commands.platfromMainDrives.PlatformMoveLeftBackward;
+import commands.platfromMainDrives.PlatformMoveLeftForward;
+import commands.platfromMainDrives.PlatformMoveRightBackward;
+import commands.platfromMainDrives.PlatformMoveRightForward;
+import commands.platfromMainDrives.PlatformRotateCCW;
+import commands.platfromMainDrives.PlatformRotateCW;
+import commands.turretDrive.TurretRotateCCW;
+import commands.turretDrive.TurretRotateCW;
 
 public class PLATFORM_CONTROL_P1
 {
@@ -23,6 +27,8 @@ public class PLATFORM_CONTROL_P1
     private boolean isInitialized = false;
 
     //Command Threads
+
+    //Platform Main Drives Control
     public PlatformMoveForward platformMoveForwardRunnable = null;
     Thread platformMoveForwardThread = null;
 
@@ -47,6 +53,13 @@ public class PLATFORM_CONTROL_P1
     public PlatformMoveRightBackward platformMoveRightBackwardRunnable = null;
     Thread platformMoveRightBackwardThread = null;
 
+    //Turret Control
+    public TurretRotateCW turretRotateCWRunnable = null;
+    Thread turretRotateCWThread = null;
+
+    public TurretRotateCCW turretRotateCCWRunnable = null;
+    Thread turretRotateCCWThread = null;
+
     public PLATFORM_CONTROL_P1()
     {
         System.out.println("PLATFORM_CONTROL_P1()");
@@ -59,6 +72,7 @@ public class PLATFORM_CONTROL_P1
 
     public void initialize()
     {
+        //Platform Main Drives Control
         platformMoveForwardRunnable = new PlatformMoveForward(this);
         platformMoveForwardThread = new Thread(platformMoveForwardRunnable);
         platformMoveForwardThread.start();
@@ -91,6 +105,15 @@ public class PLATFORM_CONTROL_P1
         platformMoveRightBackwardThread = new Thread(platformMoveRightBackwardRunnable);
         platformMoveRightBackwardThread.start();
 
+        //Turret Control
+        turretRotateCWRunnable = new TurretRotateCW(this);
+        turretRotateCWThread = new Thread(turretRotateCWRunnable);
+        turretRotateCWThread.start();
+
+        turretRotateCCWRunnable = new TurretRotateCCW(this);
+        turretRotateCCWThread = new Thread(turretRotateCCWRunnable);
+        turretRotateCCWThread.start();
+
         isInitialized = true;
     }
 
@@ -113,6 +136,7 @@ public class PLATFORM_CONTROL_P1
     {
         if (isInitialized)
         {
+            //Platform Main Drives Control
             platformMoveForwardRunnable.stop();
             platformMoveForwardThread.interrupt();
 
@@ -136,6 +160,13 @@ public class PLATFORM_CONTROL_P1
 
             platformMoveRightBackwardRunnable.stop();
             platformMoveRightBackwardThread.interrupt();
+
+            //Turret Control
+            turretRotateCWRunnable.stop();
+            turretRotateCWThread.interrupt();
+
+            turretRotateCCWRunnable.stop();
+            turretRotateCCWThread.interrupt();
         }
     }
 
@@ -147,6 +178,7 @@ public class PLATFORM_CONTROL_P1
             {
                 switch (cmd)
                 {
+                //Platform Main Drives Control
                 case "PLATFORM_FORWARD_EXECUTE":
                     platformMoveForwardRunnable.execute();
                     break;
@@ -195,8 +227,7 @@ public class PLATFORM_CONTROL_P1
                 case "PLATFORM_RIGHT_BACKWARD_CANCEL":
                     platformMoveRightBackwardRunnable.cancel();
                     break;
-
-                case "STOP_ALL":
+                case "STOP_PLATFROM":
                     platformMoveForwardRunnable.terminate();
                     platformMoveBackwardRunnable.terminate();
                     platformRotateCCWRunnable.terminate();
@@ -206,57 +237,28 @@ public class PLATFORM_CONTROL_P1
                     platformMoveRightForwardRunnable.terminate();
                     platformMoveRightBackwardRunnable.terminate();
 
-                    class TerminatingRunnable implements Runnable
-                    {
-                        private final MainWindowController mainWindowController;
-                        private final PLATFORM_CONTROL_P1 platform_control_p1;
+                    Thread terminatingPlatfromDrivesThread = new Thread(new TerminatingPlatfromDrivesRunnable(this.mainWindowController, this));
+                    terminatingPlatfromDrivesThread.start();
+                    break;
+                //Turret Control
+                case "TURRET_CW_EXECUTE":
+                    turretRotateCWRunnable.execute();
+                    break;
+                case "TURRET_CW_CANCEL":
+                    turretRotateCWRunnable.cancel();
+                    break;
+                case "TURRET_CCW_EXECUTE":
+                    turretRotateCCWRunnable.execute();
+                    break;
+                case "TURRET_CCW_CANCEL":
+                    turretRotateCCWRunnable.cancel();
+                    break;
+                case "STOP_TURRET":
+                    turretRotateCWRunnable.terminate();
+                    turretRotateCCWRunnable.terminate();
 
-                        public TerminatingRunnable(MainWindowController mainWindowController, PLATFORM_CONTROL_P1 platform_control_p1)
-                        {
-                            this.mainWindowController = mainWindowController;
-                            this.platform_control_p1 = platform_control_p1;
-                        }
-
-                        @Override
-                        public void run()
-                        {
-
-                            int leftDuty = (int) Math.round(this.mainWindowController.leftDutyProgressBar.getProgress() * 100);
-                            int rightDuty = (int) Math.round(this.mainWindowController.rightDutyProgressBar.getProgress() * 100);
-                            double dutyVal;
-
-                            try
-                            {
-                                while (leftDuty > 1 || rightDuty > 1)
-                                {
-                                    System.out.println("TerminatingRunnable: l:" + leftDuty + ", r:" + rightDuty);
-                                    if (leftDuty - 1 > 0)
-                                        leftDuty--;
-                                    if (rightDuty - 1 > 0)
-                                        rightDuty--;
-
-                                    platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + leftDuty);
-                                    platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + rightDuty);
-
-                                    dutyVal = (double) leftDuty / 100;
-                                    this.mainWindowController.leftDutyProgressBar.setProgress(dutyVal);
-                                    dutyVal = (double) rightDuty / 100;
-                                    this.mainWindowController.rightDutyProgressBar.setProgress(dutyVal);
-
-                                    Thread.sleep(1);
-                                }
-                                platform_control_p1.cdcDevice.writeData("LEFTMOTORSTOP");
-                                platform_control_p1.cdcDevice.writeData("RIGHTMOTORSTOP");
-
-                                this.mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
-                            } catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    Thread t = new Thread(new TerminatingRunnable(this.mainWindowController, this));
-                    t.start();
+                    Thread terminatingTurretControlThread = new Thread(new TerminatingTurretControlRunnable(this.mainWindowController, this));
+                    terminatingTurretControlThread.start();
                     break;
                 }
             } else
@@ -270,6 +272,100 @@ public class PLATFORM_CONTROL_P1
             MainWindowController.showTooltip(mainWindowController.mainAppObject.stage, mainWindowController.platformDrivesControlPane, "CDC Device is not assigned", null);
             mainWindowController.logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device is not assigned");
             mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
+        }
+    }
+
+    class TerminatingPlatfromDrivesRunnable implements Runnable
+    {
+        private final MainWindowController mainWindowController;
+        private final PLATFORM_CONTROL_P1 platform_control_p1;
+
+        public TerminatingPlatfromDrivesRunnable(MainWindowController mainWindowController, PLATFORM_CONTROL_P1 platform_control_p1)
+        {
+            this.mainWindowController = mainWindowController;
+            this.platform_control_p1 = platform_control_p1;
+        }
+
+        @Override
+        public void run()
+        {
+
+            int leftDuty = (int) Math.round(this.mainWindowController.leftDutyProgressBar.getProgress() * 100);
+            int rightDuty = (int) Math.round(this.mainWindowController.rightDutyProgressBar.getProgress() * 100);
+            double dutyVal;
+
+            try
+            {
+                while (leftDuty > 1 || rightDuty > 1)
+                {
+                    System.out.println(this.getClass().getName() + ": l:" + leftDuty + ", r:" + rightDuty);
+                    if (leftDuty - 1 > 0)
+                        leftDuty--;
+                    if (rightDuty - 1 > 0)
+                        rightDuty--;
+
+                    platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + leftDuty);
+                    platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + rightDuty);
+
+                    dutyVal = (double) leftDuty / 100;
+                    this.mainWindowController.leftDutyProgressBar.setProgress(dutyVal);
+                    dutyVal = (double) rightDuty / 100;
+                    this.mainWindowController.rightDutyProgressBar.setProgress(dutyVal);
+
+                    Thread.sleep(1);
+                }
+                platform_control_p1.cdcDevice.writeData("LEFTMOTORSTOP");
+                platform_control_p1.cdcDevice.writeData("RIGHTMOTORSTOP");
+
+                this.mainWindowController.setPlatformDriveButtonsState(true, (Button) null);
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    class TerminatingTurretControlRunnable implements Runnable
+    {
+        private final MainWindowController mainWindowController;
+        private final PLATFORM_CONTROL_P1 platform_control_p1;
+
+        public TerminatingTurretControlRunnable(MainWindowController mainWindowController, PLATFORM_CONTROL_P1 platform_control_p1)
+        {
+            this.mainWindowController = mainWindowController;
+            this.platform_control_p1 = platform_control_p1;
+        }
+
+        @Override
+        public void run()
+        {
+
+            int turretDuty = (int) Math.round(this.mainWindowController.turretDutyProgressBar.getProgress() * 100);
+            double dutyVal;
+            try
+            {
+                while (turretDuty > 1)
+                {
+                    System.out.println(this.getClass().getName() + ": " + turretDuty);
+                    if (turretDuty - 1 > 0)
+                        turretDuty--;
+
+                    platform_control_p1.cdcDevice.writeData("SETTURRETMOTORPWMDUTY#" + turretDuty);
+
+                    dutyVal = (double) turretDuty / 100;
+                    this.mainWindowController.turretDutyProgressBar.setProgress(dutyVal);
+
+                    Thread.sleep(1);
+                }
+                platform_control_p1.cdcDevice.writeData("TURRETMOTORSTOP");
+
+                this.mainWindowController.setTurretControlButtonsState(true, (ArrayList<Button>) null);
+
+            } catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 }

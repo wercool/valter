@@ -76,6 +76,7 @@ public class MainWindowController
     private CheckBox scanAndConnectCB;
 
     //PLATFORM_CONTROL_P1
+    //Main Platform Drives Control
     @FXML
     public TitledPane platformDrivesControlPane;
     @FXML
@@ -94,7 +95,6 @@ public class MainWindowController
     public Button rightForwardBtn;
     @FXML
     public Button rightBackwardBtn;
-
     @FXML
     public Button stopBtn;
     @FXML
@@ -107,8 +107,24 @@ public class MainWindowController
     public ProgressBar leftDutyProgressBar;
     @FXML
     public ProgressBar rightDutyProgressBar;
+    //Turret Control
+    @FXML
+    public Button turnTurretCCWBtn;
+    @FXML
+    public Button turnTurretCWBtn;
+    @FXML
+    public Button turnTurretStopBtn;
+    @FXML
+    public ProgressBar turretDutyProgressBar;
+    @FXML
+    public Slider turretMotorAсceleration;
+    @FXML
+    public Slider turretMotorDeceleration;
+    @FXML
+    public Slider turretMotorDuty;
 
     List<Button> platformDriveButtons = new ArrayList<Button>();
+    List<Button> platformTurretButtons = new ArrayList<Button>();
 
     @SuppressWarnings("rawtypes")
     final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
@@ -184,6 +200,17 @@ public class MainWindowController
         PLATFORM_CONTROL_P1_INST = PLATFORM_CONTROL_P1.getInstance();
         PLATFORM_CONTROL_P1_INST.setMainController(this);
 
+        initializePlatfromMainDrivesControlElements();
+        initializeTurretControlElements();
+
+        //Settings
+        deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
+        portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
+        deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
+    }
+
+    private void initializePlatfromMainDrivesControlElements()
+    {
         platformDriveButtons.add(forwardBtn);
         platformDriveButtons.add(backwardtn);
         platformDriveButtons.add(turnCCWBtn);
@@ -345,19 +372,67 @@ public class MainWindowController
             }
         });
 
-        stopBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        stopBtn.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(MouseEvent e)
             {
-                PLATFORM_CONTROL_P1_INST.executeCommand("STOP_ALL");
+                PLATFORM_CONTROL_P1_INST.executeCommand("STOP_PLATFROM");
+            }
+        });
+    }
+
+    private void initializeTurretControlElements()
+    {
+        platformTurretButtons.add(turnTurretCCWBtn);
+        platformTurretButtons.add(turnTurretCWBtn);
+
+        //Turret CW actions
+        turnTurretCWBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setTurretControlButtonsState(false, new ArrayList<Button>(Arrays.asList(turnTurretCWBtn)));
+                PLATFORM_CONTROL_P1_INST.executeCommand("TURRET_CW_EXECUTE");
+            }
+        });
+        turnTurretCWBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("TURRET_CW_CANCEL");
             }
         });
 
-        //Settings
-        deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
-        portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
-        deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
+        //Turret CCW actions
+        turnTurretCCWBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                setTurretControlButtonsState(false, new ArrayList<Button>(Arrays.asList(turnTurretCCWBtn)));
+                PLATFORM_CONTROL_P1_INST.executeCommand("TURRET_CCW_EXECUTE");
+            }
+        });
+        turnTurretCCWBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("TURRET_CCW_CANCEL");
+            }
+        });
+
+        turnTurretStopBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                PLATFORM_CONTROL_P1_INST.executeCommand("STOP_TURRET");
+            }
+        });
     }
 
     public void setPlatformDriveButtonsState(boolean state, Button exceptButton)
@@ -375,7 +450,30 @@ public class MainWindowController
     {
         for (Button button : platformDriveButtons)
         {
-            if (!exceptButtons.contains(button))
+            if (exceptButtons != null)
+            {
+                if (!exceptButtons.contains(button))
+                {
+                    button.setDisable(!state);
+                }
+            } else
+            {
+                button.setDisable(!state);
+            }
+        }
+    }
+
+    public void setTurretControlButtonsState(boolean state, List<Button> exceptButtons)
+    {
+        for (Button button : platformTurretButtons)
+        {
+            if (exceptButtons != null)
+            {
+                if (!exceptButtons.contains(button))
+                {
+                    button.setDisable(!state);
+                }
+            } else
             {
                 button.setDisable(!state);
             }
