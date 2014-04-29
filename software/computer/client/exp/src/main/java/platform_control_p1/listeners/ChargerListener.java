@@ -39,7 +39,7 @@ public class ChargerListener implements Runnable, CommandRunnable
     @Override
     public void run()
     {
-
+        String cdcDataString = "";
         while (!isStopped)
         {
             if (isCancelled)
@@ -56,164 +56,167 @@ public class ChargerListener implements Runnable, CommandRunnable
             if (commandsQueueIdx > commandsQueue.size() - 1)
                 commandsQueueIdx = 0;
 
-            this.platform_control_p1.cdcDevice.writeData(commandsQueue.get(commandsQueueIdx++));
-
             String dataString = this.platform_control_p1.cdcDevice.dataString;
 
-            if (dataString.contains("INPUT1 CHANNEL [8]:"))
+            if (cdcDataString != dataString)
             {
-                reading = dataString.substring(20, dataString.length());
-                System.out.println(this.getClass().getName() + " Charger Voltage: " + reading);
-                //int readingInt = Integer.parseInt(reading);
-                Platform.runLater(new Runnable()
+                cdcDataString = dataString;
+
+                if (dataString.contains("INPUT1 CHANNEL [8]:"))
                 {
-                    @Override
-                    public void run()
+                    reading = dataString.substring(20, dataString.length());
+                    System.out.println(this.getClass().getName() + " Charger Voltage: " + reading);
+                    //int readingInt = Integer.parseInt(reading);
+                    Platform.runLater(new Runnable()
                     {
-                        mainWindowController.chargerVoltageLabel.setText("Charger Voltage: " + reading);
+                        @Override
+                        public void run()
+                        {
+                            mainWindowController.chargerVoltageLabel.setText("Charger Voltage: " + reading);
+                        }
+                    });
+                    continue;
+                }
+                if (dataString.contains("INPUT2 CHANNEL [6]:"))
+                {
+                    reading = dataString.substring(20, dataString.length());
+                    System.out.println(this.getClass().getName() + " Charge In Progress [" + reading + "]");
+                    int readingInt = Integer.parseInt(reading);
+                    if (readingInt > 600)
+                    {
+                        Platform.runLater(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.chargeInProgressRadioButton.setSelected(true);
+                            }
+                        });
+                    } else
+                    {
+                        Platform.runLater(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.chargeInProgressRadioButton.setSelected(false);
+                            }
+                        });
                     }
-                });
-                continue;
-            }
-            if (dataString.contains("INPUT2 CHANNEL [6]:"))
-            {
-                reading = dataString.substring(20, dataString.length());
-                System.out.println(this.getClass().getName() + " Charge In Progress [" + reading + "]");
-                int readingInt = Integer.parseInt(reading);
-                if (readingInt > 600)
-                {
-                    Platform.runLater(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            mainWindowController.chargeInProgressRadioButton.setSelected(true);
-                        }
-                    });
-                } else
-                {
-                    Platform.runLater(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            mainWindowController.chargeInProgressRadioButton.setSelected(false);
-                        }
-                    });
+                    continue;
                 }
-                continue;
-            }
-            if (dataString.contains("INPUT2 CHANNEL [7]:"))
-            {
-                reading = dataString.substring(20, dataString.length());
-                System.out.println(this.getClass().getName() + " Charge Completed [" + reading + "]");
-                int readingInt = Integer.parseInt(reading);
-                if (readingInt > 700)
+                if (dataString.contains("INPUT2 CHANNEL [7]:"))
                 {
-                    Platform.runLater(new Runnable()
+                    reading = dataString.substring(20, dataString.length());
+                    System.out.println(this.getClass().getName() + " Charge Completed [" + reading + "]");
+                    int readingInt = Integer.parseInt(reading);
+                    if (readingInt > 700)
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.chargeCompleteRadioButton.setSelected(true);
-                        }
-                    });
-                } else
-                {
-                    Platform.runLater(new Runnable()
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.chargeCompleteRadioButton.setSelected(true);
+                            }
+                        });
+                    } else
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.chargeCompleteRadioButton.setSelected(false);
-                        }
-                    });
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.chargeCompleteRadioButton.setSelected(false);
+                            }
+                        });
+                    }
+                    continue;
                 }
-                continue;
-            }
-            if (dataString.contains("INPUT2 CHANNEL [8]:"))
-            {
-                reading = dataString.substring(20, dataString.length());
-                System.out.println(this.getClass().getName() + " Charge Connected [" + reading + "]");
-                int readingInt = Integer.parseInt(reading);
-                if (readingInt > 1000)
+                if (dataString.contains("INPUT2 CHANNEL [8]:"))
                 {
-                    Platform.runLater(new Runnable()
+                    reading = dataString.substring(20, dataString.length());
+                    System.out.println(this.getClass().getName() + " Charge Connected [" + reading + "]");
+                    int readingInt = Integer.parseInt(reading);
+                    if (readingInt > 1000)
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.chargerConnectedRadioButton.setSelected(true);
-                        }
-                    });
-                } else
-                {
-                    Platform.runLater(new Runnable()
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.chargerConnectedRadioButton.setSelected(true);
+                            }
+                        });
+                    } else
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.chargerConnectedRadioButton.setSelected(false);
-                        }
-                    });
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.chargerConnectedRadioButton.setSelected(false);
+                            }
+                        });
+                    }
+                    continue;
                 }
-                continue;
-            }
-            if (dataString.contains("INPUT2 CHANNEL [9]:"))
-            {
-                reading = dataString.substring(20, dataString.length());
-                System.out.println(this.getClass().getName() + " Charger 35Ah Mode [" + reading + "]");
-                int readingInt = Integer.parseInt(reading);
-                if (readingInt > 1000)
+                if (dataString.contains("INPUT2 CHANNEL [9]:"))
                 {
-                    Platform.runLater(new Runnable()
+                    reading = dataString.substring(20, dataString.length());
+                    System.out.println(this.getClass().getName() + " Charger 35Ah Mode [" + reading + "]");
+                    int readingInt = Integer.parseInt(reading);
+                    if (readingInt > 1000)
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.charger35AhModeRadioButton.setSelected(true);
-                        }
-                    });
-                } else
-                {
-                    Platform.runLater(new Runnable()
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.charger35AhModeRadioButton.setSelected(true);
+                            }
+                        });
+                    } else
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.charger35AhModeRadioButton.setSelected(false);
-                        }
-                    });
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.charger35AhModeRadioButton.setSelected(false);
+                            }
+                        });
+                    }
+                    continue;
                 }
-                continue;
-            }
-            if (dataString.contains("INPUT2 CHANNEL [10]:"))
-            {
-                reading = dataString.substring(21, dataString.length());
-                System.out.println(this.getClass().getName() + " Charger 120Ah Mode [" + reading + "]");
-                int readingInt = Integer.parseInt(reading);
-                if (readingInt > 1000)
+                if (dataString.contains("INPUT2 CHANNEL [10]:"))
                 {
-                    Platform.runLater(new Runnable()
+                    reading = dataString.substring(21, dataString.length());
+                    System.out.println(this.getClass().getName() + " Charger 120Ah Mode [" + reading + "]");
+                    int readingInt = Integer.parseInt(reading);
+                    if (readingInt > 1000)
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.charger120AhModeRadioButton.setSelected(true);
-                        }
-                    });
-                } else
-                {
-                    Platform.runLater(new Runnable()
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.charger120AhModeRadioButton.setSelected(true);
+                            }
+                        });
+                    } else
                     {
-                        @Override
-                        public void run()
+                        Platform.runLater(new Runnable()
                         {
-                            mainWindowController.charger120AhModeRadioButton.setSelected(false);
-                        }
-                    });
+                            @Override
+                            public void run()
+                            {
+                                mainWindowController.charger120AhModeRadioButton.setSelected(false);
+                            }
+                        });
+                    }
+                    continue;
                 }
-                continue;
             }
 
             try
@@ -223,6 +226,8 @@ public class ChargerListener implements Runnable, CommandRunnable
             {
                 //e.printStackTrace();
             }
+
+            this.platform_control_p1.cdcDevice.writeData(commandsQueue.get(commandsQueueIdx++));
         }
     }
 

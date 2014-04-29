@@ -24,9 +24,9 @@
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
-                            <GridPane prefHeight="520.0" prefWidth="776.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                            <GridPane prefHeight="520.0" prefWidth="776.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
                               <children>
-                                <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="Platform Drives General Control" underline="false" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                                <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="Platform Drives General Control" underline="false" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
                                   <content>
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                                       <children>
@@ -114,7 +114,7 @@
                                     <Insets />
                                   </GridPane.margin>
                                 </TitledPane>
-                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="Turret Control" underline="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="Turret Control" underline="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
                                   <content>
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                                       <children>
@@ -276,12 +276,10 @@
                 <TextField fx:id="cmdTextField" prefWidth="200.0" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="205.0" />
                 <Label layoutX="245.0" text="CMD:" AnchorPane.topAnchor="208.0" />
                 <Button fx:id="sendCMDBtn" mnemonicParsing="false" onAction="#sendCMDBtnAction" text="Send" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="205.0" />
-                <ComboBox fx:id="cmdTextFieldHistory" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="230.0">
+                <ComboBox id="cmdTextFieldHistory" fx:id="selectedDeviceCommandsComboBox" AnchorPane.leftAnchor="285.0" AnchorPane.rightAnchor="180.0" AnchorPane.topAnchor="230.0">
                   <items>
                     <FXCollections fx:factory="observableArrayList">
-                      <String fx:value="Item 1" />
-                      <String fx:value="Item 2" />
-                      <String fx:value="Item 3" />
+                      <String fx:value="GETID" />
                     </FXCollections>
                   </items>
                 </ComboBox>

@@ -2,6 +2,8 @@ package valter;
 
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import platform_control_p1.commands.platfromMainDrives.PlatformMoveBackward;
 import platform_control_p1.commands.platfromMainDrives.PlatformMoveForward;
@@ -26,6 +28,91 @@ public class PLATFORM_CONTROL_P1
     public CDCDevice cdcDevice;
 
     private boolean isInitialized = false;
+
+    //Commands
+    public static ObservableList<String> commands = FXCollections.observableArrayList(
+            "GETID",
+            "MAINACCUMULATORRELAYON",
+            "MAINACCUMULATORRELAYOFF",
+            "CHARGERBUTTONPRESS",
+            "DCDC5VENABLEON",
+            "DCDC5VENABLEOFF",
+            "LEFTACCUMULATORRELAYON",
+            "LEFTACCUMULATORRELAYOFF",
+            "RIGHTACCUMULATORRELAYON",
+            "RIGHTACCUMULATORRELAYOFF",
+            "STARTINPUT1READINGS",
+            "STOPINPUT1READINGS",
+            "SETINPUT1CHANNEL0",
+            "SETINPUT1CHANNEL1",
+            "SETINPUT1CHANNEL2",
+            "SETINPUT1CHANNEL3",
+            "SETINPUT1CHANNEL4",
+            "SETINPUT1CHANNEL5",
+            "SETINPUT1CHANNEL6",
+            "SETINPUT1CHANNEL7",
+            "SETINPUT1CHANNEL8",
+            "SETINPUT1CHANNEL9",
+            "SETINPUT1CHANNEL10",
+            "SETINPUT1CHANNEL11",
+            "SETINPUT1CHANNEL12",
+            "SETINPUT1CHANNEL13",
+            "SETINPUT1CHANNEL14",
+            "SETINPUT1CHANNEL15",
+            "SETINPUT2CHANNEL0",
+            "STARTINPUT2READINGS",
+            "STOPINPUT2READINGS",
+            "SETINPUT2CHANNEL0",
+            "SETINPUT2CHANNEL1",
+            "SETINPUT2CHANNEL2",
+            "SETINPUT2CHANNEL3",
+            "SETINPUT2CHANNEL4",
+            "SETINPUT2CHANNEL5",
+            "SETINPUT2CHANNEL6",
+            "SETINPUT2CHANNEL7",
+            "SETINPUT2CHANNEL8",
+            "SETINPUT2CHANNEL9",
+            "SETINPUT2CHANNEL10",
+            "SETINPUT2CHANNEL11",
+            "SETINPUT2CHANNEL12",
+            "SETINPUT2CHANNEL13",
+            "SETINPUT2CHANNEL14",
+            "SETINPUT2CHANNEL15",
+            "STARTTURRETREADINGS",
+            "STOPTURRETREADINGS",
+            "SETPWMFREQUENCY#8000",
+            "SETLEFTMOTORPWMDUTY#40",
+            "SETRIGHTMOTORPWMDUTY#40",
+            "SETTURRETMOTORPWMDUTY#30",
+            "!SETTURRETPOSITION#525",
+            "LEFTMOTORCW",
+            "LEFTMOTORCCW",
+            "LEFTMOTORSTOP",
+            "RIGHTMOTORCW",
+            "RIGHTMOTORCCW",
+            "RIGHTMOTORSTOP",
+            "TURRETMOTORCW",
+            "TURRETMOTORCCW",
+            "TURRETMOTORSTOP",
+            "STARTLEFTMOTORCURRENTREADINGS",
+            "STOPLEFTMOTORCURRENTREADINGS",
+            "STARTRIGHTMOTORCURRENTREADINGS",
+            "STOPRIGHTMOTORCURRENTREADINGS",
+            "STARTTURRETMOTORCURRENTREADINGS",
+            "STOPTURRETMOTORCURRENTREADINGS",
+            "GETLEFTMOTORCOUNTER",
+            "RESETLEFTMOTORCOUNTER",
+            "GETRIGHTMOTORCOUNTER",
+            "RESETRIGHTMOTORCOUNTER",
+            "LEFTMOTORCOUNTERSTART",
+            "LEFTMOTORCOUNTERSTOP",
+            "RIGHTMOTORCOUNTERSTART",
+            "RIGHTMOTORCOUNTERSTOP",
+            "LEFTACCUMULATORCONNECT",
+            "LEFTACCUMULATORDISCONNECT",
+            "RIGHTACCUMULATORCONNECT",
+            "RIGHTACCUMULATORDISCONNECT"
+            );
 
     //Command Threads
 
@@ -217,133 +304,133 @@ public class PLATFORM_CONTROL_P1
             {
                 switch (cmd)
                 {
-                //Platform Main Drives Control
-                case "PLATFORM_FORWARD_EXECUTE":
-                    platformMoveForwardRunnable.execute();
-                    break;
-                case "PLATFORM_FORWARD_CANCEL":
-                    platformMoveForwardRunnable.cancel();
-                    break;
-                case "PLATFORM_BACKWARD_EXECUTE":
-                    platformMoveBackwardRunnable.execute();
-                    break;
-                case "PLATFORM_BACKWARD_CANCEL":
-                    platformMoveBackwardRunnable.cancel();
-                    break;
-                case "PLATFORM_CCW_EXECUTE":
-                    platformRotateCCWRunnable.execute();
-                    break;
-                case "PLATFORM_CCW_CANCEL":
-                    platformRotateCCWRunnable.cancel();
-                    break;
-                case "PLATFORM_CW_EXECUTE":
-                    platformRotateCWRunnable.execute();
-                    break;
-                case "PLATFORM_CW_CANCEL":
-                    platformRotateCWRunnable.cancel();
-                    break;
-                case "PLATFORM_LEFT_FORWARD_EXECUTE":
-                    platformMoveLeftForwardRunnable.execute();
-                    break;
-                case "PLATFORM_LEFT_FORWARD_CANCEL":
-                    platformMoveLeftForwardRunnable.cancel();
-                    break;
-                case "PLATFORM_LEFT_BACKWARD_EXECUTE":
-                    platformMoveLeftBackwardRunnable.execute();
-                    break;
-                case "PLATFORM_LEFT_BACKWARD_CANCEL":
-                    platformMoveLeftBackwardRunnable.cancel();
-                    break;
-                case "PLATFORM_RIGHT_FORWARD_EXECUTE":
-                    platformMoveRightForwardRunnable.execute();
-                    break;
-                case "PLATFORM_RIGHT_FORWARD_CANCEL":
-                    platformMoveRightForwardRunnable.cancel();
-                    break;
-                case "PLATFORM_RIGHT_BACKWARD_EXECUTE":
-                    platformMoveRightBackwardRunnable.execute();
-                    break;
-                case "PLATFORM_RIGHT_BACKWARD_CANCEL":
-                    platformMoveRightBackwardRunnable.cancel();
-                    break;
-                case "STOP_PLATFROM":
-                    platformMoveForwardRunnable.terminate();
-                    platformMoveBackwardRunnable.terminate();
-                    platformRotateCCWRunnable.terminate();
-                    platformRotateCWRunnable.terminate();
-                    platformMoveLeftForwardRunnable.terminate();
-                    platformMoveLeftBackwardRunnable.terminate();
-                    platformMoveRightForwardRunnable.terminate();
-                    platformMoveRightBackwardRunnable.terminate();
+                    //Platform Main Drives Control
+                    case "PLATFORM_FORWARD_EXECUTE":
+                        platformMoveForwardRunnable.execute();
+                        break;
+                    case "PLATFORM_FORWARD_CANCEL":
+                        platformMoveForwardRunnable.cancel();
+                        break;
+                    case "PLATFORM_BACKWARD_EXECUTE":
+                        platformMoveBackwardRunnable.execute();
+                        break;
+                    case "PLATFORM_BACKWARD_CANCEL":
+                        platformMoveBackwardRunnable.cancel();
+                        break;
+                    case "PLATFORM_CCW_EXECUTE":
+                        platformRotateCCWRunnable.execute();
+                        break;
+                    case "PLATFORM_CCW_CANCEL":
+                        platformRotateCCWRunnable.cancel();
+                        break;
+                    case "PLATFORM_CW_EXECUTE":
+                        platformRotateCWRunnable.execute();
+                        break;
+                    case "PLATFORM_CW_CANCEL":
+                        platformRotateCWRunnable.cancel();
+                        break;
+                    case "PLATFORM_LEFT_FORWARD_EXECUTE":
+                        platformMoveLeftForwardRunnable.execute();
+                        break;
+                    case "PLATFORM_LEFT_FORWARD_CANCEL":
+                        platformMoveLeftForwardRunnable.cancel();
+                        break;
+                    case "PLATFORM_LEFT_BACKWARD_EXECUTE":
+                        platformMoveLeftBackwardRunnable.execute();
+                        break;
+                    case "PLATFORM_LEFT_BACKWARD_CANCEL":
+                        platformMoveLeftBackwardRunnable.cancel();
+                        break;
+                    case "PLATFORM_RIGHT_FORWARD_EXECUTE":
+                        platformMoveRightForwardRunnable.execute();
+                        break;
+                    case "PLATFORM_RIGHT_FORWARD_CANCEL":
+                        platformMoveRightForwardRunnable.cancel();
+                        break;
+                    case "PLATFORM_RIGHT_BACKWARD_EXECUTE":
+                        platformMoveRightBackwardRunnable.execute();
+                        break;
+                    case "PLATFORM_RIGHT_BACKWARD_CANCEL":
+                        platformMoveRightBackwardRunnable.cancel();
+                        break;
+                    case "STOP_PLATFROM":
+                        platformMoveForwardRunnable.terminate();
+                        platformMoveBackwardRunnable.terminate();
+                        platformRotateCCWRunnable.terminate();
+                        platformRotateCWRunnable.terminate();
+                        platformMoveLeftForwardRunnable.terminate();
+                        platformMoveLeftBackwardRunnable.terminate();
+                        platformMoveRightForwardRunnable.terminate();
+                        platformMoveRightBackwardRunnable.terminate();
 
-                    Thread terminatingPlatfromDrivesThread = new Thread(new TerminatingPlatfromDrivesRunnable(this.mainWindowController, this));
-                    terminatingPlatfromDrivesThread.start();
-                    break;
+                        Thread terminatingPlatfromDrivesThread = new Thread(new TerminatingPlatfromDrivesRunnable(this.mainWindowController, this));
+                        terminatingPlatfromDrivesThread.start();
+                        break;
 
-                //Turret Control
-                case "TURRET_CW_EXECUTE":
-                    turretRotateCWRunnable.execute();
-                    getTurretPositionRunnable.execute();
-                    break;
-                case "TURRET_CW_CANCEL":
-                    turretRotateCWRunnable.cancel();
-                    break;
-                case "TURRET_CCW_EXECUTE":
-                    turretRotateCCWRunnable.execute();
-                    getTurretPositionRunnable.execute();
-                    break;
-                case "TURRET_CCW_CANCEL":
-                    turretRotateCCWRunnable.cancel();
-                    break;
-                case "STOP_TURRET":
-                    turretRotateCWRunnable.terminate();
-                    turretRotateCCWRunnable.terminate();
-                    Thread terminatingTurretControlThread = new Thread(new TerminatingTurretControlRunnable(this.mainWindowController, this));
-                    terminatingTurretControlThread.start();
-                    break;
-                case "GET_TURRET_POSITION_EXECUTE":
-                    getTurretPositionRunnable.execute();
-                    break;
-                case "GET_TURRET_POSITION_CANCEL":
-                    getTurretPositionRunnable.cancel();
-                    break;
+                        //Turret Control
+                    case "TURRET_CW_EXECUTE":
+                        turretRotateCWRunnable.execute();
+                        getTurretPositionRunnable.execute();
+                        break;
+                    case "TURRET_CW_CANCEL":
+                        turretRotateCWRunnable.cancel();
+                        break;
+                    case "TURRET_CCW_EXECUTE":
+                        turretRotateCCWRunnable.execute();
+                        getTurretPositionRunnable.execute();
+                        break;
+                    case "TURRET_CCW_CANCEL":
+                        turretRotateCCWRunnable.cancel();
+                        break;
+                    case "STOP_TURRET":
+                        turretRotateCWRunnable.terminate();
+                        turretRotateCCWRunnable.terminate();
+                        Thread terminatingTurretControlThread = new Thread(new TerminatingTurretControlRunnable(this.mainWindowController, this));
+                        terminatingTurretControlThread.start();
+                        break;
+                    case "GET_TURRET_POSITION_EXECUTE":
+                        getTurretPositionRunnable.execute();
+                        break;
+                    case "GET_TURRET_POSITION_CANCEL":
+                        getTurretPositionRunnable.cancel();
+                        break;
 
-                //Switches
-                case "5V_ENABLE":
-                    this.cdcDevice.writeData("DCDC5VENABLEON");
-                    break;
-                case "5V_DISABLE":
-                    this.cdcDevice.writeData("DCDC5VENABLEOFF");
-                    break;
-                case "MAINACCUMULATORRELAYON":
-                    this.cdcDevice.writeData("MAINACCUMULATORRELAYON");
-                    break;
-                case "MAINACCUMULATORRELAYOFF":
-                    this.cdcDevice.writeData("MAINACCUMULATORRELAYOFF");
-                    break;
-                case "LEFTACCUMULATORRELAYON":
-                    this.cdcDevice.writeData("LEFTACCUMULATORRELAYON");
-                    break;
-                case "LEFTACCUMULATORRELAYOFF":
-                    this.cdcDevice.writeData("LEFTACCUMULATORRELAYOFF");
-                    break;
-                case "RIGHTACCUMULATORRELAYON":
-                    this.cdcDevice.writeData("RIGHTACCUMULATORRELAYON");
-                    break;
-                case "RIGHTACCUMULATORRELAYOFF":
-                    this.cdcDevice.writeData("RIGHTACCUMULATORRELAYOFF");
-                    break;
-                case "CHARGERBUTTONPRESS":
-                    this.cdcDevice.writeData("CHARGERBUTTONPRESS");
-                    break;
+                        //Switches
+                    case "5V_ENABLE":
+                        this.cdcDevice.writeData("DCDC5VENABLEON");
+                        break;
+                    case "5V_DISABLE":
+                        this.cdcDevice.writeData("DCDC5VENABLEOFF");
+                        break;
+                    case "MAINACCUMULATORRELAYON":
+                        this.cdcDevice.writeData("MAINACCUMULATORRELAYON");
+                        break;
+                    case "MAINACCUMULATORRELAYOFF":
+                        this.cdcDevice.writeData("MAINACCUMULATORRELAYOFF");
+                        break;
+                    case "LEFTACCUMULATORRELAYON":
+                        this.cdcDevice.writeData("LEFTACCUMULATORRELAYON");
+                        break;
+                    case "LEFTACCUMULATORRELAYOFF":
+                        this.cdcDevice.writeData("LEFTACCUMULATORRELAYOFF");
+                        break;
+                    case "RIGHTACCUMULATORRELAYON":
+                        this.cdcDevice.writeData("RIGHTACCUMULATORRELAYON");
+                        break;
+                    case "RIGHTACCUMULATORRELAYOFF":
+                        this.cdcDevice.writeData("RIGHTACCUMULATORRELAYOFF");
+                        break;
+                    case "CHARGERBUTTONPRESS":
+                        this.cdcDevice.writeData("CHARGERBUTTONPRESS");
+                        break;
 
-                //Power Status
-                case "GET_CHARGER_CONNECTED_START":
-                    getChargerConnectedRunnable.execute();
-                    break;
-                case "GET_CHARGER_CONNECTED_STOP":
-                    getChargerConnectedRunnable.cancel();
-                    break;
+                        //Power Status
+                    case "GET_CHARGER_CONNECTED_START":
+                        getChargerConnectedRunnable.execute();
+                        break;
+                    case "GET_CHARGER_CONNECTED_STOP":
+                        getChargerConnectedRunnable.cancel();
+                        break;
                 }
             } else
             {
@@ -380,9 +467,13 @@ public class PLATFORM_CONTROL_P1
                 {
                     System.out.println(this.getClass().getName() + ": l:" + leftDuty + ", r:" + rightDuty);
                     if (leftDuty - 1 > 0)
+                    {
                         leftDuty--;
+                    }
                     if (rightDuty - 1 > 0)
+                    {
                         rightDuty--;
+                    }
 
                     platform_control_p1.cdcDevice.writeData("SETLEFTMOTORPWMDUTY#" + leftDuty);
                     platform_control_p1.cdcDevice.writeData("SETRIGHTMOTORPWMDUTY#" + rightDuty);
@@ -429,7 +520,9 @@ public class PLATFORM_CONTROL_P1
                 {
                     System.out.println(this.getClass().getName() + ": " + turretDuty);
                     if (turretDuty - 1 > 0)
+                    {
                         turretDuty--;
+                    }
 
                     platform_control_p1.cdcDevice.writeData("SETTURRETMOTORPWMDUTY#" + turretDuty);
 

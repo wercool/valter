@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.RadioButton;
@@ -27,18 +29,17 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import utilites.UtilsClass;
 import valter.CDCDevice;
 import valter.CDCEnumerator;
 import valter.PLATFORM_CONTROL_P1;
+import valter.PLATFORM_LOCATION_P1;
 
 public class MainWindowController
 {
@@ -47,6 +48,7 @@ public class MainWindowController
     public ValterExpClient mainAppObject;
 
     public PLATFORM_CONTROL_P1 PLATFORM_CONTROL_P1_INST;
+    public PLATFORM_LOCATION_P1 PLATFORM_LOCATION_P1_INST;
 
     //General components and from Settings tab
     @FXML
@@ -77,6 +79,8 @@ public class MainWindowController
     private TextField cmdTextField;
     @FXML
     private CheckBox scanAndConnectCB;
+    @FXML
+    public ComboBox<String> selectedDeviceCommandsComboBox;
 
     //PLATFORM_CONTROL_P1
     //Main Platform Drives Control
@@ -161,7 +165,8 @@ public class MainWindowController
     public Label chargerVoltageLabel;
 
     @SuppressWarnings("rawtypes")
-    final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
+    final TableColumn[] columns =
+        { deviceNameCol, portNameCol, deviceConnectedCol };
 
     ObservableList<CDCDevice> valterCDCDevices = FXCollections.observableArrayList();
     public final HashMap<String, CDCDevice> valterBoards = new HashMap<String, CDCDevice>();
@@ -169,7 +174,70 @@ public class MainWindowController
     public MainWindowController()
     {
         log.info("Starting Valter Commands Client MainWindowController");
+    }
 
+    @FXML
+    void initialize()
+    {
+        mainTabPane.getSelectionModel().select(2);
+
+        PLATFORM_CONTROL_P1_INST = PLATFORM_CONTROL_P1.getInstance();
+        PLATFORM_CONTROL_P1_INST.setMainController(this);
+
+        PLATFORM_LOCATION_P1_INST = PLATFORM_LOCATION_P1.getInstance();
+        PLATFORM_LOCATION_P1_INST.setMainController(this);
+
+        initializePlatfromMainDrivesControlElements();
+        initializeTurretControlElements();
+        initializePlatformControlP1SwitchesElements();
+        initializePowerStatus();
+
+        //Settings
+        deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
+        portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
+        deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
+
+        deviceTable.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent arg0)
+            {
+                if (deviceTable.getSelectionModel().getSelectedItem() != null)
+                {
+                    CDCDevice cdcDevice = deviceTable.getSelectionModel().getSelectedItem();
+                    System.out.println(cdcDevice.getDeviceName());
+                    switch (cdcDevice.getDeviceName())
+                    {
+                        case "PLATFORM-CONTROL-P1":
+                            selectedDeviceCommandsComboBox.setItems(PLATFORM_CONTROL_P1.commands);
+                            break;
+                        case "PLATFORM-LOCATION-P1":
+                            selectedDeviceCommandsComboBox.setItems(PLATFORM_LOCATION_P1.commands);
+                            break;
+                    }
+                }
+            }
+        });
+
+        selectedDeviceCommandsComboBox.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent arg0)
+            {
+                if (selectedDeviceCommandsComboBox.getSelectionModel().getSelectedItem() != null)
+                {
+                    cmdTextField.setText(selectedDeviceCommandsComboBox.getSelectionModel().getSelectedItem().toString());
+                }
+            }
+        });
+        selectedDeviceCommandsComboBox.valueProperty().addListener(new ChangeListener<String>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends String> arg0, String arg1, String command)
+            {
+                cmdTextField.setText(command);
+            }
+        });
     }
 
     public void close()
@@ -187,23 +255,12 @@ public class MainWindowController
         this.mainAppObject = mainAppObject;
     }
 
-    public static void showTooltip(Stage owner, Control control, String tooltipText, ImageView tooltipGraphic)
-    {
-        javafx.geometry.Point2D p = control.localToScene(0.0, 0.0);
-
-        final Tooltip customTooltip = new Tooltip();
-        customTooltip.setText(tooltipText);
-
-        control.setTooltip(customTooltip);
-        customTooltip.setAutoHide(true);
-
-        customTooltip.show(owner, p.getX() + control.getScene().getX() + control.getScene().getWindow().getX(), p.getY() + control.getScene().getY() + control.getScene().getWindow().getY());
-    }
-
     public void cdcIsNotConnectedActions()
     {
-        showTooltip(this.mainAppObject.stage, mainTabPane, "CDC Device Not Ready", null);
+        UtilsClass.showTooltip(this.mainAppObject.stage, mainTabPane, "CDC Device Not Ready", null);
+
         logToConsole(PLATFORM_CONTROL_P1.getInstance().getClass().toString() + ": CDC Device Not Ready");
+
         setPlatformDriveButtonsState(true, (Button) null);
         setTurretControlButtonsState(true, (ArrayList<Button>) null);
     }
@@ -224,7 +281,7 @@ public class MainWindowController
             if (msg.contains("←"))
                 return;
         }
-        logConsole.appendText(System.currentTimeMillis() + ": " + msg + "\n");
+        logConsole.setText(logConsole.getText() + System.currentTimeMillis() + ": " + msg + "\n");
         logConsole.setScrollTop(Double.MAX_VALUE);
     }
 
@@ -232,25 +289,6 @@ public class MainWindowController
     protected void clearConsoleBtnAction(ActionEvent event)
     {
         logConsole.clear();
-    }
-
-    @FXML
-    void initialize()
-    {
-        mainTabPane.getSelectionModel().select(2);
-
-        PLATFORM_CONTROL_P1_INST = PLATFORM_CONTROL_P1.getInstance();
-        PLATFORM_CONTROL_P1_INST.setMainController(this);
-
-        initializePlatfromMainDrivesControlElements();
-        initializeTurretControlElements();
-        initializePlatformControlP1SwitchesElements();
-        initializePowerStatus();
-
-        //Settings
-        deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
-        portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
-        deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
     }
 
     private void initializePlatfromMainDrivesControlElements()
@@ -523,12 +561,21 @@ public class MainWindowController
             {
                 if (!platform_conrol_p1_MainAccumulatorOnOffBtn.isSelected())
                 {
+
                     PLATFORM_CONTROL_P1_INST.executeCommand("MAINACCUMULATORRELAYOFF");
                     platform_conrol_p1_MainAccumulatorOnOffBtn.setText("Main Accumulator Relay ON");
+
                 } else
                 {
-                    PLATFORM_CONTROL_P1_INST.executeCommand("MAINACCUMULATORRELAYON");
-                    platform_conrol_p1_MainAccumulatorOnOffBtn.setText("Main Accumulator Relay OFF");
+                    if (chargerConnectedRadioButton.isSelected())
+                    {
+                        PLATFORM_CONTROL_P1_INST.executeCommand("MAINACCUMULATORRELAYON");
+                        platform_conrol_p1_MainAccumulatorOnOffBtn.setText("Main Accumulator Relay OFF");
+                    } else
+                    {
+                        UtilsClass.showTooltip(mainAppObject.stage, platform_conrol_p1_MainAccumulatorOnOffBtn, "220V AC is not connected", null);
+                        platform_conrol_p1_MainAccumulatorOnOffBtn.setSelected(false);
+                    }
                 }
             }
         });
