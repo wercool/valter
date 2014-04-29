@@ -1027,6 +1027,7 @@ int main(void)
             //SETSHREG#1100000000000000
             //SETSHREG#0011000000000000
             //SETSHREG#1111111111111111
+            //SETSHREG#0000000100000000 MANIPULATOR LED
             if (strcmp((char*) cmdParts, "SETSHREG") == 0)
             {
                 char * regState = strtok( NULL, "#" );
