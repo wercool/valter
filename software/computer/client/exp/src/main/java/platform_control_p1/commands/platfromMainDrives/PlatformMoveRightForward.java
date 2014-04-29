@@ -1,10 +1,9 @@
 package platform_control_p1.commands.platfromMainDrives;
 
+import interfaces.CommandRunnable;
 import javafx.scene.control.Button;
 import valter.PLATFORM_CONTROL_P1;
 import app.MainWindowController;
-
-import commands.CommandRunnable;
 
 public class PlatformMoveRightForward implements Runnable, CommandRunnable
 {

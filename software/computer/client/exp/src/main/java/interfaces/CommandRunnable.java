@@ -1,4 +1,4 @@
-package commands;
+package interfaces;
 
 public interface CommandRunnable
 {

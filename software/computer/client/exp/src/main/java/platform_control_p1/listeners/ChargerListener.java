@@ -1,13 +1,13 @@
 package platform_control_p1.listeners;
 
+import interfaces.CommandRunnable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
 import valter.PLATFORM_CONTROL_P1;
 import app.MainWindowController;
-
-import commands.CommandRunnable;
 
 public class ChargerListener implements Runnable, CommandRunnable
 {
@@ -80,7 +80,7 @@ public class ChargerListener implements Runnable, CommandRunnable
                 reading = dataString.substring(20, dataString.length());
                 System.out.println(this.getClass().getName() + " Charge In Progress [" + reading + "]");
                 int readingInt = Integer.parseInt(reading);
-                if (readingInt > 1000)
+                if (readingInt > 600)
                 {
                     Platform.runLater(new Runnable()
                     {
@@ -108,7 +108,7 @@ public class ChargerListener implements Runnable, CommandRunnable
                 reading = dataString.substring(20, dataString.length());
                 System.out.println(this.getClass().getName() + " Charge Completed [" + reading + "]");
                 int readingInt = Integer.parseInt(reading);
-                if (readingInt > 1000)
+                if (readingInt > 700)
                 {
                     Platform.runLater(new Runnable()
                     {

@@ -1,10 +1,9 @@
 package platform_control_p1.commands.turretDrive;
 
+import interfaces.CommandRunnable;
 import javafx.application.Platform;
 import valter.PLATFORM_CONTROL_P1;
 import app.MainWindowController;
-
-import commands.CommandRunnable;
 
 public class GetTurretPosition implements Runnable, CommandRunnable
 {

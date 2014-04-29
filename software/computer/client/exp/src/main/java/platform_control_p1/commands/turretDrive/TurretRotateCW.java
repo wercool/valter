@@ -1,12 +1,12 @@
 package platform_control_p1.commands.turretDrive;
 
+import interfaces.CommandRunnable;
+
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
 import valter.PLATFORM_CONTROL_P1;
 import app.MainWindowController;
-
-import commands.CommandRunnable;
 
 public class TurretRotateCW implements Runnable, CommandRunnable
 {
