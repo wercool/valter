@@ -1,7 +1,6 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class ThreadsTestApp
 {
@@ -22,6 +21,7 @@ public class ThreadsTestApp
         int sleepThread = Integer.parseInt(args[1]);
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
         {
+            @Override
             public void run()
             {
                 exiting = true;
@@ -50,6 +50,14 @@ public class ThreadsTestApp
             System.out.println("STARTED: " + runnableName + " in " + (System.currentTimeMillis() - startTime) + " ms");
             if (idx > numberOfThreads)
             {
+                try
+                {
+                    System.out.println("Press Enter key to continue");
+                    System.in.read();
+                } catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
                 break;
             }
         }
@@ -77,6 +85,7 @@ public class ThreadsTestApp
                 try
                 {
                     Thread.sleep(this.sleep);
+                    System.out.println("                                    " + System.currentTimeMillis() + ": " + runnableName + " is running");
                 } catch (InterruptedException e)
                 {
                     //e.printStackTrace();
@@ -90,5 +99,5 @@ public class ThreadsTestApp
             this.stopped = true;
         }
     };
-    
+
 }
