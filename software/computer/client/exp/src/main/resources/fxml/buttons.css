@@ -1,0 +1,8 @@
+.forward-button
+{
+  -fx-graphic: url("../images/arrow-forward-icon.png");
+}
+.backward-button
+{
+  -fx-graphic: url("../images/arrow-backward-icon.png");
+}
