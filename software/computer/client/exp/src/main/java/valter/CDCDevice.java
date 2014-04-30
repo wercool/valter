@@ -210,7 +210,7 @@ public class CDCDevice
                 logToConsole(msg);
             } catch (NullPointerException e)
             {
-                log.error("Log not ready to write data (" + e.toString() + ")");
+                log.error("Log output is not ready (" + e.toString() + ")");
             }
         } catch (Exception e)
         {
@@ -250,7 +250,7 @@ public class CDCDevice
                                 device.logToConsole(msg);
                             } catch (NullPointerException e)
                             {
-                                log.error("Log not ready to write data (" + e.toString() + ")");
+                                log.error("Log output is not ready (" + e.toString() + ")");
                             } catch (IndexOutOfBoundsException e)
                             {
                                 log.error("Log not ready to write data (" + e.toString() + ")");

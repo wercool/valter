@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Multithreaded Server in Java</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="null">
+    
+
+
+    <meta name="author" content="ink, cookbook, recipes">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    
+
+    
+
+    
+    <link rel="stylesheet" type="text/css" href="multithreaded-server_files/ink-min.css">
+    
+
+    <!--[if IE 7 ]>
+    <link rel="stylesheet" href="/ink-2.2.0/css/ink-ie7.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <![endif]-->
+
+    
+    
+    <link href="https://plus.google.com/108227213807945109821" rel="publisher">
+
+    
+    <meta name="google-site-verification" content="i_TwzdElg-by5uXLvyAjuIaCjxo0yjtW8LdRPUDEEcw">
+
+    
+    <script src="multithreaded-server_files/dc.js" async="" type="text/javascript"></script><script async="" src="multithreaded-server_files/cbgapi.loaded_1"></script><script async="" src="multithreaded-server_files/cbgapi.loaded_0"></script><script src="multithreaded-server_files/jquery.js"></script>
+
+</head>
+
+<body>
+
+<style>
+    #top-bar-background-div {
+        width: 100%;
+        xwidth: 1280px;
+        margin-left : auto;
+        margin-right: auto;
+        background-color: #000000;
+    }
+    .ct-logo {
+        font-size: 24px;
+        xmargin-left : 30px;
+        margin-right: 30px;
+        padding-top: 3px;
+        Color    : #ffffff;
+        display: inline-block;
+    }
+    .menu-item, .menu-item-last {
+        border-left : 1px solid #404040;
+        font-size   : 18px;
+    }
+    .menu-item-last {
+        border-right : 1px solid #404040;
+    }
+
+    
+
+
+</style>
+
+<div id="top-bar-background-div">
+    <div id="ink-grid" class="ink-grid">
+
+
+        <div class="column-group">
+            <div class="large-100">
+                <nav class="ink-navigation">
+                    <ul class="menu horizontal black flat">
+                        <li><a href="http://jenkov.com/" style="margin: 0px; padding: 0px;"><div class="ct-logo">Jenkov.com</div></a></li>
+                        <li class="menu-item"><a href="http://jenkov.com/books/index.html">Books</a></li>
+                        <li class="menu-item"><a href="http://tutorials.jenkov.com/">Tutorials</a></li>
+                        
+                        <li class="menu-item"><a href="http://jenkov.com/about/index.html">About</a></li>
+                        <li class="menu-item"><a href="http://feeds2.feedburner.com/jenkov-com">RSS</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<style>
+    h2 {
+        margin-top: 30px;
+    }
+    code {
+        font-family: Courier;
+        font-size : 1.0em;
+    }
+    .trailhead {
+        font-size : 1.2em;
+        font-weight : bold;
+    }
+    .book-link {
+        background-repeat: no-repeat;
+        padding: 5px 10px 5px 100px;
+        background-color: #eeeeee;
+        font-size : 0.9em;
+    }
+    .book-link:hover {
+        cursor: pointer;
+    }
+    .codeBox {
+        background-color: #eeeeee;
+        border : 1px solid #cccccc;
+        font-family: Courier;
+        font-size : 0.8em;
+        padding : 10px;
+        margin  : 20px 0px 20px 0px;
+    }
+    .diagram {
+        margin  : 20px 0px 30px 0px;
+    }
+    .dataTable {
+        border : 1px solid #cccccc;
+
+    }
+    .dataTable th {
+        text-align: left;
+        padding   : 5px;
+        border-bottom : 1px solid #cccccc;
+        background-color : #eeeeee;
+    }
+    .dataTable td {
+        padding   : 5px;
+        text-align: left;
+        vertical-align: top;
+    }
+    .signupFrame {
+        border    : 1px solid #cccccc;
+
+    }
+    .leftMenuLinkCell {
+        height        : 30px;
+        font-size     : 1.0em;
+        border-bottom : 1px solid #f0f0f0;
+        vertical-align: top;
+        padding       : 4px 0px 0px 10px;
+    }
+    .nextArticleInCategory {
+        font-size : 1.2em;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .ul, ol {
+        margin: 30px 20px 30px 20px;
+    }
+</style>
+
+<div class="ink-grid">
+    <div class="column-group gutters">
+        <div class="large-100 medium-100 small-100">
+            <div id="top-ads" style="width: 728px; margin: 20px auto 20px auto;">
+                <script type="text/javascript"><!--
+                google_ad_client = "ca-pub-5569543489255665";
+                /* Tutorials - Top Banner */
+                google_ad_slot = "7630855405";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+                </script>
+                <script type="text/javascript" src="multithreaded-server_files/show_ads.js">
+                </script><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="90" scrolling="no" width="728"></iframe></ins></ins>
+            </div>
+        </div>
+
+        <div id="leftMenuDiv" class="large-25 medium-30 small-30">
+            
+
+            <span class="trailhead">Java Multithreaded Servers</span> <br><br>
+
+            <table cellpadding="0" cellspacing="0">
+            
+                    <tbody><tr>
+                      
+                        <td class="leftMenuLinkCell" align="right">1</td>
+                        <td class="leftMenuLinkCell"><a href="http://tutorials.jenkov.com/java-multithreaded-servers/index.html">Multithreaded Servers in Java</a><br></td>
+                      
+                    </tr>
+                    
+                    <tr>
+                      
+                        <td class="leftMenuLinkCell" align="right">2</td>
+                        <td class="leftMenuLinkCell"><a href="http://tutorials.jenkov.com/java-multithreaded-servers/singlethreaded-server.html">Singlethreaded Server in Java</a><br></td>
+                      
+                    </tr>
+                    
+                    <tr>
+                      
+                        <td class="leftMenuLinkCell" align="right"><b>3</b></td>
+                        <td class="leftMenuLinkCell"><a href="http://tutorials.jenkov.com/java-multithreaded-servers/multithreaded-server.html"><b>Multithreaded Server in Java</b></a><br></td>
+                      
+                    </tr>
+                    
+                    <tr>
+                      
+                        <td class="leftMenuLinkCell" align="right">4</td>
+                        <td class="leftMenuLinkCell"><a href="http://tutorials.jenkov.com/java-multithreaded-servers/thread-pooled-server.html">Thread Pooled Server</a><br></td>
+                      
+                    </tr>
+                    
+            </tbody></table>
+
+            <br>
+
+            <div id="side-ads">
+                <script async="" src="multithreaded-server_files/adsbygoogle.js"></script>
+                <ins data-adsbygoogle-status="done" class="adsbygoogle" style="display:inline-block;width:160px;height:600px" data-ad-client="ca-pub-5569543489255665" data-ad-slot="3389666608"><ins style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><ins id="aswift_1_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:160px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;" frameborder="0" height="600" scrolling="no" width="160"></iframe></ins></ins></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <br>
+            <div id="leftMenuSocialLinks">
+                <div id="social-left-bar" class="signupFrame" style="padding:10px;">
+    <form action="http://jenkov.us4.list-manage.com/subscribe/post?u=39844b57926863757a8be6553&amp;id=74bcc45775" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+        <table cellpadding="5" cellspacing="0" width="" border="0">
+            <tbody><tr>
+                
+                <td><font color="red"><b>Get all my free tips &amp; tutorials!</b></font></td>
+                
+            </tr>
+            <tr>
+                <td>
+                    Connect with me, or sign up for my news letter or <a href="http://feeds2.feedburner.com/jenkov-com" target="_blank">RSS feed</a>, and
+                    get all my tips that help you become a more skilled and efficient developer.
+                </td>
+            </tr>
+            <tr>
+                <td align="left">
+                    <a href="https://plus.google.com/+JakobJenkov?rel=author" style="text-decoration:none;" title="Connect on Google+" target="_blank" rel="author"><i class="icon-google-plus-sign" style="font-size: 2.4em;"></i></a>
+&nbsp;
+
+<a href="https://twitter.com/#%21/jjenkov" title="Follow on Twitter" target="_blank"><i class="icon-twitter-sign" style="font-size: 2.4em;"></i></a>
+&nbsp;
+<a href="http://www.linkedin.com/pub/jakob-jenkov/0/a8/4a3" title="Connect on LinkedIn" target="_blank"><i class="icon-linkedin-sign" style="font-size: 2.4em;"></i></a>
+&nbsp;
+<a href="http://feeds2.feedburner.com/jenkov-com" title="Subscribe to RSS Feed" target="_blank"><i class="icon-rss-sign" style="font-size: 2.4em;"></i></a>
+
+                </td>
+            </tr>
+
+            <tr><td>
+                <b>Newsletter</b><br>
+                   
+
+
+    <input name="FNAME" class="" id="mce-FNAME" placeholder="First Name *" size="15" type="text">&nbsp;
+    <input name="LNAME" class="" id="mce-LNAME" placeholder="Last Name *" size="15" type="text">&nbsp;
+    <input name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email *" size="15" type="email">&nbsp;<br>
+    <input value="Yes, give me tips!" name="subscribe" id="mc-embedded-subscribe" class="button" type="submit">
+
+    <input name="listid" value="9579" type="hidden">
+    <input name="specialid:9579" value="SW15" type="hidden">
+
+    <input name="clientid" value="435086" type="hidden">
+    <input name="formid" value="587" type="hidden">
+    <input name="reallistid" value="1" type="hidden">
+    <input name="doubleopt" value="1" type="hidden">
+
+
+                </td>
+            </tr>
+
+        </tbody></table>
+    
+</form></div>
+            </div>
+        </div>
+
+
+        <div id="mainDiv" class="large-75 medium-70 small-70">
+           <h1>Multithreaded Server in Java</h1>
+
+            
+
+
+
+
+<table cellpadding="0" cellspacing="0" width="100%" border="0">
+
+    <tbody><tr>
+        <td>
+
+            
+            
+
+            
+            <div style="float:left">
+                <img src="multithreaded-server_files/small-portrait_mini.jpg" height="127" width="111"><br>
+                <span class="author">By <a target="jakob-jenkov" href="http://jakob.jenkov.com/">Jakob Jenkov</a></span>
+            </div>
+        </td>
+        <td align="left" valign="top">
+
+            <table width="100%">
+                
+                
+                <tbody><tr><td align="left" valign="top">
+                        
+                        <div style="float: left;">
+                        <script gapi_processed="true" type="text/javascript" src="multithreaded-server_files/plusone.js" async=""></script>
+                        <div id="___plusone_0" style="text-indent: 0px; margin: 0px; padding: 0px; background: none repeat scroll 0% 0% transparent; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 106px; height: 24px;"><iframe title="+1" data-gapiattached="true" src="multithreaded-server_files/fastbutton.html" name="I0_1398865195022" id="I0_1398865195022" vspace="0" tabindex="0" style="position: static; top: 0px; width: 106px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 24px;" marginwidth="0" marginheight="0" hspace="0" frameborder="0" scrolling="no" width="100%"></iframe></div>
+                        </div>
+
+                        
+                        <div style="float: left;">
+                        <script type="text/javascript">var dzone_style = '2';</script>
+                        <script language="javascript" src="multithreaded-server_files/zoneit.js"></script><iframe src="multithreaded-server_files/zoneit.html" frameborder="0" height="25" scrolling="no" width="155"></iframe>
+                        </div>
+
+                         
+                         <div style="float:left;">
+                         
+                         <a href="javascript:window.location%20=%20'http://www.facebook.com/sharer.php?u='%20+%20encodeURIComponent%20(location.href)+'&amp;t='+encodeURIComponent(%20document.title);" target="_blank">Share on Facebook</a>
+                     </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td height="10"></td>
+                </tr>
+
+                
+                <tr>
+                    <td colspan="3">
+                        <table width="100%">
+                            <tbody><tr><td class="articleTopMiniHeaderCell" colspan="2"><span class="articleTopMiniHeader">Connect with me:&nbsp;&nbsp;</span></td></tr>
+                            <tr>
+                                <td align="left" valign="top">
+                                    <a href="https://plus.google.com/u/0/+JakobJenkov?rel=author" style="text-decoration:none;" title="Connect on Google+" target="_blank" rel="author"><img src="multithreaded-server_files/gplus-32.png" alt="" style="border:0;width:32px;height:32px;"></a>
+                                    &nbsp;
+                                    <a href="https://twitter.com/#%21/jjenkov" title="Follow on Twitter" target="_blank"><img src="multithreaded-server_files/twitter_32.png" width="32" border="0"></a>
+                                </td>
+                                <td align="right" valign="top">
+                                    
+                                    <a href="http://feeds2.feedburner.com/%7Er/jenkov-com/%7E6/5"><img src="multithreaded-server_files/jenkov-com.gif" alt="Jenkov.com - News" style="border:0"></a>
+                                </td>
+                            </tr>
+                        </tbody></table>
+
+                    </td>
+                </tr>
+            </tbody></table>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+        </td>
+    </tr>
+
+</tbody></table>
+
+
+            <br>
+            <style>
+                .pageToc{
+                    border         : 1px solid #e0e0e0;
+                    border-radius  : 5px;
+                }
+                .pageToc .pageTocTitle {
+                    border-bottom: 1px solid #e0e0e0;
+                    padding: 10px 20px 10px 20px;
+                }
+                .pageToc div[itemscope] {
+                    padding: 10px 20px 10px 20px;
+                }
+            </style>
+            
+
+            <br>
+            <p>
+    This text describes a simple multithreaded server implemented in Java. The code is based on the singlethreaded
+    server desbribed in the text on <a href="http://tutorials.jenkov.com/java-multithreaded-servers/singlethreaded-server.html">Singlethreaded Servers</a>. The main
+    difference is the server loop. Rather than processing the incoming requests in the same thread that accepts
+    the client connection, the connection is handed off to a worker thread that will process the request.
+</p>
+
+<p>
+    Note: This code uses a "thread per connection" design which most of us originally thought less efficient
+    than a <a href="http://tutorials.jenkov.com/java-multithreaded-servers/thread-pooled-server.html">thread pooled server</a>. But read this blog post and think again:
+    <br>
+    <a href="http://paultyma.blogspot.com/2008/03/writing-java-multithreaded-servers.html" target="_blank">Writing Java Multithreaded Servers - whats old is new</a>
+</p>
+
+
+<p>
+    Here is how the server loop looks in the multithreaded edition:
+</p>
+
+<pre class="codeBox">    while(! isStopped()){
+        Socket clientSocket = null;
+        try {
+            clientSocket = this.serverSocket.accept();
+        } catch (IOException e) {
+            if(isStopped()) {
+                System.out.println("Server Stopped.") ;
+                return;
+            }
+            throw new RuntimeException(
+                "Error accepting client connection", e);
+        }
+        <b>
+            new Thread(
+            new WorkerRunnable(
+            clientSocket, "Multithreaded Server")
+            ).start();
+        </b>
+    }
+</pre>
+
+<p>
+    The only change in the loop from the singlethreaded server to here is the code in bold:
+</p>
+
+<pre class="codeBox">new Thread(
+    new WorkerRunnable(
+        clientSocket, "Multithreaded Server")
+).start();
+</pre>
+
+<p>
+    Rather than processing the incoming requests in the same thread that accepts the client
+    connection, the connection is handed off to a worker thread that processes the request.
+    That way the thread listening for incoming requests spends as much time as possible in
+    the <code>serverSocket.accept()</code> call. That way the risk is minimized for clients being
+    denied access to the server because the listening thread is not inside the <code>accept()</code>
+    call.
+</p>
+
+<p>Here is the code for the <code>WorkerRunnable</code> class, which is passed to the
+    worker thread constructor:
+</p>
+
+<pre class="codeBox">package servers;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+/**
+
+ */
+public class WorkerRunnable implements Runnable{
+
+    protected Socket clientSocket = null;
+    protected String serverText   = null;
+
+    public WorkerRunnable(Socket clientSocket, String serverText) {
+        this.clientSocket = clientSocket;
+        this.serverText   = serverText;
+    }
+
+    public void run() {
+        try {
+            InputStream input  = clientSocket.getInputStream();
+            OutputStream output = clientSocket.getOutputStream();
+            long time = System.currentTimeMillis();
+            output.write(("HTTP/1.1 200 OK\n\nWorkerRunnable: " +
+this.serverText + " - " +
+time +
+"").getBytes());
+            output.close();
+            input.close();
+            System.out.println("Request processed: " + time);
+        } catch (IOException e) {
+            //report exception somewhere.
+            e.printStackTrace();
+        }
+    }
+}
+</pre>
+
+
+<br>
+<a name="advantages"></a>
+<h2>Multithreaded Server Advantages</h2>
+<p>
+    The advantages of a multithreaded server compared to a singlethreaded server are summed up below:
+</p>
+
+<ol>
+    <li>Less time is spent outside the <code>accept()</code> call.</li>
+    <li>Long running client requests do not block the whole server</li>
+</ol>
+
+<p>
+    As mentioned earlier the more time the thread calling <code>serverSocket.accept()</code> spends
+    inside this method call, the more responsive the server will be. Only when the listening thread
+    is inside the <code>accept()</code> call can clients connect to the server. Otherwise the clients
+    just get an error.
+</p>
+
+<p>
+    In a singlethreaded server long running requests may make the server unresponsive for a long period.
+    This is not true for a multithreaded server, unless the long-running request takes up all CPU time
+    time and/or network bandwidth.
+</p>
+
+
+<br>
+<a name="fullcode"></a>
+<h2>Multithreaded Server Code</h2>
+<p>
+    Here is the full code for the <code>MultiThreadedServer</code>:
+</p>
+
+<pre class="codeBox">package servers;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.io.IOException;
+
+public class MultiThreadedServer implements Runnable{
+
+    protected int          serverPort   = 8080;
+    protected ServerSocket serverSocket = null;
+    protected boolean      isStopped    = false;
+    protected Thread       runningThread= null;
+
+    public MultiThreadedServer(int port){
+        this.serverPort = port;
+    }
+
+    public void run(){
+        synchronized(this){
+            this.runningThread = Thread.currentThread();
+        }
+        openServerSocket();
+        while(! isStopped()){
+            Socket clientSocket = null;
+            try {
+                clientSocket = this.serverSocket.accept();
+            } catch (IOException e) {
+                if(isStopped()) {
+                    System.out.println("Server Stopped.") ;
+                    return;
+                }
+                throw new RuntimeException(
+                    "Error accepting client connection", e);
+            }
+            new Thread(
+                new WorkerRunnable(
+                    clientSocket, "Multithreaded Server")
+            ).start();
+        }
+        System.out.println("Server Stopped.") ;
+    }
+
+
+    private synchronized boolean isStopped() {
+        return this.isStopped;
+    }
+
+    public synchronized void stop(){
+        this.isStopped = true;
+        try {
+            this.serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Error closing server", e);
+        }
+    }
+
+    private void openServerSocket() {
+        try {
+            this.serverSocket = new ServerSocket(this.serverPort);
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot open port 8080", e);
+        }
+    }
+
+}
+</pre>
+
+<p>
+    And here is the code to run it:
+</p>
+
+<pre class="codeBox">MultiThreadedServer server = new MultiThreadedServer(9000);
+new Thread(server).start();
+
+try {
+    Thread.sleep(20 * 1000);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+System.out.println("Stopping Server");
+server.stop();
+</pre>
+
+<p>When the server is running you can access it using an ordinary web browser. Use the address
+    <a href="http://localhost:9000/" target="_blank">http://localhost:9000/</a>
+</p>
+
+            <br><br>
+            
+               <a href="http://tutorials.jenkov.com/java-multithreaded-servers/thread-pooled-server.html">
+               <div class="nextArticleInCategory">
+                   <b>Next:</b>&nbsp;&nbsp;&nbsp;Thread Pooled Server
+               </div>
+               </a>
+
+            
+        </div>
+
+
+        <div class="large-25 medium-30 small-30">
+
+        </div>
+        <div class="large-75 medium-70 small-70" style="padding-bottom: 0px;">
+
+            
+<div class="column-group">
+    <div class="large-25 medium-25 small-100">
+        <div>
+            <b>Connect with me:</b> <br>
+            <a href="https://plus.google.com/+JakobJenkov?rel=author" style="text-decoration:none;" title="Connect on Google+" target="_blank" rel="author"><i class="icon-google-plus-sign" style="font-size: 2.4em;"></i></a>
+&nbsp;
+
+<a href="https://twitter.com/#%21/jjenkov" title="Follow on Twitter" target="_blank"><i class="icon-twitter-sign" style="font-size: 2.4em;"></i></a>
+&nbsp;
+<a href="http://www.linkedin.com/pub/jakob-jenkov/0/a8/4a3" title="Connect on LinkedIn" target="_blank"><i class="icon-linkedin-sign" style="font-size: 2.4em;"></i></a>
+&nbsp;
+<a href="http://feeds2.feedburner.com/jenkov-com" title="Subscribe to RSS Feed" target="_blank"><i class="icon-rss-sign" style="font-size: 2.4em;"></i></a>
+
+        </div>
+
+    </div>
+
+    <div class="large-75 medium-75 small-100">
+        <b>Newsletter</b> - Get all my free tips!<br>
+        
+<form action="http://jenkov.us4.list-manage.com/subscribe/post?u=39844b57926863757a8be6553&amp;id=74bcc45775" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+
+    <input name="FNAME" class="" id="mce-FNAME" placeholder="First Name *" size="15" type="text">&nbsp;
+    <input name="LNAME" class="" id="mce-LNAME" placeholder="Last Name *" size="15" type="text">&nbsp;
+    <input name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Email *" size="15" type="email">&nbsp;<br>
+    <input value="Yes, give me tips!" name="subscribe" id="mc-embedded-subscribe" class="button" type="submit">
+
+    <input name="listid" value="9579" type="hidden">
+    <input name="specialid:9579" value="SW15" type="hidden">
+
+    <input name="clientid" value="435086" type="hidden">
+    <input name="formid" value="587" type="hidden">
+    <input name="reallistid" value="1" type="hidden">
+    <input name="doubleopt" value="1" type="hidden">
+
+</form>
+    </div>
+</div>
+
+
+<br><br>
+        </div>
+
+
+        <div class="large-100 medium-100 small-100 push-center">
+            <div id="bottom-ads" style="width: 728px; margin: 20px auto 20px auto;">
+                <script async="" src="multithreaded-server_files/adsbygoogle.js"></script>
+                <ins data-adsbygoogle-status="done" class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5569543489255665" data-ad-slot="7776167002"><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_2_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;" frameborder="0" height="90" scrolling="no" width="728"></iframe></ins></ins></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+
+                <br><br><br>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+
+        var leftMenuDiv = $("#leftMenuDiv");
+        var mainDiv     = $("#mainDiv");
+
+        if(leftMenuDiv.height() > mainDiv.height()){
+            $("#leftMenuSocialLinks").hide();
+        }
+
+        // activate book link, if any present.
+        $(".book-link").click(function() {
+            window.open( $(this).attr("book-link-url"));
+        });
+    });
+</script>
+
+
+
+<script type="text/javascript">
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-4036229-3']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+</script>
+
+
+
+
+
+
+
+<iframe tabindex="-1" style="width: 1px; height: 1px; position: absolute; top: -100px;" src="multithreaded-server_files/postmessageRelay.html" id="oauth2relay2048477700" name="oauth2relay2048477700"></iframe></body><iframe src="" style="display: none;"></iframe></html>

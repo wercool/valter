@@ -218,6 +218,7 @@ public class PLATFORM_CONTROL_P1
         getTurretPositionThread = new Thread(getChargerConnectedRunnable);
         getTurretPositionThread.start();
 
+
         isInitialized = true;
     }
 

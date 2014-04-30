@@ -2,6 +2,10 @@ package app;
 
 import gnu.io.CommPortIdentifier;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,10 +31,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,19 +44,24 @@ import org.slf4j.LoggerFactory;
 import utilites.UtilsClass;
 import valter.CDCDevice;
 import valter.CDCEnumerator;
+import valter.CommandsClientListenerThread;
 import valter.PLATFORM_CONTROL_P1;
 import valter.PLATFORM_LOCATION_P1;
+import valter.SingleThreadedServer;
 
 public class MainWindowController
 {
     private static final Logger log = LoggerFactory.getLogger(ValterExpClient.class);
 
     public ValterExpClient mainAppObject;
+    public MainWindowController mainWindowController;
+
+    public boolean clientServerMode = false;
 
     public PLATFORM_CONTROL_P1 PLATFORM_CONTROL_P1_INST;
     public PLATFORM_LOCATION_P1 PLATFORM_LOCATION_P1_INST;
 
-    //General components and from Settings tab
+    //General components and from Connections tab
     @FXML
     public TabPane mainTabPane;
     @FXML
@@ -81,6 +92,31 @@ public class MainWindowController
     private CheckBox scanAndConnectCB;
     @FXML
     public ComboBox<String> selectedDeviceCommandsComboBox;
+
+    //Settings Tab
+    @FXML
+    public AnchorPane connectionsAnchorPane;
+    @FXML
+    public Label serverAddressLabel;
+    @FXML
+    public Button startServerButton;
+    @FXML
+    public TextInputControl serverPortTextInput;
+    @FXML
+    public TextInputControl commandsServerAddressTextIntput;
+    @FXML
+    public TextInputControl commandsServerPortTextIntput;
+    @FXML
+    public Button connectToServerBtn;
+    @FXML
+    public Button pingPongBtn;
+
+    public SingleThreadedServer commandsServer;
+    public Thread commandsServerThread;
+
+    public static Socket commandsSocketClient;
+    public static DataOutputStream commandsSocketClientOutputStream;
+    public static CommandsClientListenerThread commandsSocketListenerThread;
 
     //PLATFORM_CONTROL_P1
     //Main Platform Drives Control
@@ -116,6 +152,7 @@ public class MainWindowController
     public ProgressBar leftDutyProgressBar;
     @FXML
     public ProgressBar rightDutyProgressBar;
+
     //Turret Control
     @FXML
     public Button turnTurretCCWBtn;
@@ -179,6 +216,8 @@ public class MainWindowController
     @FXML
     void initialize()
     {
+        mainWindowController = this;
+
         mainTabPane.getSelectionModel().select(2);
 
         PLATFORM_CONTROL_P1_INST = PLATFORM_CONTROL_P1.getInstance();
@@ -192,11 +231,126 @@ public class MainWindowController
         initializePlatformControlP1SwitchesElements();
         initializePowerStatus();
 
-        //Settings
+        //Connections
         deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
         portNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("portName"));
         deviceConnectedCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, Boolean>("deviceConnected"));
 
+        //Settings
+        serverAddressLabel.setText("Server Address: " + UtilsClass.getCurrentEnvironmentNetworkIp());
+        startServerButton.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent arg0)
+            {
+                if (commandsServerThread == null)
+                {
+                    commandsServer = new SingleThreadedServer(Integer.parseInt(serverPortTextInput.getText()), mainWindowController);
+                    commandsServerThread = new Thread(commandsServer);
+                    commandsServerThread.start();
+
+                    startServerButton.setText("Stop Server");
+                } else
+                {
+                    commandsServer.stop();
+                    commandsServerThread.interrupt();
+                    commandsServer = null;
+                    commandsServerThread = null;
+
+                    startServerButton.setText("Start Server");
+                }
+            }
+        });
+        connectToServerBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent arg0)
+            {
+                if (commandsSocketClient == null)
+                {
+                    String serverAddress = commandsServerAddressTextIntput.getText();
+                    int serverPort = Integer.parseInt(commandsServerPortTextIntput.getText());
+                    try
+                    {
+                        commandsSocketClient = new Socket(serverAddress, serverPort);
+                    } catch (UnknownHostException e)
+                    {
+                        //e.printStackTrace();
+                        System.out.println("Connection refused");
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                    try
+                    {
+                        commandsSocketClientOutputStream = new DataOutputStream(commandsSocketClient.getOutputStream());
+                    } catch (IOException e)
+                    {
+                        System.out.println("Server is unreachable");
+                        //e.printStackTrace();
+                    }
+
+                    commandsSocketListenerThread = new CommandsClientListenerThread(commandsSocketClient, mainWindowController);
+                    commandsSocketListenerThread.start();
+
+                    connectToServerBtn.setText("Disconnect from Server");
+                    clientServerMode = true;
+                } else
+                {
+                    try
+                    {
+                        commandsSocketClientOutputStream.writeBytes("DISCONNECT\n");
+                    } catch (IOException e1)
+                    {
+                        e1.printStackTrace();
+                    }
+
+                    commandsSocketListenerThread.stopListener();
+
+                    try
+                    {
+                        commandsSocketClient.close();
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    commandsSocketClient = null;
+
+                    try
+                    {
+                        commandsSocketClientOutputStream.close();
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    commandsSocketClientOutputStream = null;
+
+                    connectionsAnchorPane.setDisable(false);
+                    connectToServerBtn.setText("Connect to Server");
+                }
+            }
+        });
+
+        pingPongBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent arg0)
+            {
+                if (commandsSocketClientOutputStream != null && commandsSocketClient.isConnected())
+                {
+                    try
+                    {
+                        commandsSocketClientOutputStream.writeBytes(pingPongBtn.getText() + "\n");
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        //Connections Tab
         deviceTable.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -243,6 +397,7 @@ public class MainWindowController
     public void close()
     {
         PLATFORM_CONTROL_P1_INST.stopExecutionOfAllCommads();
+        PLATFORM_LOCATION_P1_INST.stopExecutionOfAllCommads();
 
         for (int i = 0; i < valterCDCDevices.size(); i++)
         {
@@ -701,43 +856,49 @@ public class MainWindowController
     @FXML
     protected void scanBoardsBtnAction(ActionEvent event)
     {
-        CDCEnumerator cdcCommunicator = new CDCEnumerator();
-        cdcCommunicator.searchForCDCDevicesPorts();
-
-        for (int i = 0; i < deviceTable.getItems().size(); i++)
+        if (!clientServerMode)
         {
-            if (!deviceTable.getItems().get(i).getDeviceConnected())
+            CDCEnumerator cdcCommunicator = new CDCEnumerator();
+            cdcCommunicator.searchForCDCDevicesPorts();
+
+            for (int i = 0; i < deviceTable.getItems().size(); i++)
             {
-                deviceTable.getItems().remove(i);
+                if (!deviceTable.getItems().get(i).getDeviceConnected())
+                {
+                    deviceTable.getItems().remove(i);
+                }
             }
-        }
 
-        for (int i = 0; i < valterCDCDevices.size(); i++)
-        {
-            if (!valterCDCDevices.get(i).getDeviceConnected())
-            {
-                valterCDCDevices.remove(i);
-            }
-        }
-
-        for (Entry<String, CommPortIdentifier> entry : cdcCommunicator.portMap.entrySet())
-        {
-            //String portName = entry.getKey();
-            CommPortIdentifier portId = entry.getValue();
-
-            CDCDevice CDCDeviceObj = new CDCDevice(portId, this);
-            valterCDCDevices.add(CDCDeviceObj);
-        }
-        deviceTable.setItems(valterCDCDevices);
-        if (scanAndConnectCB.isSelected())
-        {
             for (int i = 0; i < valterCDCDevices.size(); i++)
             {
                 if (!valterCDCDevices.get(i).getDeviceConnected())
                 {
-                    connectCDCDevice(valterCDCDevices.get(i));
+                    valterCDCDevices.remove(i);
                 }
             }
+
+            for (Entry<String, CommPortIdentifier> entry : cdcCommunicator.portMap.entrySet())
+            {
+                //String portName = entry.getKey();
+                CommPortIdentifier portId = entry.getValue();
+
+                CDCDevice CDCDeviceObj = new CDCDevice(portId, this);
+                valterCDCDevices.add(CDCDeviceObj);
+            }
+            deviceTable.setItems(valterCDCDevices);
+            if (scanAndConnectCB.isSelected())
+            {
+                for (int i = 0; i < valterCDCDevices.size(); i++)
+                {
+                    if (!valterCDCDevices.get(i).getDeviceConnected())
+                    {
+                        connectCDCDevice(valterCDCDevices.get(i));
+                    }
+                }
+            }
+        } else
+        {
+            System.out.println("Client-Server mode");
         }
     }
 

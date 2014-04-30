@@ -253,7 +253,7 @@
         </Tab>
         <Tab text="CONNECTIONS">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane id="Content" fx:id="connectionsAnchorPane" disable="false" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <TableView fx:id="deviceTable" minWidth="-1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
                   <columns>
@@ -284,6 +284,40 @@
                   </items>
                 </ComboBox>
                 <CheckBox fx:id="scanAndConnectCB" mnemonicParsing="false" selected="true" text="and connect" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="230.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="SETTINGS">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" prefHeight="140.0" prefWidth="250.0" text="Server Settings" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="217.0">
+                      <children>
+                        <Button fx:id="startServerButton" mnemonicParsing="false" text="Start Server" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="85.0" />
+                        <TextField id="serverPort" fx:id="serverPortTextInput" prefWidth="90.0" text="9001" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="32.0" />
+                        <Label text="Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0" />
+                        <Label fx:id="serverAddressLabel" text="Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" collapsible="false" disable="false" prefHeight="140.0" prefWidth="270.0" text="Act as Remote Client" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="5.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="217.0">
+                      <children>
+                        <Button fx:id="connectToServerBtn" mnemonicParsing="false" text="Connect to Server" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="85.0" />
+                        <TextField fx:id="commandsServerPortTextIntput" prefWidth="90.0" text="9001" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="32.0" />
+                        <Label text="Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0" />
+                        <TextField id="commandsServerAddress" fx:id="commandsServerAddressTextIntput" layoutY="3.0" prefWidth="90.0" text="" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="5.0" />
+                        <Label text="Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.0" />
+                        <Button fx:id="pingPongBtn" mnemonicParsing="false" text="PING" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="85.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
               </children>
             </AnchorPane>
           </content>
