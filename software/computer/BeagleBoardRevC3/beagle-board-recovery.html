@@ -1,0 +1,1077 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+<script type="text/javascript">(function() { var b=window,f="chrome",g="jstiming",k="tick";(function(){function d(a){this.t={};this.tick=function(a,d,c){var e=void 0!=c?c:(new Date).getTime();this.t[a]=[e,d];if(void 0==c)try{b.console.timeStamp("CSI/"+a)}catch(h){}};this[k]("start",null,a)}var a;b.performance&&(a=b.performance.timing);var n=a?new d(a.responseStart):new d;b.jstiming={Timer:d,load:n};if(a){var c=a.navigationStart,h=a.responseStart;0<c&&h>=c&&(b[g].srt=h-c)}if(a){var e=b[g].load;0<c&&h>=c&&(e[k]("_wtsrt",void 0,c),e[k]("wtsrt_","_wtsrt",h),e[k]("tbsd_","wtsrt_"))}try{a=null,
+b[f]&&b[f].csi&&(a=Math.floor(b[f].csi().pageT),e&&0<c&&(e[k]("_tbnd",void 0,b[f].csi().startE),e[k]("tbnd_","_tbnd",c))),null==a&&b.gtbExternal&&(a=b.gtbExternal.pageT()),null==a&&b.external&&(a=b.external.pageT,e&&0<c&&(e[k]("_tbnd",void 0,b.external.startE),e[k]("tbnd_","_tbnd",c))),a&&(b[g].pt=a)}catch(p){}})();b.tickAboveFold=function(d){var a=0;if(d.offsetParent){do a+=d.offsetTop;while(d=d.offsetParent)}d=a;750>=d&&b[g].load[k]("aft")};var l=!1;function m(){l||(l=!0,b[g].load[k]("firstScrollTime"))}b.addEventListener?b.addEventListener("scroll",m,!1):b.attachEvent("onscroll",m);
+ })();</script>
+<meta content='blogger' name='generator'/>
+<link href='http://beagleintern.blogspot.com/favicon.ico' rel='icon' type='image/x-icon'/>
+<link href='http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html' rel='canonical'/>
+<link rel="alternate" type="application/atom+xml" title="Beagle Intern - Atom" href="http://beagleintern.blogspot.com/feeds/posts/default" />
+<link rel="alternate" type="application/rss+xml" title="Beagle Intern - RSS" href="http://beagleintern.blogspot.com/feeds/posts/default?alt=rss" />
+<link rel="service.post" type="application/atom+xml" title="Beagle Intern - Atom" href="http://www.blogger.com/feeds/8876058113022723558/posts/default" />
+
+<link rel="alternate" type="application/atom+xml" title="Beagle Intern - Atom" href="http://beagleintern.blogspot.com/feeds/5195802559309095147/comments/default" />
+<!--[if IE]> <script> (function() { var html5 = ("abbr,article,aside,audio,canvas,datalist,details," + "figure,footer,header,hgroup,mark,menu,meter,nav,output," + "progress,section,time,video").split(','); for (var i = 0; i < html5.length; i++) { document.createElement(html5[i]); } try { document.execCommand('BackgroundImageCache', false, true); } catch(e) {} })(); </script> <![endif]-->
+<title>Beagle Intern: Beagle Board Recovery</title>
+<link type='text/css' rel='stylesheet' href='https://www.blogger.com/static/v1/widgets/3841957138-widget_css_bundle.css' />
+<link type='text/css' rel='stylesheet' href='https://www.blogger.com/dyn-css/authorization.css?targetBlogID=8876058113022723558&zx=927c0fdd-ee65-4539-b672-94db8d8440f1' />
+<style id='page-skin-1' type='text/css'><!--
+/*
+-----------------------------------------------
+Blogger Template Style
+Name:     897
+Date:     28 Feb 2004
+Updated by: Blogger Team
+----------------------------------------------- */
+/* Variable definitions
+====================
+<Variable name="mainBgColor" description="Main Background Color"
+type="color" default="#214552">
+<Variable name="mainTextColor" description="Text Color"
+type="color" default="#ffffff">
+<Variable name="mainLinkColor" description="Link Color"
+type="color" default="#99ddff">
+<Variable name="mainVisitedLinkColor" description="Visited Link Color"
+type="color" default="#777766">
+<Variable name="dateHeaderColor" description="Date Header Color"
+type="color" default="#446677">
+<Variable name="postTitleColor" description="Post Title Color"
+type="color" default="#8cdfff">
+<Variable name="sidebarBgColor" description="Sidebar Background Color"
+type="color" default="#cedfbd">
+<Variable name="sidebarHeaderColor" description="Sidebar Title Color"
+type="color" default="#ffffff">
+<Variable name="sidebarTextColor" description="Sidebar Text Color"
+type="color" default="#335566">
+<Variable name="sidebarLinkColor" description="Sidebar Link Color"
+type="color" default="#336699">
+<Variable name="sidebarVisitedLinkColor"
+description="Sidebar Visited Link Color"
+type="color" default="#333333">
+<Variable name="descColor" description="Blog Description Color"
+type="color" default="#ffffff">
+<Variable name="bodyFont" description="Text Font"
+type="font" default="normal normal 100% Verdana, Sans-serif">
+<Variable name="titleFont" description="Blog Title Font"
+type="font" default="normal bold 275% Helvetica, Arial, Verdana, Sans-serif">
+<Variable name="sidebarHeaderFont" description="Sidebar Title Font"
+type="font" default="normal bold 125% Helvetica, Arial, Verdana, Sans-serif">
+<Variable name="dateHeaderFont" description="Date Header Font"
+type="font" default="normal bold 112% Arial, Verdana, Sans-serif">
+<Variable name="startSide" description="Start side in blog language"
+type="automatic" default="left">
+<Variable name="endSide" description="End side in blog language"
+type="automatic" default="right">
+*/
+body {
+background-color: #ccc;
+margin:0;
+font: x-small Verdana, Sans-serif;
+text-align:center;
+color:#000;
+font-size/* */:/**/small;
+font-size: /**/small;
+}
+/* Page Structure
+----------------------------------------------- */
+#outer-wrapper {
+position:relative;
+top:4px;
+left:4px;
+background: #999;
+width:744px;
+margin:10px auto;
+text-align:left;
+font: normal normal 100% Verdana, Sans-serif;
+}
+#wrap2 {
+position:relative;
+top:-4px;
+left:-4px;
+background:#fff;
+padding:10px;
+border: 1px solid #fff;
+}
+#content-wrapper {
+width:100%;
+}
+#main-wrapper {
+background: #214552 url("http://www.blogblog.com/no897/corner_main_left.gif") no-repeat right top;
+width:460px;
+float:left;
+color:#ffffff;
+font-size: 85%;
+word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+overflow: hidden;     /* fix for long non-text content breaking IE sidebar float */
+}
+#main {
+margin:0;
+padding:15px 20px;
+}
+#sidebar-wrapper {
+background:#3D81EE url("http://www2.blogblog.com/no897/corner_sidebar_left.gif") no-repeat left top;
+width:254px;
+float:right;
+padding:0;
+color: #000000;
+font-size: 83%;
+word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+overflow: hidden;     /* fix for long non-text content breaking IE sidebar float */
+}
+#sidebar {
+margin:0;
+padding:2px 20px 10px;
+}
+#footer {
+display:none;
+}
+/* Links
+----------------------------------------------- */
+a:link {
+color:#99ddff;
+text-decoration:none;
+}
+a:visited {
+color: #777766;
+text-decoration:none;
+}
+a:hover {
+color: #777766;
+text-decoration:underline;
+}
+a img {
+border-width:0;
+}
+#sidebar a {
+color: #00FF80;
+}
+#sidebar a:visited {
+color: #333333;
+}
+#sidebar a:hover {
+color: #333333;
+}
+/* Header
+----------------------------------------------- */
+#header-wrapper {
+background: #fff;
+padding-bottom: 4px;
+position: relative;
+min-height: 190px;
+_height: 0px;
+}
+#header .titlewrapper {
+background:#269 url("http://www.blogblog.com/no897/topleft_left.gif") no-repeat left bottom;
+padding-top:0;
+padding-right:0;
+padding-bottom:0;
+padding-left:160px;
+margin:0px 0px 10px 0px;
+color:#fff;
+width:100%;
+width/* */:/**/auto;
+width:auto;
+_height: 0px;
+min-height: 70px;
+}
+#header h1 {
+background:url("http://www1.blogblog.com/no897/bg_header.gif") no-repeat left top;
+margin:0;
+padding:70px 0 30px;
+line-height: 97px;
+font: normal bold 275% Helvetica, Arial, Verdana, Sans-serif;
+text-transform:lowercase;
+_height: 0px;
+}
+#header h1 a {
+color:#fff;
+text-decoration:none;
+}
+.postpage #header h1 {
+padding-top:0;
+background-position:0 -40px;
+}
+.clear { clear: both; }
+/* Description
+----------------------------------------------- */
+#header .descriptionwrapper {
+background: #88ddff url("http://www2.blogblog.com/no897/bg_desc_top_left.gif") no-repeat left top;
+margin:0 0 6px;
+padding:12px 0 0;
+color: #ffffff;
+font-size: 75%;
+border-bottom: 1px solid #ffffff;
+width: 100%;
+}
+#header .description {
+background:url("http://www.blogblog.com/no897/bg_desc_bot_left.gif") no-repeat left bottom;
+margin:0;
+padding:0 0 12px;
+display:block;
+line-height: 1.6em;
+text-transform:uppercase;
+letter-spacing:.1em;
+min-height:12px;
+border-bottom: 1px solid #ffffff;
+}
+#header .description span {
+/* To remove the word next to the description, delete the following background property */
+background:url("http://www2.blogblog.com/no897/temp_no.gif") no-repeat left center;
+/* Keep everything below */
+display:block;
+padding-top:0;
+padding-right:0;
+padding-bottom:0;
+padding-left:160px;
+text-transform:uppercase;
+letter-spacing:.1em;
+min-height:12px;
+}
+.postpage #description em {
+font-size:1px;
+line-height:1px;
+color:#ffffff;
+visibility:hidden;
+}
+/* Posts
+----------------------------------------------- */
+h2.date-header {
+margin:0 0 .5em;
+line-height: 1.4em;
+font: normal bold 112% Arial, Verdana, Sans-serif;
+text-transform:lowercase;
+color:#446677;
+}
+.post {
+margin:0 0 2em;
+}
+.post h3 {
+margin:0 0 .25em;
+line-height: 1.4em;
+font-weight: bold;
+font-size: 150%;
+color:#8cdfff;
+}
+.post h3 a {
+text-decoration:none;
+color:#8cdfff;
+}
+.post h3 a:link {
+color: #8cdfff;
+}
+.post h3 a:hover {
+color: #777766;
+}
+.post-body {
+margin:0 0 .75em;
+line-height:1.6em;
+}
+.post-body blockquote {
+line-height:1.3em;
+}
+.post-footer {
+color:#8cdfff;
+text-transform:lowercase;
+}
+.post-footer .post-author,
+.post-footer .post-timestamp {
+font-style:normal;
+}
+.post blockquote {
+margin:1em 20px;
+padding:5px 0;
+border:2px solid #356;
+border-width:2px 0;
+}
+.post blockquote p {
+margin:.5em 0;
+}
+.post img {
+border:5px solid #fff;
+}
+/* Comments
+----------------------------------------------- */
+#comments {
+margin:2em 0 0;
+border-top:2px solid #356;
+padding-top:1em;
+}
+#comments h4 {
+margin:0 0 .25em;
+font-weight: bold;
+line-height: 1.4em;
+font-size: 150%;
+text-transform:lowercase;
+color: #9ec;
+}
+#comments-block {
+margin-top:0;
+margin-right:0;
+margin-bottom:1em;
+margin-left:0;
+line-height:1.6em;
+}
+.comment-author {
+margin:0 0 .25em;
+font-weight: bold;
+line-height: 1.4em;
+font-size: 112%;
+text-transform:lowercase;
+}
+.comment-body, .comment-body p {
+margin:0 0 .75em;
+}
+p.comment-footer {
+margin:-.25em 0 2em;
+}
+#main .comment-footer a {
+color: #689;
+}
+#main .comment-footer a:hover {
+color: #9ec;
+}
+.deleted-comment {
+font-style:italic;
+color:gray;
+}
+.feed-links {
+clear: both;
+line-height: 2.5em;
+}
+#blog-pager-newer-link {
+float: left;
+}
+#blog-pager-older-link {
+float: right;
+}
+#blog-pager {
+text-align: center;
+}
+/* Sidebar
+----------------------------------------------- */
+.sidebar h2 {
+margin:1em 0 .25em;
+line-height: 1.4em;
+font: normal bold 125% Helvetica, Arial, Verdana, Sans-serif;
+color: #ffffff;
+text-transform:lowercase;
+}
+.sidebar .widget {
+margin:0 0 1.5em;
+padding:0;
+}
+.sidebar ul {
+list-style:none;
+margin: 0;
+padding: 0;
+}
+.sidebar li {
+margin:0;
+padding-top:0;
+padding-right:0;
+padding-bottom:.25em;
+padding-left:20px;
+text-indent:-20px;
+line-height:1.4em;
+}
+/* Profile
+----------------------------------------------- */
+.profile-datablock, .profile-textblock {
+margin:0 0 .75em;
+line-height:1.4em;
+}
+.profile-img {
+float: left;
+margin-top: 0;
+margin-right: 5px;
+margin-bottom: 5px;
+margin-left: 0;
+border: 5px solid #ffffff;
+}
+.profile-data {
+font-weight: bold;
+}
+/* Misc
+----------------------------------------------- */
+#footer-wrapper {
+clear:both;
+display:block;
+height:1px;
+margin:0;
+padding:0;
+font-size:1px;
+line-height:1px;
+}
+/** Page structure tweaks for layout editor wireframe */
+body#layout #outer-wrapper {
+margin-top: 0;
+}
+body#layout #main,
+body#layout #sidebar {
+padding: 0;
+}
+body#layout #main-wrapper,
+body#layout #sidebar-wrapper {
+height: auto;
+}
+
+--></style>
+<script type="text/javascript">var a="indexOf",b="&m=1",e="(^|&)m=",f="?",g="?m=1";function h(){var c=window.location.href,d=c.split(f);switch(d.length){case 1:return c+g;case 2:return 0<=d[1].search(e)?null:c+b;default:return null}}var k=navigator.userAgent;if(-1!=k[a]("Mobile")&&-1!=k[a]("WebKit")&&-1==k[a]("iPad")||-1!=k[a]("Opera Mini")||-1!=k[a]("IEMobile")){var l=h();l&&window.location.replace(l)};
+</script><script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('headEnd');
+</script></head>
+<body>
+<div class='navbar section' id='navbar'><div class='widget Navbar' id='Navbar1'><script type="text/javascript">
+    function setAttributeOnload(object, attribute, val) {
+      if(window.addEventListener) {
+        window.addEventListener('load',
+          function(){ object[attribute] = val; }, false);
+      } else {
+        window.attachEvent('onload', function(){ object[attribute] = val; });
+      }
+    }
+  </script>
+<div id="navbar-iframe-container"></div>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+        gapi.load("gapi.iframes:gapi.iframes.style.bubble", function() {
+          if (gapi.iframes && gapi.iframes.getContext) {
+            gapi.iframes.getContext().openChild({
+                url: 'https://www.blogger.com/navbar.g?targetBlogID\758876058113022723558\46blogName\75Beagle+Intern\46publishMode\75PUBLISH_MODE_BLOGSPOT\46navbarType\75BLUE\46layoutType\75LAYOUTS\46searchRoot\75http://beagleintern.blogspot.com/search\46blogLocale\75en\46v\0752\46homepageUrl\75http://beagleintern.blogspot.com/\46targetPostID\0755195802559309095147\46blogPostOrPageUrl\75http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html\46vt\75-6464676665131195312',
+                where: document.getElementById("navbar-iframe-container"),
+                id: "navbar-iframe"
+            });
+          }
+        });
+      </script><script type="text/javascript">
+(function() {
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = '//pagead2.googlesyndication.com/pagead/js/google_top_exp.js';
+var head = document.getElementsByTagName('head')[0];
+if (head) {
+head.appendChild(script);
+}})();
+</script>
+</div></div>
+<div id='outer-wrapper'><div id='wrap2'>
+<!-- skip links for text browsers -->
+<span id='skiplinks' style='display:none;'>
+<a href='#main'>skip to main </a> |
+      <a href='#sidebar'>skip to sidebar</a>
+</span>
+<div id='header-wrapper'>
+<div class='header section' id='header'><div class='widget Header' id='Header1'>
+<div id='header-inner'>
+<div class='titlewrapper'>
+<h1 class='title'>
+<a href='http://beagleintern.blogspot.com/'>Beagle Intern</a>
+</h1>
+</div>
+<div class='descriptionwrapper'>
+<p class='description'><span>
+</span></p>
+</div>
+</div>
+</div></div>
+</div>
+<div id='content-wrapper'>
+<div id='crosscol-wrapper' style='text-align:center'>
+<div class='crosscol section' id='crosscol'></div>
+</div>
+<div id='main-wrapper'>
+<div class='main section' id='main'><div class='widget Blog' id='Blog1'>
+<div class='blog-posts hfeed'>
+<!-- google_ad_section_start(name=default) -->
+
+          <div class="date-outer">
+        
+<h2 class='date-header'><span>Monday, October 12, 2009</span></h2>
+
+          <div class="date-posts">
+        
+<div class='post-outer'>
+<div class='post hentry uncustomized-post-template' itemprop='blogPost' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+<meta content='8876058113022723558' itemprop='blogId'/>
+<meta content='5195802559309095147' itemprop='postId'/>
+<a name='5195802559309095147'></a>
+<h3 class='post-title entry-title' itemprop='name'>
+Beagle Board Recovery
+</h3>
+<div class='post-header'>
+<div class='post-header-line-1'></div>
+</div>
+<div class='post-body entry-content' id='post-body-5195802559309095147' itemprop='description articleBody'>
+These instructions were derived from<br />1.  <a href="http://code.google.com/p/beagleboard/wiki/BeagleboardRevCValidation">http://code.google.com/p/beagleboard/wiki/BeagleboardRevCValidation</a><br />2.  <a href="http://www.sakoman.com/OMAP3/preparing-a-bootable-sd-card.html">http://www.sakoman.com/OMAP3/preparing-a-bootable-sd-card.html</a><br /><br />FIXING BEAGLE BOARD (restore to factory setting)<br />------------------------------------------------<br />1) Make a partition in the mmc card. Use these commands.  Make sure that you<br />have unmounted the SD card before continuing.<br /> <span style="color: rgb(255, 0, 0);">$ sudo fdisk /dev/sde</span><br /><span style="color: rgb(255, 0, 0);">       Command (m for help): o</span><br /><span style="color: rgb(255, 0, 0);">       Building a new DOS disklabel. Changes will remain in memory only,</span><br /><span style="color: rgb(255, 0, 0);">       until you decide to write them. After that, of course, the previous</span><br /><span style="color: rgb(255, 0, 0);">       content won't be recoverable.</span><br /><br /><span style="color: rgb(255, 0, 0);">       Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)</span><br /><span style="color: rgb(255, 0, 0);">       Command (m for help): p</span><br /><br /><span style="color: rgb(255, 0, 0);">       Disk /dev/sde: 2032 MB, 2032664576 bytes</span><br /><span style="color: rgb(255, 0, 0);">       64 heads, 63 sectors/track, 984 cylinders</span><br /><span style="color: rgb(255, 0, 0);">       Units = cylinders of 4032 * 512 = 2064384 bytes</span><br /><span style="color: rgb(255, 0, 0);">       Disk identifier: 0x00aa8e5c</span><br /><br /><span style="color: rgb(255, 0, 0);">Device      Boot           Start             End          Blocks      Id     System</span><br /><span style="color: rgb(255, 0, 0);">       </span><br />NOTE: In order to calculate the # of cylinders, take the # of bytes reported above and use this formula: 2064384/#ofHeads/#ofSectors/bytes_per_sector and round the result<br /><br />  <span style="color: rgb(255, 0, 0);"> Command (m for help): x</span><br /><span style="color: rgb(255, 0, 0);">       Expert command (m for help): h</span><br /><span style="color: rgb(255, 0, 0);">       Number of heads (1-256, default 4): 255</span><br /><br /><span style="color: rgb(255, 0, 0);">       Expert command (m for help): s</span><br /><span style="color: rgb(255, 0, 0);">       Number of sectors (1-63, default 62): 63</span><br /><span style="color: rgb(255, 0, 0);">       Warning: setting sector offset for DOS compatiblity</span><br /><br /><span style="color: rgb(255, 0, 0);">       Expert command (m for help): c</span><br /><span style="color: rgb(255, 0, 0);">       Number of cylinders (1-1048576, default 984): 247</span><br /><span style="color: rgb(255, 0, 0);">       Expert command (m for help): r</span><br /><br /><span style="color: rgb(255, 0, 0);">       Command (m for help): n</span><br /><span style="color: rgb(255, 0, 0);">       Command action</span><br /><span style="color: rgb(255, 0, 0);">          e   extended</span><br /><span style="color: rgb(255, 0, 0);">          p   primary partition (1-4)</span><br /><span style="color: rgb(255, 0, 0);">       p</span><br /><span style="color: rgb(255, 0, 0);">       Partition number (1-4): 1</span><br /><span style="color: rgb(255, 0, 0);">       First cylinder (1-247, default 1): 1</span><br /><span style="color: rgb(255, 0, 0);">       Last cylinder or +size or +sizeM or +sizeK (1-247, default 15): +247M</span><br /><span style="color: rgb(255, 0, 0);">       Command (m for help): t</span><br /><span style="color: rgb(255, 0, 0);">       Selected partition 1</span><br /><span style="color: rgb(255, 0, 0);">       Hex code (type L to list codes): c</span><br /><span style="color: rgb(255, 0, 0);">       Changed system type of partition 1 to c (W95 FAT32 (LBA))</span><br /><span style="color: rgb(255, 0, 0);">       Command (m for help): a</span><br /><span style="color: rgb(255, 0, 0);">       Partition number (1-4): 1</span><br /><span style="color: rgb(255, 0, 0);">       Command (m for help): p</span><br /><br /><span style="color: rgb(255, 0, 0);">       Disk /dev/sde: 2032 MB, 2032664576 bytes</span><br /><span style="color: rgb(255, 0, 0);">       255 heads, 63 sectors/track, 247 cylinders</span><br /><span style="color: rgb(255, 0, 0);">       Units = cylinders of 16065 * 512 = 8225280 bytes</span><br /><span style="color: rgb(255, 0, 0);">       Disk identifier: 0x00aa8e5c</span><br /><br /><span style="color: rgb(255, 0, 0);">          Device      Boot           Start             End          Blocks      Id     System</span><br /><span style="color: rgb(255, 0, 0);">       /dev/sde1      *                      1                     5             40131        c     W95 FAT32 (LBA)</span><br /><span style="color: rgb(255, 0, 0);">         </span><br /><span style="color: rgb(255, 0, 0);">       Command (m for help): w</span><br /><span style="color: rgb(255, 0, 0);">       The partition table has been altered!</span><br /><br /><span style="color: rgb(255, 0, 0);">       Calling ioctl() to re-read partition table.</span><br /><br /><span style="color: rgb(255, 0, 0);">       WARNING: If you have created or modified any DOS 6.x</span><br /><span style="color: rgb(255, 0, 0);">       partitions, please see the fdisk manual page for additional</span><br /><span style="color: rgb(255, 0, 0);">       information.</span><br /><span style="color: rgb(255, 0, 0);">       Syncing disks.</span><br /><span style="color: rgb(255, 0, 0);">       #  sudo mkfs.vfat -F 32 /dev/sde1 -n FAT</span><br /><span style="color: rgb(255, 0, 0);">       mkfs.vfat 2.11 (12 Mar 2005)</span><br /><br /><br />2) Download the files listed below and save them to a working directory.  For these   steps assume /home/<useracct><useracct>/temp.  NOTE:  replace <useracct> with your user<br />account.<br /><span style="color: rgb(255, 0, 0);">$ mkdir /home/<useracct><useracct>/temp</useracct></useracct></span><br />    FILES to Download<br />      1. <a href="http://beagleboard.googlecode.com/files/MLO_revc_v3" rel="nofollow">MLO</a> as <strong>MLO</strong><br />      2. <a href="http://beagleboard.googlecode.com/files/u-boot_revc_v3.bin" rel="nofollow">u-boot</a> as <strong>u-boot.bin</strong><br />      3. <a href="http://beagleboard.googlecode.com/files/u-boot-f_revc_v3.bin" rel="nofollow">u-boot for flash</a> as <strong>u-boot-f.bin</strong><br />      4. <a href="http://beagleboard.googlecode.com/files/ramdisk_revc_v3.gz" rel="nofollow">ramdisk image</a> as <strong>ramdisk.gz</strong><br />      5. <a href="http://beagleboard.googlecode.com/files/uImage_revc_v3.bin" rel="nofollow">Kernel (uImage)</a> as <strong>uImage.bin<br />    </strong>6. <strong></strong><a href="http://beagleboard.googlecode.com/files/reset_revc_v3.scr" rel="nofollow">reset.scr</a> as <strong>boot.scr</strong><br />      7.<a href="http://beagleboard.googlecode.com/files/x-load_revc_v3.bin.ift" rel="nofollow"> x-loader image</a> as <strong>x-load.bin.ift<br />    </strong>8. <strong></strong><a href="http://beagleboard.googlecode.com/files/normal_revc_v3.scr" rel="nofollow">Regular script file</a> as <strong>normal.scr</strong><br /><br />3) Mount the SD card partition.  i.e.<br /><span style="color: rgb(255, 0, 0);">    $ sudo mkdir /media/card</span><br /><span style="color: rgb(255, 0, 0);">    $ sudo mount /dev/sdb1 /media/card</span><br /><br />4)Copy the following files in correct order: MLO, u-boot.bin, u-boot-f.bin, ramdisk.gz, uImage.bin, boot.scr, x-load.bin.ift, normal.scr<br />   <span style="color: rgb(255, 0, 0);">$ cd /home/<useracct><useracct>/temp</useracct></useracct></span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp MLO /media/card/</span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp u-boot.bin /media/card/</span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp u-boot-f.bin /media/card/ </span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp ramdisk.gz /media/card/</span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp uImage.bin /media/card/</span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp boot.scr /media/card/</span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp x-load.bin.ift /media/card/</span><br /><span style="color: rgb(255, 0, 0);">       $ sudo cp normal.scr /media/card/</span><br /><br />5) Un-mount the SD Card<br /><span style="color: rgb(255, 0, 0);">$ cd /media</span><br /><span style="color: rgb(255, 0, 0);">    $ sudo umount /media/card</span><br /><br />6)  While power is not connected to the beagleboard insert the SD card.<br /><br />7)  Press and hold the USER BUTTON (the one closest to the edge of the board)<br />and connect the power to the board while still holding the user button.<br /><br />8)  Once the board boots and you see the boot delay you can release the user<br />button.  Continue to let the board boot.  The scripts on the SD card<br />should restore the NAND flash.<br /><br />9)  Once the restore has finished you should be able to power off the<br />beagleboard, remove the SD card, and power the board back on.  You<br />should see the board boot into u-boot from NAND.<br /><br />NOTE:  I did see some errors when writing the uImage and ramdisk.gz files to the NAND. Inspite of those error messages, beagle board is restored to factory settings.<br /><br />Additional Resources can be found at:<a href="http://www.elinux.org/BeagleBoardRecovery"><br />http://www.elinux.org/BeagleBoardRecovery</a><br /></useracct></useracct></useracct>
+<div style='clear: both;'></div>
+</div>
+<div class='post-footer'>
+<div class='post-footer-line post-footer-line-1'>
+<span class='post-author vcard'>
+Posted by
+<span class='fn' itemprop='author' itemscope='itemscope' itemtype='http://schema.org/Person'>
+<meta content='http://www.blogger.com/profile/01648336343266541467' itemprop='url'/>
+<a class='g-profile' href='http://www.blogger.com/profile/01648336343266541467' rel='author' title='author profile'>
+<span itemprop='name'>Hersh A.</span>
+</a>
+</span>
+</span>
+<span class='post-timestamp'>
+at
+<meta content='http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html' itemprop='url'/>
+<a class='timestamp-link' href='http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html' rel='bookmark' title='permanent link'><abbr class='published' itemprop='datePublished' title='2009-10-12T12:22:00-07:00'>12:22 PM</abbr></a>
+</span>
+<span class='reaction-buttons'>
+</span>
+<span class='star-ratings'>
+</span>
+<span class='post-comment-link'>
+</span>
+<span class='post-backlinks post-comment-link'>
+</span>
+<span class='post-icons'>
+<span class='item-action'>
+<a href='http://www.blogger.com/email-post.g?blogID=8876058113022723558&postID=5195802559309095147' title='Email Post'>
+<img alt='' class='icon-action' height='13' src='http://img1.blogblog.com/img/icon18_email.gif' width='18'/>
+</a>
+</span>
+<span class='item-control blog-admin pid-1149769836'>
+<a href='http://www.blogger.com/post-edit.g?blogID=8876058113022723558&postID=5195802559309095147&from=pencil' title='Edit Post'>
+<img alt='' class='icon-action' height='18' src='http://img2.blogblog.com/img/icon18_edit_allbkg.gif' width='18'/>
+</a>
+</span>
+</span>
+<div class='post-share-buttons goog-inline-block'>
+<a class='goog-inline-block share-button sb-email' href='http://www.blogger.com/share-post.g?blogID=8876058113022723558&postID=5195802559309095147&target=email' target='_blank' title='Email This'><span class='share-button-link-text'>Email This</span></a><a class='goog-inline-block share-button sb-blog' href='http://www.blogger.com/share-post.g?blogID=8876058113022723558&postID=5195802559309095147&target=blog' onclick='window.open(this.href, "_blank", "height=270,width=475"); return false;' target='_blank' title='BlogThis!'><span class='share-button-link-text'>BlogThis!</span></a><a class='goog-inline-block share-button sb-twitter' href='http://www.blogger.com/share-post.g?blogID=8876058113022723558&postID=5195802559309095147&target=twitter' target='_blank' title='Share to Twitter'><span class='share-button-link-text'>Share to Twitter</span></a><a class='goog-inline-block share-button sb-facebook' href='http://www.blogger.com/share-post.g?blogID=8876058113022723558&postID=5195802559309095147&target=facebook' onclick='window.open(this.href, "_blank", "height=430,width=640"); return false;' target='_blank' title='Share to Facebook'><span class='share-button-link-text'>Share to Facebook</span></a><a class='goog-inline-block share-button sb-pinterest' href='http://www.blogger.com/share-post.g?blogID=8876058113022723558&postID=5195802559309095147&target=pinterest' target='_blank' title='Share to Pinterest'><span class='share-button-link-text'>Share to Pinterest</span></a><div class='goog-inline-block dummy-container'><g:plusone source='blogger:blog:plusone' href='http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html' size='medium' width='300' annotation='inline'/></div>
+</div>
+</div>
+<div class='post-footer-line post-footer-line-2'>
+<span class='post-labels'>
+Labels:
+<a href='http://beagleintern.blogspot.com/search/label/beagleboard' rel='tag'>beagleboard</a>,
+<a href='http://beagleintern.blogspot.com/search/label/default' rel='tag'>default</a>,
+<a href='http://beagleintern.blogspot.com/search/label/factory%20default' rel='tag'>factory default</a>,
+<a href='http://beagleintern.blogspot.com/search/label/recovery' rel='tag'>recovery</a>,
+<a href='http://beagleintern.blogspot.com/search/label/restore' rel='tag'>restore</a>
+</span>
+</div>
+<div class='post-footer-line post-footer-line-3'>
+<span class='post-location'>
+</span>
+</div>
+</div>
+</div>
+<div class='comments' id='comments'>
+<a name='comments'></a>
+<h4>No comments:</h4>
+<div id='Blog1_comments-block-wrapper'>
+<dl class='avatar-comment-indent' id='comments-block'>
+</dl>
+</div>
+<p class='comment-footer'>
+<a href='http://www.blogger.com/comment.g?blogID=8876058113022723558&amp;postID=5195802559309095147' onclick=''>Post a Comment</a>
+</p>
+<div id='backlinks-container'>
+<div id='Blog1_backlinks-container'>
+</div>
+</div>
+</div>
+</div>
+
+        </div></div>
+      
+<!-- google_ad_section_end -->
+</div>
+<div class='blog-pager' id='blog-pager'>
+<span id='blog-pager-newer-link'>
+<a class='blog-pager-newer-link' href='http://beagleintern.blogspot.com/2009/10/gnome-demo.html' id='Blog1_blog-pager-newer-link' title='Newer Post'>Newer Post</a>
+</span>
+<span id='blog-pager-older-link'>
+<a class='blog-pager-older-link' href='http://beagleintern.blogspot.com/2009/10/fm-radio-on-beagle-board.html' id='Blog1_blog-pager-older-link' title='Older Post'>Older Post</a>
+</span>
+<a class='home-link' href='http://beagleintern.blogspot.com/'>Home</a>
+</div>
+<div class='clear'></div>
+<div class='post-feeds'>
+<div class='feed-links'>
+Subscribe to:
+<a class='feed-link' href='http://beagleintern.blogspot.com/feeds/5195802559309095147/comments/default' target='_blank' type='application/atom+xml'>Post Comments (Atom)</a>
+</div>
+</div>
+<script type="text/javascript">window.___gcfg = {'lang': 'en'};</script>
+</div></div>
+</div>
+<div id='sidebar-wrapper'>
+<div class='sidebar section' id='sidebar'><div class='widget Text' id='Text1'>
+<div class='widget-content'>
+Welcome!<br/>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8876058113022723558&widgetType=Text&widgetId=Text1&action=editWidget&sectionId=sidebar' onclick='return _WidgetManager._PopupConfig(document.getElementById("Text1"));' target='configText1' title='Edit'>
+<img alt='' height='18' src='http://img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div><div class='widget Followers' id='Followers1'>
+<h2 class='title'>Followers</h2>
+<div class='widget-content'>
+<div id='Followers1-wrapper'>
+<div style='margin-right:2px;'>
+<script type="text/javascript">
+        if (!window.google || !google.friendconnect) {
+          document.write('<script type="text/javascript"' +
+              'src="//www.google.com/friendconnect/script/friendconnect.js">' +
+              '</scr' + 'ipt>');
+        }
+      </script>
+<script type="text/javascript">
+      if (!window.registeredBloggerCallbacks) {
+        window.registeredBloggerCallbacks = true;
+
+        
+
+        
+        gadgets.rpc.register('requestReload', function() {
+          document.location.reload();
+        });
+
+        
+        gadgets.rpc.register('requestSignOut', function(siteId) {
+          
+          google.friendconnect.container.openSocialSiteId = siteId;
+          google.friendconnect.requestSignOut();
+        });
+      }
+    </script>
+<script type="text/javascript">
+    
+    function registerGetBlogUrls() {
+      gadgets.rpc.register('getBlogUrls', function() {
+        var holder = {};
+        
+          
+            
+            
+              holder.currentPost = "http://www.blogger.com/feeds/8876058113022723558/posts/default/5195802559309095147";
+            
+            
+            
+              holder.currentComments = "http://www.blogger.com/feeds/8876058113022723558/5195802559309095147/comments/default";
+            
+            holder.currentPostUrl = "";
+            holder.currentPostId = 5195802559309095147
+          
+          
+          
+            holder.postFeed = "http://www.blogger.com/feeds/8876058113022723558/posts/default";
+          
+          
+          
+            holder.commentFeed = "http://www.blogger.com/feeds/8876058113022723558/comments/default";
+          
+          holder.currentBlogUrl = "http://beagleintern.blogspot.com/";
+          holder.currentBlogId = "8876058113022723558";
+        
+        return holder;
+      });
+    }
+  </script>
+<script type="text/javascript">
+  if (!window.registeredCommonBloggerCallbacks) {
+    window.registeredCommonBloggerCallbacks = true;
+
+    gadgets.rpc.register('resize_iframe', function(height) {
+      var el = document.getElementById(this['f']);
+      if (el) {
+        el.style.height = height + 'px';
+      }
+    });
+
+    
+    gadgets.rpc.register('set_pref', function() {});
+
+    registerGetBlogUrls();
+  }
+  </script>
+<div id="div-dn8066388lqw" style="width: 100%; "></div>
+<script type="text/javascript">
+    var skin = {};
+    skin['FACE_SIZE'] = '32';
+    skin['HEIGHT'] = "260";
+    skin['TITLE'] = "Followers";
+    skin['BORDER_COLOR'] = "transparent";
+    skin['ENDCAP_BG_COLOR'] = "transparent";
+    skin['ENDCAP_TEXT_COLOR'] = "#000000";
+    skin['ENDCAP_LINK_COLOR'] = "#00FF80";
+    skin['ALTERNATE_BG_COLOR'] = "transparent";
+    
+    skin['CONTENT_BG_COLOR'] = "transparent";
+    skin['CONTENT_LINK_COLOR'] = "#00FF80";
+    skin['CONTENT_TEXT_COLOR'] = "#000000";
+    skin['CONTENT_SECONDARY_LINK_COLOR'] = "#00FF80";
+    skin['CONTENT_SECONDARY_TEXT_COLOR'] = "#000000";
+    skin['CONTENT_HEADLINE_COLOR'] = "#000000";
+    skin['FONT_FACE'] = "normal normal 100% Verdana, Sans-serif";
+    google.friendconnect.container.setParentUrl("/");
+    google.friendconnect.container["renderMembersGadget"](
+    {id: "div-dn8066388lqw",
+     height: 260,
+     
+     
+     
+     site: "17712449212373676324",
+     
+     locale: 'en' },
+     skin);
+  </script>
+</div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8876058113022723558&widgetType=Followers&widgetId=Followers1&action=editWidget&sectionId=sidebar' onclick='return _WidgetManager._PopupConfig(document.getElementById("Followers1"));' target='configFollowers1' title='Edit'>
+<img alt='' height='18' src='http://img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget BlogArchive' id='BlogArchive1'>
+<h2>Blog Archive</h2>
+<div class='widget-content'>
+<div id='ArchiveList'>
+<div id='BlogArchive1_ArchiveList'>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/search?updated-min=2010-01-01T00:00:00-08:00&amp;updated-max=2011-01-01T00:00:00-08:00&amp;max-results=15'>2010</a>
+<span class='post-count' dir='ltr'>(15)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2010_04_01_archive.html'>April</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2010_03_01_archive.html'>March</a>
+<span class='post-count' dir='ltr'>(2)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2010_02_01_archive.html'>February</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2010_01_01_archive.html'>January</a>
+<span class='post-count' dir='ltr'>(7)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>&#9660;&#160;</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/search?updated-min=2009-01-01T00:00:00-08:00&amp;updated-max=2010-01-01T00:00:00-08:00&amp;max-results=44'>2009</a>
+<span class='post-count' dir='ltr'>(44)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_12_01_archive.html'>December</a>
+<span class='post-count' dir='ltr'>(1)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_11_01_archive.html'>November</a>
+<span class='post-count' dir='ltr'>(12)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate expanded'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy toggle-open'>&#9660;&#160;</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_10_01_archive.html'>October</a>
+<span class='post-count' dir='ltr'>(6)</span>
+<ul class='posts'>
+<li><a href='http://beagleintern.blogspot.com/2009/10/beagle-board-accessories.html'>Beagle Board Accessories</a></li>
+<li><a href='http://beagleintern.blogspot.com/2009/10/angstrom-demo.html'>Angstrom Demo</a></li>
+<li><a href='http://beagleintern.blogspot.com/2009/10/gnome-demo.html'>Gnome Demo</a></li>
+<li><a href='http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html'>Beagle Board Recovery</a></li>
+<li><a href='http://beagleintern.blogspot.com/2009/10/fm-radio-on-beagle-board.html'>FM radio on beagle board</a></li>
+<li><a href='http://beagleintern.blogspot.com/2009/10/debug-linux-applications.html'>Debug Linux Applications</a></li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_09_01_archive.html'>September</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_05_01_archive.html'>May</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_04_01_archive.html'>April</a>
+<span class='post-count' dir='ltr'>(6)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_02_01_archive.html'>February</a>
+<span class='post-count' dir='ltr'>(7)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2009_01_01_archive.html'>January</a>
+<span class='post-count' dir='ltr'>(3)</span>
+</li>
+</ul>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/search?updated-min=2008-01-01T00:00:00-08:00&amp;updated-max=2009-01-01T00:00:00-08:00&amp;max-results=24'>2008</a>
+<span class='post-count' dir='ltr'>(24)</span>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2008_12_01_archive.html'>December</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2008_11_01_archive.html'>November</a>
+<span class='post-count' dir='ltr'>(4)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2008_10_01_archive.html'>October</a>
+<span class='post-count' dir='ltr'>(11)</span>
+</li>
+</ul>
+<ul class='hierarchy'>
+<li class='archivedate collapsed'>
+<a class='toggle' href='javascript:void(0)'>
+<span class='zippy'>
+
+          &#9658;&#160;
+        
+</span>
+</a>
+<a class='post-count-link' href='http://beagleintern.blogspot.com/2008_09_01_archive.html'>September</a>
+<span class='post-count' dir='ltr'>(5)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8876058113022723558&widgetType=BlogArchive&widgetId=BlogArchive1&action=editWidget&sectionId=sidebar' onclick='return _WidgetManager._PopupConfig(document.getElementById("BlogArchive1"));' target='configBlogArchive1' title='Edit'>
+<img alt='' height='18' src='http://img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget Profile' id='Profile1'>
+<h2>Contributors</h2>
+<div class='widget-content'>
+<ul>
+<li><a class='profile-name-link g-profile' href='http://www.blogger.com/profile/01648336343266541467' style='background-image: url(//www.blogger.com/img/logo-16.png);'>Hersh A.</a></li>
+<li><a class='profile-name-link g-profile' href='https://plus.google.com/102344295024422039483' style='background-image: url(//www.google.com/images/icons/ui/gprofile_button-16.png);'>Jason Kridner</a></li>
+<li><a class='profile-name-link g-profile' href='http://www.blogger.com/profile/13165177288006811195' style='background-image: url(//www.blogger.com/img/logo-16.png);'>Jason Kridner</a></li>
+<li><a class='profile-name-link g-profile' href='http://www.blogger.com/profile/16117195686567779792' style='background-image: url(//www.blogger.com/img/logo-16.png);'>Chase Maupin</a></li>
+</ul>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8876058113022723558&widgetType=Profile&widgetId=Profile1&action=editWidget&sectionId=sidebar' onclick='return _WidgetManager._PopupConfig(document.getElementById("Profile1"));' target='configProfile1' title='Edit'>
+<img alt='' height='18' src='http://img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div>
+</div><div class='widget HTML' id='HTML1'>
+<div class='widget-content'>
+<a href="http://beagleboard.org">
+  <object data="http://beagleboard.org/static/banners/asp_dsp_bb_125x125.swf" width="125" height="125" type="application/x-shockwave-flash">
+   <param value="http://beagleboard.org/static/banners/asp_dsp_bb_125x125.swf" name="movie"/>
+   <img width="125" alt="" src="http://beagleboard.org/static/banners/asp_dsp_bb_125x125.gif" height="125"/>
+  </object>
+ </a>
+</div>
+<div class='clear'></div>
+<span class='widget-item-control'>
+<span class='item-control blog-admin'>
+<a class='quickedit' href='//www.blogger.com/rearrange?blogID=8876058113022723558&widgetType=HTML&widgetId=HTML1&action=editWidget&sectionId=sidebar' onclick='return _WidgetManager._PopupConfig(document.getElementById("HTML1"));' target='configHTML1' title='Edit'>
+<img alt='' height='18' src='http://img1.blogblog.com/img/icon18_wrench_allbkg.png' width='18'/>
+</a>
+</span>
+</span>
+<div class='clear'></div>
+</div></div>
+</div>
+<!-- spacer for skins that want sidebar and main to be the same height-->
+<div class='clear'>&#160;</div>
+</div>
+<!-- end content-wrapper -->
+</div></div>
+<!-- end outer-wrapper -->
+<script type='text/javascript'>
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type='text/javascript'>
+var pageTracker = _gat._getTracker("UA-3429714-5");
+pageTracker._trackPageview();
+</script><script type="text/javascript">
+if (window.jstiming) window.jstiming.load.tick('widgetJsBefore');
+</script><script type="text/javascript" src="https://www.blogger.com/static/v1/widgets/2798639676-widgets.js"></script>
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type='text/javascript'>
+if (typeof(BLOG_attachCsiOnload) != 'undefined' && BLOG_attachCsiOnload != null) { window['blogger_templates_experiment_id'] = "templatesV1";window['blogger_blog_id'] = '8876058113022723558';BLOG_attachCsiOnload('item_'); }_WidgetManager._Init('//www.blogger.com/rearrange?blogID\x3d8876058113022723558','//beagleintern.blogspot.com/2009/10/beagle-board-recovery.html','8876058113022723558');
+_WidgetManager._SetDataContext([{'name': 'blog', 'data': {'blogId': '8876058113022723558', 'bloggerUrl': 'http://www.blogger.com', 'title': 'Beagle Intern', 'pageType': 'item', 'url': 'http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html', 'canonicalUrl': 'http://beagleintern.blogspot.com/2009/10/beagle-board-recovery.html', 'canonicalHomepageUrl': 'http://beagleintern.blogspot.com/', 'homepageUrl': 'http://beagleintern.blogspot.com/', 'blogspotFaviconUrl': 'http://beagleintern.blogspot.com/favicon.ico', 'enabledCommentProfileImages': true, 'adultContent': false, 'disableAdSenseWidget': false, 'analyticsAccountNumber': '', 'searchLabel': '', 'searchQuery': '', 'pageName': 'Beagle Board Recovery', 'pageTitle': 'Beagle Intern: Beagle Board Recovery', 'encoding': 'UTF-8', 'locale': 'en', 'localeUnderscoreDelimited': 'en', 'isPrivate': false, 'isMobile': false, 'isMobileRequest': false, 'mobileClass': '', 'isPrivateBlog': false, 'languageDirection': 'ltr', 'feedLinks': '\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42Beagle Intern - Atom\42 href\75\42http://beagleintern.blogspot.com/feeds/posts/default\42 /\76\n\74link rel\75\42alternate\42 type\75\42application/rss+xml\42 title\75\42Beagle Intern - RSS\42 href\75\42http://beagleintern.blogspot.com/feeds/posts/default?alt\75rss\42 /\76\n\74link rel\75\42service.post\42 type\75\42application/atom+xml\42 title\75\42Beagle Intern - Atom\42 href\75\42http://www.blogger.com/feeds/8876058113022723558/posts/default\42 /\76\n\n\74link rel\75\42alternate\42 type\75\42application/atom+xml\42 title\75\42Beagle Intern - Atom\42 href\75\42http://beagleintern.blogspot.com/feeds/5195802559309095147/comments/default\42 /\76\n', 'meTag': '', 'openIdOpTag': '', 'latencyHeadScript': '\74script type\75\42text/javascript\42\76(function() { var b\75window,f\75\42chrome\42,g\75\42jstiming\42,k\75\42tick\42;(function(){function d(a){this.t\75{};this.tick\75function(a,d,c){var e\75void 0!\75c?c:(new Date).getTime();this.t[a]\75[e,d];if(void 0\75\75c)try{b.console.timeStamp(\42CSI/\42+a)}catch(h){}};this[k](\42start\42,null,a)}var a;b.performance\46\46(a\75b.performance.timing);var n\75a?new d(a.responseStart):new d;b.jstiming\75{Timer:d,load:n};if(a){var c\75a.navigationStart,h\75a.responseStart;0\74c\46\46h\76\75c\46\46(b[g].srt\75h-c)}if(a){var e\75b[g].load;0\74c\46\46h\76\75c\46\46(e[k](\42_wtsrt\42,void 0,c),e[k](\42wtsrt_\42,\42_wtsrt\42,h),e[k](\42tbsd_\42,\42wtsrt_\42))}try{a\75null,\nb[f]\46\46b[f].csi\46\46(a\75Math.floor(b[f].csi().pageT),e\46\0460\74c\46\46(e[k](\42_tbnd\42,void 0,b[f].csi().startE),e[k](\42tbnd_\42,\42_tbnd\42,c))),null\75\75a\46\46b.gtbExternal\46\46(a\75b.gtbExternal.pageT()),null\75\75a\46\46b.external\46\46(a\75b.external.pageT,e\46\0460\74c\46\46(e[k](\42_tbnd\42,void 0,b.external.startE),e[k](\42tbnd_\42,\42_tbnd\42,c))),a\46\46(b[g].pt\75a)}catch(p){}})();b.tickAboveFold\75function(d){var a\0750;if(d.offsetParent){do a+\75d.offsetTop;while(d\75d.offsetParent)}d\75a;750\76\75d\46\46b[g].load[k](\42aft\42)};var l\75!1;function m(){l||(l\75!0,b[g].load[k](\42firstScrollTime\42))}b.addEventListener?b.addEventListener(\42scroll\42,m,!1):b.attachEvent(\42onscroll\42,m);\n })();\74/script\076', 'mobileHeadScript': '', 'view': '', 'dynamicViewsCommentsSrc': '//www.blogblog.com/dynamicviews/4224c15c4e7c9321/js/comments.js', 'dynamicViewsScriptSrc': '//www.blogblog.com/dynamicviews/76f25a6f2e06af76', 'plusOneApiSrc': 'https://apis.google.com/js/plusone.js', 'sf': 'n', 'tf': ''}}, {'name': 'skin', 'data': {'vars': {'mainVisitedLinkColor': '#777766', 'sidebarBgColor': '#3D81EE', 'mainTextColor': '#ffffff', 'sidebarVisitedLinkColor': '#333333', 'postTitleColor': '#8cdfff', 'mainBgColor': '#214552', 'sidebarTextColor': '#000000', 'sidebarLinkColor': '#00FF80', 'mainLinkColor': '#99ddff', 'titleFont': 'normal bold 275% Helvetica, Arial, Verdana, Sans-serif', 'sidebarHeaderColor': '#ffffff', 'descColor': '#ffffff', 'bodyFont': 'normal normal 100% Verdana, Sans-serif', 'sidebarHeaderFont': 'normal bold 125% Helvetica, Arial, Verdana, Sans-serif', 'dateHeaderColor': '#446677', 'endSide': 'right', 'startSide': 'left', 'dateHeaderFont': 'normal bold 112% Arial, Verdana, Sans-serif'}, 'override': ''}}, {'name': 'view', 'data': {'classic': {'name': 'classic', 'url': '/?view\75classic'}, 'flipcard': {'name': 'flipcard', 'url': '/?view\75flipcard'}, 'magazine': {'name': 'magazine', 'url': '/?view\75magazine'}, 'mosaic': {'name': 'mosaic', 'url': '/?view\75mosaic'}, 'sidebar': {'name': 'sidebar', 'url': '/?view\75sidebar'}, 'snapshot': {'name': 'snapshot', 'url': '/?view\75snapshot'}, 'timeslide': {'name': 'timeslide', 'url': '/?view\75timeslide'}}}]);
+_WidgetManager._RegisterWidget('_TextView', new _WidgetInfo('Text1', 'sidebar', null, document.getElementById('Text1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_FollowersView', new _WidgetInfo('Followers1', 'sidebar', null, document.getElementById('Followers1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogArchiveView', new _WidgetInfo('BlogArchive1', 'sidebar', null, document.getElementById('BlogArchive1'), {'languageDirection': 'ltr'}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_ProfileView', new _WidgetInfo('Profile1', 'sidebar', null, document.getElementById('Profile1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HTMLView', new _WidgetInfo('HTML1', 'sidebar', null, document.getElementById('HTML1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_HeaderView', new _WidgetInfo('Header1', 'header', null, document.getElementById('Header1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_NavbarView', new _WidgetInfo('Navbar1', 'navbar', null, document.getElementById('Navbar1'), {}, 'displayModeFull'));
+_WidgetManager._RegisterWidget('_BlogView', new _WidgetInfo('Blog1', 'main', null, document.getElementById('Blog1'), {'cmtInteractionsEnabled': false, 'lightboxEnabled': true, 'lightboxModuleUrl': 'https://www.blogger.com/static/v1/jsbin/1996044845-lbx.js', 'lightboxCssUrl': 'https://www.blogger.com/static/v1/v-css/3904812905-lightbox_bundle.css'}, 'displayModeFull'));
+</script>
+</body>
+</html>
