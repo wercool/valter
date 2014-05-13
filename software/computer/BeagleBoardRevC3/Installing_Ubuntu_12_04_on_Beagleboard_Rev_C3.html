@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html class="ie ie7" lang="en">
+<![endif]-->
+<!--[if IE 8]>
+<html class="ie ie8" lang="en">
+<![endif]-->
+<!--[if !(IE 7) | !(IE 8)  ]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Tutorial: Installing Ubuntu 12.04 on Beagleboard Rev. C3 | A Degree&#039;s Worth</title>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="pingback" href="http://adegreesworth.wordpress.com/xmlrpc.php" />
+<!--[if lt IE 9]>
+<script src="http://s0.wp.com/wp-content/themes/pub/twentytwelve/js/html5.js?m=1394055319g" type="text/javascript"></script>
+<![endif]-->
+<link rel="alternate" type="application/rss+xml" title="A Degree&#039;s Worth &raquo; Feed" href="http://adegreesworth.wordpress.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="A Degree&#039;s Worth &raquo; Comments Feed" href="http://adegreesworth.wordpress.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="A Degree&#039;s Worth &raquo; Tutorial: Installing Ubuntu 12.04 on Beagleboard Rev.&nbsp;C3 Comments Feed" href="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+function addLoadEvent(func){var oldonload=window.onload;if(typeof window.onload!='function'){window.onload=func;}else{window.onload=function(){oldonload();func();}}}
+/* ]]> */
+</script>
+<link rel='stylesheet' id='all-css-0' href='http://s0.wp.com/_static/??-eJx9jlsOwiAQRTckEqv18WFcC4URoTMMKRDi7qVNjDGa/s2dnJN7ZY1Cc8gQsqQiIhbrQpKJHMIzTuxB5++01Slt5H8N3QhJeshR6VEs6QcfkO1HYGvBcMnizohcZXXGwmqH5gnan6LKM0FgnAIEatiaRvH4tubz0QYu22503e0vp647nPvevwA3eWU6' type='text/css' media='all' />
+<link rel='stylesheet' id='twentytwelve-fonts-css'  href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700&#038;subset=latin,latin-ext' type='text/css' media='all' />
+<link rel='stylesheet' id='all-css-2' href='http://s2.wp.com/wp-content/themes/pub/twentytwelve/style.css?m=1398102540g' type='text/css' media='all' />
+<!--[if lt IE 9]>
+<link rel='stylesheet' id='twentytwelve-ie-css'  href='http://s0.wp.com/wp-content/themes/pub/twentytwelve/css/ie.css?m=1395207824g&#038;ver=20121010' type='text/css' media='all' />
+<![endif]-->
+<link rel='stylesheet' id='all-css-4' href='http://s2.wp.com/_static/??-eJx9j9sKgzAMhl9oXdhBxIuxZ6maxY70QBNXfPt14oUw8Cb5c/h+EijJDDEoBgWd0KNAmnvQUhtLjfxBEF0YTUlD9OdB5AQ7xs8m8UwuCGTsOVKVBHVrVx5BKYqaF1uXQSabf/CWjyjCgNnVwV7+Ads/0x2IY2/5yLG4kVBlvZxiHDPacXV8+sfl1nXXtmna5v0F1D1xqw==' type='text/css' media='all' />
+<script type='text/javascript'>
+/* <![CDATA[ */
+var LoggedOutFollow = {"invalid_email":"Your subscription did not succeed, please try again with a valid email address."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??-eJyFjd0OwiAMRl9IxswudBfGZ9lPR4rQIoURfXox0USjya7atOf7ji5BTUwJKGkr2vOIDlQWiIOpN4W0cGNlpyuHNLk8gzxBe80Qb6+xCSiPJg4JGo/0hj+sgSV5EKnKP99vFdKKUDYxCykM00VFELz/tI6OjQouGyTRdTcwc05qYee46IKzgVQzZ3/ad/2hPfZt19sHPZxvvg=='></script>
+<link rel='stylesheet' id='all-css-0' href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style.css?m=1377793621g' type='text/css' media='all' />
+<!--[if lt IE 8]>
+<link rel='stylesheet' id='highlander-comments-ie7-css'  href='http://s2.wp.com/wp-content/mu-plugins/highlander-comments/style-ie7.css?m=1351637563g&#038;ver=20110606' type='text/css' media='all' />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://adegreesworth.wordpress.com/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://adegreesworth.wordpress.com/wp-includes/wlwmanifest.xml" /> 
+<link rel='prev' title='Ham Adventures #1' href='http://adegreesworth.wordpress.com/2013/11/04/ham-adventures-1/' />
+<link rel='next' title='Weekend 0: FPGA, Setting Up&nbsp;IO' href='http://adegreesworth.wordpress.com/2014/01/27/weekend-0/' />
+<meta name="generator" content="WordPress.com" />
+<link rel='canonical' href='http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/' />
+<link rel='shortlink' href='http://wp.me/p43pp4-C' />
+<link rel="alternate" type="application/json+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=json&amp;url=http%3A%2F%2Fadegreesworth.wordpress.com%2F2013%2F11%2F14%2Ftutorial-beagleboard-ubuntu1204%2F&amp;for=wpcom-auto-discovery" /><link rel="alternate" type="application/xml+oembed" href="https://public-api.wordpress.com/oembed/1.0/?format=xml&amp;url=http%3A%2F%2Fadegreesworth.wordpress.com%2F2013%2F11%2F14%2Ftutorial-beagleboard-ubuntu1204%2F&amp;for=wpcom-auto-discovery" />
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Tutorial: Installing Ubuntu 12.04 on Beagleboard Rev. C3" />
+<meta property="og:url" content="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/" />
+<meta property="og:description" content="(This will hopefully be the first of many tutorial posts on various subjects. This will primarily be an aid for my bad memory; hopefully others will find this useful as well.) Recently I was tasked..." />
+<meta property="article:published_time" content="2013-11-14T00:22:33+00:00" />
+<meta property="article:modified_time" content="2013-12-28T01:47:46+00:00" />
+<meta property="article:author" content="http://adegreesworth.wordpress.com/author/boa316/" />
+<meta property="og:site_name" content="A Degree&#039;s Worth" />
+<meta property="og:image" content="http://wordpress.com/i/blank.jpg?m=1383295312g" />
+<meta name="twitter:site" content="@wordpressdotcom" />
+<meta name="twitter:card" content="summary" />
+<meta property="fb:app_id" content="249643311490" />
+<meta property="article:publisher" content="https://www.facebook.com/WordPresscom" />
+<link rel="shortcut icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311975824g" sizes="16x16 24x24 32x32 48x48" />
+<link rel="icon" type="image/x-icon" href="http://s2.wp.com/i/favicon.ico?m=1311975824g" sizes="16x16 24x24 32x32 48x48" />
+<link rel="apple-touch-icon-precomposed" href="http://s0.wp.com/i/webclip.png?m=1391188133g" />
+<link rel='openid.server' href='http://adegreesworth.wordpress.com/?openidserver=1' />
+<link rel='openid.delegate' href='http://adegreesworth.wordpress.com/' />
+<link rel="search" type="application/opensearchdescription+xml" href="http://adegreesworth.wordpress.com/osd.xml" title="A Degree&#039;s Worth" />
+<link rel="search" type="application/opensearchdescription+xml" href="http://wordpress.com/opensearch.xml" title="WordPress.com" />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<style type="text/css">
+			.recentcomments a {
+				display: inline !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+
+			table.recentcommentsavatartop img.avatar, table.recentcommentsavatarend img.avatar {
+				border: 0px;
+				margin: 0;
+			}
+
+			table.recentcommentsavatartop a, table.recentcommentsavatarend a {
+				border: 0px !important;
+				background-color: transparent !important;
+			}
+
+			td.recentcommentsavatarend, td.recentcommentsavatartop {
+				padding: 0px 0px 1px 0px;
+				margin: 0px;
+			}
+
+			td.recentcommentstextend {
+				border: none !important;
+				padding: 0px 0px 2px 10px;
+			}
+
+			.rtl td.recentcommentstextend {
+				padding: 0px 10px 2px 0px;
+			}
+
+			td.recentcommentstexttop {
+				border: none !important;
+				padding: 0px 0px 0px 10px;
+			}
+
+			.rtl td.recentcommentstexttop {
+				padding: 0px 10px 0px 0px;
+			}
+		</style>
+		<meta name="application-name" content="A Degree&#039;s Worth" /><meta name="msapplication-window" content="width=device-width;height=device-height" /><meta name="msapplication-tooltip" content="a place holder for my past and current projects" /><meta name="msapplication-task" content="name=Subscribe;action-uri=http://adegreesworth.wordpress.com/feed/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=Sign up for a free blog;action-uri=http://wordpress.com/signup/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Support;action-uri=http://support.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="msapplication-task" content="name=WordPress.com Forums;action-uri=http://forums.wordpress.com/;icon-uri=http://s2.wp.com/i/favicon.ico" /><meta name="title" content="Tutorial: Installing Ubuntu 12.04 on Beagleboard Rev.&nbsp;C3 | A Degree&#039;s Worth on WordPress.com" />
+<meta name="description" content="(This will hopefully be the first of many tutorial posts on various subjects. This will primarily be an aid for my bad memory; hopefully others will find this useful as well.) Recently I was tasked by one of my professor to set-up Ubuntu 12.04 on a Beagleboard Rev. C3. I have taken a look at&hellip;" />
+
+<script type='text/javascript' src='http://partner.googleadservices.com/gampad/google_service.js'>
+</script>
+<script type='text/javascript'>
+if ( typeof GS_googleAddAdSenseService == 'function' ) { GS_googleAddAdSenseService("ca-pub-3443918307802676"); }
+if ( typeof GS_googleEnableAllServices == 'function' ) { GS_googleEnableAllServices() };
+</script>
+<script type="text/javascript" src="http://c.amazon-adsystem.com/aax2/amzn_ads.js"></script>
+<script type="text/javascript">
+try { amznads.getAds("3033","300x250"); } catch(e) { /* ignore */ }
+</script>
+<script type="text/javascript">
+var amznKeys = amznads.getKeys();
+if (typeof amznKeys != "undefined" && amznKeys != "") { for (var i =0; i < amznKeys.length; i++) { var key = amznKeys[i]; GA_googleAddAttr("amzn", key);} }
+document.close();
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleAddSlot == 'function' ) { GA_googleAddSlot("ca-pub-3443918307802676", "wpcom_below_post"); }
+</script>
+<script type='text/javascript'>
+if ( typeof GA_googleFetchAds == 'function' ) { GA_googleFetchAds(); }
+</script>
+
+<script type="text/javascript">
+var wpcom_ads = { bid: 59917982, pt: 'permalink', wa: 0, as: 0, domain: 'adegreesworth.wordpress.com', url: 'http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/', gid: '', };
+</script>
+<style type="text/css" id="syntaxhighlighteranchor"></style>
+<script type="text/javascript">
+	window.google_analytics_uacct = "UA-52447-2";
+</script>
+
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-52447-2']);
+	_gaq.push(['_setDomainName', 'wordpress.com']);
+	_gaq.push(['_initData']);
+	_gaq.push(['_trackPageview']);
+
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+	})();
+</script>
+</head>
+
+<body class="single single-post postid-38 single-format-standard custom-background mp6 custom-font-enabled single-author highlander-enabled highlander-light">
+<div id="page" class="hfeed site">
+	<header id="masthead" class="site-header" role="banner">
+				<hgroup>
+			<h1 class="site-title"><a href="http://adegreesworth.wordpress.com/" title="A Degree&#039;s Worth" rel="home">A Degree&#039;s Worth</a></h1>
+			<h2 class="site-description">a place holder for my past and current projects</h2>
+		</hgroup>
+
+		<nav id="site-navigation" class="main-navigation" role="navigation">
+			<h3 class="menu-toggle">Menu</h3>
+			<a class="assistive-text" href="#content" title="Skip to content">Skip to content</a>
+			<div class="nav-menu"><ul><li ><a href="http://adegreesworth.wordpress.com/">Home</a></li></ul></div>
+		</nav><!-- #site-navigation -->
+
+			</header><!-- #masthead -->
+
+	<div id="main" class="wrapper">
+	<div id="primary" class="site-content">
+		<div id="content" role="main">
+
+			
+				
+	<article id="post-38" class="post-38 post type-post status-publish format-standard hentry category-beagleboard category-embedded-linux category-embedded-systems category-linux category-tutorial tag-beagleboard-2 tag-embedded-linux-2 tag-embedded-system tag-linux-2 tag-tutorial-2 tag-ubuntu">
+				<header class="entry-header">
+			
+						<h1 class="entry-title">Tutorial: Installing Ubuntu 12.04 on Beagleboard Rev.&nbsp;C3</h1>
+										<div class="comments-link">
+					<a href="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/#respond" title="Comment on Tutorial: Installing Ubuntu 12.04 on Beagleboard Rev.&nbsp;C3"><span class="leave-reply">Leave a reply</span></a>				</div><!-- .comments-link -->
+					</header><!-- .entry-header -->
+
+				<div class="entry-content">
+			<p>(This will hopefully be the first of many tutorial posts on various subjects. This will primarily be an aid for my bad memory; hopefully others will find this useful as well.)</p>
+<p>Recently I was tasked by one of my professor to set-up Ubuntu 12.04 on a Beagleboard Rev. C3. I have taken a look at the Beagleboard in the past, but have never owned a Beagleboard.</p>
+<p>The materials one would need are:</p>
+<ul>
+<li>Beagleboard Rev. C3: I am being specific here because I have only used these steps on this version. These steps should apply to other non-xM Beagleboard, and maybe the Beaglebones.</li>
+<li>8 GB or larger SD card: Just the installation of Ubuntu 12.04 will take up 3GB, so 16GB or 32GB would not be a bad idea.</li>
+<li>Serial to USB converter with the DB9 connector.</li>
+<li>SD card editor, or computer with SD card editor.</li>
+</ul>
+<p>Here are the steps I used to set-up the Beagleboard.</p>
+<ul>
+<li>Proceed to this webpage, <a href="https://wiki.ubuntu.com/ARM/OmapDesktopInstall" target="_blank">ARM/OMAP Desktop install</a>. This page describes the installation process for both Ubuntu 12.10 and 12.04 on OMAP4 and OMAP3. Follow the instruction for Ubuntu 12.04 until reaching the section “Booting the image”.</li>
+<li>At this point, pull the SD card out of the reader and insert it back in. If the instructions were followed correctly, there should be two partitions:
+<ul>
+<li>A small FAT32 partition holding the boot directory.</li>
+<li>A larger Ext3 partition, 3~4GB, holding the file system.</li>
+</ul>
+</li>
+</ul>
+<p>Several files in the file system require modification before the system is ready to boot. Please keep in mind, that these alterations are to be done on the SD card&#8217;s partitions as root; <strong><em>be extremely careful</em></strong>.</p>
+<ul>
+<li>Replace the boot.scr currently in the boot partition. First create a new file “bootcmd” with the following content
+<pre class="brush: bash; title: ; notranslate" title="">
+fatload mmc 0:1 0x80000000 uImage
+fatload mmc 0:1 0x81600000 uInitrd
+setenv bootargs 'vram=12M omapfb.mode=dvi:1280x720MR-16@60 mpurate=${mpurate} console=ttyO2,115200n8 root=/dev/mmcblk0p2 fixrtc'
+bootm 0x80000000 0x81600000
+</pre>
+<p>Compile it into the “boot.scr” file using command</p>
+<pre class="brush: bash; title: ; notranslate" title="">
+mkimage -A arm -O linux -T script -C none -a 0 -e 0 -n &quot;Beagleboard boot script&quot; -d bootcmd boot.scr
+</pre>
+<p>Copy the new “boot.scr” into the boot partition. This new “boot.scr” will enable the on-board serial port during linux boot; otherwise only the monitor will be displaying content.</li>
+<li>Create a new file in the Ext3 partition’s /etc/init/ dir, “serial.conf”, with the following content:
+<pre class="brush: bash; title: ; notranslate" title="">
+start on stopped rc RUNLEVEL=[2345]
+stop on runlevel [!2345]
+
+respawn
+exec /sbin/getty 115200 ttyO2
+</pre>
+<p>This will enable the command line login over serial.</li>
+</ul>
+<p>Now create a new user for this system. The Ubuntu desktop distribution does not have a default user account to log into, and the root account has a random password; the user account is normally created during the Ubuntu set-up process, which requires a monitor, mouse, and keyboard. The steps I am outlining is meant for setting up the system over serial only. Again, these alterations are to be done on the SD card&#8217;s partitions as root; <strong><em>be extremely careful</em></strong>. Navigate to /etc/, and modify these files as root:</p>
+<ul>
+<li><strong>passwd</strong>: create a user.</li>
+<li><strong>group</strong>: create group for the user.</li>
+<li><strong>shadow</strong>: insert the hash of the password for the user; use mkpasswd to create a SHA-512 password hash.</li>
+<li><strong>sudoers</strong>: give the user sudoer rights. This is a bit tricky because the default permission is read-only for owner and group. So first, do the following as root to give write permission to root
+<pre class="brush: bash; title: ; notranslate" title="">
+chmod 640 sudoers
+</pre>
+<p>now modify the file. Now run these command as root to change the permission back to read only.</p>
+<pre class="brush: bash; title: ; notranslate" title="">
+chmod 440 sudoers
+chown root:root sudoers
+</pre>
+<p>If the permission and ownership for <strong>sudoers</strong> is not right, sudo will not run.</li>
+<li>Create the home folder for the user as root, and than change the ownership:
+<pre class="brush: bash; title: ; notranslate" title="">
+mkdir /home/(user name)
+chown (user name):(user group) /home/(user name)
+</pre>
+</li>
+</ul>
+<p>Unmount the two partitions, and insert the SD card into the Beagleboard. Power on the Beagleboard while holding down the User1 button (one closest to the edge). This forces the chip to load from the SD card instead of from on-board NAND. During the boot process, X-boot will load, U-boot will load, and the Kernel will be copied into RAM and started.</p>
+<p>On first boot, the kernel will not mount the root file immediately; it will run a partition editor to expand the 3~4GB Ext3 partition to take up the entire SD card. Once a command prompt is presented, login with the user account created earlier.</p>
+<p>With the system booting up, the next stage is to connect the Beagleboard to the internet. I choose the <a href="http://www.tp-link.com/en/products/details/?model=tl-wn722n" target="_blank">TP-LINK TL-WN772N</a> USB Wifi adaptor; this adaptor uses a chipset that is known to have great support in Linux. Since the Ubuntu installed is a desktop distribution, it will contain all the drivers an x86 distribution would have. Plug the adaptor into the Beagleboard and check that the correct driver was installed using lsusb. Next:</p>
+<ul>
+<li>As root, create /etc/wpa_supplicant.conf and add the following content
+<pre class="brush: bash; title: ; notranslate" title="">
+ctrl_interface=/var/run/wpa_supplicant
+eapol_version=1
+ap_scan=1
+
+network={
+    scan_ssid=1
+    ssid=&quot;non-secure-net-0&quot;
+    key_mgmt=NONE
+}
+
+network={
+    scan_ssid=1
+    ssid=&quot;secure-net-1&quot;
+    proto=WPA RSN
+    key_mgmt=WPA-PSK
+    pairwise=CCMP TKIP
+    psk=&quot;password&quot;
+}
+</pre>
+</li>
+<li>As root, append the following to /etc/network/interfaces
+<pre class="brush: bash; title: ; notranslate" title="">
+# Wireless
+auto wlan0
+iface wlan0 inet dhcp
+pre-up rfkill unblock all
+pre-up wpa_supplicant -B -Dwext -iwlan0 -c/etc/wpa_supplicant.conf
+post-down killall -q wpa_supplicant
+</pre>
+</li>
+<li>As root, run
+<pre class="brush: bash; title: ; notranslate" title="">
+ifdown wlan0
+ifup wlan0
+</pre>
+<p>The system will connect to one of the wireless network listed and perform DHCP.</li>
+</ul>
+<p>With that, Ubuntu 12.04 is installed on the Beagleboard Rev. C3 and connected to the internet.</p>
+<p><b>UPDATE:</b> The current procedure for booting the Beagleboard requires holding down User1 button. The solution was to force clear the on board NAND. During the current bootup sequence, stop at the Uboot stage; when Uboot starts and prompts for any key press to stop the auto-boot, press something. Now, U-boot will present a command line interface. Do the following to whip the entire NAND chip.</p>
+<pre class="brush: bash; title: ; notranslate" title="">
+OMAP3 beagleboard.org #
+OMAP3 beagleboard.org # nand erase.chip
+</pre>
+<p>After completing the NAND clear, power cycle the board. The Beagleboard should boot from SD card with out using User1 button.</p>
+<p>Author: Harry Chan-Maestas</p>
+
+<div class="wpa" style="position: relative; width:300px; text-align: center; padding: 0; margin: 10px auto; overflow: hidden; clear: both;">
+<a style="position: absolute; text-align: left; display: block; font: 9px/1 sans-serif; text-decoration: underline;" href="http://en.wordpress.com/about-these-ads/" rel="nofollow">About these ads</a>
+<script type="text/javascript">
+		var wpcom_adclk_hovering = false;
+		var wpcom_adclk_recorded = false;
+		var wpcom_adclk_theme = "Twenty Twelve";
+		var wpcom_adclk_slot = "wpcom_below_post";
+		var wpcom_adclk_network = ( typeof wpcom_adclk_network === "undefined" ) ? "" : wpcom_adclk_network ;
+
+		jQuery(document).ready( function() {
+			function wpcom_adclk_hover_yes() { wpcom_adclk_hovering = true; }
+			function wpcom_adclk_hover_no() { wpcom_adclk_hovering = false; }
+			jQuery(".wpa").click(wpcom_adclk_click);
+			jQuery(".wpa iframe").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+			jQuery(".wpa object").hover( wpcom_adclk_hover_yes, wpcom_adclk_hover_no );
+
+			jQuery(window).blur( function() {
+				if ( wpcom_adclk_hovering ) { wpcom_adclk_click(); }
+			});
+		});
+
+		function wpcom_adclk_impression() {
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_imp_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_imp_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_imp_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_imp_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			return true;
+		}
+
+		function wpcom_adclk_click() {
+			if (wpcom_adclk_recorded) { return true; } // no double counting
+			var stat_gif = document.location.protocol + "//stats.wordpress.com/g.gif?v=wpcom-no-pv";
+			stat_gif += "&x_ads_click_theme=" + wpcom_adclk_theme;
+			stat_gif += "&x_ads_click_placement="+wpcom_adclk_slot;
+			stat_gif += "&x_ads_click_network=" + wpcom_adclk_network;
+			stat_gif += "&x_ads_click_theme_network="+wpcom_adclk_theme+"_"+wpcom_adclk_network;
+
+			new Image().src = stat_gif + "&baba=" + Math.random();
+			wpcom_adclk_recorded = true;
+			var now=new Date(); var end=now.getTime()+250;
+			while(true){now=new Date();if(now.getTime()>end){break;}}
+			return true;
+		}
+	
+if ( typeof GA_googleAddAttr == 'function' ) {
+GA_googleAddAttr("AdOpt", "1");
+GA_googleAddAttr("Origin", "other");
+GA_googleAddAttr("LangId", "1");
+GA_googleAddAttr("Domain", "adegreesworth.wordpress.com");
+GA_googleAddAttr("BlogId", "59917982");
+GA_googleAddAttr("PageURL", "http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/");
+GA_googleAddAttr("Autotag", "technology");
+GA_googleAddAttr("Tag", "beagleboard");
+GA_googleAddAttr("Tag", "embedded-linux");
+GA_googleAddAttr("Tag", "embedded-systems");
+GA_googleAddAttr("Tag", "linux");
+GA_googleAddAttr("Tag", "tutorial");
+GA_googleAddAttr("Tag", "beagleboard-2");
+GA_googleAddAttr("Tag", "embedded-linux-2");
+GA_googleAddAttr("Tag", "embedded-system");
+GA_googleAddAttr("Tag", "linux-2");
+GA_googleAddAttr("Tag", "tutorial-2");
+GA_googleAddAttr("Tag", "ubuntu");
+GA_googleAddAttr("theme_bg", "ffffff");
+GA_googleAddAttr("theme_text", "444444");
+GA_googleAddAttr("theme_link", "21759b");
+GA_googleAddAttr("theme_border", "CCCCCC");
+GA_googleAddAttr("theme_url", "21759b");
+GA_googleAddAdSensePageAttr("google_page_url", "http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/");
+GA_googleFillSlot("wpcom_below_post");
+}
+</script>
+</div>
+<style type="text/css">
+div.wpa>div { margin-top: 1em; } #google_ads_div_wpcom_below_post_adsafe_ad_container { display: block !important; }
+</style>
+<script type="text/javascript">
+jQuery( window ).load( function() {
+    if ( jQuery(".wpa script[src*='virool.com']").length > 0 || jQuery(".wpa script[src*='shareth.ru']").length > 0 || jQuery(".wpa iframe[src*='boomvideo.tv']").length > 0 || jQuery(".wpa iframe[src*='viewablemedia.net']").length > 0 || jQuery(".wpa .sharethrough-placement").length > 0 ) {
+        jQuery( '.wpa' ).css( 'width', '400px' );
+    }
+setTimeout(function(){if(typeof GS_googleAddAdSenseService !== 'function'){new Image().src=document.location.protocol+"//stats.wordpress.com/g.gif?v=wpcom-no-pv&x_noads=adblock&baba="+Math.random()}},100);
+} );
+</script>
+<div id="jp-post-flair" class="sharedaddy sd-like-enabled sd-sharing-enabled"><div class="sharedaddy sd-sharing-enabled"><div class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing"><h3 class="sd-title">Share this:</h3><div class="sd-content"><ul><li class="share-twitter"><a rel="nofollow" class="share-twitter sd-button share-icon" href="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/?share=twitter" title="Click to share on Twitter" id="sharing-twitter-38"><span>Twitter</span></a></li><li class="share-facebook"><a rel="nofollow" class="share-facebook sd-button share-icon" href="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/?share=facebook" title="Share on Facebook" id="sharing-facebook-38"><span>Facebook</span></a></li><li class="share-google-plus-1"><a rel="nofollow" class="share-google-plus-1 sd-button share-icon" href="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/?share=google-plus-1" title="Click to share on Google+" id="sharing-google-38"><span>Google</span></a></li><li class="share-end"></li></ul></div></div></div><div class='sharedaddy sd-block sd-like jetpack-likes-widget-wrapper jetpack-likes-widget-unloaded' id='like-post-wrapper-59917982-38-5370bda607683' data-src='//widgets.wp.com/likes/#blog_id=59917982&amp;post_id=38&amp;origin=adegreesworth.wordpress.com&amp;obj_id=59917982-38-5370bda607683' data-name='like-post-frame-59917982-38-5370bda607683'><h3 class='sd-title'>Like this:</h3><div class='likes-widget-placeholder post-likes-widget-placeholder' style='height:55px'><span class='button'><span>Like</span></span> <span class="loading">Loading...</span></div><span class='sd-text-color'></span><a class='sd-link-color'></a></div></div>					</div><!-- .entry-content -->
+		
+		<footer class="entry-meta">
+			This entry was posted in <a href="http://adegreesworth.wordpress.com/category/embedded-systems/beagleboard/" title="View all posts in Beagleboard" rel="category tag">Beagleboard</a>, <a href="http://adegreesworth.wordpress.com/category/embedded-systems/embedded-linux/" title="View all posts in Embedded Linux" rel="category tag">Embedded Linux</a>, <a href="http://adegreesworth.wordpress.com/category/embedded-systems/" title="View all posts in Embedded Systems" rel="category tag">Embedded Systems</a>, <a href="http://adegreesworth.wordpress.com/category/linux/" title="View all posts in Linux" rel="category tag">Linux</a>, <a href="http://adegreesworth.wordpress.com/category/tutorial/" title="View all posts in Tutorial" rel="category tag">Tutorial</a> and tagged <a href="http://adegreesworth.wordpress.com/tag/beagleboard-2/" rel="tag">beagleboard</a>, <a href="http://adegreesworth.wordpress.com/tag/embedded-linux-2/" rel="tag">embedded linux</a>, <a href="http://adegreesworth.wordpress.com/tag/embedded-system/" rel="tag">embedded system</a>, <a href="http://adegreesworth.wordpress.com/tag/linux-2/" rel="tag">linux</a>, <a href="http://adegreesworth.wordpress.com/tag/tutorial-2/" rel="tag">tutorial</a>, <a href="http://adegreesworth.wordpress.com/tag/ubuntu/" rel="tag">ubuntu</a> on <a href="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/" title="00:22" rel="bookmark"><time class="entry-date" datetime="2013-11-14T00:22:33+00:00">November 14, 2013</time></a><span class="by-author"> by <span class="author vcard"><a class="url fn n" href="http://adegreesworth.wordpress.com/author/boa316/" title="View all posts by Harry Chan-Maestas" rel="author">Harry Chan-Maestas</a></span></span>.								</footer><!-- .entry-meta -->
+	</article><!-- #post -->
+
+				<nav class="nav-single">
+					<h3 class="assistive-text">Post navigation</h3>
+					<span class="nav-previous"><a href="http://adegreesworth.wordpress.com/2013/11/04/ham-adventures-1/" rel="prev"><span class="meta-nav">&larr;</span> Ham Adventures #1</a></span>
+					<span class="nav-next"><a href="http://adegreesworth.wordpress.com/2014/01/27/weekend-0/" rel="next">Weekend 0: FPGA, Setting Up&nbsp;IO <span class="meta-nav">&rarr;</span></a></span>
+				</nav><!-- .nav-single -->
+
+				
+<div id="comments" class="comments-area">
+
+	
+	
+									<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/2013/11/14/tutorial-beagleboard-ubuntu1204/#respond" style="display:none;">Cancel reply</a></small></h3>
+									<form action="http://adegreesworth.wordpress.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																										
+
+
+												<input type="hidden" id="highlander_comment_nonce" name="highlander_comment_nonce" value="4b63ad2992" /><input type="hidden" name="_wp_http_referer" value="/2013/11/14/tutorial-beagleboard-ubuntu1204/" />
+<input type="hidden" name="hc_post_as" id="hc_post_as" value="guest" />
+
+<div class="comment-form-field comment-textarea">
+	<label for="comment">Enter your comment here...</label>
+	<div id="comment-form-comment"><textarea id="comment" name="comment" title="Enter your comment here..."></textarea></div>
+</div>
+
+<div id="comment-form-identity">
+
+	<div id="comment-form-nascar">
+		<p>Fill in your details below or click an icon to log in:</p>
+		<ul>
+			<li class="selected" style="display:none;">
+				<a href="#comment-form-guest" id="postas-guest" title="Guest">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:WordPress.com" id="postas-wordpress" title="WordPress.com">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Twitter" id="postas-twitter" title="Twitter">
+					<span></span>
+				</a>
+			</li>
+			<li>
+				<a href="#comment-form-load-service:Facebook" id="postas-facebook" title="Facebook">
+					<span></span>
+				</a>
+			</li>
+			<li>
+			<iframe id="googleplus-sign-in" name="googleplus-sign-in" src="https://public-api.wordpress.com/connect/?googleplus-sign-in=http%3A%2F%2Fadegreesworth.wordpress.com" width="24" height="24" scrolling="no" allowtransparency="true" seamless="seamless" frameborder="0"></iframe>
+			</li>
+		</ul>
+	</div>
+
+	<div id="comment-form-guest" class="comment-form-service selected">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+<a href="https://gravatar.com/site/signup/" target="_blank">				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Gravatar" width="25" class="no-grav" />
+</a>			</div>
+
+				<div class="comment-form-fields">
+				<div class="comment-form-field comment-form-email">
+					<label for="email">Email <span class="required">(required)</span> <span class="nopublish">(Address never made public)</span></label>
+					<div class="comment-form-input"><input id="email" name="email" type="email" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-author">
+					<label for="author">Name <span class="required">(required)</span></label>
+					<div class="comment-form-input"><input id="author" name="author" type="text" value="" /></div>
+				</div>
+				<div class="comment-form-field comment-form-url">
+					<label for="url">Website</label>
+					<div class="comment-form-input"><input id="url" name="url" type="text" value="" /></div>
+				</div>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-wordpress" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://s2.wp.com/wp-content/mu-plugins/highlander-comments/images/wplogo.png?m=1391188133g" alt="WordPress.com Logo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="wp_avatar" id="wordpress-avatar" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_user_id" id="wordpress-user_id" class="comment-meta-wordpress" value="" />
+				<input type="hidden" name="wp_access_token" id="wordpress-access_token" class="comment-meta-wordpress" value="" />
+				<p class="comment-form-posting-as pa-wordpress"><strong></strong> You are commenting using your WordPress.com account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'wordpress' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-twitter" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Twitter picture" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="twitter_avatar" id="twitter-avatar" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_user_id" id="twitter-user_id" class="comment-meta-twitter" value="" />
+				<input type="hidden" name="twitter_access_token" id="twitter-access_token" class="comment-meta-twitter" value="" />
+				<p class="comment-form-posting-as pa-twitter"><strong></strong> You are commenting using your Twitter account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'twitter' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-facebook" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Facebook photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="fb_avatar" id="facebook-avatar" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_user_id" id="facebook-user_id" class="comment-meta-facebook" value="" />
+				<input type="hidden" name="fb_access_token" id="facebook-access_token" class="comment-meta-facebook" value="" />
+				<p class="comment-form-posting-as pa-facebook"><strong></strong> You are commenting using your Facebook account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'facebook' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+	<div id="comment-form-googleplus" class="comment-form-service">
+		<div class="comment-form-padder">
+			<div class="comment-form-avatar">
+				<img src="http://1.gravatar.com/avatar/ad516503a11cd5ca435acc9bb6523536?s=25&amp;d=identicon&amp;forcedefault=y&amp;r=G" alt="Google+ photo" width="25" class="no-grav" />
+			</div>
+
+				<div class="comment-form-fields">
+				<input type="hidden" name="googleplus_avatar" id="googleplus-avatar" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_user_id" id="googleplus-user_id" class="comment-meta-googleplus" value="" />
+				<input type="hidden" name="googleplus_access_token" id="googleplus-access_token" class="comment-meta-googleplus" value="" />
+				<p class="comment-form-posting-as pa-googleplus"><strong></strong> You are commenting using your Google+ account. <span class="comment-form-log-out">(&nbsp;<a href="javascript:HighlanderComments.doExternalLogout( 'googleplus' );">Log&nbsp;Out</a>&nbsp;/&nbsp;<a href="#" onclick="javascript:HighlanderComments.switchAccount();return false;">Change</a>&nbsp;)</span></p>
+			</div>
+	
+		</div>
+	</div>
+
+
+	<div id="comment-form-load-service" class="comment-form-service">
+		<div class="comment-form-posting-as-cancel"><a href="javascript:HighlanderComments.cancelExternalWindow();">Cancel</a></div>
+		<p>Connecting to %s</p>
+	</div>
+
+	
+</div>
+
+<script type="text/javascript">
+var highlander_expando_javascript = function(){
+	var input = document.createElement( 'input' ),
+	    comment = jQuery( '#comment' );
+
+	if ( 'placeholder' in input ) {
+		comment.attr( 'placeholder', jQuery( '.comment-textarea label' ).remove().text() );
+	}
+
+	// Expando Mode: start small, then auto-resize on first click + text length
+	jQuery( '#comment-form-identity' ).hide();
+	jQuery( '#comment-form-subscribe' ).hide();
+	jQuery( '#commentform .form-submit' ).hide();
+
+	comment.css( { 'height':'10px' } ).one( 'focus', function() {
+		var timer = setInterval( HighlanderComments.resizeCallback, 10 )
+		jQuery( this ).animate( { 'height': HighlanderComments.initialHeight } ).delay( 100 ).queue( function(n) { clearInterval( timer ); HighlanderComments.resizeCallback(); n(); } );
+		jQuery( '#comment-form-identity' ).slideDown();
+		jQuery( '#comment-form-subscribe' ).slideDown();
+		jQuery( '#commentform .form-submit' ).slideDown();
+	});
+}
+jQuery(document).ready( highlander_expando_javascript );
+</script>
+
+<div id="comment-form-subscribe">
+	<p class="comment-subscription-form"><input type="checkbox" name="subscribe" id="subscribe" value="subscribe" style="width: auto;" tabindex="6"/> <label class="subscribe-label" id="subscribe-label" for="subscribe" style="display: inline;">Notify me of follow-up comments via email.</label></p></div>
+
+												<p class="form-submit">
+							<input name="submit" type="submit" id="comment-submit" value="Post Comment" />
+							<input type='hidden' name='comment_post_ID' value='38' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+						</p>
+						<p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="31b2a5e7b7" /></p>
+<input type="hidden" name="genseq" value="1399897510" />
+<p style="display: none;"><input type="hidden" id="ak_js" name="ak_js" value="35"/></p>					</form>
+							</div><!-- #respond -->
+			<div style="clear: both"></div>
+</div><!-- #comments .comments-area -->
+			
+		</div><!-- #content -->
+	</div><!-- #primary -->
+
+
+			<div id="secondary" class="widget-area" role="complementary">
+						<aside id="authors-2" class="widget widget_authors"><h3 class="widget-title">Authors</h3><ul><li><a href="http://adegreesworth.wordpress.com/author/boa316/"><strong>Harry Chan-Maestas</strong></a></li></ul></aside><aside id="search-2" class="widget widget_search"><form role="search" method="get" id="searchform" class="searchform" action="http://adegreesworth.wordpress.com/">
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form></aside>		<aside id="recent-posts-2" class="widget widget_recent_entries">		<h3 class="widget-title">Recent Posts</h3>		<ul>
+					<li>
+				<a href="http://adegreesworth.wordpress.com/2014/01/27/weekend-0/">Weekend 0: FPGA, Setting Up&nbsp;IO</a>
+						</li>
+					<li>
+				<a href="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/">Tutorial: Installing Ubuntu 12.04 on Beagleboard Rev.&nbsp;C3</a>
+						</li>
+					<li>
+				<a href="http://adegreesworth.wordpress.com/2013/11/04/ham-adventures-1/">Ham Adventures #1</a>
+						</li>
+					<li>
+				<a href="http://adegreesworth.wordpress.com/2013/10/28/my-first-blog-post-ever/">My first blog post&nbsp;ever</a>
+						</li>
+				</ul>
+		</aside><aside id="recent-comments-2" class="widget widget_recent_comments"><h3 class="widget-title">Recent Comments</h3></aside><aside id="archives-2" class="widget widget_archive"><h3 class="widget-title">Archives</h3>		<ul>
+	<li><a href='http://adegreesworth.wordpress.com/2014/01/'>January 2014</a></li>
+	<li><a href='http://adegreesworth.wordpress.com/2013/11/'>November 2013</a></li>
+	<li><a href='http://adegreesworth.wordpress.com/2013/10/'>October 2013</a></li>
+		</ul>
+</aside><aside id="categories-2" class="widget widget_categories"><h3 class="widget-title">Categories</h3>		<ul>
+	<li class="cat-item cat-item-9564290"><a href="http://adegreesworth.wordpress.com/category/embedded-systems/beagleboard/" title="View all posts filed under Beagleboard">Beagleboard</a>
+</li>
+	<li class="cat-item cat-item-114929"><a href="http://adegreesworth.wordpress.com/category/embedded-systems/embedded-linux/" title="View all posts filed under Embedded Linux">Embedded Linux</a>
+</li>
+	<li class="cat-item cat-item-30181"><a href="http://adegreesworth.wordpress.com/category/embedded-systems/" title="View all posts filed under Embedded Systems">Embedded Systems</a>
+</li>
+	<li class="cat-item cat-item-28628"><a href="http://adegreesworth.wordpress.com/category/embedded-systems/fpga/" title="View all posts filed under FPGA">FPGA</a>
+</li>
+	<li class="cat-item cat-item-199692222"><a href="http://adegreesworth.wordpress.com/category/ham-adventures/" title="View all posts filed under Ham Adventures">Ham Adventures</a>
+</li>
+	<li class="cat-item cat-item-610"><a href="http://adegreesworth.wordpress.com/category/linux/" title="View all posts filed under Linux">Linux</a>
+</li>
+	<li class="cat-item cat-item-275"><a href="http://adegreesworth.wordpress.com/category/radio/" title="View all posts filed under Radio">Radio</a>
+</li>
+	<li class="cat-item cat-item-2932"><a href="http://adegreesworth.wordpress.com/category/tutorial/" title="View all posts filed under Tutorial">Tutorial</a>
+</li>
+	<li class="cat-item cat-item-1"><a href="http://adegreesworth.wordpress.com/category/uncategorized/" title="View all posts filed under Uncategorized">Uncategorized</a>
+</li>
+	<li class="cat-item cat-item-3280"><a href="http://adegreesworth.wordpress.com/category/weekend/" title="View all posts filed under Weekend">Weekend</a>
+</li>
+		</ul>
+</aside><aside id="meta-2" class="widget widget_meta"><h3 class="widget-title">Meta</h3>			<ul>
+			<li><a href="http://wordpress.com/signup/?ref=wplogin">Register</a></li>			<li><a href="http://adegreesworth.wordpress.com/wp-login.php">Log in</a></li>
+			<li><a href="http://adegreesworth.wordpress.com/feed/" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://adegreesworth.wordpress.com/comments/feed/" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+<li><a href="http://wordpress.com/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.com</a></li>			</ul>
+</aside>		</div><!-- #secondary -->
+		</div><!-- #main .wrapper -->
+	<footer id="colophon" role="contentinfo">
+		<div class="site-info">
+			<a href="http://theme.wordpress.com/themes/twentytwelve/" title="Learn more about this theme">The Twenty Twelve Theme</a>.			<a href="http://wordpress.com/?ref=footer_website">Create a free website or blog at WordPress.com</a>.
+		</div><!-- .site-info -->
+	</footer><!-- #colophon -->
+</div><!-- #page -->
+
+<script type='text/javascript' src='//0.gravatar.com/js/gprofiles.js?ver=201420x'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s2.wp.com/wp-content/mu-plugins/gravatar-hovercards/wpgroho.js?m=1380573781g'></script>
+
+	<script>
+		//initialize and attach hovercards to all gravatars
+		jQuery( document ).ready( function( $ ) {
+			if ( typeof Gravatar.init !== "function" ) {
+				return;
+			}			
+
+			Gravatar.profile_cb = function( hash, id ) {
+				WPGroHo.syncProfileData( hash, id );
+			};
+			Gravatar.my_hash = WPGroHo.my_hash;
+			Gravatar.init( 'body', '#wp-admin-bar-my-account' );
+		});
+	</script>
+
+		<div style="display:none">
+	</div>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var HighlanderComments = {"loggingInText":"Logging In\u2026","submittingText":"Posting Comment\u2026","postCommentText":"Post Comment","connectingToText":"Connecting to %s","commentingAsText":"%1$s: You are commenting using your %2$s account.","logoutText":"Log Out","loginText":"Log In","connectURL":"http:\/\/adegreesworth.wordpress.com\/public.api\/connect\/?action=request","logoutURL":"http:\/\/adegreesworth.wordpress.com\/wp-login.php?action=logout&_wpnonce=4400e9e627","homeURL":"http:\/\/adegreesworth.wordpress.com\/","postID":"38","gravDefault":"identicon","enterACommentError":"Please enter a comment","enterEmailError":"Please enter your email address here","invalidEmailError":"Invalid email address","enterAuthorError":"Please enter your name here","gravatarFromEmail":"This picture will show whenever you leave a comment. Click to customize it.","logInToExternalAccount":"Log in to use details from one of these accounts.","change":"Change","changeAccount":"Change Account","comment_registration":"0","userIsLoggedIn":"","isJetpack":"0"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s0.wp.com/_static/??/wp-content/js/jquery/jquery.autoresize.js,/wp-content/mu-plugins/highlander-comments/script.js?m=1395185286j'></script>
+
+	<div id="bit" class="loggedout-follow-normal">
+		<a class="bsub" href="javascript:void(0)"><span id='bsub-text'>Follow</span></a>
+		<div id="bitsubscribe">
+
+					<h3><label for="loggedout-follow-field">Follow &ldquo;A Degree&#039;s Worth&rdquo;</label></h3>
+
+			<form action="https://subscribe.wordpress.com" method="post" accept-charset="utf-8" id="loggedout-follow">
+			<p>Get every new post delivered to your Inbox.</p>
+
+			<p id="loggedout-follow-error" style="display: none;"></p>
+
+			
+			<p><input type="email" name="email" value="Enter your email address" onfocus='this.value=(this.value=="Enter your email address") ? "" : this.value;' onblur='this.value=(this.value=="") ? "Enter email address" : this.value;'  id="loggedout-follow-field"/></p>
+
+			<input type="hidden" name="action" value="subscribe"/>
+			<input type="hidden" name="blog_id" value="59917982"/>
+			<input type="hidden" name="source" value="http://adegreesworth.wordpress.com/2013/11/14/tutorial-beagleboard-ubuntu1204/"/>
+			<input type="hidden" name="sub-type" value="loggedout-follow"/>
+
+			<input type="hidden" id="_wpnonce" name="_wpnonce" value="fdf4faf01f" /><input type="hidden" name="_wp_http_referer" value="/2013/11/14/tutorial-beagleboard-ubuntu1204/" />
+			<p id='bsub-subscribe-button'><input type="submit" value="Sign me up" /></p>
+			</form>
+					<div id='bsub-credit'><a href="http://wordpress.com/signup/?ref=lof">Powered by WordPress.com</a></div>
+		</div><!-- #bitsubscribe -->
+	</div><!-- #bit -->
+
+	<script type="text/javascript">
+		WPCOM_sharing_counts = {"http:\/\/adegreesworth.wordpress.com\/2013\/11\/14\/tutorial-beagleboard-ubuntu1204\/":38}	</script>
+		<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-twitter' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-facebook' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400' );
+				return false;
+			});
+		});
+		</script>
+				<script type="text/javascript">
+		jQuery(document).on( 'ready post-load', function(){
+			jQuery( 'a.share-google-plus-1' ).on( 'click', function() {
+				window.open( jQuery(this).attr( 'href' ), 'wpcomgoogle-plus-1', 'menubar=1,resizable=1,width=480,height=550' );
+				return false;
+			});
+		});
+		</script>
+				<iframe src='http://widgets.wp.com/likes/master.html?ver=20140227#ver=20140227&amp;mp6=1' scrolling='no' id='likes-master' name='likes-master' style='display:none;'></iframe>
+		<div id='likes-other-gravatars'><div class="likes-text"><span>%d</span> bloggers like this:</div><ul class="wpl-avatars sd-like-gravatars"></ul></div>
+		<script type="text/javascript">
+		//<![CDATA[
+			var jetpackLikesWidgetQueue = [];
+			var jetpackLikesWidgetBatch = [];
+			var jetpackLikesMasterReady = false;
+
+			function JetpackLikespostMessage( message, target ) {
+				if ( "string" === typeof message ){
+					try{
+						message = JSON.parse( message );
+					}
+					catch(e) {
+						return;
+					}
+				}
+
+				pm( {
+					target: target,
+					type: 'likesMessage',
+					data: message,
+					origin: '*'
+				} );
+			}
+
+			function JetpackLikesBatchHandler() {
+				var requests = [];
+				jQuery( 'div.jetpack-likes-widget-unloaded' ).each( function( i ) {
+					if ( jetpackLikesWidgetBatch.indexOf( this.id ) > -1 )
+						return;
+					jetpackLikesWidgetBatch.push( this.id );
+					var regex = /like-(post|comment)-wrapper-(\d+)-(\d+)-(\w+)/;
+					var match = regex.exec( this.id );
+					if ( ! match || match.length != 5 )
+						return;
+
+					var info = {
+						blog_id: match[2],
+						width:   this.width
+					};
+
+					if ( 'post' == match[1] ) {
+						info.post_id = match[3];
+					} else if ( 'comment' == match[1] ) {
+						info.comment_id = match[3];
+					}
+
+					info.obj_id = match[4];
+
+					requests.push( info );
+				});
+
+				if ( requests.length > 0 ) {
+					JetpackLikespostMessage( { event: 'initialBatch', requests: requests }, window.frames['likes-master'] );
+				}
+			}
+
+			function JetpackLikesMessageListener( event ) {
+				if ( "undefined" == typeof event.event )
+					return;
+
+				if ( 'masterReady' == event.event ) {
+					jQuery( document ).ready( function() {
+						jetpackLikesMasterReady = true;
+
+						var stylesData = {
+								event: 'injectStyles'
+						};
+
+						if ( jQuery( 'iframe.admin-bar-likes-widget' ).length > 0 ) {
+							JetpackLikespostMessage( { event: 'adminBarEnabled' }, window.frames[ 'likes-master' ] );
+
+							stylesData.adminBarStyles = {
+								background: jQuery( '#wpadminbar .quicklinks li#wp-admin-bar-wpl-like > a' ).css( 'background' ),
+								isRtl: ( 'rtl' == jQuery( '#wpadminbar' ).css( 'direction' ) )
+							};
+						}
+
+						if ( !window.addEventListener )
+							jQuery( '#wp-admin-bar-admin-bar-likes-widget' ).hide();
+
+						stylesData.textStyles = {
+							color: jQuery( '.sd-text-color').css( 'color' ),
+							fontFamily: jQuery( '.sd-text-color' ).css( 'font-family' ),
+							fontSize: jQuery( '.sd-text-color' ).css( 'font-size' ),
+							direction: jQuery( '.sd-text-color' ).css( 'direction' ),
+							fontWeight: jQuery( '.sd-text-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-text-color' ).css( 'font-style' ),
+							textDecoration: jQuery( '.sd-text-color' ).css('text-decoration')
+						};
+
+						stylesData.linkStyles = {
+							color: jQuery( '.sd-link-color' ).css('color'),
+							fontFamily: jQuery( '.sd-link-color' ).css('font-family'),
+							fontSize: jQuery( '.sd-link-color' ).css('font-size'),
+							textDecoration: jQuery( '.sd-link-color' ).css('text-decoration'),
+							fontWeight: jQuery( '.sd-link-color' ).css( 'font-weight' ),
+							fontStyle: jQuery( '.sd-link-color' ).css( 'font-style' )
+						};
+
+						JetpackLikespostMessage( stylesData, window.frames[ 'likes-master' ] );
+
+						JetpackLikesBatchHandler();
+
+						jQuery( document ).on( 'inview', 'div.jetpack-likes-widget-unloaded', function() {
+							jetpackLikesWidgetQueue.push( this.id );
+						});
+					});
+				}
+
+				if ( 'showLikeWidget' == event.event ) {
+					jQuery( '#' + event.id + ' .post-likes-widget-placeholder'  ).fadeOut( 'fast', function() {
+						jQuery( '#' + event.id + ' .post-likes-widget' ).fadeIn( 'fast', function() {
+							JetpackLikespostMessage( { event: 'likeWidgetDisplayed', blog_id: event.blog_id, post_id: event.post_id, obj_id: event.obj_id }, window.frames['likes-master'] );
+						});
+					});
+				}
+
+				if ( 'clickReblogFlair' == event.event ) {
+					wpcom_reblog.toggle_reblog_box_flair( event.obj_id );
+				}
+
+				if ( 'showOtherGravatars' == event.event ) {
+					var $container = jQuery( '#likes-other-gravatars' );
+					var $list = $container.find( 'ul' );
+
+					$container.hide();
+					$list.html( '' );
+
+					$container.find( '.likes-text span' ).text( event.total );
+
+					jQuery.each( event.likers, function( i, liker ) {
+						$list.append( '<li class="' + liker.css_class + '"><a href="' + liker.profile_URL + '" class="wpl-liker" rel="nofollow" target="_parent"><img src="' + liker.avatar_URL + '" alt="' + liker.name + '" width="30" height="30" style="padding-right: 3px;" /></a></li>');
+					} );
+
+					var offset = jQuery( "[name='" + event.parent + "']" ).offset();
+
+					$container.css( 'left', offset.left + event.position.left - 10 + 'px' );
+					$container.css( 'top', offset.top + event.position.top - 33 + 'px' );
+
+					var rowLength = Math.floor( event.width / 37 );
+					var height = ( Math.ceil( event.likers.length / rowLength ) * 37 ) + 13;
+					if ( height > 204 ) {
+						height = 204;
+					}
+
+					$container.css( 'height', height + 'px' );
+					$container.css( 'width', rowLength * 37 - 7 + 'px' );
+
+					$list.css( 'width', rowLength * 37 + 'px' );
+
+					$container.fadeIn( 'slow' );
+
+					var scrollbarWidth = $list[0].offsetWidth - $list[0].clientWidth;
+					if ( scrollbarWidth > 0 ) {
+						$container.width( $container.width() + scrollbarWidth );
+						$list.width( $list.width() + scrollbarWidth );
+					}
+				}
+			}
+
+			pm.bind( 'likesMessage', function(e) { JetpackLikesMessageListener(e); } );
+
+			jQuery( document ).click( function( e ) {
+				var $container = jQuery( '#likes-other-gravatars' );
+
+				if ( $container.has( e.target ).length === 0 ) {
+					$container.fadeOut( 'slow' );
+				}
+			});
+
+			function JetpackLikesWidgetQueueHandler() {
+				var wrapperID;
+				if ( ! jetpackLikesMasterReady ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				if ( jetpackLikesWidgetQueue.length > 0 ) {
+					// We may have a widget that needs creating now
+					var found = false;
+					while( jetpackLikesWidgetQueue.length > 0 ) {
+						// Grab the first member of the queue that isn't already loading.
+						wrapperID = jetpackLikesWidgetQueue.splice( 0, 1 )[0];
+						if ( jQuery( '#' + wrapperID ).hasClass( 'jetpack-likes-widget-unloaded' ) ) {
+							found = true;
+							break;
+						}
+					}
+					if ( ! found ) {
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				} else if ( jQuery( 'div.jetpack-likes-widget-unloaded' ).length > 0 ) {
+					// Grab any unloaded widgets for a batch request
+					JetpackLikesBatchHandler();
+
+					// Get the next unloaded widget
+					wrapperID = jQuery( 'div.jetpack-likes-widget-unloaded' ).first()[0].id;
+					if ( ! wrapperID ) {
+						// Everything is currently loaded
+						setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+						return;
+					}
+				}
+
+				if ( 'undefined' === typeof wrapperID ) {
+					setTimeout( JetpackLikesWidgetQueueHandler, 500 );
+					return;
+				}
+
+				var $wrapper = jQuery( '#' + wrapperID );
+				$wrapper.find( 'iframe' ).remove();
+
+				if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='22px' width='68px' frameBorder='0' scrolling='no' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				} else {
+					$wrapper.find( '.post-likes-widget-placeholder' ).after( "<iframe class='post-likes-widget jetpack-likes-widget' name='" + $wrapper.data( 'name' ) + "' height='55px' width='100%' frameBorder='0' src='" + $wrapper.data( 'src' ) + "'></iframe>" );
+				}
+
+				$wrapper.removeClass( 'jetpack-likes-widget-unloaded' ).addClass( 'jetpack-likes-widget-loading' );
+
+				$wrapper.find( 'iframe' ).load( function( e ) {
+					var $iframe = jQuery( e.target );
+					$wrapper.removeClass( 'jetpack-likes-widget-loading' ).addClass( 'jetpack-likes-widget-loaded' );
+
+					JetpackLikespostMessage( { event: 'loadLikeWidget', name: $iframe.attr( 'name' ), width: $iframe.width() }, window.frames[ 'likes-master' ] );
+
+					if ( $wrapper.hasClass( 'slim-likes-widget' ) ) {
+						$wrapper.find( 'iframe' ).Jetpack( 'resizeable' );
+					}
+				});
+				setTimeout( JetpackLikesWidgetQueueHandler, 250 );
+			}
+			JetpackLikesWidgetQueueHandler();
+		//]]>
+		</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??-eJzTLy/QTc7PK0nNK9EvyClNz8wr1i+uzCtJrMjITM/IAeKS1CJMEWP94uSizIISoOIM5/yiVL2sYh19yo1yKioFEonFGUDz7HNtDY0tzc3NjEyNDLMA0NdABg=='></script>
+<script type='text/javascript'>
+	(function(){
+		var corecss = document.createElement('link');
+		var themecss = document.createElement('link');
+		var corecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shCore.css?m=1395343499g&amp;ver=3.0.83c";
+		if ( corecss.setAttribute ) {
+				corecss.setAttribute( "rel", "stylesheet" );
+				corecss.setAttribute( "type", "text/css" );
+				corecss.setAttribute( "href", corecssurl );
+		} else {
+				corecss.rel = "stylesheet";
+				corecss.href = corecssurl;
+		}
+		document.getElementsByTagName("head")[0].insertBefore( corecss, document.getElementById("syntaxhighlighteranchor") );
+		var themecssurl = "http://s0.wp.com/wp-content/plugins/syntaxhighlighter/syntaxhighlighter3/styles/shThemeDefault.css?m=1363304414g&amp;ver=3.0.83c";
+		if ( themecss.setAttribute ) {
+				themecss.setAttribute( "rel", "stylesheet" );
+				themecss.setAttribute( "type", "text/css" );
+				themecss.setAttribute( "href", themecssurl );
+		} else {
+				themecss.rel = "stylesheet";
+				themecss.href = themecssurl;
+		}
+		//document.getElementById("syntaxhighlighteranchor").appendChild(themecss);
+		document.getElementsByTagName("head")[0].insertBefore( themecss, document.getElementById("syntaxhighlighteranchor") );
+	})();
+	SyntaxHighlighter.config.strings.expandSource = '+ expand source';
+	SyntaxHighlighter.config.strings.help = '?';
+	SyntaxHighlighter.config.strings.alert = 'SyntaxHighlighter\n\n';
+	SyntaxHighlighter.config.strings.noBrush = 'Can\'t find brush for: ';
+	SyntaxHighlighter.config.strings.brushNotHtmlScript = 'Brush wasn\'t configured for html-script option: ';
+	SyntaxHighlighter.defaults['pad-line-numbers'] = false;
+	SyntaxHighlighter.defaults['toolbar'] = false;
+	SyntaxHighlighter.all();
+</script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var recaptcha_options = {"lang":"en"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='http://s1.wp.com/_static/??-eJx9jUsOgzAMRC/U4CJaIRZVj1KFYMA0TqJ8oNy+ZsGqUjceaeY9GbagjHcZXYYlwYArGQyfakkXkImcsWXAdGzGMwumIga7V0zuhE4/z8iChtJD3qTY5doVD9fplSadyf9IXFSwZSKXQL8pMWbVVFd4yWcYfeQ/fPApq9FqipBmHclNZ4r05EfddPe2vnV1u3wBPD1U2w=='></script>
+<script type="text/javascript">
+// <![CDATA[
+(function() {
+try{
+  if ( window.external &&'msIsSiteMode' in window.external) {
+    if (window.external.msIsSiteMode()) {
+      var jl = document.createElement('script');
+      jl.type='text/javascript';
+      jl.async=true;
+      jl.src='/wp-content/plugins/ie-sitemode/custom-jumplist.php';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(jl, s);
+    }
+  }
+}catch(e){}
+})();
+// ]]>
+</script><script src="http://s.stats.wordpress.com/w.js?21" type="text/javascript"></script>
+<script type="text/javascript">
+st_go({'blog':'59917982','v':'wpcom','tz':'0','user_id':'0','post':'38','subd':'adegreesworth'});
+ex_go({'crypt':'UE5XaGUuOTlwaD85flAmcm1mcmZsaDhkV11YdTdvUG14Q2VDQTR4LlUsLi82dU1mai9BMmksSFpXc095TWlsfDhWMEdpbm1CNixRbkRFK2lfK1d5aTJ3alMrXWt3bGsrWnlaeXZrUFoxTDJlWTRxWENyTk5HfDRQcWl4andYVD9MNkY1WUs/RnVLUl1odEtvQnJ8ZU58LmNnLFB2MFJ6UU5MWFp3al96SX5dMF8uNXU0LUNVaHRHY0RyeE5zUlprST9ZVGVBXVhmJWdHTWVMWDlXP0tdZm41XWVEU3FFSHU0SlZ6MWZza1d6blRiPWUuMUJYSkFGT1ksM0tfSE41flpbM0pwUGEvTT1mMWw1bzh5UDdTaExYdFomLXh+eGc2dGwvX2lseDlbK1lmPz9BT2FbaHNfOD05U11EKzM1STJyeDZbQjY4SD9Ia3VhamxmRHU='});
+addLoadEvent(function(){linktracker_init('59917982',38);});
+	</script>
+<noscript><img src="http://stats.wordpress.com/b.gif?v=noscript" style="height:0px;width:0px;overflow:hidden" alt="" /></noscript>
+<script>
+if ( 'object' === typeof wpcom_mobile_user_agent_info ) {
+
+	wpcom_mobile_user_agent_info.init();
+	var mobileStatsQueryString = "";
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedPlatformName )
+		mobileStatsQueryString += "&x_" + 'mobile_platforms' + '=' + wpcom_mobile_user_agent_info.matchedPlatformName;
+	
+	if( false !== wpcom_mobile_user_agent_info.matchedUserAgentName )
+		mobileStatsQueryString += "&x_" + 'mobile_devices' + '=' + wpcom_mobile_user_agent_info.matchedUserAgentName;
+	
+	if( wpcom_mobile_user_agent_info.isIPad() )
+		mobileStatsQueryString += "&x_" + 'ipad_views' + '=' + 'views';
+
+	if( "" != mobileStatsQueryString ) {
+		new Image().src = document.location.protocol + '//stats.wordpress.com/g.gif?v=wpcom-no-pv' + mobileStatsQueryString + '&baba=' + Math.random();
+	}
+	
+}
+</script></body>
+</html>

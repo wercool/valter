@@ -1,0 +1,1476 @@
+
+ 
+
+
+
+ 
+ 
+ 
+
+
+
+ 
+ 
+ <!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+ 
+ <meta name="ROBOTS" content="NOARCHIVE">
+ 
+ <link rel="icon" type="image/vnd.microsoft.icon" href="http://www.gstatic.com/codesite/ph/images/phosting.ico">
+ 
+ 
+ <link rel="canonical" href="http://code.google.com/p/beagleboard/wiki/BeagleBootHwSetup" />
+ 
+ <script type="text/javascript">
+ 
+ 
+ 
+ 
+ var codesite_token = null;
+ 
+ 
+ var CS_env = {"domainName": null, "assetHostPath": "http://www.gstatic.com/codesite/ph", "relativeBaseUrl": "", "profileUrl": null, "loggedInUserEmail": null, "projectHomeUrl": "/p/beagleboard", "projectName": "beagleboard", "token": null, "assetVersionPath": "http://www.gstatic.com/codesite/ph/3427079965498762429"};
+ var _gaq = _gaq || [];
+ _gaq.push(
+ ['siteTracker._setAccount', 'UA-18071-1'],
+ ['siteTracker._trackPageview']);
+ 
+ _gaq.push(
+ ['projectTracker._setAccount', 'UA-3429714-3'],
+ ['projectTracker._trackPageview']);
+ 
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+ 
+ </script>
+ 
+ 
+ <title>BeagleBootHwSetup - 
+ beagleboard -
+ 
+ Beagle Board Setup for Booting. - 
+ Low-cost, low-power single-board computer - Google Project Hosting
+ </title>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/3427079965498762429/css/core.css">
+ 
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/3427079965498762429/css/ph_detail.css" >
+ 
+ 
+ 
+ <link type="application/atom+xml" rel="alternate" href="/feeds/p/beagleboard/gitchanges/basic?path=/BeagleBootHwSetup.wiki&amp;repo=wiki">
+ 
+ 
+<!--[if IE]>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/3427079965498762429/css/d_ie.css" >
+<![endif]-->
+ <style type="text/css">
+ .menuIcon.off { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -42px }
+ .menuIcon.on { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -28px }
+ .menuIcon.down { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 0; }
+ 
+ 
+ #maincol {
+ padding-top: 0;
+ padding-bottom: 0;
+ }
+
+ 
+ </style>
+</head>
+<body class="t6">
+<script type="text/javascript">
+ window.___gcfg = {lang: 'en'};
+ (function() 
+ {var po = document.createElement("script");
+ po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+ var s = document.getElementsByTagName("script")[0];
+ s.parentNode.insertBefore(po, s);
+ })();
+</script>
+<div class="headbg">
+
+ <div id="gaia">
+ 
+
+ <span>
+ 
+ 
+ <a href="#" id="projects-dropdown" onclick="return false;"><u>My favorites</u> <small>&#9660;</small></a>
+ | <a href="https://www.google.com/accounts/ServiceLogin?service=code&amp;ltmpl=phosting&amp;continue=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBeagleBootHwSetup&amp;followup=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBeagleBootHwSetup" onclick="_CS_click('/gb/ph/signin');"><u>Sign in</u></a>
+ 
+ </span>
+
+ </div>
+
+ <div class="gbh" style="left: 0pt;"></div>
+ <div class="gbh" style="right: 0pt;"></div>
+ 
+ 
+ <div style="height: 1px"></div>
+<!--[if lte IE 7]>
+<div style="text-align:center;">
+Your version of Internet Explorer is not supported. Try a browser that
+contributes to open source, such as <a href="http://www.firefox.com">Firefox</a>,
+<a href="http://www.google.com/chrome">Google Chrome</a>, or
+<a href="http://code.google.com/chrome/chromeframe/">Google Chrome Frame</a>.
+</div>
+<![endif]-->
+
+
+
+ <table style="padding:0px; margin: 0px 0px 10px 0px; width:100%" cellpadding="0" cellspacing="0"
+ itemscope itemtype="http://schema.org/CreativeWork">
+ <tr style="height: 58px;">
+ 
+ 
+ 
+ <td id="plogo">
+ <link itemprop="url" href="/p/beagleboard">
+ <a href="/p/beagleboard/">
+ 
+ 
+ <img src="/p/beagleboard/logo?cct=1306947512"
+ alt="Logo" itemprop="image">
+ 
+ </a>
+ </td>
+ 
+ <td style="padding-left: 0.5em">
+ 
+ <div id="pname">
+ <a href="/p/beagleboard/"><span itemprop="name">beagleboard</span></a>
+ </div>
+ 
+ <div id="psum">
+ <a id="project_summary_link"
+ href="/p/beagleboard/"><span itemprop="description">Low-cost, low-power single-board computer</span></a>
+ 
+ </div>
+ 
+ 
+ </td>
+ <td style="white-space:nowrap;text-align:right; vertical-align:bottom;">
+ 
+ <form action="/hosting/search">
+ <input size="30" name="q" value="" type="text">
+ 
+ <input type="submit" name="projectsearch" value="Search projects" >
+ </form>
+ 
+ </tr>
+ </table>
+
+</div>
+
+ 
+<div id="mt" class="gtb"> 
+ <a href="/p/beagleboard/" class="tab ">Project&nbsp;Home</a>
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/downloads/list" class="tab ">Downloads</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/w/list" class="tab active">Wiki</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/issues/list"
+ class="tab ">Issues</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/source/checkout"
+ class="tab ">Source</a>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class=gtbc></div>
+</div>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tr>
+ 
+ 
+ 
+ <td class="subt">
+ <div class="issueDetail">
+<div class="isf">
+ 
+ <span class="inIssueList"> 
+ <span>Search</span>
+ <form action="/p/beagleboard/w/list" method="GET" style="display:inline">
+ <select id="can" name="can" >
+ <option disabled="disabled">Search within:</option>
+ 
+ <option value="1" >&nbsp;All wiki pages</option>
+ <option value="3" >&nbsp;Featured pages</option>
+ <option value="2" selected="selected">&nbsp;Current pages</option>
+ 
+ 
+ <option value="4" >&nbsp;Deprecated pages</option>
+ 
+ </select>
+ <span>for</span>
+ <span id="qq"><input type="text" size="38" id="searchq" name="q" value=""
+ autocomplete="off" ></span>
+ 
+ 
+ 
+ <input type="submit" value="Search" >
+ </form>
+ </span>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+</div>
+</div>
+
+ </td>
+ 
+ 
+ 
+ 
+ 
+ 
+ <td align="right" valign="top" class="bevel-right"></td>
+ </tr>
+</table>
+
+
+<script type="text/javascript">
+ var cancelBubble = false;
+ function _go(url) { document.location = url; }
+</script>
+<div id="maincol"
+ 
+>
+
+ 
+
+
+
+
+
+
+
+ <style type="text/css">
+ .delcom { background: #e8e8e8 }
+ .commentcontent {
+ margin: 2em;
+ padding: 0px 10px;
+ width: 66em;
+ }
+ .artifactcomment {
+ border-top: 3px solid #c3d9ff;
+ }
+ #commentform {
+ border-top: 3px solid #c3d9ff;
+ }
+ </style>
+
+<div id="wikipage">
+<table>
+ <tr>
+ 
+ 
+ <td style="vertical-align:top; padding-left:5px">
+ 
+ <div id="wikiheader">
+ 
+ <span style="font-size:120%;font-weight:bold">BeagleBootHwSetup</span>
+ &nbsp;
+ <div> 
+ 
+ <i>Beagle Board Setup for Booting.</i>
+ 
+ 
+ 
+ <div id="wikiauthor" style="float:right">
+ Updated <span title="Wed Jul 27 20:20:13 2011">
+ Jul 27, 2011</span>
+ 
+ </div>
+ </div>
+ </div>
+ 
+ <div id="wikicontent">
+ <div class="vt" id="wikimaincol">
+ <h1><a name="Beagle_Board_Hardware_Setup"></a>Beagle Board Hardware Setup<a href="#Beagle_Board_Hardware_Setup" class="section_anchor"></a></h1><h2><a name="Beagle_Board_Setup_for_NAND_Booting"></a>Beagle Board Setup for NAND Booting<a href="#Beagle_Board_Setup_for_NAND_Booting" class="section_anchor"></a></h2><ul><li>Make sure Beagle is powered OFF </li><li>Connect RS232 port on Beagle to UART port of Windows/Linux Machine using RS232 Null Modem Cable </li><li>Have Terminal program (TeraTerm, HyperTerminal or Minicom) running on the host machine.  </li><li>Configure the Terminal program for (BAUD RATE - 115200, DATA - 8 bit, PARITY- none, STOP - 1bit, FLOW CONTROL - none)  </li><li>Connect a LCD Monitor to DVI/HDMI port on Beagle Board <i>(Optional)</i>.  </li><li>Connect an externally powered speaker to audio out jack on Beagle Board <i>(Optional)</i>.  </li><li>Connect a TV (NTSC-M) to S-video port <i>(Optional)</i>.  </li><li>Power ON LCD, TV and audio speakers <i>(Optiona)</i>. </li><li>Power ON the Beagle board with an External +5v Power Supply </li></ul><h2><a name="Beagle_Board_Setup_for_MMC_booting"></a>Beagle Board Setup for MMC booting<a href="#Beagle_Board_Setup_for_MMC_booting" class="section_anchor"></a></h2><p><strong> MMC /SD Card Formatting Procedure </strong></p><ul><li>Gather all required Tools. </li><ul><li>MMC/SD Card  </li><li>MMC/SD Card writer  </li><li>MMC/SD Card Formatting/Partitioning Tool (To create a bootable partition on MMC/SD Card) </li><li>Recommended HP USB Disk Storage Format Tool 2.0.6:  </li><blockquote><a href="http://selfdestruct.net/misc/usbboot/SP27213.exe" rel="nofollow">http://selfdestruct.net/misc/usbboot/SP27213.exe</a>  
+</blockquote></ul></ul><ul><li>Format the MMC/SD Card for FAT32 FS </li><ul><li>Insert the Card writer/reader into the Windows machine.  </li><li>Insert MMC/SD card into the card reader/writer  </li><li>Open the HP USB Disk Storage Format Tool.  </li><li>Select “FAT32 as File System”.  </li><li>Click on “Start”.  </li><li>After formatting is done Click “OK”  </li></ul></ul><ul><li>To Format MMC/SD card on a Linux machine, please refer to <a href="/p/beagleboard/wiki/LinuxBootDiskFormat">LinuxBootDiskFormat</a>. </li></ul><ul><li>Follow Compilation steps to build the required binaries or use the Pre-built images as described at <a href="http://code.google.com/p/beagleboard/wiki/BeagleSourceCode" rel="nofollow">http://code.google.com/p/beagleboard/wiki/BeagleSourceCode</a> </li></ul><ul><li>Copy MLO, u-boot.bin onto MMC/SD Card </li></ul><p><strong> Beagle Boad Setup for Booting over MMC /SD Card </strong></p><ul><li>Make sure Beagle is powered OFF </li><li>Connect RS232 port on Beagle to UART port of Windows/Linux Machine using RS232 Null Modem Cable </li><li>Have Terminal program (TeraTerm, HyperTerminal or Minicom) running on the host machine.  </li><li>Configure the Terminal program for (BAUD RATE - 115200, DATA - 8 bit, PARITY- none, STOP - 1bit, FLOW CONTROL - none)  </li><li>Insert the MMC/SD card that has kernel, u-boot, MLO images into MMC/SD slot on Beagle Board.  </li><li>Connect a LCD Monitor to DVI/HDMI port on Beagle Board<i>(Optional)</i>.  </li><li>Connect an externally powered speaker to audio out jack on Beagle Board<i>(Optional)</i>.  </li><li>Connect a TV (NTSC-M) to S-video port<i>(Optional)</i>.  </li><li>Power ON LCD, TV and audio speakers<i>(Optional)</i>. </li><li>Power ON the Beagle board with an External +5v Power Supply </li></ul>
+ </div>
+ </div>
+ </td><tr>
+</table>
+ </div>
+
+
+ 
+ <div id="wikicommentcol">
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+<div class="collapse">
+
+
+ 
+
+
+<div id="commentlist">
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/103975801086390000464/">johnbee...@yahoo.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Aug 21 11:03:00 2008">Aug 21, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>When booting from the MMC/SD card, it is critical that MLO be in the first sector of FAT32 partition.  If you did any file updates of the partition before copying MLO, it may not go into the first sector.  What finally worked for me was to reformat the FAT32 partition using Windows, and then copy MLO, uBoot, and uImage in that order.  If you know a better way to ensure that MLO is first, please comment.  For now it&#x27;s no big deal to reformat before copying MLO, since you&#x27;ll probably be updating uBoot and uImage more often.  Just make sure you reformat the SD card and not your hard drive. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">priyank....@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Thu Sep 18 02:28:10 2008">Sep 18, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>I am not able to boot Beagle Board. Whnen I connect Beagle board junk characters sequence is coming and it gets stop after some time.  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">chandan....@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Fri Oct 10 07:29:46 2008">Oct 10, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>hello, Nothing is displaying on the hyper terminal on the new beagle board,I have connected 3 wire serial port to the sytem in the windows xp and 5v is given externally and nothing is connectedother than this  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/108445022387694906386/">vr2...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Oct 28 12:01:32 2008">Oct 28, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>I can&#x27;t boot from the SD card either, though I followed the steps to copy the MLO then uboot and uImage files in that order. Besides, I noticed that the POST message would be displayed out of the serial port only when I connected the mini-USB cable to my notebook, though power is sourced from the external power adapter jack (whenever the power jack is inserted, power from mini-USB is cut off automatically). The POST message stopped with the prompt &quot;OMAP3 beagleboard.org # &quot;, then nothing else was displayed nor echoed no matter what I typed into &quot;minicom&quot;. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/102751863870073640247/">Tang...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Nov 25 22:31:54 2008">Nov 25, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>Hi,all. I can&#x27;t boot up. and I got the error: <blockquote>kernel panic - not syncing: VFS:Unable to mount root fs on unknow-block(179,2) 
+</blockquote>what&#x27;s the problem? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116496320978945088509/">suresh...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Feb 15 21:50:56 2009">Feb 15, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>hi, is there any udpate on &quot;Comment by TangHer<a href="/p/beagleboard/w/edit/TangHer">?</a>, Nov 25, 2008&quot;. I too face the same.  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">tisha...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Fri Mar  6 22:16:28 2009">Mar 6, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>hi  <blockquote>wen i try to boot am getting this command 
+</blockquote><strong></strong> Unable to read &quot;uImage&quot; from mmc 0:1 <strong></strong>                                       reading rd-ext2.bin                                                                                                                                               <strong></strong> Unable to read &quot;rd-ext2.bin&quot; from mmc 0:1 <strong></strong>                                  Wrong Image Format for bootm command                                             ERROR: can&#x27;t get kernel image! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">rcn...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Sun Mar 22 08:18:07 2009">Mar 22, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Hi, all </p><p>To boot from MMC, don&#x27;t forget to press the &quot;user button&quot;.  Ref: <a href="http://elinux.org/BeagleBoard#User_button" rel="nofollow">http://elinux.org/BeagleBoard#User_button</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/115466499021829260884/">Vincent....@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Apr  9 11:12:16 2009">Apr 9, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I am trying the NAND booting, have my hyper terminal on and configured, power on with my serial connected and nothing happens.  Whats going on?  Nothing is displaying on the screen. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/111960843770832427818/">anicol...@verizon.net</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Apr 28 20:01:37 2009">Apr 28, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I formatted an SD card as described. re-named and copied the 3 files in order. This is what I got on the terminal. </p><p>reading boot.scr <strong></strong> Unable to read &quot;boot.scr&quot; from mmc 0:1 <strong></strong> reading uImage.bin <strong></strong> Unable to read &quot;uImage.bin&quot; from mmc 0:1 <strong></strong> Booting from nand ... NAND read: device 0 offset 0x280000, size 0x400000 <blockquote>4194304 bytes read: OK 
+</blockquote>Wrong Image Format for bootm command ERROR: can&#x27;t get kernel image! OMAP3 beagleboard.org # </p><p>I get the same error starting with the &quot;Booting from NAND....&quot; line when the SD card isn&#x27;t plugged in. </p><p>I can see the files with the &quot;fatls mmc 0:1&quot; command on the Beagle. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/117712870340194889498/">asadak...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Wed Jun  3 00:19:09 2009">Jun 3, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I m facing the same problem as  priyank.vineet is. Does anyone has solution for this. As per my understanding i think x-loader has been erased. in case my MMC boot sequence is also not working for this board. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/109903681853001014613/">linuxtea...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Jul 10 06:06:40 2009">Jul 10, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I am not able to boot beagle board. i am not getting anything on the hyper terminal when i power on the beagle board. i have followed all the connections and procedures mentioned above. Can any body help me please? i tried with and without MMC card. I powered up using 5V power adapter. i just using hyper terminal on windows pc. I didn&#x27;t connect any peripherals as i am just checking for u-boot flow. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">Aeuwy.C...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Mon Jul 13 21:48:41 2009">Jul 13, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>hi linuxteam.te see this link <a href="http://elinux.org/BeagleBoardFAQ#Serial_connection_.231" rel="nofollow">http://elinux.org/BeagleBoardFAQ#Serial_connection_.231</a> and check serial cable that correct or not? </p><p>My serial cable use like: DB9 &gt; IDC 10 2 &gt; 3 3 &gt; 2 5 &gt; 5 </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/109903681853001014613/">linuxtea...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Jul 14 23:44:07 2009">Jul 14, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Yes i am using NULL modem cable(serial) which matches the current requirement. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/100518411352876942442/">rob...@robkaos.ruhr.de</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Aug 13 09:08:37 2009">Aug 13, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Some ost the available serial port connectors seem to be buggy. I bought a new one fpr my beagleboard and I got only garbage characters. After searching in my large PC hardware box I found an old connector. I tried it and it worked! I connected both adapters in the manner that the red line is on pin 1. I think this is correct. Perhaps this hint is a little bit useful. </p><p>Robert </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/100518411352876942442/">rob...@robkaos.ruhr.de</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Aug 13 09:12:35 2009">Aug 13, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>When I try to boot with the usual bootargs and bootcmd environment, the kernel is booted and root is mounted. But then I get the message: &quot;Unable to open an initial console&quot; and it hangs. </p><p>BTW, is the serial port ttyS0 or ttyS2? I can see the boot messages only with ttyS2. </p><p>Robert </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/113751147175450856441/">vranjan...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Wed Nov 25 19:03:06 2009">Nov 25, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I connected Beagleboard as per instruction, but nothing is displaying on the hyperterminal. there may be problem with broken MLO, so I follow step mention in BeagleBoardRecovery<a href="/p/beagleboard/w/edit/BeagleBoardRecovery">?</a> link(MMC recovery Troubleshooting). even though I am not able to get display. Please help me </p><p>Board Version:C3 Power Supply: 5V, 1Amp </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/111980192330209424833/">cspatlo...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Apr  8 10:22:17 2010">Apr 8, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>I connected serial port to system using USB to Serial connecter, later given the power supply, in terminal junk characters are showing. Here priyank.vineet and  asadakbar mentioned about the same problem, you guys sorted out the problem, if so  whats the solution for it? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/109262488762447712873/">stiffst...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Wed Apr 28 08:02:38 2010">Apr 28, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Which images go where on the SD card?  I have two partitions (FAT32 and Linux) and I have built the images.  I copied u-boot-beagleboard.bin to u-boot.bin on the FAT32 partition.  Is the MLO image the modules-2.6.32-<a href="/p/beagleboard/source/detail?r=70">r70</a>....tgz file in the build area?  It would be helpful to know which files from the build go where on the SD card. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116374015391289041972/">csmith.s...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun May 16 08:07:25 2010">May 16, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>for people getting weird junk characters, be sure to try USB powerd and wall powered. I have a wall plug, but when i switched to usb, it started working. link: <a href="http://elinux.org/BeagleBoardFAQ#Serial_connection_.235" rel="nofollow">http://elinux.org/BeagleBoardFAQ#Serial_connection_.235</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/106435997961250241069/">khaliff....@googlemail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Oct  7 17:04:56 2010">Oct 7, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>need some help.i&#x27;ve booted the SD card and the board seems to work with angstrom.the board can also detect my keyboard and mouse(i&#x27;m using external usb hub).after some time (turning on and off), the board failed to detect both the keyboard and mouse.anyone know ´s what&#x27;s the problem?is the board broken? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/102205560883400163009/">StevenLe...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sat Oct 30 16:25:01 2010">Oct 30, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Re:Weird characters on serial terminal emulators.  I was having this problem when I was using a multi-port USB docking station (Lantec USB, Ethernet, Printer, Serial device). I switched to a Belkin Serial/USB adapter and the problem went away. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/117392316837068101378/">vladimir...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Nov  5 03:21:03 2010">Nov 5, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>turning off hardware/software flow control at all helps me with usb-serial garbage </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/111452718344685926478/">raparti....@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Jan 24 05:26:21 2011">Jan 24, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>console=ttyS2,115200n8 root=/dev/mmcblk0p2 rw rootdelay=1 hi guys, i have used the above as bootargs.  But i use ttyS0 as the port.  Do i need to change my console args to ttyS0 from ttyS2?  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">siddb...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Mon Mar 21 04:48:48 2011">Mar 21, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>hello guys i m new to beagle board.i have formatted sd card and followed all the process to make it bootable but I am not able to boot,when I connect Beagle board and press reset button junk characters sequence is coming.every time i press reset button some unreadable characters appear. i am using inbuilt card reader of laptop to write all files require to run angstrom.i have been reading so many documents and all of them tell to partition and load these files in two different partition.i have tryed all these things but not able to understand where i am goin wrong or what should i do ??????can anybody tell me about this issue???? thank you  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">siddb...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Tue Mar 29 01:49:52 2011">Mar 29, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>problem solved the issue was boot up  it was not able to detect sd card now its running </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/108057685090811770957/">somure...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Wed Apr  6 04:04:02 2011">Apr 6, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>hi how r u doin i am also facing problem with my mmc card detecion. how did u resolve ur problem. please let me know it would of great healp to me. thanks in advance. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/108057685090811770957/">somure...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Apr  8 04:12:48 2011">Apr 8, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>hi am facing the problem in booting my beagleboard xm from mmc  card as i think the mmc is not being detected. request any one to help me as soon as possible  i have seen that the similar kind of problem easy faced by some people and get rid of that problem thanks in advance  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">atriv...@sitpl.com</span>,
+ 
+ </span>
+ <span class="date" title="Mon Apr 25 05:24:40 2011">Apr 25, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Hi today i faced similar kind of problem that suddenly my beagleboard -Xm stopped working it is not able to detect SD card. will you please help me tht how u resolve your problem? thanks </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">rsamand...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Mon Jun 13 11:35:25 2011">Jun 13, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Interestingly, I can boot up without a single problem, but Angstrom will not recognize any S-Video, keyboard, or mouse input. Can anybody explain why? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/110346378396170295365/">ptschn...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Aug  7 11:27:28 2011">Aug 7, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>The serial cable to use to connect a Beagleboard-xM to development computer is a straight through serial extension cable. Apparently the cable connection changed with the xM and the instructions above refer to Beagleboards that preceed the Beagleboard-xM. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+</div>
+</div>
+
+ 
+
+
+ <script type="text/javascript">
+ function delComment(sequence_num, create_time, delete_mode) {
+ var f = document.forms["delcom"];
+ f.sequence_num.value = sequence_num;
+ f.create_time.value = create_time;
+ f.mode.value = delete_mode;
+ f.submit();
+ return false;
+ }
+ </script>
+
+
+ </div>
+ 
+ 
+ 
+ 
+ <br>
+ <div class="artifactcomment">
+ <span class="indicator">&#9658;</span> <a href="https://www.google.com/accounts/ServiceLogin?service=code&amp;ltmpl=phosting&amp;continue=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBeagleBootHwSetup&amp;followup=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBeagleBootHwSetup"
+ >Sign in</a> to add a comment
+ </div>
+ 
+ 
+ 
+ 
+ <form name="delcom" action="../w/delComment.do" method="POST">
+ <input type="hidden" name="sequence_num" value="" >
+ <input type="hidden" name="create_time" value="" >
+ <input type="hidden" name="mode" value="" >
+ <input type="hidden" name="pagename" value="BeagleBootHwSetup" >
+ <input type="hidden" name="token" value="" >
+ </form>
+
+
+ <script src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/prettify/prettify.js"></script>
+ <script type="text/javascript">
+ prettyPrint();
+ </script>
+
+<script type="text/javascript" src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/dit_scripts.js"></script>
+
+
+
+  
+ 
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/ph_core.js"></script>
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/ph_dwiki.js"></script>
+ 
+ 
+ 
+ 
+</div> 
+
+<div id="footer" dir="ltr">
+ <div class="text">
+ <a href="/projecthosting/terms.html">Terms</a> -
+ <a href="http://www.google.com/privacy.html">Privacy</a> -
+ <a href="/p/support/">Project Hosting Help</a>
+ </div>
+</div>
+ <div class="hostedBy" style="margin-top: -20px;">
+ <span style="vertical-align: top;">Powered by <a href="http://code.google.com/projecthosting/">Google Project Hosting</a></span>
+ </div>
+
+ 
+ 
+
+
+ 
+ </body>
+</html>
+
+
