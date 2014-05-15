@@ -201,9 +201,28 @@ public class MainWindowController
     @FXML
     public Label chargerVoltageLabel;
 
+    //GB-08-M2 Tab
+    @FXML
+    public Button gb08m2ForwardBtn;
+    @FXML
+    public Button gb08m2BackwardBtn;
+    @FXML
+    public Button gb08m2TurnLeftBtn;
+    @FXML
+    public Button gb08m2TurnRightBtn;
+    @FXML
+    public Button gb08m2ForwardLeftBtn;
+    @FXML
+    public Button gb08m2ForwardRightBtn;
+    @FXML
+    public Button gb08m2BackwardLeftBtn;
+    @FXML
+    public Button gb08m2BackwardRightBtn;
+    @FXML
+    public Slider gb08m2Duty;
+
     @SuppressWarnings("rawtypes")
-    final TableColumn[] columns =
-        { deviceNameCol, portNameCol, deviceConnectedCol };
+    final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
 
     ObservableList<CDCDevice> valterCDCDevices = FXCollections.observableArrayList();
     public final HashMap<String, CDCDevice> valterBoards = new HashMap<String, CDCDevice>();
@@ -230,6 +249,8 @@ public class MainWindowController
         initializeTurretControlElements();
         initializePlatformControlP1SwitchesElements();
         initializePowerStatus();
+        //Temporary gb08m2
+        initializeGB08M2Control();
 
         //Connections
         deviceNameCol.setCellValueFactory(new PropertyValueFactory<CDCDevice, String>("deviceName"));
@@ -362,12 +383,12 @@ public class MainWindowController
                     System.out.println(cdcDevice.getDeviceName());
                     switch (cdcDevice.getDeviceName())
                     {
-                        case "PLATFORM-CONTROL-P1":
-                            selectedDeviceCommandsComboBox.setItems(PLATFORM_CONTROL_P1.commands);
-                            break;
-                        case "PLATFORM-LOCATION-P1":
-                            selectedDeviceCommandsComboBox.setItems(PLATFORM_LOCATION_P1.commands);
-                            break;
+                    case "PLATFORM-CONTROL-P1":
+                        selectedDeviceCommandsComboBox.setItems(PLATFORM_CONTROL_P1.commands);
+                        break;
+                    case "PLATFORM-LOCATION-P1":
+                        selectedDeviceCommandsComboBox.setItems(PLATFORM_LOCATION_P1.commands);
+                        break;
                     }
                 }
             }
@@ -798,6 +819,273 @@ public class MainWindowController
                 }
             }
         });
+    }
+
+    private void initializeGB08M2Control()
+    {
+        gb08m2ForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("FORWARD");
+            }
+        });
+
+        gb08m2BackwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("BACKWARD");
+            }
+        });
+
+        gb08m2ForwardRightBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("FORWARDRIGHT");
+            }
+        });
+
+        gb08m2ForwardLeftBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("FORWARDLEFT");
+            }
+        });
+
+        gb08m2BackwardRightBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("BACKWARDRIGHT");
+            }
+        });
+
+        gb08m2BackwardLeftBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("BACKWARDLEFT");
+            }
+        });
+
+        gb08m2TurnRightBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("TURNRIGHT");
+            }
+        });
+
+        gb08m2TurnLeftBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("TURNLEFT");
+            }
+        });
+
+        //breaking gb08m2
+        gb08m2ForwardBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+        gb08m2BackwardBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+        gb08m2ForwardRightBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+        gb08m2ForwardLeftBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+        gb08m2BackwardRightBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+        gb08m2BackwardLeftBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+        gb08m2TurnLeftBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+        gb08m2TurnRightBtn.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("STOP");
+            }
+        });
+    }
+
+    public int gb08m2CurDuty = 1;
+    public boolean isBreaking = false;
+
+    //Temporary for gb-08-m2
+    public void gb08m2ExecuteCmd(String command)
+    {
+        class BreakingRunnable implements Runnable
+        {
+            CDCDevice cdcDevice;
+
+            public BreakingRunnable(CDCDevice cdcDevice)
+            {
+                this.cdcDevice = cdcDevice;
+            }
+
+            @Override
+            public void run()
+            {
+                try
+                {
+                    while (gb08m2CurDuty > 1)
+                    {
+                        isBreaking = true;
+                        gb08m2CurDuty--;
+                        Thread.sleep(1);
+                        cdcDevice.writeData("FRONTLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        cdcDevice.writeData("FRONTRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        cdcDevice.writeData("REARLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        cdcDevice.writeData("REARRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        System.out.println("GB-08-M2 BREAKING:" + gb08m2CurDuty);
+                    }
+                    cdcDevice.writeData("LEFTSTOP");
+                    cdcDevice.writeData("RIGHTSTOP");
+                    isBreaking = false;
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        class AcceleratingRunnable implements Runnable
+        {
+            int targetDuty = 1;
+            CDCDevice cdcDevice;
+
+            public AcceleratingRunnable(int targetDuty, CDCDevice cdcDevice)
+            {
+                this.targetDuty = targetDuty;
+                this.cdcDevice = cdcDevice;
+            }
+
+            @Override
+            public void run()
+            {
+                try
+                {
+                    while (gb08m2CurDuty < targetDuty && !isBreaking)
+                    {
+                        gb08m2CurDuty++;
+                        Thread.sleep(10);
+                        cdcDevice.writeData("FRONTLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        cdcDevice.writeData("FRONTRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        cdcDevice.writeData("REARLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        cdcDevice.writeData("REARRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        System.out.println("GB-08-M2 ACCELERATING:" + gb08m2CurDuty);
+                    }
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (deviceTable.getSelectionModel().getSelectedItem() != null)
+        {
+            CDCDevice cdcDevice = deviceTable.getSelectionModel().getSelectedItem();
+            System.out.println(cdcDevice.getDeviceName());
+            if (cdcDevice.getDeviceName().contains("GB-08-M2 MAIN BOARD"))
+            {
+                switch (command)
+                {
+                case "FORWARD":
+                    cdcDevice.writeData("LEFTFORWARD");
+                    cdcDevice.writeData("RIGHTFORWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "BACKWARD":
+                    cdcDevice.writeData("LEFTBACKWARD");
+                    cdcDevice.writeData("RIGHTBACKWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "FORWARDRIGHT":
+                    cdcDevice.writeData("RIGHTFORWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "FORWARDLEFT":
+                    cdcDevice.writeData("LEFTFORWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "BACKWARDRIGHT":
+                    cdcDevice.writeData("RIGHTBACKWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "BACKWARDLEFT":
+                    cdcDevice.writeData("LEFTBACKWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "TURNRIGHT":
+                    cdcDevice.writeData("LEFTFORWARD");
+                    cdcDevice.writeData("RIGHTBACKWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "TURNLEFT":
+                    cdcDevice.writeData("LEFTBACKWARD");
+                    cdcDevice.writeData("RIGHTFORWARD");
+                    new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue(), cdcDevice)).start();
+                    break;
+                case "STOP":
+                    new Thread(new BreakingRunnable(cdcDevice)).start();
+                    break;
+                }
+            }
+        }
     }
 
     @FXML
