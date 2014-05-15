@@ -1,0 +1,2175 @@
+
+ 
+
+
+
+ 
+ 
+ 
+
+
+
+ 
+ 
+ <!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+ <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" >
+ 
+ <meta name="ROBOTS" content="NOARCHIVE">
+ 
+ <link rel="icon" type="image/vnd.microsoft.icon" href="http://www.gstatic.com/codesite/ph/images/phosting.ico">
+ 
+ 
+ <link rel="canonical" href="http://code.google.com/p/beagleboard/wiki/BootingBeagleBoard" />
+ 
+ <script type="text/javascript">
+ 
+ 
+ 
+ 
+ var codesite_token = null;
+ 
+ 
+ var CS_env = {"loggedInUserEmail": null, "projectHomeUrl": "/p/beagleboard", "relativeBaseUrl": "", "assetHostPath": "http://www.gstatic.com/codesite/ph", "domainName": null, "profileUrl": null, "assetVersionPath": "http://www.gstatic.com/codesite/ph/3427079965498762429", "token": null, "projectName": "beagleboard"};
+ var _gaq = _gaq || [];
+ _gaq.push(
+ ['siteTracker._setAccount', 'UA-18071-1'],
+ ['siteTracker._trackPageview']);
+ 
+ _gaq.push(
+ ['projectTracker._setAccount', 'UA-3429714-3'],
+ ['projectTracker._trackPageview']);
+ 
+ (function() {
+ var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+ })();
+ 
+ </script>
+ 
+ 
+ <title>BootingBeagleBoard - 
+ beagleboard -
+ 
+ Procedure to boot Linux on Beagle Board. - 
+ Low-cost, low-power single-board computer - Google Project Hosting
+ </title>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/3427079965498762429/css/core.css">
+ 
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/3427079965498762429/css/ph_detail.css" >
+ 
+ 
+ 
+ <link type="application/atom+xml" rel="alternate" href="/feeds/p/beagleboard/gitchanges/basic?path=/BootingBeagleBoard.wiki&amp;repo=wiki">
+ 
+ 
+<!--[if IE]>
+ <link type="text/css" rel="stylesheet" href="http://www.gstatic.com/codesite/ph/3427079965498762429/css/d_ie.css" >
+<![endif]-->
+ <style type="text/css">
+ .menuIcon.off { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -42px }
+ .menuIcon.on { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 -28px }
+ .menuIcon.down { background: no-repeat url(http://www.gstatic.com/codesite/ph/images/dropdown_sprite.gif) 0 0; }
+ 
+ 
+ #maincol {
+ padding-top: 0;
+ padding-bottom: 0;
+ }
+
+ 
+ </style>
+</head>
+<body class="t6">
+<script type="text/javascript">
+ window.___gcfg = {lang: 'en'};
+ (function() 
+ {var po = document.createElement("script");
+ po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+ var s = document.getElementsByTagName("script")[0];
+ s.parentNode.insertBefore(po, s);
+ })();
+</script>
+<div class="headbg">
+
+ <div id="gaia">
+ 
+
+ <span>
+ 
+ 
+ <a href="#" id="projects-dropdown" onclick="return false;"><u>My favorites</u> <small>&#9660;</small></a>
+ | <a href="https://www.google.com/accounts/ServiceLogin?service=code&amp;ltmpl=phosting&amp;continue=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBootingBeagleBoard&amp;followup=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBootingBeagleBoard" onclick="_CS_click('/gb/ph/signin');"><u>Sign in</u></a>
+ 
+ </span>
+
+ </div>
+
+ <div class="gbh" style="left: 0pt;"></div>
+ <div class="gbh" style="right: 0pt;"></div>
+ 
+ 
+ <div style="height: 1px"></div>
+<!--[if lte IE 7]>
+<div style="text-align:center;">
+Your version of Internet Explorer is not supported. Try a browser that
+contributes to open source, such as <a href="http://www.firefox.com">Firefox</a>,
+<a href="http://www.google.com/chrome">Google Chrome</a>, or
+<a href="http://code.google.com/chrome/chromeframe/">Google Chrome Frame</a>.
+</div>
+<![endif]-->
+
+
+
+ <table style="padding:0px; margin: 0px 0px 10px 0px; width:100%" cellpadding="0" cellspacing="0"
+ itemscope itemtype="http://schema.org/CreativeWork">
+ <tr style="height: 58px;">
+ 
+ 
+ 
+ <td id="plogo">
+ <link itemprop="url" href="/p/beagleboard">
+ <a href="/p/beagleboard/">
+ 
+ 
+ <img src="/p/beagleboard/logo?cct=1306947512"
+ alt="Logo" itemprop="image">
+ 
+ </a>
+ </td>
+ 
+ <td style="padding-left: 0.5em">
+ 
+ <div id="pname">
+ <a href="/p/beagleboard/"><span itemprop="name">beagleboard</span></a>
+ </div>
+ 
+ <div id="psum">
+ <a id="project_summary_link"
+ href="/p/beagleboard/"><span itemprop="description">Low-cost, low-power single-board computer</span></a>
+ 
+ </div>
+ 
+ 
+ </td>
+ <td style="white-space:nowrap;text-align:right; vertical-align:bottom;">
+ 
+ <form action="/hosting/search">
+ <input size="30" name="q" value="" type="text">
+ 
+ <input type="submit" name="projectsearch" value="Search projects" >
+ </form>
+ 
+ </tr>
+ </table>
+
+</div>
+
+ 
+<div id="mt" class="gtb"> 
+ <a href="/p/beagleboard/" class="tab ">Project&nbsp;Home</a>
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/downloads/list" class="tab ">Downloads</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/w/list" class="tab active">Wiki</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/issues/list"
+ class="tab ">Issues</a>
+ 
+ 
+ 
+ 
+ 
+ <a href="/p/beagleboard/source/checkout"
+ class="tab ">Source</a>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class=gtbc></div>
+</div>
+<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" class="st">
+ <tr>
+ 
+ 
+ 
+ <td class="subt">
+ <div class="issueDetail">
+<div class="isf">
+ 
+ <span class="inIssueList"> 
+ <span>Search</span>
+ <form action="/p/beagleboard/w/list" method="GET" style="display:inline">
+ <select id="can" name="can" >
+ <option disabled="disabled">Search within:</option>
+ 
+ <option value="1" >&nbsp;All wiki pages</option>
+ <option value="3" >&nbsp;Featured pages</option>
+ <option value="2" selected="selected">&nbsp;Current pages</option>
+ 
+ 
+ <option value="4" >&nbsp;Deprecated pages</option>
+ 
+ </select>
+ <span>for</span>
+ <span id="qq"><input type="text" size="38" id="searchq" name="q" value=""
+ autocomplete="off" ></span>
+ 
+ 
+ 
+ <input type="submit" value="Search" >
+ </form>
+ </span>
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+</div>
+</div>
+
+ </td>
+ 
+ 
+ 
+ 
+ 
+ 
+ <td align="right" valign="top" class="bevel-right"></td>
+ </tr>
+</table>
+
+
+<script type="text/javascript">
+ var cancelBubble = false;
+ function _go(url) { document.location = url; }
+</script>
+<div id="maincol"
+ 
+>
+
+ 
+
+
+
+
+
+
+
+ <style type="text/css">
+ .delcom { background: #e8e8e8 }
+ .commentcontent {
+ margin: 2em;
+ padding: 0px 10px;
+ width: 66em;
+ }
+ .artifactcomment {
+ border-top: 3px solid #c3d9ff;
+ }
+ #commentform {
+ border-top: 3px solid #c3d9ff;
+ }
+ </style>
+
+<div id="wikipage">
+<table>
+ <tr>
+ 
+ 
+ <td style="vertical-align:top; padding-left:5px">
+ 
+ <div id="wikiheader">
+ 
+ <span style="font-size:120%;font-weight:bold">BootingBeagleBoard</span>
+ &nbsp;
+ <div> 
+ 
+ <i>Procedure to boot Linux on Beagle Board.</i>
+ 
+ 
+ <br/>
+ 
+ <a class="label" style="padding-top: 2px"
+ href="/p/beagleboard/w/list?q=label:Featured"
+ title="Listed on project home page"
+ >Featured</a>
+ 
+ 
+ 
+ <div id="wikiauthor" style="float:right">
+ Updated <span title="Wed Jul 27 20:20:15 2011">
+ Jul 27, 2011</span>
+ 
+ </div>
+ </div>
+ </div>
+ 
+ <div id="wikicontent">
+ <div class="vt" id="wikimaincol">
+ <h1><a name="Booting_Beagle_Software"></a>Booting Beagle Software<a href="#Booting_Beagle_Software" class="section_anchor"></a></h1><p>Beagle Board can boot from NAND, MMC, UART, and USB. At present we support only NAND and MMC booting. The compilation steps for software components and pre-built images are described at <a href="http://code.google.com/p/beagleboard/wiki/BeagleSoftCompile" rel="nofollow">Beagle Software Compilation Procedure</a> </p><h2><a name="Booting_u-boot_on_Beagle_Board"></a>Booting u-boot on Beagle Board<a href="#Booting_u-boot_on_Beagle_Board" class="section_anchor"></a></h2><p>The u-boot booting on NAND and MMC need another software component called x-loader. The booting procedure for x-loader as such doesn&#x27;t need any detailed explanation, so this section includes x-loader booting as well. </p><p><strong> Booting u-boot on NAND Flash <ul><li>Assumption: All Beagle &quot;Rev B&quot; Boards come with pre-loaded u-boot on NAND flash </li><li>Do the <a href="http://code.google.com/p/beagleboard/wiki/BeagleBootHwSetup" rel="nofollow">Hardware Setup</a> for booting u-boot over NAND Flash. </li><li>On &quot;Powering ON&quot; the board, u-boot 1.3.3 should boot by displaying a splash screen on DVI and playing a tone on audio out, the u-boot console should be shown as below </li></strong></p><pre class="prettyprint">        Texas Instruments X-Loader 1.41
+        Starting OS Bootloader...
+
+
+        U-Boot 1.3.3 (Jul  8 2008 - 16:29:02)
+
+        OMAP3530-GP rev 2, CPU-OPP2 L3-165MHz
+        OMAP3 Beagle Board + LPDDR/NAND
+        DRAM:  128 MB
+        NAND:  256 MiB
+        *** Warning - bad CRC or NAND, using default environment
+
+        In:    serial
+        Out:   serial
+        Err:   serial
+        Audio Tone on Speakers  ... complete
+        Hit any key to stop autoboot:  0
+        OMAP3 beagleboard.org #</pre></ul><p>NOTE: If u-boot is not Flashed on the NAND, then refer to <a href="http://elinux.org/BeagleBoardNAND" rel="nofollow">Beagle NAND Flash Procedure</a> to do the same </p><p><strong> Booting u-boot with MMC/SD Card <ul><li>Do the <a href="http://code.google.com/p/beagleboard/wiki/BeagleBootHwSetup" rel="nofollow">Hardware Setup</a> for booting u-boot over MMC/SD Card. </li><li>On &quot;Powering ON&quot; the board, u-boot 1.3.3 should boot by displaying a splash screen on DVI and playing a tone on audio out, the u-boot console should be shown as below </li></strong></p><pre class="prettyprint">       Texas Instruments X-Loader 1.41
+       Starting on with MMC
+       Reading boot sector
+
+       717372 Bytes Read from MMC
+       Starting OS Bootloader from MMC...
+
+
+       U-Boot 1.3.3 (Jul  8 2008 - 19:29:48)
+
+       OMAP3530-GP rev 2, CPU-OPP2 L3-165MHz
+       OMAP3 Beagle Board + LPDDR/NAND
+       DRAM:  128 MB
+       NAND:  256 MiB
+       In:    serial
+       Out:   serial
+       Err:   serial
+       Audio Tone on Speakers  ... complete
+       Hit any key to stop autoboot:  0
+       OMAP3 beagleboard.org #</pre></ul><p>   </p><h2><a name="Boot_the_Linux_Image_on_Beagle_Board"></a>Boot the Linux Image on Beagle Board<a href="#Boot_the_Linux_Image_on_Beagle_Board" class="section_anchor"></a></h2><p>Once you have u-boot booted over NAND or MMC, a Linux kernel image can be booted on Beagle Board. </p><p>The Linux Kernel Image (uImage) can be downloaded on to Beagle DDR memory using  </p><p>UART (time consuming), MMC, NAND (if it was stored in it), USB (Not supported yet).  </p><p>The Below procedure gives MMC based Linux Kernel Booting. </p><ol><li>Complile the Linux Kernel Image &quot;uImage&quot;. </li><li>Copy the uImage file in MMC/SD card pre-formated for FAT32. </li><li>Download the uImage </li><pre class="prettyprint">       OMAP3 beagleboard.org # mmcinit
+       OMAP3 beagleboard.org # fatload mmc 0 0x80300000 uImage</pre><li>Set/Configure the boot arguments </li></ol><p>The filesystem to be mounted could be present in MMC, RAM (Ramdisk), NAND (if copied), Ethernet (using Ethernet over USB Dongle on USB HOST machine). The Bootargs for each of these is shown Below <ul><li>Bootargs for RAMDISK File System </li></p><pre class="prettyprint">          OMAP3 beagleboard.org # setenv bootargs console=ttyS2,115200n8 ramdisk_size=8192 root=/dev/ram0 rw rootfstype=ext2 initrd=0x81600000,8M nohz=off</pre><li>Bootargs for MMC File System </li><pre class="prettyprint">          OMAP3 beagleboard.org # setenv bootargs console=ttyS2,115200n8 noinitrd root=/dev/mmcblk0p1 rootfstype=ext2 rw rootdelay=1 nohz=off</pre><li>Bootargs for NAND (JFFS2) File System) </li><blockquote>TBD 
+</blockquote><li>Bootargs for NFS (using Ethernet over USB Dongle) </li><blockquote>TBD 
+</blockquote></ul><ol><li>Getting File System on Beagle Board </li><ul><li>RAMDISK File system </li><pre class="prettyprint">          OMAP3 beagleboard.org # fatload mmc 0 0x81600000 rd-ext2.bin
+  
+          NOTE: rd-ext2.bin should have been copied onto MMC Card.</pre><li>MMC File system </li><ul><li>Copy Filesystem on MMC/SD card. </li><pre class="prettyprint">          Format an MMC/SD card for ext2/ext3 file system using Linux Machine
+          Mount the MMC/SD card on Host Linux Machine
+          UnTar the Pre-built Filesystem
+          Un-Mount the MMC/SD card on Host Linux Machine</pre><li>Remove the MMC/SD card that had uImage, and insert the MMC/SD card that has Filesystem. </li></ul></ul><li>Booting the Kernel Image </li><pre class="prettyprint">       OMAP3 beagleboard.org # bootm 0x80300000</pre></ol>
+ </div>
+ </div>
+ </td><tr>
+</table>
+ </div>
+
+
+ 
+ <div id="wikicommentcol">
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+<div class="collapse">
+
+
+ 
+
+
+<div id="commentlist">
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by  project member 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/102344295024422039483/">jkrid...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Jul 17 13:05:04 2008">Jul 17, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>The two cases that need to be considered are: 1) the factory installed u-boot is running fine and 2) the NAND flash needs to be completely replaced back to factory conditions. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/103597034352682332839/">charliex...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Aug 29 15:30:09 2008">Aug 29, 2008</span>
+ <div>
+<div class="commentcontent">
+<p>this page is linked to for the HP Boot tool, i found it here. </p><p><a href="http://www.bootdisk.com/pendrive.htm" rel="nofollow">http://www.bootdisk.com/pendrive.htm</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116496320978945088509/">suresh...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Feb 15 21:55:47 2009">Feb 15, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Hi, I have this problem. </p><p>kernel panic - not syncing: VFS:Unable to mount root fs ... </p><p>Can somebody suggest me, how to solve this.  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116496320978945088509/">suresh...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Feb 17 10:03:10 2009">Feb 17, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Hi, </p><p>It worked, it mounted File system.  </p><p>Just followed  </p><p><a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat" rel="nofollow">http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat</a> </p><p>since i used Ubuntu 8.04 LTS Geometry of SD card options was not working fine me. If you need any help on this pls let me know. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">milon...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Mon Feb 23 04:15:40 2009">Feb 23, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Bootargs for NAND (JFFS2) File System)  TBD  Bootargs for NFS (using Ethernet over USB Dongle)  TBD </p><p>what it mean TBD </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/118003728212858037932/">winyverm...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Mar  5 03:17:08 2009">Mar 5, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>TBD means &quot;to be done&quot; </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">biswajit...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Fri Mar  6 01:07:34 2009">Mar 6, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>i m trying to boot 4m mmc plus card having total 13 pin just after partioning and adding image files to it. </p><p>it displays  Texas Instruments X-Loader 1.41                                                  Starting on with MMC                                                             Reading boot sector                                                                                                                                               265136 Bytes Read from MMC                                                       Starting OS Bootloader from MMC...                                                                                                                                                                                                                 U-Boot 2009.01-00013-g52eddcd (Feb 03 2009 - 22:25:11)                                                                                                            OMAP3530-GP rev 2, CPU-OPP2 L3-165MHz                                            OMAP3 Beagle board + LPDDR/NAND                                                  DRAM:  128 MB                                                                    NAND:  256 MiB                                                                   Using default environment                                                                                                                                         In:    serial                                                                    Out:   serial                                                                    Err:   serial                                                                    Board revision Ax/Bx                                                             Serial #2cee00030000000004013f790301b004                                         Hit any key to stop autoboot:  0                                                 reading boot.scr                                                                                                                                                  <strong></strong> Unable to read &quot;boot.scr&quot; from mmc 0:1 <strong></strong>                                     reading uImage.bin                                                                                                                                                <strong></strong> Unable to read &quot;uImage.bin&quot; from mmc 0:1 <strong></strong>                                   Booting from nand ...                                                                                                                                             NAND read: device 0 offset 0x280000, size 0x400000                               <blockquote>4194304 bytes read: OK                                                          
+</blockquote>Wrong Image Format for bootm command                                             ERROR: can&#x27;t get kernel image!                                                   OMAP3 beagleboard.org #  </p><p>PROVIDE SOLUTION  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">quadr...@googlemail.com</span>,
+ 
+ </span>
+ <span class="date" title="Fri Mar  6 07:35:59 2009">Mar 6, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>biswajit.jun, Which version of u-boot do you use? I had same when I tried version on Angstrom demo files (it messes with bootup environment). Try older version like 1.3.3 - it works OK. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">jarrelld...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Tue Mar 31 14:10:25 2009">Mar 31, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>So I finally got the board speaking through hyperterminal. I however am having trouble getting it to recognize the SD card and boot with MMC?  Anyone have any suggestions? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">rajesh...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Mon Jun 15 12:45:15 2009">Jun 15, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Hi, I have this issue wherein I get CRC verification failed when I do a bootm after copying the kernel image from SD to memory.. I tried 2-3 different images, but in vain. I tries the same image given for verification in google code.. pls advice... what are the possible reasons? The image is fully copied to memory... no problem there. Thanks,  -Rajesh  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/odwyerrob/">odwyerrob</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Jun 19 17:52:25 2009">Jun 19, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Whats the best way to set up the fstab for a board booting from MMC? </p><p>I get a bunch of errors on startup, and I&#x27;m assuming they&#x27;re from trying to mount the main filesystem as flash... </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/109508296556710938997/">gurushun...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Aug 18 04:16:52 2009">Aug 18, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Guys, After creating the two partitions, I copied the files in the order specified on the beagleboard page, <a href="http://code.google.com/p/beagleboard/wiki/BeagleboardRevCValidation" rel="nofollow">http://code.google.com/p/beagleboard/wiki/BeagleboardRevCValidation</a> to partition labled W95 FAT32(LBA) </p><p>Disk /dev/sdb: 2032 MB, 2032664576 bytes 255 heads, 63 sectors/track, 247 cylinders Units = cylinders of 16065 <strong> 512 = 8225280 bytes </strong></p><p>Disk identifier: 0x112a1eb6 </p><blockquote>Device   Boot        Start        End      Blocks   Id  System 
+<blockquote>/dev/sdb1   <strong>           1          50      401593+   c  W95 FAT32 (LBA) 
+<blockquote>/dev/sdb2               51         247     1582402+  83  Linux 
+</blockquote></blockquote></blockquote><p>Command (m for help): </strong></p><p>MLO u-boot.bin u-boot-f.bin ramdisk.gz uImage.bin boot.scr x-load.bin.ift normal.scr </p><p>The instructions did not specify what files go to the respective partitions. So, I copied everything onto the FAT32 partition. </p><p>I just cannot get the beagleboard(Rev B7) to boot from SD card.I do NOT know what else to try. This is frustrating. Please help. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/110706194781029749959/">neta.zm...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Aug 20 12:48:38 2009">Aug 20, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Hi gurushunkara, I used the Angstrom files on a revision C3 boards and it worked quite well, so I suggest you try Angstrom first. You say &quot;I just cannot get the beagleboard(Rev B7) to boot from SD card&quot; - can you explain what happens when you boot? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/117663252125159863817/">svar...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Sep 18 21:32:34 2009">Sep 18, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>Can other versions of Linux other than the Angstrom be run on the Beagle Board..I have to run matlab on the linux (this is the reason !) ! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/112379512970865769245/">petri.ko...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Oct  8 17:28:03 2009">Oct 8, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I&#x27;m in the same situation as gurushunkara. I have beagleboard Rev C3 with 2GB card. I have tried with 8GB and 1GB card. I just can&#x27;t get it to boot from SD card. it starts up with beagle image, then beagle image is wiped away, but pawns are left. then board just hangs... </p><p>Please help! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/114926707006499544188/">concours...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Oct 16 20:53:04 2009">Oct 16, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>try to copy &quot;MLO u-boot.bin u-boot-f.bin ramdisk.gz uImage.bin boot.scr x-load.bin.ift normal.scr&quot; files one by one on you mmc and rename it before copy one other file, and START by MLO file.   </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/100426362533267636983/">chetanna...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Nov 24 01:58:50 2009">Nov 24, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I have purchased a beagleboard. On powering it up using USB port (from Laptop) it keeps printing &quot;Texas Instruments X-Loader .....&quot; continuously. And no LED except POWER LED gets on. </p><p>But whe I use AC power then there is no output on console. But it seems that board is booting as after some time 3 LEDs get oned. </p><p>I am not sure whether its a hardware issue or what. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/114715068062073371231/">c.n.aana...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sat Dec 19 12:10:06 2009">Dec 19, 2009</span>
+ <div>
+<div class="commentcontent">
+<p>I used the files and followed the procedure from <a href="http://code.google.com/p/beagleboard/wiki/BeagleboardRevCValidation" rel="nofollow">http://code.google.com/p/beagleboard/wiki/BeagleboardRevCValidation</a> </p><p>I get following messages: </p><p>U-Boot 2009.01-dirty (Feb 19 2009 - 12:23:21) </p><p>I2C:   ready OMAP3530-GP rev 2, CPU-OPP2 L3-165MHz OMAP3 Beagle board + LPDDR/NAND DRAM:  256 MB NAND:  256 MiB Using default environment </p><p>MUSB: using high speed In:    serial usbtty  Out:   serial usbtty  Err:   serial usbtty  Board revision C Serial #662c0003000000000403230910011005 Hit any key to stop autoboot: 0  reading boot.scr </p><p><strong></strong> Unable to read &quot;boot.scr&quot; from mmc 0:1 <strong></strong> </p><p>I also renamed the normal.scr as boot.scr and re-tried, it didn&#x27;t continue further. Kindly help. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/114150148258068710964/">panduran...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Wed Feb  3 22:20:49 2010">Feb 3, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>!!!Need Help !!! I got the kernel compiled for power management features on Beagal.  The Image compiled I renamed to uImage and downloaded to the SD card with the proper sequence.   Beagal loads the image and ramdisk and after some time throws the error &quot;Wrong Image format &quot;  Is this the problem with Kernel image or download process? </p><p>Thanks in advance.. -Pandurang  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/gigamegawatts@gmail.com/">gigamegawatts@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Mar 28 12:13:25 2010">Mar 28, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>As with a few other people above, I had a problem with my initial bootup after preparing the SD card: &quot;Wrong Image Format for bootm command&quot; and &quot;ERROR: can&#x27;t get kernel image!&quot; </p><p>The problem in my case was the version of U-Boot.  I was running the &quot;U-Boot 2009.01-dirty (Feb 19 2009 - 12:23:21)&quot; version, which came from an Angstrom distro.  This version either doesn&#x27;t support boot.scr, or leaves some settings in NAND that interfere with the Ubuntu boot.scr - not sure which. </p><p>The solution is to upgrade to a more recent version of U-Boot -- the 2009.11 rc1 version currently listed at <a href="http://elinux.org/BeagleBoardUbuntu#Upgrade_U-Boot" rel="nofollow">http://elinux.org/BeagleBoardUbuntu#Upgrade_U-Boot</a> did the trick for me. </p><p>If you&#x27;re not sure that U-Boot is the problem, you can try manually entering the commands that are in the Ubuntu boot.scr file.  In my case, Ubuntu booted OK when I did so. </p><p>HTH, </p><p>Dan. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/111980192330209424833/">cspatlo...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Apr  8 10:59:41 2010">Apr 8, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>I connected serial port to system using USB to Serial connecter, later given the power supply, in terminal junk characters are showing.Any help?  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/112278242061508134329/">santhos...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Apr 30 06:28:48 2010">Apr 30, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>I downloaded files from Angstrom and copied as per guidelines. When I tried to load uImage using the command fatload mmc 0 80000000 uImage , it is giving the error <strong></strong><strong> Unable to read &quot;uImage&quot; from mmc 0:1.  </strong></p><p>what will be the issue, any idea? Also on what basis we are deciding the address of uImage (80000000)? </p><p>Thanks, San </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/101198581125056494460/">michel.c...@atelier.tm</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Aug 10 05:44:13 2010">Aug 10, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Hi, I tried to mount root fs using NFS but I get a kernel panic. The last traces I have are: <blockquote>VFS: Mounted root (nfs filesystem) on device 0:12 
+Freeing init memory: 172k 
+Warning: unable to open an initial console 
+Kernel panic - not syncing : No init found. try passing init= option to kernel 
+</blockquote></p><p>The kernel i loaded from mmc. When I use the same root fs and kernel on SD card all is working. </p><p>To mount root fs using NFS I have processed as following <ol><li> boot with uImage and rootfs on SD card </li></ol><blockquote>2) When boot complete create /dev/nfs directory 
+3) Start eth0 interface (ethernet over USB adapter) and ping NFS server IP. 
+<blockquote>Beagleboard# netcfg eth0 up 
+Beagleboard# netcfg eth0 dchp 
+Beagleboard# netcfg 
+Beagleboard# ping NFS_SERVER_IP 
+</blockquote>4)Reset board and stop boot to update environement variable using commands: 
+<blockquote>Beagleboard# setenv bootargs &#x27;console=ttyS2,115200n8 noinitrd rw ip=dhcp root=/dev/nfs nfsroot=NFS_SERVER_IP:/ROOT_FS_PATH,nolock,rsize=1024,wsize=1024,rootdelay=2&#x27; 
+Beagleboard# setenv bootcm &#x27;mmc init; faltload mmc 0 84000000 uImage; bootm 84000000&#x27; 
+Beagleboard# boot 
+</blockquote></blockquote></p><p>I alos tried: <blockquote>Beagleboard# setenv bootargs &#x27;console=ttyS2,115200n8 noinitrd rw ip=dhcp root=/dev/nfs nfsroot=NFS_SERVER_IP:/ROOT_FS_PATH,nolock,rsize=1024,wsize=1024,rootdelay=2 init=/init&#x27; with no success. 
+</blockquote></p><p>I there something to change between root fs on SD card and on NFS server to make init work? As I am new on Beagleboard, Is it possible for somebody to give a full step by step explanation (or link to explanation) on how to mount root fs from NFS server on Beagleboard C3 using ethernet over USB dongle? Thanks for your help, Michel </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/115220471990390927783/">weijui...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Aug 12 02:56:57 2010">Aug 12, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>@michel I just hit the same problem and found out it&#x27;s my host nfs setup that has problems. Adding the line &quot;/my_nfs_dir_path <strong>(rw,no_root_squash,no_all_squash,sync)&quot; to /etc/exports and restarting nfs service on my nfs host fixed it for me. </strong></p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/109897909259122723442/">neeraj1...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Thu Sep  2 02:40:03 2010">Sep 2, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Hi, can anyone tell me what is the minimum SD card storage capacity required?? I need to buy a new SD card for this, but dont want to spend extra money on space i dont require. so wats the recommended size? Also, does anyone know if android rowboat can be loaded and booted from flash?? if so can u plz give me a link to such a tutorial? thnks a lot! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116733674525452217249/">Ahmad.El...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Sep  3 17:14:12 2010">Sep 3, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>i have a problem in communication with the BB. I can get the messages coming from the BB but i can&#x27;t send any commands. What could be wrong in my setup ? - i tried to use almost all the terminal emulators known with the same results !! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116733674525452217249/">Ahmad.El...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sat Sep  4 06:40:06 2010">Sep 4, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>@ cspatlolla: are you sure you correctly configured the COM port to 115200 baudrate ? i got the same output and the COM was configured to be 9600 bps.  </p><p>Regards, -- A.El-Saeed </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/100676583967697557200/">cppge...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Oct 10 12:01:27 2010">Oct 10, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>A.El-Saeed, </p><p>Had the same problem. Mine was due to using an incorrect serial cable. You must use a Null-modem cable. Other serial cables have the rx/tx lines wired differently. Null-modem cables are wired correctly. </p><p>John </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/100676583967697557200/">cppge...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Oct 10 21:24:41 2010">Oct 10, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>cspatlolla, </p><p>Had the same problem on a BB C4. I got &quot;40W&quot; with some additional junk characters. </p><p>In short, the TI ROM routine is looking for some very specific things on the SD card, if any one of them is wrong, you get the &quot;40W&quot;. </p><p>Here&#x27;s what happened. I had everything booting up nicely from an 8G SDCard. I then typed in &quot;nand unlock&quot; and &quot;nand erase&quot; at the bootloader prompt as described here <a href="http://code.google.com/p/beagleboard/wiki/BeagleNANDFlashing" rel="nofollow">http://code.google.com/p/beagleboard/wiki/BeagleNANDFlashing</a> (don&#x27;t ask me why I did that). </p><p>No problem I thought. I can reflash the bootloader, x-loader, etc. from the SD Card. Using the SDCard which only a minute earlier worked like a charm, now failed with &quot;40W&quot;. Conclusion: the MMC routines in the bootloader and the kernel factory installed on the BB, seem to be more forgiving than the TI ROM code. </p><p>After trying a bunch of different things: </p><ul><li>used HP utility to format the disk (my version is 2.1.8 which may be incorrect according to some comments in various pages out there)  </li><li>tried 8G, 2G, 16M cards (saw some comments about certain sizes being too big and I thought I possibly might have a faulty SD card)  </li><li>tried &quot;SDHC&quot; and just &quot;SD&quot; cards (based on a TI wiki page comment)  </li><li>tried the USB recovery method (from WinXP/cygwin, didn&#x27;t work at all)  </li><li>Stopped using Windows XP and started using Linux (Ubuntu 9.1) as the host.  </li><li>tried the mkcard.txt file in the angstrom distribution; It uses mkfs.vfat, vs mkfs.msdos (which may or may not be the same); It also has the DD command at the top of the script (don&#x27;t know if that&#x27;s significant or not).  </li><li>tried sfdisk; tried fdisk  </li><li>tried two partitions vs one partition (again, don&#x27;t know if it&#x27;s significant)  </li><li>wrote a shell script to reformat and load the SD card, so I could absolutely, positively state that MLO is the first file on the virgin partition (as it has to be).  </li><li>various other tries: cursing, yelling loudly, watching copious sci-fi TV, playing heavy metal at 11, etc. </li></ul><p>I finally used the procedure here: </p><blockquote><a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat" rel="nofollow">http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat</a> 
+</blockquote><p>which failed (again) until I followed the comment by &quot;challinan, Aug 05, 2009&quot; and used &quot;51&quot;, not &quot;+50&quot; for the size of partition #1. Voila it worked. </p><p>Well, except for one time, when I got the &quot;40W&quot; again. I pulled the SD Card out and reseated it and it started working again. </p><p>Lesson learned: there&#x27;s a lot of chaff out there. I hope I&#x27;m not contributing to it now but I have successfully created additional SD cards using the same technique so I have a tiny bit of evidence it&#x27;s good. </p><p>Next step, loading angstrom... </p><p>John </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/100676583967697557200/">cppge...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Oct 10 21:29:56 2010">Oct 10, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>BTW. Here&#x27;s the script for creating the partitions. Take note of the copyright (i.e. it&#x27;s not mine!) </p><p>To invoke it use &quot;sudo ./mkcard /dev/sdf&quot; . The &#x27;sdf&#x27; part is what the SD card shows up as on my Ubuntu 9.1. Yours will be different and how to locate it is described in the first couple of steps in  </p><blockquote><a href="http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat" rel="nofollow">http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat</a> 
+</blockquote><pre class="prettyprint">#! /bin/sh
+# mkcard.sh v0.5
+# (c) Copyright 2009 Graeme Gregory &lt;dp@xora.org.uk&gt;
+# Licensed under terms of GPLv2
+#
+# Parts of the procudure base on the work of Denys Dmytriyenko
+# http://wiki.omap.com/index.php/MMC_Boot_Format
+
+# JA:
+#  http://code.google.com/p/beagleboard/wiki/LinuxBootDiskFormat
+# and
+#  mkcard.txt at http://www.angstrom-distribution.org/demo/beagleboard/
+# used 2GB microSD 
+
+export LC_ALL=C
+
+if [ $# -ne 1 ]; then
+	echo &quot;Usage: $0 &lt;drive&gt;&quot;
+	exit 1;
+fi
+
+DRIVE=$1
+
+umount ${DRIVE}1
+
+SIZE=`fdisk -l $DRIVE | grep Disk | grep bytes | awk &#x27;{print $5}&#x27;`
+echo DISK SIZE: $SIZE bytes
+
+CYLINDERS=`echo $SIZE/255/63/512 | bc`
+echo CYLINDERS: $CYLINDERS
+
+sfdisk -D --heads 255 --sectors 63 --cylinders $CYLINDERS $DRIVE &lt;&lt;EOF
+,51,c,*
+,,,-
+EOF
+
+sleep 1
+
+echo Resulting Partition table:
+fdisk -l $DRIVE
+
+umount ${DRIVE}1
+mkfs.msdos -F 32 -n &quot;boot&quot; ${DRIVE}1
+
+umount ${DRIVE}2
+mkfs.ext3 -L &quot;rootfs&quot; ${DRIVE}2</pre>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/103016464532678277389/">philip...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Nov  1 14:36:43 2010">Nov 1, 2010</span>
+ <div>
+<div class="commentcontent">
+<p>Hi  </p><p>I am getting an error when trying to read the uImage. when i type the fatload command and hit enter it reads image then says &#x27;unable to read &quot;uImage&quot; from mmc 0:1. i have the latest uboot kernal and everything else is upto date. </p><p>How do we know what location the uImage is at why 0x80000000 how do i check that my image is at this location ? Cheers Phil </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/111452718344685926478/">raparti....@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Jan 24 00:03:44 2011">Jan 24, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>U-Boot 2009.11-svn12 ( 8��月 16 2010 - 17:25:40)                                                                                                            OMAP3530-GP ES3.1, CPU-OPP2 L3-165MHz                                         OMAP3 SBC3530 + LPDDR/NAND               I2C:   ready                             DRAM:  128 MB                            NAND:  256 MiB                           In:    serial                            Out:   serial                            Err:   serial Ethernet MAC address: 02:c0:05:01:b0:05 Die ID #170000040000000004036ac00501b005 Net:   smc911x-0                                                                 Hit any key to stop autoboot:  0                                                 mmc1 is available                                                                reading boot.scr                                                                                                                                                  <strong></strong> Unable to read &quot;boot.scr&quot; from mmc 0:1 <strong></strong>                                     reading uImage                                                                                                                                                    3195484 bytes read                                                               Booting from mmc ...                                                             ## Booting kernel from Legacy Image at 82000000 ...                              <blockquote>Image Name:   Angstrom/2.6.32/beagleboard                                     
+Image Type:   ARM Linux Kernel Image (uncompressed)                           
+Data Size:    3195420 Bytes =  3 MB                                           
+Load Address: 80008000                                                        
+Entry Point:  80008000                                                        
+Verifying Checksum ... OK                                                     
+Loading Kernel Image ... OK                                                   
+</blockquote>OK                                                                                                                                                                Starting kernel ...    </p><p>booting stops here.. what could be the problem for that? please suggest me some solutions </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">MarcGhi...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Thu Feb  3 21:14:37 2011">Feb 3, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Hi im having the same problem as above.  I get slight further to done, booting the kernel and then it stops any help would be great  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/105124102241984328967/">nndha...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sat Feb 12 00:28:14 2011">Feb 12, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>I just started getting this problem when dealing with my base-image.  It seems like nothing obvious bad is happening.  Perhaps thats all it is to this uImage.  In any case if you are having trouble I recommend trying out this page.  It has a shell script that creates your Angstrom Image for you.  It worked for me on first try! :)  (Well actually a little more cause I was dumbnut and saved uImage as uImage.bin, which gave me <strong></strong>unable to read &quot;uImage&quot; <strong></strong> error): </p><p><a href="http://www.angstrom-distribution.org/building-angstrom" rel="nofollow">http://www.angstrom-distribution.org/building-angstrom</a> </p><p>cheers. -V </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/102387437881232806606/">tpham3...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Feb 18 18:00:22 2011">Feb 18, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>my kernel hung at OK starting kernel. </p><p>This is from torvald&#x27;s 2.6 mainstream kernel (not omap git tree) and running on beagleboard xm.   </p><p>Does anyone know what&#x27;s the problem?  thanks </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/100103366236180087907/">shat...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Jun  6 22:46:27 2011">Jun 6, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>A Dumb question. Why FAT32 is recommended for boot partition? Any specific reasons?  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/110301558429008044842/">Prabhat....@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Jun 20 05:20:35 2011">Jun 20, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>I got solution of error &quot;unable to open initial consol&quot; first check whether your /dev folder is having files or not and make sure that you using uImage made from same kernel version of which you using as root fs. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/110301558429008044842/">Prabhat....@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Jun 20 05:24:49 2011">Jun 20, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>use this also may it helps you.. OMAP3 beagleboard.org # setenv bootargs console=ttyS2,115200n8 noinitrd root=/dev/mmcblk0p1 init=/linuxrc rootfstype=ext2 rw rootdelay=1 nohz=off </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/110301558429008044842/">Prabhat....@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Mon Jun 20 09:44:04 2011">Jun 20, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Better to make rootfs using rootstock. </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/105525441554446644693/">vallabha...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Wed Sep 14 22:20:16 2011">Sep 14, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Hello, </p><p>I get the following output on the terminal and the booting halts. What might be going wrong here? </p><p>Texas Instruments X-Loader 1.4.4ss (Jul 28 2010 - 16:59:13) Beagle xM Rev A Reading boot sector Loading u-boot.bin from mmc </p><p>U-Boot 2010.12-rc3 (Jan 06 2011 - 09:52:08) </p><p>OMAP3630/3730-GP ES2.0, CPU-OPP2, L3-165MHz, Max CPU Clock 1 Ghz OMAP3 Beagle board + LPDDR/NAND I2C: ready DRAM: 512 MiB  </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/102082275381425929101/">rasmus.k...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Oct 25 05:39:40 2011">Oct 25, 2011</span>
+ <div>
+<div class="commentcontent">
+<p>Bootargs for NAND (JFFS2) File System): </p><p>setenv bootargs &#x27;console=ttyS2,115200n8 mpurate=auto buddy=none camera=none vram=12M omapfb.mode=dvi:1280x1024MR-16@60 omapdss.def_disp=dvi root=ubi0:beagleboard-rootfs ubi.mtd=4 rootfstype=ubifs&#x27; </p><p>- Works for me </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">jenniejo...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Sun Jan 22 23:35:11 2012">Jan 22, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>I liked it much and its really appreciative. <a href="http://www.memoryclearance.com/catalogsearch/result/?q=a2251711&amp;x=0&amp;y=0" rel="nofollow">http://www.memoryclearance.com/catalogsearch/result/?q=a2251711&amp;x=0&amp;y=0</a> </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">parth.n....@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Wed Feb 22 00:38:38 2012">Feb 22, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>I am using beagle board-xm which i boot from sd/mmc card with kernel image and file system.MMC card is made bootable and configured correctly. I had already boot beagle board,mounted the file system and worked with it,It was working properly. But suddenly due to some unknown reasons, Now as I setup the hardware and try to boot the beagle board it shows following statements and repeatedly shows it. &lt;&lt; Texas Instruments X-Loader 1.5.0  Beagle xm &gt;&gt; This two lines are repeatedly shown by the board,it doesn&#x27;t boot...Looks like u-boot is not booting properly or it gets reset repeatedly..why is this happening? </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/116295822843820315909/">Elok...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Mar 18 00:28:35 2012">Mar 18, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>Ok, please assist. </p><p>I&#x27;m able to format my 2Gb SD card using the mkcard.txt that create a boot partition of 75 MB and an Angtrom partition of 3.5 GB. </p><p>Bassically, here&#x27;s what I,do : </p><p>1- Copy the MOL (1 file) to the boot partition 2- Copy the u-boot.img (1 file) to the boot partition 3- Untar the Angstrom-Beagleboard-<strong></strong><strong></strong>.tar.bz2 to the Angstrom partition (no error) 4- Unmount the SD card, plug it into the Beagleboot and powerup </p><p>and I get this error : </p><p>Wrong Image Format for bootm command  ERROR: can&#x27;t get kernel image! </p><p>Please assist! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/112632265455256851846/">PImml...@googlemail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Fri Mar 23 01:14:01 2012">Mar 23, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>Hi All, </p><p>I have a terrible issue. My beagleboard OMAP3530-GP Rev C1/C2/C3 came with a USB to Supply cable and therefore I plugged the USB to the PC and the other end fitted neatly to the supply 5V. In the beginning it booted very well once I had copied MLO, u-boot.bin uInitrd and uImage all from the formatted SDcard. However, in a freaky moment I did &quot; nand erase 0 80000 &quot; and &quot;nand erase 80000 160000 &quot; after this I rebooted my board only to find except the power on LED, none of the other LEDs lighting up :( Also, the minicom shows me a set of junk character. I tried pressing reset, user buttons etc. I even tried a UART recovery procedure. However the procedure stalls at &quot;./ukermit -p /dev/ttyUSB0 -f u-boot.bin&quot;    and after 2-3 min I just plugged out the power USB cable as I wasn&#x27;t able to transfer the uboot.bin. PLEASE HELP. What is the problem?      </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/106224000041672657108/">regom...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Sun Jun 17 07:09:27 2012">Jun 17, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>Elok, you may have missed putting the uImage file in the 1st partition </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ <a class="userlink"
+ href="/u/106164248254430260179/">raj...@gmail.com</a
+>,
+ 
+ </span>
+ <span class="date" title="Tue Jul 17 01:45:16 2012">Jul 17, 2012</span>
+ <div>
+<div class="commentcontent">
+<p>Hi all, </p><p>i am using a beagleboard IMAP3530 Rv C5. I formated a SD card with 2 partitions one for boot and the other for rootfs. I am not sure what files shld go in those partitions and how to get started with beagleboard via serial/monitor! Someone please guide me.thanks heaps! </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+ 
+ <div class="artifactcomment"
+ 
+ >
+ 
+ 
+ 
+ 
+ 
+ 
+ <span class="author">Comment
+ 
+ by 
+ 
+ 
+
+ 
+ <span class="userlink">ryan.sau...@gmail.com</span>,
+ 
+ </span>
+ <span class="date" title="Sat Mar 16 23:33:31 2013">Mar 16, 2013</span>
+ <div>
+<div class="commentcontent">
+<p>this error occurred to me when i was trying to boot from memory card ...i tried to prepare the rootfs two three times but same problem occurred again and again.. resolved it by /lib files form the toolchain to the file system /lib and stripped it.. then it worked fine..   </p>
+</div>
+ 
+ 
+ </div>
+ </div>
+ 
+
+</div>
+</div>
+
+ 
+
+
+ <script type="text/javascript">
+ function delComment(sequence_num, create_time, delete_mode) {
+ var f = document.forms["delcom"];
+ f.sequence_num.value = sequence_num;
+ f.create_time.value = create_time;
+ f.mode.value = delete_mode;
+ f.submit();
+ return false;
+ }
+ </script>
+
+
+ </div>
+ 
+ 
+ 
+ 
+ <br>
+ <div class="artifactcomment">
+ <span class="indicator">&#9658;</span> <a href="https://www.google.com/accounts/ServiceLogin?service=code&amp;ltmpl=phosting&amp;continue=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBootingBeagleBoard&amp;followup=http%3A%2F%2Fcode.google.com%2Fp%2Fbeagleboard%2Fwiki%2FBootingBeagleBoard"
+ >Sign in</a> to add a comment
+ </div>
+ 
+ 
+ 
+ 
+ <form name="delcom" action="../w/delComment.do" method="POST">
+ <input type="hidden" name="sequence_num" value="" >
+ <input type="hidden" name="create_time" value="" >
+ <input type="hidden" name="mode" value="" >
+ <input type="hidden" name="pagename" value="BootingBeagleBoard" >
+ <input type="hidden" name="token" value="" >
+ </form>
+
+
+ <script src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/prettify/prettify.js"></script>
+ <script type="text/javascript">
+ prettyPrint();
+ </script>
+
+<script type="text/javascript" src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/dit_scripts.js"></script>
+
+
+
+  
+ 
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/ph_core.js"></script>
+ 
+ <script type="text/javascript" src="http://www.gstatic.com/codesite/ph/3427079965498762429/js/ph_dwiki.js"></script>
+ 
+ 
+ 
+ 
+</div> 
+
+<div id="footer" dir="ltr">
+ <div class="text">
+ <a href="/projecthosting/terms.html">Terms</a> -
+ <a href="http://www.google.com/privacy.html">Privacy</a> -
+ <a href="/p/support/">Project Hosting Help</a>
+ </div>
+</div>
+ <div class="hostedBy" style="margin-top: -20px;">
+ <span style="vertical-align: top;">Powered by <a href="http://code.google.com/projecthosting/">Google Project Hosting</a></span>
+ </div>
+
+ 
+ 
+
+
+ 
+ </body>
+</html>
+
+
