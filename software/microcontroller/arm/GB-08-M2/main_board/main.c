@@ -189,7 +189,7 @@ static void InitPWM(void)
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA0_PWM0, 0);
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA1_PWM1, 0);
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA2_PWM2, 0);
-    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA7_PWM3, 0);
+    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, 0, AT91C_PA7_PWM3);
 
     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
@@ -207,42 +207,40 @@ static void InitPWM(void)
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 
-    pwmFreqSet(0, 8000); // set by default to control Platform Front Sonar Drive
-    pwmFreqSet(1, 8000);
-    pwmFreqSet(2, 8000);
-
-    pwmDutySet_u8(0, 1);
-    pwmDutySet_u8(1, 1);
-    pwmDutySet_u8(2, 1);
+    pwmFreqSet(0, 4000);
+    pwmFreqSet(1, 4000);
+    pwmFreqSet(2, 4000);
+    pwmFreqSet(3, 4000);
 
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 3, AT91C_PWMC_CHID3);
 
-    AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
-    AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
-    AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-    AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
-
     // enable PWM channels 0, 1, 2
-    //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
-    //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
-    //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-    //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+    AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+    AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+    AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+    AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 }
 
 static void InitPIO(void)
 {
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);        //Left Wheels INa
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);        //Left Wheels INb
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);       //Left Wheels INb
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
 
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);       //Right Wheels INa
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
+
     // PWM configuration
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //Platform Front Sonar Drive            PWM0
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);    //Charger Motor                         PWM1
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //PWM0
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);    //PWM1
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);    //PWM2
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //PWM3
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
@@ -252,7 +250,8 @@ static void InitPIO(void)
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);    // IRQ1
 
     //FIQ
-    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);    // FIQ
+    //AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);    // FIQ
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);      // AD2
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -271,8 +270,8 @@ static void InitIRQ()
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
 
     // FIQ initialization
-    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) FIQHandler);
+    //AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
+    //AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_FIQ, FIQ_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) FIQHandler);
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
 
     //Open timer0
@@ -311,8 +310,6 @@ static void DeviceInit(void)
     InitPWM();
     InitIRQ();
 
-    AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
 }
 
 
@@ -323,14 +320,32 @@ int main(void)
 {
     struct cdcMessage cdcMessageObj;
 
-    unsigned int frontLeftWheelDuty = 0;
+    unsigned int frontLeftWheelDuty = 1;
+    unsigned int rearLeftWheelDuty = 1;
+    unsigned int frontRightWheelDuty = 1;
+    unsigned int rearRightWheelDuty = 1;
 
     unsigned int leftWheelsDirection = 1;
+    unsigned int rightWheelsDirection = 1;
 
     unsigned int leftFrontCurReadings = 0;
     unsigned int leftFrontCurVal = 0;
 
+    unsigned int rightFrontCurReadings = 0;
+    unsigned int rightFrontCurVal = 0;
+
+    unsigned int rightRearCurReadings = 0;
+    unsigned int rightRearCurVal = 0;
+
+    unsigned int leftRearCurReadings = 0;
+    unsigned int leftRearCurVal = 0;
+
     DeviceInit();
+
+    pwmDutySetPercent(0, 1);
+    pwmDutySetPercent(1, 1);
+    pwmDutySetPercent(2, 1);
+    pwmDutySetPercent(3, 1);
 
     while (1)
     {
@@ -349,10 +364,7 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-
             //FRONTLEFTDUTY#1
-            //FRONTLEFTDUTY#2
-            //FRONTLEFTDUTY#3
             //FRONTLEFTDUTY#10
             //FRONTLEFTDUTY#20
             //FRONTLEFTDUTY#30
@@ -362,43 +374,147 @@ int main(void)
             //FRONTLEFTDUTY#70
             //FRONTLEFTDUTY#80
             //FRONTLEFTDUTY#90
-            //FRONTLEFTDUTY#95
             //FRONTLEFTDUTY#100
             if (strcmp((char*) cmdParts, "FRONTLEFTDUTY") == 0)
             {
                 frontLeftWheelDuty = atoi(strtok( NULL, "#" ));
                 pwmDutySetPercent(0, frontLeftWheelDuty);
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+                continue;
+            }
+            //FRONTRIGHTDUTY#1
+            //FRONTRIGHTDUTY#5
+            //FRONTRIGHTDUTY#10
+            //FRONTRIGHTDUTY#20
+            //FRONTRIGHTDUTY#30
+            //FRONTRIGHTDUTY#40
+            //FRONTRIGHTDUTY#50
+            //FRONTRIGHTDUTY#60
+            //FRONTRIGHTDUTY#70
+            //FRONTRIGHTDUTY#80
+            //FRONTRIGHTDUTY#90
+            //FRONTRIGHTDUTY#100
+            if (strcmp((char*) cmdParts, "FRONTRIGHTDUTY") == 0)
+            {
+                frontRightWheelDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySetPercent(1, frontRightWheelDuty);
+                continue;
+            }
+            //REARLEFTDUTY#1
+            //REARLEFTDUTY#10
+            //REARLEFTDUTY#20
+            //REARLEFTDUTY#30
+            //REARLEFTDUTY#40
+            //REARLEFTDUTY#50
+            //REARLEFTDUTY#60
+            //REARLEFTDUTY#70
+            //REARLEFTDUTY#80
+            //REARLEFTDUTY#90
+            //REARLEFTDUTY#100
+            if (strcmp((char*) cmdParts, "REARLEFTDUTY") == 0)
+            {
+                rearLeftWheelDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySetPercent(3, rearLeftWheelDuty);
+                continue;
+            }
+            //REARRIGHTDUTY#1
+            //REARRIGHTDUTY#10
+            //REARRIGHTDUTY#20
+            //REARRIGHTDUTY#30
+            //REARRIGHTDUTY#40
+            //REARRIGHTDUTY#50
+            //REARRIGHTDUTY#60
+            //REARRIGHTDUTY#70
+            //REARRIGHTDUTY#80
+            //REARRIGHTDUTY#90
+            //REARRIGHTDUTY#100
+            if (strcmp((char*) cmdParts, "REARRIGHTDUTY") == 0)
+            {
+                rearRightWheelDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySetPercent(2, rearRightWheelDuty);
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTFORWARD") == 0)
             {
                 leftWheelsDirection = 1;
                 pwmDutySetPercent(0, 1);
+                pwmDutySetPercent(3, 1);
                 delay_ms(500);
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //Left Wheels INa
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31); //Left Wheels INb
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);      //Left Wheels INa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);       //Left Wheels INb
                 pwmDutySetPercent(0, frontLeftWheelDuty);
+                pwmDutySetPercent(3, rearLeftWheelDuty);
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTBACKWARD") == 0)
             {
                 leftWheelsDirection = 2;
                 pwmDutySetPercent(0, 1);
+                pwmDutySetPercent(3, 1);
                 delay_ms(500);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //Left Wheels INa
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);   //Left Wheels INb
-                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);        //Left Wheels INa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);     //Left Wheels INb
                 pwmDutySetPercent(0, frontLeftWheelDuty);
+                pwmDutySetPercent(3, rearLeftWheelDuty);
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTSTOP") == 0)
             {
                 pwmDutySetPercent(0, 1);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //Left Wheels INa
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);   //Left Wheels INb
-                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
+                pwmDutySetPercent(3, 1);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);        //Left Wheels INa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);       //Left Wheels INb
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTFORWARD") == 0)
+            {
+                rightWheelsDirection = 1;
+                pwmDutySetPercent(1, 1);
+                pwmDutySetPercent(2, 1);
+                delay_ms(500);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);     //Right Wheels INa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
+                pwmDutySetPercent(1, rearRightWheelDuty);
+                pwmDutySetPercent(2, frontRightWheelDuty);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTBACKWARD") == 0)
+            {
+                rightWheelsDirection = 2;
+                pwmDutySetPercent(1, 1);
+                pwmDutySetPercent(2, 1);
+                delay_ms(500);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);       //Right Wheels INa
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);     //Right Wheels INb
+                pwmDutySetPercent(1, rearRightWheelDuty);
+                pwmDutySetPercent(2, frontRightWheelDuty);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTSTOP") == 0)
+            {
+                pwmDutySetPercent(1, 1);
+                pwmDutySetPercent(2, 1);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);       //Right Wheels INa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STARTRIGHTFRONTCURRENT") == 0)
+            {
+                rightFrontCurReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPRIGHTFRONTCURRENT") == 0)
+            {
+                rightFrontCurReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STARTRIGHTREARCURRENT") == 0)
+            {
+                rightRearCurReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPRIGHTREARCURRENT") == 0)
+            {
+                rightRearCurReadings = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTLEFTFRONTCURRENT") == 0)
@@ -411,11 +527,44 @@ int main(void)
                 leftFrontCurReadings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "STARTLEFTREARCURRENT") == 0)
+            {
+                leftRearCurReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPLEFTREARCURRENT") == 0)
+            {
+                leftRearCurReadings = 0;
+                continue;
+            }
         }
+
+
         if (leftFrontCurReadings)
         {
             leftFrontCurVal = getValueChannel0();
             sprintf((char *)msg,"FRONT LEFT MOTOR CURRENT: %u\n", leftFrontCurVal);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(10);
+        }
+        if (rightFrontCurReadings)
+        {
+            rightFrontCurVal = getValueChannel2();
+            sprintf((char *)msg,"FRONT RIGHT MOTOR CURRENT: %u\n", rightFrontCurVal);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(10);
+        }
+        if (leftRearCurReadings)
+        {
+            leftRearCurVal = getValueChannel4();
+            sprintf((char *)msg,"REAR LEFT MOTOR CURRENT: %u\n", leftRearCurVal);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(10);
+        }
+        if (rightRearCurReadings)
+        {
+            rightRearCurVal = getValueChannel1();
+            sprintf((char *)msg,"REAR RIGHT MOTOR CURRENT: %u\n", rightRearCurVal);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(10);
         }
