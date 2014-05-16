@@ -5,6 +5,7 @@
 <?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
@@ -344,10 +345,8 @@
                                           </stylesheets>
                                          -->
                         </Button>
-                        <Slider id="platformMotorsAcceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" showTickLabels="false" showTickMarks="false" value="1.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                        <Label text="Deceleration" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="5.0" />
-                        <Label text="Duty" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="5.0" />
-                        <Slider id="platformMotorsPower" fx:id="gb08m2Duty" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" />
+                        <Label text="Duty" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                        <Slider id="platformMotorsPower" fx:id="gb08m2Duty" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="145.0" />
                         <Button id="forwardBtn" fx:id="gb08m2TurnLeftBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="←" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="45.0">
                           <!-- 
                                           <stylesheets>
@@ -362,8 +361,6 @@
                                           </stylesheets>
                                          -->
                         </Button>
-                        <Slider id="platformMotorsAcceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" prefWidth="245.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                        <Label text="Aсceleration" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="5.0" />
                         <Button id="backwardBtn" focusTraversable="false" font="$x2" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="48.0">
                           <!-- 
                                           <stylesheets>
@@ -371,7 +368,6 @@
                                           </stylesheets>
                                          -->
                         </Button>
-                        <ProgressBar id="dutyProgressBar" disable="false" focusTraversable="false" layoutX="-49.0" layoutY="55.0" prefWidth="120.0" progress="0.0" rotate="270.0" visible="true" />
                         <Button id="forwardBtn" fx:id="gb08m2ForwardLeftBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↗" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="2.0">
                           <!-- 
                                           <stylesheets>
@@ -400,7 +396,17 @@
                                           </stylesheets>
                                          -->
                         </Button>
-                        <ProgressBar id="dutyProgressBar" disable="false" focusTraversable="false" layoutX="157.0" layoutY="55.0" prefWidth="120.0" progress="0.0" rotate="270.0" visible="true" />
+                        <Separator prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                        <CheckBox fx:id="overTCPIPgb08m2" mnemonicParsing="false" selected="true" text="Over TCP/IP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" prefHeight="265.0" prefWidth="320.0" text="Video" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="10.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <ImageView fx:id="gb08m2ImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                       </children>
                     </AnchorPane>
                   </content>
