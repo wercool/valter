@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="app.OpenCVApplicationController">
+  <center>
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="Manual Navigation">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" text="GB-08-M2 Front Camera MJPG Stream" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0">
+                      <children>
+                        <ImageView fx:id="frontCameraImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" collapsible="false" expanded="true" minHeight="300.0" minWidth="350.0" prefHeight="300.0" prefWidth="350.0" text="GB-08-M2 Controls" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Button fx:id="startFrontCameraStreamBtn" mnemonicParsing="false" text="Start Front Camera Stream" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Automated Navigation">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </center>
+</BorderPane>
