@@ -17,12 +17,22 @@
 
 #define FIQ_INTERRUPT_LEVEL     0
 #define TIMER0_INTERRUPT_LEVEL  1
+#define TIMER1_INTERRUPT_LEVEL  1
 
 unsigned int leftWheelEncoderTicks = 0;
 unsigned int rightWheelEncoderTicks = 0;
 
 unsigned char timerLeft = 0;
 unsigned char timerRight = 0;
+
+
+unsigned int servoSignalPeriod = 0;
+unsigned int servoSignalWidth = 0;
+unsigned int radarServoRotation = 0;
+unsigned char radarServoSet = 0;
+
+//temp
+unsigned tempPeriod = 10;
 
 /*-----------------*/
 /* Clock Selection */
@@ -77,6 +87,8 @@ __ramfunc void IRQ0Handler(void)
     if (timerLeft == 1)
     {
         leftWheelEncoderTicks++;
+        if (leftWheelEncoderTicks > 32000)
+            leftWheelEncoderTicks = 0;
         timerLeft = 0;
     }
 }
@@ -92,6 +104,8 @@ __ramfunc void IRQ1Handler(void)
     if (timerRight == 1)
     {
         rightWheelEncoderTicks++;
+        if (rightWheelEncoderTicks > 32000)
+            rightWheelEncoderTicks = 0;
         timerRight = 0;
     }
 }
@@ -107,7 +121,7 @@ __ramfunc void FIQHandler(void)
 
 }
 
-__ramfunc void SoftIQRHandler(void)
+__ramfunc void SoftIQRHandlerTC0(void)
 {
     AT91PS_TC TC_pt = AT91C_BASE_TC0;
     unsigned int dummy;
@@ -123,6 +137,50 @@ __ramfunc void SoftIQRHandler(void)
         timerRight = 1;
 }
 
+__ramfunc void SoftIQRHandlerTC1(void)
+{
+    AT91PS_TC TC_pt = AT91C_BASE_TC1;
+    unsigned int dummy;
+    //* Acknowledge interrupt status
+    dummy = TC_pt->TC_SR;
+    //* Suppress warning variable "dummy" was set but never used
+    dummy = dummy;
+
+//    // Servo software signal generation
+//    if (radarServoSet)
+//    {
+//        if (servoSignalPeriod > tempPeriod)
+//        {
+//            if (servoSignalWidth < radarServoRotation)
+//            {
+//                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+//                servoSignalWidth++;
+//            }
+//            else
+//            {
+//                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+//                servoSignalPeriod = 0;
+//                servoSignalWidth = 0;
+//            }
+//        }
+//        else
+//        {
+//            servoSignalPeriod++;
+//        }
+//    }
+
+    if (radarServoSet)
+    {
+        radarServoSet = 0;
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+    }
+    else
+    {
+        radarServoSet = 1;
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+    }
+
+}
 
 /*
  *  CDC Functions
@@ -236,6 +294,12 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
 
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);        //Lights
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);        //Servo Signal
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+
     // PWM configuration
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //PWM0
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);    //PWM1
@@ -277,11 +341,20 @@ static void InitIRQ()
     //Open timer0
     AT91F_TC_Open(AT91C_BASE_TC0, TC_CLKS_MCK8, AT91C_ID_TC0);
     //Open Timer 0 interrupt
-    AT91F_AIC_ConfigureIt ( AT91C_BASE_AIC, AT91C_ID_TC0, TIMER0_INTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandler);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_TC0, TIMER0_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandlerTC0);
     AT91C_BASE_TC0->TC_IER = AT91C_TC_CPCS;             // IRQ enable CPC
-    AT91F_AIC_EnableIt (AT91C_BASE_AIC, AT91C_ID_TC0);
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_TC0);
     //Start timer0
     AT91C_BASE_TC0->TC_CCR = AT91C_TC_SWTRG ;
+
+    //Open timer1
+    AT91F_TC_Open(AT91C_BASE_TC1, TC_CLKS_MCK2, AT91C_ID_TC1);
+    //Open Timer 1 interrupt
+    AT91F_AIC_ConfigureIt (AT91C_BASE_AIC, AT91C_ID_TC1, TIMER1_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandlerTC1);
+    AT91C_BASE_TC1->TC_IER = AT91C_TC_CPCS;             // IRQ enable CPC
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_TC1);
+    //Start timer1
+    AT91C_BASE_TC1->TC_CCR = AT91C_TC_SWTRG ;
 }
 
 
@@ -340,6 +413,14 @@ int main(void)
     unsigned int leftRearCurReadings = 0;
     unsigned int leftRearCurVal = 0;
 
+    unsigned int batteryVoltageReadings = 0;
+    unsigned int batteryVoltageReading = 0;
+
+    unsigned int distanceMeterReading = 0;
+
+    unsigned int leftWheelEncoderReadings = 0;
+    unsigned int rightWheelEncoderReadings = 0;
+
     DeviceInit();
 
     pwmDutySetPercent(0, 1);
@@ -357,6 +438,13 @@ int main(void)
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
+
+            //PERIOD#100
+            if (strcmp((char*) cmdParts, "PERIOD") == 0)
+            {
+                tempPeriod = atoi(strtok( NULL, "#" ));
+                continue;
+            }
 
             if (strcmp((char*) cmdParts, "GETID") == 0)
             {
@@ -497,6 +585,14 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETRIGHTFRONTCURRENT") == 0)
+            {
+                rightFrontCurVal = getValueChannel2();
+                sprintf((char *)msg,"FRONT RIGHT MOTOR CURRENT: %u\n", rightFrontCurVal);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
+                continue;
+            }
             if (strcmp((char*) cmdParts, "STARTRIGHTFRONTCURRENT") == 0)
             {
                 rightFrontCurReadings = 1;
@@ -505,6 +601,14 @@ int main(void)
             if (strcmp((char*) cmdParts, "STOPRIGHTFRONTCURRENT") == 0)
             {
                 rightFrontCurReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETRIGHTREARCURRENT") == 0)
+            {
+                rightRearCurVal = getValueChannel1();
+                sprintf((char *)msg,"REAR RIGHT MOTOR CURRENT: %u\n", rightRearCurVal);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTRIGHTREARCURRENT") == 0)
@@ -517,6 +621,14 @@ int main(void)
                 rightRearCurReadings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETLEFTFRONTCURRENT") == 0)
+            {
+                leftFrontCurVal = getValueChannel0();
+                sprintf((char *)msg,"FRONT LEFT MOTOR CURRENT: %u\n", leftFrontCurVal);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
+                continue;
+            }
             if (strcmp((char*) cmdParts, "STARTLEFTFRONTCURRENT") == 0)
             {
                 leftFrontCurReadings = 1;
@@ -527,6 +639,14 @@ int main(void)
                 leftFrontCurReadings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETLEFTREARCURRENT") == 0)
+            {
+                leftRearCurVal = getValueChannel4();
+                sprintf((char *)msg,"REAR LEFT MOTOR CURRENT: %u\n", leftRearCurVal);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
+                continue;
+            }
             if (strcmp((char*) cmdParts, "STARTLEFTREARCURRENT") == 0)
             {
                 leftRearCurReadings = 1;
@@ -535,6 +655,112 @@ int main(void)
             if (strcmp((char*) cmdParts, "STOPLEFTREARCURRENT") == 0)
             {
                 leftRearCurReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETBATTERYVOLTAGE") == 0)
+            {
+                batteryVoltageReading = getValueChannel6();
+                sprintf((char *)msg,"BATTERY VOLTAGE: %u\n", batteryVoltageReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STARTBATTERYVOLTAGEREADINGS") == 0)
+            {
+                batteryVoltageReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPBATTERYVOLTAGEREADINGS") == 0)
+            {
+                batteryVoltageReadings = 0;
+                continue;
+            }
+            //RADARROTATIONSET#1
+            //RADARROTATIONSET#2
+            //RADARROTATIONSET#3
+            //RADARROTATIONSET#4
+            //RADARROTATIONSET#5
+            //RADARROTATIONSET#6
+            //RADARROTATIONSET#7
+            //RADARROTATIONSET#8
+            //RADARROTATIONSET#9
+            //RADARROTATIONSET#10
+            if (strcmp((char*) cmdParts, "RADARROTATIONSET") == 0)
+            {
+                radarServoRotation = atoi(strtok( NULL, "#" ));
+                radarServoSet = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RADARROTATIONRESET") == 0)
+            {
+                radarServoSet = 0;
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+                servoSignalPeriod = 0;
+                servoSignalWidth = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETDISTANCE") == 0)
+            {
+                distanceMeterReading = getValueChannel5();
+                sprintf((char *)msg,"DISTANCE: %u\n", distanceMeterReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETLEFTWHEELENCODER") == 0)
+            {
+                sprintf((char *)msg,"LEFT ENCODER: %u\n", leftWheelEncoderTicks);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERSTARTREADINGS") == 0)
+            {
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                leftWheelEncoderReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERSTOPREADINGS") == 0)
+            {
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                leftWheelEncoderReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETRIGHTWHEELENCODER") == 0)
+            {
+                sprintf((char *)msg,"RIGHT ENCODER: %u\n", rightWheelEncoderTicks);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERSTARTREADINGS") == 0)
+            {
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+                rightWheelEncoderReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERSTOPREADINGS") == 0)
+            {
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+                rightWheelEncoderReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERRESET") == 0)
+            {
+                rightWheelEncoderTicks = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERRESET") == 0)
+            {
+                leftWheelEncoderTicks = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LIGHTSON") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LIGHTSOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
                 continue;
             }
         }
@@ -565,6 +791,25 @@ int main(void)
         {
             rightRearCurVal = getValueChannel1();
             sprintf((char *)msg,"REAR RIGHT MOTOR CURRENT: %u\n", rightRearCurVal);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(10);
+        }
+        if (batteryVoltageReadings)
+        {
+            batteryVoltageReading = getValueChannel6();
+            sprintf((char *)msg,"BATTERY VOLTAGE: %u\n", batteryVoltageReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(10);
+        }
+        if (leftWheelEncoderReadings)
+        {
+            sprintf((char *)msg,"LEFT ENCODER: %u\n", leftWheelEncoderTicks);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(10);
+        }
+        if (rightWheelEncoderReadings)
+        {
+            sprintf((char *)msg,"RIGHT ENCODER: %u\n", rightWheelEncoderTicks);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(10);
         }
