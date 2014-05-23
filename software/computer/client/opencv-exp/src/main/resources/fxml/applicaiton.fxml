@@ -46,6 +46,31 @@
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
           </content>
         </Tab>
+        <Tab text="WebCam QR Code Detection">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <TitledPane animated="false" collapsible="false" text="WebCam Image View" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="480.0" minWidth="640.0" prefHeight="480.0" prefWidth="640.0">
+                      <children>
+                        <ImageView id="frontCameraImageView" fx:id="webCamImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <ComboBox fx:id="videoDeviceListComboBox" layoutY="29.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="10.0" />
+                <Label text="Available WebCam Devices" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="10.0" />
+                <Button fx:id="connectWebCamBtn" mnemonicParsing="false" text="Connect" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
+                <Label fx:id="qrCodeDecodedLabel" text="QR Code Decoded: " AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="520.0">
+                  <font>
+                    <Font size="18.0" />
+                  </font>
+                </Label>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
       </tabs>
     </TabPane>
   </center>
