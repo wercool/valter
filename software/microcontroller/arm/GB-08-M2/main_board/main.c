@@ -286,6 +286,9 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);        //Servo Signal
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
 
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);        //Alarm
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+
     // PWM configuration
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //PWM0
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);    //PWM1
@@ -1033,6 +1036,31 @@ int main(void)
             if (strcmp((char*) cmdParts, "LIGHTSOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ALARMON") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ALARMOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+                continue;
+            }
+            //ALARMBEEP#1
+            //ALARMBEEP#2
+            //ALARMBEEP#5
+            //ALARMBEEP#10
+            //ALARMBEEP#50
+            //ALARMBEEP#100
+            //ALARMBEEP#200
+            if (strcmp((char*) cmdParts, "ALARMBEEP") == 0)
+            {
+                unsigned int alarmBeepDuration = atoi(strtok( NULL, "#" ));
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+                delay_ms(alarmBeepDuration);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
                 continue;
             }
         }
