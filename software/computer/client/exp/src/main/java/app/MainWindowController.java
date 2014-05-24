@@ -1,5 +1,6 @@
 package app;
 
+import gb08m2.GB08M2CommandsClientListenerThread;
 import gnu.io.CommPortIdentifier;
 
 import java.io.BufferedOutputStream;
@@ -112,6 +113,8 @@ public class MainWindowController
     public Button connectToServerBtn;
     @FXML
     public Button pingPongBtn;
+    @FXML
+    public CheckBox gb08m2TCPIPListener;
 
     public SingleThreadedServer commandsServer;
     public Thread commandsServerThread;
@@ -221,12 +224,46 @@ public class MainWindowController
     @FXML
     public Button gb08m2BackwardRightBtn;
     @FXML
-    public Slider gb08m2Duty;
+    public Slider gb08m2DutyLeft;
+    @FXML
+    public Slider gb08m2DutyRight;
     @FXML
     public ImageView gb08m2ImageView;
     @FXML
     public CheckBox overTCPIPgb08m2;
+    @FXML
+    public Button getBatteryVoltageBtn;
+    @FXML
+    public Label batteryVoltageLabel;
+    @FXML
+    public Button lighstOnBtn;
+    @FXML
+    public Button lightsOffBtn;
+    @FXML
+    public Button alarmBeepBtn;
+    @FXML
+    public Slider alarmBeepDuration;
+    @FXML
+    public Button getLeftEncoderBtn;
+    @FXML
+    public Button getRightEncoderBtn;
+    @FXML
+    public Button resetLeftEncoderBtn;
+    @FXML
+    public Button resetRightEncoderBtn;
+    @FXML
+    public Label leftEncoderLabel;
+    @FXML
+    public Label rightEncoderLabel;
+    @FXML
+    public Label distanceLabel;
+    @FXML
+    public Button getDistanceBtn;
+    @FXML
+    public Slider setDistanceScannerDirection;
+
     CDCDevice gb08m2CDCDevice;
+    public static GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
 
     @SuppressWarnings("rawtypes")
     final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
@@ -327,8 +364,15 @@ public class MainWindowController
                         //e.printStackTrace();
                     }
 
-                    commandsSocketListenerThread = new CommandsClientListenerThread(commandsSocketClient, mainWindowController);
-                    commandsSocketListenerThread.start();
+                    if (gb08m2TCPIPListener.isSelected())
+                    {
+                        GB08M2CommandsClientListener = new GB08M2CommandsClientListenerThread(commandsSocketClient, mainWindowController);
+                        GB08M2CommandsClientListener.start();
+                    } else
+                    {
+                        commandsSocketListenerThread = new CommandsClientListenerThread(commandsSocketClient, mainWindowController);
+                        commandsSocketListenerThread.start();
+                    }
 
                     connectToServerBtn.setText("Disconnect from Server");
                     clientServerMode = true;
@@ -342,7 +386,13 @@ public class MainWindowController
                         e1.printStackTrace();
                     }
 
-                    commandsSocketListenerThread.stopListener();
+                    if (gb08m2TCPIPListener.isSelected())
+                    {
+                        GB08M2CommandsClientListener.stopListener();
+                    } else
+                    {
+                        commandsSocketListenerThread.stopListener();
+                    }
 
                     try
                     {
@@ -975,6 +1025,108 @@ public class MainWindowController
                 gb08m2ExecuteCmd("STOP");
             }
         });
+
+        getBatteryVoltageBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    gb08m2ExecuteCmd("GETBATTERYVOLTAGE");
+                }
+            }
+        });
+
+        lighstOnBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("LIGHTSON");
+            }
+        });
+
+        lightsOffBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("LIGHTSOFF");
+            }
+        });
+
+        alarmBeepBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("ALARMBEEP");
+            }
+        });
+
+        getLeftEncoderBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    gb08m2ExecuteCmd("GETLEFTWHEELENCODER");
+                }
+            }
+        });
+
+        getRightEncoderBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    gb08m2ExecuteCmd("GETRIGHTWHEELENCODER");
+                }
+            }
+        });
+
+        resetLeftEncoderBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("LEFTWHEELENCODERRESET");
+            }
+        });
+
+        resetRightEncoderBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("RIGHTWHEELENCODERRESET");
+            }
+        });
+
+        getDistanceBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    gb08m2ExecuteCmd("GETDISTANCE");
+                }
+            }
+        });
+
+        setDistanceScannerDirection.valueProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
+            {
+                gb08m2ExecuteCmd("SETDISTANCESCANNERDIRECTION");
+            }
+        });
     }
 
     public int gb08m2CurDuty = 1;
@@ -1018,6 +1170,7 @@ public class MainWindowController
                             gb08m2CDCDevice.writeData("REARRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
                         }
                         //System.out.println("GB-08-M2 BREAKING:" + gb08m2CurDuty);
+                        Thread.sleep(50);
                     }
                     if (overTCPIPgb08m2.isSelected())
                     {
@@ -1036,11 +1189,11 @@ public class MainWindowController
             }
         }
 
-        class AcceleratingRunnable implements Runnable
+        class AcceleratingRunnableLeft implements Runnable
         {
             int targetDuty = 1;
 
-            public AcceleratingRunnable(int targetDuty)
+            public AcceleratingRunnableLeft(int targetDuty)
             {
                 this.targetDuty = targetDuty;
             }
@@ -1050,11 +1203,15 @@ public class MainWindowController
             {
                 try
                 {
-                    while (gb08m2CurDuty + 5 < targetDuty && !isBreaking)
+                    while (gb08m2CurDuty + 1 < targetDuty)
                     {
-                        if (gb08m2CurDuty + 5 < targetDuty)
+                        if (isBreaking)
                         {
-                            gb08m2CurDuty += 5;
+                            break;
+                        }
+                        if (gb08m2CurDuty + 1 < targetDuty)
+                        {
+                            gb08m2CurDuty += 1;
                         } else
                         {
                             gb08m2CurDuty = targetDuty;
@@ -1062,17 +1219,60 @@ public class MainWindowController
                         if (overTCPIPgb08m2.isSelected())
                         {
                             gb08m2SendCmdOverTCPIP("FRONTLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
-                            gb08m2SendCmdOverTCPIP("FRONTRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
                             gb08m2SendCmdOverTCPIP("REARLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
-                            gb08m2SendCmdOverTCPIP("REARRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
                         } else
                         {
                             gb08m2CDCDevice.writeData("FRONTLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
-                            gb08m2CDCDevice.writeData("FRONTRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
                             gb08m2CDCDevice.writeData("REARLEFTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        }
+                        //System.out.println("GB-08-M2 ACCELERATING:" + gb08m2CurDuty);
+                        Thread.sleep(50);
+                    }
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        class AcceleratingRunnableRight implements Runnable
+        {
+            int targetDuty = 1;
+
+            public AcceleratingRunnableRight(int targetDuty)
+            {
+                this.targetDuty = targetDuty;
+            }
+
+            @Override
+            public void run()
+            {
+                try
+                {
+                    while (gb08m2CurDuty + 1 < targetDuty)
+                    {
+                        if (isBreaking)
+                        {
+                            break;
+                        }
+                        if (gb08m2CurDuty + 1 < targetDuty)
+                        {
+                            gb08m2CurDuty += 1;
+                        } else
+                        {
+                            gb08m2CurDuty = targetDuty;
+                        }
+                        if (overTCPIPgb08m2.isSelected())
+                        {
+                            gb08m2SendCmdOverTCPIP("FRONTRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
+                            gb08m2SendCmdOverTCPIP("REARRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
+                        } else
+                        {
+                            gb08m2CDCDevice.writeData("FRONTRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
                             gb08m2CDCDevice.writeData("REARRIGHTDUTY#" + String.valueOf(gb08m2CurDuty));
                         }
                         //System.out.println("GB-08-M2 ACCELERATING:" + gb08m2CurDuty);
+                        Thread.sleep(50);
                     }
                 } catch (Exception e)
                 {
@@ -1088,41 +1288,75 @@ public class MainWindowController
             case "FORWARD":
                 gb08m2SendCmdOverTCPIP("LEFTFORWARD");
                 gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
             case "BACKWARD":
                 gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
                 gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
             case "FORWARDRIGHT":
                 gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
             case "FORWARDLEFT":
                 gb08m2SendCmdOverTCPIP("LEFTFORWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                 break;
             case "BACKWARDRIGHT":
                 gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
             case "BACKWARDLEFT":
                 gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                 break;
             case "TURNRIGHT":
                 gb08m2SendCmdOverTCPIP("LEFTFORWARD");
                 gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
             case "TURNLEFT":
                 gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
                 gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
-                new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
             case "STOP":
                 new Thread(new BreakingRunnable()).start();
+                break;
+            case "GETBATTERYVOLTAGE":
+                gb08m2SendCmdOverTCPIP("GETBATTERYVOLTAGE");
+                break;
+            case "LIGHTSON":
+                gb08m2SendCmdOverTCPIP("LIGHTSON");
+                break;
+            case "LIGHTSOFF":
+                gb08m2SendCmdOverTCPIP("LIGHTSOFF");
+                break;
+            case "ALARMBEEP":
+                gb08m2SendCmdOverTCPIP("ALARMBEEP#" + String.valueOf(Math.round(alarmBeepDuration.getValue())));
+                break;
+            case "GETLEFTWHEELENCODER":
+                gb08m2SendCmdOverTCPIP("GETLEFTWHEELENCODER");
+                break;
+            case "GETRIGHTWHEELENCODER":
+                gb08m2SendCmdOverTCPIP("GETRIGHTWHEELENCODER");
+                break;
+            case "LEFTWHEELENCODERRESET":
+                gb08m2SendCmdOverTCPIP("LEFTWHEELENCODERRESET");
+                break;
+            case "RIGHTWHEELENCODERRESET":
+                gb08m2SendCmdOverTCPIP("RIGHTWHEELENCODERRESET");
+                break;
+            case "GETDISTANCE":
+                gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                break;
+            case "SETDISTANCESCANNERDIRECTION":
+                gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + String.valueOf(Math.round(setDistanceScannerDirection.getValue())));
                 break;
             }
         } else
@@ -1138,38 +1372,42 @@ public class MainWindowController
                     case "FORWARD":
                         gb08m2CDCDevice.writeData("LEFTFORWARD");
                         gb08m2CDCDevice.writeData("RIGHTFORWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
                     case "BACKWARD":
                         gb08m2CDCDevice.writeData("LEFTBACKWARD");
                         gb08m2CDCDevice.writeData("RIGHTBACKWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
                     case "FORWARDRIGHT":
                         gb08m2CDCDevice.writeData("RIGHTFORWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
                     case "FORWARDLEFT":
                         gb08m2CDCDevice.writeData("LEFTFORWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                         break;
                     case "BACKWARDRIGHT":
                         gb08m2CDCDevice.writeData("RIGHTBACKWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
                     case "BACKWARDLEFT":
                         gb08m2CDCDevice.writeData("LEFTBACKWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                         break;
                     case "TURNRIGHT":
                         gb08m2CDCDevice.writeData("LEFTFORWARD");
                         gb08m2CDCDevice.writeData("RIGHTBACKWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
                     case "TURNLEFT":
                         gb08m2CDCDevice.writeData("LEFTBACKWARD");
                         gb08m2CDCDevice.writeData("RIGHTFORWARD");
-                        new Thread(new AcceleratingRunnable((int) gb08m2Duty.getValue())).start();
+                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
                     case "STOP":
                         new Thread(new BreakingRunnable()).start();

@@ -315,6 +315,7 @@
                         <TextField id="commandsServerAddress" fx:id="commandsServerAddressTextIntput" layoutY="3.0" prefWidth="90.0" text="" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="5.0" />
                         <Label text="Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.0" />
                         <Button fx:id="pingPongBtn" mnemonicParsing="false" text="PING" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="85.0" />
+                        <CheckBox fx:id="gb08m2TCPIPListener" mnemonicParsing="false" selected="true" text="Start GB08M2 TCP/IP Listener" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="63.0" />
                       </children>
                     </AnchorPane>
                   </content>
@@ -345,8 +346,8 @@
                                           </stylesheets>
                                          -->
                         </Button>
-                        <Label text="Duty" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
-                        <Slider id="platformMotorsPower" fx:id="gb08m2Duty" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="145.0" />
+                        <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
+                        <Slider id="platformMotorsPower" fx:id="gb08m2DutyLeft" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="145.0" />
                         <Button id="forwardBtn" fx:id="gb08m2TurnLeftBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="←" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="45.0">
                           <!-- 
                                           <stylesheets>
@@ -398,6 +399,8 @@
                         </Button>
                         <Separator prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
                         <CheckBox fx:id="overTCPIPgb08m2" mnemonicParsing="false" selected="true" text="Over TCP/IP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+                        <Label layoutX="6.0" layoutY="173.0" text="Duty Right" />
+                        <Slider id="platformMotorsPower" fx:id="gb08m2DutyRight" focusTraversable="false" layoutX="5.0" layoutY="193.0" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="226.0" showTickLabels="false" showTickMarks="false" />
                       </children>
                     </AnchorPane>
                   </content>
@@ -407,6 +410,47 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
                         <ImageView fx:id="gb08m2ImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" collapsible="false" prefWidth="240.0" text="System Commands" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="310.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Label fx:id="batteryVoltageLabel" text="Battery Voltage:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <Button fx:id="getBatteryVoltageBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
+                        <Button id="lightBtn" fx:id="lighstOnBtn" mnemonicParsing="false" text="LIGHTS ON" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0" />
+                        <Button fx:id="lightsOffBtn" mnemonicParsing="false" text="LIGHTS OFF" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" />
+                        <Slider fx:id="alarmBeepDuration" min="1.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0" />
+                        <Label text="ALARM Beep" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
+                        <Button fx:id="alarmBeepBtn" mnemonicParsing="false" text="ALARM BEEP" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" collapsible="false" text="Encoders" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="310.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Label id="batteryVoltageLabel" fx:id="leftEncoderLabel" text="Left:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
+                        <Button id="getBatteryVoltageBtn" fx:id="getLeftEncoderBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <Label id="batteryVoltageLabel" fx:id="rightEncoderLabel" text="Right:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                        <Button id="getBatteryVoltageBtn" fx:id="getRightEncoderBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="resetLeftEncoder" fx:id="resetLeftEncoderBtn" mnemonicParsing="false" text="Reset left" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
+                        <Button id="resetRightEncoder" fx:id="resetRightEncoderBtn" mnemonicParsing="false" text="Reset right" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" collapsible="false" text="Distance Scanner" AnchorPane.leftAnchor="485.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="310.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Label id="batteryVoltageLabel" fx:id="distanceLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
+                        <Button id="getBatteryVoltageBtn" fx:id="getDistanceBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <Label text="Direction" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                        <Slider id="alarmBeepDuration" fx:id="setDistanceScannerDirection" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
                       </children>
                     </AnchorPane>
                   </content>
