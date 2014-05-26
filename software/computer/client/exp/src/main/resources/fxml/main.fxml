@@ -453,6 +453,7 @@
                         <Button id="getBatteryVoltageBtn" fx:id="getDistanceBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                         <Label text="Direction" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
                         <Slider id="alarmBeepDuration" fx:id="setDistanceScannerDirection" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+                        <Button fx:id="releaseServoBtn" layoutX="172.0" layoutY="91.0" mnemonicParsing="false" text="Release Servo" />
                       </children>
                     </AnchorPane>
                   </content>

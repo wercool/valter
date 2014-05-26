@@ -265,6 +265,8 @@ public class MainWindowController
     public Button enableEncodersBtn;
     @FXML
     public Button disableEncodersBtn;
+    @FXML
+    public Button releaseServoBtn;
 
     CDCDevice gb08m2CDCDevice;
     public static GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
@@ -1137,10 +1139,7 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    gb08m2ExecuteCmd("ENABLEENCODERS");
-                }
+                gb08m2ExecuteCmd("ENABLEENCODERS");
             }
         });
 
@@ -1149,10 +1148,16 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    gb08m2ExecuteCmd("DISABLEENCODERS");
-                }
+                gb08m2ExecuteCmd("DISABLEENCODERS");
+            }
+        });
+
+        releaseServoBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                gb08m2ExecuteCmd("RADARROTATIONRESET");
             }
         });
     }
@@ -1391,6 +1396,9 @@ public class MainWindowController
                 break;
             case "DISABLEENCODERS":
                 gb08m2SendCmdOverTCPIP("DISABLEENCODERS");
+                break;
+            case "RADARROTATIONRESET":
+                gb08m2SendCmdOverTCPIP("RADARROTATIONRESET");
                 break;
             }
         } else
