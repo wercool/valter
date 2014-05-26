@@ -277,10 +277,10 @@ static void InitPWM(void)
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 
-    pwmFreqSet(0, 4000);
-    pwmFreqSet(1, 4000);
-    pwmFreqSet(2, 4000);
-    pwmFreqSet(3, 4000);
+    pwmFreqSet(0, 12000);
+    pwmFreqSet(1, 12000);
+    pwmFreqSet(2, 12000);
+    pwmFreqSet(3, 12000);
 
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
