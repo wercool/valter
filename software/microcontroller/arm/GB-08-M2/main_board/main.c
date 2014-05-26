@@ -1038,11 +1038,15 @@ int main(void)
             if (strcmp((char*) cmdParts, "ENABLEENCODERS") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 continue;
             }
             if (strcmp((char*) cmdParts, "DISABLEENCODERS") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 continue;
             }
             if (strcmp((char*) cmdParts, "GETLEFTWHEELENCODER") == 0)

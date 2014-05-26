@@ -431,7 +431,7 @@
                 </TitledPane>
                 <TitledPane animated="false" collapsible="false" text="Encoders" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="310.0">
                   <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="201.0">
                       <children>
                         <Label id="batteryVoltageLabel" fx:id="leftEncoderLabel" text="Left:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
                         <Button id="getBatteryVoltageBtn" fx:id="getLeftEncoderBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
@@ -439,6 +439,8 @@
                         <Button id="getBatteryVoltageBtn" fx:id="getRightEncoderBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
                         <Button id="resetLeftEncoder" fx:id="resetLeftEncoderBtn" mnemonicParsing="false" text="Reset left" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
                         <Button id="resetRightEncoder" fx:id="resetRightEncoderBtn" mnemonicParsing="false" text="Reset right" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0" />
+                        <Button fx:id="enableEncodersBtn" mnemonicParsing="false" text="Enable Encoders" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="145.0" />
+                        <Button fx:id="disableEncodersBtn" mnemonicParsing="false" text="Disable Encoders" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="175.0" />
                       </children>
                     </AnchorPane>
                   </content>

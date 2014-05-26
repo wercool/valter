@@ -261,6 +261,10 @@ public class MainWindowController
     public Button getDistanceBtn;
     @FXML
     public Slider setDistanceScannerDirection;
+    @FXML
+    public Button enableEncodersBtn;
+    @FXML
+    public Button disableEncodersBtn;
 
     CDCDevice gb08m2CDCDevice;
     public static GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
@@ -1127,6 +1131,30 @@ public class MainWindowController
                 gb08m2ExecuteCmd("SETDISTANCESCANNERDIRECTION");
             }
         });
+
+        enableEncodersBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    gb08m2ExecuteCmd("ENABLEENCODERS");
+                }
+            }
+        });
+
+        disableEncodersBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    gb08m2ExecuteCmd("DISABLEENCODERS");
+                }
+            }
+        });
     }
 
     public int gb08m2CurDuty = 1;
@@ -1357,6 +1385,12 @@ public class MainWindowController
                 break;
             case "SETDISTANCESCANNERDIRECTION":
                 gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + String.valueOf(Math.round(setDistanceScannerDirection.getValue())));
+                break;
+            case "ENABLEENCODERS":
+                gb08m2SendCmdOverTCPIP("ENABLEENCODERS");
+                break;
+            case "DISABLEENCODERS":
+                gb08m2SendCmdOverTCPIP("DISABLEENCODERS");
                 break;
             }
         } else
