@@ -20,7 +20,9 @@
 #define TIMER1_INTERRUPT_LEVEL  1
 
 unsigned int leftWheelEncoderTicks = 0;
+unsigned int leftWheelEncoderPositive = 1;
 unsigned int rightWheelEncoderTicks = 0;
+unsigned int rightWheelEncoderPositive = 1;
 
 unsigned char timerLeft = 0;
 unsigned char timerRight = 0;
@@ -88,6 +90,18 @@ __ramfunc void IRQ0Handler(void)
         if (leftWheelEncoderTicks > 32000)
             leftWheelEncoderTicks = 0;
         timerLeft = 0;
+        AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+        if (leftWheelEncoderPositive)
+        {
+            AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ0Handler);
+            leftWheelEncoderPositive = 0;
+        }
+        else
+        {
+            AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) IRQ0Handler);
+            leftWheelEncoderPositive = 1;
+        }
+        AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
     }
 }
 
@@ -105,6 +119,18 @@ __ramfunc void IRQ1Handler(void)
         if (rightWheelEncoderTicks > 32000)
             rightWheelEncoderTicks = 0;
         timerRight = 0;
+        AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+        if (rightWheelEncoderPositive)
+        {
+            AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ1Handler);
+            rightWheelEncoderPositive = 0;
+        }
+        else
+        {
+            AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) IRQ1Handler);
+            rightWheelEncoderPositive = 1;
+        }
+        AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
     }
 }
 
@@ -288,6 +314,10 @@ static void InitPIO(void)
 
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);        //Alarm
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+
+
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);        //Encoders enable
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
 
     // PWM configuration
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //PWM0
@@ -592,12 +622,12 @@ static void InitIRQ()
 {
     // IRQ0 initialization
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA20, 0);
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ0Handler);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) IRQ0Handler);
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
 
     // IRQ1 initialization
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA30, 0);
-    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ1Handler);
+    AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_POSITIVE_EDGE, (void(*)(void)) IRQ1Handler);
     //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
 
     // FIQ initialization
@@ -607,14 +637,39 @@ static void InitIRQ()
 
     Timer0Setup();
 
-    //Open timer1
-    AT91F_TC_Open(AT91C_BASE_TC1, TC_CLKS_MCK8, AT91C_ID_TC1);
-    //Open Timer 1 interrupt
-    AT91F_AIC_ConfigureIt (AT91C_BASE_AIC, AT91C_ID_TC1, TIMER1_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandlerTC1);
-    AT91C_BASE_TC1->TC_IER = AT91C_TC_CPCS;             // IRQ enable CPC
-    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_TC1);
-    //Start timer1
-    AT91C_BASE_TC1->TC_CCR = AT91C_TC_SWTRG ;
+////    Open timer1
+//    AT91F_TC_Open(AT91C_BASE_TC1, TC_CLKS_MCK8, AT91C_ID_TC1);
+//    //Open Timer 1 interrupt
+//    AT91F_AIC_ConfigureIt (AT91C_BASE_AIC, AT91C_ID_TC1, TIMER1_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandlerTC1);
+//    AT91C_BASE_TC1->TC_IER = AT91C_TC_CPCS;             // IRQ enable CPC
+//    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_TC1);
+//    //Start timer1
+//    AT91C_BASE_TC1->TC_CCR = AT91C_TC_SWTRG;
+
+
+
+
+
+    // Init timer1 (USE THIS!!!)
+    AT91C_BASE_PMC->PMC_PCER = 1 << AT91C_ID_TC1;         // Enable peripheral clock
+    AT91C_BASE_TC1->TC_CCR = AT91C_TC_CLKDIS;             // Disable TC clock
+    AT91C_BASE_TC1->TC_IDR = 0xFFFFFFFF;                  // Disable interrupts
+    unsigned int dummy = AT91C_BASE_TC1->TC_SR;               // Clear status register
+    dummy = dummy;
+    AT91C_BASE_TC1->TC_CMR = TC_CLKS_MCK32 | AT91C_TC_CPCTRG;    // Set mode
+
+    AT91C_BASE_TC1->TC_CCR = AT91C_TC_CLKEN ;             // Enable the Clock counter
+    AT91C_BASE_TC1->TC_IER = AT91C_TC_CPCS;
+
+    AT91C_BASE_AIC->AIC_IDCR = 0x1 << AT91C_ID_TC1;
+    AT91C_BASE_AIC->AIC_SVR[AT91C_ID_TC1] = (unsigned int) SoftIQRHandlerTC1;
+    AT91C_BASE_AIC->AIC_SMR[AT91C_ID_TC1] = AT91C_AIC_SRCTYPE_EXT_LOW_LEVEL | 4;
+    AT91C_BASE_AIC->AIC_ICCR = 0x1 << AT91C_ID_TC1;
+    AT91C_BASE_AIC->AIC_IECR = 0x1 << AT91C_ID_TC1;
+
+    AT91C_BASE_TC1->TC_RC = 100000;
+    AT91C_BASE_TC1->TC_CCR = AT91C_TC_SWTRG;
+
 }
 
 
@@ -978,6 +1033,16 @@ int main(void)
                 distanceMeterReading = getValueChannel5();
                 sprintf((char *)msg,"DISTANCE: %u\n", distanceMeterReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ENABLEENCODERS") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "DISABLEENCODERS") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
                 continue;
             }
             if (strcmp((char*) cmdParts, "GETLEFTWHEELENCODER") == 0)
