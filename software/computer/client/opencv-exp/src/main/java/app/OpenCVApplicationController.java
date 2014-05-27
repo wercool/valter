@@ -48,7 +48,7 @@ public class OpenCVApplicationController
     @FXML
     Label qrCodeDecodedLabel;
 
-    String frontCameraMJPGStreamURL = "http://109.87.34.156:8081/?action=stream&dummyparam=dummy.mjpg";
+    String frontCameraMJPGStreamURL = "http://109.87.34.156:8080/?action=stream&dummyparam=dummy.mjpg";
 
     MJPGStreamGrabber frontCameraMJPGStream;
 
