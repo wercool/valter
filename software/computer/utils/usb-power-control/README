@@ -1,1 +1,3 @@
 for device in $(ls /sys/bus/usb/devices/*/product); do echo $device;cat $device;done
+
+sudo usb_modeswitch -R -v <vendor ID> -p <product ID>
