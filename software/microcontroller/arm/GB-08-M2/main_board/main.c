@@ -45,7 +45,6 @@ unsigned char radarServoSet = 0;
 #define TC_CLKS_MCK1024          0x4
 
 
-
 //*------------------------- Internal Function --------------------------------
 //*----------------------------------------------------------------------------
 //* Function Name       : AT91F_TC_Open
@@ -1131,6 +1130,54 @@ int main(void)
                 delay_ms(alarmBeepDuration);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
                 continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPALL") == 0)
+            {
+                //LEFTSTOP
+                pwmDutySetPercent(0, 1);
+                pwmDutySetPercent(3, 1);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);        //Left Wheels INa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);       //Left Wheels INb
+
+                //RIGHTSTOP
+                pwmDutySetPercent(1, 1);
+                pwmDutySetPercent(2, 1);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);       //Right Wheels INa
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
+
+                //RADARROTATIONSET
+                radarServoRotation = 1450;
+                radarServoSet = 1;
+
+                delay_ms(500);
+
+                //RADARROTATIONRESET
+                radarServoSet = 0;
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+                servoSignalPeriod = 0;
+                servoSignalWidth = 0;
+
+                //DISABLEENCODERS
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+
+                //LIGHTSOFF
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+
+                //ALARMOFF
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+
+                //info readings
+                batteryVoltageReadings = 0;
+                rightFrontCurReadings = 0;
+                rightRearCurReadings = 0;
+                leftFrontCurReadings = 0;
+                leftRearCurReadings = 0;
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                leftWheelEncoderReadings = 0;
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+                rightWheelEncoderReadings = 0;
             }
         }
 
