@@ -1178,6 +1178,8 @@ int main(void)
                 leftWheelEncoderReadings = 0;
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 rightWheelEncoderReadings = 0;
+                main();
+                break;
             }
         }
 
