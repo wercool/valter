@@ -10,8 +10,9 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
 
-<BorderPane id="BorderPane" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="app.MainWindowController">
+<BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="app.MainWindowController">
   <center>
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -328,7 +329,7 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="GB-08-M2 Drives General Control" underline="false" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="GB-08-M2 Drives General Control" underline="false" AnchorPane.leftAnchor="690.0" AnchorPane.topAnchor="5.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                       <children>
@@ -405,18 +406,9 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" prefHeight="265.0" prefWidth="320.0" text="Video" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="10.0">
+                <TitledPane animated="false" collapsible="false" prefWidth="240.0" text="System Commands" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="540.0">
                   <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <children>
-                        <ImageView fx:id="gb08m2ImageView" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefWidth="240.0" text="System Commands" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="310.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="155.0" prefWidth="236.0">
                       <children>
                         <Label fx:id="batteryVoltageLabel" text="Battery Voltage:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
                         <Button fx:id="getBatteryVoltageBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
@@ -429,7 +421,7 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" collapsible="false" text="Encoders" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="310.0">
+                <TitledPane animated="false" collapsible="false" prefHeight="181.0" prefWidth="289.0" text="Encoders" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="540.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="201.0">
                       <children>
@@ -439,13 +431,13 @@
                         <Button id="getBatteryVoltageBtn" fx:id="getRightEncoderBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
                         <Button id="resetLeftEncoder" fx:id="resetLeftEncoderBtn" mnemonicParsing="false" text="Reset left" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
                         <Button id="resetRightEncoder" fx:id="resetRightEncoderBtn" mnemonicParsing="false" text="Reset right" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0" />
-                        <Button fx:id="enableEncodersBtn" mnemonicParsing="false" text="Enable Encoders" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="145.0" />
-                        <Button fx:id="disableEncodersBtn" mnemonicParsing="false" text="Disable Encoders" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="175.0" />
+                        <Button fx:id="enableEncodersBtn" mnemonicParsing="false" text="Enable Encoders" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="80.0" />
+                        <Button fx:id="disableEncodersBtn" mnemonicParsing="false" text="Disable Encoders" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="110.0" />
                       </children>
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" collapsible="false" text="Distance Scanner" AnchorPane.leftAnchor="485.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="310.0">
+                <TitledPane animated="false" collapsible="false" prefHeight="169.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="565.0" AnchorPane.topAnchor="540.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -453,11 +445,48 @@
                         <Button id="getBatteryVoltageBtn" fx:id="getDistanceBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                         <Label text="Direction" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
                         <Slider id="alarmBeepDuration" fx:id="setDistanceScannerDirection" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                        <Button fx:id="releaseServoBtn" layoutX="172.0" layoutY="91.0" mnemonicParsing="false" text="Release Servo" />
+                        <Button fx:id="releaseServoBtn" mnemonicParsing="false" text="Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
                       </children>
                     </AnchorPane>
                   </content>
                 </TitledPane>
+                <TitledPane animated="false" prefWidth="285.0" text="Video Control" AnchorPane.leftAnchor="690.0" AnchorPane.topAnchor="300.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Button id="startMainVideBtn" fx:id="startMainVideoBtn" mnemonicParsing="false" text="Start Front Video" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <Button id="startMainVideBtn" fx:id="stopMainVideoBtn" mnemonicParsing="false" text="Stop Front Video" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="5.0" />
+                        <Button id="startMainVideBtn" fx:id="startRearVideoBtn" layoutX="5.0" layoutY="36.0" mnemonicParsing="false" text="Start Rear Video" />
+                        <Button id="startMainVideBtn" fx:id="stopRearVideoBtn" layoutX="145.0" layoutY="36.0" mnemonicParsing="false" text="Stop Rear Video" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <expandedPane>
+                    <TitledPane fx:id="x5" animated="false" text="Rear Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView fx:id="rearVideoImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
+                    <TitledPane fx:id="x4" animated="false" text="Front Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView fx:id="mainVideoImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                    <fx:reference source="x5" />
+                  </panes>
+                </Accordion>
               </children>
             </AnchorPane>
           </content>

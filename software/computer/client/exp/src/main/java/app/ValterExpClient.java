@@ -41,7 +41,7 @@ public class ValterExpClient extends Application
         FXMLLoader loader = new FXMLLoader(location);
         Parent rootNode = (Parent) loader.load();
 
-        scene = new Scene(rootNode, 800, 600);
+        scene = new Scene(rootNode, 1024, 768);
 
         stage.setTitle("Valter Command Client");
         stage.setScene(scene);

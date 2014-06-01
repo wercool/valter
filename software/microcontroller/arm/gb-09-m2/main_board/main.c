@@ -33,6 +33,9 @@ unsigned int servoSignalWidth = 0;
 unsigned int radarServoRotation = 0;
 unsigned char radarServoSet = 0;
 
+volatile unsigned int resetCntStart = 0;
+volatile unsigned int resetCnt = 0;
+
 
 /*-----------------*/
 /* Clock Selection */
@@ -191,6 +194,11 @@ __ramfunc void SoftIQRHandlerTC1(void)
 
     if (timerRight == 0)
         timerRight = 1;
+
+    if (resetCntStart)
+    {
+        resetCnt++;
+    }
 }
 
 /*
@@ -744,6 +752,57 @@ int main(void)
 
     while (1)
     {
+
+        if (resetCnt > 150)
+        {
+            resetCntStart = 0;
+
+            resetCnt = 0;
+
+            //beep
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+            delay_ms(5);
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+
+            //LEFTSTOP
+            pwmDutySetPercent(0, 1);
+            pwmDutySetPercent(3, 1);
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);        //Left Wheels INa
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);       //Left Wheels INb
+
+            //RIGHTSTOP
+            pwmDutySetPercent(1, 1);
+            pwmDutySetPercent(2, 1);
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);       //Right Wheels INa
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
+
+            //RADARROTATIONRESET
+            radarServoSet = 0;
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+            servoSignalPeriod = 0;
+            servoSignalWidth = 0;
+
+            //DISABLEENCODERS
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+            AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+            AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+
+            //LIGHTSOFF
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+
+            //ALARMOFF
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+
+            //info readings
+            batteryVoltageReadings = 0;
+            rightFrontCurReadings = 0;
+            rightRearCurReadings = 0;
+            leftFrontCurReadings = 0;
+            leftRearCurReadings = 0;
+            leftWheelEncoderReadings = 0;
+            rightWheelEncoderReadings = 0;
+        }
+
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
@@ -752,6 +811,13 @@ int main(void)
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
+
+            if (strcmp((char*) cmdParts, "PING") == 0)
+            {
+                resetCnt = 0;
+                resetCntStart = 1;
+                continue;
+            }
 
             if (strcmp((char*) cmdParts, "GETID") == 0)
             {

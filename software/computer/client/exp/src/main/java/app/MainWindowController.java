@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -37,6 +38,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -267,6 +269,21 @@ public class MainWindowController
     public Button disableEncodersBtn;
     @FXML
     public Button releaseServoBtn;
+    @FXML
+    public Button startMainVideoBtn;
+    @FXML
+    public Button stopMainVideoBtn;
+    @FXML
+    public ImageView mainVideoImageView;
+    @FXML
+    public ImageView rearVideoImageView;
+    @FXML
+    public Button startRearVideoBtn;
+    @FXML
+    public Button stopRearVideoBtn;
+
+    public Video1Runnable video1Runnable;
+    public Video0Runnable video0Runnable;
 
     CDCDevice gb08m2CDCDevice;
     public static GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
@@ -894,6 +911,7 @@ public class MainWindowController
 
     private void initializeGB08M2Control()
     {
+
         gb08m2ForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -1160,6 +1178,124 @@ public class MainWindowController
                 gb08m2ExecuteCmd("RADARROTATIONRESET");
             }
         });
+
+        startMainVideoBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                video1Runnable = new Video1Runnable();
+                new Thread(video1Runnable).start();
+            }
+        });
+        stopMainVideoBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                video1Runnable.stop();
+            }
+        });
+
+        startRearVideoBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                video0Runnable = new Video0Runnable();
+                new Thread(video0Runnable).start();
+            }
+        });
+        stopRearVideoBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                video0Runnable.stop();
+            }
+        });
+    }
+
+    class Video1Runnable implements Runnable
+    {
+        boolean isStopped;
+
+        public Video1Runnable()
+        {
+            isStopped = false;
+        }
+
+        @Override
+        public void run()
+        {
+            while (!isStopped)
+            {
+                Platform.runLater(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
+                        mainVideoImageView.setImage(frame);
+                        mainVideoImageView.setCache(false);
+                    }
+                });
+                try
+                {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+    }
+
+    class Video0Runnable implements Runnable
+    {
+        boolean isStopped;
+
+        public Video0Runnable()
+        {
+            isStopped = false;
+        }
+
+        @Override
+        public void run()
+        {
+            while (!isStopped)
+            {
+                Platform.runLater(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8081/?action=snapshot");
+                        rearVideoImageView.setImage(frame);
+                        rearVideoImageView.setCache(false);
+                    }
+                });
+                try
+                {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
     }
 
     public int gb08m2CurDuty = 1;
