@@ -1,5 +1,6 @@
 package app;
 
+import gb08m2.GB08M2AutonomousTasks;
 import gb08m2.GB08M2CommandsClientListenerThread;
 import gnu.io.CommPortIdentifier;
 
@@ -282,8 +283,30 @@ public class MainWindowController
     @FXML
     public Button stopRearVideoBtn;
 
+    //GB-08-M2 Autonomous Control Tab
+    @FXML
+    public ImageView frontCameraFrameImageView;
+    @FXML
+    public ImageView rearCameraFrameImageView;
+    @FXML
+    public Button startAutonomousVideoFrontBtn;
+    @FXML
+    public Button stopAutonomousVideoFrontBtn;
+    @FXML
+    public Button startAutonomousVideoRearBtn;
+    @FXML
+    public Button stopAutonomousVideoRearBtn;
+    @FXML
+    public ImageView irRangeFinderImageView;
+    @FXML
+    public Button startIRScanningBtn;
+    @FXML
+    public Button stopIRScanningBtn;
+
     public Video1Runnable video1Runnable;
     public Video0Runnable video0Runnable;
+    
+    public GB08M2AutonomousTasks GB08M2AutonomousTasksInst;
 
     CDCDevice gb08m2CDCDevice;
     public static GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
@@ -912,6 +935,8 @@ public class MainWindowController
     private void initializeGB08M2Control()
     {
 
+        GB08M2AutonomousTasksInst = new GB08M2AutonomousTasks(this);
+        
         gb08m2ForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -1212,6 +1237,57 @@ public class MainWindowController
             public void handle(MouseEvent e)
             {
                 video0Runnable.stop();
+            }
+        });
+
+        startAutonomousVideoFrontBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutonomousTasksInst.startFrontVideoProcessing();
+            }
+        });
+        stopAutonomousVideoFrontBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutonomousTasksInst.stopFrontVideoProcessing();
+            }
+        });
+
+        startAutonomousVideoRearBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutonomousTasksInst.startRearVideoProcessing();
+            }
+        });
+        stopAutonomousVideoRearBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutonomousTasksInst.stopRearVideoProcessing();
+            }
+        });
+
+        startIRScanningBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutonomousTasksInst.startIRRangeFinderScanning();
+            }
+        });
+        stopIRScanningBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutonomousTasksInst.stopIRRangeFinderScanning();
             }
         });
     }

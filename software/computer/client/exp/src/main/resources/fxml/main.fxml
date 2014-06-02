@@ -491,6 +491,63 @@
             </AnchorPane>
           </content>
         </Tab>
+        <Tab text="GB-08-M2 Autonomous Controls">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <expandedPane>
+                    <TitledPane id="x5" fx:id="x6" animated="false" text="Rear Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView id="rearVideoImageView" fx:id="rearCameraFrameImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
+                    <TitledPane id="x4" animated="false" text="Front Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView id="mainVideoImageView" fx:id="frontCameraFrameImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                    <fx:reference source="x6" />
+                  </panes>
+                </Accordion>
+                <TitledPane animated="false" prefWidth="285.0" text="Video Control" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Button id="startMainVideBtn" fx:id="startAutonomousVideoFrontBtn" mnemonicParsing="false" text="Start Front Video" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <Button id="startMainVideBtn" fx:id="stopAutonomousVideoFrontBtn" mnemonicParsing="false" text="Stop Front Video" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="5.0" />
+                        <Button id="startMainVideBtn" fx:id="startAutonomousVideoRearBtn" layoutX="5.0" layoutY="36.0" mnemonicParsing="false" text="Start Rear Video" />
+                        <Button id="startMainVideBtn" fx:id="stopAutonomousVideoRearBtn" layoutX="145.0" layoutY="36.0" mnemonicParsing="false" text="Stop Rear Video" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" prefHeight="340.0" prefWidth="350.0" text="IR Range Finder" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="225.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <ImageView fx:id="irRangeFinderImageView" fitHeight="260.0" fitWidth="346.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Separator layoutY="260.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Button fx:id="startIRScanningBtn" mnemonicParsing="false" text="Start Scanning" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="280.0" />
+                        <Button fx:id="stopIRScanningBtn" mnemonicParsing="false" text="Stop Scanning" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="280.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
       </tabs>
     </TabPane>
   </center>
