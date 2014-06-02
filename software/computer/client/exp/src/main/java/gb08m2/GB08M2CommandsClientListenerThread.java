@@ -83,6 +83,7 @@ public class GB08M2CommandsClientListenerThread extends Thread
                                 @Override
                                 public void run()
                                 {
+                                    mainWindowController.gb08m2IRRFdistance = Integer.parseInt(serverDataParts[1].trim());
                                     mainWindowController.distanceLabel.setText("Distance: " + serverDataParts[1].trim());
                                 }
                             });

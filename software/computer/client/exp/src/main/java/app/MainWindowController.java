@@ -302,10 +302,13 @@ public class MainWindowController
     public Button startIRScanningBtn;
     @FXML
     public Button stopIRScanningBtn;
+    @FXML
+    public TitledPane IRRangeFinderPanel;
 
     public Video1Runnable video1Runnable;
     public Video0Runnable video0Runnable;
-    
+    public int gb08m2IRRFdistance;
+
     public GB08M2AutonomousTasks GB08M2AutonomousTasksInst;
 
     CDCDevice gb08m2CDCDevice;
@@ -936,7 +939,7 @@ public class MainWindowController
     {
 
         GB08M2AutonomousTasksInst = new GB08M2AutonomousTasks(this);
-        
+
         gb08m2ForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -1288,6 +1291,7 @@ public class MainWindowController
             public void handle(MouseEvent e)
             {
                 GB08M2AutonomousTasksInst.stopIRRangeFinderScanning();
+                GB08M2AutonomousTasksInst.irRangeFinderReadings.clear();
             }
         });
     }

@@ -1,5 +1,8 @@
 package gb08m2;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Platform;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -15,6 +18,7 @@ public class GB08M2AutonomousTasks
     VideoFrontProcessing videoFrontProcessing;
     VideoRearProcessing videoRearProcessing;
     IRRangeFinderScanning irRangeFinderScanning;
+    public List<double[]> irRangeFinderReadings = new ArrayList<double[]>();
 
     public GB08M2AutonomousTasks(MainWindowController mainApp)
     {
@@ -144,6 +148,7 @@ public class GB08M2AutonomousTasks
         boolean isStopped;
         int angle = 180;
         int direction = 1;
+        double servoPosition = 1450;
 
         public IRRangeFinderScanning(MainWindowController mainApp)
         {
@@ -161,54 +166,75 @@ public class GB08M2AutonomousTasks
                     @Override
                     public void run()
                     {
-
-                        Canvas canvas = new Canvas(346, 260);
-                        WritableImage wi = new WritableImage(346, 260);
+                        int imgW = (int) mainApp.IRRangeFinderPanel.getWidth() - 5;
+                        int imgH = (int) (mainApp.IRRangeFinderPanel.getHeight() - 80);
+                        Canvas canvas = new Canvas(imgW, imgH);
                         GraphicsContext gc = canvas.getGraphicsContext2D();
                         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
                         double startX = canvas.getWidth() * (0.5);
                         double startY = canvas.getHeight();
 
-                        gc.setStroke(Color.BLACK);
                         gc.setFill(Color.RED);
-
                         gc.fillOval(startX - 10, startY - 10, 20, 20);
 
-                        double angleRad = angle * Math.PI / 180;
-                        double endX = startX + 200 * Math.sin(angleRad);
-                        double endY = startY + 200 * Math.cos(angleRad);
+                        double length = 900 - mainApp.gb08m2IRRFdistance;
 
+                        double angleRad = angle * Math.PI / 180;
+                        double endX = startX + (length / 2) * Math.sin(angleRad);
+                        double endY = startY + (length / 2) * Math.cos(angleRad);
+
+                        irRangeFinderReadings.add(new double[] { endX, endY });
+
+                        gc.setStroke(Color.BLACK);
                         gc.moveTo(startX, startY);
                         gc.lineTo(endX, endY);
-
                         gc.stroke();
 
+                        for (int i = 0; i < irRangeFinderReadings.size(); i++)
+                        {
+                            double[] point = irRangeFinderReadings.get(i);
+                            gc.getPixelWriter().setColor((int) point[0], (int) point[1], Color.GREEN);
+                            gc.getPixelWriter().setColor((int) point[0] - 1, (int) point[1] - 1, Color.GREEN);
+                            gc.getPixelWriter().setColor((int) point[0] + 1, (int) point[1] + 1, Color.GREEN);
+                            gc.getPixelWriter().setColor((int) point[0] + 1, (int) point[1] - 1, Color.GREEN);
+                            gc.getPixelWriter().setColor((int) point[0] - 1, (int) point[1] + 1, Color.GREEN);
+                        }
+
+                        WritableImage wi = new WritableImage(imgW, imgH);
                         canvas.snapshot(new SnapshotParameters(), wi);
                         mainApp.irRangeFinderImageView.setImage(wi);
                         mainApp.irRangeFinderImageView.setCache(false);
 
                         if (direction == 1)
                         {
-                            if (angle < 265)
+                            if (angle < 246)
                             {
-                                angle += 5;
+                                angle += 1;
+                                servoPosition += 10;
+                                mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
+                                mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
                             } else
                             {
                                 direction = 2;
                             }
                         } else
                         {
-                            if (angle > 95)
+                            if (angle > 104)
                             {
-                                angle -= 5;
+                                angle -= 1;
+                                servoPosition -= 10;
+                                mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
+                                mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
                             } else
                             {
                                 direction = 1;
                             }
                         }
 
-                        System.out.println(angle);
+                        //System.out.println("angle: " + angle);
+                        //System.out.println("servoPosition: " + servoPosition);
+                        //System.out.println("distance: " + mainApp.gb08m2IRRFdistance);
                     }
                 });
                 try

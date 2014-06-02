@@ -532,14 +532,14 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" prefHeight="340.0" prefWidth="350.0" text="IR Range Finder" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="225.0">
+                <TitledPane fx:id="IRRangeFinderPanel" animated="false" prefHeight="-1.0" prefWidth="-1.0" text="IR Range Finder" AnchorPane.bottomAnchor="167.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="220.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
-                        <ImageView fx:id="irRangeFinderImageView" fitHeight="260.0" fitWidth="346.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Separator layoutY="260.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Button fx:id="startIRScanningBtn" mnemonicParsing="false" text="Start Scanning" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="280.0" />
-                        <Button fx:id="stopIRScanningBtn" mnemonicParsing="false" text="Stop Scanning" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="280.0" />
+                        <ImageView fx:id="irRangeFinderImageView" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <Separator prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Button fx:id="startIRScanningBtn" mnemonicParsing="false" text="Start Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
+                        <Button fx:id="stopIRScanningBtn" mnemonicParsing="false" text="Stop Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" />
                       </children>
                     </AnchorPane>
                   </content>
