@@ -304,6 +304,8 @@ public class MainWindowController
     public Button stopIRScanningBtn;
     @FXML
     public TitledPane IRRangeFinderPanel;
+    @FXML
+    public Button getScanBtn;
 
     public Video1Runnable video1Runnable;
     public Video0Runnable video0Runnable;
@@ -312,7 +314,7 @@ public class MainWindowController
     public GB08M2AutonomousTasks GB08M2AutonomousTasksInst;
 
     CDCDevice gb08m2CDCDevice;
-    public static GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
+    public GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
 
     @SuppressWarnings("rawtypes")
     final TableColumn[] columns = { deviceNameCol, portNameCol, deviceConnectedCol };
@@ -1292,6 +1294,14 @@ public class MainWindowController
             {
                 GB08M2AutonomousTasksInst.stopIRRangeFinderScanning();
                 GB08M2AutonomousTasksInst.irRangeFinderReadings.clear();
+            }
+        });
+        getScanBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutonomousTasksInst.getScan();
             }
         });
     }

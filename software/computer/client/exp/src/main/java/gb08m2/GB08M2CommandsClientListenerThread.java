@@ -12,6 +12,7 @@ public class GB08M2CommandsClientListenerThread extends Thread
     protected MainWindowController mainWindowController;
     Socket clientSocket = null;
     volatile boolean isStopped = false;
+    public String distanceScan = "";
 
     public GB08M2CommandsClientListenerThread(Socket socketClient, MainWindowController mainWindowController)
     {
@@ -89,6 +90,11 @@ public class GB08M2CommandsClientListenerThread extends Thread
                             });
                             continue;
                         }
+                        if (serverData.contains("SCAN:"))
+                        {
+                            distanceScan = serverData;
+                            continue;
+                        }
                     }
 
                     try
@@ -114,7 +120,7 @@ public class GB08M2CommandsClientListenerThread extends Thread
 
     private String getString(InputStream in) throws IOException
     {
-        byte[] strIn = new byte[100];
+        byte[] strIn = new byte[5000];
         int ix = 0;
         while (true)
         {

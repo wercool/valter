@@ -254,4 +254,56 @@ public class GB08M2AutonomousTasks
             isStopped = true;
         }
     }
+
+    public void getScan()
+    {
+        mainApp.GB08M2CommandsClientListener.distanceScan = "";
+        mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCESCAN");
+        try
+        {
+            Thread.sleep(4000);
+        } catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (mainApp.GB08M2CommandsClientListener.distanceScan.length() > 1000)
+        {
+            final String[] distanceScanParts = mainApp.GB08M2CommandsClientListener.distanceScan.split("SCAN:");
+            final String[] distanceScanReadings = distanceScanParts[1].trim().split(";");
+
+            int imgW = (int) mainApp.IRRangeFinderPanel.getWidth() - 5;
+            int imgH = (int) (mainApp.IRRangeFinderPanel.getHeight() - 80);
+            Canvas canvas = new Canvas(imgW, imgH);
+            GraphicsContext gc = canvas.getGraphicsContext2D();
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+            double startX = canvas.getWidth() * (0.5);
+            double startY = canvas.getHeight();
+
+            gc.setFill(Color.RED);
+            gc.fillOval(startX - 10, startY - 10, 20, 20);
+
+            for (int i = 0; i < distanceScanReadings.length; i++)
+            {
+                final String[] distanceScanReadingParts = distanceScanReadings[i].split(",");
+                //System.out.println(distanceScanReadingParts[0] + " -> " + distanceScanReadingParts[1]);
+                int angle = Integer.parseInt(distanceScanReadingParts[0]);
+                double length = 900 - Integer.parseInt(distanceScanReadingParts[1]);
+                double angleRad = angle * Math.PI / 180;
+                double endX = startX + (length / 2) * Math.sin(angleRad);
+                double endY = startY + (length / 2) * Math.cos(angleRad);
+
+                gc.getPixelWriter().setColor((int) endX, (int) endY, Color.GREEN);
+                gc.getPixelWriter().setColor((int) endX + 1, (int) endY + 1, Color.GREEN);
+                gc.getPixelWriter().setColor((int) endX - 1, (int) endY - 1, Color.GREEN);
+                gc.getPixelWriter().setColor((int) endX + 1, (int) endY - 1, Color.GREEN);
+                gc.getPixelWriter().setColor((int) endX - 1, (int) endY + 1, Color.GREEN);
+            }
+
+            WritableImage wi = new WritableImage(imgW, imgH);
+            canvas.snapshot(new SnapshotParameters(), wi);
+            mainApp.irRangeFinderImageView.setImage(wi);
+        }
+    }
 }
