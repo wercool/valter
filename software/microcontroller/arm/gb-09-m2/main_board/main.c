@@ -738,6 +738,7 @@ int main(void)
     unsigned int batteryVoltageReadings = 0;
     unsigned int batteryVoltageReading = 0;
 
+    unsigned int distanceMeterReadings = 0;
     unsigned int distanceMeterReading = 0;
 
     unsigned int leftWheelEncoderReadings = 0;
@@ -1100,6 +1101,77 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            if (strcmp((char*) cmdParts, "STARTDISTANCEREADINGS") == 0)
+            {
+                distanceMeterReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPDISTANCEREADINGS") == 0)
+            {
+                distanceMeterReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETDISTANCESCAN") == 0)
+            {
+                int angle = 180;
+                int direction = 1;
+                int servoPosition = 1450;
+                int irRangeFinderReading = 0;
+                int scanning = 1;
+
+                sprintf((char *)msg,"%s", "SCAN:");
+
+                while (scanning)
+                {
+                    if (direction == 1)
+                    {
+                        if (angle < 245)
+                        {
+                            angle += 1;
+                            servoPosition += 10;
+                        } else
+                        {
+                            direction = 2;
+                        }
+                    } else
+                    {
+                        if (angle > 115)
+                        {
+                            angle -= 1;
+                            servoPosition -= 10;
+                        } else
+                        {
+                            radarServoRotation = 1450;
+                            radarServoSet = 1;
+                            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                            delay_ms(150);
+                            radarServoSet = 0;
+                            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
+                            servoSignalPeriod = 0;
+                            servoSignalWidth = 0;
+                            scanning = 0;
+                            break;
+                        }
+                    }
+
+                    if (scanning)
+                    {
+                        radarServoRotation = servoPosition;
+                        radarServoSet = 1;
+
+                        delay_ms(10);
+                        double irRangeFinderReading_sum = 0;
+                        for (int i = 0; i < 10; i++)
+                        {
+                            irRangeFinderReading_sum += getValueChannel5();
+                        }
+
+                        irRangeFinderReading = (int) round((double) irRangeFinderReading_sum / (double) 10);
+                        sprintf((char *)msg,"%s%d,%d;", (char*)msg, angle, irRangeFinderReading);
+                    }
+                }
+                continue;
+            }
             if (strcmp((char*) cmdParts, "ENABLEENCODERS") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
@@ -1296,6 +1368,14 @@ int main(void)
             sprintf((char *)msg,"RIGHT ENCODER: %u\n", rightWheelEncoderTicks);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(10);
+        }
+        if (distanceMeterReadings)
+        {
+            distanceMeterReading = getValueChannel5();
+            sprintf((char *)msg,"DISTANCE: %u\n", distanceMeterReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(10);
+            continue;
         }
     }
 

@@ -204,28 +204,28 @@ public class GB08M2AutonomousTasks
                         WritableImage wi = new WritableImage(imgW, imgH);
                         canvas.snapshot(new SnapshotParameters(), wi);
                         mainApp.irRangeFinderImageView.setImage(wi);
-                        mainApp.irRangeFinderImageView.setCache(false);
+                        //mainApp.irRangeFinderImageView.setCache(false);
 
                         if (direction == 1)
                         {
-                            if (angle < 246)
+                            if (angle < 245)
                             {
                                 angle += 1;
                                 servoPosition += 10;
                                 mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
-                                mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                                //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
                             } else
                             {
                                 direction = 2;
                             }
                         } else
                         {
-                            if (angle > 104)
+                            if (angle > 115)
                             {
                                 angle -= 1;
                                 servoPosition -= 10;
                                 mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
-                                mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                                //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
                             } else
                             {
                                 direction = 1;
@@ -235,11 +235,12 @@ public class GB08M2AutonomousTasks
                         //System.out.println("angle: " + angle);
                         //System.out.println("servoPosition: " + servoPosition);
                         //System.out.println("distance: " + mainApp.gb08m2IRRFdistance);
+                        //System.out.println(irRangeFinderReadings.size());
                     }
                 });
                 try
                 {
-                    Thread.sleep(100);
+                    Thread.sleep(50);
                 } catch (InterruptedException e)
                 {
                     // TODO Auto-generated catch block
