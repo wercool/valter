@@ -1,6 +1,5 @@
 package app;
 
-
 import java.awt.image.BufferedImage;
 
 import javafx.embed.swing.SwingFXUtils;
@@ -8,13 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import org.opencv.core.Core;
-import org.opencv.core.Core.MinMaxLocResult;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfDouble;
 import org.opencv.core.MatOfInt;
 import org.opencv.core.MatOfRect;
-import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -27,16 +23,16 @@ import org.opencv.objdetect.Objdetect;
 public class MJPGStreamGrabber
 {
 
-    private String streamURL;
-    private ImageView streamOutputView;
+    private final String streamURL;
+    private final ImageView streamOutputView;
     public boolean isCapturing = false;
-    private Mat MJPGMatFrame;
+    private final Mat MJPGMatFrame;
     private BufferedImage MJPGframe;
     private VideoCapture capture;
     private Thread captureFrameThread;
 
     //HAAR settings
-    private int neighboursNum = 1;
+    private final int neighboursNum = 1;
     Mat template;
 
     public MJPGStreamGrabber(String streamURL, ImageView streamOutputView)
@@ -118,29 +114,29 @@ public class MJPGStreamGrabber
             Core.putText(mRgba, Integer.toString(i), detectedObjectsArray[i].tl(), Core.FONT_HERSHEY_SIMPLEX, 1, new Scalar(0, 255, 0));
         }
 
-        //Core.rectangle(mRgba, detectedObjectsArray[detectedObjectsArray.length - 1].tl(), detectedObjectsArray[detectedObjectsArray.length - 1].br(), new Scalar(0, 255, 0), 1);
-        //Core.putText(mRgba, Integer.toString(detectedObjectsArray.length - 1), detectedObjectsArray[detectedObjectsArray.length - 1].tl(), Core.FONT_HERSHEY_SIMPLEX, 1, new Scalar(0, 255, 0));
-
-        //        if (detectedObjectsArray.length > 1)
-        //        {
-        //            neighboursNum++;
-        //            System.out.println(String.format("neighboursNum = %d", neighboursNum));
-        //        }
-
-        //Template Matching
-        int result_cols = mRgba.cols() - template.cols() + 1;
-        int result_rows = mRgba.rows() - template.rows() + 1;
-        Mat result = new Mat(result_rows, result_cols, CvType.CV_32FC1);
-
-        // / Do the Matching and Normalize
-        Imgproc.matchTemplate(mRgba, template, result, Imgproc.TM_CCOEFF);
-        Core.normalize(result, result, 0, 1, Core.NORM_MINMAX, -1, new Mat());
-
-        // / Localizing the best match with minMaxLoc
-        MinMaxLocResult mmr = Core.minMaxLoc(result);
-        Point matchLoc = mmr.maxLoc;
-
-        Core.rectangle(mRgba, matchLoc, new Point(matchLoc.x + template.cols(), matchLoc.y + template.rows()), new Scalar(0, 0, 255));
+        //        //Core.rectangle(mRgba, detectedObjectsArray[detectedObjectsArray.length - 1].tl(), detectedObjectsArray[detectedObjectsArray.length - 1].br(), new Scalar(0, 255, 0), 1);
+        //        //Core.putText(mRgba, Integer.toString(detectedObjectsArray.length - 1), detectedObjectsArray[detectedObjectsArray.length - 1].tl(), Core.FONT_HERSHEY_SIMPLEX, 1, new Scalar(0, 255, 0));
+        //
+        //        //        if (detectedObjectsArray.length > 1)
+        //        //        {
+        //        //            neighboursNum++;
+        //        //            System.out.println(String.format("neighboursNum = %d", neighboursNum));
+        //        //        }
+        //
+        //        //Template Matching
+        //        int result_cols = mRgba.cols() - template.cols() + 1;
+        //        int result_rows = mRgba.rows() - template.rows() + 1;
+        //        Mat result = new Mat(result_rows, result_cols, CvType.CV_32FC1);
+        //
+        //        // / Do the Matching and Normalize
+        //        Imgproc.matchTemplate(mRgba, template, result, Imgproc.TM_CCOEFF);
+        //        Core.normalize(result, result, 0, 1, Core.NORM_MINMAX, -1, new Mat());
+        //
+        //        // / Localizing the best match with minMaxLoc
+        //        MinMaxLocResult mmr = Core.minMaxLoc(result);
+        //        Point matchLoc = mmr.maxLoc;
+        //
+        //        Core.rectangle(mRgba, matchLoc, new Point(matchLoc.x + template.cols(), matchLoc.y + template.rows()), new Scalar(0, 0, 255));
 
         //Frame Output
         MJPGframe = matToBufferedImage(mRgba);
@@ -149,10 +145,11 @@ public class MJPGStreamGrabber
         streamOutputView.setImage(image);
     }
 
-    /**  
+    /**
      * Converts/writes a Mat into a BufferedImage.
-     *  
-     * @param matrix Mat of type CV_8UC3 or CV_8UC1
+     * 
+     * @param matrix
+     *            Mat of type CV_8UC3 or CV_8UC1
      * @return BufferedImage of type TYPE_3BYTE_BGR or TYPE_BYTE_GRAY
      */
     public static BufferedImage matToBufferedImage(Mat matrix)
@@ -165,29 +162,29 @@ public class MJPGStreamGrabber
         matrix.get(0, 0, data);
         switch (matrix.channels())
         {
-            case 1:
-                type = BufferedImage.TYPE_BYTE_GRAY;
-                break;
-            case 3:
-                type = BufferedImage.TYPE_3BYTE_BGR;
-                // bgr to rgb  
-                byte b;
-                for (int i = 0; i < data.length; i = i + 3)
-                {
-                    b = data[i];
-                    data[i] = data[i + 2];
-                    data[i + 2] = b;
-                }
-                break;
-            default:
-                return null;
+        case 1:
+            type = BufferedImage.TYPE_BYTE_GRAY;
+            break;
+        case 3:
+            type = BufferedImage.TYPE_3BYTE_BGR;
+            // bgr to rgb  
+            byte b;
+            for (int i = 0; i < data.length; i = i + 3)
+            {
+                b = data[i];
+                data[i] = data[i + 2];
+                data[i + 2] = b;
+            }
+            break;
+        default:
+            return null;
         }
         BufferedImage image2 = new BufferedImage(cols, rows, type);
         image2.getRaster().setDataElements(0, 0, cols, rows, data);
         return image2;
     }
-    
-    private class RunnableCaptureFrame implements Runnable 
+
+    private class RunnableCaptureFrame implements Runnable
     {
         @Override
         public void run()

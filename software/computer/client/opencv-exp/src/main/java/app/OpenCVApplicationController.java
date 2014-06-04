@@ -48,7 +48,8 @@ public class OpenCVApplicationController
     @FXML
     Label qrCodeDecodedLabel;
 
-    String frontCameraMJPGStreamURL = "http://109.87.34.156:8080/?action=stream&dummyparam=dummy.mjpg";
+    //String frontCameraMJPGStreamURL = "http://109.87.34.156:9090/?action=stream&dummyparam=dummy.mjpg";
+    String frontCameraMJPGStreamURL = "http://192.168.0.7:9090/?action=stream&dummyparam=dummy.mjpg";
 
     MJPGStreamGrabber frontCameraMJPGStream;
 
@@ -131,8 +132,7 @@ public class OpenCVApplicationController
                     connectWebCamBtn.setText("Connect");
                 } else
                 {
-                    Dimension[] nonStandardResolutions = new Dimension[]
-                        { WebcamResolution.VGA.getSize(), WebcamResolution.SVGA.getSize(), WebcamResolution.HD720.getSize() };
+                    Dimension[] nonStandardResolutions = new Dimension[] { WebcamResolution.VGA.getSize(), WebcamResolution.SVGA.getSize(), WebcamResolution.HD720.getSize() };
 
                     selectedVideoDevice.setCustomViewSizes(nonStandardResolutions);
                     selectedVideoDevice.setViewSize(WebcamResolution.VGA.getSize());
