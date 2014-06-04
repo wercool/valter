@@ -149,11 +149,19 @@ public class GB08M2AutonomousTasks
         int angle = 180;
         int direction = 1;
         double servoPosition = 1450;
+        int imgW;
+        int imgH;
+
+        Canvas canvas;
+        GraphicsContext gc;
 
         public IRRangeFinderScanning(MainWindowController mainApp)
         {
             this.mainApp = mainApp;
             isStopped = false;
+            imgW = (int) mainApp.IRRangeFinderPanel.getWidth() - 5;
+            imgH = (int) (mainApp.IRRangeFinderPanel.getHeight() - 80);
+            mainApp.irRangeFinderImageView.setCache(false);
         }
 
         @Override
@@ -166,10 +174,9 @@ public class GB08M2AutonomousTasks
                     @Override
                     public void run()
                     {
-                        int imgW = (int) mainApp.IRRangeFinderPanel.getWidth() - 5;
-                        int imgH = (int) (mainApp.IRRangeFinderPanel.getHeight() - 80);
-                        Canvas canvas = new Canvas(imgW, imgH);
-                        GraphicsContext gc = canvas.getGraphicsContext2D();
+                        canvas = new Canvas(imgW, imgH);
+                        gc = canvas.getGraphicsContext2D();
+
                         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
                         double startX = canvas.getWidth() * (0.5);
@@ -184,53 +191,23 @@ public class GB08M2AutonomousTasks
                         double endX = startX + (length / 2) * Math.sin(angleRad);
                         double endY = startY + (length / 2) * Math.cos(angleRad);
 
-                        irRangeFinderReadings.add(new double[] { endX, endY });
+                        if (mainApp.gb08m2IRRFdistance > 80)
+                        {
+                            gc.getPixelWriter().setColor((int) endX, (int) endY, Color.BLACK);
+                            gc.getPixelWriter().setColor((int) endX + 1, (int) endY + 1, Color.BLACK);
+                            gc.getPixelWriter().setColor((int) endX - 1, (int) endY - 1, Color.BLACK);
+                            gc.getPixelWriter().setColor((int) endX + 1, (int) endY - 1, Color.BLACK);
+                            gc.getPixelWriter().setColor((int) endX - 1, (int) endY + 1, Color.BLACK);
+                        }
 
                         gc.setStroke(Color.BLACK);
                         gc.moveTo(startX, startY);
                         gc.lineTo(endX, endY);
                         gc.stroke();
 
-                        for (int i = 0; i < irRangeFinderReadings.size(); i++)
-                        {
-                            double[] point = irRangeFinderReadings.get(i);
-                            gc.getPixelWriter().setColor((int) point[0], (int) point[1], Color.GREEN);
-                            gc.getPixelWriter().setColor((int) point[0] - 1, (int) point[1] - 1, Color.GREEN);
-                            gc.getPixelWriter().setColor((int) point[0] + 1, (int) point[1] + 1, Color.GREEN);
-                            gc.getPixelWriter().setColor((int) point[0] + 1, (int) point[1] - 1, Color.GREEN);
-                            gc.getPixelWriter().setColor((int) point[0] - 1, (int) point[1] + 1, Color.GREEN);
-                        }
-
                         WritableImage wi = new WritableImage(imgW, imgH);
                         canvas.snapshot(new SnapshotParameters(), wi);
                         mainApp.irRangeFinderImageView.setImage(wi);
-                        //mainApp.irRangeFinderImageView.setCache(false);
-
-                        if (direction == 1)
-                        {
-                            if (angle < 245)
-                            {
-                                angle += 1;
-                                servoPosition += 10;
-                                mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
-                                //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
-                            } else
-                            {
-                                direction = 2;
-                            }
-                        } else
-                        {
-                            if (angle > 115)
-                            {
-                                angle -= 1;
-                                servoPosition -= 10;
-                                mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
-                                //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
-                            } else
-                            {
-                                direction = 1;
-                            }
-                        }
 
                         //System.out.println("angle: " + angle);
                         //System.out.println("servoPosition: " + servoPosition);
@@ -238,9 +215,36 @@ public class GB08M2AutonomousTasks
                         //System.out.println(irRangeFinderReadings.size());
                     }
                 });
+
+                if (direction == 1)
+                {
+                    if (angle < 245)
+                    {
+                        angle += 1;
+                        servoPosition += 10;
+                        mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
+                        //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                    } else
+                    {
+                        direction = 2;
+                    }
+                } else
+                {
+                    if (angle > 115)
+                    {
+                        angle -= 1;
+                        servoPosition -= 10;
+                        mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
+                        //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                    } else
+                    {
+                        direction = 1;
+                    }
+                }
+
                 try
                 {
-                    Thread.sleep(50);
+                    Thread.sleep(20);
                 } catch (InterruptedException e)
                 {
                     // TODO Auto-generated catch block
@@ -251,6 +255,16 @@ public class GB08M2AutonomousTasks
 
         public void stop()
         {
+            mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#1450");
+            try
+            {
+                Thread.sleep(50);
+            } catch (InterruptedException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONRESET");
             isStopped = true;
         }
     }
@@ -289,16 +303,24 @@ public class GB08M2AutonomousTasks
                 final String[] distanceScanReadingParts = distanceScanReadings[i].split(",");
                 //System.out.println(distanceScanReadingParts[0] + " -> " + distanceScanReadingParts[1]);
                 int angle = Integer.parseInt(distanceScanReadingParts[0]);
-                double length = 900 - Integer.parseInt(distanceScanReadingParts[1]);
-                double angleRad = angle * Math.PI / 180;
-                double endX = startX + (length / 2) * Math.sin(angleRad);
-                double endY = startY + (length / 2) * Math.cos(angleRad);
+                int distance_adc = Integer.parseInt(distanceScanReadingParts[1]);
+                //distance_adc
+                //250mm ~ 690
+                //500mm ~ 380
+                //1000mm ~ 190
+                if (distance_adc > 100)
+                {
+                    double length = 900 - distance_adc;
+                    double angleRad = angle * Math.PI / 180;
+                    double endX = startX + (length / 2) * Math.sin(angleRad);
+                    double endY = startY + (length / 2) * Math.cos(angleRad);
 
-                gc.getPixelWriter().setColor((int) endX, (int) endY, Color.GREEN);
-                gc.getPixelWriter().setColor((int) endX + 1, (int) endY + 1, Color.GREEN);
-                gc.getPixelWriter().setColor((int) endX - 1, (int) endY - 1, Color.GREEN);
-                gc.getPixelWriter().setColor((int) endX + 1, (int) endY - 1, Color.GREEN);
-                gc.getPixelWriter().setColor((int) endX - 1, (int) endY + 1, Color.GREEN);
+                    gc.getPixelWriter().setColor((int) endX, (int) endY, Color.BLACK);
+                    gc.getPixelWriter().setColor((int) endX + 1, (int) endY + 1, Color.BLACK);
+                    gc.getPixelWriter().setColor((int) endX - 1, (int) endY - 1, Color.BLACK);
+                    gc.getPixelWriter().setColor((int) endX + 1, (int) endY - 1, Color.BLACK);
+                    gc.getPixelWriter().setColor((int) endX - 1, (int) endY + 1, Color.BLACK);
+                }
             }
 
             WritableImage wi = new WritableImage(imgW, imgH);

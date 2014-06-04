@@ -540,6 +540,39 @@ public class MainWindowController
         {
             valterCDCDevices.get(i).disconnect();
         }
+        try
+        {
+            commandsSocketClientOutputStream.writeBytes("DISCONNECT\n");
+        } catch (IOException e1)
+        {
+            e1.printStackTrace();
+        }
+
+        if (gb08m2TCPIPListener.isSelected())
+        {
+            GB08M2CommandsClientListener.stopListener();
+        } else
+        {
+            commandsSocketListenerThread.stopListener();
+        }
+
+        try
+        {
+            commandsSocketClient.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        commandsSocketClient = null;
+
+        try
+        {
+            commandsSocketClientOutputStream.close();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        commandsSocketClientOutputStream = null;
     }
 
     public void setMainApp(ValterExpClient mainAppObject)
@@ -939,7 +972,6 @@ public class MainWindowController
 
     private void initializeGB08M2Control()
     {
-
         GB08M2AutonomousTasksInst = new GB08M2AutonomousTasks(this);
 
         gb08m2ForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()

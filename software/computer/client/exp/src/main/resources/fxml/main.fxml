@@ -313,7 +313,7 @@
                         <Button fx:id="connectToServerBtn" mnemonicParsing="false" text="Connect to Server" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="85.0" />
                         <TextField fx:id="commandsServerPortTextIntput" prefWidth="90.0" text="9001" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="32.0" />
                         <Label text="Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0" />
-                        <TextField id="commandsServerAddress" fx:id="commandsServerAddressTextIntput" layoutY="3.0" prefWidth="90.0" text="" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="5.0" />
+                        <TextField id="commandsServerAddress" fx:id="commandsServerAddressTextIntput" layoutY="3.0" prefWidth="90.0" text="192.168.0.33" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="5.0" />
                         <Label text="Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.0" />
                         <Button fx:id="pingPongBtn" mnemonicParsing="false" text="PING" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="85.0" />
                         <CheckBox fx:id="gb08m2TCPIPListener" mnemonicParsing="false" selected="true" text="Start GB08M2 TCP/IP Listener" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="63.0" />
