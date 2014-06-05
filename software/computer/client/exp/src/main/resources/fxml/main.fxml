@@ -497,6 +497,19 @@
               <children>
                 <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <expandedPane>
+                    <TitledPane id="x4" fx:id="x7" animated="false" text="Front Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView id="mainVideoImageView" fx:id="frontCameraFrameImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            <Pane fx:id="frontCameraFrameOverlay" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
+                    <fx:reference source="x7" />
                     <TitledPane id="x5" fx:id="x6" animated="false" text="Rear Camera">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
@@ -506,18 +519,6 @@
                         </AnchorPane>
                       </content>
                     </TitledPane>
-                  </expandedPane>
-                  <panes>
-                    <TitledPane id="x4" animated="false" text="Front Camera">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                          <children>
-                            <ImageView id="mainVideoImageView" fx:id="frontCameraFrameImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </TitledPane>
-                    <fx:reference source="x6" />
                   </panes>
                 </Accordion>
                 <TitledPane animated="false" prefWidth="285.0" text="Video Control" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">

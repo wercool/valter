@@ -47,6 +47,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 import javax.imageio.ImageIO;
 
@@ -312,10 +315,17 @@ public class MainWindowController
     public TitledPane IRRangeFinderPanel;
     @FXML
     public Button getScanBtn;
+    @FXML
+    public Pane frontCameraFrameOverlay;
 
     public Video1Runnable video1Runnable;
     public Video0Runnable video0Runnable;
     public int gb08m2IRRFdistance;
+
+    public double frontCameraROI_x1;
+    public double frontCameraROI_y1;
+    public double frontCameraROI_x2;
+    public double frontCameraROI_y2;
 
     public GB08M2AutonomousTasks GB08M2AutonomousTasksInst;
 
@@ -994,6 +1004,33 @@ public class MainWindowController
     private void initializeGB08M2Control()
     {
         GB08M2AutonomousTasksInst = new GB08M2AutonomousTasks(this);
+
+        frontCameraFrameOverlay.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                frontCameraROI_x1 = e.getX();
+                frontCameraROI_y1 = e.getY();
+            }
+        });
+
+        frontCameraFrameOverlay.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                frontCameraROI_x2 = e.getX();
+                frontCameraROI_y2 = e.getY();
+                Rectangle ROI = new Rectangle(frontCameraROI_x1, frontCameraROI_y1, frontCameraROI_x2 - frontCameraROI_x1, frontCameraROI_y2 - frontCameraROI_y1);
+                ROI.setStrokeWidth(2);
+                ROI.setStroke(Color.RED);
+                ROI.setFill(Color.TRANSPARENT);
+                frontCameraFrameOverlay.getChildren().clear();
+                ROI.setMouseTransparent(true);
+                frontCameraFrameOverlay.getChildren().addAll(ROI);
+            }
+        });
 
         gb08m2ForwardBtn.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
