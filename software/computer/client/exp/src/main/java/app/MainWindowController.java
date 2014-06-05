@@ -1397,13 +1397,11 @@ public class MainWindowController
                     @Override
                     public void run()
                     {
-                        //Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
-                        //Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
                         BufferedImage frame_bi = null;
                         URL url;
                         try
                         {
-                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
+                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
                             try
                             {
                                 frame_bi = ImageIO.read(url);
@@ -1462,7 +1460,6 @@ public class MainWindowController
                     @Override
                     public void run()
                     {
-                        //Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8081/?action=snapshot");
                         BufferedImage frame_bi = null;
                         URL url;
                         try
