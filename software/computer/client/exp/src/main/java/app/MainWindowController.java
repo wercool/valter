@@ -314,8 +314,6 @@ public class MainWindowController
     @FXML
     public TitledPane IRRangeFinderPanel;
     @FXML
-    public Button getScanBtn;
-    @FXML
     public Pane frontCameraFrameOverlay;
     @FXML
     public Pane IRRangeFinderPane;
@@ -1376,14 +1374,6 @@ public class MainWindowController
             {
                 GB08M2AutonomousTasksInst.stopIRRangeFinderScanning();
                 GB08M2AutonomousTasksInst.irRangeFinderReadings.clear();
-            }
-        });
-        getScanBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
-        {
-            @Override
-            public void handle(MouseEvent e)
-            {
-                GB08M2AutonomousTasksInst.getScan();
             }
         });
     }

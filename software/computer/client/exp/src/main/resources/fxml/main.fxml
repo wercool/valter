@@ -542,7 +542,6 @@
                         <Separator prefWidth="200.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <Button fx:id="startIRScanningBtn" mnemonicParsing="false" text="Start Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
                         <Button fx:id="stopIRScanningBtn" mnemonicParsing="false" text="Stop Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" />
-                        <Button fx:id="getScanBtn" mnemonicParsing="false" text="Get Scan" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="135.0" />
                         <CheckBox fx:id="clearIRRangeFinder" mnemonicParsing="false" selected="true" text="Clear after each scan" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" />
                       </children>
                     </AnchorPane>
