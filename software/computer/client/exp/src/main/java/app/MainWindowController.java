@@ -540,37 +540,52 @@ public class MainWindowController
         {
             valterCDCDevices.get(i).disconnect();
         }
-        try
+        if (commandsSocketClientOutputStream != null)
         {
-            commandsSocketClientOutputStream.writeBytes("DISCONNECT\n");
-        } catch (IOException e1)
-        {
-            e1.printStackTrace();
+            try
+            {
+                commandsSocketClientOutputStream.writeBytes("DISCONNECT\n");
+            } catch (IOException e1)
+            {
+                e1.printStackTrace();
+            }
         }
 
-        if (gb08m2TCPIPListener.isSelected())
+        if (gb08m2TCPIPListener != null)
         {
-            GB08M2CommandsClientListener.stopListener();
-        } else
-        {
-            commandsSocketListenerThread.stopListener();
+            if (GB08M2CommandsClientListener != null)
+            {
+                if (gb08m2TCPIPListener.isSelected())
+                {
+                    GB08M2CommandsClientListener.stopListener();
+                } else
+                {
+                    commandsSocketListenerThread.stopListener();
+                }
+            }
         }
 
-        try
+        if (commandsSocketClient != null)
         {
-            commandsSocketClient.close();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                commandsSocketClient.close();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
         commandsSocketClient = null;
 
-        try
+        if (commandsSocketClientOutputStream != null)
         {
-            commandsSocketClientOutputStream.close();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                commandsSocketClientOutputStream.close();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
         commandsSocketClientOutputStream = null;
     }
@@ -1357,7 +1372,8 @@ public class MainWindowController
                     @Override
                     public void run()
                     {
-                        Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
+                        //Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
+                        Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
                         mainVideoImageView.setImage(frame);
                         mainVideoImageView.setCache(false);
                     }
