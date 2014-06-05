@@ -317,6 +317,10 @@ public class MainWindowController
     public Button getScanBtn;
     @FXML
     public Pane frontCameraFrameOverlay;
+    @FXML
+    public Pane IRRangeFinderPane;
+    @FXML
+    public CheckBox clearIRRangeFinder;
 
     public Video1Runnable video1Runnable;
     public Video0Runnable video0Runnable;
@@ -1175,10 +1179,7 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    gb08m2ExecuteCmd("GETBATTERYVOLTAGE");
-                }
+                gb08m2ExecuteCmd("GETBATTERYVOLTAGE");
             }
         });
 
@@ -1214,10 +1215,7 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    gb08m2ExecuteCmd("GETLEFTWHEELENCODER");
-                }
+                gb08m2ExecuteCmd("GETLEFTWHEELENCODER");
             }
         });
 
@@ -1226,10 +1224,7 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    gb08m2ExecuteCmd("GETRIGHTWHEELENCODER");
-                }
+                gb08m2ExecuteCmd("GETRIGHTWHEELENCODER");
             }
         });
 
@@ -1256,10 +1251,7 @@ public class MainWindowController
             @Override
             public void handle(MouseEvent e)
             {
-                for (int i = 0; i < 5; i++)
-                {
-                    gb08m2ExecuteCmd("GETDISTANCE");
-                }
+                gb08m2ExecuteCmd("GETDISTANCE");
             }
         });
 

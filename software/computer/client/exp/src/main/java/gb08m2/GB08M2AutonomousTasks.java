@@ -9,6 +9,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import app.MainWindowController;
 
 public class GB08M2AutonomousTasks
@@ -151,6 +153,15 @@ public class GB08M2AutonomousTasks
         double servoPosition = 1450;
         int imgW;
         int imgH;
+        int period = 0;
+
+        Line centerLine;
+        Line scanLine;
+        
+        List<Circle> points = new ArrayList<Circle>();
+
+        double startX;
+        double startY;
 
         Canvas canvas;
         GraphicsContext gc;
@@ -159,9 +170,17 @@ public class GB08M2AutonomousTasks
         {
             this.mainApp = mainApp;
             isStopped = false;
-            imgW = (int) mainApp.IRRangeFinderPanel.getWidth() - 5;
-            imgH = (int) (mainApp.IRRangeFinderPanel.getHeight() - 80);
-            mainApp.irRangeFinderImageView.setCache(false);
+
+            //            imgW = (int) mainApp.IRRangeFinderPanel.getWidth() - 5;
+            //            imgH = (int) (mainApp.IRRangeFinderPanel.getHeight() - 80);
+            //            mainApp.irRangeFinderImageView.setCache(false);
+
+            startX = mainApp.IRRangeFinderPane.getWidth() * (0.5);
+            startY = mainApp.IRRangeFinderPane.getHeight();
+            centerLine = new Line(startX, 0, startX, startY);
+            centerLine.getStrokeDashArray().addAll(1d, 11d);
+            mainApp.IRRangeFinderPane.getChildren().clear();
+            mainApp.IRRangeFinderPane.getChildren().add(centerLine);
         }
 
         @Override
@@ -174,6 +193,9 @@ public class GB08M2AutonomousTasks
                     @Override
                     public void run()
                     {
+                        /*
+                        System.out.println(">>>>>>>>>>>>>>>>>>>" + mainApp.IRRangeFinderPane.getWidth());
+
                         canvas = new Canvas(imgW, imgH);
                         gc = canvas.getGraphicsContext2D();
 
@@ -191,7 +213,7 @@ public class GB08M2AutonomousTasks
                         double endX = startX + (length / 2) * Math.sin(angleRad);
                         double endY = startY + (length / 2) * Math.cos(angleRad);
 
-                        if (mainApp.gb08m2IRRFdistance > 80)
+                        if (mainApp.gb08m2IRRFdistance > 10)
                         {
                             gc.getPixelWriter().setColor((int) endX, (int) endY, Color.BLACK);
                             gc.getPixelWriter().setColor((int) endX + 1, (int) endY + 1, Color.BLACK);
@@ -213,6 +235,46 @@ public class GB08M2AutonomousTasks
                         //System.out.println("servoPosition: " + servoPosition);
                         //System.out.println("distance: " + mainApp.gb08m2IRRFdistance);
                         //System.out.println(irRangeFinderReadings.size());
+                         */
+
+                        if (mainApp.IRRangeFinderPane.getWidth() * (0.5) != startX)
+                        {
+                            startX = mainApp.IRRangeFinderPane.getWidth() * (0.5);
+                            startY = mainApp.IRRangeFinderPane.getHeight();
+                            centerLine = new Line(startX, 0, startX, startY);
+                            centerLine.getStrokeDashArray().addAll(1d, 11d);
+                            mainApp.IRRangeFinderPane.getChildren().clear();
+                            mainApp.IRRangeFinderPane.getChildren().add(centerLine);
+                        }
+
+                        double length = 900 - mainApp.gb08m2IRRFdistance;
+                        double angleRad = angle * Math.PI / 180;
+                        double endX = startX + (length / 2) * Math.sin(angleRad);
+                        double endY = startY + (length / 2) * Math.cos(angleRad);
+
+                        if (scanLine != null)
+                        {
+                            mainApp.IRRangeFinderPane.getChildren().remove(scanLine);
+                        }
+                        scanLine = new Line(startX, startY, endX, endY);
+                        mainApp.IRRangeFinderPane.getChildren().add(scanLine);
+
+                        Circle point = new Circle(endX, endY, 1);
+                        mainApp.IRRangeFinderPane.getChildren().add(point);
+                        points.add(point);
+
+                        if (period == 2)
+                        {
+                            period = 0;
+                            if (mainApp.clearIRRangeFinder.isSelected())
+                            {
+                                for (int i = 0; i < points.size(); i++)
+                                {
+                                    mainApp.IRRangeFinderPane.getChildren().remove(points.get(i));
+                                }
+                                points.clear();
+                            }
+                        }
                     }
                 });
 
@@ -223,10 +285,19 @@ public class GB08M2AutonomousTasks
                         angle += 1;
                         servoPosition += 10;
                         mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
-                        //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                        try
+                        {
+                            Thread.sleep(20);
+                        } catch (InterruptedException e)
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
                     } else
                     {
                         direction = 2;
+                        period++;
                     }
                 } else
                 {
@@ -235,20 +306,20 @@ public class GB08M2AutonomousTasks
                         angle -= 1;
                         servoPosition -= 10;
                         mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + (int) servoPosition);
-                        //mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                        try
+                        {
+                            Thread.sleep(20);
+                        } catch (InterruptedException e)
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
                     } else
                     {
                         direction = 1;
+                        period++;
                     }
-                }
-
-                try
-                {
-                    Thread.sleep(20);
-                } catch (InterruptedException e)
-                {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
                 }
             }
         }
