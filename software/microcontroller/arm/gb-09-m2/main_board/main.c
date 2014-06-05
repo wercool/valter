@@ -1125,7 +1125,7 @@ int main(void)
                 {
                     if (direction == 1)
                     {
-                        if (angle < 245)
+                        if (angle < 255)
                         {
                             angle += 1;
                             servoPosition += 10;
@@ -1141,10 +1141,7 @@ int main(void)
                             servoPosition -= 10;
                         } else
                         {
-                            radarServoRotation = 1450;
-                            radarServoSet = 1;
                             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                            delay_ms(150);
                             radarServoSet = 0;
                             AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
                             servoSignalPeriod = 0;
@@ -1159,14 +1156,14 @@ int main(void)
                         radarServoRotation = servoPosition;
                         radarServoSet = 1;
 
-                        delay_ms(10);
+                        delay_ms(5);
                         double irRangeFinderReading_sum = 0;
-                        for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < 5; i++)
                         {
                             irRangeFinderReading_sum += getValueChannel5();
                         }
 
-                        irRangeFinderReading = (int) round((double) irRangeFinderReading_sum / (double) 10);
+                        irRangeFinderReading = (int) round((double) irRangeFinderReading_sum / (double) 5);
                         sprintf((char *)msg,"%s%d,%d;", (char*)msg, angle, irRangeFinderReading);
                     }
                 }

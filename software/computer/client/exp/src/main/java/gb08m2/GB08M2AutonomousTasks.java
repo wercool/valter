@@ -272,10 +272,20 @@ public class GB08M2AutonomousTasks
     public void getScan()
     {
         mainApp.GB08M2CommandsClientListener.distanceScan = "";
+        mainApp.gb08m2SendCmdOverTCPIP("RADARROTATIONSET#1450");
+        mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCE");
+        try
+        {
+            Thread.sleep(500);
+        } catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         mainApp.gb08m2SendCmdOverTCPIP("GETDISTANCESCAN");
         try
         {
-            Thread.sleep(4000);
+            Thread.sleep(3000);
         } catch (InterruptedException e)
         {
             // TODO Auto-generated catch block
@@ -308,7 +318,7 @@ public class GB08M2AutonomousTasks
                 //250mm ~ 690
                 //500mm ~ 380
                 //1000mm ~ 190
-                if (distance_adc > 100)
+                if (distance_adc > 150)
                 {
                     double length = 900 - distance_adc;
                     double angleRad = angle * Math.PI / 180;
