@@ -259,9 +259,12 @@ public class GB08M2AutonomousTasks
                         scanLine = new Line(startX, startY, endX, endY);
                         mainApp.IRRangeFinderPane.getChildren().add(scanLine);
 
-                        Circle point = new Circle(endX, endY, 1);
-                        mainApp.IRRangeFinderPane.getChildren().add(point);
-                        points.add(point);
+                        if (mainApp.gb08m2IRRFdistance > 80)
+                        {
+                            Circle point = new Circle(endX, endY, 1);
+                            mainApp.IRRangeFinderPane.getChildren().add(point);
+                            points.add(point);
+                        }
 
                         if (period == 2)
                         {
