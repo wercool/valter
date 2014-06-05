@@ -4,10 +4,13 @@ import gb08m2.GB08M2AutonomousTasks;
 import gb08m2.GB08M2CommandsClientListenerThread;
 import gnu.io.CommPortIdentifier;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.Socket;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,6 +23,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,6 +47,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+
+import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1373,9 +1379,32 @@ public class MainWindowController
                     public void run()
                     {
                         //Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
-                        Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
-                        mainVideoImageView.setImage(frame);
-                        mainVideoImageView.setCache(false);
+                        //Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
+                        BufferedImage frame_bi = null;
+                        URL url;
+                        try
+                        {
+                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
+                            try
+                            {
+                                frame_bi = ImageIO.read(url);
+                            } catch (IOException e)
+                            {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        } catch (MalformedURLException e)
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        if (frame_bi != null)
+                        {
+                            Image frame = null;
+                            frame = SwingFXUtils.toFXImage(frame_bi, null);
+                            mainVideoImageView.setImage(frame);
+                            mainVideoImageView.setCache(false);
+                        }
                     }
                 });
                 try
@@ -1414,9 +1443,32 @@ public class MainWindowController
                     @Override
                     public void run()
                     {
-                        Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8081/?action=snapshot");
-                        rearVideoImageView.setImage(frame);
-                        rearVideoImageView.setCache(false);
+                        //Image frame = new Image("http://" + commandsServerAddressTextIntput.getText() + ":8081/?action=snapshot");
+                        BufferedImage frame_bi = null;
+                        URL url;
+                        try
+                        {
+                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":8081/?action=snapshot");
+                            try
+                            {
+                                frame_bi = ImageIO.read(url);
+                            } catch (IOException e)
+                            {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        } catch (MalformedURLException e)
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        if (frame_bi != null)
+                        {
+                            Image frame = null;
+                            frame = SwingFXUtils.toFXImage(frame_bi, null);
+                            rearVideoImageView.setImage(frame);
+                            rearVideoImageView.setCache(false);
+                        }
                     }
                 });
                 try
