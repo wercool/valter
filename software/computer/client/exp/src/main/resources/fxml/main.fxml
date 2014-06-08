@@ -464,17 +464,6 @@
                 </TitledPane>
                 <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <expandedPane>
-                    <TitledPane fx:id="x5" animated="false" text="Rear Camera">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                          <children>
-                            <ImageView fx:id="rearVideoImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </TitledPane>
-                  </expandedPane>
-                  <panes>
                     <TitledPane fx:id="x4" animated="false" text="Front Camera">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
@@ -484,7 +473,18 @@
                         </AnchorPane>
                       </content>
                     </TitledPane>
-                    <fx:reference source="x5" />
+                  </expandedPane>
+                  <panes>
+                    <fx:reference source="x4" />
+                    <TitledPane fx:id="x5" animated="false" text="Rear Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView fx:id="rearVideoImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
                   </panes>
                 </Accordion>
               </children>
@@ -521,7 +521,7 @@
                     </TitledPane>
                   </panes>
                 </Accordion>
-                <TitledPane animated="false" prefWidth="285.0" text="Video Control" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
+                <TitledPane animated="false" prefWidth="300.0" text="Video Control" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -529,11 +529,13 @@
                         <Button id="startMainVideBtn" fx:id="stopAutonomousVideoFrontBtn" mnemonicParsing="false" text="Stop Front Video" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="5.0" />
                         <Button id="startMainVideBtn" fx:id="startAutonomousVideoRearBtn" layoutX="5.0" layoutY="36.0" mnemonicParsing="false" text="Start Rear Video" />
                         <Button id="startMainVideBtn" fx:id="stopAutonomousVideoRearBtn" layoutX="145.0" layoutY="36.0" mnemonicParsing="false" text="Stop Rear Video" />
+                        <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="67.0" />
+                        <Button id="getFronROIBtn" fx:id="getFrontROIBtn" mnemonicParsing="false" text="Start  ROI capture from the Front Video" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="75.0" />
                       </children>
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane fx:id="IRRangeFinderPanel" animated="false" prefHeight="-1.0" prefWidth="-1.0" text="IR Range Finder" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="220.0">
+                <TitledPane fx:id="IRRangeFinderPanel" animated="false" expanded="true" prefHeight="372.0" prefWidth="354.0" text="IR Range Finder" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="220.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -543,6 +545,15 @@
                         <Button fx:id="startIRScanningBtn" mnemonicParsing="false" text="Start Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
                         <Button fx:id="stopIRScanningBtn" mnemonicParsing="false" text="Stop Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" />
                         <CheckBox fx:id="clearIRRangeFinder" mnemonicParsing="false" selected="true" text="Clear after each scan" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane fx:id="selectedROITitledPanel" animated="false" collapsible="false" contentDisplay="LEFT" layoutX="5.0" layoutY="545.0" minWidth="150.0" prefHeight="150.0" prefWidth="150.0" text="Selected ROI" textAlignment="LEFT" wrapText="false">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <ImageView id="selcetdROIImageView" fx:id="selectedROIImageView" fitHeight="125.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                       </children>
                     </AnchorPane>
                   </content>

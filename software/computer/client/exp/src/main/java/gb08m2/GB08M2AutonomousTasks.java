@@ -1,11 +1,20 @@
 package gb08m2;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+
 import app.MainWindowController;
 
 public class GB08M2AutonomousTasks
@@ -16,6 +25,7 @@ public class GB08M2AutonomousTasks
     VideoRearProcessing videoRearProcessing;
     IRRangeFinderScanning irRangeFinderScanning;
     public List<double[]> irRangeFinderReadings = new ArrayList<double[]>();
+    public boolean captureFrontVideoROI = false;
 
     public GB08M2AutonomousTasks(MainWindowController mainApp)
     {
@@ -55,6 +65,53 @@ public class GB08M2AutonomousTasks
         irRangeFinderScanning.stop();
     }
 
+    public static Mat bufferedImageToMat(BufferedImage bimage)
+    {
+        byte[] data = ((DataBufferByte) bimage.getRaster().getDataBuffer()).getData();
+        Mat mat = new Mat(bimage.getHeight(), bimage.getWidth(), CvType.CV_8UC3);
+        mat.put(0, 0, data);
+        return mat;
+    }
+
+    /**
+     * Converts/writes a Mat into a BufferedImage.
+     * 
+     * @param matrix
+     *            Mat of type CV_8UC3 or CV_8UC1
+     * @return BufferedImage of type TYPE_3BYTE_BGR or TYPE_BYTE_GRAY
+     */
+    public static BufferedImage matToBufferedImage(Mat matrix)
+    {
+        int cols = matrix.cols();
+        int rows = matrix.rows();
+        int elemSize = (int) matrix.elemSize();
+        byte[] data = new byte[cols * rows * elemSize];
+        int type;
+        matrix.get(0, 0, data);
+        switch (matrix.channels())
+        {
+        case 1:
+            type = BufferedImage.TYPE_BYTE_GRAY;
+            break;
+        case 3:
+            type = BufferedImage.TYPE_3BYTE_BGR;
+            // bgr to rgb  
+            byte b;
+            for (int i = 0; i < data.length; i = i + 3)
+            {
+                b = data[i];
+                data[i] = data[i + 2];
+                data[i + 2] = b;
+            }
+            break;
+        default:
+            return null;
+        }
+        BufferedImage image2 = new BufferedImage(cols, rows, type);
+        image2.getRaster().setDataElements(0, 0, cols, rows, data);
+        return image2;
+    }
+
     class VideoFrontProcessing implements Runnable
     {
         MainWindowController mainApp;
@@ -76,8 +133,31 @@ public class GB08M2AutonomousTasks
                     @Override
                     public void run()
                     {
-                        mainApp.frontCameraFrameImageView.setImage(mainApp.mainVideoImageView.getImage());
-                        mainApp.frontCameraFrameImageView.setCache(false);
+                        if (mainApp.frontCameraFrameBufferedImage != null)
+                        {
+                            Mat frameMat = bufferedImageToMat(mainApp.frontCameraFrameBufferedImage);
+
+                            if (captureFrontVideoROI)
+                            {
+                                if (!Double.isNaN(mainApp.frontCameraROI_x1) && !Double.isNaN(mainApp.frontCameraROI_x2))
+                                {
+                                    int x = (int) mainApp.frontCameraROI_x1;
+                                    int y = (int) mainApp.frontCameraROI_y1;
+                                    int width = (int) mainApp.frontCameraROI_x2 - (int) mainApp.frontCameraROI_x1;
+                                    int height = (int) mainApp.frontCameraROI_y2 - (int) mainApp.frontCameraROI_y1;
+                                    Rect ROIRect = new Rect(x, y, width, height);
+                                    Mat frameROIMat = new Mat(frameMat, ROIRect);
+                                    BufferedImage selectedROIBufferedImage = matToBufferedImage(frameROIMat);
+                                    Image roiFrame = SwingFXUtils.toFXImage(selectedROIBufferedImage, null);
+                                    mainApp.selectedROIImageView.setImage(roiFrame);
+                                    mainApp.selectedROIImageView.setCache(false);
+                                }
+                            }
+                            BufferedImage frameBufferedImage = matToBufferedImage(frameMat);
+                            Image frame = SwingFXUtils.toFXImage(frameBufferedImage, null);
+                            mainApp.frontCameraFrameImageView.setImage(frame);
+                            mainApp.frontCameraFrameImageView.setCache(false);
+                        }
                     }
                 });
                 try

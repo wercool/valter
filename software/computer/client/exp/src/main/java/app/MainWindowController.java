@@ -53,6 +53,7 @@ import javafx.scene.shape.Rectangle;
 
 import javax.imageio.ImageIO;
 
+import org.opencv.core.Core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -319,6 +320,12 @@ public class MainWindowController
     public Pane IRRangeFinderPane;
     @FXML
     public CheckBox clearIRRangeFinder;
+    @FXML
+    public TitledPane selectedROITitledPanel;
+    @FXML
+    public ImageView selectedROIImageView;
+    @FXML
+    public Button getFrontROIBtn;
 
     public Video1Runnable video1Runnable;
     public Video0Runnable video0Runnable;
@@ -330,6 +337,7 @@ public class MainWindowController
     public double frontCameraROI_y2;
 
     public GB08M2AutonomousTasks GB08M2AutonomousTasksInst;
+    public BufferedImage frontCameraFrameBufferedImage = null;
 
     CDCDevice gb08m2CDCDevice;
     public GB08M2CommandsClientListenerThread GB08M2CommandsClientListener;
@@ -348,6 +356,8 @@ public class MainWindowController
     @FXML
     void initialize()
     {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
         mainWindowController = this;
 
         mainTabPane.getSelectionModel().select(2);
@@ -1007,6 +1017,7 @@ public class MainWindowController
     {
         GB08M2AutonomousTasksInst = new GB08M2AutonomousTasks(this);
 
+        //SET ROI
         frontCameraFrameOverlay.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -1031,6 +1042,61 @@ public class MainWindowController
                 frontCameraFrameOverlay.getChildren().clear();
                 ROI.setMouseTransparent(true);
                 frontCameraFrameOverlay.getChildren().addAll(ROI);
+            }
+        });
+
+        getFrontROIBtn.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!GB08M2AutonomousTasksInst.captureFrontVideoROI)
+                {
+                    GB08M2AutonomousTasksInst.captureFrontVideoROI = true;
+                    getFrontROIBtn.setText("Stop ROI capture from the Front Video");
+                } else
+                {
+                    GB08M2AutonomousTasksInst.captureFrontVideoROI = false;
+                    getFrontROIBtn.setText("Start ROI capture from the Front Video");
+                }
+            }
+        });
+
+        final class DragContext
+        {
+            public double mouseAnchorX;
+            public double mouseAnchorY;
+            public double initialTranslateX;
+            public double initialTranslateY;
+        }
+
+        final DragContext dragContext = new DragContext();
+
+        selectedROITitledPanel.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                // remember initial mouse cursor coordinates
+                // and node position
+                dragContext.mouseAnchorX = mouseEvent.getSceneX();
+                dragContext.mouseAnchorY = mouseEvent.getSceneY();
+                dragContext.initialTranslateX = selectedROITitledPanel.getTranslateX();
+                dragContext.initialTranslateY = selectedROITitledPanel.getTranslateY();
+            }
+        });
+
+        selectedROITitledPanel.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                // shift node from its initial position by delta
+                // calculated from mouse cursor movement
+                double x = dragContext.initialTranslateX + mouseEvent.getSceneX() - dragContext.mouseAnchorX;
+                double y = dragContext.initialTranslateY + mouseEvent.getSceneY() - dragContext.mouseAnchorY;
+                selectedROITitledPanel.setTranslateX(x);
+                selectedROITitledPanel.setTranslateY(y);
             }
         });
 
@@ -1397,14 +1463,15 @@ public class MainWindowController
                     @Override
                     public void run()
                     {
-                        BufferedImage frame_bi = null;
                         URL url;
                         try
                         {
-                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
+                            frontCameraFrameBufferedImage = null;
+                            //url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
+                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
                             try
                             {
-                                frame_bi = ImageIO.read(url);
+                                frontCameraFrameBufferedImage = ImageIO.read(url);
                             } catch (IOException e)
                             {
                                 // TODO Auto-generated catch block
@@ -1415,10 +1482,10 @@ public class MainWindowController
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                        if (frame_bi != null)
+                        if (frontCameraFrameBufferedImage != null)
                         {
                             Image frame = null;
-                            frame = SwingFXUtils.toFXImage(frame_bi, null);
+                            frame = SwingFXUtils.toFXImage(frontCameraFrameBufferedImage, null);
                             mainVideoImageView.setImage(frame);
                             mainVideoImageView.setCache(false);
                         }
@@ -1983,4 +2050,5 @@ public class MainWindowController
             }
         }
     }
+
 }
