@@ -26,6 +26,7 @@ public class GB08M2MainAppController
         {
             Button pressedBtn = (Button) (event.getSource());
             System.out.println(pressedBtn.getId() + " was pressed");
+            pressedBtn = null;
         }
     }
 
@@ -36,6 +37,7 @@ public class GB08M2MainAppController
         {
             Button releasedBtn = (Button) (event.getSource());
             System.out.println(releasedBtn.getId() + " was realsed");
+            releasedBtn = null;
         }
     }
 
@@ -46,11 +48,13 @@ public class GB08M2MainAppController
         {
             Button clickedBtn = (Button) (event.getSource());
             System.out.println(clickedBtn.getId() + " was clicked");
+            clickedBtn = null;
         }
         if (event.getSource().getClass().toString().equalsIgnoreCase("class javafx.scene.control.ToggleButton"))
         {
             ToggleButton clickedToggleBtn = (ToggleButton) (event.getSource());
             System.out.println(clickedToggleBtn.getId() + " was clicked, selected: " + clickedToggleBtn.isSelected());
+            clickedToggleBtn = null;
         }
     }
 }
