@@ -87,7 +87,7 @@
                       <children>
                         <ToggleButton id="lightsToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Lights ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="45.0" />
                         <Label text="Battery Voltage: " AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
-                        <Button mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0" />
+                        <Button id="getBatteryVoltageBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
                         <Separator prefWidth="211.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="75.0" />
                         <Label layoutX="5.0" text="Alarm Beep" AnchorPane.topAnchor="85.0">
@@ -95,8 +95,8 @@
                             <Font size="13.0" />
                           </font>
                         </Label>
-                        <Slider id="alarmBeepDuration" min="1.0" prefWidth="217.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="105.0" />
-                        <Button mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Beep" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0" />
+                        <Slider id="alarmBeepDurationSlider" min="1.0" prefWidth="217.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="105.0" />
+                        <Button id="beepBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Beep" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0" />
                         <Separator prefWidth="211.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="130.0" />
                         <Label text="Encoders" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="140.0">
                           <font>
@@ -105,10 +105,10 @@
                         </Label>
                         <Label text="Left:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="160.0" />
                         <Label text="Right:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="190.0" />
-                        <Button mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="155.0" />
-                        <Button mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="185.0" />
-                        <Button mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="155.0" />
-                        <Button mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0" />
+                        <Button id="getLeftEncoder" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="155.0" />
+                        <Button id="getRightEncoder" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="185.0" />
+                        <Button id="resetLeftEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="155.0" />
+                        <Button id="resetRightEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0" />
                         <ToggleButton id="encodersToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Encoders ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="215.0" />
                       </children>
                     </AnchorPane>
@@ -119,9 +119,9 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
                         <Label id="batteryVoltageLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <Button id="getBatteryVoltageBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="12.0" />
+                        <Button id="getDistanceBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="12.0" />
                         <Label text="Direction" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
-                        <Slider id="alarmBeepDuration" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+                        <Slider id="distanceScannerPositionSlider" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
                         <Button id="releaseServoBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
                       </children>
                     </AnchorPane>
@@ -136,6 +136,31 @@
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <expandedPane>
+                    <TitledPane fx:id="x3" animated="false" text="Rear Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView id="rearCameraImageAutomatedView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
+                    <TitledPane id="x1" animated="false" text="Front Camera">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView id="frontCameraImageAutomatedView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                    <fx:reference source="x3" />
+                  </panes>
+                </Accordion>
               </children>
             </AnchorPane>
           </content>
@@ -150,6 +175,15 @@
           </content>
         </Tab>
         <Tab text="Automatic Control Management">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Settings">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
