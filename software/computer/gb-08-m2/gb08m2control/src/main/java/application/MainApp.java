@@ -8,23 +8,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
-public class GB08M2MainApp extends Application
+public class MainApp extends Application
 {
 
     public Stage stage;
     public Scene scene;
-    public GB08M2MainAppController mainAppController;
+    public MainAppController mainAppController;
 
     @Override
     public void start(Stage primaryStage)
     {
         try
         {
-            System.out.println("Starting GB08M2MainApp");
+            System.out.println("INFO: " + "Starting GB08M2MainApp");
 
             this.stage = primaryStage;
-            mainAppController = new GB08M2MainAppController();
+            mainAppController = new MainAppController(this.stage);
 
             String fxmlFile = "main.fxml";
 
