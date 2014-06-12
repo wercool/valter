@@ -14,32 +14,41 @@ public class GB08M2
     static int frontCameraPort = 8080;
     static int rearCameraPort = 8081;
 
-    //Hardware parameters
+    //Hardware control
     volatile int batteryVoltage;
 
     public static final String frontLeftMotorDutyCommandPrefix = "FRONTLEFTDUTY#";
     volatile int frontLeftMotorDuty = 1;
-    volatile int frontLeftMotorDirection;
     volatile int frontLeftMotorCurrent;
 
     public static final String frontRightMotorDutyCommandPrefix = "FRONTRIGHTDUTY#";
     volatile int frontRightMotorDuty = 1;
-    volatile int frontRightMotorDirection;
     volatile int frontRightMotorCurrent;
 
     public static final String rearLeftMotorDutyCommandPrefix = "REARLEFTDUTY#";
     volatile int rearLeftMotorDuty = 1;
-    volatile int rearLeftMotorDirection;
     volatile int rearLeftMotorCurrent;
 
     public static final String rearRightMotorDutyCommandPrefix = "REARRIGHTDUTY#";
     volatile int rearRightMotorDuty = 1;
-    volatile int rearRightMotorDirection;
     volatile int rearRightMotorCurrent;
+
+    public static final String leftMotorsDirectionForwardCommand = "LEFTFORWARD";
+    public static final String rightMotorsDirectionForwardCommand = "RIGHTFORWARD";
+    public static final String leftMotorsDirectionBackwardCommand = "LEFTBACKWARD";
+    public static final String rightMotorsDirectionBackwardCommand = "RIGHTBACKWARD";
+
+    volatile String leftMotorsDirection = "forward";
+    volatile String rightMotorsDirection = "forward";
 
     //Abstract parameters
     volatile int leftDuty = 1;
     volatile int rightDuty = 1;
+
+    public GB08M2()
+    {
+        gb08m2ManualControlManager = new GB08M2ManualControlManager();
+    }
 
     public boolean initialize()
     {
@@ -47,8 +56,6 @@ public class GB08M2
 
         gb08m2CommandManager = new GB08M2CommandManager();
         isInitialized &= gb08m2CommandManager.isConnected;
-
-        gb08m2ManualControlManager = new GB08M2ManualControlManager();
 
         return isInitialized;
     }
@@ -70,7 +77,7 @@ public class GB08M2
     {
         return isInitialized;
     }
-    
+
     public static String getHostname()
     {
         return hostname;
@@ -112,9 +119,46 @@ public class GB08M2
     }
 
     //Hardware
+
     public synchronized int getFrontLeftMotorDuty()
     {
         return frontLeftMotorDuty;
+    }
+
+    public String getLeftMotorsDirection()
+    {
+        return leftMotorsDirection;
+    }
+
+    public void setLeftMotorsDirection(String leftMotorsDirection)
+    {
+        if (leftMotorsDirection.startsWith("forward"))
+        {
+            gb08m2CommandManager.sendCommand(leftMotorsDirectionForwardCommand);
+        }
+        if (leftMotorsDirection.startsWith("backward"))
+        {
+            gb08m2CommandManager.sendCommand(leftMotorsDirectionBackwardCommand);
+        }
+        this.leftMotorsDirection = leftMotorsDirection;
+    }
+
+    public String getRightMotorsDirection()
+    {
+        return rightMotorsDirection;
+    }
+
+    public void setRightMotorsDirection(String rightMotorsDirection)
+    {
+        if (rightMotorsDirection.startsWith("forward"))
+        {
+            gb08m2CommandManager.sendCommand(rightMotorsDirectionForwardCommand);
+        }
+        if (leftMotorsDirection.startsWith("backward"))
+        {
+            gb08m2CommandManager.sendCommand(rightMotorsDirectionBackwardCommand);
+        }
+        this.rightMotorsDirection = rightMotorsDirection;
     }
 
     public synchronized void setFrontLeftMotorDuty(int frontLeftMotorDuty)
@@ -138,6 +182,34 @@ public class GB08M2
             gb08m2CommandManager.sendCommand(rearLeftMotorDutyCommandPrefix + String.valueOf(rearLeftMotorDuty));
         }
         this.rearLeftMotorDuty = rearLeftMotorDuty;
+    }
+
+    public int getFrontRightMotorDuty()
+    {
+        return frontRightMotorDuty;
+    }
+
+    public void setFrontRightMotorDuty(int frontRightMotorDuty)
+    {
+        if (this.frontRightMotorDuty != frontRightMotorDuty)
+        {
+            gb08m2CommandManager.sendCommand(frontRightMotorDutyCommandPrefix + String.valueOf(frontRightMotorDuty));
+        }
+        this.frontRightMotorDuty = frontRightMotorDuty;
+    }
+
+    public int getRearRightMotorDuty()
+    {
+        return rearRightMotorDuty;
+    }
+
+    public void setRearRightMotorDuty(int rearRightMotorDuty)
+    {
+        if (this.rearRightMotorDuty != rearRightMotorDuty)
+        {
+            gb08m2CommandManager.sendCommand(rearRightMotorDutyCommandPrefix + String.valueOf(rearRightMotorDuty));
+        }
+        this.rearRightMotorDuty = rearRightMotorDuty;
     }
 
     //Abstract

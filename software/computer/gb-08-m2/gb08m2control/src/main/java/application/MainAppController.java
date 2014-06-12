@@ -1,9 +1,12 @@
 package application;
 
 import gb082m2.GB08M2;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -22,16 +25,21 @@ public class MainAppController
     TextField frontCameraPortTextField;
     @FXML
     TextField rearCameraPortTextField;
-    
+
     //Manual Control tab's elements
     @FXML
     Slider dutyLeftSlider;
     @FXML
     Slider dutyRightSlider;
+    @FXML
+    CheckBox dutySunchronizedCheckBox;
 
     final Stage primaryStage;
     final Scene primaryScene;
     final Popup popup = new Popup();
+
+    double dutySliderDelta = 0;
+    Slider activeDutySlider;
 
     public MainAppController(Stage primaryStage, Scene primaryScene)
     {
@@ -44,6 +52,41 @@ public class MainAppController
     void initialize()
     {
         System.out.println("INFO: " + "Initializing GB08M2MainAppController");
+
+        dutyLeftSlider.valueProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
+            {
+                if (activeDutySlider.getId().startsWith("dutyLeftSlider") && dutyLeftSlider.getValue() < dutyLeftSlider.getMax())
+                {
+                    if (dutySunchronizedCheckBox.isSelected())
+                    {
+                        if (dutyRightSlider.getValue() > dutyLeftSlider.getValue())
+                            dutyRightSlider.setValue(new_val.doubleValue() + dutySliderDelta);
+                        else
+                            dutyRightSlider.setValue(new_val.doubleValue() - dutySliderDelta);
+                    }
+                }
+            }
+        });
+        dutyRightSlider.valueProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
+            {
+                if (activeDutySlider.getId().startsWith("dutyRightSlider") && dutyRightSlider.getValue() < dutyRightSlider.getMax())
+                {
+                    if (dutySunchronizedCheckBox.isSelected())
+                    {
+                        if (dutyLeftSlider.getValue() > dutyRightSlider.getValue())
+                            dutyLeftSlider.setValue(new_val.doubleValue() + dutySliderDelta);
+                        else
+                            dutyLeftSlider.setValue(new_val.doubleValue() - dutySliderDelta);
+                    }
+                }
+            }
+        });
     }
 
     @FXML
@@ -74,6 +117,14 @@ public class MainAppController
         {
             Button releasedBtn = (Button) (event.getSource());
             System.out.println("INFO: " + releasedBtn.getId() + " was realsed");
+
+            switch (releasedBtn.getId())
+            {
+                case "forwardBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerate();
+                break;
+            }
+
             releasedBtn = null;
         }
     }
@@ -113,11 +164,17 @@ public class MainAppController
                             clickedToggleBtn.setSelected(false);
                         }
                     }
-
                 break;
             }
 
             clickedToggleBtn = null;
         }
+    }
+
+    @FXML
+    public void dutySliderMousePressed(MouseEvent event)
+    {
+        activeDutySlider = (Slider) event.getSource();
+        dutySliderDelta = Math.abs(dutyLeftSlider.getValue() - dutyRightSlider.getValue());
     }
 }

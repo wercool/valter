@@ -72,11 +72,11 @@
                         <Button fx:id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="85.0" />
                         <Button fx:id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="85.0" />
                         <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="130.0" />
-                        <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0" />
+                        <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0" />
                         <Label layoutX="6.0" text="Duty Right" AnchorPane.topAnchor="175.0" />
-                        <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="195.0" />
+                        <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="195.0" />
                         <Button fx:id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="87.0" AnchorPane.topAnchor="45.0" />
-                        <CheckBox mnemonicParsing="false" text="Synchronized" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="172.0" />
+                        <CheckBox fx:id="dutySunchronizedCheckBox" mnemonicParsing="false" selected="false" text="Synchronized" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="172.0" />
                       </children>
                     </AnchorPane>
                   </content>

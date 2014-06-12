@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import utils.PopupDialog;
 
@@ -15,8 +16,9 @@ public class GB08M2CommandManager
     GB08M2CommandSocketClient commandSocketClient;
     boolean isConnected = false;
     Socket commandSocket;
-    PrintWriter cmdOut;
-    BufferedReader cmdIn;
+    PrintWriter cmdWriter;
+    BufferedReader cmdReader;
+    volatile ArrayList<String> cmdWriterSpool;
 
     volatile String cmd = null;
 
@@ -28,19 +30,21 @@ public class GB08M2CommandManager
         {
             try
             {
-                cmdOut = new PrintWriter(commandSocket.getOutputStream(), true);
+                cmdWriter = new PrintWriter(commandSocket.getOutputStream(), true);
             } catch (IOException e)
             {
                 //e.printStackTrace();
             }
             try
             {
-                cmdIn = new BufferedReader(new InputStreamReader(commandSocket.getInputStream()));
+                cmdReader = new BufferedReader(new InputStreamReader(commandSocket.getInputStream()));
             } catch (IOException e)
             {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+
+            cmdWriterSpool = new ArrayList<String>();
 
             commandSocketClient = new GB08M2CommandSocketClient();
             commandSocketClient.start();
@@ -55,11 +59,11 @@ public class GB08M2CommandManager
             commandSocket.connect(new InetSocketAddress(GB08M2.hostname, GB08M2.commandPort), 5000);
         } catch (UnknownHostException e)
         {
-            //e.printStackTrace();
+            e.printStackTrace();
             new PopupDialog(e.getMessage());
         } catch (IOException e)
         {
-            //e.printStackTrace();
+            e.printStackTrace();
             new PopupDialog(e.getMessage());
         } catch (IllegalArgumentException e)
         {
@@ -72,11 +76,11 @@ public class GB08M2CommandManager
     {
         try
         {
-            cmdOut.close();
-            cmdIn.close();
-            cmdOut = null;
-            cmdIn = null;
+            cmdWriter.close();
+            cmdReader.close();
             commandSocket.close();
+            cmdWriter = null;
+            cmdReader = null;
         } catch (IOException e)
         {
             //e.printStackTrace();
@@ -84,9 +88,9 @@ public class GB08M2CommandManager
         isConnected = false;
     }
 
-    public void sendCommand(String cmd)
+    synchronized public void sendCommand(String cmd)
     {
-        this.cmd = cmd;
+        cmdWriterSpool.add(cmd);
     }
 
     class GB08M2CommandSocketClient implements Runnable
@@ -108,17 +112,17 @@ public class GB08M2CommandManager
         {
             while (isConnected)
             {
-                if (cmd != null)
+                if (cmdWriterSpool.size() > 0)
                 {
-                    cmdOut.println(cmd);
-                    cmd = null;
+                    cmdWriter.println(cmdWriterSpool.get(0));
+                    System.out.println("CMD > " + cmdWriterSpool.get(0));
+                    cmdWriterSpool.remove(0);
                 }
                 try
                 {
                     Thread.sleep(1);
                 } catch (InterruptedException e)
                 {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
