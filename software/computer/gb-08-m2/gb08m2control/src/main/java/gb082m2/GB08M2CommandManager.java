@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -12,10 +13,12 @@ import utils.PopupDialog;
 public class GB08M2CommandManager
 {
     GB08M2CommandSocketClient commandSocketClient;
-    volatile boolean isConnected = false;
+    boolean isConnected = false;
     Socket commandSocket;
     PrintWriter cmdOut;
     BufferedReader cmdIn;
+
+    volatile String cmd = null;
 
     public GB08M2CommandManager()
     {
@@ -48,7 +51,8 @@ public class GB08M2CommandManager
     {
         try
         {
-            commandSocket = new Socket(GB08M2.hostname, GB08M2.commandPort);
+            commandSocket = new Socket();
+            commandSocket.connect(new InetSocketAddress(GB08M2.hostname, GB08M2.commandPort), 5000);
         } catch (UnknownHostException e)
         {
             //e.printStackTrace();
@@ -80,6 +84,11 @@ public class GB08M2CommandManager
         isConnected = false;
     }
 
+    public void sendCommand(String cmd)
+    {
+        this.cmd = cmd;
+    }
+
     class GB08M2CommandSocketClient implements Runnable
     {
         Thread thread;
@@ -95,15 +104,18 @@ public class GB08M2CommandManager
         }
 
         @Override
-        public void run()
+        synchronized public void run()
         {
             while (isConnected)
             {
-                cmdOut.println("PING");
-                cmdOut.flush();
+                if (cmd != null)
+                {
+                    cmdOut.println(cmd);
+                    cmd = null;
+                }
                 try
                 {
-                    Thread.sleep(200);
+                    Thread.sleep(1);
                 } catch (InterruptedException e)
                 {
                     // TODO Auto-generated catch block

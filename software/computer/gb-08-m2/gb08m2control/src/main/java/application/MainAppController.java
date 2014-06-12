@@ -2,7 +2,10 @@ package application;
 
 import gb082m2.GB08M2;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Popup;
@@ -10,13 +13,31 @@ import javafx.stage.Stage;
 
 public class MainAppController
 {
+    //Initialization & Settings tab's elements
+    @FXML
+    TextField hostNameTextField;
+    @FXML
+    TextField commandPortTextField;
+    @FXML
+    TextField frontCameraPortTextField;
+    @FXML
+    TextField rearCameraPortTextField;
+    
+    //Manual Control tab's elements
+    @FXML
+    Slider dutyLeftSlider;
+    @FXML
+    Slider dutyRightSlider;
+
     final Stage primaryStage;
+    final Scene primaryScene;
     final Popup popup = new Popup();
 
-    public MainAppController(Stage primaryStage)
+    public MainAppController(Stage primaryStage, Scene primaryScene)
     {
         System.out.println("INFO: " + "Starting GB08M2MainAppController");
         this.primaryStage = primaryStage;
+        this.primaryScene = primaryScene;
     }
 
     @FXML
@@ -32,6 +53,16 @@ public class MainAppController
         {
             Button pressedBtn = (Button) (event.getSource());
             System.out.println("INFO: " + pressedBtn.getId() + " was pressed");
+
+            switch (pressedBtn.getId())
+            {
+                case "forwardBtn":
+                    int dutyLeft = (int) dutyLeftSlider.getValue();
+                    int dutyRight = (int) dutyRightSlider.getValue();
+                    GB08M2.getInstance().gb08m2ManualControlManager.moveForward(dutyLeft, dutyRight);
+                break;
+            }
+
             pressedBtn = null;
         }
     }
@@ -65,6 +96,11 @@ public class MainAppController
             switch (clickedToggleBtn.getId())
             {
                 case "initializeGB08CoreToggleBtn":
+                    GB08M2.setHostname(hostNameTextField.getText());
+                    GB08M2.setCommandPort(Integer.parseInt(commandPortTextField.getText()));
+                    GB08M2.setFrontCameraPort(Integer.parseInt(frontCameraPortTextField.getText()));
+                    GB08M2.setRearCameraPort(Integer.parseInt(rearCameraPortTextField.getText()));
+
                     if (GB08M2.getInstance().isInitialized())
                     {
                         GB08M2.getInstance().deInitialize();
@@ -77,6 +113,7 @@ public class MainAppController
                             clickedToggleBtn.setSelected(false);
                         }
                     }
+
                 break;
             }
 

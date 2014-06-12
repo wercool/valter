@@ -72,9 +72,9 @@
                         <Button fx:id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="85.0" />
                         <Button fx:id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="85.0" />
                         <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="130.0" />
-                        <Slider focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0" />
+                        <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0" />
                         <Label layoutX="6.0" text="Duty Right" AnchorPane.topAnchor="175.0" />
-                        <Slider focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="195.0" />
+                        <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="195.0" />
                         <Button fx:id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="87.0" AnchorPane.topAnchor="45.0" />
                         <CheckBox mnemonicParsing="false" text="Synchronized" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="172.0" />
                       </children>
@@ -85,8 +85,8 @@
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
-                        <ToggleButton fx:id="frontCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Cam ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
-                        <ToggleButton fx:id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Cam ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
+                        <ToggleButton fx:id="frontCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <ToggleButton fx:id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
                       </children>
                     </AnchorPane>
                   </content>
@@ -95,7 +95,7 @@
                   <content>
                     <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="300.0" prefWidth="230.0">
                       <children>
-                        <ToggleButton id="lightsToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Lights ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="45.0" />
+                        <ToggleButton id="lightsToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Lights" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="45.0" />
                         <Label text="Battery Voltage: " AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
                         <Button id="getBatteryVoltageBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
@@ -119,7 +119,7 @@
                         <Button id="getRightEncoder" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="185.0" />
                         <Button id="resetLeftEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="155.0" />
                         <Button id="resetRightEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0" />
-                        <ToggleButton id="encodersToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Encoders ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="215.0" />
+                        <ToggleButton id="encodersToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Encoders" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="215.0" />
                       </children>
                     </AnchorPane>
                   </content>
@@ -217,20 +217,21 @@
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                <TitledPane animated="false" collapsible="false" minWidth="-1.0" prefHeight="210.0" prefWidth="290.0" text="Initialization" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                <TitledPane animated="false" collapsible="false" minWidth="-1.0" prefHeight="210.0" prefWidth="310.0" text="Initialization" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="286.0">
                       <children>
                         <Label text="Host Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <TextField fx:id="hostName" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
                         <Label text="Command Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
-                        <TextField id="hostName" prefWidth="100.0" text="9001" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
+                        <TextField id="" fx:id="commandPortTextField" prefWidth="100.0" text="9001" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
                         <Label text="Front Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="75.0" />
-                        <TextField id="hostName" prefWidth="100.0" text="8080" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="70.0" />
+                        <TextField id="" fx:id="frontCameraPortTextField" prefWidth="100.0" text="8080" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="70.0" />
                         <Label text="Rear Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="105.0" />
-                        <TextField id="hostName" layoutX="140.0" prefWidth="100.0" text="8081" AnchorPane.topAnchor="100.0" />
+                        <TextField id="" fx:id="rearCameraPortTextField" layoutX="140.0" prefWidth="100.0" text="8081" AnchorPane.topAnchor="100.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="140.0" />
-                        <ToggleButton id="initializeGB08CoreToggleBtn" disable="false" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Initialize GB08M2 Core" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0" />
+                        <ToggleButton fx:id="initializeGB08CoreToggleBtn" disable="false" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GB08M2 Core" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0" />
+                        <Label text="Start/Stop GB08M2 Core:" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
                       </children>
                     </AnchorPane>
                   </content>

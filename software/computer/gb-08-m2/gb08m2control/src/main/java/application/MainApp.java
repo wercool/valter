@@ -23,7 +23,7 @@ public class MainApp extends Application
             System.out.println("INFO: " + "Starting GB08M2MainApp");
 
             this.stage = primaryStage;
-            mainAppController = new MainAppController(this.stage);
+            mainAppController = new MainAppController(this.stage, this.scene);
 
             String fxmlFile = "main.fxml";
 
