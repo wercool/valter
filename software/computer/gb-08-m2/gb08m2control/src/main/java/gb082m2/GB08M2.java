@@ -19,19 +19,21 @@ public class GB08M2
 
     public static final String frontLeftMotorDutyCommandPrefix = "FRONTLEFTDUTY#";
     volatile int frontLeftMotorDuty = 1;
-    volatile int frontLeftMotorCurrent;
+    volatile int frontLeftMotorCurrent = 0;
+    public static final String frontLeftMotorCurrentCommandPrefix = "GETLEFTFRONTCURRENT";
+    public static final String frontLeftMotorCurrentResultPrefix = "FLMC:";
 
     public static final String frontRightMotorDutyCommandPrefix = "FRONTRIGHTDUTY#";
     volatile int frontRightMotorDuty = 1;
-    volatile int frontRightMotorCurrent;
+    volatile int frontRightMotorCurrent = 0;
 
     public static final String rearLeftMotorDutyCommandPrefix = "REARLEFTDUTY#";
     volatile int rearLeftMotorDuty = 1;
-    volatile int rearLeftMotorCurrent;
+    volatile int rearLeftMotorCurrent = 0;
 
     public static final String rearRightMotorDutyCommandPrefix = "REARRIGHTDUTY#";
     volatile int rearRightMotorDuty = 1;
-    volatile int rearRightMotorCurrent;
+    volatile int rearRightMotorCurrent = 0;
 
     public static final String leftMotorsDirectionForwardCommand = "LEFTFORWARD";
     public static final String rightMotorsDirectionForwardCommand = "RIGHTFORWARD";
@@ -44,6 +46,9 @@ public class GB08M2
     //Abstract parameters
     volatile int leftDuty = 1;
     volatile int rightDuty = 1;
+
+    static final int accelerationStepDelay = 15;
+    static final int decelerationStepDelay = 5;
 
     public GB08M2()
     {
@@ -184,7 +189,7 @@ public class GB08M2
         this.rearLeftMotorDuty = rearLeftMotorDuty;
     }
 
-    public int getFrontRightMotorDuty()
+    synchronized public int getFrontRightMotorDuty()
     {
         return frontRightMotorDuty;
     }
@@ -198,7 +203,7 @@ public class GB08M2
         this.frontRightMotorDuty = frontRightMotorDuty;
     }
 
-    public int getRearRightMotorDuty()
+    synchronized public int getRearRightMotorDuty()
     {
         return rearRightMotorDuty;
     }
@@ -210,6 +215,21 @@ public class GB08M2
             gb08m2CommandManager.sendCommand(rearRightMotorDutyCommandPrefix + String.valueOf(rearRightMotorDuty));
         }
         this.rearRightMotorDuty = rearRightMotorDuty;
+    }
+
+    public synchronized void retrieveFrontLeftMotorCurrent()
+    {
+        gb08m2CommandManager.sendCommand(frontLeftMotorCurrentCommandPrefix);
+    }
+
+    public synchronized int getFrontLeftMotorCurrent()
+    {
+        return frontLeftMotorCurrent;
+    }
+
+    public synchronized void setFrontLeftMotorCurrent(int frontLeftMotorCurrent)
+    {
+        this.frontLeftMotorCurrent = frontLeftMotorCurrent;
     }
 
     //Abstract

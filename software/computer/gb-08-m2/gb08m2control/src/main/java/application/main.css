@@ -1,1 +1,2 @@
 .progress-indicator .percentage { visibility: hidden; }
+.progressBarRed    { -fx-accent: red;    }

@@ -14,11 +14,13 @@ import utils.PopupDialog;
 public class GB08M2CommandManager
 {
     GB08M2CommandSocketClient commandSocketClient;
+    GB08M2CommandParserClient commandParserClient;
     boolean isConnected = false;
     Socket commandSocket;
     PrintWriter cmdWriter;
     BufferedReader cmdReader;
     volatile ArrayList<String> cmdWriterSpool;
+    volatile ArrayList<String> cmdReaderSpool;
 
     public GB08M2CommandManager()
     {
@@ -43,9 +45,13 @@ public class GB08M2CommandManager
             }
 
             cmdWriterSpool = new ArrayList<String>();
+            cmdReaderSpool = new ArrayList<String>();
 
             commandSocketClient = new GB08M2CommandSocketClient();
             commandSocketClient.start();
+
+            commandParserClient = new GB08M2CommandParserClient();
+            commandParserClient.start();
         }
     }
 
@@ -82,6 +88,9 @@ public class GB08M2CommandManager
         } catch (IOException e)
         {
             //e.printStackTrace();
+        } catch (NullPointerException e)
+        {
+            //e.printStackTrace();
         }
         isConnected = false;
     }
@@ -113,12 +122,76 @@ public class GB08M2CommandManager
                 if (cmdWriterSpool.size() > 0)
                 {
                     cmdWriter.println(cmdWriterSpool.get(0));
-                    System.out.println("CMD > " + cmdWriterSpool.get(0));
+                    //System.out.println("CMD > " + cmdWriterSpool.get(0));
                     cmdWriterSpool.remove(0);
                 }
                 try
                 {
+                    if (cmdReader.ready())
+                    {
+                        cmdReaderSpool.add(cmdReader.readLine());
+                    }
+                } catch (IOException e1)
+                {
+                    e1.printStackTrace();
+                }
+                try
+                {
                     Thread.sleep(1);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class GB08M2CommandParserClient implements Runnable
+    {
+        Thread thread;
+
+        public GB08M2CommandParserClient()
+        {
+            thread = new Thread(this);
+        }
+
+        public void start()
+        {
+            thread.start();
+        }
+
+        @Override
+        synchronized public void run()
+        {
+            while (isConnected)
+            {
+                if (cmdReaderSpool.size() > 0)
+                {
+                    String[] cmdResultParts = cmdReaderSpool.get(0).split(":");
+                    try
+                    {
+                        if (cmdResultParts.length > 1)
+                        {
+                            switch (cmdResultParts[0])
+                            {
+                                case "FLMC":
+                                    GB08M2.getInstance().setFrontLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
+                            }
+                        }
+                    } catch (NumberFormatException e)
+                    {
+                        e.printStackTrace();
+                    } catch (IndexOutOfBoundsException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+
+                try
+                {
+                    Thread.sleep(10);
                 } catch (InterruptedException e)
                 {
                     e.printStackTrace();

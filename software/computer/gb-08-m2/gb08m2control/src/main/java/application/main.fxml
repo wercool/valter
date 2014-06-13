@@ -27,7 +27,7 @@
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
                           <children>
                             <ImageView fx:id="frontCameraImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            <ProgressIndicator id="" fx:id="frontCameraImageViewrearCameraImageViewIndicator" progress="0.0" style="" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <ProgressIndicator id="" fx:id="frontCameraImageViewrearCameraImageViewIndicator" opacity="0.5" progress="0.0" style="" AnchorPane.rightAnchor="-5.0" AnchorPane.topAnchor="-1.0">
                               <stylesheets>
                                 <URL value="@main.css" />
                               </stylesheets>
@@ -44,7 +44,7 @@
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
                           <children>
                             <ImageView fx:id="rearCameraImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            <ProgressIndicator id="" fx:id="rearCameraImageViewIndicator" progress="0.0" style="" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <ProgressIndicator id="" fx:id="rearCameraImageViewIndicator" opacity="0.5" progress="0.0" style="" AnchorPane.rightAnchor="-5.0" AnchorPane.topAnchor="-1.0">
                               <stylesheets>
                                 <URL value="@main.css" />
                               </stylesheets>
@@ -55,33 +55,63 @@
                     </TitledPane>
                   </panes>
                 </Accordion>
-                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="225.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
+                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                       <children>
-                        <Button fx:id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="2.0">
+                        <Button fx:id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.topAnchor="2.0">
                           <font>
                             <Font size="20.0" fx:id="x2" />
                           </font>
                         </Button>
-                        <Button fx:id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="85.0" />
-                        <Button fx:id="turnLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="←" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="45.0" />
-                        <Button fx:id="turnRight" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="45.0" />
-                        <Button fx:id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="2.0" />
-                        <Button fx:id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="2.0" />
-                        <Button fx:id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="85.0" />
-                        <Button fx:id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="85.0" />
+                        <Button fx:id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.topAnchor="85.0" />
+                        <Button fx:id="turnLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="←" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="turnRightBtn" fx:id="turnRight" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="45.0" />
+                        <Button fx:id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="2.0" />
+                        <Button fx:id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="2.0" />
+                        <Button fx:id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="85.0" />
+                        <Button fx:id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="85.0" />
                         <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="130.0" />
                         <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0" />
                         <Label layoutX="6.0" text="Duty Right" AnchorPane.topAnchor="175.0" />
                         <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="195.0" />
-                        <Button fx:id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="87.0" AnchorPane.topAnchor="45.0" />
-                        <CheckBox fx:id="dutySunchronizedCheckBox" mnemonicParsing="false" selected="false" text="Synchronized" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="172.0" />
+                        <Button fx:id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="45.0" />
+                        <CheckBox fx:id="dutySunchronizedCheckBox" mnemonicParsing="false" selected="false" text="Synchronized" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="172.0" />
+                        <ProgressBar id="" fx:id="leftMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" style="" AnchorPane.leftAnchor="-45.0" AnchorPane.topAnchor="55.0">
+                          <stylesheets>
+                            <URL value="@main.css" />
+                          </stylesheets>
+                        </ProgressBar>
+                        <ProgressBar id="" fx:id="rightMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" AnchorPane.rightAnchor="-45.0" AnchorPane.topAnchor="55.0">
+                          <stylesheets>
+                            <URL value="@main.css" />
+                          </stylesheets>
+                        </ProgressBar>
+                        <ProgressBar id="" fx:id="frontLeftMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="25.0">
+                          <stylesheets>
+                            <URL value="@main.css" />
+                          </stylesheets>
+                        </ProgressBar>
+                        <ProgressBar id="" fx:id="rearLeftMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="90.0">
+                          <stylesheets>
+                            <URL value="@main.css" />
+                          </stylesheets>
+                        </ProgressBar>
+                        <ProgressBar id="" fx:id="frontRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="25.0">
+                          <stylesheets>
+                            <URL value="@main.css" />
+                          </stylesheets>
+                        </ProgressBar>
+                        <ProgressBar id="" fx:id="rearRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="90.0">
+                          <stylesheets>
+                            <URL value="@main.css" />
+                          </stylesheets>
+                        </ProgressBar>
                       </children>
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.leftAnchor="890.0" AnchorPane.topAnchor="5.0">
+                <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.leftAnchor="890.0" AnchorPane.topAnchor="260.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>

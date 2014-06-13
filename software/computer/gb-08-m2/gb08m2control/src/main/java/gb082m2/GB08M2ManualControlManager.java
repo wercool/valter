@@ -1,177 +1,188 @@
 package gb082m2;
 
+import javafx.application.Platform;
+import application.MainAppController;
+
+
 public class GB08M2ManualControlManager
 {
-    boolean decceleration = false;
 
     public GB08M2ManualControlManager()
-    {}
+    {
+        new MotorsDutyVisualizationTask();
+        new MotorsCurrentVisualizationTask();
+    }
 
-    public void moveForward(int dutyLeft, int dutyRight)
+    public void moveBothMotorsForward(int dutyLeft, int dutyRight)
     {
         if (GB08M2.instance.isInitialized())
         {
             GB08M2.getInstance().setLeftMotorsDirection("forward");
             GB08M2.getInstance().setRightMotorsDirection("forward");
-            new MovePairTask(dutyLeft, dutyRight).start();
+            new MotorsTasks.LeftMotorsAccelerationTask(dutyLeft).start();
+            new MotorsTasks.RightMotorsAccelerationTask(dutyRight).start();
         }
     }
 
-    public void decelerate()
+    public void moveBothMotorsBackward(int dutyLeft, int dutyRight)
     {
         if (GB08M2.instance.isInitialized())
         {
-            new DecelerationTask().start();
+            GB08M2.getInstance().setLeftMotorsDirection("backward");
+            GB08M2.getInstance().setRightMotorsDirection("backward");
+            new MotorsTasks.LeftMotorsAccelerationTask(dutyLeft).start();
+            new MotorsTasks.RightMotorsAccelerationTask(dutyRight).start();
         }
     }
 
-    class DecelerationTask implements Runnable
+    public void turnLeft(int dutyLeft, int dutyRight)
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            GB08M2.getInstance().setLeftMotorsDirection("backward");
+            GB08M2.getInstance().setRightMotorsDirection("forward");
+            new MotorsTasks.LeftMotorsAccelerationTask(dutyLeft).start();
+            new MotorsTasks.RightMotorsAccelerationTask(dutyRight).start();
+        }
+    }
+
+    public void turnRight(int dutyLeft, int dutyRight)
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            GB08M2.getInstance().setLeftMotorsDirection("forward");
+            GB08M2.getInstance().setRightMotorsDirection("backward");
+            new MotorsTasks.LeftMotorsAccelerationTask(dutyLeft).start();
+            new MotorsTasks.RightMotorsAccelerationTask(dutyRight).start();
+        }
+    }
+
+    public void moveLeftMotorsForward(int dutyLeft)
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            GB08M2.getInstance().setLeftMotorsDirection("forward");
+            new MotorsTasks.LeftMotorsAccelerationTask(dutyLeft).start();
+        }
+    }
+
+    public void moveRightMotorsForward(int dutyRight)
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            GB08M2.getInstance().setRightMotorsDirection("forward");
+            new MotorsTasks.RightMotorsAccelerationTask(dutyRight).start();
+        }
+    }
+
+    public void moveLeftMotorsBackward(int dutyLeft)
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            GB08M2.getInstance().setLeftMotorsDirection("backward");
+            new MotorsTasks.LeftMotorsAccelerationTask(dutyLeft).start();
+        }
+    }
+
+    public void moveRightMotorsBackward(int dutyRight)
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            GB08M2.getInstance().setRightMotorsDirection("backward");
+            new MotorsTasks.RightMotorsAccelerationTask(dutyRight).start();
+        }
+    }
+
+    public void decelerateBothMotors()
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            new MotorsTasks.LeftMotorsDecelerationTask().start();
+            new MotorsTasks.RightMotorsDecelerationTask().start();
+        }
+    }
+
+    public void decelerateLeftMotors()
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            new MotorsTasks.LeftMotorsDecelerationTask().start();
+        }
+    }
+
+    public void decelerateRightMotors()
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            new MotorsTasks.RightMotorsDecelerationTask().start();
+        }
+    }
+
+    class MotorsDutyVisualizationTask implements Runnable
     {
         Thread thread;
 
-        volatile boolean isStopped = false;
-
-        volatile int curDutyLeft;
-        volatile int curDutyRight;
-
-        public DecelerationTask()
+        public MotorsDutyVisualizationTask()
         {
-            decceleration = true;
-
-            thread = new Thread(this);
-
-            curDutyLeft = GB08M2.getInstance().getLeftDuty();
-            curDutyRight = GB08M2.getInstance().getRightDuty();
-        }
-
-        public void start()
-        {
-            thread.start();
-        }
-
-        public void stop()
-        {
-            isStopped = true;
-            thread.interrupt();
+            new Thread(this).start();
         }
 
         @Override
-        public void run()
+        synchronized public void run()
         {
-            while (!isStopped)
+            while (MainAppController.isActive)
             {
-                if (curDutyLeft > 0 || curDutyRight > 0)
+                try
                 {
-                    if (curDutyRight > 0)
+                    Platform.runLater(new Runnable()
                     {
-                        GB08M2.getInstance().setFrontRightMotorDuty(curDutyRight);
-                        GB08M2.getInstance().setRearRightMotorDuty(curDutyRight);
-
-                        GB08M2.getInstance().setRightDuty(curDutyRight);
-
-                        curDutyRight--;
-                    }
-
-                    if (curDutyLeft > 0)
-                    {
-                        GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
-                        GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
-
-                        GB08M2.getInstance().setLeftDuty(curDutyLeft);
-
-                        curDutyLeft--;
-                    }
-
-                    try
-                    {
-                        Thread.sleep(5);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                } else
+                        @Override
+                        public void run()
+                        {
+                            MainAppController.leftMotorsDutyProgressBar.setProgress((double) GB08M2.getInstance().getLeftDuty() / 99);
+                            MainAppController.rightMotorsDutyProgressBar.setProgress((double) GB08M2.getInstance().getRightDuty() / 99);
+                        }
+                    });
+                    Thread.sleep(10);
+                } catch (InterruptedException e)
                 {
-                    this.stop();
+                    e.printStackTrace();
                 }
             }
         }
     }
 
-    class MovePairTask implements Runnable
+    class MotorsCurrentVisualizationTask implements Runnable
     {
         Thread thread;
 
-        volatile boolean isStopped = false;
-
-        int targetDutyLeft;
-        int targetDutyRight;
-
-        volatile int curDutyLeft;
-        volatile int curDutyRight;
-
-        public MovePairTask(int dutyLeft, int dutyRight)
+        public MotorsCurrentVisualizationTask()
         {
-            decceleration = false;
-
-            thread = new Thread(this);
-
-            this.targetDutyLeft = dutyLeft;
-            this.targetDutyRight = dutyRight;
-
-            curDutyLeft = GB08M2.getInstance().getLeftDuty();
-            curDutyRight = GB08M2.getInstance().getRightDuty();
-        }
-
-        public void start()
-        {
-            thread.start();
-        }
-
-        public void stop()
-        {
-            isStopped = true;
-            thread.interrupt();
+            new Thread(this).start();
         }
 
         @Override
-        public void run()
+        synchronized public void run()
         {
-            while (!isStopped && !decceleration)
+            while (MainAppController.isActive)
             {
-                if (curDutyLeft < targetDutyLeft || curDutyRight < targetDutyRight)
+                try
                 {
-                    if (curDutyLeft < targetDutyLeft)
+                    Platform.runLater(new Runnable()
                     {
-                        GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
-                        GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
-
-                        GB08M2.getInstance().setLeftDuty(curDutyLeft);
-
-                        curDutyLeft++;
-                    }
-
-                    if (curDutyRight < targetDutyRight)
-                    {
-                        GB08M2.getInstance().setFrontRightMotorDuty(curDutyRight);
-                        GB08M2.getInstance().setRearRightMotorDuty(curDutyRight);
-
-                        GB08M2.getInstance().setRightDuty(curDutyRight);
-
-                        curDutyRight++;
-                    }
-
-                    try
-                    {
-                        Thread.sleep(25);
-                    } catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                } else
+                        @Override
+                        public void run()
+                        {
+                            MainAppController.frontLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontLeftMotorCurrent() / 99);
+                        }
+                    });
+                    Thread.sleep(10);
+                } catch (InterruptedException e)
                 {
-                    this.stop();
+                    e.printStackTrace();
                 }
             }
         }
     }
+
 }

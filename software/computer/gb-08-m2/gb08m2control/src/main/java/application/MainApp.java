@@ -3,10 +3,12 @@ package application;
 import java.net.URL;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainApp extends Application
 {
@@ -38,6 +40,15 @@ public class MainApp extends Application
             stage.setScene(scene);
 
             stage.show();
+
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+            {
+                @Override
+                public void handle(WindowEvent event)
+                {
+                    mainAppController.stop();
+                }
+            });
         } catch (Exception e)
         {
             e.printStackTrace();

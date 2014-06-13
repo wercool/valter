@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 
 public class MainAppController
 {
+    public static volatile boolean isActive = false;
     //Initialization & Settings tab's elements
     @FXML
     TextField hostNameTextField;
@@ -33,6 +35,18 @@ public class MainAppController
     Slider dutyRightSlider;
     @FXML
     CheckBox dutySunchronizedCheckBox;
+    @FXML
+    public static ProgressBar leftMotorsDutyProgressBar;
+    @FXML
+    public static ProgressBar rightMotorsDutyProgressBar;
+    @FXML
+    public static ProgressBar frontLeftMotorCurrentProgressBar;
+    @FXML
+    public static ProgressBar rearLeftMotorCurrentProgressBar;
+    @FXML
+    public static ProgressBar frontRightMotorCurrentProgressBar;
+    @FXML
+    public static ProgressBar rearRightMotorCurrentProgressBar;
 
     final Stage primaryStage;
     final Scene primaryScene;
@@ -48,9 +62,24 @@ public class MainAppController
         this.primaryScene = primaryScene;
     }
 
+    public void stop()
+    {
+        isActive = false;
+        GB08M2.getInstance().deInitialize();
+        try
+        {
+            Thread.sleep(250);
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void initialize()
     {
+        isActive = true;
+
         System.out.println("INFO: " + "Initializing GB08M2MainAppController");
 
         dutyLeftSlider.valueProperty().addListener(new ChangeListener<Number>()
@@ -58,14 +87,17 @@ public class MainAppController
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
             {
-                if (activeDutySlider.getId().startsWith("dutyLeftSlider") && dutyLeftSlider.getValue() < dutyLeftSlider.getMax())
+                if (activeDutySlider != null)
                 {
-                    if (dutySunchronizedCheckBox.isSelected())
+                    if (activeDutySlider.getId().startsWith("dutyLeftSlider") && dutyLeftSlider.getValue() < dutyLeftSlider.getMax())
                     {
-                        if (dutyRightSlider.getValue() > dutyLeftSlider.getValue())
-                            dutyRightSlider.setValue(new_val.doubleValue() + dutySliderDelta);
-                        else
-                            dutyRightSlider.setValue(new_val.doubleValue() - dutySliderDelta);
+                        if (dutySunchronizedCheckBox.isSelected())
+                        {
+                            if (dutyRightSlider.getValue() > dutyLeftSlider.getValue())
+                                dutyRightSlider.setValue(new_val.doubleValue() + dutySliderDelta);
+                            else
+                                dutyRightSlider.setValue(new_val.doubleValue() - dutySliderDelta);
+                        }
                     }
                 }
             }
@@ -75,14 +107,17 @@ public class MainAppController
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
             {
-                if (activeDutySlider.getId().startsWith("dutyRightSlider") && dutyRightSlider.getValue() < dutyRightSlider.getMax())
+                if (activeDutySlider != null)
                 {
-                    if (dutySunchronizedCheckBox.isSelected())
+                    if (activeDutySlider.getId().startsWith("dutyRightSlider") && dutyRightSlider.getValue() < dutyRightSlider.getMax())
                     {
-                        if (dutyLeftSlider.getValue() > dutyRightSlider.getValue())
-                            dutyLeftSlider.setValue(new_val.doubleValue() + dutySliderDelta);
-                        else
-                            dutyLeftSlider.setValue(new_val.doubleValue() - dutySliderDelta);
+                        if (dutySunchronizedCheckBox.isSelected())
+                        {
+                            if (dutyLeftSlider.getValue() > dutyRightSlider.getValue())
+                                dutyLeftSlider.setValue(new_val.doubleValue() + dutySliderDelta);
+                            else
+                                dutyLeftSlider.setValue(new_val.doubleValue() - dutySliderDelta);
+                        }
                     }
                 }
             }
@@ -100,9 +135,28 @@ public class MainAppController
             switch (pressedBtn.getId())
             {
                 case "forwardBtn":
-                    int dutyLeft = (int) dutyLeftSlider.getValue();
-                    int dutyRight = (int) dutyRightSlider.getValue();
-                    GB08M2.getInstance().gb08m2ManualControlManager.moveForward(dutyLeft, dutyRight);
+                    GB08M2.getInstance().gb08m2ManualControlManager.moveBothMotorsForward((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                break;
+                case "backwardBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.moveBothMotorsBackward((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                break;
+                case "turnLeftBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.turnLeft((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                break;
+                case "turnRightBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.turnRight((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                break;
+                case "forwardLeftBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.moveLeftMotorsForward((int) dutyLeftSlider.getValue());
+                break;
+                case "forwardRightBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.moveRightMotorsForward((int) dutyRightSlider.getValue());
+                break;
+                case "backwardLeftBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.moveLeftMotorsBackward((int) dutyLeftSlider.getValue());
+                break;
+                case "backwardRightBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.moveRightMotorsBackward((int) dutyRightSlider.getValue());
                 break;
             }
 
@@ -121,7 +175,28 @@ public class MainAppController
             switch (releasedBtn.getId())
             {
                 case "forwardBtn":
-                    GB08M2.getInstance().gb08m2ManualControlManager.decelerate();
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                break;
+                case "backwardBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                break;
+                case "turnLeftBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                break;
+                case "turnRightBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                break;
+                case "forwardLeftBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateLeftMotors();
+                break;
+                case "forwardRightBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateRightMotors();
+                break;
+                case "backwardLeftBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateLeftMotors();
+                break;
+                case "backwardRightBtn":
+                    GB08M2.getInstance().gb08m2ManualControlManager.decelerateRightMotors();
                 break;
             }
 
