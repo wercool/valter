@@ -962,7 +962,8 @@ int main(void)
             if (strcmp((char*) cmdParts, "GETRIGHTFRONTCURRENT") == 0)
             {
                 rightFrontCurVal = getValueChannel2();
-                sprintf((char *)msg,"FRONT RIGHT MOTOR CURRENT: %u\n", rightFrontCurVal);
+//                sprintf((char *)msg,"FRONT RIGHT MOTOR CURRENT: %u\n", rightFrontCurVal);
+                sprintf((char *)msg,"FRMC:%u\n", rightFrontCurVal);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(10);
                 continue;
@@ -980,7 +981,8 @@ int main(void)
             if (strcmp((char*) cmdParts, "GETRIGHTREARCURRENT") == 0)
             {
                 rightRearCurVal = getValueChannel1();
-                sprintf((char *)msg,"REAR RIGHT MOTOR CURRENT: %u\n", rightRearCurVal);
+//                sprintf((char *)msg,"REAR RIGHT MOTOR CURRENT: %u\n", rightRearCurVal);
+                sprintf((char *)msg,"RRMC:%u\n", rightRearCurVal);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(10);
                 continue;
@@ -998,7 +1000,8 @@ int main(void)
             if (strcmp((char*) cmdParts, "GETLEFTFRONTCURRENT") == 0)
             {
                 leftFrontCurVal = getValueChannel0();
-                sprintf((char *)msg,"FRONT LEFT MOTOR CURRENT: %u\n", leftFrontCurVal);
+//                sprintf((char *)msg,"FRONT LEFT MOTOR CURRENT: %u\n", leftFrontCurVal);
+                sprintf((char *)msg,"FLMC:%u\n", leftFrontCurVal);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(10);
                 continue;
@@ -1016,7 +1019,8 @@ int main(void)
             if (strcmp((char*) cmdParts, "GETLEFTREARCURRENT") == 0)
             {
                 leftRearCurVal = getValueChannel4();
-                sprintf((char *)msg,"REAR LEFT MOTOR CURRENT: %u\n", leftRearCurVal);
+//                sprintf((char *)msg,"REAR LEFT MOTOR CURRENT: %u\n", leftRearCurVal);
+                sprintf((char *)msg,"RLMC:%u\n", leftRearCurVal);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(10);
                 continue;
