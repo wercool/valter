@@ -11,7 +11,9 @@ public class GB08M2ManualControlManager
     {
         if (GB08M2.instance.isInitialized())
         {
-            new MoveForwardTask(dutyLeft, dutyRight).start();
+            GB08M2.getInstance().setLeftMotorsDirection("forward");
+            GB08M2.getInstance().setRightMotorsDirection("forward");
+            new MovePairTask(dutyLeft, dutyRight).start();
         }
     }
 
@@ -60,16 +62,6 @@ public class GB08M2ManualControlManager
             {
                 if (curDutyLeft > 0 || curDutyRight > 0)
                 {
-                    if (curDutyLeft > 0)
-                    {
-                        GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
-                        GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
-
-                        GB08M2.getInstance().setLeftDuty(curDutyLeft);
-
-                        curDutyLeft--;
-                    }
-
                     if (curDutyRight > 0)
                     {
                         GB08M2.getInstance().setFrontRightMotorDuty(curDutyRight);
@@ -78,6 +70,16 @@ public class GB08M2ManualControlManager
                         GB08M2.getInstance().setRightDuty(curDutyRight);
 
                         curDutyRight--;
+                    }
+
+                    if (curDutyLeft > 0)
+                    {
+                        GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
+                        GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
+
+                        GB08M2.getInstance().setLeftDuty(curDutyLeft);
+
+                        curDutyLeft--;
                     }
 
                     try
@@ -95,7 +97,7 @@ public class GB08M2ManualControlManager
         }
     }
 
-    class MoveForwardTask implements Runnable
+    class MovePairTask implements Runnable
     {
         Thread thread;
 
@@ -107,11 +109,8 @@ public class GB08M2ManualControlManager
         volatile int curDutyLeft;
         volatile int curDutyRight;
 
-        public MoveForwardTask(int dutyLeft, int dutyRight)
+        public MovePairTask(int dutyLeft, int dutyRight)
         {
-            GB08M2.getInstance().setLeftMotorsDirection("forward");
-            GB08M2.getInstance().setRightMotorsDirection("forward");
-
             decceleration = false;
 
             thread = new Thread(this);

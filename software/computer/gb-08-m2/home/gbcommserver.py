@@ -1,6 +1,7 @@
 import socket
 import serial
 from time import sleep
+import time
 import threading
 
 MAXLINE = 100
@@ -70,7 +71,8 @@ while True:
             break
         else:
             cmd = line.strip()
-            print "<", cmd
             ser.write(cmd)
+            cur_time = int(round(time.time() * 1000))
+            print "< [", cur_time, "]", cmd
 
 conn.close()

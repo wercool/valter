@@ -20,8 +20,6 @@ public class GB08M2CommandManager
     BufferedReader cmdReader;
     volatile ArrayList<String> cmdWriterSpool;
 
-    volatile String cmd = null;
-
     public GB08M2CommandManager()
     {
         isConnected = connect();
