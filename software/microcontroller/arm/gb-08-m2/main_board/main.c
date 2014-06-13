@@ -900,7 +900,7 @@ int main(void)
                 leftWheelsDirection = 1;
                 pwmDutySetPercent(0, 1);
                 pwmDutySetPercent(3, 1);
-                delay_ms(500);
+                delay_ms(50);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);      //Left Wheels INa
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);       //Left Wheels INb
                 pwmDutySetPercent(0, frontLeftWheelDuty);
@@ -912,7 +912,7 @@ int main(void)
                 leftWheelsDirection = 2;
                 pwmDutySetPercent(0, 1);
                 pwmDutySetPercent(3, 1);
-                delay_ms(500);
+                delay_ms(50);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);        //Left Wheels INa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);     //Left Wheels INb
                 pwmDutySetPercent(0, frontLeftWheelDuty);
@@ -932,7 +932,7 @@ int main(void)
                 rightWheelsDirection = 1;
                 pwmDutySetPercent(1, 1);
                 pwmDutySetPercent(2, 1);
-                delay_ms(500);
+                delay_ms(50);
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);     //Right Wheels INa
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
                 pwmDutySetPercent(1, rearRightWheelDuty);
@@ -944,7 +944,7 @@ int main(void)
                 rightWheelsDirection = 2;
                 pwmDutySetPercent(1, 1);
                 pwmDutySetPercent(2, 1);
-                delay_ms(500);
+                delay_ms(50);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);       //Right Wheels INa
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);     //Right Wheels INb
                 pwmDutySetPercent(1, rearRightWheelDuty);
