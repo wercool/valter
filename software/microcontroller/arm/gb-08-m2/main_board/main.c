@@ -961,7 +961,7 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "FRC") == 0)
             {
-                rightFrontCurVal = getValueChannel2();
+                rightFrontCurVal = getValueChannel1();
 //                sprintf((char *)msg,"FRONT RIGHT MOTOR CURRENT: %u\n", rightFrontCurVal);
                 sprintf((char *)msg,"FRMC:%u\n", rightFrontCurVal);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
@@ -980,7 +980,7 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "RRC") == 0)
             {
-                rightRearCurVal = getValueChannel1();
+                rightRearCurVal = getValueChannel2();
 //                sprintf((char *)msg,"REAR RIGHT MOTOR CURRENT: %u\n", rightRearCurVal);
                 sprintf((char *)msg,"RRMC:%u\n", rightRearCurVal);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));

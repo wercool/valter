@@ -122,7 +122,7 @@ public class GB08M2CommandManager
                 if (cmdWriterSpool.size() > 0)
                 {
                     cmdWriter.println(cmdWriterSpool.get(0));
-                    //System.out.println("CMD > " + cmdWriterSpool.get(0));
+                    System.out.println("CMD > " + cmdWriterSpool.get(0));
                     cmdWriterSpool.remove(0);
                 }
                 try
@@ -167,6 +167,7 @@ public class GB08M2CommandManager
             {
                 if (cmdReaderSpool.size() > 0)
                 {
+                    //System.out.println("RESULT < " + cmdReaderSpool.get(0));
                     String[] cmdResultParts = cmdReaderSpool.get(0).split(":");
                     try
                     {

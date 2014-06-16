@@ -17,40 +17,43 @@ public class GB08M2
     //Hardware control
     volatile int batteryVoltage;
 
-    public static final String frontLeftMotorDutyCommandPrefix = "FRONTLEFTDUTY#";
+    public static final String frontLeftMotorDutyCommandPrefix = "FLD#";
     volatile int frontLeftMotorDuty = 1;
     volatile int frontLeftMotorCurrent = 0;
-    public static final String frontLeftMotorCurrentCommandPrefix = "GETLEFTFRONTCURRENT";
+    public static final String frontLeftMotorCurrentCommandPrefix = "FLC";
     public static final String frontLeftMotorCurrentResultPrefix = "FLMC";
 
-    public static final String frontRightMotorDutyCommandPrefix = "FRONTRIGHTDUTY#";
+    public static final String frontRightMotorDutyCommandPrefix = "FRD#";
     volatile int frontRightMotorDuty = 1;
     volatile int frontRightMotorCurrent = 0;
-    public static final String frontRightMotorCurrentCommandPrefix = "GETRIGHTFRONTCURRENT";
+    public static final String frontRightMotorCurrentCommandPrefix = "FRC";
     public static final String frontRightMotorCurrentResultPrefix = "FRMC";
 
-    public static final String rearLeftMotorDutyCommandPrefix = "REARLEFTDUTY#";
+    public static final String rearLeftMotorDutyCommandPrefix = "RLD#";
     volatile int rearLeftMotorDuty = 1;
     volatile int rearLeftMotorCurrent = 0;
-    public static final String rearLeftMotorCurrentCommandPrefix = "GETLEFTREARCURRENT";
+    public static final String rearLeftMotorCurrentCommandPrefix = "RLC";
     public static final String rearLeftMotorCurrentResultPrefix = "RLMC";
 
-    public static final String rearRightMotorDutyCommandPrefix = "REARRIGHTDUTY#";
+    public static final String rearRightMotorDutyCommandPrefix = "RRD#";
     volatile int rearRightMotorDuty = 1;
     volatile int rearRightMotorCurrent = 0;
-    public static final String rearRightMotorCurrentCommandPrefix = "GETRIGHTREARCURRENT";
+    public static final String rearRightMotorCurrentCommandPrefix = "RRC";
     public static final String rearRightMotorCurrentResultPrefix = "RRMC";
 
-    public static final String leftMotorsDirectionForwardCommand = "LEFTFORWARD";
-    public static final String rightMotorsDirectionForwardCommand = "RIGHTFORWARD";
-    public static final String leftMotorsDirectionBackwardCommand = "LEFTBACKWARD";
-    public static final String rightMotorsDirectionBackwardCommand = "RIGHTBACKWARD";
+    public static final String leftMotorsDirectionForwardCommand = "LF";
+    public static final String leftMotorsDirectionBackwardCommand = "LB";
+    public static final String leftMotorsStopCommand = "LS";
+    public static final String rightMotorsDirectionForwardCommand = "RF";
+    public static final String rightMotorsDirectionBackwardCommand = "RB";
+    public static final String rightMotorsStopCommand = "RS";
 
     volatile String leftMotorsDirection = "forward";
     volatile String rightMotorsDirection = "forward";
 
     //Hardware parameters
-    public static final int maxADCMotorCurrentValue = 99;
+    //public static final int maxADCMotorCurrentValue = 403; //10A (0.13 V/A)
+    public static final int maxADCMotorCurrentValue = 605; //15A (0.13 V/A)
 
     //Abstract parameters
     volatile int leftDuty = 1;
@@ -59,7 +62,7 @@ public class GB08M2
     static final int accelerationStepDelay = 15;
     static final int decelerationStepDelay = 5;
 
-    static final int currentReadingsStepDelay = 75;
+    static final int currentReadingsStepDelay = 120;
 
     public GB08M2()
     {
@@ -148,6 +151,7 @@ public class GB08M2
 
     public void setLeftMotorsDirection(String leftMotorsDirection)
     {
+        System.out.println("leftMotorsDirection:" + leftMotorsDirection);
         if (leftMotorsDirection.startsWith("forward"))
         {
             gb08m2CommandManager.sendCommand(leftMotorsDirectionForwardCommand);
@@ -157,6 +161,11 @@ public class GB08M2
             gb08m2CommandManager.sendCommand(leftMotorsDirectionBackwardCommand);
         }
         this.leftMotorsDirection = leftMotorsDirection;
+    }
+
+    public void stopLeftMotors()
+    {
+        gb08m2CommandManager.sendCommand(leftMotorsStopCommand);
     }
 
     public String getRightMotorsDirection()
@@ -170,11 +179,16 @@ public class GB08M2
         {
             gb08m2CommandManager.sendCommand(rightMotorsDirectionForwardCommand);
         }
-        if (leftMotorsDirection.startsWith("backward"))
+        if (rightMotorsDirection.startsWith("backward"))
         {
             gb08m2CommandManager.sendCommand(rightMotorsDirectionBackwardCommand);
         }
         this.rightMotorsDirection = rightMotorsDirection;
+    }
+
+    public void stopRightMotors()
+    {
+        gb08m2CommandManager.sendCommand(rightMotorsStopCommand);
     }
 
     public synchronized void setFrontLeftMotorDuty(int frontLeftMotorDuty)

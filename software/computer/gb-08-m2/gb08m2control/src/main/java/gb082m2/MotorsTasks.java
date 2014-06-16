@@ -1,6 +1,5 @@
 package gb082m2;
 
-
 public class MotorsTasks
 {
     static boolean decelerationLeft = false;
@@ -33,8 +32,6 @@ public class MotorsTasks
             {
                 leftMotorsCurrentReadingTask.stop();
             }
-            leftMotorsCurrentReadingTask = new LeftMotorsCurrentReadingTask();
-            leftMotorsCurrentReadingTask.start();
         }
 
         public void start()
@@ -54,14 +51,17 @@ public class MotorsTasks
             {
                 if (curDutyLeft < targetDutyLeft)
                 {
-                    if (curDutyLeft < targetDutyLeft)
+                    GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
+                    GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
+
+                    GB08M2.getInstance().setLeftDuty(curDutyLeft);
+
+                    curDutyLeft++;
+
+                    if (leftMotorsCurrentReadingTask == null || leftMotorsCurrentReadingTask.isStopped)
                     {
-                        GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
-                        GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
-
-                        GB08M2.getInstance().setLeftDuty(curDutyLeft);
-
-                        curDutyLeft++;
+                        leftMotorsCurrentReadingTask = new LeftMotorsCurrentReadingTask();
+                        leftMotorsCurrentReadingTask.start();
                     }
 
                     try
@@ -104,8 +104,6 @@ public class MotorsTasks
             {
                 rightMotorsCurrentReadingTask.stop();
             }
-            rightMotorsCurrentReadingTask = new RightMotorsCurrentReadingTask();
-            rightMotorsCurrentReadingTask.start();
         }
 
         public void start()
@@ -125,14 +123,17 @@ public class MotorsTasks
             {
                 if (curDutyRight < targetDutyRight)
                 {
-                    if (curDutyRight < targetDutyRight)
+                    GB08M2.getInstance().setFrontRightMotorDuty(curDutyRight);
+                    GB08M2.getInstance().setRearRightMotorDuty(curDutyRight);
+
+                    GB08M2.getInstance().setRightDuty(curDutyRight);
+
+                    curDutyRight++;
+
+                    if (rightMotorsCurrentReadingTask == null || rightMotorsCurrentReadingTask.isStopped)
                     {
-                        GB08M2.getInstance().setFrontRightMotorDuty(curDutyRight);
-                        GB08M2.getInstance().setRearRightMotorDuty(curDutyRight);
-
-                        GB08M2.getInstance().setRightDuty(curDutyRight);
-
-                        curDutyRight++;
+                        rightMotorsCurrentReadingTask = new RightMotorsCurrentReadingTask();
+                        rightMotorsCurrentReadingTask.start();
                     }
 
                     try
@@ -189,16 +190,12 @@ public class MotorsTasks
             {
                 if (curDutyLeft > 0)
                 {
-                    if (curDutyLeft > 0)
-                    {
-                        GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
-                        GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
+                    GB08M2.getInstance().setFrontLeftMotorDuty(curDutyLeft);
+                    GB08M2.getInstance().setRearLeftMotorDuty(curDutyLeft);
 
-                        GB08M2.getInstance().setLeftDuty(curDutyLeft);
+                    GB08M2.getInstance().setLeftDuty(curDutyLeft);
 
-                        curDutyLeft--;
-                    }
-
+                    curDutyLeft--;
                     try
                     {
                         Thread.sleep(GB08M2.decelerationStepDelay);
@@ -208,6 +205,7 @@ public class MotorsTasks
                     }
                 } else
                 {
+                    GB08M2.getInstance().stopLeftMotors();
                     this.stop();
                 }
             }
@@ -253,16 +251,12 @@ public class MotorsTasks
             {
                 if (curDutyRight > 0)
                 {
-                    if (curDutyRight > 0)
-                    {
-                        GB08M2.getInstance().setFrontRightMotorDuty(curDutyRight);
-                        GB08M2.getInstance().setRearRightMotorDuty(curDutyRight);
+                    GB08M2.getInstance().setFrontRightMotorDuty(curDutyRight);
+                    GB08M2.getInstance().setRearRightMotorDuty(curDutyRight);
 
-                        GB08M2.getInstance().setRightDuty(curDutyRight);
+                    GB08M2.getInstance().setRightDuty(curDutyRight);
 
-                        curDutyRight--;
-                    }
-
+                    curDutyRight--;
                     try
                     {
                         Thread.sleep(GB08M2.decelerationStepDelay);
@@ -272,6 +266,7 @@ public class MotorsTasks
                     }
                 } else
                 {
+                    GB08M2.getInstance().stopRightMotors();
                     this.stop();
                 }
             }
@@ -283,7 +278,7 @@ public class MotorsTasks
     {
         Thread thread;
 
-        volatile boolean isStopped = false;
+        public volatile boolean isStopped = false;
 
         public LeftMotorsCurrentReadingTask()
         {
@@ -295,7 +290,7 @@ public class MotorsTasks
             thread.start();
         }
 
-        public void stop()
+        synchronized public void stop()
         {
             isStopped = true;
         }
@@ -317,7 +312,7 @@ public class MotorsTasks
             }
             try
             {
-                Thread.sleep(GB08M2.currentReadingsStepDelay * 2);
+                Thread.sleep(GB08M2.currentReadingsStepDelay);
             } catch (InterruptedException e)
             {
                 e.printStackTrace();
@@ -332,7 +327,7 @@ public class MotorsTasks
     {
         Thread thread;
 
-        volatile boolean isStopped = false;
+        public volatile boolean isStopped = false;
 
         public RightMotorsCurrentReadingTask()
         {
@@ -344,7 +339,7 @@ public class MotorsTasks
             thread.start();
         }
 
-        public void stop()
+        synchronized public void stop()
         {
             isStopped = true;
         }
@@ -367,7 +362,7 @@ public class MotorsTasks
             }
             try
             {
-                Thread.sleep(GB08M2.currentReadingsStepDelay * 2);
+                Thread.sleep(GB08M2.currentReadingsStepDelay);
             } catch (InterruptedException e)
             {
                 e.printStackTrace();

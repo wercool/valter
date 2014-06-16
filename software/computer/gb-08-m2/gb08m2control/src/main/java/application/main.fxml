@@ -59,23 +59,23 @@
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                       <children>
-                        <Button fx:id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.topAnchor="2.0">
+                        <Button id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.topAnchor="2.0">
                           <font>
                             <Font size="20.0" fx:id="x2" />
                           </font>
                         </Button>
-                        <Button fx:id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.topAnchor="85.0" />
-                        <Button fx:id="turnLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="←" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="45.0" />
-                        <Button id="turnRightBtn" fx:id="turnRight" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="45.0" />
-                        <Button fx:id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="2.0" />
-                        <Button fx:id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="2.0" />
-                        <Button fx:id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="85.0" />
-                        <Button fx:id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="85.0" />
+                        <Button id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.topAnchor="85.0" />
+                        <Button id="turnLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="←" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="turnRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="2.0" />
+                        <Button id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="2.0" />
+                        <Button id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="85.0" />
+                        <Button id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="85.0" />
                         <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="130.0" />
                         <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0" />
                         <Label layoutX="6.0" text="Duty Right" AnchorPane.topAnchor="175.0" />
                         <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="195.0" />
-                        <Button fx:id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="45.0" />
                         <CheckBox fx:id="dutySunchronizedCheckBox" mnemonicParsing="false" selected="false" text="Synchronized" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="172.0" />
                         <ProgressBar id="" fx:id="leftMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" style="" AnchorPane.leftAnchor="-45.0" AnchorPane.topAnchor="55.0">
                           <stylesheets>
@@ -252,7 +252,7 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="286.0">
                       <children>
                         <Label text="Host Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
                         <Label text="Command Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
                         <TextField id="" fx:id="commandPortTextField" prefWidth="100.0" text="9001" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
                         <Label text="Front Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="75.0" />

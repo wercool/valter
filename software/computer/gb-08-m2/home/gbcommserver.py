@@ -41,7 +41,7 @@ def threaded_reader():
         reader_result = ser.readline().strip()
         if not(conn is None):
             if (reader_result):
-                print ">" + reader_result
+                print ">", reader_result
                 conn.send(reader_result + '\n')
                 reader_result = None
         sleep(0.001)
@@ -72,7 +72,7 @@ while True:
         else:
             cmd = line.strip()
             ser.write(cmd)
-            cur_time = int(round(time.time() * 1000))
-            print "< [", cur_time, "]", cmd
-
+            #cur_time = int(round(time.time() * 1000))
+            #print "< [", cur_time, "]", cmd
+            print "<", cmd
 conn.close()

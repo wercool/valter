@@ -3,7 +3,6 @@ package gb082m2;
 import javafx.application.Platform;
 import application.MainAppController;
 
-
 public class GB08M2ManualControlManager
 {
 
