@@ -826,76 +826,76 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            //FRONTLEFTDUTY#1
-            //FRONTLEFTDUTY#10
-            //FRONTLEFTDUTY#20
-            //FRONTLEFTDUTY#30
-            //FRONTLEFTDUTY#40
-            //FRONTLEFTDUTY#50
-            //FRONTLEFTDUTY#60
-            //FRONTLEFTDUTY#70
-            //FRONTLEFTDUTY#80
-            //FRONTLEFTDUTY#90
-            //FRONTLEFTDUTY#100
-            if (strcmp((char*) cmdParts, "FRONTLEFTDUTY") == 0)
+            //FLD#1
+            //FLD#10
+            //FLD#20
+            //FLD#30
+            //FLD#40
+            //FLD#50
+            //FLD#60
+            //FLD#70
+            //FLD#80
+            //FLD#90
+            //FLD#100
+            if (strcmp((char*) cmdParts, "FLD") == 0)
             {
                 frontLeftWheelDuty = atoi(strtok( NULL, "#" ));
                 pwmDutySetPercent(0, frontLeftWheelDuty);
                 continue;
             }
-            //FRONTRIGHTDUTY#1
-            //FRONTRIGHTDUTY#5
-            //FRONTRIGHTDUTY#10
-            //FRONTRIGHTDUTY#20
-            //FRONTRIGHTDUTY#30
-            //FRONTRIGHTDUTY#40
-            //FRONTRIGHTDUTY#50
-            //FRONTRIGHTDUTY#60
-            //FRONTRIGHTDUTY#70
-            //FRONTRIGHTDUTY#80
-            //FRONTRIGHTDUTY#90
-            //FRONTRIGHTDUTY#100
-            if (strcmp((char*) cmdParts, "FRONTRIGHTDUTY") == 0)
+            //FRD#1
+            //FRD#5
+            //FRD#10
+            //FRD#20
+            //FRD#30
+            //FRD#40
+            //FRD#50
+            //FRD#60
+            //FRD#70
+            //FRD#80
+            //FRD#90
+            //FRD#100
+            if (strcmp((char*) cmdParts, "FRD") == 0)
             {
                 frontRightWheelDuty = atoi(strtok( NULL, "#" ));
                 pwmDutySetPercent(1, frontRightWheelDuty);
                 continue;
             }
-            //REARLEFTDUTY#1
-            //REARLEFTDUTY#10
-            //REARLEFTDUTY#20
-            //REARLEFTDUTY#30
-            //REARLEFTDUTY#40
-            //REARLEFTDUTY#50
-            //REARLEFTDUTY#60
-            //REARLEFTDUTY#70
-            //REARLEFTDUTY#80
-            //REARLEFTDUTY#90
-            //REARLEFTDUTY#100
-            if (strcmp((char*) cmdParts, "REARLEFTDUTY") == 0)
+            //RLD#1
+            //RLD#10
+            //RLD#20
+            //RLD#30
+            //RLD#40
+            //RLD#50
+            //RLD#60
+            //RLD#70
+            //RLD#80
+            //RLD#90
+            //RLD#100
+            if (strcmp((char*) cmdParts, "RLD") == 0)
             {
                 rearLeftWheelDuty = atoi(strtok( NULL, "#" ));
                 pwmDutySetPercent(3, rearLeftWheelDuty);
                 continue;
             }
-            //REARRIGHTDUTY#1
-            //REARRIGHTDUTY#10
-            //REARRIGHTDUTY#20
-            //REARRIGHTDUTY#30
-            //REARRIGHTDUTY#40
-            //REARRIGHTDUTY#50
-            //REARRIGHTDUTY#60
-            //REARRIGHTDUTY#70
-            //REARRIGHTDUTY#80
-            //REARRIGHTDUTY#90
-            //REARRIGHTDUTY#100
-            if (strcmp((char*) cmdParts, "REARRIGHTDUTY") == 0)
+            //RRD#1
+            //RRD#10
+            //RRD#20
+            //RRD#30
+            //RRD#40
+            //RRD#50
+            //RRD#60
+            //RRD#70
+            //RRD#80
+            //RRD#90
+            //RRD#100
+            if (strcmp((char*) cmdParts, "RRD") == 0)
             {
                 rearRightWheelDuty = atoi(strtok( NULL, "#" ));
                 pwmDutySetPercent(2, rearRightWheelDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "LEFTFORWARD") == 0)
+            if (strcmp((char*) cmdParts, "LF") == 0)
             {
                 leftWheelsDirection = 1;
                 pwmDutySetPercent(0, 1);
@@ -907,7 +907,7 @@ int main(void)
                 pwmDutySetPercent(3, rearLeftWheelDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "LEFTBACKWARD") == 0)
+            if (strcmp((char*) cmdParts, "LB") == 0)
             {
                 leftWheelsDirection = 2;
                 pwmDutySetPercent(0, 1);
@@ -919,7 +919,7 @@ int main(void)
                 pwmDutySetPercent(3, rearLeftWheelDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "LEFTSTOP") == 0)
+            if (strcmp((char*) cmdParts, "LS") == 0)
             {
                 pwmDutySetPercent(0, 1);
                 pwmDutySetPercent(3, 1);
@@ -927,7 +927,7 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);       //Left Wheels INb
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RIGHTFORWARD") == 0)
+            if (strcmp((char*) cmdParts, "RF") == 0)
             {
                 rightWheelsDirection = 1;
                 pwmDutySetPercent(1, 1);
@@ -939,7 +939,7 @@ int main(void)
                 pwmDutySetPercent(2, frontRightWheelDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RIGHTBACKWARD") == 0)
+            if (strcmp((char*) cmdParts, "RB") == 0)
             {
                 rightWheelsDirection = 2;
                 pwmDutySetPercent(1, 1);
@@ -951,7 +951,7 @@ int main(void)
                 pwmDutySetPercent(2, frontRightWheelDuty);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RIGHTSTOP") == 0)
+            if (strcmp((char*) cmdParts, "RS") == 0)
             {
                 pwmDutySetPercent(1, 1);
                 pwmDutySetPercent(2, 1);
@@ -959,7 +959,7 @@ int main(void)
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);       //Right Wheels INb
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETRIGHTFRONTCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "FRC") == 0)
             {
                 rightFrontCurVal = getValueChannel2();
 //                sprintf((char *)msg,"FRONT RIGHT MOTOR CURRENT: %u\n", rightFrontCurVal);
@@ -978,7 +978,7 @@ int main(void)
                 rightFrontCurReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETRIGHTREARCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "RRC") == 0)
             {
                 rightRearCurVal = getValueChannel1();
 //                sprintf((char *)msg,"REAR RIGHT MOTOR CURRENT: %u\n", rightRearCurVal);
@@ -997,7 +997,7 @@ int main(void)
                 rightRearCurReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETLEFTFRONTCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "FLC") == 0)
             {
                 leftFrontCurVal = getValueChannel0();
 //                sprintf((char *)msg,"FRONT LEFT MOTOR CURRENT: %u\n", leftFrontCurVal);
@@ -1016,7 +1016,7 @@ int main(void)
                 leftFrontCurReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETLEFTREARCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "RLC") == 0)
             {
                 leftRearCurVal = getValueChannel4();
 //                sprintf((char *)msg,"REAR LEFT MOTOR CURRENT: %u\n", leftRearCurVal);
