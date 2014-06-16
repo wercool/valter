@@ -173,10 +173,13 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            MainAppController.frontLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontLeftMotorCurrent() / 99);
+                            MainAppController.frontLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontLeftMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
+                            MainAppController.frontRightMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontRightMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
+                            MainAppController.rearLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getRearLeftMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
+                            MainAppController.rearRightMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getRearRightMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
                         }
                     });
-                    Thread.sleep(10);
+                    Thread.sleep(25);
                 } catch (InterruptedException e)
                 {
                     e.printStackTrace();

@@ -174,8 +174,20 @@ public class GB08M2CommandManager
                         {
                             switch (cmdResultParts[0])
                             {
-                                case "FLMC":
+                                case GB08M2.frontLeftMotorCurrentResultPrefix:
                                     GB08M2.getInstance().setFrontLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
+                                case GB08M2.frontRightMotorCurrentResultPrefix:
+                                    GB08M2.getInstance().setFrontRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
+                                case GB08M2.rearLeftMotorCurrentResultPrefix:
+                                    GB08M2.getInstance().setRearLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
+                                case GB08M2.rearRightMotorCurrentResultPrefix:
+                                    GB08M2.getInstance().setRearRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
                                     cmdReaderSpool.remove(0);
                                 break;
                             }

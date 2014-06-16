@@ -1,9 +1,13 @@
 package gb082m2;
 
+
 public class MotorsTasks
 {
     static boolean decelerationLeft = false;
     static boolean decelerationRight = false;
+
+    static LeftMotorsCurrentReadingTask leftMotorsCurrentReadingTask;
+    static RightMotorsCurrentReadingTask rightMotorsCurrentReadingTask;
 
     public static class LeftMotorsAccelerationTask implements Runnable
     {
@@ -24,6 +28,13 @@ public class MotorsTasks
             this.targetDutyLeft = dutyLeft;
 
             curDutyLeft = GB08M2.getInstance().getLeftDuty();
+
+            if (leftMotorsCurrentReadingTask != null)
+            {
+                leftMotorsCurrentReadingTask.stop();
+            }
+            leftMotorsCurrentReadingTask = new LeftMotorsCurrentReadingTask();
+            leftMotorsCurrentReadingTask.start();
         }
 
         public void start()
@@ -34,7 +45,6 @@ public class MotorsTasks
         public void stop()
         {
             isStopped = true;
-            thread.interrupt();
         }
 
         @Override
@@ -51,8 +61,6 @@ public class MotorsTasks
 
                         GB08M2.getInstance().setLeftDuty(curDutyLeft);
 
-                        GB08M2.getInstance().retrieveFrontLeftMotorCurrent();
-
                         curDutyLeft++;
                     }
 
@@ -68,6 +76,7 @@ public class MotorsTasks
                     this.stop();
                 }
             }
+            thread.interrupt();
         }
     }
 
@@ -90,6 +99,13 @@ public class MotorsTasks
             this.targetDutyRight = dutyRight;
 
             curDutyRight = GB08M2.getInstance().getRightDuty();
+
+            if (rightMotorsCurrentReadingTask != null)
+            {
+                rightMotorsCurrentReadingTask.stop();
+            }
+            rightMotorsCurrentReadingTask = new RightMotorsCurrentReadingTask();
+            rightMotorsCurrentReadingTask.start();
         }
 
         public void start()
@@ -100,7 +116,6 @@ public class MotorsTasks
         public void stop()
         {
             isStopped = true;
-            thread.interrupt();
         }
 
         @Override
@@ -132,6 +147,7 @@ public class MotorsTasks
                     this.stop();
                 }
             }
+            thread.interrupt();
         }
     }
 
@@ -160,7 +176,10 @@ public class MotorsTasks
         public void stop()
         {
             isStopped = true;
-            thread.interrupt();
+            if (leftMotorsCurrentReadingTask != null)
+            {
+                leftMotorsCurrentReadingTask.stop();
+            }
         }
 
         @Override
@@ -177,8 +196,6 @@ public class MotorsTasks
 
                         GB08M2.getInstance().setLeftDuty(curDutyLeft);
 
-                        GB08M2.getInstance().setFrontLeftMotorCurrent(0);
-
                         curDutyLeft--;
                     }
 
@@ -194,6 +211,7 @@ public class MotorsTasks
                     this.stop();
                 }
             }
+            thread.interrupt();
         }
     }
 
@@ -222,7 +240,10 @@ public class MotorsTasks
         public void stop()
         {
             isStopped = true;
-            thread.interrupt();
+            if (rightMotorsCurrentReadingTask != null)
+            {
+                rightMotorsCurrentReadingTask.stop();
+            }
         }
 
         @Override
@@ -254,7 +275,106 @@ public class MotorsTasks
                     this.stop();
                 }
             }
+            thread.interrupt();
         }
     }
 
+    public static class LeftMotorsCurrentReadingTask implements Runnable
+    {
+        Thread thread;
+
+        volatile boolean isStopped = false;
+
+        public LeftMotorsCurrentReadingTask()
+        {
+            thread = new Thread(this);
+        }
+
+        public void start()
+        {
+            thread.start();
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+
+        @Override
+        public void run()
+        {
+            while (!isStopped)
+            {
+                GB08M2.getInstance().retrieveFrontLeftMotorCurrent();
+                GB08M2.getInstance().retrieveRearLeftMotorCurrent();
+                try
+                {
+                    Thread.sleep(GB08M2.currentReadingsStepDelay);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            try
+            {
+                Thread.sleep(GB08M2.currentReadingsStepDelay * 2);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            GB08M2.getInstance().setFrontLeftMotorCurrent(0);
+            GB08M2.getInstance().setRearLeftMotorCurrent(0);
+            thread.interrupt();
+        }
+    }
+
+    public static class RightMotorsCurrentReadingTask implements Runnable
+    {
+        Thread thread;
+
+        volatile boolean isStopped = false;
+
+        public RightMotorsCurrentReadingTask()
+        {
+            thread = new Thread(this);
+        }
+
+        public void start()
+        {
+            thread.start();
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+
+        @Override
+        public void run()
+        {
+            while (!isStopped)
+            {
+                GB08M2.getInstance().retrieveFrontRightMotorCurrent();
+                GB08M2.getInstance().retrieveRearRightMotorCurrent();
+
+                try
+                {
+                    Thread.sleep(GB08M2.currentReadingsStepDelay);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+            try
+            {
+                Thread.sleep(GB08M2.currentReadingsStepDelay * 2);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            GB08M2.getInstance().setFrontRightMotorCurrent(0);
+            GB08M2.getInstance().setRearRightMotorCurrent(0);
+            thread.interrupt();
+        }
+    }
 }
