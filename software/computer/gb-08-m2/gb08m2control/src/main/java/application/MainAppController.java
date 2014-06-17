@@ -36,6 +36,8 @@ public class MainAppController
     @FXML
     Slider dutyRightSlider;
     @FXML
+    Slider alarmBeepDurationSlider;
+    @FXML
     CheckBox dutySunchronizedCheckBox;
     @FXML
     public static ProgressBar leftMotorsDutyProgressBar;
@@ -257,6 +259,9 @@ public class MainAppController
                             });
                         }
                     }).start();
+                break;
+                case "beepBtn":
+                    GB08M2.getInstance().setBeep((int) alarmBeepDurationSlider.getValue());
                 break;
             }
             clickedBtn = null;

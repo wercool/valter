@@ -91,6 +91,10 @@ public class GB08M2
     public static final String lightsOffCommand = "LIGHTSOFF";
     public boolean lights = false;
 
+    //Beep
+    public static final String beepCommand = "ALARMBEEP#";
+    int beepDuration = 0;
+
     public GB08M2()
     {
         gb08m2ManualControlManager = new GB08M2ManualControlManager();
@@ -417,6 +421,18 @@ public class GB08M2
             gb08m2CommandManager.sendCommand(lightsOffCommand);
         }
         this.lights = lights;
+    }
+
+    //Beep
+    public void setBeep(int beepDuration)
+    {
+        this.beepDuration = beepDuration;
+        gb08m2CommandManager.sendCommand(beepCommand + String.valueOf(this.beepDuration));
+    }
+
+    public int getBeepDuration()
+    {
+        return this.beepDuration;
     }
 
     //Abstract

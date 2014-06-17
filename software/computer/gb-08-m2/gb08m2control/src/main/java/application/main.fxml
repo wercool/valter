@@ -135,7 +135,7 @@
                             <Font size="13.0" />
                           </font>
                         </Label>
-                        <Slider id="alarmBeepDurationSlider" min="1.0" prefWidth="217.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="105.0" />
+                        <Slider id="" fx:id="alarmBeepDurationSlider" min="1.0" prefWidth="217.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="105.0" />
                         <Button id="beepBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Beep" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="100.0" />
                         <Separator prefWidth="211.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="130.0" />
                         <Label text="Encoders" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="140.0">
