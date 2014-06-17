@@ -78,6 +78,7 @@ public class GB08M2CommandManager
 
     public void disconnect()
     {
+        isConnected = false;
         try
         {
             cmdWriter.close();
@@ -92,7 +93,6 @@ public class GB08M2CommandManager
         {
             //e.printStackTrace();
         }
-        isConnected = false;
     }
 
     synchronized public void sendCommand(String cmd)
@@ -167,7 +167,7 @@ public class GB08M2CommandManager
             {
                 if (cmdReaderSpool.size() > 0)
                 {
-                    //System.out.println("RESULT < " + cmdReaderSpool.get(0));
+                    System.out.println("RES < " + cmdReaderSpool.get(0));
                     String[] cmdResultParts = cmdReaderSpool.get(0).split(":");
                     try
                     {
@@ -175,6 +175,7 @@ public class GB08M2CommandManager
                         {
                             switch (cmdResultParts[0])
                             {
+                            //Motors
                                 case GB08M2.frontLeftMotorCurrentResultPrefix:
                                     GB08M2.getInstance().setFrontLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
                                     cmdReaderSpool.remove(0);
@@ -189,6 +190,20 @@ public class GB08M2CommandManager
                                 break;
                                 case GB08M2.rearRightMotorCurrentResultPrefix:
                                     GB08M2.getInstance().setRearRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
+                            //Encoders
+                                case GB08M2.leftEncoderTicksResultPrefix:
+                                    GB08M2.getInstance().setLeftEncoderTicks(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
+                                case GB08M2.rightEncoderTicksResultPrefix:
+                                    GB08M2.getInstance().setRightEncoderTicks(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
+                                //Battery
+                                case GB08M2.batteryVoltageResultPrefix:
+                                    GB08M2.getInstance().setBatteryVoltage(Integer.parseInt(cmdResultParts[1]));
                                     cmdReaderSpool.remove(0);
                                 break;
                             }

@@ -1,12 +1,14 @@
 package application;
 
 import gb082m2.GB08M2;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
@@ -47,6 +49,12 @@ public class MainAppController
     public static ProgressBar frontRightMotorCurrentProgressBar;
     @FXML
     public static ProgressBar rearRightMotorCurrentProgressBar;
+    @FXML
+    public static Label leftEncoderLabel;
+    @FXML
+    public static Label rightEncoderLabel;
+    @FXML
+    public static Label batteryVoltageLabel;
 
     final Stage primaryStage;
     final Scene primaryScene;
@@ -211,6 +219,46 @@ public class MainAppController
         {
             Button clickedBtn = (Button) (event.getSource());
             System.out.println("INFO: " + clickedBtn.getId() + " was clicked");
+            switch (clickedBtn.getId())
+            {
+                case "getLeftEncoderBtn":
+                    GB08M2.getInstance().retrieveLeftEncoderTicks();
+                break;
+                case "getRightEncoderBtn":
+                    GB08M2.getInstance().retrieveRightEncoderTicks();
+                break;
+                case "resetLeftEncoderBtn":
+                    GB08M2.getInstance().resetLeftEncoderTicks();
+                break;
+                case "resetRightEncoderBtn":
+                    GB08M2.getInstance().resetRightEncoderTicks();
+                break;
+                case "getBatteryVoltageBtn":
+                    GB08M2.getInstance().retrieveBatteryVoltage();
+                    new Thread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            try
+                            {
+                                Thread.sleep(250);
+                            } catch (InterruptedException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            Platform.runLater(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    MainAppController.batteryVoltageLabel.setText("Battery Voltage: " + String.valueOf(GB08M2.getInstance().getBatteryVoltage()));
+                                }
+                            });
+                        }
+                    }).start();
+                break;
+            }
             clickedBtn = null;
         }
 
@@ -239,6 +287,18 @@ public class MainAppController
                             clickedToggleBtn.setSelected(false);
                         }
                     }
+                break;
+                case "encodersToggleBtn":
+                    if (!GB08M2.getInstance().encodersEnabled)
+                    {
+                        GB08M2.getInstance().gb08m2ManualControlManager.startEncodersReadings();
+                    } else
+                    {
+                        GB08M2.getInstance().gb08m2ManualControlManager.stopEncodersReadings();
+                    }
+                break;
+                case "lightsToggleBtn":
+                    GB08M2.getInstance().setLights(clickedToggleBtn.selectedProperty().get());
                 break;
             }
 

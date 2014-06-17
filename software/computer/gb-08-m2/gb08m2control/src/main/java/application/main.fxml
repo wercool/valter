@@ -126,7 +126,7 @@
                     <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="300.0" prefWidth="230.0">
                       <children>
                         <ToggleButton id="lightsToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Lights" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="45.0" />
-                        <Label text="Battery Voltage: " AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <Label id="" fx:id="batteryVoltageLabel" text="Battery Voltage:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
                         <Button id="getBatteryVoltageBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="7.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="35.0" />
                         <Separator prefWidth="211.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="75.0" />
@@ -143,10 +143,10 @@
                             <Font name="System Bold" size="13.0" />
                           </font>
                         </Label>
-                        <Label text="Left:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="160.0" />
-                        <Label text="Right:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="190.0" />
-                        <Button id="getLeftEncoder" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="155.0" />
-                        <Button id="getRightEncoder" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="185.0" />
+                        <Label fx:id="leftEncoderLabel" text="Left:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="160.0" />
+                        <Label fx:id="rightEncoderLabel" text="Right:" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="190.0" />
+                        <Button id="getLeftEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="155.0" />
+                        <Button id="getRightEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Get" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="185.0" />
                         <Button id="resetLeftEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="155.0" />
                         <Button id="resetRightEncoderBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Reset" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="185.0" />
                         <ToggleButton id="encodersToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Encoders" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="215.0" />

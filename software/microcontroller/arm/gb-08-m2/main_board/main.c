@@ -968,12 +968,12 @@ int main(void)
                 delay_ms(10);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTRIGHTFRONTCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "STRFC") == 0)
             {
                 rightFrontCurReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPRIGHTFRONTCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "SPRFC") == 0)
             {
                 rightFrontCurReadings = 0;
                 continue;
@@ -987,12 +987,12 @@ int main(void)
                 delay_ms(10);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTRIGHTREARCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "STRRC") == 0)
             {
                 rightRearCurReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPRIGHTREARCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "SPRRC") == 0)
             {
                 rightRearCurReadings = 0;
                 continue;
@@ -1006,12 +1006,12 @@ int main(void)
                 delay_ms(10);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTLEFTFRONTCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "STLFC") == 0)
             {
                 leftFrontCurReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPLEFTFRONTCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "SPLFC") == 0)
             {
                 leftFrontCurReadings = 0;
                 continue;
@@ -1025,72 +1025,76 @@ int main(void)
                 delay_ms(10);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTLEFTREARCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "STLRC") == 0)
             {
                 leftRearCurReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPLEFTREARCURRENT") == 0)
+            if (strcmp((char*) cmdParts, "SPLRC") == 0)
             {
                 leftRearCurReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETBATTERYVOLTAGE") == 0)
+//            if (strcmp((char*) cmdParts, "GETBATTERYVOLTAGE") == 0)
+            if (strcmp((char*) cmdParts, "GBV") == 0)
             {
                 batteryVoltageReading = getValueChannel6();
-                sprintf((char *)msg,"BATTERY VOLTAGE: %u\n", batteryVoltageReading);
+//                sprintf((char *)msg,"BATTERY VOLTAGE: %u\n", batteryVoltageReading);
+                sprintf((char *)msg,"BV:%u\n", batteryVoltageReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTBATTERYVOLTAGEREADINGS") == 0)
+//Battery readings
+            if (strcmp((char*) cmdParts, "STBV") == 0)
             {
                 batteryVoltageReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPBATTERYVOLTAGEREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "SPBV") == 0)
             {
                 batteryVoltageReadings = 0;
                 continue;
             }
-            //RADARROTATIONSET#700
-            //RADARROTATIONSET#750
-            //RADARROTATIONSET#800
-            //RADARROTATIONSET#850
-            //RADARROTATIONSET#900
-            //RADARROTATIONSET#950
-            //RADARROTATIONSET#1000
-            //RADARROTATIONSET#1050
-            //RADARROTATIONSET#1100
-            //RADARROTATIONSET#1150
-            //RADARROTATIONSET#1200
-            //RADARROTATIONSET#1250
-            //RADARROTATIONSET#1300
-            //RADARROTATIONSET#1350
-            //RADARROTATIONSET#1400
-            //RADARROTATIONSET#1450 //CENTER
-            //RADARROTATIONSET#1500
-            //RADARROTATIONSET#1550
-            //RADARROTATIONSET#1600
-            //RADARROTATIONSET#1650
-            //RADARROTATIONSET#1700
-            //RADARROTATIONSET#1750
-            //RADARROTATIONSET#1800
-            //RADARROTATIONSET#1850
-            //RADARROTATIONSET#1900
-            //RADARROTATIONSET#1950
-            //RADARROTATIONSET#2000
-            //RADARROTATIONSET#2050
-            //RADARROTATIONSET#2100
-            //RADARROTATIONSET#2150
-            //RADARROTATIONSET#2200
+            //DSP#700
+            //DSP#750
+            //DSP#800
+            //DSP#850
+            //DSP#900
+            //DSP#950
+            //DSP#1000
+            //DSP#1050
+            //DSP#1100
+            //DSP#1150
+            //DSP#1200
+            //DSP#1250
+            //DSP#1300
+            //DSP#1350
+            //DSP#1400
+            //DSP#1450 //CENTER
+            //DSP#1500
+            //DSP#1550
+            //DSP#1600
+            //DSP#1650
+            //DSP#1700
+            //DSP#1750
+            //DSP#1800
+            //DSP#1850
+            //DSP#1900
+            //DSP#1950
+            //DSP#2000
+            //DSP#2050
+            //DSP#2100
+            //DSP#2150
+            //DSP#2200
 
-            if (strcmp((char*) cmdParts, "RADARROTATIONSET") == 0)
+            if (strcmp((char*) cmdParts, "DSP") == 0)
             {
                 radarServoRotation = atoi(strtok( NULL, "#" ));
                 radarServoSet = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RADARROTATIONRESET") == 0)
+//            if (strcmp((char*) cmdParts, "RADARROTATIONRESET") == 0)
+            if (strcmp((char*) cmdParts, "DSRST") == 0)
             {
                 radarServoSet = 0;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
@@ -1098,81 +1102,93 @@ int main(void)
                 servoSignalWidth = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETDISTANCE") == 0)
+            //get distance scanner distance
+            if (strcmp((char*) cmdParts, "DSD") == 0)
             {
                 distanceMeterReading = getValueChannel5();
-                sprintf((char *)msg,"DISTANCE: %u\n", distanceMeterReading);
+                sprintf((char *)msg,"DSD:%u\n", distanceMeterReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STARTDISTANCEREADINGS") == 0)
+//            if (strcmp((char*) cmdParts, "STARTDISTANCEREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "STDR") == 0)
             {
                 distanceMeterReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "STOPDISTANCEREADINGS") == 0)
+//            if (strcmp((char*) cmdParts, "STOPDISTANCEREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "SPDR") == 0)
             {
                 distanceMeterReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "ENABLEENCODERS") == 0)
+//            if (strcmp((char*) cmdParts, "ENABLEENCODERS") == 0)
+            if (strcmp((char*) cmdParts, "ENEN") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
                 AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
                 AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "DISABLEENCODERS") == 0)
+//            if (strcmp((char*) cmdParts, "DISABLEENCODERS") == 0)
+            if (strcmp((char*) cmdParts, "DISEN") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETLEFTWHEELENCODER") == 0)
+//            if (strcmp((char*) cmdParts, "GETLEFTWHEELENCODER") == 0)
+            if (strcmp((char*) cmdParts, "LEN") == 0)
             {
-                sprintf((char *)msg,"LEFT ENCODER: %u\n", leftWheelEncoderTicks);
+                sprintf((char *)msg,"LEN:%u\n", leftWheelEncoderTicks);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(10);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERSTARTREADINGS") == 0)
+//            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERSTARTREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "LENSTR") == 0)
             {
                 AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
                 leftWheelEncoderReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERSTOPREADINGS") == 0)
+//            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERSTOPREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "LENSPR") == 0)
             {
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
                 leftWheelEncoderReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "GETRIGHTWHEELENCODER") == 0)
+//            if (strcmp((char*) cmdParts, "GETRIGHTWHEELENCODER") == 0)
+            if (strcmp((char*) cmdParts, "REN") == 0)
             {
-                sprintf((char *)msg,"RIGHT ENCODER: %u\n", rightWheelEncoderTicks);
+                sprintf((char *)msg,"REN:%u\n", rightWheelEncoderTicks);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(10);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERSTARTREADINGS") == 0)
+//            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERSTARTREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "RENSTR") == 0)
             {
                 AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 rightWheelEncoderReadings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERSTOPREADINGS") == 0)
+//            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERSTOPREADINGS") == 0)
+            if (strcmp((char*) cmdParts, "RENSPR") == 0)
             {
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 rightWheelEncoderReadings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERRESET") == 0)
+//            if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERRESET") == 0)
+            if (strcmp((char*) cmdParts, "RENRES") == 0)
             {
                 rightWheelEncoderTicks = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERRESET") == 0)
+//            if (strcmp((char*) cmdParts, "LEFTWHEELENCODERRESET") == 0)
+            if (strcmp((char*) cmdParts, "LENRES") == 0)
             {
                 leftWheelEncoderTicks = 0;
                 continue;

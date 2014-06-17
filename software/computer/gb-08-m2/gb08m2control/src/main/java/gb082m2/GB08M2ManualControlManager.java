@@ -5,11 +5,18 @@ import application.MainAppController;
 
 public class GB08M2ManualControlManager
 {
+    EncoderTasks encoderTasks;
+
+    public void deinitialize()
+    {
+        stopEncodersReadings();
+    }
 
     public GB08M2ManualControlManager()
     {
         new MotorsDutyVisualizationTask();
         new MotorsCurrentVisualizationTask();
+        new EncodersVisualizationTask();
     }
 
     public void moveBothMotorsForward(int dutyLeft, int dutyRight)
@@ -117,6 +124,33 @@ public class GB08M2ManualControlManager
         }
     }
 
+    public void startEncodersReadings()
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            if (encoderTasks != null)
+            {
+                if (!encoderTasks.isStopped)
+                {
+                    encoderTasks.stop();
+                }
+            }
+            encoderTasks = new EncoderTasks();
+            encoderTasks.start();
+        }
+    }
+
+    public void stopEncodersReadings()
+    {
+        if (GB08M2.instance.isInitialized())
+        {
+            if (encoderTasks != null)
+            {
+                encoderTasks.stop();
+            }
+        }
+    }
+
     class MotorsDutyVisualizationTask implements Runnable
     {
         Thread thread;
@@ -187,4 +221,43 @@ public class GB08M2ManualControlManager
         }
     }
 
+    class EncodersVisualizationTask implements Runnable
+    {
+        Thread thread;
+        boolean isStopped = false;
+
+        public EncodersVisualizationTask()
+        {
+            new Thread(this).start();
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+
+        @Override
+        synchronized public void run()
+        {
+            while (MainAppController.isActive && !isStopped)
+            {
+                try
+                {
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            MainAppController.leftEncoderLabel.setText("Left: " + String.valueOf(GB08M2.getInstance().getLeftEncoderTicks()));
+                            MainAppController.rightEncoderLabel.setText("Right: " + String.valueOf(GB08M2.getInstance().getRightEncoderTicks()));
+                        }
+                    });
+                    Thread.sleep(GB08M2.encoderReadingsDelay);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

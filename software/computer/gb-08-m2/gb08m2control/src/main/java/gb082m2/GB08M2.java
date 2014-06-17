@@ -15,8 +15,7 @@ public class GB08M2
     static int rearCameraPort = 8081;
 
     //Hardware control
-    volatile int batteryVoltage;
-
+    //Motors
     public static final String frontLeftMotorDutyCommandPrefix = "FLD#";
     volatile int frontLeftMotorDuty = 1;
     volatile int frontLeftMotorCurrent = 0;
@@ -64,6 +63,34 @@ public class GB08M2
 
     static final int currentReadingsStepDelay = 120;
 
+    //Wheel encoders
+    public static final String enableEncodersCommand = "ENEN";
+    public static final String disableEncodersCommand = "DISEN";
+
+    public static final String leftEncoderTicksCommand = "LEN";
+    public static final String leftEncoderTicksResultPrefix = "LEN";
+    public static final String leftEncoderTicksResetCommand = "LENRES";
+
+    public static final String rightEncoderTicksCommand = "REN";
+    public static final String rightEncoderTicksResultPrefix = "REN";
+    public static final String rightEncoderTicksResetCommand = "RENRES";
+
+    public static final int encoderReadingsDelay = 150;
+    volatile int leftEncoderTicks = 0;
+    volatile int rightEncoderTicks = 0;
+    public boolean encodersEnabled = false;
+
+    //Battery
+    public static final int batteryReadingsDelay = 10000;
+    public static final String batteryVoltageCommand = "GBV";
+    public static final String batteryVoltageResultPrefix = "BV";
+    volatile int batteryVoltage = 0;
+
+    //Lights
+    public static final String lightsOnCommand = "LIGHTSON";
+    public static final String lightsOffCommand = "LIGHTSOFF";
+    public boolean lights = false;
+
     public GB08M2()
     {
         gb08m2ManualControlManager = new GB08M2ManualControlManager();
@@ -81,6 +108,7 @@ public class GB08M2
 
     public boolean deInitialize()
     {
+        gb08m2ManualControlManager.deinitialize();
         gb08m2CommandManager.disconnect();
         return isInitialized = false;
     }
@@ -139,6 +167,7 @@ public class GB08M2
 
     //Hardware
 
+    //Motors
     public synchronized int getFrontLeftMotorDuty()
     {
         return frontLeftMotorDuty;
@@ -300,6 +329,94 @@ public class GB08M2
     public synchronized void setRearRightMotorCurrent(int rearRightMotorCurrent)
     {
         this.rearRightMotorCurrent = rearRightMotorCurrent;
+    }
+
+    //Wheel encoders
+    public synchronized void enableEncoders()
+    {
+        gb08m2CommandManager.sendCommand(enableEncodersCommand);
+        encodersEnabled = true;
+    }
+
+    public synchronized void disableEncoders()
+    {
+        gb08m2CommandManager.sendCommand(disableEncodersCommand);
+        encodersEnabled = false;
+    }
+
+    //Left encoder
+    public synchronized void retrieveLeftEncoderTicks()
+    {
+        gb08m2CommandManager.sendCommand(leftEncoderTicksCommand);
+    }
+
+    public synchronized void resetLeftEncoderTicks()
+    {
+        gb08m2CommandManager.sendCommand(leftEncoderTicksResetCommand);
+    }
+
+    public synchronized int getLeftEncoderTicks()
+    {
+        return leftEncoderTicks;
+    }
+
+    public synchronized void setLeftEncoderTicks(int leftEncoderTicks)
+    {
+        this.leftEncoderTicks = leftEncoderTicks;
+    }
+
+    //Right encoder
+    public synchronized void retrieveRightEncoderTicks()
+    {
+        gb08m2CommandManager.sendCommand(rightEncoderTicksCommand);
+    }
+
+    public synchronized void resetRightEncoderTicks()
+    {
+        gb08m2CommandManager.sendCommand(rightEncoderTicksResetCommand);
+    }
+
+    public synchronized int getRightEncoderTicks()
+    {
+        return rightEncoderTicks;
+    }
+
+    public synchronized void setRightEncoderTicks(int rightEncoderTicks)
+    {
+        this.rightEncoderTicks = rightEncoderTicks;
+    }
+
+    //Battery
+    public synchronized void retrieveBatteryVoltage()
+    {
+        gb08m2CommandManager.sendCommand(batteryVoltageCommand);
+    }
+
+    public synchronized int getBatteryVoltage()
+    {
+        return batteryVoltage;
+    }
+
+    public synchronized void setBatteryVoltage(int batteryVoltage)
+    {
+        this.batteryVoltage = batteryVoltage;
+    }
+
+    public boolean isLights()
+    {
+        return lights;
+    }
+
+    public void setLights(boolean lights)
+    {
+        if (lights)
+        {
+            gb08m2CommandManager.sendCommand(lightsOnCommand);
+        } else
+        {
+            gb08m2CommandManager.sendCommand(lightsOffCommand);
+        }
+        this.lights = lights;
     }
 
     //Abstract
