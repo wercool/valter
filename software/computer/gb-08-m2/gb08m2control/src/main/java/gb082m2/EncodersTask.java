@@ -1,13 +1,13 @@
 package gb082m2;
 
 
-public class EncoderTasks implements Runnable
+public class EncodersTask implements Runnable
 {
     Thread thread;
 
     volatile boolean isStopped = false;
 
-    public EncoderTasks()
+    public EncodersTask()
     {
         GB08M2.getInstance().enableEncoders();
         thread = new Thread(this);

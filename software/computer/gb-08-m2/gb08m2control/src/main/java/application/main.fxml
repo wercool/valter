@@ -111,7 +111,7 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.leftAnchor="890.0" AnchorPane.topAnchor="260.0">
+                <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="545.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -154,15 +154,16 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefHeight="169.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="545.0">
+                <TitledPane animated="false" collapsible="false" prefHeight="169.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="545.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
-                        <Label id="batteryVoltageLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
+                        <Label id="" fx:id="distanceScannerValueLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
                         <Button id="getDistanceBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="12.0" />
                         <Label text="Direction" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
-                        <Slider id="distanceScannerPositionSlider" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                        <Button id="releaseServoBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
+                        <Slider fx:id="distanceScannerPositionSlider" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+                        <Button id="releaseServoBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Center &amp; Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0" />
+                        <ToggleButton id="distanceScanningToggleButton" mnemonicParsing="false" text="Scanning" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0" />
                       </children>
                     </AnchorPane>
                   </content>
@@ -177,6 +178,29 @@
               <children>
                 <Accordion AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <expandedPane>
+                    <TitledPane fx:id="x5" animated="false" text="SLAM">
+                      <content>
+                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" pannable="true" prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED">
+                          <content>
+                            <Pane fx:id="automatedControlSLAMPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="2000.0">
+                              <children>
+                                <TitledPane fx:id="automatedControlSLAMManagementTitledPane" animated="false" collapsible="false" layoutX="729.0" layoutY="14.0" prefHeight="155.0" prefWidth="214.0" text="SLAM Management">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                      <children>
+                                        <ToggleButton id="automatedControlSLAMingToggleBtn" mnemonicParsing="false" text="SLAMing" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </TitledPane>
+                              </children>
+                            </Pane>
+                          </content>
+                        </ScrollPane>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
                     <TitledPane fx:id="x4" animated="false" text="Automated Navigation">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -206,18 +230,16 @@
                                 </TitledPane>
                               </panes>
                             </Accordion>
+                            <TitledPane animated="false" collapsible="false" graphicTextGap="4.0" layoutX="674.0" layoutY="5.0" minWidth="145.0" prefHeight="93.0" prefWidth="145.0" text="Selected Pattern" wrapText="false">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                              </content>
+                            </TitledPane>
                           </children>
                         </AnchorPane>
                       </content>
                     </TitledPane>
-                  </expandedPane>
-                  <panes>
-                    <fx:reference source="x4" />
-                    <TitledPane animated="false" text="untitled">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                      </content>
-                    </TitledPane>
+                    <fx:reference source="x5" />
                   </panes>
                 </Accordion>
               </children>

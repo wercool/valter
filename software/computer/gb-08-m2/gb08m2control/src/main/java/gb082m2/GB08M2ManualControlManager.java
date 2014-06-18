@@ -5,7 +5,7 @@ import application.MainAppController;
 
 public class GB08M2ManualControlManager
 {
-    EncoderTasks encoderTasks;
+    EncodersTask encodersTask;
 
     public void deinitialize()
     {
@@ -128,15 +128,15 @@ public class GB08M2ManualControlManager
     {
         if (GB08M2.instance.isInitialized())
         {
-            if (encoderTasks != null)
+            if (encodersTask != null)
             {
-                if (!encoderTasks.isStopped)
+                if (!encodersTask.isStopped)
                 {
-                    encoderTasks.stop();
+                    encodersTask.stop();
                 }
             }
-            encoderTasks = new EncoderTasks();
-            encoderTasks.start();
+            encodersTask = new EncodersTask();
+            encodersTask.start();
         }
     }
 
@@ -144,9 +144,9 @@ public class GB08M2ManualControlManager
     {
         if (GB08M2.instance.isInitialized())
         {
-            if (encoderTasks != null)
+            if (encodersTask != null)
             {
-                encoderTasks.stop();
+                encodersTask.stop();
             }
         }
     }

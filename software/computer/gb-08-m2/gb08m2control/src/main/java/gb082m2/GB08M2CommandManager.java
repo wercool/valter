@@ -201,6 +201,11 @@ public class GB08M2CommandManager
                                     GB08M2.getInstance().setRightEncoderTicks(Integer.parseInt(cmdResultParts[1]));
                                     cmdReaderSpool.remove(0);
                                 break;
+                                //Distance scanner
+                                case GB08M2.distanceScannerResultPrefix:
+                                    GB08M2.getInstance().setDistanceScannerDistance(Integer.parseInt(cmdResultParts[1]));
+                                    cmdReaderSpool.remove(0);
+                                break;
                                 //Battery
                                 case GB08M2.batteryVoltageResultPrefix:
                                     GB08M2.getInstance().setBatteryVoltage(Integer.parseInt(cmdResultParts[1]));
@@ -219,7 +224,7 @@ public class GB08M2CommandManager
 
                 try
                 {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } catch (InterruptedException e)
                 {
                     e.printStackTrace();

@@ -12,8 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
@@ -38,6 +40,8 @@ public class MainAppController
     @FXML
     Slider alarmBeepDurationSlider;
     @FXML
+    Slider distanceScannerPositionSlider;
+    @FXML
     CheckBox dutySunchronizedCheckBox;
     @FXML
     public static ProgressBar leftMotorsDutyProgressBar;
@@ -57,6 +61,12 @@ public class MainAppController
     public static Label rightEncoderLabel;
     @FXML
     public static Label batteryVoltageLabel;
+
+    //Automated Control tab's elements
+    @FXML
+    Pane automatedControlSLAMPane;
+    @FXML
+    TitledPane automatedControlSLAMManagementTitledPane;
 
     final Stage primaryStage;
     final Scene primaryScene;
@@ -112,6 +122,7 @@ public class MainAppController
                 }
             }
         });
+
         dutyRightSlider.valueProperty().addListener(new ChangeListener<Number>()
         {
             @Override
@@ -130,6 +141,15 @@ public class MainAppController
                         }
                     }
                 }
+            }
+        });
+
+        distanceScannerPositionSlider.valueProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
+            {
+                System.out.println((int) distanceScannerPositionSlider.getValue());
             }
         });
     }
@@ -304,6 +324,8 @@ public class MainAppController
                 break;
                 case "lightsToggleBtn":
                     GB08M2.getInstance().setLights(clickedToggleBtn.selectedProperty().get());
+                break;
+                case "distanceScanningToggleButton":
                 break;
             }
 
