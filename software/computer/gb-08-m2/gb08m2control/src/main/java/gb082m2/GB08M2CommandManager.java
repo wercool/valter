@@ -168,9 +168,9 @@ public class GB08M2CommandManager
                 if (cmdReaderSpool.size() > 0)
                 {
                     System.out.println("RES < " + cmdReaderSpool.get(0));
-                    String[] cmdResultParts = cmdReaderSpool.get(0).split(":");
                     try
                     {
+                        String[] cmdResultParts = cmdReaderSpool.get(0).split(":");
                         if (cmdResultParts.length > 1)
                         {
                             switch (cmdResultParts[0])
@@ -192,7 +192,7 @@ public class GB08M2CommandManager
                                     GB08M2.getInstance().setRearRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
                                     cmdReaderSpool.remove(0);
                                 break;
-                            //Encoders
+                                //Encoders
                                 case GB08M2.leftEncoderTicksResultPrefix:
                                     GB08M2.getInstance().setLeftEncoderTicks(Integer.parseInt(cmdResultParts[1]));
                                     cmdReaderSpool.remove(0);
@@ -217,6 +217,9 @@ public class GB08M2CommandManager
                     {
                         e.printStackTrace();
                     } catch (IndexOutOfBoundsException e)
+                    {
+                        e.printStackTrace();
+                    } catch (NullPointerException e)
                     {
                         e.printStackTrace();
                     }

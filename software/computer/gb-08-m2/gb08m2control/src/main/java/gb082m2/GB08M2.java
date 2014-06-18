@@ -81,14 +81,17 @@ public class GB08M2
     public boolean encodersEnabled = false;
 
     //Distance scanner
-    public static final int distanceScannerCenterPosition = 1450;
+    public static final int distanceScannerCenterPosition = 1460;
     public static final String distanceScannerPositionCommand = "DSP#";
     public static final String distanceScannerDistanceCommand = "DSD";
     public static final String distanceScannerResultPrefix = "DSD";
-    public static int distanceScannerPositioningDelay = 50;
+    public static final String distanceScannerReleaseServoCommand = "DSRST";
+    public static int distanceScannerPositioningDelay = 250;
     int distanceScannerPositionAngle = 0;
-    int distanceScannerPosition = 1450;
+    int distanceScannerPosition = 1460;
     int distanceScannerDistance = 0;
+    static int prevDistanceScannerPosition = 1460;
+    public boolean distanceScannerDirection;
 
     //Battery
     public static final int batteryReadingsDelay = 10000;
@@ -349,6 +352,7 @@ public class GB08M2
     }
 
     //Wheel encoders
+    //100cm - 87 ticks
     public synchronized void enableEncoders()
     {
         gb08m2CommandManager.sendCommand(enableEncodersCommand);
@@ -409,11 +413,22 @@ public class GB08M2
         return distanceScannerPosition;
     }
 
-    public synchronized void setDistanceScannerPosition(int distanceScannerPositionAngle)
+    public synchronized void setDistanceScannerPosition(int distanceScannerPosition)
     {
-        int distanceScannerServoPosition = distanceScannerPositionAngle;
-        //TODO: angle to servo position convert
-        this.distanceScannerPosition = distanceScannerServoPosition;
+        this.distanceScannerPosition = distanceScannerPosition;
+
+        int distanceScannerPositionAngle = (int) Math.round((2100 - distanceScannerPosition) / 9.85);
+        setDistanceScannerPositionAngle(distanceScannerPositionAngle, false);
+
+        if (prevDistanceScannerPosition > distanceScannerPosition)
+        {
+            distanceScannerDirection = false;
+        } else
+        {
+            distanceScannerDirection = true;
+        }
+        prevDistanceScannerPosition = distanceScannerPosition;
+
         gb08m2CommandManager.sendCommand(distanceScannerPositionCommand + String.valueOf(this.distanceScannerPosition));
     }
 
@@ -422,10 +437,14 @@ public class GB08M2
         return distanceScannerPositionAngle;
     }
 
-    public synchronized void setDistanceScannerPositionAngle(int distanceScannerPositionAngle)
+    public synchronized void setDistanceScannerPositionAngle(int distanceScannerPositionAngle, boolean execute)
     {
         this.distanceScannerPositionAngle = distanceScannerPositionAngle;
-        setDistanceScannerPosition(distanceScannerPositionAngle);
+        int distanceScannerPosition = (int) Math.round(2100 - distanceScannerPositionAngle * 9.85);
+        if (execute)
+        {
+            setDistanceScannerPosition(distanceScannerPosition);
+        }
     }
 
     public void retrieveDistanceScannerDistance()
@@ -438,6 +457,14 @@ public class GB08M2
         return distanceScannerDistance;
     }
 
+    public synchronized int getDistanceScannerDistance_cm()
+    {
+        double distanceScannerADCVoltage = distanceScannerDistance * 3.33 / 1023;
+        //16.2537 * x^4 - 129.893 * x^3 + 382.268 * x^2 - 512.611 * x + 306.439
+        int distanceScannerDistance_cm = (int) Math.round(16.2537 * Math.pow(distanceScannerADCVoltage, 4) - 129.893 * Math.pow(distanceScannerADCVoltage, 3) + 382.268 * Math.pow(distanceScannerADCVoltage, 2) - 512.611 * distanceScannerADCVoltage + 306.439);
+        return distanceScannerDistance_cm;
+    }
+
     public synchronized void setDistanceScannerDistance(int distanceScannerDistance)
     {
         this.distanceScannerDistance = distanceScannerDistance;
@@ -446,6 +473,11 @@ public class GB08M2
     public synchronized void setDistanceScannerPositionSetDelay(int distanceScannerPositionSetDelay)
     {
         GB08M2.distanceScannerPositioningDelay = distanceScannerPositionSetDelay;
+    }
+
+    public void releaseDistanceScannerServo()
+    {
+        gb08m2CommandManager.sendCommand(distanceScannerReleaseServoCommand);
     }
 
     //Battery

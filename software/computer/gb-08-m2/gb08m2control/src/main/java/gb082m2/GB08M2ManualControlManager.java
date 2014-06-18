@@ -19,6 +19,7 @@ public class GB08M2ManualControlManager
         new EncodersVisualizationTask();
     }
 
+    //Motors
     public void moveBothMotorsForward(int dutyLeft, int dutyRight)
     {
         if (GB08M2.instance.isInitialized())
@@ -124,6 +125,7 @@ public class GB08M2ManualControlManager
         }
     }
 
+    //Encoders
     public void startEncodersReadings()
     {
         if (GB08M2.instance.isInitialized())
@@ -151,6 +153,7 @@ public class GB08M2ManualControlManager
         }
     }
 
+    //Visualization
     class MotorsDutyVisualizationTask implements Runnable
     {
         Thread thread;
@@ -253,6 +256,48 @@ public class GB08M2ManualControlManager
                         }
                     });
                     Thread.sleep(GB08M2.encoderReadingsDelay);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public static class DistanceMeterVisualizationTask implements Runnable
+    {
+        Thread thread;
+        boolean singleMeasurement = false;
+        boolean isStopped = false;
+
+        public DistanceMeterVisualizationTask(boolean singleMeasurement)
+        {
+            this.singleMeasurement = singleMeasurement;
+            new Thread(this).start();
+        }
+
+        @Override
+        synchronized public void run()
+        {
+            while (MainAppController.isActive && !isStopped)
+            {
+                try
+                {
+                    if (this.singleMeasurement)
+                    {
+                        isStopped = true;
+                        Thread.sleep(GB08M2.distanceScannerPositioningDelay);
+                    }
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            MainAppController.distanceScannerValueLabel.setText("Distance: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance()) + ") = " + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance_cm()) + " cm" + (GB08M2.getInstance().getDistanceScannerDistance_cm() > 150 ? " = blank" : ""));
+                            MainAppController.distanceScannerPositionLabel.setText("Position: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerPosition() + ") = " + GB08M2.getInstance().getDistanceScannerPositionAngle() + "°"));
+                        }
+                    });
+                    Thread.sleep(10);
                 } catch (InterruptedException e)
                 {
                     e.printStackTrace();

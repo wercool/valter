@@ -1,6 +1,5 @@
 package gb082m2;
 
-
 public class DistanceScannerTask implements Runnable
 {
     Thread thread;
@@ -27,7 +26,7 @@ public class DistanceScannerTask implements Runnable
     {
         while (!isStopped)
         {
-            GB08M2.getInstance().setDistanceScannerPositionAngle(GB08M2.getInstance().getDistanceScannerPositionAngle() + 1);
+            GB08M2.getInstance().setDistanceScannerPositionAngle(GB08M2.getInstance().getDistanceScannerPositionAngle() + 1, true);
             try
             {
                 Thread.sleep(GB08M2.distanceScannerPositioningDelay);

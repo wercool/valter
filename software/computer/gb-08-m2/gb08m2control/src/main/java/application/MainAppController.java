@@ -1,6 +1,7 @@
 package application;
 
 import gb082m2.GB08M2;
+import gb082m2.GB08M2ManualControlManager;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -61,6 +62,10 @@ public class MainAppController
     public static Label rightEncoderLabel;
     @FXML
     public static Label batteryVoltageLabel;
+    @FXML
+    public static Label distanceScannerValueLabel;
+    @FXML
+    public static Label distanceScannerPositionLabel;
 
     //Automated Control tab's elements
     @FXML
@@ -149,7 +154,9 @@ public class MainAppController
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
             {
-                System.out.println((int) distanceScannerPositionSlider.getValue());
+                GB08M2.getInstance().setDistanceScannerPosition(new_val.intValue());
+                GB08M2.getInstance().retrieveDistanceScannerDistance();
+                new GB08M2ManualControlManager.DistanceMeterVisualizationTask(true);
             }
         });
     }
@@ -282,6 +289,36 @@ public class MainAppController
                 break;
                 case "beepBtn":
                     GB08M2.getInstance().setBeep((int) alarmBeepDurationSlider.getValue());
+                break;
+                case "getDistanceBtn":
+                    GB08M2.getInstance().retrieveDistanceScannerDistance();
+                    new GB08M2ManualControlManager.DistanceMeterVisualizationTask(true);
+                break;
+                case "releaseServoBtn":
+                    GB08M2.getInstance().setDistanceScannerPosition(GB08M2.distanceScannerCenterPosition);
+                    new Thread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            try
+                            {
+                                Thread.sleep(500);
+                            } catch (InterruptedException e)
+                            {
+                                e.printStackTrace();
+                            }
+                            GB08M2.getInstance().releaseDistanceScannerServo();
+                            Platform.runLater(new Runnable()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    distanceScannerPositionSlider.setValue(GB08M2.distanceScannerCenterPosition);
+                                }
+                            });
+                        }
+                    }).start();
                 break;
             }
             clickedBtn = null;

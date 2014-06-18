@@ -1105,7 +1105,13 @@ int main(void)
             //get distance scanner distance
             if (strcmp((char*) cmdParts, "DSD") == 0)
             {
-                distanceMeterReading = getValueChannel5();
+                unsigned int distanceSum = 0;
+                for (unsigned int j = 0; j < 15; j++)
+                {
+                    distanceSum += getValueChannel5();
+                    delay_us(100);
+                }
+                distanceMeterReading = round((double) distanceSum / (double) 15);
                 sprintf((char *)msg,"DSD:%u\n", distanceMeterReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;

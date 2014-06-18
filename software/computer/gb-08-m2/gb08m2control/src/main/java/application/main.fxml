@@ -158,10 +158,10 @@
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
-                        <Label id="" fx:id="distanceScannerValueLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <Button id="getDistanceBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="12.0" />
-                        <Label text="Direction" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
-                        <Slider fx:id="distanceScannerPositionSlider" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+                        <Label id="" fx:id="distanceScannerValueLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <Button id="getDistanceBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
+                        <Label id="distanceScannerDirectionValueLabel" fx:id="distanceScannerPositionLabel" text="Position:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                        <Slider fx:id="distanceScannerPositionSlider" blockIncrement="50.0" majorTickUnit="50.0" max="2100.0" min="820.0" minorTickCount="50" prefWidth="216.0" value="1460.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
                         <Button id="releaseServoBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Center &amp; Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0" />
                         <ToggleButton id="distanceScanningToggleButton" mnemonicParsing="false" text="Scanning" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0" />
                       </children>
