@@ -69,7 +69,7 @@ public class MainAppController
 
     //Automated Control tab's elements
     @FXML
-    Pane automatedControlSLAMPane;
+    public static Pane automatedControlSLAMPane;
     @FXML
     TitledPane automatedControlSLAMManagementTitledPane;
 
@@ -363,6 +363,15 @@ public class MainAppController
                     GB08M2.getInstance().setLights(clickedToggleBtn.selectedProperty().get());
                 break;
                 case "distanceScanningToggleButton":
+                break;
+                case "slamVizualisationToggleButton":
+                    if (clickedToggleBtn.selectedProperty().get())
+                    {
+                        GB08M2.getInstance().gb08m2AutomatedManager.slamTask.slamResultsVisualizationTask.resume();
+                    } else
+                    {
+                        GB08M2.getInstance().gb08m2AutomatedManager.slamTask.slamResultsVisualizationTask.pause();
+                    }
                 break;
             }
 

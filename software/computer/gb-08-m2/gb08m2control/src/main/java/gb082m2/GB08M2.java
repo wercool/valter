@@ -7,6 +7,7 @@ public class GB08M2
 
     GB08M2CommandManager gb08m2CommandManager;
     public GB08M2ManualControlManager gb08m2ManualControlManager;
+    public GB08M2AutomatedManager gb08m2AutomatedManager;
 
     //Network connections
     static String hostname = "127.0.0.1";
@@ -111,6 +112,7 @@ public class GB08M2
     public GB08M2()
     {
         gb08m2ManualControlManager = new GB08M2ManualControlManager();
+        gb08m2AutomatedManager = new GB08M2AutomatedManager();
     }
 
     public boolean initialize()

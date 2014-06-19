@@ -5,6 +5,13 @@ import application.MainAppController;
 
 public class GB08M2AutomatedManager
 {
+    public SLAMTask slamTask;
+
+    public GB08M2AutomatedManager()
+    {
+        slamTask = new SLAMTask();
+    }
+
     class DistanceReadingsVisualizationTask implements Runnable
     {
         Thread thread;
