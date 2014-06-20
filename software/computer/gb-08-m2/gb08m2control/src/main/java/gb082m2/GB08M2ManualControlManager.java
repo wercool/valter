@@ -9,6 +9,7 @@ public class GB08M2ManualControlManager
 {
     EncodersTask encodersTask;
     FrontCameraFrameVisualizationTask frontCameraFrameVisualizationTask;
+    RearCameraFrameVisualizationTask rearCameraFrameVisualizationTask;
 
     public void deinitialize()
     {
@@ -167,6 +168,19 @@ public class GB08M2ManualControlManager
         if (frontCameraFrameVisualizationTask != null)
         {
             frontCameraFrameVisualizationTask.stop();
+        }
+    }
+
+    public void startRearCameraFrameVizualization()
+    {
+        rearCameraFrameVisualizationTask = new RearCameraFrameVisualizationTask();
+    }
+
+    public void stopRearCameraFrameVizualization()
+    {
+        if (rearCameraFrameVisualizationTask != null)
+        {
+            rearCameraFrameVisualizationTask.stop();
         }
     }
 
@@ -370,6 +384,63 @@ public class GB08M2ManualControlManager
                                 MainAppController.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
                             else
                                 MainAppController.frontCameraImageViewrearCameraImageViewIndicator.setProgress(1);
+                        }
+                    });
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class RearCameraFrameVisualizationTask implements Runnable
+    {
+        Thread thread;
+        boolean isStopped = false;
+
+        public RearCameraFrameVisualizationTask()
+        {
+            new Thread(this).start();
+            //frontCameraFrameVisualizationTask = this;
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+
+        @Override
+        synchronized public void run()
+        {
+            while (MainAppController.isActive && !isStopped)
+            {
+                try
+                {
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            if (GB08M2.getInstance().getRearCameraFrameBufferedImage() != null)
+                            {
+                                Image frame = null;
+                                frame = SwingFXUtils.toFXImage(GB08M2.getInstance().getRearCameraFrameBufferedImage(), null);
+                                MainAppController.rearCameraImageView.setImage(frame);
+                                MainAppController.rearCameraImageView.setCache(false);
+                            }
+                        }
+                    });
+                    Thread.sleep(500);
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            if (MainAppController.rearCameraImageViewIndicator.getProgress() == 1)
+                                MainAppController.rearCameraImageViewIndicator.setProgress(-1);
+                            else
+                                MainAppController.rearCameraImageViewIndicator.setProgress(1);
                         }
                     });
                 } catch (InterruptedException e)

@@ -34,6 +34,7 @@ public class DistanceScannerTask implements Runnable
             {
                 e.printStackTrace();
             }
+            GB08M2.getInstance().retrieveDistanceScannerDistance();
         }
         thread.interrupt();
     }

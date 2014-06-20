@@ -71,7 +71,11 @@ public class MainAppController
     @FXML
     public static ImageView frontCameraImageView;
     @FXML
+    public static ImageView rearCameraImageView;
+    @FXML
     public static ProgressIndicator frontCameraImageViewrearCameraImageViewIndicator;
+    @FXML
+    public static ProgressIndicator rearCameraImageViewIndicator;
 
     //Automated Control tab's elements
     @FXML
@@ -277,7 +281,7 @@ public class MainAppController
                         {
                             try
                             {
-                                Thread.sleep(250);
+                                Thread.sleep(50);
                             } catch (InterruptedException e)
                             {
                                 e.printStackTrace();
@@ -388,6 +392,17 @@ public class MainAppController
                     {
                         GB08M2.getInstance().frontCameraFrameGrabberTask.pause();
                         GB08M2.getInstance().gb08m2ManualControlManager.stopFrontCameraFrameVizualization();
+                    }
+                break;
+                case "rearCamToggleBtn":
+                    if (clickedToggleBtn.selectedProperty().get())
+                    {
+                        GB08M2.getInstance().rearCameraFrameGrabberTask.resume();
+                        GB08M2.getInstance().gb08m2ManualControlManager.startRearCameraFrameVizualization();
+                    } else
+                    {
+                        GB08M2.getInstance().rearCameraFrameGrabberTask.pause();
+                        GB08M2.getInstance().gb08m2ManualControlManager.stopRearCameraFrameVizualization();
                     }
                 break;
             }

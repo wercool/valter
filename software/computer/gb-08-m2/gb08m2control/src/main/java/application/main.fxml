@@ -116,7 +116,7 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
                         <ToggleButton id="frontCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
-                        <ToggleButton fx:id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
+                        <ToggleButton id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
                       </children>
                     </AnchorPane>
                   </content>

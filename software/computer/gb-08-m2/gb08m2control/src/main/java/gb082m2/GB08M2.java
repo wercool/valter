@@ -146,6 +146,7 @@ public class GB08M2
         }
 
         frontCameraFrameGrabberTask.stop();
+        rearCameraFrameGrabberTask.stop();
 
         return isInitialized = false;
     }
@@ -192,7 +193,7 @@ public class GB08M2
         GB08M2.frontCameraPort = frontCameraPort;
     }
 
-    public static int getRearCameraPort()
+    public int getRearCameraPort()
     {
         return rearCameraPort;
     }
