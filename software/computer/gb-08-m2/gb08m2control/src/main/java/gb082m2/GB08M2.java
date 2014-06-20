@@ -92,7 +92,7 @@ public class GB08M2
     public static final String distanceScannerDistanceCommand = "DSD";
     public static final String distanceScannerResultPrefix = "DSD";
     public static final String distanceScannerReleaseServoCommand = "DSRST";
-    public static int distanceScannerPositioningDelay = 250;
+    public static int distanceScannerPositioningDelay = 25;
     int distanceScannerPositionAngle = 0;
     int distanceScannerPosition = 1460;
     int distanceScannerDistance = 0;
@@ -145,8 +145,14 @@ public class GB08M2
             gb08m2CommandManager.disconnect();
         }
 
-        frontCameraFrameGrabberTask.stop();
-        rearCameraFrameGrabberTask.stop();
+        if (frontCameraFrameGrabberTask != null)
+        {
+            frontCameraFrameGrabberTask.stop();
+        }
+        if (rearCameraFrameGrabberTask != null)
+        {
+            rearCameraFrameGrabberTask.stop();
+        }
 
         return isInitialized = false;
     }

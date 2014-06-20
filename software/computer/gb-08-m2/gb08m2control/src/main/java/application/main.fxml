@@ -180,20 +180,12 @@
                   <expandedPane>
                     <TitledPane fx:id="x5" animated="false" text="SLAM">
                       <content>
-                        <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" pannable="true" prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED">
+                        <ScrollPane fx:id="automatedControlSLAMScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" pannable="true" prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED">
                           <content>
-                            <Pane fx:id="automatedControlSLAMPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="2000.0" prefWidth="2000.0">
-                              <children>
-                                <TitledPane fx:id="automatedControlSLAMManagementTitledPane" animated="false" collapsible="true" disable="false" layoutX="729.0" layoutY="14.0" prefHeight="155.0" prefWidth="214.0" text="SLAM Management" wrapText="false">
-                                  <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                      <children>
-                                        <ToggleButton id="automatedControlSLAMingToggleBtn" mnemonicParsing="false" text="SLAMing" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                                      </children>
-                                    </AnchorPane>
-                                  </content>
-                                </TitledPane>
-                              </children>
+                            <Pane fx:id="automatedControlSLAMPane" disable="false" prefHeight="200.0" prefWidth="200.0">
+                              <padding>
+                                <Insets />
+                              </padding>
                             </Pane>
                           </content>
                         </ScrollPane>

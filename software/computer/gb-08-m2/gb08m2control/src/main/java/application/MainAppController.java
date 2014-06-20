@@ -12,6 +12,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
@@ -78,6 +79,8 @@ public class MainAppController
     public static ProgressIndicator rearCameraImageViewIndicator;
 
     //Automated Control tab's elements
+    @FXML
+    public static ScrollPane automatedControlSLAMScrollPane;
     @FXML
     public static Pane automatedControlSLAMPane;
     @FXML
