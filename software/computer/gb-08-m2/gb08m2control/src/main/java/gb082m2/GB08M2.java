@@ -1,5 +1,7 @@
 package gb082m2;
 
+import java.awt.image.BufferedImage;
+
 public class GB08M2
 {
     static final GB08M2 instance = new GB08M2();
@@ -8,6 +10,9 @@ public class GB08M2
     GB08M2CommandManager gb08m2CommandManager;
     public GB08M2ManualControlManager gb08m2ManualControlManager;
     public GB08M2AutomatedManager gb08m2AutomatedManager;
+
+    public FrontCameraFrameGrabberTask frontCameraFrameGrabberTask;
+    public RearCameraFrameGrabberTask rearCameraFrameGrabberTask;
 
     //Network connections
     static String hostname = "127.0.0.1";
@@ -109,6 +114,10 @@ public class GB08M2
     public static final String beepCommand = "ALARMBEEP#";
     int beepDuration = 0;
 
+    //Cameras
+    public volatile BufferedImage frontCameraFrameBufferedImage;
+    public volatile BufferedImage rearCameraFrameBufferedImage;
+
     public GB08M2()
     {
         gb08m2ManualControlManager = new GB08M2ManualControlManager();
@@ -118,6 +127,9 @@ public class GB08M2
     public boolean initialize()
     {
         isInitialized = true;
+
+        frontCameraFrameGrabberTask = new FrontCameraFrameGrabberTask();
+        rearCameraFrameGrabberTask = new RearCameraFrameGrabberTask();
 
         gb08m2CommandManager = new GB08M2CommandManager();
         isInitialized &= gb08m2CommandManager.isConnected;
@@ -132,6 +144,9 @@ public class GB08M2
         {
             gb08m2CommandManager.disconnect();
         }
+
+        frontCameraFrameGrabberTask.stop();
+
         return isInitialized = false;
     }
 
@@ -147,7 +162,7 @@ public class GB08M2
         return isInitialized;
     }
 
-    public static String getHostname()
+    public String getHostname()
     {
         return hostname;
     }
@@ -167,7 +182,7 @@ public class GB08M2
         GB08M2.commandPort = commandPort;
     }
 
-    public static int getFrontCameraPort()
+    public int getFrontCameraPort()
     {
         return frontCameraPort;
     }
@@ -525,6 +540,26 @@ public class GB08M2
     public int getBeepDuration()
     {
         return this.beepDuration;
+    }
+
+    public synchronized BufferedImage getFrontCameraFrameBufferedImage()
+    {
+        return frontCameraFrameBufferedImage;
+    }
+
+    public synchronized void setFrontCameraFrameBufferedImage(BufferedImage frontCameraFrameBufferedImage)
+    {
+        this.frontCameraFrameBufferedImage = frontCameraFrameBufferedImage;
+    }
+
+    public synchronized BufferedImage getRearCameraFrameBufferedImage()
+    {
+        return rearCameraFrameBufferedImage;
+    }
+
+    public synchronized void setRearCameraFrameBufferedImage(BufferedImage rearCameraFrameBufferedImage)
+    {
+        this.rearCameraFrameBufferedImage = rearCameraFrameBufferedImage;
     }
 
     //Abstract

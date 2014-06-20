@@ -11,10 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
@@ -66,6 +68,10 @@ public class MainAppController
     public static Label distanceScannerValueLabel;
     @FXML
     public static Label distanceScannerPositionLabel;
+    @FXML
+    public static ImageView frontCameraImageView;
+    @FXML
+    public static ProgressIndicator frontCameraImageViewrearCameraImageViewIndicator;
 
     //Automated Control tab's elements
     @FXML
@@ -371,6 +377,17 @@ public class MainAppController
                     } else
                     {
                         GB08M2.getInstance().gb08m2AutomatedManager.slamTask.slamResultsVisualizationTask.pause();
+                    }
+                break;
+                case "frontCamToggleBtn":
+                    if (clickedToggleBtn.selectedProperty().get())
+                    {
+                        GB08M2.getInstance().frontCameraFrameGrabberTask.resume();
+                        GB08M2.getInstance().gb08m2ManualControlManager.startFrontCameraFrameVizualization();
+                    } else
+                    {
+                        GB08M2.getInstance().frontCameraFrameGrabberTask.pause();
+                        GB08M2.getInstance().gb08m2ManualControlManager.stopFrontCameraFrameVizualization();
                     }
                 break;
             }

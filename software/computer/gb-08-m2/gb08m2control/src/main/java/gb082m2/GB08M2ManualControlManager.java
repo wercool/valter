@@ -1,11 +1,14 @@
 package gb082m2;
 
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 import application.MainAppController;
 
 public class GB08M2ManualControlManager
 {
     EncodersTask encodersTask;
+    FrontCameraFrameVisualizationTask frontCameraFrameVisualizationTask;
 
     public void deinitialize()
     {
@@ -150,6 +153,20 @@ public class GB08M2ManualControlManager
             {
                 encodersTask.stop();
             }
+        }
+    }
+
+    //Cameras
+    public void startFrontCameraFrameVizualization()
+    {
+        frontCameraFrameVisualizationTask = new FrontCameraFrameVisualizationTask();
+    }
+
+    public void stopFrontCameraFrameVizualization()
+    {
+        if (frontCameraFrameVisualizationTask != null)
+        {
+            frontCameraFrameVisualizationTask.stop();
         }
     }
 
@@ -298,6 +315,63 @@ public class GB08M2ManualControlManager
                         }
                     });
                     Thread.sleep(10);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    class FrontCameraFrameVisualizationTask implements Runnable
+    {
+        Thread thread;
+        boolean isStopped = false;
+
+        public FrontCameraFrameVisualizationTask()
+        {
+            new Thread(this).start();
+            //frontCameraFrameVisualizationTask = this;
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+
+        @Override
+        synchronized public void run()
+        {
+            while (MainAppController.isActive && !isStopped)
+            {
+                try
+                {
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            if (GB08M2.getInstance().getFrontCameraFrameBufferedImage() != null)
+                            {
+                                Image frame = null;
+                                frame = SwingFXUtils.toFXImage(GB08M2.getInstance().getFrontCameraFrameBufferedImage(), null);
+                                MainAppController.frontCameraImageView.setImage(frame);
+                                MainAppController.frontCameraImageView.setCache(false);
+                            }
+                        }
+                    });
+                    Thread.sleep(500);
+                    Platform.runLater(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            if (MainAppController.frontCameraImageViewrearCameraImageViewIndicator.getProgress() == 1)
+                                MainAppController.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
+                            else
+                                MainAppController.frontCameraImageViewrearCameraImageViewIndicator.setProgress(1);
+                        }
+                    });
                 } catch (InterruptedException e)
                 {
                     e.printStackTrace();

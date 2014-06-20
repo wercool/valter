@@ -3,7 +3,7 @@ package gb082m2;
 import java.util.Random;
 
 import javafx.application.Platform;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import application.MainAppController;
 
 public class SLAMTask
@@ -22,7 +22,7 @@ public class SLAMTask
         boolean isPaused = true;
         //TODO: temporary
         public static int num = 0;
-        Circle point;
+        Rectangle point;
 
         public SLAMresultsVisualizationTask()
         {
@@ -51,7 +51,7 @@ public class SLAMTask
                         Random rn = new Random();
                         int x = Math.abs(rn.nextInt() % 2000);
                         int y = Math.abs(rn.nextInt() % 2000);
-                        point = new Circle(x, y, 1);
+                        point = new Rectangle(x, y, 1, 1);
                         Platform.runLater(new Runnable()
                         {
                             @Override
