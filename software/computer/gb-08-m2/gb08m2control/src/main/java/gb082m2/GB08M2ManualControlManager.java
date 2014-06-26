@@ -10,10 +10,13 @@ public class GB08M2ManualControlManager
     EncodersTask encodersTask;
     FrontCameraFrameVisualizationTask frontCameraFrameVisualizationTask;
     RearCameraFrameVisualizationTask rearCameraFrameVisualizationTask;
+    DistanceScannerTask distanceScannerTask;
+    DistanceMeterVisualizationTask distanceMeterVisualizationTask;
 
     public void deinitialize()
     {
         stopEncodersReadings();
+        stopDistanceScannerScanning();
     }
 
     public GB08M2ManualControlManager()
@@ -307,6 +310,11 @@ public class GB08M2ManualControlManager
             new Thread(this).start();
         }
 
+        public void stop()
+        {
+            isStopped = true;
+        }
+
         @Override
         synchronized public void run()
         {
@@ -317,8 +325,10 @@ public class GB08M2ManualControlManager
                     if (this.singleMeasurement)
                     {
                         isStopped = true;
-                        Thread.sleep(GB08M2.distanceScannerPositioningDelay);
                     }
+
+                    Thread.sleep(GB08M2.distanceScannerPositioningDelay);
+
                     Platform.runLater(new Runnable()
                     {
                         @Override
@@ -326,6 +336,7 @@ public class GB08M2ManualControlManager
                         {
                             MainAppController.distanceScannerValueLabel.setText("Distance: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance()) + ") = " + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance_cm()) + " cm" + (GB08M2.getInstance().getDistanceScannerDistance_cm() > 150 ? " = blank" : ""));
                             MainAppController.distanceScannerPositionLabel.setText("Position: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerPosition() + ") = " + GB08M2.getInstance().getDistanceScannerPositionAngle() + "°"));
+                            MainAppController.distanceScannerPositionSlider.setValue(GB08M2.getInstance().getDistanceScannerPosition());
                         }
                     });
                     Thread.sleep(10);
@@ -448,6 +459,36 @@ public class GB08M2ManualControlManager
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public void startDistanceScannerScanning()
+    {
+        if (GB08M2.getInstance().getDistanceScannerPositionAngle() == -1)
+        {
+            GB08M2.getInstance().setDistanceScannerPosition(GB08M2.distanceScannerCenterPosition, true);
+            try
+            {
+                Thread.sleep(500);
+            } catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        distanceScannerTask = new DistanceScannerTask();
+        distanceScannerTask.start();
+        distanceMeterVisualizationTask = new GB08M2ManualControlManager.DistanceMeterVisualizationTask(false);
+    }
+
+    public void stopDistanceScannerScanning()
+    {
+        if (distanceScannerTask != null)
+        {
+            distanceScannerTask.stop();
+        }
+        if (distanceMeterVisualizationTask != null)
+        {
+            distanceMeterVisualizationTask.stop();
         }
     }
 }

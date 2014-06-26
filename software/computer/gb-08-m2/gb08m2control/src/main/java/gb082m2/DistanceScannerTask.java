@@ -8,6 +8,13 @@ public class DistanceScannerTask implements Runnable
 
     public DistanceScannerTask()
     {
+        if (GB08M2.getInstance().getDistanceScannerPositionAngle() >= 65)
+        {
+            GB08M2.getInstance().distanceScannerDirection = true;
+        } else
+        {
+            GB08M2.getInstance().distanceScannerDirection = false;
+        }
         thread = new Thread(this);
     }
 
@@ -21,12 +28,37 @@ public class DistanceScannerTask implements Runnable
         isStopped = true;
     }
 
+    public boolean isRunning()
+    {
+        return !isStopped;
+    }
+
     @Override
     public void run()
     {
         while (!isStopped)
         {
-            GB08M2.getInstance().setDistanceScannerPositionAngle(GB08M2.getInstance().getDistanceScannerPositionAngle() + 1, true);
+            double curDistanceScannerPositonAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
+
+            if (curDistanceScannerPositonAngle == 130)
+            {
+                GB08M2.getInstance().distanceScannerDirection = false;
+            }
+            if (curDistanceScannerPositonAngle == 0)
+            {
+                GB08M2.getInstance().distanceScannerDirection = true;
+            }
+
+            if (GB08M2.getInstance().distanceScannerDirection)
+            {
+                curDistanceScannerPositonAngle += 0.5;
+            } else
+            {
+                curDistanceScannerPositonAngle -= 0.5;
+            }
+
+            GB08M2.getInstance().setDistanceScannerPositionAngle(curDistanceScannerPositonAngle, true);
+
             try
             {
                 Thread.sleep(GB08M2.distanceScannerPositioningDelay);
@@ -34,6 +66,7 @@ public class DistanceScannerTask implements Runnable
             {
                 e.printStackTrace();
             }
+
             GB08M2.getInstance().retrieveDistanceScannerDistance();
         }
         thread.interrupt();

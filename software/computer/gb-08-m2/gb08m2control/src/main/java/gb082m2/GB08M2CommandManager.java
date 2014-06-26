@@ -122,7 +122,7 @@ public class GB08M2CommandManager
                 if (cmdWriterSpool.size() > 0)
                 {
                     cmdWriter.println(cmdWriterSpool.get(0));
-                    System.out.println("CMD > " + cmdWriterSpool.get(0));
+                    //System.out.println("CMD > " + cmdWriterSpool.get(0));
                     cmdWriterSpool.remove(0);
                 }
                 try
@@ -167,50 +167,53 @@ public class GB08M2CommandManager
             {
                 if (cmdReaderSpool.size() > 0)
                 {
-                    System.out.println("RES < " + cmdReaderSpool.get(0));
+                    //System.out.println("RES < " + cmdReaderSpool.get(0));
                     try
                     {
-                        String[] cmdResultParts = cmdReaderSpool.get(0).split(":");
-                        if (cmdResultParts.length > 1)
+                        if (cmdReaderSpool.get(0) != null)
                         {
-                            switch (cmdResultParts[0])
+                            String[] cmdResultParts = cmdReaderSpool.get(0).split(":");
+                            if (cmdResultParts.length > 1)
                             {
-                            //Motors
-                                case GB08M2.frontLeftMotorCurrentResultPrefix:
-                                    GB08M2.getInstance().setFrontLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
-                                case GB08M2.frontRightMotorCurrentResultPrefix:
-                                    GB08M2.getInstance().setFrontRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
-                                case GB08M2.rearLeftMotorCurrentResultPrefix:
-                                    GB08M2.getInstance().setRearLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
-                                case GB08M2.rearRightMotorCurrentResultPrefix:
-                                    GB08M2.getInstance().setRearRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
-                                //Encoders
-                                case GB08M2.leftEncoderTicksResultPrefix:
-                                    GB08M2.getInstance().setLeftEncoderTicks(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
-                                case GB08M2.rightEncoderTicksResultPrefix:
-                                    GB08M2.getInstance().setRightEncoderTicks(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
-                                //Distance scanner
-                                case GB08M2.distanceScannerResultPrefix:
-                                    GB08M2.getInstance().setDistanceScannerDistance(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
-                                //Battery
-                                case GB08M2.batteryVoltageResultPrefix:
-                                    GB08M2.getInstance().setBatteryVoltage(Integer.parseInt(cmdResultParts[1]));
-                                    cmdReaderSpool.remove(0);
-                                break;
+                                switch (cmdResultParts[0])
+                                {
+                                //Motors
+                                    case GB08M2.frontLeftMotorCurrentResultPrefix:
+                                        GB08M2.getInstance().setFrontLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                    case GB08M2.frontRightMotorCurrentResultPrefix:
+                                        GB08M2.getInstance().setFrontRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                    case GB08M2.rearLeftMotorCurrentResultPrefix:
+                                        GB08M2.getInstance().setRearLeftMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                    case GB08M2.rearRightMotorCurrentResultPrefix:
+                                        GB08M2.getInstance().setRearRightMotorCurrent(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                    //Encoders
+                                    case GB08M2.leftEncoderTicksResultPrefix:
+                                        GB08M2.getInstance().setLeftEncoderTicks(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                    case GB08M2.rightEncoderTicksResultPrefix:
+                                        GB08M2.getInstance().setRightEncoderTicks(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                    //Distance scanner
+                                    case GB08M2.distanceScannerResultPrefix:
+                                        GB08M2.getInstance().setDistanceScannerDistance(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                    //Battery
+                                    case GB08M2.batteryVoltageResultPrefix:
+                                        GB08M2.getInstance().setBatteryVoltage(Integer.parseInt(cmdResultParts[1]));
+                                        cmdReaderSpool.remove(0);
+                                    break;
+                                }
                             }
                         }
                     } catch (NumberFormatException e)

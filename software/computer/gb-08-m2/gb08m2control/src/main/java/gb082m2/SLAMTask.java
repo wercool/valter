@@ -2,7 +2,6 @@ package gb082m2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -12,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.transform.Rotate;
 import application.MainAppController;
 
 public class SLAMTask
@@ -32,6 +30,8 @@ public class SLAMTask
 
     static int startXPosition;
     static int startYPosition;
+    
+    static Line scanLine;
 
     public SLAMresultsVisualizationTask slamResultsVisualizationTask;
 
@@ -65,6 +65,9 @@ public class SLAMTask
         robot.setX(startXPosition - robotCenterShiftX);
         robot.setY(startYPosition - robotCenterShiftY);
 
+        scanLine = new Line(startXPosition, startYPosition - robotCenterShiftY, startXPosition, startYPosition - robotCenterShiftY - 10);
+        MainAppController.automatedControlSLAMPane.getChildren().add(scanLine);
+
         slamResultsVisualizationTask = new SLAMresultsVisualizationTask();
     }
 
@@ -97,11 +100,32 @@ public class SLAMTask
         }
     }
 
+    public static double getRobotCenterX()
+    {
+        return robot.getX();
+    }
+
+    public static double getRobotCenterY()
+    {
+        return robot.getY();
+    }
+
+    public static double getRobotDistanceScannerX()
+    {
+        return robot.getX() + robotCenterShiftX;
+    }
+
+    public static double getRobotDistanceScannerY()
+    {
+        return robot.getY();
+    }
+
     public static class SLAMresultsVisualizationTask implements Runnable
     {
         Thread thread;
         boolean isStopped = false;
         boolean isPaused = true;
+        volatile double prevAngle;
 
 
         public SLAMresultsVisualizationTask()
@@ -133,17 +157,24 @@ public class SLAMTask
                             @Override
                             public void run()
                             {
-                                Random rn = new Random();
-                                int x = Math.abs(rn.nextInt() % slamResultsCanvasWidth);
-                                int y = Math.abs(rn.nextInt() % slamResultsCanvasHeight);
-                                slamResultsCanvasGraphicsContext.fillRect(x, y, 2, 2);
-                                //robot.setX(x - robotCenterShiftX);
-                                //robot.setY(y - robotCenterShiftY);
-                                //robot.setRotate(20);
-                                robot.getTransforms().add(new Rotate(1, startXPosition, startYPosition, 0, Rotate.Z_AXIS));
+                                //robot.getTransforms().add(new Rotate(1, startXPosition - robotCenterShiftX, startYPosition - robotCenterShiftY, 0, Rotate.Z_AXIS));
+                                double curAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
+                                if (curAngle != prevAngle)
+                                {
+                                    double curScanLineAngle = (-115 - curAngle) * Math.PI / 180;
+                                    int distance = GB08M2.getInstance().getDistanceScannerDistance_cm();
+                                    double endX = getRobotDistanceScannerX() + (distance / 2) * Math.sin(curScanLineAngle);
+                                    double endY = getRobotDistanceScannerY() + (distance / 2) * Math.cos(curScanLineAngle);
+                                    scanLine.setStartX(getRobotDistanceScannerX());
+                                    scanLine.setStartY(getRobotDistanceScannerY());
+                                    scanLine.setEndX(endX);
+                                    scanLine.setEndY(endY);
+                                    prevAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
+                                    slamResultsCanvasGraphicsContext.fillRect(endX, endY, 2, 2);
+                                }
                             }
                         });
-                        Thread.sleep(1);
+                        Thread.sleep(GB08M2.distanceScannerPositioningDelay);
                     } else
                     {
                         Thread.sleep(200);

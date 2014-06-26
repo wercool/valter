@@ -92,12 +92,12 @@ public class GB08M2
     public static final String distanceScannerDistanceCommand = "DSD";
     public static final String distanceScannerResultPrefix = "DSD";
     public static final String distanceScannerReleaseServoCommand = "DSRST";
-    public static int distanceScannerPositioningDelay = 25;
-    int distanceScannerPositionAngle = 0;
+    public static int distanceScannerPositioningDelay = 10;
+    double distanceScannerPositionAngle = -1;
     int distanceScannerPosition = 1460;
     int distanceScannerDistance = 0;
     static int prevDistanceScannerPosition = 1460;
-    public boolean distanceScannerDirection;
+    public boolean distanceScannerDirection = true;
 
     //Battery
     public static final int batteryReadingsDelay = 10000;
@@ -437,37 +437,37 @@ public class GB08M2
         return distanceScannerPosition;
     }
 
-    public synchronized void setDistanceScannerPosition(int distanceScannerPosition)
+    public synchronized void setDistanceScannerPosition(int distanceScannerPosition, boolean updateAngleValue)
     {
         this.distanceScannerPosition = distanceScannerPosition;
 
-        int distanceScannerPositionAngle = (int) Math.round((2100 - distanceScannerPosition) / 9.85);
-        setDistanceScannerPositionAngle(distanceScannerPositionAngle, false);
-
-        if (prevDistanceScannerPosition > distanceScannerPosition)
+        if (updateAngleValue)
         {
-            distanceScannerDirection = false;
-        } else
-        {
-            distanceScannerDirection = true;
+            //nearest 0.5
+            double distanceScannerPositionAngle = Math.ceil(((2100 - distanceScannerPosition) / 9.85) * 2) / 2;
+            setDistanceScannerPositionAngle(distanceScannerPositionAngle, false);
         }
-        prevDistanceScannerPosition = distanceScannerPosition;
 
         gb08m2CommandManager.sendCommand(distanceScannerPositionCommand + String.valueOf(this.distanceScannerPosition));
     }
 
-    public synchronized int getDistanceScannerPositionAngle()
+    public synchronized double getDistanceScannerPositionAngle()
     {
         return distanceScannerPositionAngle;
     }
 
-    public synchronized void setDistanceScannerPositionAngle(int distanceScannerPositionAngle, boolean execute)
+    public synchronized double getDistanceScannerPositionAngleRad()
+    {
+        return distanceScannerPositionAngle * Math.PI / 180;
+    }
+
+    public synchronized void setDistanceScannerPositionAngle(double distanceScannerPositionAngle, boolean execute)
     {
         this.distanceScannerPositionAngle = distanceScannerPositionAngle;
         int distanceScannerPosition = (int) Math.round(2100 - distanceScannerPositionAngle * 9.85);
         if (execute)
         {
-            setDistanceScannerPosition(distanceScannerPosition);
+            setDistanceScannerPosition(distanceScannerPosition, false);
         }
     }
 

@@ -44,7 +44,7 @@ public class MainAppController
     @FXML
     Slider alarmBeepDurationSlider;
     @FXML
-    Slider distanceScannerPositionSlider;
+    public static Slider distanceScannerPositionSlider;
     @FXML
     CheckBox dutySunchronizedCheckBox;
     @FXML
@@ -167,7 +167,7 @@ public class MainAppController
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
             {
-                GB08M2.getInstance().setDistanceScannerPosition(new_val.intValue());
+                GB08M2.getInstance().setDistanceScannerPosition(new_val.intValue(), true);
                 GB08M2.getInstance().retrieveDistanceScannerDistance();
                 new GB08M2ManualControlManager.DistanceMeterVisualizationTask(true);
             }
@@ -308,7 +308,7 @@ public class MainAppController
                     new GB08M2ManualControlManager.DistanceMeterVisualizationTask(true);
                 break;
                 case "releaseServoBtn":
-                    GB08M2.getInstance().setDistanceScannerPosition(GB08M2.distanceScannerCenterPosition);
+                    GB08M2.getInstance().setDistanceScannerPosition(GB08M2.distanceScannerCenterPosition, true);
                     new Thread(new Runnable()
                     {
                         @Override
@@ -376,6 +376,15 @@ public class MainAppController
                     GB08M2.getInstance().setLights(clickedToggleBtn.selectedProperty().get());
                 break;
                 case "distanceScanningToggleButton":
+                    if (clickedToggleBtn.selectedProperty().get())
+                    {
+                        distanceScannerPositionSlider.setDisable(true);
+                        GB08M2.getInstance().gb08m2ManualControlManager.startDistanceScannerScanning();
+                    } else
+                    {
+                        distanceScannerPositionSlider.setDisable(false);
+                        GB08M2.getInstance().gb08m2ManualControlManager.stopDistanceScannerScanning();
+                    }
                 break;
                 case "slamVizualisationToggleButton":
                     if (clickedToggleBtn.selectedProperty().get())
