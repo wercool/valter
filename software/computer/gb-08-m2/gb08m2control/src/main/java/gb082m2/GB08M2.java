@@ -81,7 +81,7 @@ public class GB08M2
     public static final String rightEncoderTicksResultPrefix = "REN";
     public static final String rightEncoderTicksResetCommand = "RENRES";
 
-    public static final int encoderReadingsDelay = 150;
+    public static final int encoderReadingsDelay = 100;
     volatile int leftEncoderTicks = 0;
     volatile int rightEncoderTicks = 0;
     public boolean encodersEnabled = false;
