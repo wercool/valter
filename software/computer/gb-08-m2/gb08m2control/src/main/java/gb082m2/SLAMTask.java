@@ -30,7 +30,7 @@ public class SLAMTask
 
     static int startXPosition;
     static int startYPosition;
-    
+
     static Line scanLine;
 
     public SLAMresultsVisualizationTask slamResultsVisualizationTask;
@@ -141,7 +141,6 @@ public class SLAMTask
         volatile int prevLeftEncoderTicks = 0;
         volatile int prevRightEncoderTicks = 0;
 
-
         public SLAMresultsVisualizationTask()
         {
             new Thread(this).start();
@@ -202,9 +201,9 @@ public class SLAMTask
                                 }
 
                                 //robot.getTransforms().add(new Rotate(1, startXPosition - robotCenterShiftX, startYPosition - robotCenterShiftY, 0, Rotate.Z_AXIS));
+                                int distance = GB08M2.getInstance().getDistanceScannerDistance_cm();
                                 double curAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
                                 double curScanLineAngle = (-115 - curAngle) * Math.PI / 180;
-                                int distance = GB08M2.getInstance().getDistanceScannerDistance_cm();
                                 double endX = getRobotDistanceScannerX() + (distance / 2) * Math.sin(curScanLineAngle);
                                 double endY = getRobotDistanceScannerY() + (distance / 2) * Math.cos(curScanLineAngle);
                                 scanLine.setStartX(getRobotDistanceScannerX());
@@ -214,7 +213,10 @@ public class SLAMTask
                                 if (curAngle != prevAngle)
                                 {
                                     prevAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
-                                    slamResultsCanvasGraphicsContext.fillRect(endX, endY, 2, 2);
+                                    if (distance < 50)
+                                    {
+                                        slamResultsCanvasGraphicsContext.fillRect(endX, endY, 2, 2);
+                                    }
                                 }
                             }
                         });

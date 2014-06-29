@@ -5,6 +5,7 @@ import gb082m2.GB08M2ManualControlManager;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,13 +13,17 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -77,6 +82,8 @@ public class MainAppController
     public static ProgressIndicator frontCameraImageViewrearCameraImageViewIndicator;
     @FXML
     public static ProgressIndicator rearCameraImageViewIndicator;
+    @FXML
+    public static AnchorPane manualControlAnchorPane;
 
     //Automated Control tab's elements
     @FXML
@@ -85,6 +92,8 @@ public class MainAppController
     public static Pane automatedControlSLAMPane;
     @FXML
     TitledPane automatedControlSLAMManagementTitledPane;
+    @FXML
+    public static TitledPane driveControTitledPane;
 
     final Stage primaryStage;
     final Scene primaryScene;
@@ -170,6 +179,75 @@ public class MainAppController
                 GB08M2.getInstance().setDistanceScannerPosition(new_val.intValue(), true);
                 GB08M2.getInstance().retrieveDistanceScannerDistance();
                 new GB08M2ManualControlManager.DistanceMeterVisualizationTask(true);
+            }
+        });
+
+        final class DragContext
+        {
+            public boolean draggable = true;
+            public double mouseAnchorX;
+            public double mouseAnchorY;
+            public double initialTranslateX;
+            public double initialTranslateY;
+        }
+
+        final DragContext dragContext = new DragContext();
+
+        driveControTitledPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent keyEvent)
+            {
+                if (keyEvent.getCode() == KeyCode.CONTROL)
+                {
+                    dragContext.draggable = false;
+                }
+            }
+        });
+
+        driveControTitledPane.addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent keyEvent)
+            {
+                if (keyEvent.getCode() == KeyCode.CONTROL)
+                {
+                    dragContext.draggable = true;
+                }
+            }
+        });
+
+        driveControTitledPane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // remember initial mouse cursor coordinates
+                    // and node position
+                    dragContext.mouseAnchorX = mouseEvent.getSceneX();
+                    dragContext.mouseAnchorY = mouseEvent.getSceneY();
+                    dragContext.initialTranslateX = driveControTitledPane.getTranslateX();
+                    dragContext.initialTranslateY = driveControTitledPane.getTranslateY();
+                }
+            }
+        });
+
+        driveControTitledPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // shift node from its initial position by delta
+                    // calculated from mouse cursor movement
+                    double x = dragContext.initialTranslateX + mouseEvent.getSceneX() - dragContext.mouseAnchorX;
+                    double y = dragContext.initialTranslateY + mouseEvent.getSceneY() - dragContext.mouseAnchorY;
+                    driveControTitledPane.setTranslateX(x);
+                    driveControTitledPane.setTranslateY(y);
+                }
             }
         });
     }
@@ -420,6 +498,35 @@ public class MainAppController
             }
 
             clickedToggleBtn = null;
+        }
+        if (event.getSource().getClass().toString().equalsIgnoreCase("class javafx.scene.control.RadioButton"))
+        {
+            RadioButton clickedradioBtn = (RadioButton) (event.getSource());
+            System.out.println("INFO: " + clickedradioBtn.getId() + " was clicked, selected: " + clickedradioBtn.isSelected());
+            switch (clickedradioBtn.getId())
+            {
+                case "driveControlPaneLocation1":
+                    if (!MainAppController.manualControlAnchorPane.getChildren().contains(MainAppController.driveControTitledPane))
+                    {
+                        MainAppController.automatedControlSLAMPane.getChildren().remove(MainAppController.driveControTitledPane);
+
+                        MainAppController.manualControlAnchorPane.getChildren().add(MainAppController.driveControTitledPane);
+                    }
+                    MainAppController.driveControTitledPane.toFront();
+                break;
+                case "driveControlPaneLocation2":
+                    if (!MainAppController.automatedControlSLAMPane.getChildren().contains(MainAppController.driveControTitledPane))
+                    {
+                        MainAppController.manualControlAnchorPane.getChildren().remove(MainAppController.driveControTitledPane);
+
+                        MainAppController.automatedControlSLAMPane.getChildren().add(MainAppController.driveControTitledPane);
+                    }
+                    MainAppController.driveControTitledPane.toFront();
+                break;
+                case "driveControlPaneLocation3":
+
+                break;
+            }
         }
     }
 

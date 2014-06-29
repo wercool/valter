@@ -589,4 +589,10 @@ public class GB08M2
     {
         this.rightDuty = rightDuty;
     }
+
+    public static class Orientation
+    {
+        public double posX;
+        public double posY;
+    }
 }

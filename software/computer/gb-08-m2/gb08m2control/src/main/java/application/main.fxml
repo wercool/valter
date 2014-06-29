@@ -18,7 +18,7 @@
       <tabs>
         <Tab disable="false" text="Manual Control">
           <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane id="Content" fx:id="manualControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <expandedPane>
@@ -55,7 +55,7 @@
                     </TitledPane>
                   </panes>
                 </Accordion>
-                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
+                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                       <children>
@@ -286,6 +286,21 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
                         <ToggleButton id="slamVizualisationToggleButton" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="SLAM Vizualisation" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" collapsible="false" layoutX="7.0" layoutY="223.0" prefWidth="282.0" text="Drive Control Panel attached to:">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <RadioButton id="driveControlPaneLocation1" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" selected="true" text="Manual Control Tab" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                          <toggleGroup>
+                            <ToggleGroup fx:id="driveControlPanelLocator" />
+                          </toggleGroup>
+                        </RadioButton>
+                        <RadioButton id="driveControlPaneLocation2" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Automated Control Tab -&gt; Navigation" toggleGroup="$driveControlPanelLocator" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
+                        <RadioButton id="driveControlPaneLocation3" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Automated Control Tab -&gt; SLAM" toggleGroup="$driveControlPanelLocator" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
                       </children>
                     </AnchorPane>
                   </content>
