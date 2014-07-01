@@ -171,7 +171,6 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <Circle fill="DODGERBLUE" layoutX="608.0" layoutY="560.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="robotImage" />
               </children>
             </AnchorPane>
           </content>

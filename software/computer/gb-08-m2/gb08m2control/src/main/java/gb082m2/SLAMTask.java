@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.transform.Rotate;
 import application.MainAppController;
 
 public class SLAMTask
@@ -24,6 +25,7 @@ public class SLAMTask
 
     final static ImageView robot = new ImageView();
     static double robotWidth;
+    static double robotWidthSQR;
     static double robotLength;
     static double robotCenterShiftX;
     static double robotCenterShiftY;
@@ -31,9 +33,11 @@ public class SLAMTask
     static int startXPosition;
     static int startYPosition;
 
-    static double angle = 90;
+    static double teta = 0;
+    static double dteta = 0;
 
     static Line scanLine;
+    static Circle circumcircle;
 
     public SLAMresultsVisualizationTask slamResultsVisualizationTask;
 
@@ -60,12 +64,18 @@ public class SLAMTask
 
         MainAppController.automatedControlSLAMPane.getChildren().add(robot);
         robotWidth = robot.getImage().getWidth();
+        robotWidthSQR = Math.pow(robotWidth, 2);
         robotLength = robot.getImage().getHeight();
         robotCenterShiftX = robotWidth / 2;
         robotCenterShiftY = robotLength / 2;
 
         robot.setX(startXPosition - robotCenterShiftX);
         robot.setY(startYPosition - robotCenterShiftY);
+
+        circumcircle = new Circle(startXPosition, startYPosition, 27);
+        circumcircle.setFill(Color.TRANSPARENT);
+        circumcircle.setStroke(Color.RED);
+        MainAppController.automatedControlSLAMPane.getChildren().add(circumcircle);
 
         scanLine = new Line(startXPosition, startYPosition - robotCenterShiftY, startXPosition, startYPosition - robotCenterShiftY - 10);
         MainAppController.automatedControlSLAMPane.getChildren().add(scanLine);
@@ -102,27 +112,22 @@ public class SLAMTask
         }
     }
 
-    public static double getRobotCenterX()
-    {
-        return robot.getX();
-    }
-
-    public static double getRobotCenterY()
-    {
-        return robot.getY();
-    }
-
-    public static void setRobotCenterXY(double x, double y)
-    {
-        robot.setX(x);
-        robot.setY(y);
-    }
-
     public static void setRobotCenterXYDisplacement(double dx, double dy)
     {
-        robot.setX(robot.getX() + dx * Math.cos(angle));
-        robot.setY(robot.getY() + dy * Math.sin(angle));
-        //robot.getTransforms().add(new Rotate((angle * 180) / Math.PI, robot.getX(), robot.getY(), 0, Rotate.Z_AXIS));
+        double centerX = circumcircle.getCenterX() - dx * Math.sin(teta);
+        double centerY = circumcircle.getCenterY() - dy * Math.cos(teta);
+
+        slamResultsCanvasGraphicsContext.setStroke(Color.GREEN);
+        slamResultsCanvasGraphicsContext.setLineWidth(2);
+        slamResultsCanvasGraphicsContext.strokeLine(circumcircle.getCenterX(), circumcircle.getCenterY(), centerX, centerY);
+
+        circumcircle.setCenterX(centerX);
+        circumcircle.setCenterY(centerY);
+
+        robot.getTransforms().clear();
+        robot.setX(circumcircle.getCenterX() - robotCenterShiftX);
+        robot.setY(circumcircle.getCenterY() - robotCenterShiftY);
+        robot.getTransforms().add(new Rotate(-teta * 180 / Math.PI, circumcircle.getCenterX(), circumcircle.getCenterY(), 0, Rotate.Z_AXIS));
     }
 
     public static double getRobotDistanceScannerX()
@@ -184,33 +189,31 @@ public class SLAMTask
 
                                 if (GB08M2.getInstance().getLeftEncoderTicks() > prevLeftEncoderTicks || GB08M2.getInstance().getRightEncoderTicks() > prevRightEncoderTicks)
                                 {
+                                    double nl = (GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) * 0.87;
+                                    double nr = (GB08M2.getInstance().getRightEncoderTicks() - prevRightEncoderTicks) * 0.87;
+                                    double dn = (nl + nr) / 2;
+                                    double al = Math.asin(nl / Math.sqrt(Math.pow(nl, 2) + robotWidthSQR)) * 180 / Math.PI;
+                                    double ar = Math.asin(nr / Math.sqrt(Math.pow(nr, 2) + robotWidthSQR)) * 180 / Math.PI;
+
+                                    dteta = 0;
+
                                     //both wheels pairs forward
-                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "forward")
+                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" || GB08M2.getInstance().getRightMotorsDirection() == "forward")
                                     {
-                                        //turn right
-                                        if ((GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) > (GB08M2.getInstance().getRightEncoderTicks() - prevRightEncoderTicks))
+                                        if (nl >= nr)
                                         {
-                                            angle = Math.abs((GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) / robotWidth);
-                                        } else
-                                        //turn left
+                                            dteta = al - ar;
+                                            teta -= dteta * Math.PI / 180;
+                                            setRobotCenterXYDisplacement(nl, nl);
+                                        } else if (nr > nl)
                                         {
-                                            angle = Math.abs((GB08M2.getInstance().getRightEncoderTicks() - prevRightEncoderTicks) / robotWidth);
+                                            dteta = ar - al;
+                                            teta += dteta * Math.PI / 180;
+                                            setRobotCenterXYDisplacement(dn, dn);
                                         }
-                                        System.out.println(angle);
-                                        setRobotCenterXYDisplacement(0, -((GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) * 0.87));
                                     }
                                     //both wheels pairs backward
                                     if (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
-                                    {
-
-                                    }
-                                    //left wheels pair forward
-                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "stopped")
-                                    {
-
-                                    }
-                                    //right wheels pair forward
-                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "stopped" && GB08M2.getInstance().getRightMotorsDirection() == "forward")
                                     {
 
                                     }
@@ -246,6 +249,8 @@ public class SLAMTask
                                         slamResultsCanvasGraphicsContext.fillRect(endX, endY, 2, 2);
                                     }
                                 }
+                                //TODO: temporary hidden
+                                scanLine.visibleProperty().set(false);
                             }
                         });
                         Thread.sleep(GB08M2.distanceScannerPositioningDelay);
