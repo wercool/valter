@@ -239,6 +239,7 @@ public class GB08M2
     public void stopLeftMotors()
     {
         gb08m2CommandManager.sendCommand(leftMotorsStopCommand);
+        setLeftMotorsDirection("stopped");
     }
 
     public String getRightMotorsDirection()
@@ -262,6 +263,7 @@ public class GB08M2
     public void stopRightMotors()
     {
         gb08m2CommandManager.sendCommand(rightMotorsStopCommand);
+        setRightMotorsDirection("stopped");
     }
 
     public synchronized void setFrontLeftMotorDuty(int frontLeftMotorDuty)

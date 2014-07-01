@@ -15,6 +15,9 @@
 <BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
   <center>
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+      <stylesheets>
+        <URL value="@main.css" />
+      </stylesheets>
       <tabs>
         <Tab disable="false" text="Manual Control">
           <content>
@@ -168,6 +171,7 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
+                <Circle fill="DODGERBLUE" layoutX="608.0" layoutY="560.0" radius="100.0" stroke="BLACK" strokeType="INSIDE" styleClass="robotImage" />
               </children>
             </AnchorPane>
           </content>

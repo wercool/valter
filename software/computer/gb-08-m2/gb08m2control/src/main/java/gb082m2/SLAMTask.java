@@ -31,6 +31,8 @@ public class SLAMTask
     static int startXPosition;
     static int startYPosition;
 
+    static double angle = 90;
+
     static Line scanLine;
 
     public SLAMresultsVisualizationTask slamResultsVisualizationTask;
@@ -118,8 +120,9 @@ public class SLAMTask
 
     public static void setRobotCenterXYDisplacement(double dx, double dy)
     {
-        robot.setX(robot.getX() + dx);
-        robot.setY(robot.getY() + dy);
+        robot.setX(robot.getX() + dx * Math.cos(angle));
+        robot.setY(robot.getY() + dy * Math.sin(angle));
+        //robot.getTransforms().add(new Rotate((angle * 180) / Math.PI, robot.getX(), robot.getY(), 0, Rotate.Z_AXIS));
     }
 
     public static double getRobotDistanceScannerX()
@@ -137,7 +140,7 @@ public class SLAMTask
         Thread thread;
         boolean isStopped = false;
         boolean isPaused = true;
-        volatile double prevAngle;
+        volatile double prevDistanceScannerAngle;
         volatile int prevLeftEncoderTicks = 0;
         volatile int prevRightEncoderTicks = 0;
 
@@ -181,38 +184,63 @@ public class SLAMTask
 
                                 if (GB08M2.getInstance().getLeftEncoderTicks() > prevLeftEncoderTicks || GB08M2.getInstance().getRightEncoderTicks() > prevRightEncoderTicks)
                                 {
+                                    //both wheels pairs forward
                                     if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "forward")
                                     {
+                                        //turn right
+                                        if ((GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) > (GB08M2.getInstance().getRightEncoderTicks() - prevRightEncoderTicks))
+                                        {
+                                            angle = Math.abs((GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) / robotWidth);
+                                        } else
+                                        //turn left
+                                        {
+                                            angle = Math.abs((GB08M2.getInstance().getRightEncoderTicks() - prevRightEncoderTicks) / robotWidth);
+                                        }
+                                        System.out.println(angle);
                                         setRobotCenterXYDisplacement(0, -((GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) * 0.87));
                                     }
+                                    //both wheels pairs backward
                                     if (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
                                     {
-                                        setRobotCenterXYDisplacement(0, ((GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) * 0.87));
+
+                                    }
+                                    //left wheels pair forward
+                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "stopped")
+                                    {
+
+                                    }
+                                    //right wheels pair forward
+                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "stopped" && GB08M2.getInstance().getRightMotorsDirection() == "forward")
+                                    {
+
+                                    }
+                                    //left wheels pair backward
+                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "stopped")
+                                    {
+
+                                    }
+                                    //right wheels pair backward
+                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "stopped" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
+                                    {
+
                                     }
 
-                                    if (GB08M2.getInstance().getLeftEncoderTicks() > prevLeftEncoderTicks)
-                                    {
-                                        prevLeftEncoderTicks = GB08M2.getInstance().getLeftEncoderTicks();
-                                    }
-                                    if (GB08M2.getInstance().getRightEncoderTicks() > prevRightEncoderTicks)
-                                    {
-                                        prevRightEncoderTicks = GB08M2.getInstance().getRightEncoderTicks();
-                                    }
+                                    prevLeftEncoderTicks = GB08M2.getInstance().getLeftEncoderTicks();
+                                    prevRightEncoderTicks = GB08M2.getInstance().getRightEncoderTicks();
                                 }
 
-                                //robot.getTransforms().add(new Rotate(1, startXPosition - robotCenterShiftX, startYPosition - robotCenterShiftY, 0, Rotate.Z_AXIS));
                                 int distance = GB08M2.getInstance().getDistanceScannerDistance_cm();
-                                double curAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
-                                double curScanLineAngle = (-115 - curAngle) * Math.PI / 180;
+                                double curDistanceScannerAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
+                                double curScanLineAngle = (-115 - curDistanceScannerAngle) * Math.PI / 180;
                                 double endX = getRobotDistanceScannerX() + (distance / 2) * Math.sin(curScanLineAngle);
                                 double endY = getRobotDistanceScannerY() + (distance / 2) * Math.cos(curScanLineAngle);
                                 scanLine.setStartX(getRobotDistanceScannerX());
                                 scanLine.setStartY(getRobotDistanceScannerY());
                                 scanLine.setEndX(endX);
                                 scanLine.setEndY(endY);
-                                if (curAngle != prevAngle)
+                                if (curDistanceScannerAngle != prevDistanceScannerAngle)
                                 {
-                                    prevAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
+                                    prevDistanceScannerAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
                                     if (distance < 50)
                                     {
                                         slamResultsCanvasGraphicsContext.fillRect(endX, endY, 2, 2);

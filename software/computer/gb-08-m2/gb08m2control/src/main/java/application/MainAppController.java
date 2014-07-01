@@ -95,6 +95,10 @@ public class MainAppController
     @FXML
     public static TitledPane driveControTitledPane;
 
+    //TODO: Temporary for debug
+    LeftEncoderIncrementTask leftEncoderIncrementTask;
+    RightEncoderIncrementTask rightEncoderIncrementTask;
+
     final Stage primaryStage;
     final Scene primaryScene;
     final Popup popup = new Popup();
@@ -264,27 +268,47 @@ public class MainAppController
             {
                 case "forwardBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.moveBothMotorsForward((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                    //TODO: temporary for debug
+                    startLeftEncoderIncrement();
+                    startRightEncoderIncrement();
                 break;
                 case "backwardBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.moveBothMotorsBackward((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                    //TODO: temporary for debug
+                    startLeftEncoderIncrement();
+                    startRightEncoderIncrement();
                 break;
                 case "turnLeftBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.turnLeft((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                    //TODO: temporary for debug
+                    startLeftEncoderIncrement();
+                    startRightEncoderIncrement();
                 break;
                 case "turnRightBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.turnRight((int) dutyLeftSlider.getValue(), (int) dutyRightSlider.getValue());
+                    //TODO: temporary for debug
+                    startLeftEncoderIncrement();
+                    startRightEncoderIncrement();
                 break;
                 case "forwardLeftBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.moveLeftMotorsForward((int) dutyLeftSlider.getValue());
+                    //TODO: temporary for debug
+                    startLeftEncoderIncrement();
                 break;
                 case "forwardRightBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.moveRightMotorsForward((int) dutyRightSlider.getValue());
+                    //TODO: temporary for debug
+                    startRightEncoderIncrement();
                 break;
                 case "backwardLeftBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.moveLeftMotorsBackward((int) dutyLeftSlider.getValue());
+                    //TODO: temporary for debug
+                    startLeftEncoderIncrement();
                 break;
                 case "backwardRightBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.moveRightMotorsBackward((int) dutyRightSlider.getValue());
+                    //TODO: temporary for debug
+                    startRightEncoderIncrement();
                 break;
             }
 
@@ -304,27 +328,51 @@ public class MainAppController
             {
                 case "forwardBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
                 case "backwardBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
                 case "turnLeftBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
                 case "turnRightBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateBothMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
                 case "forwardLeftBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateLeftMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
                 case "forwardRightBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateRightMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
                 case "backwardLeftBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateLeftMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
                 case "backwardRightBtn":
                     GB08M2.getInstance().gb08m2ManualControlManager.decelerateRightMotors();
+                    //TODO: temporary for debug
+                    stopLeftEncoderIncrement();
+                    stopRightEncoderIncrement();
                 break;
             }
 
@@ -535,5 +583,115 @@ public class MainAppController
     {
         activeDutySlider = (Slider) event.getSource();
         dutySliderDelta = Math.abs(dutyLeftSlider.getValue() - dutyRightSlider.getValue());
+    }
+
+    //TODO: Temporary for debug
+    void startLeftEncoderIncrement()
+    {
+        if (leftEncoderIncrementTask != null)
+            leftEncoderIncrementTask.stop();
+        leftEncoderIncrementTask = new LeftEncoderIncrementTask();
+        leftEncoderIncrementTask.start();
+    }
+
+    //TODO: Temporary for debug
+    void stopLeftEncoderIncrement()
+    {
+        if (leftEncoderIncrementTask != null)
+            leftEncoderIncrementTask.stop();
+    }
+
+    //TODO: Temporary for debug
+    void startRightEncoderIncrement()
+    {
+        if (rightEncoderIncrementTask != null)
+            rightEncoderIncrementTask.stop();
+        rightEncoderIncrementTask = new RightEncoderIncrementTask();
+        rightEncoderIncrementTask.start();
+    }
+
+    //TODO: Temporary for debug
+    void stopRightEncoderIncrement()
+    {
+        if (rightEncoderIncrementTask != null)
+            rightEncoderIncrementTask.stop();
+    }
+
+    //TODO: Temporary for debug
+    public static class LeftEncoderIncrementTask implements Runnable
+    {
+        Thread thread;
+
+        volatile boolean isStopped = false;
+
+        public LeftEncoderIncrementTask()
+        {
+            thread = new Thread(this);
+        }
+
+        public void start()
+        {
+            thread.start();
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+
+        @Override
+        public void run()
+        {
+            while (!isStopped)
+            {
+                GB08M2.getInstance().setLeftEncoderTicks(GB08M2.getInstance().getLeftEncoderTicks() + 1);
+                try
+                {
+                    Thread.sleep(50);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    //TODO: Temporary for debug
+    public static class RightEncoderIncrementTask implements Runnable
+    {
+        Thread thread;
+
+        volatile boolean isStopped = false;
+
+        public RightEncoderIncrementTask()
+        {
+            thread = new Thread(this);
+        }
+
+        public void start()
+        {
+            thread.start();
+        }
+
+        public void stop()
+        {
+            isStopped = true;
+        }
+
+        @Override
+        public void run()
+        {
+            while (!isStopped)
+            {
+                GB08M2.getInstance().setRightEncoderTicks(GB08M2.getInstance().getRightEncoderTicks() + 1);
+                try
+                {
+                    Thread.sleep(50);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
