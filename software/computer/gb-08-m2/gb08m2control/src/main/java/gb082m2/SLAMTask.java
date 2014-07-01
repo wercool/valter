@@ -72,9 +72,10 @@ public class SLAMTask
         robot.setX(startXPosition - robotCenterShiftX);
         robot.setY(startYPosition - robotCenterShiftY);
 
-        circumcircle = new Circle(startXPosition, startYPosition, 27);
+        circumcircle = new Circle(startXPosition, startYPosition, 40);//27
         circumcircle.setFill(Color.TRANSPARENT);
-        circumcircle.setStroke(Color.RED);
+        circumcircle.setStroke(Color.GREEN);
+        circumcircle.getStrokeDashArray().addAll(2d);
         MainAppController.automatedControlSLAMPane.getChildren().add(circumcircle);
 
         scanLine = new Line(startXPosition, startYPosition - robotCenterShiftY, startXPosition, startYPosition - robotCenterShiftY - 10);
@@ -117,7 +118,7 @@ public class SLAMTask
         double centerX = circumcircle.getCenterX() - dx * Math.sin(teta);
         double centerY = circumcircle.getCenterY() - dy * Math.cos(teta);
 
-        slamResultsCanvasGraphicsContext.setStroke(Color.GREEN);
+        slamResultsCanvasGraphicsContext.setStroke(Color.BROWN);
         slamResultsCanvasGraphicsContext.setLineWidth(2);
         slamResultsCanvasGraphicsContext.strokeLine(circumcircle.getCenterX(), circumcircle.getCenterY(), centerX, centerY);
 
@@ -197,19 +198,16 @@ public class SLAMTask
 
                                     dteta = 0;
 
-                                    //both wheels pairs forward
                                     if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" || GB08M2.getInstance().getRightMotorsDirection() == "forward")
                                     {
                                         if (nl >= nr)
                                         {
                                             dteta = al - ar;
                                             teta -= dteta * Math.PI / 180;
-                                            setRobotCenterXYDisplacement(nl, nl);
                                         } else if (nr > nl)
                                         {
                                             dteta = ar - al;
                                             teta += dteta * Math.PI / 180;
-                                            setRobotCenterXYDisplacement(dn, dn);
                                         }
                                     }
                                     //both wheels pairs backward
@@ -227,6 +225,8 @@ public class SLAMTask
                                     {
 
                                     }
+
+                                    setRobotCenterXYDisplacement(dn, dn);
 
                                     prevLeftEncoderTicks = GB08M2.getInstance().getLeftEncoderTicks();
                                     prevRightEncoderTicks = GB08M2.getInstance().getRightEncoderTicks();
