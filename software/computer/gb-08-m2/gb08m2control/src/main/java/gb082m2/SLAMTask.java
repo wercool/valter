@@ -93,7 +93,7 @@ public class SLAMTask
         distanceScannerArea.setFill(Color.GREY);
         distanceScannerArea.setOpacity(0.2);
         MainAppController.automatedControlSLAMPane.getChildren().add(distanceScannerArea);
-        
+
         scanLine = new Line(startXPosition, startYPosition - robotCenterShiftY, startXPosition, startYPosition - robotCenterShiftY - 10);
         scanLine.getStrokeDashArray().addAll(3d);
         scanLine.setOpacity(0.5);
@@ -223,7 +223,7 @@ public class SLAMTask
                                     prevRightEncoderTicks = GB08M2.getInstance().getRightEncoderTicks();
                                 }
 
-                                if (GB08M2.getInstance().getLeftEncoderTicks() > prevLeftEncoderTicks || GB08M2.getInstance().getRightEncoderTicks() > prevRightEncoderTicks)
+                                if (GB08M2.getInstance().getLeftEncoderTicks() != prevLeftEncoderTicks || GB08M2.getInstance().getRightEncoderTicks() != prevRightEncoderTicks)
                                 {
                                     double nl = (GB08M2.getInstance().getLeftEncoderTicks() - prevLeftEncoderTicks) * 0.87;
                                     double nr = (GB08M2.getInstance().getRightEncoderTicks() - prevRightEncoderTicks) * 0.87;
@@ -233,9 +233,8 @@ public class SLAMTask
 
                                     dteta = 0;
 
-                                  //rotation about center
-                                    if ((GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
-                                            || (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "forward"))
+                                    //rotation about center
+                                    if ((GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "backward") || (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "forward"))
                                     {
                                         dteta = al + ar;
                                         //cw rotation
@@ -258,7 +257,8 @@ public class SLAMTask
                                         {
                                             setRobotCenterXYDisplacement(0, 0);
                                         }
-                                    } else //one side movement
+                                    } else
+                                    //one side movement
                                     {
                                         if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" || GB08M2.getInstance().getRightMotorsDirection() == "forward")
                                         {
