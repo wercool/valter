@@ -175,7 +175,7 @@
             </AnchorPane>
           </content>
         </Tab>
-        <Tab disable="false" text="Automated Control">
+        <Tab fx:id="automatedControlTab" disable="false" onSelectionChanged="#automatedControlTabSelected" text="Automated Control">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>

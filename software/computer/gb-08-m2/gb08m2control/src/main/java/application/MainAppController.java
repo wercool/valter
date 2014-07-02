@@ -2,9 +2,11 @@ package application;
 
 import gb082m2.GB08M2;
 import gb082m2.GB08M2ManualControlManager;
+import gb082m2.SLAMTask;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -16,6 +18,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.ToggleButton;
@@ -43,9 +46,9 @@ public class MainAppController
 
     //Manual Control tab's elements
     @FXML
-    Slider dutyLeftSlider;
+    public static Slider dutyLeftSlider;
     @FXML
-    Slider dutyRightSlider;
+    public static Slider dutyRightSlider;
     @FXML
     Slider alarmBeepDurationSlider;
     @FXML
@@ -86,6 +89,8 @@ public class MainAppController
     public static AnchorPane manualControlAnchorPane;
 
     //Automated Control tab's elements
+    @FXML
+    public static Tab automatedControlTab;
     @FXML
     public static ScrollPane automatedControlSLAMScrollPane;
     @FXML
@@ -585,6 +590,25 @@ public class MainAppController
         dutySliderDelta = Math.abs(dutyLeftSlider.getValue() - dutyRightSlider.getValue());
     }
 
+    @FXML
+    public void automatedControlTabSelected(Event event)
+    {
+        if (automatedControlTab.isSelected())
+        {
+            if (!MainAppController.automatedControlSLAMPane.getChildren().contains(MainAppController.driveControTitledPane))
+            {
+                MainAppController.manualControlAnchorPane.getChildren().remove(MainAppController.driveControTitledPane);
+
+                MainAppController.automatedControlSLAMPane.getChildren().add(MainAppController.driveControTitledPane);
+            }
+            MainAppController.driveControTitledPane.toFront();
+            MainAppController.driveControTitledPane.setLayoutX(SLAMTask.getRobotX() + 100);
+            MainAppController.driveControTitledPane.setLayoutY(SLAMTask.getRobotY());
+            MainAppController.automatedControlSLAMScrollPane.setHvalue(MainAppController.driveControTitledPane.getLayoutX() / MainAppController.automatedControlSLAMPane.getWidth());
+            MainAppController.automatedControlSLAMScrollPane.setVvalue(MainAppController.driveControTitledPane.getLayoutY() / MainAppController.automatedControlSLAMPane.getHeight());
+        }
+    }
+
     //TODO: Temporary for debug
     void startLeftEncoderIncrement()
     {
@@ -644,7 +668,7 @@ public class MainAppController
         {
             while (!isStopped)
             {
-                GB08M2.getInstance().setLeftEncoderTicks(GB08M2.getInstance().getLeftEncoderTicks() + 1);
+                GB08M2.getInstance().setLeftEncoderTicks(GB08M2.getInstance().getLeftEncoderTicks() + (int) Math.round(5 * (MainAppController.dutyLeftSlider.getValue() / 100)));
                 try
                 {
                     Thread.sleep(50);
@@ -683,7 +707,7 @@ public class MainAppController
         {
             while (!isStopped)
             {
-                GB08M2.getInstance().setRightEncoderTicks(GB08M2.getInstance().getRightEncoderTicks() + 1);
+                GB08M2.getInstance().setRightEncoderTicks(GB08M2.getInstance().getRightEncoderTicks() + +(int) Math.round(5 * (MainAppController.dutyRightSlider.getValue() / 100)));
                 try
                 {
                     Thread.sleep(50);

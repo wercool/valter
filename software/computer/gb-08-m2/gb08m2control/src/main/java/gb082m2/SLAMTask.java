@@ -9,6 +9,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.transform.Rotate;
@@ -36,8 +38,13 @@ public class SLAMTask
     static double teta = 0;
     static double dteta = 0;
 
+    static Circle centerMarker;
     static Line scanLine;
     static Circle circumcircle;
+
+    static double realCircumcircleRadius;
+
+    static Arc distanceScannerArea;
 
     public SLAMresultsVisualizationTask slamResultsVisualizationTask;
 
@@ -58,9 +65,9 @@ public class SLAMTask
         startYPosition = slamResultsCanvasHeight / 2;
         drawSLAMGrid();
 
-        Circle center = new Circle(startXPosition, startYPosition, 5);
-        center.setFill(Color.RED);
-        MainAppController.automatedControlSLAMPane.getChildren().add(center);
+        centerMarker = new Circle(startXPosition, startYPosition, 5);
+        centerMarker.setFill(Color.RED);
+        MainAppController.automatedControlSLAMPane.getChildren().add(centerMarker);
 
         MainAppController.automatedControlSLAMPane.getChildren().add(robot);
         robotWidth = robot.getImage().getWidth();
@@ -69,16 +76,27 @@ public class SLAMTask
         robotCenterShiftX = robotWidth / 2;
         robotCenterShiftY = robotLength / 2;
 
+        realCircumcircleRadius = Math.floor(Math.sqrt(Math.pow(robotWidth, 2) + Math.pow(robotLength, 2)) / 2);
+
         robot.setX(startXPosition - robotCenterShiftX);
         robot.setY(startYPosition - robotCenterShiftY);
 
-        circumcircle = new Circle(startXPosition, startYPosition, 40);//27
+        circumcircle = new Circle(startXPosition, startYPosition, 40);
         circumcircle.setFill(Color.TRANSPARENT);
         circumcircle.setStroke(Color.GREEN);
         circumcircle.getStrokeDashArray().addAll(2d);
         MainAppController.automatedControlSLAMPane.getChildren().add(circumcircle);
 
+        distanceScannerArea = new Arc(startXPosition, startYPosition - robotCenterShiftY, 50, 50, 25, 130);
+        distanceScannerArea.setType(ArcType.ROUND);
+        distanceScannerArea.setStroke(Color.TRANSPARENT);
+        distanceScannerArea.setFill(Color.GREY);
+        distanceScannerArea.setOpacity(0.2);
+        MainAppController.automatedControlSLAMPane.getChildren().add(distanceScannerArea);
+        
         scanLine = new Line(startXPosition, startYPosition - robotCenterShiftY, startXPosition, startYPosition - robotCenterShiftY - 10);
+        scanLine.getStrokeDashArray().addAll(3d);
+        scanLine.setOpacity(0.5);
         MainAppController.automatedControlSLAMPane.getChildren().add(scanLine);
 
         slamResultsVisualizationTask = new SLAMresultsVisualizationTask();
@@ -129,16 +147,33 @@ public class SLAMTask
         robot.setX(circumcircle.getCenterX() - robotCenterShiftX);
         robot.setY(circumcircle.getCenterY() - robotCenterShiftY);
         robot.getTransforms().add(new Rotate(-teta * 180 / Math.PI, circumcircle.getCenterX(), circumcircle.getCenterY(), 0, Rotate.Z_AXIS));
+
+        distanceScannerArea.getTransforms().clear();
+        distanceScannerArea.setCenterX(circumcircle.getCenterX());
+        distanceScannerArea.setCenterY(circumcircle.getCenterY() - robotLength / 2);
+        distanceScannerArea.getTransforms().add(new Rotate(-teta * 180 / Math.PI, circumcircle.getCenterX(), circumcircle.getCenterY(), 0, Rotate.Z_AXIS));
     }
 
-    public static double getRobotDistanceScannerX()
+    public static double getRobotX()
     {
-        return robot.getX() + robotCenterShiftX;
+        if (robot != null)
+        {
+            return robot.getX();
+        } else
+        {
+            return startXPosition;
+        }
     }
 
-    public static double getRobotDistanceScannerY()
+    public static double getRobotY()
     {
-        return robot.getY();
+        if (robot != null)
+        {
+            return robot.getY();
+        } else
+        {
+            return startYPosition;
+        }
     }
 
     public static class SLAMresultsVisualizationTask implements Runnable
@@ -198,59 +233,93 @@ public class SLAMTask
 
                                     dteta = 0;
 
-                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" || GB08M2.getInstance().getRightMotorsDirection() == "forward")
+                                  //rotation about center
+                                    if ((GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
+                                            || (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "forward"))
                                     {
-                                        if (nl >= nr)
+                                        dteta = al + ar;
+                                        //cw rotation
+                                        if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
                                         {
-                                            dteta = al - ar;
                                             teta -= dteta * Math.PI / 180;
-                                        } else if (nr > nl)
+                                        }
+                                        //ccw rotation
+                                        if (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "forward")
                                         {
-                                            dteta = ar - al;
                                             teta += dteta * Math.PI / 180;
                                         }
-                                    }
-                                    //both wheels pairs backward
-                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
+                                        if (nl > nr)
+                                        {
+                                            setRobotCenterXYDisplacement(nl - nr, nl - nr);
+                                        } else if (nl < nr)
+                                        {
+                                            setRobotCenterXYDisplacement(nr - nl, nr - nl);
+                                        } else if (nl == nr)
+                                        {
+                                            setRobotCenterXYDisplacement(0, 0);
+                                        }
+                                    } else //one side movement
                                     {
+                                        if (GB08M2.getInstance().getLeftMotorsDirection() == "forward" || GB08M2.getInstance().getRightMotorsDirection() == "forward")
+                                        {
+                                            if (nl >= nr)
+                                            {
+                                                dteta = al - ar;
+                                                teta -= dteta * Math.PI / 180;
+                                            } else if (nr > nl)
+                                            {
+                                                dteta = ar - al;
+                                                teta += dteta * Math.PI / 180;
+                                            }
+                                            setRobotCenterXYDisplacement(dn, dn);
+                                        }
 
+                                        if (GB08M2.getInstance().getLeftMotorsDirection() == "backward" || GB08M2.getInstance().getRightMotorsDirection() == "backward")
+                                        {
+                                            if (nl >= nr)
+                                            {
+                                                dteta = al - ar;
+                                                teta += dteta * Math.PI / 180;
+                                            } else if (nr > nl)
+                                            {
+                                                dteta = ar - al;
+                                                teta -= dteta * Math.PI / 180;
+                                            }
+                                            setRobotCenterXYDisplacement(-dn, -dn);
+                                        }
                                     }
-                                    //left wheels pair backward
-                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "backward" && GB08M2.getInstance().getRightMotorsDirection() == "stopped")
-                                    {
-
-                                    }
-                                    //right wheels pair backward
-                                    if (GB08M2.getInstance().getLeftMotorsDirection() == "stopped" && GB08M2.getInstance().getRightMotorsDirection() == "backward")
-                                    {
-
-                                    }
-
-                                    setRobotCenterXYDisplacement(dn, dn);
 
                                     prevLeftEncoderTicks = GB08M2.getInstance().getLeftEncoderTicks();
                                     prevRightEncoderTicks = GB08M2.getInstance().getRightEncoderTicks();
                                 }
 
-                                int distance = GB08M2.getInstance().getDistanceScannerDistance_cm();
                                 double curDistanceScannerAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
-                                double curScanLineAngle = (-115 - curDistanceScannerAngle) * Math.PI / 180;
-                                double endX = getRobotDistanceScannerX() + (distance / 2) * Math.sin(curScanLineAngle);
-                                double endY = getRobotDistanceScannerY() + (distance / 2) * Math.cos(curScanLineAngle);
-                                scanLine.setStartX(getRobotDistanceScannerX());
-                                scanLine.setStartY(getRobotDistanceScannerY());
-                                scanLine.setEndX(endX);
-                                scanLine.setEndY(endY);
-                                if (curDistanceScannerAngle != prevDistanceScannerAngle)
+                                if (curDistanceScannerAngle > 0)
                                 {
-                                    prevDistanceScannerAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
-                                    if (distance < 50)
+                                    int distance = GB08M2.getInstance().getDistanceScannerDistance_cm();
+                                    scanLine.setVisible(true);
+                                    double curScanLineAngle = (-115 - curDistanceScannerAngle) * Math.PI / 180 + teta;
+                                    double startX = circumcircle.getCenterX() - (robotLength / 2) * Math.sin(teta);
+                                    double startY = circumcircle.getCenterY() - (robotLength / 2) * Math.cos(teta);
+                                    double endX = startX + distance * Math.sin(curScanLineAngle);
+                                    double endY = startY + distance * Math.cos(curScanLineAngle);
+                                    scanLine.setStartX(startX);
+                                    scanLine.setStartY(startY);
+                                    scanLine.setEndX(endX);
+                                    scanLine.setEndY(endY);
+
+                                    if (curDistanceScannerAngle != prevDistanceScannerAngle)
                                     {
-                                        slamResultsCanvasGraphicsContext.fillRect(endX, endY, 2, 2);
+                                        prevDistanceScannerAngle = GB08M2.getInstance().getDistanceScannerPositionAngle();
+                                        if (distance <= 50)
+                                        {
+                                            slamResultsCanvasGraphicsContext.fillRect(endX, endY, 2, 2);
+                                        }
                                     }
+                                } else
+                                {
+                                    scanLine.setVisible(false);
                                 }
-                                //TODO: temporary hidden
-                                scanLine.visibleProperty().set(false);
                             }
                         });
                         Thread.sleep(GB08M2.distanceScannerPositioningDelay);
