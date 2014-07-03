@@ -130,8 +130,7 @@ public class GB08M2AutomatedManager
                                 }
                             }
                         });
-                    }
-                    else
+                    } else
                     {
                         Platform.runLater(new Runnable()
                         {
@@ -148,6 +147,8 @@ public class GB08M2AutomatedManager
 
                     BufferedImage frameBufferedImage = JPEGFrameGrabber.matToBufferedImage(GB08M2.getInstance().getFrontCameraMat());
                     Image frame = SwingFXUtils.toFXImage(frameBufferedImage, null);
+                    MainAppController.frontCameraAutomatedControlImageView.setFitWidth(frame.getWidth());
+                    MainAppController.frontCameraAutomatedControlImageView.setFitHeight(frame.getHeight());
                     MainAppController.frontCameraAutomatedControlImageView.setImage(frame);
                     MainAppController.frontCameraAutomatedControlImageView.setCache(false);
 

@@ -8,11 +8,9 @@ import org.opencv.core.Core;
 import org.opencv.core.Core.MinMaxLocResult;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
-import org.opencv.features2d.FeatureDetector;
 import org.opencv.imgproc.Imgproc;
 
 import utils.JPEGFrameGrabber;
@@ -71,14 +69,14 @@ public class FrontCameraCVProcessingTask implements Runnable
                             Rect ROIRect = new Rect((int) ROI.getX(), (int) ROI.getY(), (int) ROI.getWidth(), (int) ROI.getHeight());
                             Mat frontCameraROIMat = new Mat(frontCameraFrameMat, ROIRect);
 
-                            MatOfKeyPoint detectorKeypoints = new MatOfKeyPoint();
-                            FeatureDetector detector = FeatureDetector.create(FeatureDetector.SIFT);
-                            detector.detect(frontCameraROIMat, detectorKeypoints);
+                            //                            MatOfKeyPoint detectorKeypoints = new MatOfKeyPoint();
+                            //                            FeatureDetector detector = FeatureDetector.create(FeatureDetector.SIFT);
+                            //                            detector.detect(frontCameraROIMat, detectorKeypoints);
 
-//                            MatOfKeyPoint descriptorKeypoints = new MatOfKeyPoint();
-//                            DescriptorExtractor extractor = DescriptorExtractor.create(FeatureDetector.SIFT);
-//                            extractor.compute(frontCameraROIMat, detectorKeypoints, descriptorKeypoints);
-//                            Features2d.drawKeypoints(frontCameraROIMat, descriptorKeypoints, frontCameraROIMat);
+                            //                            MatOfKeyPoint descriptorKeypoints = new MatOfKeyPoint();
+                            //                            DescriptorExtractor extractor = DescriptorExtractor.create(FeatureDetector.SIFT);
+                            //                            extractor.compute(frontCameraROIMat, detectorKeypoints, descriptorKeypoints);
+                            //                            Features2d.drawKeypoints(frontCameraROIMat, descriptorKeypoints, frontCameraROIMat);
 
                             GB08M2.getInstance().setFrontCameraROIMat(frontCameraROIMat);
                         }

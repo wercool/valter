@@ -11,6 +11,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -112,6 +113,12 @@ public class MainAppController
     public static Pane frontCameraAutomatedControlOverlayPane;
     @FXML
     public static ImageView frontCameraAutomatedROIImageView;
+    @FXML
+    TitledPane automatedControlTabAutomatedNavigationTitledPane;
+    @FXML
+    static AnchorPane automatedNavigationAnchorPane;
+    @FXML
+    static Accordion automatedControlTabAccordion;
 
     //TODO: Temporary for debug
     LeftEncoderIncrementTask leftEncoderIncrementTask;
@@ -332,7 +339,32 @@ public class MainAppController
                 }
             }
         });
+
+        automatedNavigationAnchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!GB08M2AutomatedManager.patternTracking)
+                {
+                    if (!MainAppController.automatedNavigationAnchorPane.getChildren().contains(MainAppController.driveControTitledPane))
+                    {
+                        MainAppController.automatedNavigationAnchorPane.getChildren().add(MainAppController.driveControTitledPane);
+                    }
+                    MainAppController.driveControTitledPane.toFront();
+                    MainAppController.driveControTitledPane.setLayoutX(frontCameraAutomatedControlOverlayPane.getWidth() + 10);
+                    MainAppController.driveControTitledPane.setLayoutY(5);
+                }
+            }
+        });
+
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////end of initialization//////////////////////////////////////////
 
     @FXML
     void btnMousePressed(MouseEvent event)
@@ -628,7 +660,7 @@ public class MainAppController
                         GB08M2.getInstance().gb08m2AutomatedManager.startFrontCameraCVVizualisation();
                     } else
                     {
-                        GB08M2.getInstance().frontCameraCVProcessingTask.resume();
+                        GB08M2.getInstance().frontCameraCVProcessingTask.pause();
                         GB08M2.getInstance().gb08m2AutomatedManager.stopFrontCameraCVVizualisation();
                     }
                 break;

@@ -179,20 +179,20 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <Accordion AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <Accordion fx:id="automatedControlTabAccordion" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <expandedPane>
-                    <TitledPane fx:id="x4" animated="false" text="Automated Navigation">
+                    <TitledPane fx:id="automatedControlTabAutomatedNavigationTitledPane" animated="false" text="Automated Navigation">
                       <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <AnchorPane id="Content" fx:id="automatedNavigationAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
                             <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                               <expandedPane>
                                 <TitledPane id="x1" fx:id="x3" animated="false" text="Front Camera">
                                   <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
                                       <children>
                                         <ImageView id="frontCameraImageAutomatedView" fx:id="frontCameraAutomatedControlImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                        <Pane fx:id="frontCameraAutomatedControlOverlayPane" prefHeight="480.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                        <Pane fx:id="frontCameraAutomatedControlOverlayPane" prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                       </children>
                                     </AnchorPane>
                                   </content>
@@ -220,7 +220,7 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane id="" animated="false" collapsible="false" layoutX="7.0" layoutY="541.0" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control">
+                            <TitledPane id="" animated="false" collapsible="false" layoutX="7.0" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.bottomAnchor="40.0">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -230,7 +230,7 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane id="" animated="false" collapsible="false" layoutX="145.0" layoutY="541.0" minWidth="-Infinity" prefHeight="118.0" prefWidth="183.0" text="Navigation Control">
+                            <TitledPane id="" animated="false" collapsible="false" layoutX="145.0" minWidth="-Infinity" prefHeight="118.0" prefWidth="183.0" text="Navigation Control" AnchorPane.bottomAnchor="22.0">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -245,7 +245,7 @@
                     </TitledPane>
                   </expandedPane>
                   <panes>
-                    <fx:reference source="x4" />
+                    <fx:reference source="automatedControlTabAutomatedNavigationTitledPane" />
                     <TitledPane fx:id="x5" animated="false" text="SLAM">
                       <content>
                         <ScrollPane fx:id="automatedControlSLAMScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" pannable="true" prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED">
@@ -293,8 +293,8 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="286.0">
                       <children>
                         <Label text="Host Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <!-- <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" /> -->
-                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <!-- <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" /> -->
                         <Label text="Command Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
                         <TextField id="" fx:id="commandPortTextField" prefWidth="100.0" text="9001" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
                         <Label text="Front Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="75.0" />

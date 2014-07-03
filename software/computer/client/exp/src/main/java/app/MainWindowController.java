@@ -527,11 +527,11 @@ public class MainWindowController
                     System.out.println(cdcDevice.getDeviceName());
                     switch (cdcDevice.getDeviceName())
                     {
-                    case "PLATFORM-CONTROL-P1":
-                        selectedDeviceCommandsComboBox.setItems(PLATFORM_CONTROL_P1.commands);
+                        case "PLATFORM-CONTROL-P1":
+                            selectedDeviceCommandsComboBox.setItems(PLATFORM_CONTROL_P1.commands);
                         break;
-                    case "PLATFORM-LOCATION-P1":
-                        selectedDeviceCommandsComboBox.setItems(PLATFORM_LOCATION_P1.commands);
+                        case "PLATFORM-LOCATION-P1":
+                            selectedDeviceCommandsComboBox.setItems(PLATFORM_LOCATION_P1.commands);
                         break;
                     }
                 }
@@ -1467,8 +1467,8 @@ public class MainWindowController
                         try
                         {
                             frontCameraFrameBufferedImage = null;
-                            //url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
-                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
+                            url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":8080/?action=snapshot");
+                            //url = new URL("http://" + commandsServerAddressTextIntput.getText() + ":9090/?action=snapshot");
                             try
                             {
                                 frontCameraFrameBufferedImage = ImageIO.read(url);
@@ -1727,87 +1727,87 @@ public class MainWindowController
         {
             switch (command)
             {
-            case "FORWARD":
-                gb08m2SendCmdOverTCPIP("LEFTFORWARD");
-                gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
-                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                case "FORWARD":
+                    gb08m2SendCmdOverTCPIP("LEFTFORWARD");
+                    gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
+                    new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                    new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
-            case "BACKWARD":
-                gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
-                gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
-                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                case "BACKWARD":
+                    gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
+                    gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
+                    new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                    new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
-            case "FORWARDRIGHT":
-                gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
-                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                case "FORWARDRIGHT":
+                    gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
+                    new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
-            case "FORWARDLEFT":
-                gb08m2SendCmdOverTCPIP("LEFTFORWARD");
-                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                case "FORWARDLEFT":
+                    gb08m2SendCmdOverTCPIP("LEFTFORWARD");
+                    new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                 break;
-            case "BACKWARDRIGHT":
-                gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
-                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                case "BACKWARDRIGHT":
+                    gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
+                    new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
-            case "BACKWARDLEFT":
-                gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
-                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                case "BACKWARDLEFT":
+                    gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
+                    new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                 break;
-            case "TURNRIGHT":
-                gb08m2SendCmdOverTCPIP("LEFTFORWARD");
-                gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
-                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                case "TURNRIGHT":
+                    gb08m2SendCmdOverTCPIP("LEFTFORWARD");
+                    gb08m2SendCmdOverTCPIP("RIGHTBACKWARD");
+                    new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                    new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
-            case "TURNLEFT":
-                gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
-                gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
-                new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                case "TURNLEFT":
+                    gb08m2SendCmdOverTCPIP("LEFTBACKWARD");
+                    gb08m2SendCmdOverTCPIP("RIGHTFORWARD");
+                    new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                    new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                 break;
-            case "STOP":
-                new Thread(new BreakingRunnable()).start();
+                case "STOP":
+                    new Thread(new BreakingRunnable()).start();
                 break;
-            case "GETBATTERYVOLTAGE":
-                gb08m2SendCmdOverTCPIP("GETBATTERYVOLTAGE");
+                case "GETBATTERYVOLTAGE":
+                    gb08m2SendCmdOverTCPIP("GETBATTERYVOLTAGE");
                 break;
-            case "LIGHTSON":
-                gb08m2SendCmdOverTCPIP("LIGHTSON");
+                case "LIGHTSON":
+                    gb08m2SendCmdOverTCPIP("LIGHTSON");
                 break;
-            case "LIGHTSOFF":
-                gb08m2SendCmdOverTCPIP("LIGHTSOFF");
+                case "LIGHTSOFF":
+                    gb08m2SendCmdOverTCPIP("LIGHTSOFF");
                 break;
-            case "ALARMBEEP":
-                gb08m2SendCmdOverTCPIP("ALARMBEEP#" + String.valueOf(Math.round(alarmBeepDuration.getValue())));
+                case "ALARMBEEP":
+                    gb08m2SendCmdOverTCPIP("ALARMBEEP#" + String.valueOf(Math.round(alarmBeepDuration.getValue())));
                 break;
-            case "GETLEFTWHEELENCODER":
-                gb08m2SendCmdOverTCPIP("GETLEFTWHEELENCODER");
+                case "GETLEFTWHEELENCODER":
+                    gb08m2SendCmdOverTCPIP("GETLEFTWHEELENCODER");
                 break;
-            case "GETRIGHTWHEELENCODER":
-                gb08m2SendCmdOverTCPIP("GETRIGHTWHEELENCODER");
+                case "GETRIGHTWHEELENCODER":
+                    gb08m2SendCmdOverTCPIP("GETRIGHTWHEELENCODER");
                 break;
-            case "LEFTWHEELENCODERRESET":
-                gb08m2SendCmdOverTCPIP("LEFTWHEELENCODERRESET");
+                case "LEFTWHEELENCODERRESET":
+                    gb08m2SendCmdOverTCPIP("LEFTWHEELENCODERRESET");
                 break;
-            case "RIGHTWHEELENCODERRESET":
-                gb08m2SendCmdOverTCPIP("RIGHTWHEELENCODERRESET");
+                case "RIGHTWHEELENCODERRESET":
+                    gb08m2SendCmdOverTCPIP("RIGHTWHEELENCODERRESET");
                 break;
-            case "GETDISTANCE":
-                gb08m2SendCmdOverTCPIP("GETDISTANCE");
+                case "GETDISTANCE":
+                    gb08m2SendCmdOverTCPIP("GETDISTANCE");
                 break;
-            case "SETDISTANCESCANNERDIRECTION":
-                gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + String.valueOf(Math.round(setDistanceScannerDirection.getValue())));
+                case "SETDISTANCESCANNERDIRECTION":
+                    gb08m2SendCmdOverTCPIP("RADARROTATIONSET#" + String.valueOf(Math.round(setDistanceScannerDirection.getValue())));
                 break;
-            case "ENABLEENCODERS":
-                gb08m2SendCmdOverTCPIP("ENABLEENCODERS");
+                case "ENABLEENCODERS":
+                    gb08m2SendCmdOverTCPIP("ENABLEENCODERS");
                 break;
-            case "DISABLEENCODERS":
-                gb08m2SendCmdOverTCPIP("DISABLEENCODERS");
+                case "DISABLEENCODERS":
+                    gb08m2SendCmdOverTCPIP("DISABLEENCODERS");
                 break;
-            case "RADARROTATIONRESET":
-                gb08m2SendCmdOverTCPIP("RADARROTATIONRESET");
+                case "RADARROTATIONRESET":
+                    gb08m2SendCmdOverTCPIP("RADARROTATIONRESET");
                 break;
             }
         } else
@@ -1820,48 +1820,48 @@ public class MainWindowController
                 {
                     switch (command)
                     {
-                    case "FORWARD":
-                        gb08m2CDCDevice.writeData("LEFTFORWARD");
-                        gb08m2CDCDevice.writeData("RIGHTFORWARD");
-                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                        case "FORWARD":
+                            gb08m2CDCDevice.writeData("LEFTFORWARD");
+                            gb08m2CDCDevice.writeData("RIGHTFORWARD");
+                            new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                            new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
-                    case "BACKWARD":
-                        gb08m2CDCDevice.writeData("LEFTBACKWARD");
-                        gb08m2CDCDevice.writeData("RIGHTBACKWARD");
-                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                        case "BACKWARD":
+                            gb08m2CDCDevice.writeData("LEFTBACKWARD");
+                            gb08m2CDCDevice.writeData("RIGHTBACKWARD");
+                            new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                            new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
-                    case "FORWARDRIGHT":
-                        gb08m2CDCDevice.writeData("RIGHTFORWARD");
-                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                        case "FORWARDRIGHT":
+                            gb08m2CDCDevice.writeData("RIGHTFORWARD");
+                            new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
-                    case "FORWARDLEFT":
-                        gb08m2CDCDevice.writeData("LEFTFORWARD");
-                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                        case "FORWARDLEFT":
+                            gb08m2CDCDevice.writeData("LEFTFORWARD");
+                            new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                         break;
-                    case "BACKWARDRIGHT":
-                        gb08m2CDCDevice.writeData("RIGHTBACKWARD");
-                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                        case "BACKWARDRIGHT":
+                            gb08m2CDCDevice.writeData("RIGHTBACKWARD");
+                            new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
-                    case "BACKWARDLEFT":
-                        gb08m2CDCDevice.writeData("LEFTBACKWARD");
-                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                        case "BACKWARDLEFT":
+                            gb08m2CDCDevice.writeData("LEFTBACKWARD");
+                            new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
                         break;
-                    case "TURNRIGHT":
-                        gb08m2CDCDevice.writeData("LEFTFORWARD");
-                        gb08m2CDCDevice.writeData("RIGHTBACKWARD");
-                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                        case "TURNRIGHT":
+                            gb08m2CDCDevice.writeData("LEFTFORWARD");
+                            gb08m2CDCDevice.writeData("RIGHTBACKWARD");
+                            new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                            new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
-                    case "TURNLEFT":
-                        gb08m2CDCDevice.writeData("LEFTBACKWARD");
-                        gb08m2CDCDevice.writeData("RIGHTFORWARD");
-                        new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
-                        new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
+                        case "TURNLEFT":
+                            gb08m2CDCDevice.writeData("LEFTBACKWARD");
+                            gb08m2CDCDevice.writeData("RIGHTFORWARD");
+                            new Thread(new AcceleratingRunnableLeft((int) gb08m2DutyLeft.getValue())).start();
+                            new Thread(new AcceleratingRunnableRight((int) gb08m2DutyRight.getValue())).start();
                         break;
-                    case "STOP":
-                        new Thread(new BreakingRunnable()).start();
+                        case "STOP":
+                            new Thread(new BreakingRunnable()).start();
                         break;
                     }
                 }
