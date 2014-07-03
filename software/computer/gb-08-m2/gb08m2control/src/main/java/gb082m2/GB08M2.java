@@ -2,6 +2,10 @@ package gb082m2;
 
 import java.awt.image.BufferedImage;
 
+import javafx.scene.shape.Rectangle;
+
+import org.opencv.core.Mat;
+
 public class GB08M2
 {
     static final GB08M2 instance = new GB08M2();
@@ -13,6 +17,8 @@ public class GB08M2
 
     public FrontCameraFrameGrabberTask frontCameraFrameGrabberTask;
     public RearCameraFrameGrabberTask rearCameraFrameGrabberTask;
+
+    public FrontCameraCVProcessingTask frontCameraCVProcessingTask;
 
     //Network connections
     static String hostname = "127.0.0.1";
@@ -115,8 +121,12 @@ public class GB08M2
     int beepDuration = 0;
 
     //Cameras
-    public volatile BufferedImage frontCameraFrameBufferedImage;
-    public volatile BufferedImage rearCameraFrameBufferedImage;
+    volatile BufferedImage frontCameraFrameBufferedImage;
+    volatile BufferedImage rearCameraFrameBufferedImage;
+
+    volatile Mat frontCameraMat;
+    volatile Mat frontCameraROIMat;
+    Rectangle frontCameraROIRectangle;
 
     public GB08M2()
     {
@@ -130,6 +140,7 @@ public class GB08M2
 
         frontCameraFrameGrabberTask = new FrontCameraFrameGrabberTask();
         rearCameraFrameGrabberTask = new RearCameraFrameGrabberTask();
+        frontCameraCVProcessingTask = new FrontCameraCVProcessingTask();
 
         gb08m2CommandManager = new GB08M2CommandManager();
         isInitialized &= gb08m2CommandManager.isConnected;
@@ -140,6 +151,8 @@ public class GB08M2
     public boolean deInitialize()
     {
         gb08m2ManualControlManager.deinitialize();
+        gb08m2AutomatedManager.deinitialize();
+
         if (gb08m2CommandManager != null)
         {
             gb08m2CommandManager.disconnect();
@@ -152,6 +165,10 @@ public class GB08M2
         if (rearCameraFrameGrabberTask != null)
         {
             rearCameraFrameGrabberTask.stop();
+        }
+        if (frontCameraCVProcessingTask != null)
+        {
+            frontCameraCVProcessingTask.stop();
         }
 
         return isInitialized = false;
@@ -189,6 +206,7 @@ public class GB08M2
         GB08M2.commandPort = commandPort;
     }
 
+    //Cameras
     public int getFrontCameraPort()
     {
         return frontCameraPort;
@@ -207,6 +225,36 @@ public class GB08M2
     public static void setRearCameraPort(int rearCameraPort)
     {
         GB08M2.rearCameraPort = rearCameraPort;
+    }
+
+    public synchronized Mat getFrontCameraMat()
+    {
+        return frontCameraMat;
+    }
+
+    public synchronized void setFrontCameraMat(Mat frontCameraMat)
+    {
+        this.frontCameraMat = frontCameraMat;
+    }
+
+    public synchronized Mat getFrontCameraROIMat()
+    {
+        return frontCameraROIMat;
+    }
+
+    public synchronized void setFrontCameraROIMat(Mat frontCameraROIMat)
+    {
+        this.frontCameraROIMat = frontCameraROIMat;
+    }
+
+    public synchronized Rectangle getFrontCameraROIRectangle()
+    {
+        return frontCameraROIRectangle;
+    }
+
+    public synchronized void setFrontCameraROIRectangle(Rectangle frontCameraROIRectangle)
+    {
+        this.frontCameraROIRectangle = frontCameraROIRectangle;
     }
 
     //Hardware

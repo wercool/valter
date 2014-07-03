@@ -1,6 +1,7 @@
 package application;
 
 import gb082m2.GB08M2;
+import gb082m2.GB08M2AutomatedManager;
 import gb082m2.GB08M2ManualControlManager;
 import gb082m2.SLAMTask;
 import javafx.application.Platform;
@@ -43,6 +44,8 @@ public class MainAppController
     TextField frontCameraPortTextField;
     @FXML
     TextField rearCameraPortTextField;
+    @FXML
+    CheckBox SLAMDebugModeCheckBox;
 
     //Manual Control tab's elements
     @FXML
@@ -99,6 +102,16 @@ public class MainAppController
     TitledPane automatedControlSLAMManagementTitledPane;
     @FXML
     public static TitledPane driveControTitledPane;
+    @FXML
+    public static TitledPane selectedPatternTitledPane;
+    @FXML
+    public static ImageView frontCameraAutomatedControlImageView;
+    @FXML
+    public static ImageView rearCameraAutomatedControlImageView;
+    @FXML
+    public static Pane frontCameraAutomatedControlOverlayPane;
+    @FXML
+    public static ImageView frontCameraAutomatedROIImageView;
 
     //TODO: Temporary for debug
     LeftEncoderIncrementTask leftEncoderIncrementTask;
@@ -256,6 +269,66 @@ public class MainAppController
                     double y = dragContext.initialTranslateY + mouseEvent.getSceneY() - dragContext.mouseAnchorY;
                     driveControTitledPane.setTranslateX(x);
                     driveControTitledPane.setTranslateY(y);
+                }
+            }
+        });
+
+        selectedPatternTitledPane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // remember initial mouse cursor coordinates
+                    // and node position
+                    dragContext.mouseAnchorX = mouseEvent.getSceneX();
+                    dragContext.mouseAnchorY = mouseEvent.getSceneY();
+                    dragContext.initialTranslateX = selectedPatternTitledPane.getTranslateX();
+                    dragContext.initialTranslateY = selectedPatternTitledPane.getTranslateY();
+                }
+            }
+        });
+
+        selectedPatternTitledPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // shift node from its initial position by delta
+                    // calculated from mouse cursor movement
+                    double x = dragContext.initialTranslateX + mouseEvent.getSceneX() - dragContext.mouseAnchorX;
+                    double y = dragContext.initialTranslateY + mouseEvent.getSceneY() - dragContext.mouseAnchorY;
+                    selectedPatternTitledPane.setTranslateX(x);
+                    selectedPatternTitledPane.setTranslateY(y);
+                }
+            }
+        });
+
+        frontCameraAutomatedControlOverlayPane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!GB08M2AutomatedManager.patternTracking)
+                {
+                    GB08M2AutomatedManager.startROIx = e.getX();
+                    GB08M2AutomatedManager.startROIy = e.getY();
+                }
+            }
+        });
+
+        frontCameraAutomatedControlOverlayPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                if (!GB08M2AutomatedManager.patternTracking)
+                {
+                    GB08M2AutomatedManager.endROIx = e.getX();
+                    GB08M2AutomatedManager.endROIy = e.getY();
                 }
             }
         });
@@ -548,6 +621,37 @@ public class MainAppController
                         GB08M2.getInstance().gb08m2ManualControlManager.stopRearCameraFrameVizualization();
                     }
                 break;
+                case "frontCamAutomatedControlToggleBtn":
+                    if (clickedToggleBtn.selectedProperty().get())
+                    {
+                        GB08M2.getInstance().frontCameraCVProcessingTask.resume();
+                        GB08M2.getInstance().gb08m2AutomatedManager.startFrontCameraCVVizualisation();
+                    } else
+                    {
+                        GB08M2.getInstance().frontCameraCVProcessingTask.resume();
+                        GB08M2.getInstance().gb08m2AutomatedManager.stopFrontCameraCVVizualisation();
+                    }
+                break;
+                case "rearCamAutomatedControlToggleBtn":
+                //                    if (clickedToggleBtn.selectedProperty().get())
+                //                    {
+                //                        GB08M2.getInstance().rearCameraFrameGrabberTask.resume();
+                //                        GB08M2.getInstance().gb08m2ManualControlManager.startRearCameraFrameVizualization();
+                //                    } else
+                //                    {
+                //                        GB08M2.getInstance().rearCameraFrameGrabberTask.pause();
+                //                        GB08M2.getInstance().gb08m2ManualControlManager.stopRearCameraFrameVizualization();
+                //                    }
+                break;
+                case "patternTrackingAutomatedControlToggleBtn":
+                    if (clickedToggleBtn.selectedProperty().get())
+                    {
+                        GB08M2AutomatedManager.patternTracking = true;
+                    } else
+                    {
+                        GB08M2AutomatedManager.patternTracking = false;
+                    }
+                break;
             }
 
             clickedToggleBtn = null;
@@ -566,6 +670,8 @@ public class MainAppController
                         MainAppController.manualControlAnchorPane.getChildren().add(MainAppController.driveControTitledPane);
                     }
                     MainAppController.driveControTitledPane.toFront();
+                    MainAppController.driveControTitledPane.setLayoutX(660);
+                    MainAppController.driveControTitledPane.setLayoutY(5);
                 break;
                 case "driveControlPaneLocation2":
                     if (!MainAppController.automatedControlSLAMPane.getChildren().contains(MainAppController.driveControTitledPane))
@@ -612,10 +718,13 @@ public class MainAppController
     //TODO: Temporary for debug
     void startLeftEncoderIncrement()
     {
-        //        if (leftEncoderIncrementTask != null)
-        //            leftEncoderIncrementTask.stop();
-        //        leftEncoderIncrementTask = new LeftEncoderIncrementTask();
-        //        leftEncoderIncrementTask.start();
+        if (SLAMDebugModeCheckBox.isSelected())
+        {
+            if (leftEncoderIncrementTask != null)
+                leftEncoderIncrementTask.stop();
+            leftEncoderIncrementTask = new LeftEncoderIncrementTask();
+            leftEncoderIncrementTask.start();
+        }
     }
 
     //TODO: Temporary for debug
@@ -628,10 +737,13 @@ public class MainAppController
     //TODO: Temporary for debug
     void startRightEncoderIncrement()
     {
-        //        if (rightEncoderIncrementTask != null)
-        //            rightEncoderIncrementTask.stop();
-        //        rightEncoderIncrementTask = new RightEncoderIncrementTask();
-        //        rightEncoderIncrementTask.start();
+        if (SLAMDebugModeCheckBox.isSelected())
+        {
+            if (rightEncoderIncrementTask != null)
+                rightEncoderIncrementTask.stop();
+            rightEncoderIncrementTask = new RightEncoderIncrementTask();
+            rightEncoderIncrementTask.start();
+        }
     }
 
     //TODO: Temporary for debug

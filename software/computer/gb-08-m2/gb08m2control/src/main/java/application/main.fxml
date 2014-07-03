@@ -58,7 +58,7 @@
                     </TitledPane>
                   </panes>
                 </Accordion>
-                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
+                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                       <children>
@@ -181,6 +181,71 @@
               <children>
                 <Accordion AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                   <expandedPane>
+                    <TitledPane fx:id="x4" animated="false" text="Automated Navigation">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                          <children>
+                            <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                              <expandedPane>
+                                <TitledPane id="x1" fx:id="x3" animated="false" text="Front Camera">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                                      <children>
+                                        <ImageView id="frontCameraImageAutomatedView" fx:id="frontCameraAutomatedControlImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                        <Pane fx:id="frontCameraAutomatedControlOverlayPane" prefHeight="480.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </TitledPane>
+                              </expandedPane>
+                              <panes>
+                                <fx:reference source="x3" />
+                                <TitledPane id="x3" animated="false" collapsible="true" text="Rear Camera">
+                                  <content>
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                                      <children>
+                                        <ImageView id="rearCameraImageAutomatedView" fx:id="rearCameraAutomatedControlImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                      </children>
+                                    </AnchorPane>
+                                  </content>
+                                </TitledPane>
+                              </panes>
+                            </Accordion>
+                            <TitledPane fx:id="selectedPatternTitledPane" animated="false" collapsible="false" graphicTextGap="4.0" layoutX="674.0" layoutY="5.0" minWidth="145.0" prefHeight="-1.0" prefWidth="-1.0" text="Selected Pattern (ROI)" wrapText="false">
+                              <content>
+                                <AnchorPane id="Content" minHeight="100.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0">
+                                  <children>
+                                    <ImageView fx:id="frontCameraAutomatedROIImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                            <TitledPane id="" animated="false" collapsible="false" layoutX="7.0" layoutY="541.0" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <ToggleButton id="frontCamAutomatedControlToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                                    <ToggleButton id="rearCamAutomatedControlToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                            <TitledPane id="" animated="false" collapsible="false" layoutX="145.0" layoutY="541.0" minWidth="-Infinity" prefHeight="118.0" prefWidth="183.0" text="Navigation Control">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <ToggleButton id="patternTrackingAutomatedControlToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Pattern tracking" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="4.0" />
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
+                  </expandedPane>
+                  <panes>
+                    <fx:reference source="x4" />
                     <TitledPane fx:id="x5" animated="false" text="SLAM">
                       <content>
                         <ScrollPane fx:id="automatedControlSLAMScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" pannable="true" prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED">
@@ -194,47 +259,6 @@
                         </ScrollPane>
                       </content>
                     </TitledPane>
-                  </expandedPane>
-                  <panes>
-                    <TitledPane fx:id="x4" animated="false" text="Automated Navigation">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                          <children>
-                            <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-                              <expandedPane>
-                                <TitledPane id="x1" fx:id="x3" animated="false" text="Front Camera">
-                                  <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                                      <children>
-                                        <ImageView id="frontCameraImageAutomatedView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                      </children>
-                                    </AnchorPane>
-                                  </content>
-                                </TitledPane>
-                              </expandedPane>
-                              <panes>
-                                <fx:reference source="x3" />
-                                <TitledPane id="x3" animated="false" collapsible="true" text="Rear Camera">
-                                  <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                                      <children>
-                                        <ImageView id="rearCameraImageAutomatedView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                      </children>
-                                    </AnchorPane>
-                                  </content>
-                                </TitledPane>
-                              </panes>
-                            </Accordion>
-                            <TitledPane animated="false" collapsible="false" graphicTextGap="4.0" layoutX="674.0" layoutY="5.0" minWidth="145.0" prefHeight="93.0" prefWidth="145.0" text="Selected Pattern" wrapText="false">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                              </content>
-                            </TitledPane>
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </TitledPane>
-                    <fx:reference source="x5" />
                   </panes>
                 </Accordion>
               </children>
@@ -289,6 +313,7 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
                         <ToggleButton id="slamVizualisationToggleButton" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="SLAM Vizualisation" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <CheckBox fx:id="SLAMDebugModeCheckBox" layoutX="158.0" layoutY="8.0" mnemonicParsing="false" text="Debug mode" />
                       </children>
                     </AnchorPane>
                   </content>

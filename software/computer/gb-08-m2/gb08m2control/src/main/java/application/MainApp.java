@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import org.opencv.core.Core;
+
 public class MainApp extends Application
 {
 
@@ -20,6 +22,8 @@ public class MainApp extends Application
     @Override
     public void start(Stage primaryStage)
     {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+
         try
         {
             System.out.println("INFO: " + "Starting GB08M2MainApp");
