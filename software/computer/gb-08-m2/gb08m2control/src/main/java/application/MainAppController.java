@@ -612,10 +612,10 @@ public class MainAppController
     //TODO: Temporary for debug
     void startLeftEncoderIncrement()
     {
-        if (leftEncoderIncrementTask != null)
-            leftEncoderIncrementTask.stop();
-        leftEncoderIncrementTask = new LeftEncoderIncrementTask();
-        leftEncoderIncrementTask.start();
+        //        if (leftEncoderIncrementTask != null)
+        //            leftEncoderIncrementTask.stop();
+        //        leftEncoderIncrementTask = new LeftEncoderIncrementTask();
+        //        leftEncoderIncrementTask.start();
     }
 
     //TODO: Temporary for debug
@@ -628,10 +628,10 @@ public class MainAppController
     //TODO: Temporary for debug
     void startRightEncoderIncrement()
     {
-        if (rightEncoderIncrementTask != null)
-            rightEncoderIncrementTask.stop();
-        rightEncoderIncrementTask = new RightEncoderIncrementTask();
-        rightEncoderIncrementTask.start();
+        //        if (rightEncoderIncrementTask != null)
+        //            rightEncoderIncrementTask.stop();
+        //        rightEncoderIncrementTask = new RightEncoderIncrementTask();
+        //        rightEncoderIncrementTask.start();
     }
 
     //TODO: Temporary for debug

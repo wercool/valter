@@ -247,15 +247,12 @@ public class SLAMTask
                                         {
                                             teta += dteta * Math.PI / 180;
                                         }
-                                        if (nl > nr)
+                                        if (nl >= nr)
                                         {
                                             setRobotCenterXYDisplacement(nl - nr, nl - nr);
                                         } else if (nl < nr)
                                         {
                                             setRobotCenterXYDisplacement(nr - nl, nr - nl);
-                                        } else if (nl == nr)
-                                        {
-                                            setRobotCenterXYDisplacement(0, 0);
                                         }
                                     } else
                                     //one side movement
@@ -265,11 +262,23 @@ public class SLAMTask
                                             if (nl >= nr)
                                             {
                                                 dteta = al - ar;
-                                                teta -= dteta * Math.PI / 180;
+                                                if (GB08M2.getInstance().getLeftMotorsDirection() == GB08M2.getInstance().getRightMotorsDirection())
+                                                {
+                                                    teta += dteta * Math.PI / 180;
+                                                } else
+                                                {
+                                                    teta -= dteta * Math.PI / 180;
+                                                }
                                             } else if (nr > nl)
                                             {
                                                 dteta = ar - al;
-                                                teta += dteta * Math.PI / 180;
+                                                if (GB08M2.getInstance().getLeftMotorsDirection() == GB08M2.getInstance().getRightMotorsDirection())
+                                                {
+                                                    teta -= dteta * Math.PI / 180;
+                                                } else
+                                                {
+                                                    teta += dteta * Math.PI / 180;
+                                                }
                                             }
                                             setRobotCenterXYDisplacement(dn, dn);
                                         }
@@ -279,11 +288,23 @@ public class SLAMTask
                                             if (nl >= nr)
                                             {
                                                 dteta = al - ar;
-                                                teta += dteta * Math.PI / 180;
+                                                if (GB08M2.getInstance().getLeftMotorsDirection() == GB08M2.getInstance().getRightMotorsDirection())
+                                                {
+                                                    teta -= dteta * Math.PI / 180;
+                                                } else
+                                                {
+                                                    teta += dteta * Math.PI / 180;
+                                                }
                                             } else if (nr > nl)
                                             {
                                                 dteta = ar - al;
-                                                teta -= dteta * Math.PI / 180;
+                                                if (GB08M2.getInstance().getLeftMotorsDirection() == GB08M2.getInstance().getRightMotorsDirection())
+                                                {
+                                                    teta += dteta * Math.PI / 180;
+                                                } else
+                                                {
+                                                    teta -= dteta * Math.PI / 180;
+                                                }
                                             }
                                             setRobotCenterXYDisplacement(-dn, -dn);
                                         }
