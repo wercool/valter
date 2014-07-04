@@ -239,6 +239,20 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
+                            <TitledPane fx:id="positiveImagesAutomatedControlTitledPane" animated="false" layoutX="676.0" layoutY="319.0" prefHeight="-1.0" prefWidth="-1.0" text="Positive Images">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="35.0">
+                                      <content>
+                                        <VBox fx:id="positiveImagesAutomatedControlVBox" prefHeight="-1.0" prefWidth="-1.0" />
+                                      </content>
+                                    </ScrollPane>
+                                    <Button id="savePositiveImagesBtn" mnemonicParsing="false" text="Save Positive Images" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
                           </children>
                         </AnchorPane>
                       </content>

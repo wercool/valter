@@ -14,12 +14,14 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import utils.JPEGFrameGrabber;
+import utils.OpenCVUtils;
 
 public class FrontCameraCVProcessingTask implements Runnable
 {
     Thread thread;
     boolean isStopped = false;
     boolean isPaused = true;
+    Mat prevROIMat;
 
     public FrontCameraCVProcessingTask()
     {
@@ -72,10 +74,11 @@ public class FrontCameraCVProcessingTask implements Runnable
                             //                            MatOfKeyPoint detectorKeypoints = new MatOfKeyPoint();
                             //                            FeatureDetector detector = FeatureDetector.create(FeatureDetector.SIFT);
                             //                            detector.detect(frontCameraROIMat, detectorKeypoints);
-
+                            //
                             //                            MatOfKeyPoint descriptorKeypoints = new MatOfKeyPoint();
                             //                            DescriptorExtractor extractor = DescriptorExtractor.create(FeatureDetector.SIFT);
                             //                            extractor.compute(frontCameraROIMat, detectorKeypoints, descriptorKeypoints);
+                            //
                             //                            Features2d.drawKeypoints(frontCameraROIMat, descriptorKeypoints, frontCameraROIMat);
 
                             GB08M2.getInstance().setFrontCameraROIMat(frontCameraROIMat);
@@ -92,6 +95,7 @@ public class FrontCameraCVProcessingTask implements Runnable
 
                             // Do the Matching and Normalize
                             Imgproc.matchTemplate(frontCameraFrameMat, ROIMat, result, Imgproc.TM_CCOEFF);
+
                             Core.normalize(result, result, 0, 1, Core.NORM_MINMAX, -1, new Mat());
 
                             // Localizing the best match with minMaxLoc
@@ -109,6 +113,15 @@ public class FrontCameraCVProcessingTask implements Runnable
 
                             // Show result
                             Core.rectangle(frontCameraFrameMat, matchLoc, new Point(matchLoc.x + ROIMat.cols(), matchLoc.y + ROIMat.rows()), new Scalar(0, 255, 0));
+
+                            if (prevROIMat != null)
+                            {
+                                System.out.println(OpenCVUtils.compareTwoOpenCVMatHist(prevROIMat, result));
+                            }
+                            prevROIMat = result;
+
+                            Point ROIMatchLoc = new Point(matchLoc.x + ROIMat.cols() / 2, matchLoc.y + ROIMat.rows() / 2);
+                            GB08M2.getInstance().setROIMatchLoc(ROIMatchLoc);
 
                             GB08M2.getInstance().setFrontCameraMat(frontCameraFrameMat);
                         }

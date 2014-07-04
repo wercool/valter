@@ -30,6 +30,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
@@ -119,6 +120,10 @@ public class MainAppController
     static AnchorPane automatedNavigationAnchorPane;
     @FXML
     static Accordion automatedControlTabAccordion;
+    @FXML
+    TitledPane positiveImagesAutomatedControlTitledPane;
+    @FXML
+    public static VBox positiveImagesAutomatedControlVBox;
 
     //TODO: Temporary for debug
     LeftEncoderIncrementTask leftEncoderIncrementTask;
@@ -314,12 +319,46 @@ public class MainAppController
             }
         });
 
+        positiveImagesAutomatedControlTitledPane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // remember initial mouse cursor coordinates
+                    // and node position
+                    dragContext.mouseAnchorX = mouseEvent.getSceneX();
+                    dragContext.mouseAnchorY = mouseEvent.getSceneY();
+                    dragContext.initialTranslateX = positiveImagesAutomatedControlTitledPane.getTranslateX();
+                    dragContext.initialTranslateY = positiveImagesAutomatedControlTitledPane.getTranslateY();
+                }
+            }
+        });
+
+        positiveImagesAutomatedControlTitledPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // shift node from its initial position by delta
+                    // calculated from mouse cursor movement
+                    double x = dragContext.initialTranslateX + mouseEvent.getSceneX() - dragContext.mouseAnchorX;
+                    double y = dragContext.initialTranslateY + mouseEvent.getSceneY() - dragContext.mouseAnchorY;
+                    positiveImagesAutomatedControlTitledPane.setTranslateX(x);
+                    positiveImagesAutomatedControlTitledPane.setTranslateY(y);
+                }
+            }
+        });
+
         frontCameraAutomatedControlOverlayPane.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
         {
             @Override
             public void handle(MouseEvent e)
             {
-                if (!GB08M2AutomatedManager.patternTracking)
+                if (!GB08M2AutomatedManager.isPatternTracking())
                 {
                     GB08M2AutomatedManager.startROIx = e.getX();
                     GB08M2AutomatedManager.startROIy = e.getY();
@@ -332,11 +371,21 @@ public class MainAppController
             @Override
             public void handle(MouseEvent e)
             {
-                if (!GB08M2AutomatedManager.patternTracking)
+                if (!GB08M2AutomatedManager.isPatternTracking())
                 {
                     GB08M2AutomatedManager.endROIx = e.getX();
                     GB08M2AutomatedManager.endROIy = e.getY();
                 }
+            }
+        });
+
+        frontCameraAutomatedControlOverlayPane.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent e)
+            {
+                GB08M2AutomatedManager.curMouseX = e.getX();
+                GB08M2AutomatedManager.curMouseY = e.getY();
             }
         });
 
@@ -345,7 +394,7 @@ public class MainAppController
             @Override
             public void handle(MouseEvent e)
             {
-                if (!GB08M2AutomatedManager.patternTracking)
+                if (!GB08M2AutomatedManager.isPatternTracking())
                 {
                     if (!MainAppController.automatedNavigationAnchorPane.getChildren().contains(MainAppController.driveControTitledPane))
                     {
@@ -657,11 +706,11 @@ public class MainAppController
                     if (clickedToggleBtn.selectedProperty().get())
                     {
                         GB08M2.getInstance().frontCameraCVProcessingTask.resume();
-                        GB08M2.getInstance().gb08m2AutomatedManager.startFrontCameraCVVizualisation();
+                        GB08M2.getInstance().gb08m2AutomatedManager.startFrontCameraVizualisation();
                     } else
                     {
                         GB08M2.getInstance().frontCameraCVProcessingTask.pause();
-                        GB08M2.getInstance().gb08m2AutomatedManager.stopFrontCameraCVVizualisation();
+                        GB08M2.getInstance().gb08m2AutomatedManager.startFrontCameraVizualisation();
                     }
                 break;
                 case "rearCamAutomatedControlToggleBtn":
@@ -678,10 +727,10 @@ public class MainAppController
                 case "patternTrackingAutomatedControlToggleBtn":
                     if (clickedToggleBtn.selectedProperty().get())
                     {
-                        GB08M2AutomatedManager.patternTracking = true;
+                        GB08M2AutomatedManager.setPatternTracking(true);
                     } else
                     {
-                        GB08M2AutomatedManager.patternTracking = false;
+                        GB08M2AutomatedManager.setPatternTracking(false);
                     }
                 break;
             }

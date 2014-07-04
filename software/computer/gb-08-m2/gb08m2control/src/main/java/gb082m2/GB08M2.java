@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import javafx.scene.shape.Rectangle;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
 
 public class GB08M2
 {
@@ -127,6 +128,7 @@ public class GB08M2
     volatile Mat frontCameraMat;
     volatile Mat frontCameraROIMat;
     Rectangle frontCameraROIRectangle;
+    Point ROIMatchLoc;
 
     public GB08M2()
     {
@@ -255,6 +257,16 @@ public class GB08M2
     public synchronized void setFrontCameraROIRectangle(Rectangle frontCameraROIRectangle)
     {
         this.frontCameraROIRectangle = frontCameraROIRectangle;
+    }
+
+    public synchronized Point getROIMatchLoc()
+    {
+        return ROIMatchLoc;
+    }
+
+    public synchronized void setROIMatchLoc(Point rOIMatchLoc)
+    {
+        ROIMatchLoc = rOIMatchLoc;
     }
 
     //Hardware
