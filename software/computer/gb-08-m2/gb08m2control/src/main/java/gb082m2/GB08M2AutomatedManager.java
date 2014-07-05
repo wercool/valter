@@ -37,6 +37,7 @@ public class GB08M2AutomatedManager
     public static ArrayList<Point> ROIDisplacementTrajectoryPoints;
     static Point ROIMatchPrevLoc;
     public static Polyline ROIMatchDisplacementPolyLine;
+    public static Rectangle detectedROIRectangle;
 
     FrontCameraCVVizualisationTask frontCameraCVVizualisationTask;
     FrontCameraNavigationVizualisationTask frontCameraNavigationVizualisationTask;
@@ -46,6 +47,7 @@ public class GB08M2AutomatedManager
         horizontLine = new Line(0, 0, 0, 0);
         horizontLine.setStroke(Color.YELLOW);
         horizontLine.setStrokeWidth(2);
+        horizontLine.setOpacity(0.25);
         MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().add(horizontLine);
 
         navigationLineLeft = new Line(0, 0, 0, 0);
@@ -61,6 +63,12 @@ public class GB08M2AutomatedManager
         ROIMatchDisplacementPolyLine = new Polyline();
         ROIMatchDisplacementPolyLine.setStroke(Color.BLUE);
         MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().add(ROIMatchDisplacementPolyLine);
+
+        detectedROIRectangle = new Rectangle();
+        detectedROIRectangle.setStroke(Color.LIME);
+        detectedROIRectangle.setStrokeWidth(1);
+        detectedROIRectangle.setFill(Color.TRANSPARENT);
+        MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().add(detectedROIRectangle);
 
         ROIDisplacementTrajectoryPoints = new ArrayList<Point>();
 
@@ -165,16 +173,17 @@ public class GB08M2AutomatedManager
                                     ROI.setStroke(Color.RED);
                                     ROI.setFill(Color.TRANSPARENT);
                                     ROI.setMouseTransparent(true);
-                                    
+
                                     GB08M2.getInstance().setFrontCameraROIRectangle(ROI);
-                                    
-                                    MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().remove(4, MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().size());
+
+                                    MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().remove(5, MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().size());
                                     MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().add(GB08M2.getInstance().getFrontCameraROIRectangle());
 
                                     if (GB08M2.getInstance().getFrontCameraROIRectangle().getWidth() > 0 && GB08M2.getInstance().getFrontCameraROIRectangle().getHeight() > 0)
                                     {
                                         Mat ROIMat = GB08M2.getInstance().getFrontCameraROIMat();
-                                        if (ROIMat != null)
+                                        Mat ROIGrayscaleMat = GB08M2.getInstance().getFrontCameraROIGrayscaleMat();
+                                        if (ROIMat != null && ROIGrayscaleMat != null)
                                         {
                                             if (ROIMat.width() > 0 && ROIMat.height() > 0)
                                             {
@@ -184,6 +193,13 @@ public class GB08M2AutomatedManager
                                                 MainAppController.frontCameraAutomatedROIImageView.setFitHeight(ROIImage.getHeight());
                                                 MainAppController.frontCameraAutomatedROIImageView.setImage(ROIImage);
                                                 MainAppController.frontCameraAutomatedROIImageView.setCache(false);
+
+                                                BufferedImage selectedROIGrayscakeBufferedImage = JPEGFrameGrabber.matToBufferedImage(ROIGrayscaleMat);
+                                                Image ROIGrayscaleImage = SwingFXUtils.toFXImage(selectedROIGrayscakeBufferedImage, null);
+                                                MainAppController.frontCameraAutomatedROIGrayscaleImageView.setFitWidth(ROIGrayscaleImage.getWidth());
+                                                MainAppController.frontCameraAutomatedROIGrayscaleImageView.setFitHeight(ROIGrayscaleImage.getHeight());
+                                                MainAppController.frontCameraAutomatedROIGrayscaleImageView.setImage(ROIGrayscaleImage);
+                                                MainAppController.frontCameraAutomatedROIGrayscaleImageView.setCache(false);
                                             }
                                         }
                                     }
@@ -203,6 +219,35 @@ public class GB08M2AutomatedManager
                             {
                                 if (GB08M2.getInstance().getFrontCameraROIRectangle() != null)
                                 {
+                                    Mat ROIDetectedMat = GB08M2.getInstance().getFrontCameraROIDetectedMat();
+                                    Mat ROIDetectedGrayscaleMat = GB08M2.getInstance().getFrontCameraROIDetectedGrayscaleMat();
+                                    if (ROIDetectedMat != null && ROIDetectedGrayscaleMat != null)
+                                    {
+                                        if (ROIDetectedMat.width() > 0 && ROIDetectedMat.height() > 0)
+                                        {
+                                            BufferedImage selectedROIBufferedImage = JPEGFrameGrabber.matToBufferedImage(ROIDetectedMat);
+                                            Image ROIDetectedImage = SwingFXUtils.toFXImage(selectedROIBufferedImage, null);
+                                            MainAppController.frontCameraAutomatedROIDetectedImageView.setFitWidth(ROIDetectedImage.getWidth());
+                                            MainAppController.frontCameraAutomatedROIDetectedImageView.setFitHeight(ROIDetectedImage.getHeight());
+                                            MainAppController.frontCameraAutomatedROIDetectedImageView.setImage(ROIDetectedImage);
+                                            MainAppController.frontCameraAutomatedROIDetectedImageView.setCache(false);
+
+                                            BufferedImage selectedROIGrayscaleBufferedImage = JPEGFrameGrabber.matToBufferedImage(ROIDetectedGrayscaleMat);
+                                            Image ROIDetectedGrayscaleImage = SwingFXUtils.toFXImage(selectedROIGrayscaleBufferedImage, null);
+                                            MainAppController.frontCameraAutomatedROIDetectedGrayscaleImageView.setFitWidth(ROIDetectedGrayscaleImage.getWidth());
+                                            MainAppController.frontCameraAutomatedROIDetectedGrayscaleImageView.setFitHeight(ROIDetectedGrayscaleImage.getHeight());
+                                            MainAppController.frontCameraAutomatedROIDetectedGrayscaleImageView.setImage(ROIDetectedGrayscaleImage);
+                                            MainAppController.frontCameraAutomatedROIDetectedGrayscaleImageView.setCache(false);
+
+                                            Point ROIMatchLoc = GB08M2.getInstance().getROIMatchLoc();
+
+                                            detectedROIRectangle.setX(ROIMatchLoc.x);
+                                            detectedROIRectangle.setY(ROIMatchLoc.y);
+                                            detectedROIRectangle.setWidth(ROIDetectedGrayscaleImage.getWidth());
+                                            detectedROIRectangle.setHeight(ROIDetectedGrayscaleImage.getHeight());
+                                        }
+                                    }
+
                                     GB08M2.getInstance().getFrontCameraROIRectangle().setVisible(false);
                                 }
                             }
@@ -217,7 +262,7 @@ public class GB08M2AutomatedManager
                     MainAppController.frontCameraAutomatedControlImageView.setCache(false);
 
                     horizontLine.setEndX(MainAppController.frontCameraAutomatedControlImageView.getFitWidth());
-                    horizontLine.setStartY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight() / 2);
+                    horizontLine.setStartY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight() / 2.5);
                     horizontLine.setEndY(horizontLine.getStartY());
 
                     Thread.sleep(50);
@@ -228,7 +273,6 @@ public class GB08M2AutomatedManager
                 }
             }
         }
-
     }
 
     public class FrontCameraNavigationVizualisationTask implements Runnable
@@ -269,43 +313,21 @@ public class GB08M2AutomatedManager
             {
                 try
                 {
-                    Platform.runLater(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            navigationLineLeft.setStartX((MainAppController.frontCameraAutomatedControlImageView.getFitWidth() / 2) - 100);
-                            navigationLineRight.setStartX((MainAppController.frontCameraAutomatedControlImageView.getFitWidth() / 2) + 100);
-                            navigationLineLeft.setStartY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight());
-                            navigationLineRight.setStartY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight());
+                    navigationLineLeft.setStartX((MainAppController.frontCameraAutomatedControlImageView.getFitWidth() / 2) - 100);
+                    navigationLineRight.setStartX((MainAppController.frontCameraAutomatedControlImageView.getFitWidth() / 2) + 100);
+                    navigationLineLeft.setStartY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight());
+                    navigationLineRight.setStartY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight());
 
-                            if (curMouseY < MainAppController.frontCameraAutomatedControlImageView.getFitHeight() / 2)
-                            {
-                                navigationLineLeft.setEndY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight() / 2);
-                                navigationLineRight.setEndY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight() / 2);
-                            } else
-                            {
-                                if (curMouseY < MainAppController.frontCameraAutomatedControlImageView.getFitHeight())
-                                {
-                                    navigationLineLeft.setEndY(curMouseY);
-                                    navigationLineRight.setEndY(curMouseY);
-                                } else
-                                {
-                                    navigationLineLeft.setEndY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight());
-                                    navigationLineRight.setEndY(MainAppController.frontCameraAutomatedControlImageView.getFitHeight());
-                                }
-                            }
-                            if (curMouseX < MainAppController.frontCameraAutomatedControlImageView.getFitWidth())
-                            {
-                                navigationLineLeft.setEndX(curMouseX);
-                                navigationLineRight.setEndX(curMouseX);
-                            } else
-                            {
-                                navigationLineLeft.setEndX(MainAppController.frontCameraAutomatedControlImageView.getFitWidth());
-                                navigationLineRight.setEndX(MainAppController.frontCameraAutomatedControlImageView.getFitWidth());
-                            }
+                    if (MainAppController.frontCameraAutomatedControlImageView.getImage() != null)
+                    {
+                        if (curMouseX < MainAppController.frontCameraAutomatedControlImageView.getImage().getWidth() && curMouseY < MainAppController.frontCameraAutomatedControlImageView.getImage().getHeight())
+                        {
+                            navigationLineLeft.setEndX(curMouseX);
+                            navigationLineRight.setEndX(curMouseX);
+                            navigationLineLeft.setEndY(curMouseY);
+                            navigationLineRight.setEndY(curMouseY);
                         }
-                    });
+                    }
 
                     if (isPatternTracking())
                     {
@@ -319,13 +341,15 @@ public class GB08M2AutomatedManager
                             {
                                 ROIMatchPrevLoc = GB08M2.getInstance().getROIMatchLoc();
                                 ROIDisplacementTrajectoryPoints.add(GB08M2.getInstance().getROIMatchLoc());
-                                System.out.println("ROI location has changed [" + GB08M2.getInstance().getROIMatchLoc() + "]");
+                                //System.out.println("ROI location has changed [" + GB08M2.getInstance().getROIMatchLoc() + "]");
                             }
                             ROIMatchDisplacementPolyLine.getPoints().clear();
                             for (Point p : ROIDisplacementTrajectoryPoints)
                             {
-                                ROIMatchDisplacementPolyLine.getPoints().addAll(new Double[]
-                                    { p.x, p.y });
+                                if (p != null)
+                                {
+                                    ROIMatchDisplacementPolyLine.getPoints().addAll(new Double[] { p.x, p.y });
+                                }
                             }
                         }
                     }

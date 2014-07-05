@@ -211,11 +211,16 @@
                                 </TitledPane>
                               </panes>
                             </Accordion>
-                            <TitledPane fx:id="selectedPatternTitledPane" animated="false" collapsible="false" graphicTextGap="4.0" layoutX="674.0" layoutY="5.0" minWidth="145.0" prefHeight="-1.0" prefWidth="-1.0" text="Selected Pattern (ROI)" wrapText="false">
+                            <TitledPane fx:id="selectedPatternTitledPane" animated="false" collapsible="false" graphicTextGap="4.0" layoutX="674.0" layoutY="5.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" text="Selected Pattern (ROI)" wrapText="false">
                               <content>
                                 <AnchorPane id="Content" minHeight="100.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0">
                                   <children>
-                                    <ImageView fx:id="frontCameraAutomatedROIImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <VBox layoutX="0.0" layoutY="0.0" prefHeight="-1.0" prefWidth="-1.0" spacing="20.0">
+                                      <children>
+                                        <ImageView fx:id="frontCameraAutomatedROIImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                        <ImageView id="frontCameraAutomatedROIImageView" fx:id="frontCameraAutomatedROIGrayscaleImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                      </children>
+                                    </VBox>
                                   </children>
                                 </AnchorPane>
                               </content>
@@ -239,7 +244,7 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane fx:id="positiveImagesAutomatedControlTitledPane" animated="false" layoutX="676.0" layoutY="319.0" prefHeight="-1.0" prefWidth="-1.0" text="Positive Images">
+                            <TitledPane fx:id="positiveImagesAutomatedControlTitledPane" animated="false" layoutX="442.0" layoutY="545.0" prefHeight="-1.0" prefWidth="-1.0" text="Positive Images">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -249,6 +254,20 @@
                                       </content>
                                     </ScrollPane>
                                     <Button id="savePositiveImagesBtn" mnemonicParsing="false" text="Save Positive Images" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                            <TitledPane id="selectedPatternTitledPane" fx:id="detectedPatternTitledPane" animated="false" collapsible="false" graphicTextGap="4.0" layoutX="682.0" layoutY="284.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" text="Detected Pattern (ROI)" wrapText="false">
+                              <content>
+                                <AnchorPane id="Content" minHeight="100.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0">
+                                  <children>
+                                    <VBox layoutX="0.0" layoutY="0.0" prefHeight="-1.0" prefWidth="-1.0" spacing="20.0">
+                                      <children>
+                                        <ImageView id="frontCameraAutomatedROIDetectedImageView" fx:id="frontCameraAutomatedROIDetectedImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                        <ImageView id="frontCameraAutomatedROIDetectedGrayscaleImageView" fx:id="frontCameraAutomatedROIDetectedGrayscaleImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                      </children>
+                                    </VBox>
                                   </children>
                                 </AnchorPane>
                               </content>

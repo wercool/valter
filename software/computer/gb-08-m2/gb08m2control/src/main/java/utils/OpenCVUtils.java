@@ -1,8 +1,9 @@
 package utils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Vector;
 
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
@@ -22,26 +23,23 @@ public class OpenCVUtils
     {
         try
         {
-            Mat src = new Mat();
-            Imgproc.cvtColor(mat, src, Imgproc.COLOR_BGR2HSV);
-            List<Mat> imagesList = new ArrayList<>();
-            imagesList.add(src);
-            //Mat tempChannel=new Mat(new Size(3,1),org.opencv.core.CvType.
-            int histSizeArray[] =
-                { 256, 256, 256 };
-            int channelArray[] =
-                { 0, 1, 2 };
-            MatOfInt channels = new MatOfInt(channelArray);
-            //mChannels = new MatOfInt[] { new MatOfInt(0), new MatOfInt(1), new MatOfInt(2) };
-            Mat hist = new Mat();
+            Mat src;
+            if (mat.channels() > 1)
+            {
+                src = new Mat(mat.height(), mat.width(), CvType.CV_8UC1);
+                Imgproc.cvtColor(mat, src, Imgproc.COLOR_RGB2GRAY);
+            } else
+            {
+                src = mat;
+            }
+            Vector<Mat> bgr_planes = new Vector<Mat>();
+            Core.split(src, bgr_planes);
             MatOfInt histSize = new MatOfInt(256);
-            //histSize.fromArray(histSizeArray);
-            //histSize = new MatOfInt(256);
-            float hrangesArray[] =
-                { 0.0f, 255.0f };
-            MatOfFloat ranges = new MatOfFloat(0.0f, 255.0f);
-            org.opencv.imgproc.Imgproc.calcHist(imagesList, channels, new Mat(), hist, histSize, ranges);
-            return hist;
+            final MatOfFloat histRange = new MatOfFloat(0f, 256f);
+            boolean accumulate = false;
+            Mat b_hist = new Mat();
+            Imgproc.calcHist(bgr_planes, new MatOfInt(0), new Mat(), b_hist, histSize, histRange, accumulate);
+            return b_hist;
         } catch (Exception e)
         {
             e.printStackTrace();

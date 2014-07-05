@@ -115,6 +115,8 @@ public class MainAppController
     @FXML
     public static ImageView frontCameraAutomatedROIImageView;
     @FXML
+    public static ImageView frontCameraAutomatedROIGrayscaleImageView;
+    @FXML
     TitledPane automatedControlTabAutomatedNavigationTitledPane;
     @FXML
     static AnchorPane automatedNavigationAnchorPane;
@@ -124,6 +126,12 @@ public class MainAppController
     TitledPane positiveImagesAutomatedControlTitledPane;
     @FXML
     public static VBox positiveImagesAutomatedControlVBox;
+    @FXML
+    TitledPane detectedPatternTitledPane;
+    @FXML
+    public static ImageView frontCameraAutomatedROIDetectedImageView;
+    @FXML
+    public static ImageView frontCameraAutomatedROIDetectedGrayscaleImageView;
 
     //TODO: Temporary for debug
     LeftEncoderIncrementTask leftEncoderIncrementTask;
@@ -349,6 +357,40 @@ public class MainAppController
                     double y = dragContext.initialTranslateY + mouseEvent.getSceneY() - dragContext.mouseAnchorY;
                     positiveImagesAutomatedControlTitledPane.setTranslateX(x);
                     positiveImagesAutomatedControlTitledPane.setTranslateY(y);
+                }
+            }
+        });
+
+        detectedPatternTitledPane.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // remember initial mouse cursor coordinates
+                    // and node position
+                    dragContext.mouseAnchorX = mouseEvent.getSceneX();
+                    dragContext.mouseAnchorY = mouseEvent.getSceneY();
+                    dragContext.initialTranslateX = detectedPatternTitledPane.getTranslateX();
+                    dragContext.initialTranslateY = detectedPatternTitledPane.getTranslateY();
+                }
+            }
+        });
+
+        detectedPatternTitledPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                if (dragContext.draggable)
+                {
+                    // shift node from its initial position by delta
+                    // calculated from mouse cursor movement
+                    double x = dragContext.initialTranslateX + mouseEvent.getSceneX() - dragContext.mouseAnchorX;
+                    double y = dragContext.initialTranslateY + mouseEvent.getSceneY() - dragContext.mouseAnchorY;
+                    detectedPatternTitledPane.setTranslateX(x);
+                    detectedPatternTitledPane.setTranslateY(y);
                 }
             }
         });
