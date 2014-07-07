@@ -137,7 +137,8 @@ public class FrontCameraCVProcessingTask implements Runnable
                             Mat frontCameraROIDetectedGrayscaleMat = new Mat(frontCameraROIDetectedMat.width(), frontCameraROIDetectedMat.height(), CvType.CV_8UC1);
                             Imgproc.cvtColor(frontCameraROIDetectedMat, frontCameraROIDetectedGrayscaleMat, Imgproc.COLOR_RGB2GRAY);
 
-                            //SUFR 
+                            //SUFR
+                            //http://answers.opencv.org/question/10022/the-homography-tutorial-in-java/
                             Mat frontCameraGrayscaleMat = new Mat(frontCameraFrameMat.width(), frontCameraFrameMat.height(), CvType.CV_8UC1);
                             Imgproc.cvtColor(frontCameraROIDetectedMat, frontCameraROIDetectedGrayscaleMat, Imgproc.COLOR_RGB2GRAY);
 
