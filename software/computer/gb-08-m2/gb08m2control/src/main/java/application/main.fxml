@@ -326,8 +326,8 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="286.0">
                       <children>
                         <Label text="Host Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
-                        <!-- <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" /> -->
+                        <!-- <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" /> -->
+                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
                         <Label text="Command Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
                         <TextField id="" fx:id="commandPortTextField" prefWidth="100.0" text="9001" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
                         <Label text="Front Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="75.0" />

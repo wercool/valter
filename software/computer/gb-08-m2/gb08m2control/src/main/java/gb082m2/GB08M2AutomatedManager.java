@@ -39,7 +39,7 @@ public class GB08M2AutomatedManager
     public static Polyline ROIMatchDisplacementPolyLine;
     public static Rectangle detectedROIRectangle;
 
-    FrontCameraCVVizualisationTask frontCameraCVVizualisationTask;
+    static FrontCameraCVVizualisationTask frontCameraCVVizualisationTask;
     FrontCameraNavigationVizualisationTask frontCameraNavigationVizualisationTask;
 
     public GB08M2AutomatedManager()
@@ -344,13 +344,14 @@ public class GB08M2AutomatedManager
                                 //System.out.println("ROI location has changed [" + GB08M2.getInstance().getROIMatchLoc() + "]");
                             }
                             ROIMatchDisplacementPolyLine.getPoints().clear();
-                            for (Point p : ROIDisplacementTrajectoryPoints)
-                            {
-                                if (p != null)
-                                {
-                                    ROIMatchDisplacementPolyLine.getPoints().addAll(new Double[] { p.x, p.y });
-                                }
-                            }
+
+                            //                            for (Point p : ROIDisplacementTrajectoryPoints)
+                            //                            {
+                            //                                if (p != null)
+                            //                                {
+                            //                                    ROIMatchDisplacementPolyLine.getPoints().addAll(new Double[] { p.x, p.y });
+                            //                                }
+                            //                            }
                         }
                     }
 
