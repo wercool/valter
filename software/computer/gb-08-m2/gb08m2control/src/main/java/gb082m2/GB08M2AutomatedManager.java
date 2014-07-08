@@ -250,6 +250,17 @@ public class GB08M2AutomatedManager
                                                 MainAppController.frontCameraAutomatedSURFMatchesImageView.setCache(false);
                                             }
                                             
+                                            Mat ROISURFMatchesWithTemplateMat = GB08M2.getInstance().getFrontCameraDetectedROISURFMatchesWithSelectedTemplateMat();
+                                            if (ROISURFMatchesWithTemplateMat != null)
+                                            {
+                                                BufferedImage ROISURFMatchesWithTemplateMatBufferedImage = JPEGFrameGrabber.matToBufferedImage(ROISURFMatchesWithTemplateMat);
+                                                Image ROISURFMatchesWithTemplateMatImage = SwingFXUtils.toFXImage(ROISURFMatchesWithTemplateMatBufferedImage, null);
+                                                MainAppController.frontCameraAutomatedROIMatchWithTemplareImageView.setFitWidth(ROISURFMatchesWithTemplateMatImage.getWidth());
+                                                MainAppController.frontCameraAutomatedROIMatchWithTemplareImageView.setFitHeight(ROISURFMatchesWithTemplateMatImage.getHeight());
+                                                MainAppController.frontCameraAutomatedROIMatchWithTemplareImageView.setImage(ROISURFMatchesWithTemplateMatImage);
+                                                MainAppController.frontCameraAutomatedROIMatchWithTemplareImageView.setCache(false);
+                                            }
+
                                             Point ROIMatchLoc = GB08M2.getInstance().getROIMatchLoc();
 
                                             detectedROIRectangle.setX(ROIMatchLoc.x);

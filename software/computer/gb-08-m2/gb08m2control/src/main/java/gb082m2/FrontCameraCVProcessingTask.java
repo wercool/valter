@@ -154,8 +154,9 @@ public class FrontCameraCVProcessingTask implements Runnable
                             Mat frontCameraROIDetectedGrayscaleDescriptorMat = new Mat();
                             extractor.compute(frontCameraROIDetectedGrayscaleMat, frontCameraROIDetectedGrayscaleMatKeypoints, frontCameraROIDetectedGrayscaleDescriptorMat);
 
+                            //Template with Frame
+                            System.out.println("Template with Frame");
                             MatOfDMatch ROImatches = new MatOfDMatch();
-                            //matcher.match(ROIDescriptorMat, frontCameraROIDetectedGrayscaleDescriptorMat, ROImatches);
                             matcher.match(ROIDescriptorMat, frontCameraGrayscaleDescriptorMat, ROImatches);
                             List<DMatch> matchesList = ROImatches.toList();
 
@@ -186,13 +187,46 @@ public class FrontCameraCVProcessingTask implements Runnable
                             gm.fromList(good_matches);
 
                             Mat frontCameraSURFMatchesMat = new Mat();
-
-                            //Features2d.drawMatches(frontCameraROIDetectedGrayscaleMat, ROIDetectorKeypoints, frontCameraROIDetectedGrayscaleMat, frontCameraROIDetectedGrayscaleMatKeypoints, gm, frontCameraSURFMatchesMat, new Scalar(255, 0, 0), new Scalar(0, 0, 255), new MatOfByte(), 2);
-
                             Mat ROIGrayscaleMat = GB08M2.getInstance().getFrontCameraROIGrayscaleMat();
                             Features2d.drawMatches(ROIGrayscaleMat, ROIDetectorKeypoints, frontCameraGrayscaleMat, frontCameraGrayscaleKeypoints, gm, frontCameraSURFMatchesMat, new Scalar(255, 0, 0), new Scalar(0, 0, 255), new MatOfByte(), Features2d.NOT_DRAW_SINGLE_POINTS);
 
+                            //Template with detected ROI
+                            System.out.println("Template with detected ROI");
+                            MatOfDMatch ROImatches1 = new MatOfDMatch();
+                            matcher.match(ROIDescriptorMat, frontCameraROIDetectedGrayscaleDescriptorMat, ROImatches1);
+                            matchesList = ROImatches1.toList();
+
+                            max_dist = 0.0;
+                            min_dist = 100.0;
+                            for (int i = 0; i < ROIDescriptorMat.rows(); i++)
+                            {
+                                Double dist = (double) matchesList.get(i).distance;
+                                if (dist < min_dist)
+                                    min_dist = dist;
+                                if (dist > max_dist)
+                                    max_dist = dist;
+                            }
+                            System.out.println("-- Max dist : " + max_dist);
+                            System.out.println("-- Min dist : " + min_dist + "\n");
+
+                            good_matches = new LinkedList<DMatch>();
+                            gm = new MatOfDMatch();
+
+                            for (int i = 0; i < ROIDescriptorMat.rows(); i++)
+                            {
+                                if (matchesList.get(i).distance < max_dist)
+                                {
+                                    good_matches.addLast(matchesList.get(i));
+                                }
+                            }
+
+                            gm.fromList(good_matches);
+
+                            Mat detectedROISURFMatchesWithTemplateMat = new Mat();
+                            Features2d.drawMatches(ROIGrayscaleMat, ROIDetectorKeypoints, frontCameraROIDetectedGrayscaleMat, frontCameraROIDetectedGrayscaleMatKeypoints, gm, detectedROISURFMatchesWithTemplateMat, new Scalar(255, 0, 0), new Scalar(0, 0, 255), new MatOfByte(), 2);
+
                             GB08M2.getInstance().setFrontCameraSURFMatchesMat(frontCameraSURFMatchesMat);
+                            GB08M2.getInstance().setFrontCameraDetectedROISURFMatchesWithSelectedTemplateMat(detectedROISURFMatchesWithTemplateMat);
                             GB08M2.getInstance().setFrontCameraROIDetectedGrayscaleMat(frontCameraROIDetectedGrayscaleMat);
 
                             Point ROIMatchLoc = new Point(matchLoc.x, matchLoc.y);

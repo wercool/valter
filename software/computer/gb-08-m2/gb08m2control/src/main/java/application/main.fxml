@@ -271,6 +271,11 @@
                                           </children>
                                         </HBox>
                                         <ImageView id="frontCameraAutomatedSURFDetectedImageView" fx:id="frontCameraAutomatedSURFMatchesImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                        <HBox prefHeight="100.0" prefWidth="200.0">
+                                          <children>
+                                            <ImageView id="frontCameraAutomatedROIDetectedCPImageView" fx:id="frontCameraAutomatedROIMatchWithTemplareImageView" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+                                          </children>
+                                        </HBox>
                                       </children>
                                     </VBox>
                                   </children>
