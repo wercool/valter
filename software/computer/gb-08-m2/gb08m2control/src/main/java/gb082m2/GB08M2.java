@@ -128,8 +128,10 @@ public class GB08M2
     volatile Mat frontCameraMat;
     volatile Mat frontCameraROIMat;
     volatile Mat frontCameraROIGrayscaleMat;
+    volatile Mat frontCameraROIGrayscaleWithSURFMat;
     volatile Mat frontCameraROIDetectedMat;
     volatile Mat frontCameraROIDetectedGrayscaleMat;
+    volatile Mat frontCameraSURFMatchesMat;
     Rectangle frontCameraROIRectangle;
     Point ROIMatchLoc;
 
@@ -300,6 +302,26 @@ public class GB08M2
     public void setFrontCameraROIDetectedGrayscaleMat(Mat frontCameraROIDetectedGrayscaleMat)
     {
         this.frontCameraROIDetectedGrayscaleMat = frontCameraROIDetectedGrayscaleMat;
+    }
+
+    public synchronized Mat getFrontCameraSURFMatchesMat()
+    {
+        return frontCameraSURFMatchesMat;
+    }
+
+    public synchronized void setFrontCameraSURFMatchesMat(Mat frontCameraSURFMatchesMat)
+    {
+        this.frontCameraSURFMatchesMat = frontCameraSURFMatchesMat;
+    }
+
+    public synchronized Mat getFrontCameraROIGrayscaleWithSURFMat()
+    {
+        return frontCameraROIGrayscaleWithSURFMat;
+    }
+
+    public synchronized void setFrontCameraROIGrayscaleWithSURFMat(Mat frontCameraROIGrayscaleWithSURFMat)
+    {
+        this.frontCameraROIGrayscaleWithSURFMat = frontCameraROIGrayscaleWithSURFMat;
     }
 
     //Hardware

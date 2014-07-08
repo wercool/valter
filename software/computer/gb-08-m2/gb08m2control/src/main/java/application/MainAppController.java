@@ -132,6 +132,8 @@ public class MainAppController
     public static ImageView frontCameraAutomatedROIDetectedImageView;
     @FXML
     public static ImageView frontCameraAutomatedROIDetectedGrayscaleImageView;
+    @FXML
+    public static ImageView frontCameraAutomatedSURFMatchesImageView;
 
     //TODO: Temporary for debug
     LeftEncoderIncrementTask leftEncoderIncrementTask;

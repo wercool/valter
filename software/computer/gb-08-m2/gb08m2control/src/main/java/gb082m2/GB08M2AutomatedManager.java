@@ -66,7 +66,7 @@ public class GB08M2AutomatedManager
 
         detectedROIRectangle = new Rectangle();
         detectedROIRectangle.setStroke(Color.LIME);
-        detectedROIRectangle.setStrokeWidth(1);
+        detectedROIRectangle.setStrokeWidth(2);
         detectedROIRectangle.setFill(Color.TRANSPARENT);
         MainAppController.frontCameraAutomatedControlOverlayPane.getChildren().add(detectedROIRectangle);
 
@@ -182,7 +182,7 @@ public class GB08M2AutomatedManager
                                     if (GB08M2.getInstance().getFrontCameraROIRectangle().getWidth() > 0 && GB08M2.getInstance().getFrontCameraROIRectangle().getHeight() > 0)
                                     {
                                         Mat ROIMat = GB08M2.getInstance().getFrontCameraROIMat();
-                                        Mat ROIGrayscaleMat = GB08M2.getInstance().getFrontCameraROIGrayscaleMat();
+                                        Mat ROIGrayscaleMat = GB08M2.getInstance().getFrontCameraROIGrayscaleWithSURFMat();
                                         if (ROIMat != null && ROIGrayscaleMat != null)
                                         {
                                             if (ROIMat.width() > 0 && ROIMat.height() > 0)
@@ -239,6 +239,17 @@ public class GB08M2AutomatedManager
                                             MainAppController.frontCameraAutomatedROIDetectedGrayscaleImageView.setImage(ROIDetectedGrayscaleImage);
                                             MainAppController.frontCameraAutomatedROIDetectedGrayscaleImageView.setCache(false);
 
+                                            Mat frontCameraSURFMatchesMat = GB08M2.getInstance().getFrontCameraSURFMatchesMat();
+                                            if (frontCameraSURFMatchesMat != null)
+                                            {
+                                                BufferedImage frontCameraSURFMatchesMatBufferedImage = JPEGFrameGrabber.matToBufferedImage(frontCameraSURFMatchesMat);
+                                                Image frontCameraSURFMatchesMatImage = SwingFXUtils.toFXImage(frontCameraSURFMatchesMatBufferedImage, null);
+                                                MainAppController.frontCameraAutomatedSURFMatchesImageView.setFitWidth(frontCameraSURFMatchesMatImage.getWidth());
+                                                MainAppController.frontCameraAutomatedSURFMatchesImageView.setFitHeight(frontCameraSURFMatchesMatImage.getHeight());
+                                                MainAppController.frontCameraAutomatedSURFMatchesImageView.setImage(frontCameraSURFMatchesMatImage);
+                                                MainAppController.frontCameraAutomatedSURFMatchesImageView.setCache(false);
+                                            }
+                                            
                                             Point ROIMatchLoc = GB08M2.getInstance().getROIMatchLoc();
 
                                             detectedROIRectangle.setX(ROIMatchLoc.x);
