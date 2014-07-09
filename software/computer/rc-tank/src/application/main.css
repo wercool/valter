@@ -1,0 +1,4 @@
+.progress-indicator .percentage { visibility: hidden; }
+.progressBarRed { -fx-accent: red; }
+.SLAMPane { -fx-background-color: #FFFFFF; }
+.robotImage { -fx-background-image: url("robot.png"); }

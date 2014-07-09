@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <center>
+    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+      <stylesheets>
+        <URL value="@main.css" />
+      </stylesheets>
+      <tabs>
+        <Tab disable="false" text="Manual Control">
+          <content>
+            <AnchorPane id="Content" fx:id="manualControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="727.0" layoutY="82.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="350.0" prefWidth="225.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="218.0" prefWidth="221.0">
+                      <children>
+                        <Button id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="85.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.topAnchor="2.0">
+                          <font>
+                            <Font size="20.0" fx:id="x2" />
+                          </font>
+                        </Button>
+                        <Button id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" layoutX="85.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.topAnchor="85.0" />
+                        <Button id="turnLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="←" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="turnRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="2.0" />
+                        <Button id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="2.0" />
+                        <Button id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="85.0" />
+                        <Button id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="85.0" />
+                        <Button id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="87.0" AnchorPane.topAnchor="45.0" />
+                        <ToggleButton id="rcTankInitToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="RC Tank Init" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab text="Initialization &amp; Settings">
+          <content>
+            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                <TitledPane animated="false" collapsible="false" minWidth="-1.0" prefHeight="210.0" prefWidth="310.0" text="Initialization" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="286.0">
+                      <children>
+                        <Label text="Host Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
+                        <!-- <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" /> -->
+                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <Label text="Command Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
+                        <TextField id="" fx:id="commandPortTextField" prefWidth="100.0" text="9002" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
+                        <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="140.0" />
+                        <ToggleButton id="initializeRCTankToggleBtn" disable="false" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="RCTank Core" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0" />
+                        <Label text="Start/Stop RCTank Core:" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </center>
+</BorderPane>
