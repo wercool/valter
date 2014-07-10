@@ -6,6 +6,7 @@ import java.util.List;
 
 import javafx.scene.shape.Rectangle;
 
+import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
 import org.opencv.core.Core.MinMaxLocResult;
 import org.opencv.core.CvType;
@@ -13,6 +14,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfByte;
 import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfKeyPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
@@ -21,6 +23,7 @@ import org.opencv.features2d.DescriptorExtractor;
 import org.opencv.features2d.DescriptorMatcher;
 import org.opencv.features2d.FeatureDetector;
 import org.opencv.features2d.Features2d;
+import org.opencv.features2d.KeyPoint;
 import org.opencv.imgproc.Imgproc;
 
 import utils.JPEGFrameGrabber;
@@ -154,6 +157,8 @@ public class FrontCameraCVProcessingTask implements Runnable
                             Mat frontCameraROIDetectedGrayscaleDescriptorMat = new Mat();
                             extractor.compute(frontCameraROIDetectedGrayscaleMat, frontCameraROIDetectedGrayscaleMatKeypoints, frontCameraROIDetectedGrayscaleDescriptorMat);
 
+                            Mat ROIGrayscaleMat = GB08M2.getInstance().getFrontCameraROIGrayscaleMat();
+
                             //Template with Frame
                             System.out.println("Template with Frame");
                             MatOfDMatch ROImatches = new MatOfDMatch();
@@ -178,7 +183,7 @@ public class FrontCameraCVProcessingTask implements Runnable
 
                             for (int i = 0; i < ROIDescriptorMat.rows(); i++)
                             {
-                                if (matchesList.get(i).distance < max_dist)
+                                if (matchesList.get(i).distance < max_dist / 2)
                                 {
                                     good_matches.addLast(matchesList.get(i));
                                 }
@@ -186,8 +191,59 @@ public class FrontCameraCVProcessingTask implements Runnable
 
                             gm.fromList(good_matches);
 
+                            //Homography and Perspective Transform vvv
+                            LinkedList<Point> ROIList = new LinkedList<Point>();
+                            LinkedList<Point> frameList = new LinkedList<Point>();
+
+                            List<KeyPoint> keypoints_ROIList = ROIDetectorKeypoints.toList();
+                            List<KeyPoint> keypoints_frameList = frontCameraGrayscaleKeypoints.toList();
+
+                            for (int i = 0; i < good_matches.size(); i++)
+                            {
+                                ROIList.addLast(keypoints_ROIList.get(good_matches.get(i).queryIdx).pt);
+                                frameList.addLast(keypoints_frameList.get(good_matches.get(i).trainIdx).pt);
+                            }
+
+                            MatOfPoint2f obj = new MatOfPoint2f();
+                            obj.fromList(ROIList);
+
+                            MatOfPoint2f scene = new MatOfPoint2f();
+                            scene.fromList(frameList);
+
+                            try
+                            {
+                                Mat H = Calib3d.findHomography(obj, scene);
+
+                                Mat obj_corners = new Mat(4, 1, CvType.CV_32FC2);
+                                Mat scene_corners = new Mat(4, 1, CvType.CV_32FC2);
+
+                                obj_corners.put(0, 0, new double[]
+                                    { 0, 0 });
+                                obj_corners.put(1, 0, new double[]
+                                    { ROIGrayscaleMat.cols(), 0 });
+                                obj_corners.put(2, 0, new double[]
+                                    { ROIGrayscaleMat.cols(), ROIGrayscaleMat.rows() });
+                                obj_corners.put(3, 0, new double[]
+                                    { 0, ROIGrayscaleMat.rows() });
+
+                                Core.perspectiveTransform(obj_corners, scene_corners, H);
+
+                                Core.line(frontCameraGrayscaleMat, new Point(scene_corners.get(0, 0)), new Point(scene_corners.get(1, 0)), new Scalar(0, 0, 255), 1);
+                                Core.line(frontCameraGrayscaleMat, new Point(scene_corners.get(1, 0)), new Point(scene_corners.get(2, 0)), new Scalar(0, 0, 255), 1);
+                                Core.line(frontCameraGrayscaleMat, new Point(scene_corners.get(2, 0)), new Point(scene_corners.get(3, 0)), new Scalar(0, 0, 255), 1);
+                                Core.line(frontCameraGrayscaleMat, new Point(scene_corners.get(3, 0)), new Point(scene_corners.get(0, 0)), new Scalar(0, 0, 255), 1);
+
+                                Core.line(frontCameraFrameMat, new Point(scene_corners.get(0, 0)), new Point(scene_corners.get(1, 0)), new Scalar(0, 0, 255), 1);
+                                Core.line(frontCameraFrameMat, new Point(scene_corners.get(1, 0)), new Point(scene_corners.get(2, 0)), new Scalar(0, 0, 255), 1);
+                                Core.line(frontCameraFrameMat, new Point(scene_corners.get(2, 0)), new Point(scene_corners.get(3, 0)), new Scalar(0, 0, 255), 1);
+                                Core.line(frontCameraFrameMat, new Point(scene_corners.get(3, 0)), new Point(scene_corners.get(0, 0)), new Scalar(0, 0, 255), 1);
+
+                            } catch (org.opencv.core.CvException e)
+                            {}
+
+                            //Homography and Perspective Transform ^^^
+
                             Mat frontCameraSURFMatchesMat = new Mat();
-                            Mat ROIGrayscaleMat = GB08M2.getInstance().getFrontCameraROIGrayscaleMat();
                             Features2d.drawMatches(ROIGrayscaleMat, ROIDetectorKeypoints, frontCameraGrayscaleMat, frontCameraGrayscaleKeypoints, gm, frontCameraSURFMatchesMat, new Scalar(255, 0, 0), new Scalar(0, 0, 255), new MatOfByte(), Features2d.NOT_DRAW_SINGLE_POINTS);
 
                             //Template with detected ROI
@@ -200,11 +256,15 @@ public class FrontCameraCVProcessingTask implements Runnable
                             min_dist = 100.0;
                             for (int i = 0; i < ROIDescriptorMat.rows(); i++)
                             {
-                                Double dist = (double) matchesList.get(i).distance;
-                                if (dist < min_dist)
-                                    min_dist = dist;
-                                if (dist > max_dist)
-                                    max_dist = dist;
+                                try
+                                {
+                                    Double dist = (double) matchesList.get(i).distance;
+                                    if (dist < min_dist)
+                                        min_dist = dist;
+                                    if (dist > max_dist)
+                                        max_dist = dist;
+                                } catch (ArrayIndexOutOfBoundsException e)
+                                {}
                             }
                             System.out.println("-- Max dist : " + max_dist);
                             System.out.println("-- Min dist : " + min_dist + "\n");
