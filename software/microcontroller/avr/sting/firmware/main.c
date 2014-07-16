@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#include <math.h>
 
 char msg[32];
 
@@ -71,46 +72,43 @@ int main (void)
 
   DDRC = 0x00; 
 
-  int adc_x;
-  int adc_y;
-  int adc_z;
-  int adc_xyz;
-  int i;
+  unsigned int adc_x;
+  unsigned int adc_y;
+  unsigned int adc_z;
+  unsigned int adc_xyz;
+  int cnt = 0;
 
-  uart_init();
+//  uart_init();
 
   while(1) 
   {
-    adc_x = read_adc(0);
-    adc_y = read_adc(1);
-    adc_z = read_adc(2);
+    adc_x = abs(read_adc(0) - 511);
+    adc_y = abs(read_adc(1) - 511);
+    adc_z = abs(read_adc(2) - 511);
 
-    for (i = 0; i < 50; i++)
+    adc_xyz = (unsigned int)round((double)(adc_x + adc_y + adc_z) / 3);
+
+//    sprintf(msg, "%u, %u, %u, %u\n", adc_x, adc_y, adc_z, adc_xyz);
+//    uart_puts(msg);
+
+    if (adc_xyz < 50)
     {
-        adc_x += read_adc(0);
-        adc_y += read_adc(1);
-        adc_z += read_adc(2);
-    }
-
-    adc_x = (int)(adc_x / 50);
-    adc_y = (int)(adc_y / 50);
-    adc_z = (int)(adc_z / 50);
-
-    adc_xyz = (int)((adc_x + adc_y + adc_z) / 3);
-
-    sprintf(msg, "%d, %d, %d, %d\n", adc_x, adc_y, adc_z, adc_xyz);
-    uart_puts(msg);
-
-    if (abs(adc_xyz - 500) < 50)
-    {
-      PORTD |= _BV(PD3);
+      if (cnt > 50)
+      {
+          PORTD |= _BV(PD3);
+          _delay_ms(1);
+      }
+      cnt++;
     }
     else
     {
-      PORTD &= ~_BV(PD3);
+      cnt -= 10;
+      if (cnt <= 0)
+      {
+        PORTD &= ~_BV(PD3);
+        cnt = 0;
+      }
     }
-
-    _delay_ms(10);
   }
 
   return 0;
