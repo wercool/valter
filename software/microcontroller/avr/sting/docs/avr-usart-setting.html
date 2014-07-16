@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="ru-RU"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>настройка uart avr | MainLoop</title>
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="stylesheet" type="text/css" media="all" href="avr-usart-setting_files/style.css">
+<link rel="pingback" href="http://mainloop.ru/xmlrpc.php">
+<link rel="alternate" type="application/rss+xml" title="MainLoop » Лента" href="http://mainloop.ru/feed">
+<link rel="alternate" type="application/rss+xml" title="MainLoop » Лента комментариев" href="http://mainloop.ru/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="MainLoop » Лента комментариев к «AVR: настройка uart/usart»" href="http://mainloop.ru/avr-atmega/avr-usart-setting.html/feed">
+	<style type="text/css">
+	.wp-pagenavi{float:left !important; }
+	</style>
+  <link rel="stylesheet" id="wordpress-popular-posts-css" href="avr-usart-setting_files/wpp.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-syntax-css-css" href="avr-usart-setting_files/wp-syntax.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-pagenavi-style-css" href="avr-usart-setting_files/css3_black.css" type="text/css" media="all">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://mainloop.ru/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://mainloop.ru/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 3.9.1">
+<link rel="shortlink" href="http://mainloop.ru/?p=1499">
+	<style type="text/css">
+	 .wp-pagenavi
+	{
+		font-size:12px !important;
+	}
+	</style>
+	
+<!-- All in One SEO Pack 2.1.5 by Michael Torbert of Semper Fi Web Design[68,111] -->
+<meta name="description" content="Пример настройки и работы с uart для микроконтроллеров avr">
+
+<meta name="keywords" content="avr, atmega, uart, usart, настройка, boudrate, ubrr, ucsrc, ucsrb, udr,,atmega,usart">
+
+<link rel="canonical" href="http://mainloop.ru/avr-atmega/avr-usart-setting.html">
+<!-- /all in one seo pack -->
+</head>
+
+<body class="single single-post postid-1499 single-format-standard">
+<div id="wrapper" class="hfeed">
+	<div id="header">
+		<div id="masthead">
+			<div id="branding" role="banner">
+								<div id="site-title">
+					<span>
+						<a href="http://mainloop.ru/" title="MainLoop" rel="home">MainLoop</a>
+					</span>
+				</div>
+				<div id="site-description">немного о программировании</div>
+
+							</div><!-- #branding -->
+
+			<div id="access" role="navigation">
+			  				<div class="skip-link screen-reader-text"><a href="#content" title="Перейти к содержимому">Перейти к содержимому</a></div>
+								<div class="menu"><ul><li><a href="http://mainloop.ru/">Главная</a></li><li class="page_item page-item-2"><a href="http://mainloop.ru/about.html">Контакты</a></li></ul></div>
+			</div><!-- #access -->
+		</div><!-- #masthead -->
+	</div><!-- #header -->
+
+	<div id="main">
+
+		<div id="container">
+			<div id="content" role="main">
+
+			
+
+				<div id="nav-above" class="navigation">
+					<div class="nav-previous"><a href="http://mainloop.ru/avr-atmega/avr-get-reset-source.html" rel="prev"><span class="meta-nav">←</span> AVR: Определяем причину сброса</a></div>
+					<div class="nav-next"><a href="http://mainloop.ru/web-site-developing/translate-wordpress-twenty-ten.html" rel="next">WordPress: переводим тему TwentyTen <span class="meta-nav">→</span></a></div>
+				</div><!-- #nav-above -->
+
+				<div id="post-1499" class="post-1499 post type-post status-publish format-standard hentry category-avr-atmega tag-atmega tag-avr tag-usart">
+					<h1 class="entry-title">AVR: настройка uart/usart</h1>
+
+					<div class="entry-meta">
+						<span class="meta-prep meta-prep-author">Опубликовано</span> <a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html" title="23:32" rel="bookmark"><span class="entry-date">29/08/2012</span></a> <span class="meta-sep">автором</span> <span class="author vcard"><a class="url fn n" href="http://mainloop.ru/author/artem" title="Посмотреть все записи автора Артём">Артём</a></span>					</div><!-- .entry-meta -->
+
+					<div class="entry-content">
+						<p>UART — это Universal Asynchronius Receiver Transmitter, 
+универсальный асинхронный приемо-передатчик.&nbsp; Но если говорить 
+проще, это обычный последовательный порт (он же COM-порт, он же 
+RS-232),&nbsp; которые раньше&nbsp; часто&nbsp; использовались в 
+персональных компьютерах для подключения мыши, модема и прочих 
+периферийных устройств. С повсеместным распространением USB 
+последовательный порт потерял свою популярность, но в микроконтроллерах 
+он все еще довольно часто используется, так как это один из самых 
+простых способов связать два устройства. При помощи uart к 
+микроконтроллеру можно подключить&nbsp;GSM модем, GPS приемник, или 
+другой микроконтроллер. В зависимости от используемых преобразователей 
+уровня можно получить rs232 или rs485. Так же существуют конвертеры 
+rs232-USB, rs232-ethernet, rs232-bluetooth которые позволяют подключить 
+устройство на микроконтроллере с rs232 используя более современные 
+интерфейсы.</p>
+<p><span id="more-1499"></span></p>
+<p>В UART используются две линии (вывода микроконтроллера):&nbsp;rx — 
+для приема и tx&nbsp;- для передачи.&nbsp;В USART добавлена 
+дополнительная линия clk для синхронизации приемника и передатчика, что 
+позволяет увеличить скорость обмена.</p>
+<p>Данные по uart передаются в следующем формате:</p>
+<p style="text-align: center;"><a href="http://mainloop.ru/wp-content/uploads/2012/05/uart.gif"><img class="size-full wp-image-1915 aligncenter" src="avr-usart-setting_files/uart.gif" alt="" height="180" width="386"></a></p>
+<p>Старт-бит — служит для определения начала посылки<br>
+Биты данных — может быть от 5 до 9 бит, но наиболее часто используется 8 бит — один байт.<br>
+Бит контроля четности — позволяет проверить не произошел ли при передаче сбой.<br>
+Стоп биты&nbsp;- 1 или 2 бита, служат для определения окончания посылки.</p>
+<p>Для uart в avr atmega настраивается несколько параметров:</p>
+<ol>
+<li>скорость обмена</li>
+<li>количество бит данных</li>
+<li>контроль четности</li>
+<li>количество стоп-бит</li>
+</ol>
+<p>Рассмотрим настройку uart/usart для&nbsp; avr atmega8.</p>
+<h2>Настройка скорости обмена по uart в avr</h2>
+<p>Для настройки скорости используется регистр UBRR&nbsp; (Usart Boud Rate Register)</p>
+<p>Для установки скорости в этот регистр надо записать значение рассчитанное по формуле:</p>
+<pre>UBRR = ( F /( B * 16 ) ) - 1</pre>
+<p>Где:</p>
+<ul>
+<li>F — тактовая частота, на которой работает микроконтроллер avr, например 11059200 для кварца&nbsp; 11.0592 МГц</li>
+<li>B — требуемая скорость, например 115200 (бит/с)</li>
+</ul>
+<p>Пример расчета для кварца 11.0592 МГц и скорости 115200 бит/с:</p>
+<pre>( 11059200/( 115200*16 ) ) - 1 = 5</pre>
+<p>Полученный результат записываем в UBRR, т.к. этот регистр 16-битный то доступ организован через два 8-ми битных регистра</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">  UBRRH <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">//старший байт</span>
+  UBRRL <span style="color: #339933;">=</span> <span style="color: #0000dd;">5</span><span style="color: #339933;">;</span> <span style="color: #666666; font-style: italic;">//младший байт</span></pre></td></tr></tbody></table></div>
+
+<p>Если в результате вычисления UBRR получалось не целое число, то в 
+регистр записывается округленное значение, частота обмена при этом будет
+ отличаться от той, что была заданна при расчете. Расхождение в частоте 
+может приводить к сбоям при обмене данными, по этому надо выбирать такой
+ кварц, при котором для заданной скорости обмена UBRR будет целым 
+числом.</p>
+<p>Также в регистре UCSRA имеется бит U2X, позволяющий удвоить скорость 
+обмена. В случае когда этот бит выставлен, для расчета значения UBBR 
+используется следующая формула:</p>
+<pre>UBRR = ( F /( B * 8 ) ) - 1</pre>
+<p>&nbsp;</p>
+<h2>Настраиваем количество бит данных для uart в avr</h2>
+<p><em>Зависимость количества бит данных от состояния бит UCSZx&nbsp; регистра UCSRC для uart/usart&nbsp; в atmega8</em></p>
+<table>
+<tbody>
+<tr>
+<td>UCSZ2</td>
+<td>UCSZ1</td>
+<td>UCSZ0</td>
+<td>количество бит данных</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>5</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>7</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>8</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>Пример настройки uart/usart avr atmega8 на 8 бит данных:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">UCSRC <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> URSEL <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">0</span> <span style="color: #339933;">&lt;&lt;</span> UCSZ2 <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UCSZ1 <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UCSZ0 <span style="color: #009900;">)</span><span style="color: #339933;">;</span></pre></td></tr></tbody></table></div>
+
+<address>* Для доступа к регистру UCSRC был выставлен бит URSEL.</address>
+<h2></h2>
+<h2>Настройка контроля четности для uart в avr</h2>
+<p><em>Зависимость режима контроля четности&nbsp;от&nbsp;состояния бит UPMx регистра UCSRC для uart/usart в atmega8</em></p>
+<table>
+<tbody>
+<tr>
+<td>UPM1</td>
+<td>UPM0</td>
+<td><em>контроль четности</em></td>
+</tr>
+<tr bgcolor="#eeeeee">
+<td>0</td>
+<td>0</td>
+<td>запрещен</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>дополнение до четности</td>
+</tr>
+<tr bgcolor="#eeeeee">
+<td>1</td>
+<td>1</td>
+<td>дополнение до нечетности</td>
+</tr>
+</tbody>
+</table>
+<p>Пример настройки uart/usart avr atmega8 на режим с отключенным контролем четности:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">UCSRC <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> URSEL <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">0</span> <span style="color: #339933;">&lt;&lt;</span> UPM1 <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">0</span> <span style="color: #339933;">&lt;&lt;</span> UPM0 <span style="color: #009900;">)</span> <span style="color: #339933;">;</span></pre></td></tr></tbody></table></div>
+
+<address>* Для доступа к регистру UCSRC был выставлен бит URSEL.</address>
+<address>&nbsp;</address>
+<h2>Настройка количества стоп-бит для uart в avr</h2>
+<table>
+<tbody>
+<tr>
+<td>USBS</td>
+<td><em>количество стоп-бит </em></td>
+</tr>
+<tr bgcolor="#eeeeee">
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>Пример настройки uart/usart avr atmega8 на режим с одним стоп-битом:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">UCSRC <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> URSEL <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">0</span> <span style="color: #339933;">&lt;&lt;</span> USBS <span style="color: #009900;">)</span><span style="color: #339933;">;</span></pre></td></tr></tbody></table></div>
+
+<address>* Для доступа к регистру UCSRC был выставлен бит URSEL.</address>
+<address>&nbsp;</address>
+<h2>Разрешение приема и передачи данных по uart</h2>
+<p>Для того что бы разрешить прием и передачу данных надо выставить соответствующие биты в регистре UCSRB:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;">UCSRB <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> TXEN <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> RXEN <span style="color: #009900;">)</span><span style="color: #339933;">;</span></pre></td></tr></tbody></table></div>
+
+<h2>Обобщенная функция настройки uart для avr atmega8</h2>
+<p>Так как настройка количества бит данных, контроля четности и 
+количества стоп бит производится&nbsp; через регистр UCSRC, то установку
+ всех необходимых бит объединим в одну строку. Также не будем указывать 
+биты которые сбрасываются в 0.</p>
+<p>Пример настройки uart/usart avr atmega8 на 8 бит данных, 1 стоп-бит, отсутствие контроля четности, скорость обмена 115200 бит/с:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">void</span> uart_init<span style="color: #009900;">(</span> <span style="color: #993333;">void</span> <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+  <span style="color: #666666; font-style: italic;">//настройка скорости обмена</span>
+  UBRRH <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+  UBRRL <span style="color: #339933;">=</span> <span style="color: #0000dd;">5</span><span style="color: #339933;">;</span>
+  <span style="color: #666666; font-style: italic;">//8 бит данных, 1 стоп бит, без контроля четности</span>
+ &nbsp;UCSRC <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> URSEL <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UCSZ1 <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UCSZ0 <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  <span style="color: #666666; font-style: italic;">//разрешить прием и передачу данных</span>
+  UCSRB <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> TXEN <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span>RXEN <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table></div>
+
+<h2>Передача байта по uart в avr</h2>
+<p>Для передачи надо записать данные в регистр UDR, но перед этим надо убедиться что предыдущий байт уже отправлен.</p>
+<p>Пример функции для передачи байта по uart/usart avr atmega8:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">void</span> uart_putc<span style="color: #009900;">(</span> <span style="color: #993333;">char</span> c <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+  <span style="color: #666666; font-style: italic;">//ждем окончания передачи предыдущего байта</span>
+  <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #009900;">(</span> UCSRA <span style="color: #339933;">&amp;</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UDRE <span style="color: #009900;">)</span> <span style="color: #009900;">)</span> <span style="color: #339933;">==</span> <span style="color: #0000dd;">0</span>  <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  <span style="color: #666666; font-style: italic;">//передача данных</span>
+  UDR <span style="color: #339933;">=</span> c<span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table></div>
+
+<p>&nbsp;</p>
+<h2>Прием байта по uart в avr</h2>
+<p>Для того что бы определить принят ли байт или нет используется бит RXC регистра UCSRA.<br>
+Так же в этом регистре находятся флаги говорящие о том что произошла ошибка при приеме данных:</p>
+<ul>
+<li>бит FE (Frame Error ) — ошибка кадрирования. То есть вместо стоп бит пришел 0.</li>
+<li>бит PE (Parity Error) — ошибка контроля четности. То есть не совпали принятый и рассчитанный биты четности.</li>
+<li>бит OR (OveRflow)- переполнение буфера. То есть следующий байт уже принят а предыдущий еще не считан из регистра UDR.</li>
+</ul>
+<p>Пример функции для приёма байта по uart/usart avr atmega8:</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #993333;">unsigned</span> <span style="color: #993333;">char</span> uart_getc<span style="color: #009900;">(</span> <span style="color: #993333;">void</span> <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+  <span style="color: #666666; font-style: italic;">//ждем приема байта</span>
+  <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #009900;">(</span> UCSRA <span style="color: #339933;">&amp;</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> RXC <span style="color: #009900;">)</span> <span style="color: #009900;">)</span> <span style="color: #339933;">==</span> <span style="color: #0000dd;">0</span>  <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+&nbsp;
+  <span style="color: #666666; font-style: italic;">//считываем принятый байт</span>
+  <span style="color: #b1b100;">return</span>&nbsp;UDR<span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table></div>
+
+<h2>Простая программа для avr</h2>
+<p>Теперь можно написать простую программу, которая выводит в uart 
+«Hello world» а потом переходит в режим&nbsp; «эха» — отправляет обратно
+ принятые символы.</p>
+
+<div class="wp_syntax"><table><tbody><tr><td class="code"><pre class="c" style="font-family:monospace;"><span style="color: #339933;">#include &lt;avr/io.h&gt;</span>
+&nbsp;
+<span style="color: #993333;">void</span> uart_init<span style="color: #009900;">(</span> <span style="color: #993333;">void</span> <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+  <span style="color: #666666; font-style: italic;">//настройка скорости обмена</span>
+  UBRRH <span style="color: #339933;">=</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+  UBRRL <span style="color: #339933;">=</span> <span style="color: #0000dd;">5</span><span style="color: #339933;">;</span>
+  <span style="color: #666666; font-style: italic;">//8 бит данных, 1 стоп бит, без контроля четности</span>
+ &nbsp;UCSRC <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> URSEL <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UCSZ1 <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UCSZ0 <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  <span style="color: #666666; font-style: italic;">//разрешить прием и передачу данных</span>
+  UCSRB <span style="color: #339933;">=</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> TXEN <span style="color: #009900;">)</span> <span style="color: #339933;">|</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span>RXEN <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+<span style="color: #993333;">unsigned</span> <span style="color: #993333;">char</span> uart_getc<span style="color: #009900;">(</span> <span style="color: #993333;">void</span> <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+   <span style="color: #666666; font-style: italic;">//ждем приема байта</span>
+  &nbsp;<span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #009900;">(</span> UCSRA <span style="color: #339933;">&amp;</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> RXC <span style="color: #009900;">)</span> <span style="color: #009900;">)</span> <span style="color: #339933;">==</span> <span style="color: #0000dd;">0</span>  <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+   <span style="color: #666666; font-style: italic;">//считываем принятый байт</span>
+  &nbsp;<span style="color: #b1b100;">return</span>&nbsp;UDR<span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+<span style="color: #993333;">void</span> uart_putc<span style="color: #009900;">(</span> <span style="color: #993333;">char</span> c <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+  <span style="color: #666666; font-style: italic;">//ждем окончания передачи предыдущего байта</span>
+  <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #009900;">(</span> UCSRA <span style="color: #339933;">&amp;</span> <span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #339933;">&lt;&lt;</span> UDRE <span style="color: #009900;">)</span> <span style="color: #009900;">)</span> <span style="color: #339933;">==</span> <span style="color: #0000dd;">0</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  UDR <span style="color: #339933;">=</span> c<span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+<span style="color: #993333;">void</span> uart_puts<span style="color: #009900;">(</span> <span style="color: #993333;">char</span> <span style="color: #339933;">*</span>str <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+  <span style="color: #993333;">unsigned</span> <span style="color: #993333;">char</span> c<span style="color: #339933;">;</span>
+  <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #009900;">(</span> c <span style="color: #339933;">=</span> <span style="color: #339933;">*</span>str<span style="color: #339933;">++</span> <span style="color: #009900;">)</span> <span style="color: #339933;">!=</span> <span style="color: #0000dd;">0</span> <span style="color: #009900;">)</span> <span style="color: #009900;">{</span>
+    uart_putc<span style="color: #009900;">(</span> c <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  <span style="color: #009900;">}</span>
+<span style="color: #009900;">}</span>
+&nbsp;
+<span style="color: #993333;">int</span> main<span style="color: #009900;">(</span> <span style="color: #993333;">void</span> <span style="color: #009900;">)</span>
+<span style="color: #009900;">{</span>
+  uart_init<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  uart_puts<span style="color: #009900;">(</span> <span style="color: #ff0000;">"Hello uart<span style="color: #000099; font-weight: bold;">\r</span><span style="color: #000099; font-weight: bold;">\n</span>"</span> <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  <span style="color: #b1b100;">while</span><span style="color: #009900;">(</span> <span style="color: #0000dd;">1</span> <span style="color: #009900;">)</span> <span style="color: #009900;">{</span>
+    <span style="color: #993333;">char</span> c <span style="color: #339933;">=</span> uart_getc<span style="color: #009900;">(</span><span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+    uart_putc<span style="color: #009900;">(</span> c <span style="color: #009900;">)</span><span style="color: #339933;">;</span>
+  <span style="color: #009900;">}</span>
+  <span style="color: #b1b100;">return</span> <span style="color: #0000dd;">0</span><span style="color: #339933;">;</span>
+<span style="color: #009900;">}</span></pre></td></tr></tbody></table></div>
+
+<p>&nbsp;</p>
+<p>Cкачать исходники под avr-gcc (WinAvr) можно <a href="http://mainloop.ru/wp-content/uploads/2012/08/uart-avr1.zip">тут</a>.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+											</div><!-- .entry-content -->
+
+
+					<div class="entry-utility">
+						Запись опубликована в рубрике <a href="http://mainloop.ru/avr-atmega" title="Просмотреть все записи в рубрике «Микроконтроллеры avr»" rel="category tag">Микроконтроллеры avr</a> с метками <a href="http://mainloop.ru/tag/atmega" rel="tag">atmega</a>, <a href="http://mainloop.ru/tag/avr" rel="tag">avr</a>, <a href="http://mainloop.ru/tag/usart" rel="tag">usart</a>. Добавьте в закладки <a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html" title="Постоянная ссылка: AVR: настройка uart/usart" rel="bookmark">постоянную ссылку</a>.											</div><!-- .entry-utility -->
+				</div><!-- #post-## -->
+
+				<div id="nav-below" class="navigation">
+					<div class="nav-previous"><a href="http://mainloop.ru/avr-atmega/avr-get-reset-source.html" rel="prev"><span class="meta-nav">←</span> AVR: Определяем причину сброса</a></div>
+					<div class="nav-next"><a href="http://mainloop.ru/web-site-developing/translate-wordpress-twenty-ten.html" rel="next">WordPress: переводим тему TwentyTen <span class="meta-nav">→</span></a></div>
+				</div><!-- #nav-below -->
+
+				
+			<div id="comments">
+
+
+			<h3 id="comments-title">17 комментариев: <em>AVR: настройка uart/usart</em></h3>
+
+
+			<ol class="commentlist">
+					<li class="comment even thread-even depth-1" id="li-comment-2232">
+		<div id="comment-2232">
+			<div class="comment-author vcard">
+								<cite class="fn">foton6</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2232">
+				30/01/2013 в 21:05</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Спасибо за статью. Все предельно понятно.<br>
+Сначала написал свою программу, выдает околесицу.<br>
+Думаю возможно я криворук, забил вашу…  Тоже не понятные символы.<br>
+Дело ясное скорость обмена не совпадает.   Естественно я перещитал 
+опираясь на свою мегу.   Стоит кварц на 5мГц, но фьюзы стоят по 
+умолчанию, значит мега работает от внутреннего генератора с частотой 
+1мГц.<br>
+значит  (1000 000 / (9600 * 16) )-1 = 5,5  брал 5 и 6  для UBRRL/  Ни 
+одно не подходит.           Схема исправна, так как уже забивал прогу  
+для UART, работала норм.  В коде  расчет UBRRL  был «автоматический» под
+ 9600,  а что вместо частоты МК там бралось не разобрался, прогу найти 
+не могу…<br>
+Подскажите в чем дело может быть?(может быть частота МК всеже не 1мГц?, можноли както выяснить?)</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-artem bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-2233">
+		<div id="comment-2233">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2233">
+				30/01/2013 в 21:48</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Какой у вас микроконтроллер?<br>
+Что бы проверить частоту можно через заданный промежуток времени 
+изменять состояние какого-нибудь  вывода и осциллографом посмотреть. Ну 
+или в крайнем случае светодиодом мигать раз в секунду и посмотреть 
+сколько раз он мигнет за минуту.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2234">
+		<div id="comment-2234">
+			<div class="comment-author vcard">
+								<cite class="fn">foton6</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2234">
+				31/01/2013 в 05:54</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Atmega 8A-PU  да как раз сегодня почитаю
+ вашу статейку на счет таймеров и выясню частоту. На крайний случай 
+поиграю с фьюзами и выставлю частоту.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-artem bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-2236">
+		<div id="comment-2236">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2236">
+				31/01/2013 в 12:40</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Что-бы сделать задержку не обязательно использовать таймеры, можно использовать функцию  _delay_ms.  </p>
+<p>Кстати вспомнил, я когда-то тоже делал обмен по uart с тактированием 
+от внутреннего RC-генератора. У меня тоже выводились крокозябры. Эту 
+проблему тогда решил используя регистр подстройки частоты OSCCAL.</p>
+<p>Сделал цикл в котором  изменял этот регистр от 0 до 255 и выводил это значение в uart.</p>
+<p><code><br>
+unsigned short i;<br>
+for( i=0; i &lt;= 255; i++ ) {<br>
+   OSCCAL = i;<br>
+   _delay_ms( 100 );<br>
+   printf( "OSCCAL=%u\r\n", i);<br>
+   _delay_ms( 1000 );<br>
+}<br>
+</code></p>
+<p>В каком-то диапазоне значений OSCCAL текст стал выводиться нормально.
+ Взял значение из середины этого диапазона и записывал его в регистр 
+OSCCAL при старте программы. После этого все заработало.<br>
+Но лучше все-таки тактировать от кварца, причём подбирать его так что-бы
+ не надо было округлять значение, записываемое в UBRR, например кварц 
+11.0592  или 7.3728 МГц.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2239">
+		<div id="comment-2239">
+			<div class="comment-author vcard">
+								<cite class="fn">foton6</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2239">
+				31/01/2013 в 18:18</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Не стал морочится с высчитыванием точной частоты ))<br>
+Просто фьюзы под внешний кварц выставил, работает  отлично.<br>
+В статье очень порадовали таблицы с битами, а то в большенстве 
+статей(которые я читал) люди пишут куда ставить биты, а зачем, а уж 
+темболее что будет если иначе поставить, не пишут.<br>
+Конечно все есть в дата шите(по крайней мере по утверждениям) , а с 
+ин-язами дела обстоят очень плохо.  Я конечно летом пойду на курсы 
+английского(сейчас физически не получается: учеба, работа.). Благодаря 
+подобным статьям лишь удается пока двигаться )))))<br>
+СПАСИБО !</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-artem bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-2240">
+		<div id="comment-2240">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2240">
+				31/01/2013 в 18:54</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Пожалуйста!  Будут еще вопросы — пишите, буду рад помочь :)</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2448">
+		<div id="comment-2448">
+			<div class="comment-author vcard">
+								<cite class="fn">Артем</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2448">
+				06/05/2013 в 14:26</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Спасибо за подробную статью.  Но есть 
+один вопрос, который лично я никак не могу реализовать — это прием 
+строки байт через UART в МК. Пробовал все возможные способы с буфером, 
+но обрабатывать передачу МК так и не захотел.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-artem bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-2449">
+		<div id="comment-2449">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2449">
+				06/05/2013 в 14:43</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Если Вам нужен приём текстовой строки, то попробуйте следующий код :</p>
+<p>#define BUF_SIZE 128<br>
+char buf[BUF_SIZE];<br>
+unsigned char buf_cnt = 0;</p>
+<p>while( 1 ) {<br>
+    char c = uart_getc();<br>
+    if(  (c == ‘\n’) || ( c == ‘\r’ ) ) {<br>
+        buf[buf_cnt] = 0;<br>
+        uart_puts( buf );<br>
+        buf_cnt = 0;<br>
+    }<br>
+    else {<br>
+        buf[buf_cnt] = c;<br>
+        buf_cnt++;<br>
+    }<br>
+}</p>
+<p>Тут, конечно, ещё надо добавить проверку на переполнение буфера…</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2556">
+		<div id="comment-2556">
+			<div class="comment-author vcard">
+								<cite class="fn">vital</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2556">
+				11/08/2013 в 20:10</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>доброе время суток, у мя вопрос: есть N 
+устройств хочется их объединить в сеть много прочитал, везде видится 
+логика 1-master N-slave. теории и букав много, а вот схем реальных 
+рабочих устройств нет т.е. я пытаюсь понять логику работы учитывая что у
+ всех устройств может быть разная частота работа разные кварцевые 
+генераторы внешние или внутренние, скорость uart по логике как то 
+уравновешивает эти вопросы приводя работу по обмену между master любым 
+slave по примерно одной частоте, но вот все равно присутствует  ощущение
+ вероятности сбоя/потери чего то. есть подозрения что МК между собой 
+кроме TX и RX объединены чем то еще чтото типа синхронизации. Огромная 
+просьба разъяснить эти моменты с приведенными ссылками на какие то 
+схемы/проекты/статьи. Спасибо вам Артем за рожденный энтузиазм и интерес</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-artem bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-2562">
+		<div id="comment-2562">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2562">
+				12/08/2013 в 20:47</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Доброго времени суток, Vital.<br>
+Вы всё правильно поняли, при обмене по сети есть один мастер и несколько ведомых.<br>
+Тактовая частота у них может быть разная, но частота обмена должна быть 
+одинаковая, при этом если используется внутренний RC генератор, то его 
+лучше откалибровать, что бы было меньше ошибок.</p>
+<p>При этом обычно используется RS485. Дополнительной синхронизации нет.
+ Сбои и потери отслеживаются при помощи таймаутов(timeout) и контрольной
+ суммы.</p>
+<p>Алгоритм работы такой:<br>
+Мастер отправляет пакет, в котором содержится адрес устройства<br>
+Все ведомые этот пакет получают, но отвечает только то устройство адрес которого совпал.<br>
+Мастер принимает ответ от ведомого и переходит к опросу  следующего устройства.<br>
+Если ответа от ведомого нет в течении некоторого времени (таймаут), то мастер повторяет попытку опроса ведомого.</p>
+<p>Пакет обычно имеет следующий вид:<br>
+| адрес | длина данных | данные | контрольная сумма |</p>
+<p>Можно взять за основу modbus.</p>
+<p>Если есть ещё вопросы — пишите, постараюсь ответить.</p>
+<p>P/S Если не секрет, что за сеть из устройств?</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2568">
+		<div id="comment-2568">
+			<div class="comment-author vcard">
+								<cite class="fn">vital</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2568">
+				15/08/2013 в 23:04</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Да все прозаичнее Артем, пока все 
+устройства у меня в голове) не было не единой практики работы в живую 
+лишь чтение и фантазии, поэтому столько вопросов. Касаемо протокола в 
+голове тоже есть представление так как сам программист чистой воды 
+разные структуры данных сложные алгоритмы это для меня легко, работал с 
+сетями вплотную и свои протоколы использовал и чужие слушал) а вот опыта
+ с схемотехникой не было, и стоило задуматься на уровне устройства и 
+учитывая практику с дискретизацией задумался о том как же железяка 
+работает то, в голове логика вроде работает и без всяких чтений но очень
+ хочется увидеть какие то готовые проекты со схемами разных устрой и 
+исходниками кодов, может есть такой источник который послужил бы мне 
+хорошим материалом?) спасибо</p>
+<p>как только познаю мастерство хоть по минимуму начну практику, и 
+обязательно поделюсь всеми бредовыми идеями) на самом деле вопрос разных
+ много и по разным тематикам, если интересно передать навыки или помочь 
+найти решения могу мучить вопросами)</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-2570">
+		<div id="comment-2570">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2570">
+				15/08/2013 в 23:25</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Готовые проекты поищу, что-то было.<br>
+А пока готов к мучению вопросами :)<br>
+Пишите — постараюсь помочь.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2571">
+		<div id="comment-2571">
+			<div class="comment-author vcard">
+								<cite class="fn">Vital</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2571">
+				15/08/2013 в 23:33</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Доброе время суток) вопрос у мя 
+прозаичный, может подскажите простой uart терминал как сделать/где 
+взять? т.е. не хочется к ПК прикручивать а смотреть о чем думает 
+микросхема хотелось бы<br>
+спасибо</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-2572">
+		<div id="comment-2572">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2572">
+				15/08/2013 в 23:34</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>А почему к ПК не хотите подключать?<br>
+можно взять готовый uart-usb переходник, на мой взгляд, это самое простое решение</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2576">
+		<div id="comment-2576">
+			<div class="comment-author vcard">
+								<cite class="fn">Alexsander</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2576">
+				23/08/2013 в 19:26</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>у меня проблем )))) помогите мне  
+пожалуйста))) буду очень благодарен)))))  я прошил atmega8A-PU на 
+usart-эхо на кварце 16Mhz на скорости 115200 бод   (что я подаю то и 
+принимаю в терминале)……… atmega8A-PU на кварце 16Mhz подключен к COM-USB
+ адаптер к ноутбук и через терминал подаю символы на atmega8A-PU а 
+принимаю другие символы  (например подаю «6″ а получаю в ответ «3″) вот в
+ этом проблема))) помогите , объясните в чем причина</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment byuser comment-author-artem bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-2578">
+		<div id="comment-2578">
+			<div class="comment-author vcard">
+								<cite class="fn">Артём Двинин</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2578">
+				24/08/2013 в 02:20</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>Мне кажется, всё дело в кварце. При 
+расчете значения которое надо записать в UBRR получается не целое число.
+ В результате частота обмена не 115200 а немного другая. Попробуйте 
+поставить другой кварц например на 11059200 Гц, 7372800 Гц, или 14745600
+ Гц.</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+	<li class="comment even thread-even depth-1" id="li-comment-2580">
+		<div id="comment-2580">
+			<div class="comment-author vcard">
+								<cite class="fn">Alexsander</cite> <span class="says">говорит:</span>			</div><!-- .comment-author .vcard -->
+			
+			<div class="comment-meta commentmetadata"><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#comment-2580">
+				24/08/2013 в 22:10</a>			</div><!-- .comment-meta .commentmetadata -->
+
+			<div class="comment-body"><p>все получилось ))))дело было в купленном
+ мной usb-uart ))) я купил FT232RL собрал плату на нем , подключил к 
+нему мою atmega8 и все получилось ))) кварц поставил на 7372800 Гц))) 
+ура )))<br>
+дело за малым<br>
+Создал программку на делфи для управление через uart  )))запрограмировал
+ на кнопку посылается «1″ на atmega но аtmega не зажигает светодиод))) а
+ в терминале посылаю ,зажигается свето диод )))вопрос вчем причина )))</p>
+</div>
+
+			<div class="reply">
+							</div><!-- .reply -->
+		</div><!-- #comment-##  -->
+
+	</li><!-- #comment-## -->
+			</ol>
+
+
+	
+
+								<div id="respond" class="comment-respond">
+				<h3 id="reply-title" class="comment-reply-title">Добавить комментарий <small><a rel="nofollow" id="cancel-comment-reply-link" href="http://mainloop.ru/avr-atmega/avr-usart-setting.html#respond" style="display:none;">Отменить ответ</a></small></h3>
+									<form action="http://mainloop.ru/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+																			<p class="comment-notes">Ваш e-mail не будет опубликован.</p>							<p class="comment-form-author"><label for="author">Имя</label> <input id="author" name="author" size="30" type="text"></p>
+<p class="comment-form-email"><label for="email">E-mail</label> <input id="email" name="email" size="30" type="text"></p>
+<p class="comment-form-url"><label for="url">Сайт</label> <input id="url" name="url" size="30" type="text"></p>
+												<p class="comment-form-comment"><label for="comment">Комментарий</label> <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea></p>						<p class="form-allowed-tags">Можно использовать следующие <abbr title="HyperText Markup Language">HTML</abbr>-теги и атрибуты:  <code>&lt;a
+ href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; 
+&lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del 
+datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; 
+&lt;strong&gt; </code></p>						<p class="form-submit">
+							<input name="submit" id="submit" value="Отправить комментарий" type="submit">
+							<input name="comment_post_ID" value="1499" id="comment_post_ID" type="hidden">
+<input name="comment_parent" id="comment_parent" value="0" type="hidden">
+						</p>
+						<p style="display: none;"><input id="akismet_comment_nonce" name="akismet_comment_nonce" value="93c6fbb263" type="hidden"></p><script type="text/javascript" src="avr-usart-setting_files/jquery.js"></script>
+<script type="text/javascript" src="avr-usart-setting_files/jquery-migrate.js"></script>
+<script type="text/javascript" src="avr-usart-setting_files/form.js"></script>
+<p style="display: none;"></p>					<input id="ak_js" name="ak_js" value="1405509730378" type="hidden"></form>
+							</div><!-- #respond -->
+			
+</div><!-- #comments -->
+
+
+			</div><!-- #content -->
+		</div><!-- #container -->
+
+
+		<div id="primary" class="widget-area" role="complementary">
+			<ul class="xoxo">
+
+<li id="text-11" class="widget-container widget_text"><h3 class="widget-title">Помощь сайту</h3>			<div class="textwidget"><iframe allowtransparency="true" src="avr-usart-setting_files/small.html" frameborder="0" height="31" scrolling="no" width="145"></iframe>
+
+<iframe allowtransparency="true" src="avr-usart-setting_files/small_002.html" frameborder="0" height="31" scrolling="no" width="145"></iframe></div>
+		</li><li id="categories-3" class="widget-container widget_categories"><h3 class="widget-title">Рубрики</h3>		<ul>
+	<li class="cat-item cat-item-29"><a href="http://mainloop.ru/stm32" title="Просмотреть все записи в рубрике «stm32»">stm32</a>
+</li>
+	<li class="cat-item cat-item-30"><a href="http://mainloop.ru/c-language" title="Просмотреть все записи в рубрике «Великий и могучий Си»">Великий и могучий Си</a>
+</li>
+	<li class="cat-item cat-item-28"><a href="http://mainloop.ru/embedded-systems" title="Просмотреть все записи в рубрике «Встраиваемые системы»">Встраиваемые системы</a>
+</li>
+	<li class="cat-item cat-item-79"><a href="http://mainloop.ru/interfaces" title="Интерфейсы">Интерфейсы</a>
+</li>
+	<li class="cat-item cat-item-9"><a href="http://mainloop.ru/linux-os" title="Просмотреть все записи в рубрике «Использование linux»">Использование linux</a>
+</li>
+	<li class="cat-item cat-item-44"><a href="http://mainloop.ru/avr-atmega" title="Просмотреть все записи в рубрике «Микроконтроллеры avr»">Микроконтроллеры avr</a>
+</li>
+	<li class="cat-item cat-item-16"><a href="http://mainloop.ru/android-programming" title="Просмотреть все записи в рубрике «Программирование под android»">Программирование под android</a>
+</li>
+	<li class="cat-item cat-item-3"><a href="http://mainloop.ru/vim-text-editor" title="Просмотреть все записи в рубрике «Редактор vim»">Редактор vim</a>
+</li>
+	<li class="cat-item cat-item-34"><a href="http://mainloop.ru/web-site-developing" title="Просмотреть все записи в рубрике «Сайтостроительство»">Сайтостроительство</a>
+</li>
+		</ul>
+</li><!-- Wordpress Popular Posts Plugin v2.3.7 [W] [weekly] [avg] [regular] -->
+<li id="wpp-2" class="widget-container popular-posts">
+<h3 class="widget-title">Популярные записи</h3><ul class="wpp-list">
+<li><a href="http://mainloop.ru/linux-os/make-lowcost-wifi-webcam.html" title="Как сделать WI-FI камеру видеонаблюдения за 1200 рублей" class="wpp-post-title" target="_self">Как сделать WI-FI камеру видеонаблюдения за 1200 рублей</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/linux-os/computer-ip-web-camera.html" title="Делаем из компьютера IP WEB камеру слежения" class="wpp-post-title" target="_self">Делаем из компьютера IP WEB камеру слежения</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/avr-atmega/avr-timer-counter.html" title="AVR: настройка таймера счетчика" class="wpp-post-title" target="_self">AVR: настройка таймера счетчика</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/avr-atmega/avr-uart-fifo-irq.html" title="AVR:  обмен данными по uart c использованием прерываний и fifo" class="wpp-post-title" target="_self">AVR:  обмен данными по uart c использованием прерываний и fifo</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/avr-atmega/avr-external-interrupt.html" title="AVR: Обработка внешних прерываний" class="wpp-post-title" target="_self">AVR: Обработка внешних прерываний</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/avr-atmega/avr-usart-setting.html" title="AVR: настройка uart/usart" class="wpp-post-title" target="_self">AVR: настройка uart/usart</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/about.html" title="Контакты" class="wpp-post-title" target="_self">Контакты</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/avr-atmega/avr-spi.html" title="AVR: SPI" class="wpp-post-title" target="_self">AVR: SPI</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/avr-atmega/modbus-avr.html" title="AVR: modbus" class="wpp-post-title" target="_self">AVR: modbus</a> <span class="post-stats"></span></li>
+<li><a href="http://mainloop.ru/linux-os/how-to-make-open-wrt-firmware-for-tp-link-tl-mr3020.html" title="Cоздаём свою прошивку open-wrt для tp-link tl-mr 3020" class="wpp-post-title" target="_self">Cоздаём свою прошивку open-wrt для tp-link tl-mr 3020</a> <span class="post-stats"></span></li>
+
+</ul>
+</li>
+<!-- End Wordpress Popular Posts Plugin v2.3.7 -->
+		<li id="recent-posts-3" class="widget-container widget_recent_entries">		<h3 class="widget-title">Свежие записи</h3>		<ul>
+					<li>
+				<a href="http://mainloop.ru/stm32/stm32-stlink-linux.html">stm32: работа с st-link в linux</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/interfaces/rs485.html">rs485: краткое описание</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/avr-atmega/lcd.html">AVR: подключаем lcd hd44780</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/avr-atmega/avr-gps.html">AVR: подключаем GPS приёмник</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/vim-text-editor/replace-dos-eol.html">vim: изменяем формат перевода строк</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/avr-atmega/mma7455l.html">AVR: подключаем 3х осевой акселерометр mma7455l</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/web-site-developing/perl-html-table.html">perl: генерируем HTML таблицу</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/avr-atmega/avr-unexpected-optimization.html">AVR: неожиданный способ оптимизации</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/linux-os/gnuplot-simplest-example.html">gnuplot: пример простого графика</a>
+						</li>
+					<li>
+				<a href="http://mainloop.ru/avr-atmega/avr-progmem-strings.html">AVR: Переносим строки в программную память</a>
+						</li>
+				</ul>
+		</li><li id="tag_cloud-3" class="widget-container widget_tag_cloud"><h3 class="widget-title">Облако меток</h3><div class="tagcloud"><a href="http://mainloop.ru/tag/android" class="tag-link-53" title="6 записей" style="font-size: 16.2795698925pt;">android</a>
+<a href="http://mainloop.ru/tag/ant" class="tag-link-17" title="1 запись" style="font-size: 8pt;">ant</a>
+<a href="http://mainloop.ru/tag/arm" class="tag-link-11" title="1 запись" style="font-size: 8pt;">arm</a>
+<a href="http://mainloop.ru/tag/asm" class="tag-link-6" title="2 записи" style="font-size: 10.7096774194pt;">asm</a>
+<a href="http://mainloop.ru/tag/atmega" class="tag-link-43" title="9 записей" style="font-size: 18.5376344086pt;">atmega</a>
+<a href="http://mainloop.ru/tag/avr" class="tag-link-7" title="16 записей" style="font-size: 22pt;">avr</a>
+<a href="http://mainloop.ru/tag/avr-gcc" class="tag-link-68" title="3 записи" style="font-size: 12.5161290323pt;">avr-gcc</a>
+<a href="http://mainloop.ru/tag/bash" class="tag-link-8" title="4 записи" style="font-size: 14.0215053763pt;">bash</a>
+<a href="http://mainloop.ru/tag/beaglebone" class="tag-link-62" title="2 записи" style="font-size: 10.7096774194pt;">beaglebone</a>
+<a href="http://mainloop.ru/tag/cd" class="tag-link-36" title="1 запись" style="font-size: 8pt;">cd</a>
+<a href="http://mainloop.ru/tag/changelog" class="tag-link-32" title="1 запись" style="font-size: 8pt;">ChangeLog</a>
+<a href="http://mainloop.ru/tag/colibri" class="tag-link-40" title="2 записи" style="font-size: 10.7096774194pt;">colibri</a>
+<a href="http://mainloop.ru/tag/define" class="tag-link-13" title="1 запись" style="font-size: 8pt;">define</a>
+<a href="http://mainloop.ru/tag/diff" class="tag-link-50" title="1 запись" style="font-size: 8pt;">diff</a>
+<a href="http://mainloop.ru/tag/embedded" class="tag-link-51" title="3 записи" style="font-size: 12.5161290323pt;">embedded</a>
+<a href="http://mainloop.ru/tag/ext2" class="tag-link-42" title="1 запись" style="font-size: 8pt;">ext2</a>
+<a href="http://mainloop.ru/tag/fifo" class="tag-link-46" title="1 запись" style="font-size: 8pt;">fifo</a>
+<a href="http://mainloop.ru/tag/gcc" class="tag-link-10" title="3 записи" style="font-size: 12.5161290323pt;">gcc</a>
+<a href="http://mainloop.ru/tag/iso" class="tag-link-37" title="1 запись" style="font-size: 8pt;">iso</a>
+<a href="http://mainloop.ru/tag/java" class="tag-link-18" title="1 запись" style="font-size: 8pt;">java</a>
+<a href="http://mainloop.ru/tag/kernel" class="tag-link-21" title="2 записи" style="font-size: 10.7096774194pt;">kernel</a>
+<a href="http://mainloop.ru/tag/linux" class="tag-link-48" title="9 записей" style="font-size: 18.5376344086pt;">linux</a>
+<a href="http://mainloop.ru/tag/logo" class="tag-link-47" title="1 запись" style="font-size: 8pt;">logo</a>
+<a href="http://mainloop.ru/tag/make" class="tag-link-25" title="2 записи" style="font-size: 10.7096774194pt;">make</a>
+<a href="http://mainloop.ru/tag/makefile" class="tag-link-26" title="2 записи" style="font-size: 10.7096774194pt;">makefile</a>
+<a href="http://mainloop.ru/tag/mediawiki" class="tag-link-35" title="1 запись" style="font-size: 8pt;">mediawiki</a>
+<a href="http://mainloop.ru/tag/openwrt" class="tag-link-65" title="2 записи" style="font-size: 10.7096774194pt;">openwrt</a>
+<a href="http://mainloop.ru/tag/perl" class="tag-link-23" title="1 запись" style="font-size: 8pt;">perl</a>
+<a href="http://mainloop.ru/tag/posix" class="tag-link-14" title="1 запись" style="font-size: 8pt;">posix</a>
+<a href="http://mainloop.ru/tag/pxa320" class="tag-link-38" title="2 записи" style="font-size: 10.7096774194pt;">pxa320</a>
+<a href="http://mainloop.ru/tag/regexp" class="tag-link-22" title="1 запись" style="font-size: 8pt;">regexp</a>
+<a href="http://mainloop.ru/tag/rootfs" class="tag-link-41" title="1 запись" style="font-size: 8pt;">rootfs</a>
+<a href="http://mainloop.ru/tag/screenshot" class="tag-link-45" title="1 запись" style="font-size: 8pt;">screenshot</a>
+<a href="http://mainloop.ru/tag/sdk" class="tag-link-19" title="1 запись" style="font-size: 8pt;">sdk</a>
+<a href="http://mainloop.ru/tag/ssh" class="tag-link-20" title="1 запись" style="font-size: 8pt;">ssh</a>
+<a href="http://mainloop.ru/tag/svn" class="tag-link-31" title="1 запись" style="font-size: 8pt;">svn</a>
+<a href="http://mainloop.ru/tag/u-boot" class="tag-link-39" title="2 записи" style="font-size: 10.7096774194pt;">u-boot</a>
+<a href="http://mainloop.ru/tag/usart" class="tag-link-56" title="2 записи" style="font-size: 10.7096774194pt;">usart</a>
+<a href="http://mainloop.ru/tag/vim" class="tag-link-49" title="5 записей" style="font-size: 15.2258064516pt;">vim</a>
+<a href="http://mainloop.ru/tag/webcam" class="tag-link-60" title="2 записи" style="font-size: 10.7096774194pt;">webcam</a>
+<a href="http://mainloop.ru/tag/wordpress" class="tag-link-24" title="2 записи" style="font-size: 10.7096774194pt;">wordpress</a>
+<a href="http://mainloop.ru/tag/xml" class="tag-link-54" title="1 запись" style="font-size: 8pt;">xml</a>
+<a href="http://mainloop.ru/tag/si" class="tag-link-12" title="8 записей" style="font-size: 17.7849462366pt;">Си</a>
+<a href="http://mainloop.ru/tag/algoritmyi" class="tag-link-15" title="1 запись" style="font-size: 8pt;">алгоритмы</a>
+<a href="http://mainloop.ru/tag/zadachki" class="tag-link-4" title="2 записи" style="font-size: 10.7096774194pt;">задачки</a></div>
+</li><li id="recent-comments-3" class="widget-container widget_recent_comments"><h3 class="widget-title">Новые комментарии</h3><ul id="recentcomments"><li class="recentcomments">Артём Двинин к записи <a href="http://mainloop.ru/avr-atmega/avr-gps.html#comment-3886">AVR: подключаем GPS приёмник</a></li><li class="recentcomments">Артём Двинин к записи <a href="http://mainloop.ru/avr-atmega/avr-gps.html#comment-3885">AVR: подключаем GPS приёмник</a></li><li class="recentcomments">Владимир к записи <a href="http://mainloop.ru/avr-atmega/avr-gps.html#comment-3884">AVR: подключаем GPS приёмник</a></li><li class="recentcomments">Владимир к записи <a href="http://mainloop.ru/avr-atmega/avr-gps.html#comment-3883">AVR: подключаем GPS приёмник</a></li><li class="recentcomments">Артём Двинин к записи <a href="http://mainloop.ru/avr-atmega/avr-gps.html#comment-3817">AVR: подключаем GPS приёмник</a></li></ul></li><li id="calendar-3" class="widget-container widget_calendar"><div id="calendar_wrap"><table id="wp-calendar">
+	<caption>Июль 2014</caption>
+	<thead>
+	<tr>
+		<th scope="col" title="Понедельник">Пн</th>
+		<th scope="col" title="Вторник">Вт</th>
+		<th scope="col" title="Среда">Ср</th>
+		<th scope="col" title="Четверг">Чт</th>
+		<th scope="col" title="Пятница">Пт</th>
+		<th scope="col" title="Суббота">Сб</th>
+		<th scope="col" title="Воскресенье">Вс</th>
+	</tr>
+	</thead>
+
+	<tfoot>
+	<tr>
+		<td colspan="3" id="prev"><a href="http://mainloop.ru/2014/03" title="Посмотреть записи за Март 2014">« Мар</a></td>
+		<td class="pad">&nbsp;</td>
+		<td colspan="3" id="next" class="pad">&nbsp;</td>
+	</tr>
+	</tfoot>
+
+	<tbody>
+	<tr>
+		<td colspan="1" class="pad">&nbsp;</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+	</tr>
+	<tr>
+		<td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+	</tr>
+	<tr>
+		<td>14</td><td>15</td><td id="today">16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+	</tr>
+	<tr>
+		<td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td>27</td>
+	</tr>
+	<tr>
+		<td>28</td><td>29</td><td>30</td><td>31</td>
+		<td class="pad" colspan="3">&nbsp;</td>
+	</tr>
+	</tbody>
+	</table></div></li><li id="archives-3" class="widget-container widget_archive"><h3 class="widget-title">Архив</h3>		<ul>
+	<li><a href="http://mainloop.ru/2014/03">Март 2014</a>&nbsp;(2)</li>
+	<li><a href="http://mainloop.ru/2013/06">Июнь 2013</a>&nbsp;(2)</li>
+	<li><a href="http://mainloop.ru/2013/04">Апрель 2013</a>&nbsp;(7)</li>
+	<li><a href="http://mainloop.ru/2013/02">Февраль 2013</a>&nbsp;(2)</li>
+	<li><a href="http://mainloop.ru/2012/12">Декабрь 2012</a>&nbsp;(2)</li>
+	<li><a href="http://mainloop.ru/2012/11">Ноябрь 2012</a>&nbsp;(3)</li>
+	<li><a href="http://mainloop.ru/2012/10">Октябрь 2012</a>&nbsp;(1)</li>
+	<li><a href="http://mainloop.ru/2012/09">Сентябрь 2012</a>&nbsp;(3)</li>
+	<li><a href="http://mainloop.ru/2012/08">Август 2012</a>&nbsp;(3)</li>
+	<li><a href="http://mainloop.ru/2012/05">Май 2012</a>&nbsp;(3)</li>
+	<li><a href="http://mainloop.ru/2012/04">Апрель 2012</a>&nbsp;(3)</li>
+	<li><a href="http://mainloop.ru/2012/03">Март 2012</a>&nbsp;(7)</li>
+	<li><a href="http://mainloop.ru/2012/02">Февраль 2012</a>&nbsp;(7)</li>
+	<li><a href="http://mainloop.ru/2012/01">Январь 2012</a>&nbsp;(5)</li>
+	<li><a href="http://mainloop.ru/2011/08">Август 2011</a>&nbsp;(7)</li>
+	<li><a href="http://mainloop.ru/2011/07">Июль 2011</a>&nbsp;(3)</li>
+		</ul>
+</li><li id="meta-3" class="widget-container widget_meta"><h3 class="widget-title">Мета</h3>			<ul>
+						<li><a href="http://mainloop.ru/wp-login.php">Войти</a></li>
+			<li><a href="http://mainloop.ru/feed" title="Подпишитесь на RSS-ленту этого сайта"><abbr title="Really Simple Syndication">RSS</abbr> записей</a></li>
+			<li><a href="http://mainloop.ru/comments/feed" title="Последние комментарии ко всем записям в RSS"><abbr title="Really Simple Syndication">RSS</abbr> комментариев</a></li>
+<li><a href="http://ru.wordpress.org/" title="Сайт работает на WordPress — современной персональной платформе для публикаций.">WordPress.org</a></li>			</ul>
+</li>			</ul>
+		</div><!-- #primary .widget-area -->
+
+	</div><!-- #main -->
+
+	<div id="footer" role="contentinfo">
+		<div id="colophon">
+
+
+
+			<div id="footer-widget-area" role="complementary">
+
+				<div id="first" class="widget-area">
+					<ul class="xoxo">
+						<li id="text-4" class="widget-container widget_text">			<div class="textwidget"><!--LiveInternet counter--><script type="text/javascript"><!--
+document.write("<a href='http://www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t39.1;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border='0' width='31' height='31'><\/a>")
+//--></script><a href="http://www.liveinternet.ru/click" target="_blank"><img src="avr-usart-setting_files/hit.gif" alt="" title="LiveInternet" height="31" border="0" width="31"></a><!--/LiveInternet--></div>
+		</li>					</ul>
+				</div><!-- #first .widget-area -->
+
+
+				<div id="third" class="widget-area">
+					<ul class="xoxo">
+						<li id="text-9" class="widget-container widget_text">			<div class="textwidget"><!-- Yandex.Metrika counter -->
+<div style="display:none;"><script type="text/javascript">
+(function(w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter12595237 = new Ya.Metrika({id:12595237, enableAll: true, webvisor:true});
+        }
+        catch(e) { }
+    });
+})(window, "yandex_metrika_callbacks");
+</script></div>
+<script src="avr-usart-setting_files/watch.js" type="text/javascript" defer="defer"></script>
+<noscript><div><img src="//mc.yandex.ru/watch/12595237" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter --></div>
+		</li>					</ul>
+				</div><!-- #third .widget-area -->
+
+				<div id="fourth" class="widget-area">
+					<ul class="xoxo">
+						<li id="text-10" class="widget-container widget_text">			<div class="textwidget"><a href="http://mainloop.ru/sitemap.xml">sitemap</a></div>
+		</li>					</ul>
+				</div><!-- #fourth .widget-area -->
+
+			</div><!-- #footer-widget-area -->
+
+			<div id="site-info">
+				<a href="http://mainloop.ru/" title="MainLoop" rel="home">
+					MainLoop				</a>
+			</div><!-- #site-info -->
+
+			<div id="site-generator">
+								<a href="http://wordpress.org/" title="Современная персональная платформа для публикаций">Сайт работает на WordPress.</a>
+			</div><!-- #site-generator -->
+
+		</div><!-- #colophon -->
+	</div><!-- #footer -->
+
+</div><!-- #wrapper -->
+
+
+
+</body></html>

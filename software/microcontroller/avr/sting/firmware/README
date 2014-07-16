@@ -1,4 +1,4 @@
-sudo apt-get install gcc-avr binutils-avr avr-libc avrdude 
+sudo apt-get install gcc-avr binutils-avr avr-libc avrdude
 
 avr-gcc -mmcu=atmega8 -Wall -Os -o main.elf main.c
 avr-objcopy -j .text -j .data -O ihex main.elf main.hex
