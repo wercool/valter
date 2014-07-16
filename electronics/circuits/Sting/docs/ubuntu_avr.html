@@ -1,0 +1,1352 @@
+
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta content='width=1024' name='viewport'>
+    
+    
+    <title>Программирование для AVR в Ubuntu / Хабрахабр</title>
+    
+    <meta name='yandex-verification' content='67d46b975fa41645' /> <!-- яндекс вебмастер - верификация -->
+
+    <meta name="description" content="Для интересующихся программированием микроконтроллеров подсказываю про существование замечательного плагина для Eclipse, упрощающего разработку софта: AVR Eclipse plug-in. Он позволяет выбрать из..." />    
+    <meta name="keywords" content="AVR, Ubuntu, микропроцессоры" />
+    
+    	<meta property="fb:app_id"      content="444736788986613" /> 
+<meta property="og:type"        content="article" /> 
+<meta property="og:url"         content="http://habrahabr.ru/post/72780/" /> 
+<meta property="og:title"       content="Программирование для AVR в Ubuntu" /> 
+	
+	<meta property="og:image"       content="http://habrahabr.ru/i/habralogo.jpg" />
+	<link rel="image_src" href="http://habrahabr.ru/i/habralogo.jpg" />
+<meta property="og:description" content="Для интересующихся программированием микроконтроллеров подсказываю про существование замечательного плагина для Eclipse, упрощающего разработку софта: AVR..." />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@habrahabr" />
+	<meta property="al:ios:url" content="habrahabr://post/72780" />
+<meta property="al:ios:app_store_id" content="778613673" />
+<meta property="al:ios:app_name" content="Habrahabr" />
+<meta property="al:android:url" content="habrahabr://post/72780" />
+<meta property="al:android:app_name" content="Habrahabr" />
+<meta property="al:android:package" content="ru.habrahabr" />
+<meta property="al:windows_phone:url" content="habrahabr://post/72780" />
+<meta property="al:windows_phone:app_name" content="Habrahabr" />
+<meta property="al:windows_phone:app_id" content="460a6bd6-8955-470f-935e-9ea1726a6060" />
+
+
+      <link href="/styles/1405438214/all.css" rel="stylesheet" media="all" />
+  
+    <link href="/styles/1405438214/_parts/navbar.css" rel="stylesheet" media="all" />
+
+      <link href="/styles/1405438214/_parts/posts.css" rel="stylesheet" media="all" />
+  <link href="/styles/1405438214/_parts/comments.css" rel="stylesheet" media="all" />
+  <link href="/styles/1405438214/forms.css" rel="stylesheet" media="all" />
+  <link href="/styles/1405438214/highlight.css" rel="stylesheet" media="all" />
+
+
+    <link href="/styles/1405438214/printer.css" rel="stylesheet" media="print" />
+
+    
+    
+
+      <script src="/javascripts/1405438214/all.js"></script>
+    <script src="/javascripts/1405438214/_parts/_navbar.js"></script>
+
+
+      <script type="text/javascript" src="/javascripts/1405438214/libs/jquery.form.js"></script>
+  <script type="text/javascript" src="/javascripts/1405438214/libs/jquery.cookie.js"></script>
+  <script type="text/javascript" src="/javascripts/1405438214/libs/wysiwyg.js"></script>
+  <script type="text/javascript" src="/javascripts/1405438214/libs/highlight.js"></script>
+  <script type="text/javascript" src="/javascripts/1405438214/libs/jquery-ui-highlight.js"></script>
+  <script type="text/javascript" src="/javascripts/1405438214/_parts/posts.js"></script>
+  <script type="text/javascript" src="/javascripts/1405438214/_parts/comments.js"></script>
+  <script type="text/javascript" src="/javascripts/1405438214/posts/all.js"></script>
+
+
+      <!-- www.criteo.com/ru -->
+<script type='text/javascript'>
+  var crtg_nid="2580";
+  var crtg_cookiename="cto_rtt";
+  var crtg_varname="crtg_content";
+  function crtg_getCookie(c_name){
+    var i,x,y,ARRCookies=document.cookie.split(";");
+    for(i=0;i<ARRCookies.length;i++){
+      x=ARRCookies[i].substr(0,ARRCookies[i].indexOf("="));
+      y=ARRCookies[i].substr(ARRCookies[i].indexOf("=")+1);
+      x=x.replace(/^\s+|\s+$/g,"");
+      if(x==c_name){return unescape(y);}
+    }
+    return'';
+  }
+  var crtg_content = crtg_getCookie(crtg_cookiename);var crtg_rnd=Math.floor(Math.random()*99999999999);
+  var crtg_url=location.protocol+'//rtax.criteo.com/delivery/rta/rta.js?netId='+escape(crtg_nid);crtg_url+='&cookieName='+escape(crtg_cookiename);crtg_url+='&rnd='+crtg_rnd;crtg_url+='&varName=' + escape(crtg_varname);
+  var crtg_script=document.createElement('script');crtg_script.type='text/javascript';crtg_script.src=crtg_url;crtg_script.async=true;
+  if(document.getElementsByTagName("head").length>0)document.getElementsByTagName("head")[0].appendChild(crtg_script);
+  else
+  if(document.getElementsByTagName("body").length>0)document.getElementsByTagName("body")[0].appendChild(crtg_script);
+</script>
+      <script >
+        var N = 5;
+        var ar_duo1 = Math.floor(Math.random()*N+1);
+      </script>
+      <script type="text/javascript" src="/javascripts/1405438214/adriver.core.2.js"></script>
+
+    <link title="Хабрахабр / Комментарии к публикации «Программирование для AVR в Ubuntu»" type="application/rss+xml" rel="alternate" href="http://habrahabr.ru/rss/post/72780/"/>
+        
+    
+    
+<script type="text/javascript">
+
+    var user_type = "guest";
+    var username = 'guest';
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  
+    ga('create', 'UA-726094-1',  'auto' ); 
+
+  ga('require', 'displayfeatures');
+  ga('set', 'dimension1', user_type); // user type - guest/readonly/habrauser
+  ga('set', 'dimension2', username); // username
+
+
+  ga('send', 'pageview');
+  
+</script>
+
+
+
+<script type="text/javascript">
+var pp_gemius_identifier = new String('p8zr4.NqiIZJgD2cnP2s5fWWnIQFHrAvZ280B955gIr.f7');
+</script>
+<script src="/javascripts/1405438214/gemius.js"></script>
+
+
+
+
+
+
+
+    
+    <meta content='Хабрахабр' name='apple-mobile-web-app-title'>
+<link href='/images/apple-touch-icon_142x142.png' rel='apple-touch-icon' type='image/png'>
+
+
+
+  </head>
+
+  <body>
+    
+    <div id="layout">
+      <div id="navbar_overlay" class="hidden"></div>
+<div id="navbar">
+    <div class="nav_panel">
+        <a href="http://habrahabr.ru/" class="logo"></a>
+
+            <a href="/posts/" class="tab tab_menu" data-tab="menu_tab" title="Меню"></a>
+            <a href="https://habrahabr.ru/auth/login/" class="tab tab_login" id="login" title="Войти"></a>
+
+        <a href="#" class="scroll_to_up hidden scroll_to_up_for_guest" id="scroll_to_top" title="Наверх"></a>
+    </div>
+    <div class="nav_tabs_content ">
+        
+        <div class="nav_tab hidden" id="menu_tab">
+            <div class="title">Разделы</div>
+            <form action="/search/" method="get" class="global_search_form">
+                <div>
+                    <input type="text" name="q" placeholder="Поиск" />
+                </div>
+            </form>
+            <div class="menu">
+                <a href="/posts/top/">Посты</a>
+                <a href="/hubs/">Хабы</a>
+                <a href="/companies/">Компании</a>
+                <a href="/users/">Пользователи</a>
+                <a href="http://toster.ru/?utm_source=tm_habrahabr&utm_medium=tm_menu&utm_campaign=tm_promo"    class="new_window">Q&A</a>
+                <a href="/sandbox/">Песочница</a>
+                
+
+            </div>
+
+            
+
+                    <div class="line"></div>
+                    <div class="title">Спецпроекты</div>
+                    <div class="menu">
+
+                    <a href="/lnk/17/">LG G3</a>
+
+                    <a href="/lnk/15/">Nokia</a>
+
+                    <a href="/lnk/7/">М.Видео</a>
+                    </div>
+
+                
+        </div>
+
+        
+    </div>
+</div>
+      <div class="inner">
+        
+                
+        
+
+        	
+  <div class="content_left">
+  	
+
+
+
+
+
+    <div class="post_show">
+  	  
+  <div class="post shortcuts_item" id="post_72780">
+  	<div class="published">19 октября 2009 в 16:18</div>
+    <h1 class="title">
+	    
+        <span class="post_title">Программирование для AVR в Ubuntu</span>
+      
+			
+  	</h1>
+  	
+  	<div class="hubs">
+		<a href="http://habrahabr.ru/hub/controllers/" class="hub " title="Вы не подписаны на этот хаб" >Программинг микроконтроллеров</a><span class="profiled_hub" title="Профильный хаб">*</span>
+</div>
+
+  	
+  	<div class="content html_format">
+    	Для интересующихся программированием микроконтроллеров подсказываю про существование замечательного плагина для Eclipse, упрощающего разработку софта: <a href="http://avr-eclipse.sourceforge.net">AVR Eclipse plug-in</a>. Он позволяет выбрать из списка процессор, создать hex и с помощью avrdude загрузить прошивку, плюс различные бантики с просмотром и редактированием отдельных битов в регистрах и фьюзах.<br/>
+<br/>
+Про IDE Eclipse я здесь рассказывать не буду — большинство присутствующих его знают и используют, а для тех, кто с ним пока не знаком, <a href="http://http://www.google.com.ua/search?q=Eclipse+установка">найдется</a> немало мануалов по установке.<br/>
+Вначале установим все необходимое для разработки под AVR:<br/>
+<br/>
+<code> apt-get install avr-gcc avr-binutils avr-libc avrdude </code><br/>
+<br/>
+Теперь запускаем Эклипс, заходим в Help-&gt;Software updates-&gt;Add site… и вписываем туда адрес сайта плагина <a href="http://avr-eclipse.sourceforge.net/updatesite/">avr-eclipse.sourceforge.net/updatesite/</a><br/>
+Жмем Ok, перезапускаем Эклипс и видим в мастере проектов новый пункт «AVR Cross Target Application». Выбираете процессор, тактовую частоту — и вперед! <br/>
+<br/>
+Успешной работы и правильных фьюзов ;) 
+    	<div class="clear"></div> 	
+  	</div>
+    
+<ul class="tags">
+	<li ><a href="http://habrahabr.ru/search/?q=%5BAVR%5D&target_type=posts" rel="tag">AVR</a></li><li >, <a href="http://habrahabr.ru/search/?q=%5BUbuntu%5D&target_type=posts" rel="tag">Ubuntu</a></li><li >, <a href="http://habrahabr.ru/search/?q=%5B%D0%BC%D0%B8%D0%BA%D1%80%D0%BE%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D0%BE%D1%80%D1%8B%5D&target_type=posts" rel="tag">микропроцессоры</a></li>
+</ul>
+
+    <div class="infopanel_wrapper">
+	<div class="infopanel " id="infopanel_post_72780">
+	
+				<div class="voting   ">
+	
+						<span class="plus" title="Голосовать могут только зарегистрированные пользователи."></span>
+	
+					<div class="mark positive ">
+							<span class="score" title="Всего 44: &uarr;28 и &darr;16">+12</span>
+					</div>
+					
+						<span class="minus" title="Голосовать могут только зарегистрированные пользователи."></span>
+		
+				</div>
+	
+		<div class="pageviews" title="Просмотры поста">3291</div>
+			
+		<div class="favorite">
+				<a class="guest"	href="#" onclick="return false;" title="Только зарегистрированные пользователи могут добавлять посты в избранное"></a>
+		</div>
+		<div class="favs_count" title="Количество пользователей, добавивших пост в избранное">36</div>
+		
+		
+		
+	
+	
+	
+	
+				<div class="author">
+					<a title="Автор текста" href="http://habrahabr.ru/users/Delsian/" >Delsian</a>
+					<span class="rating" title="рейтинг пользователя">81,2</span>
+						<a href="https://plus.google.com/113144996654603104187/?rel=author" class="googleplus_profile">G+</a>
+				</div>
+		
+	
+	
+		
+			<div class="share">
+				<div class="twitter">
+					<a href="http://twitter.com/intent/tweet?text=%D0%9F%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5+%D0%B4%D0%BB%D1%8F+AVR+%D0%B2+Ubuntu+http://habr.ru/p/72780/+via+%40habrahabr+%23habr" title="Опубликовать ссылку в Twitter" target="_blank"></a>
+				</div>
+				<div class="vkontakte">
+					<a href="http://vk.com/share.php?url=http://habrahabr.ru/post/72780/" title="Опубликовать ссылку во ВКонтакте" onclick="window.open(this.href, 'Опубликовать ссылку во Вконтакте', 'width=800,height=300'); return false"></a>
+				</div>
+				<div class="facebook">
+					<a href="https://www.facebook.com/sharer/sharer.php?u=http://habrahabr.ru/post/72780/" title="Опубликовать ссылку в Facebook" onclick="window.open(this.href, 'Опубликовать ссылку в Facebook', 'width=640,height=436,toolbar=0,status=0'); return false"></a>
+				</div>
+				<div class="googleplus">
+					<a href="https://plus.google.com/share?url=http://habrahabr.ru/post/72780/" title="Опубликовать ссылку в Google Plus" onclick="window.open(this.href, 'Опубликовать ссылку в Google Plus', 'width=800,height=300'); return false"></a>
+				</div>
+			</div>
+	
+	</div>
+	<div class="clear"></div>
+</div>
+
+
+
+
+    
+    
+	</div>
+
+    </div>
+
+  	    
+    <div id="adriver_banner_132032996"></div>  
+
+  <script type="text/javascript">
+      /** Для блоков гугла **/
+      function requireAdsafe(file){
+          var head = document.getElementsByTagName("head")[0];
+          var script = document.createElement('script');
+          script.src = file;
+          script.type = 'text/javascript';
+          head.appendChild(script);
+      }
+
+      function show_inner_banner_block(name, url){
+          if( typeof(name) !== 'undefined'){
+              $.get('/html/'+name+'/1405438214/', function(html){
+                  $('#adriver_banner_132032996').html(html);
+                  $('.'+name+'_inner_banner').removeClass('hidden');
+                  if( typeof(url) !== 'undefined'){
+                      $('.'+name+'_inner_banner .block_url').attr('href', url);
+                  }
+
+                  if (name == 'google') {
+                      new Image().src = 'http://ad.doubleclick.net/jump/N5295.197836HABRAHABR.RU/B8185867.109918092;sz=1x1;ord=![rnd]';
+                      requireAdsafe('http://pixel.adsafeprotected.com/rjss/st/28047/2559986/skeleton.js');
+                  }
+
+                  if (name == 'google2') {
+                      new Image().src = 'https://ad.doubleclick.net/ad/N5295.197836HABRAHABR.RU/B8064776.109574175;sz=1x1;ord=![rnd]';
+                      requireAdsafe('https://pixel.adsafeprotected.com/rjss/st/25624/2476044/skeleton.js');
+                  }
+
+                  if (name == 'google3') {
+                      new Image().src = 'http://ad.doubleclick.net/jump/N5295.197836HABRAHABR.RU/B8185867.109918090;sz=1x1;ord=![rnd]';
+                      requireAdsafe('http://pixel.adsafeprotected.com/rjss/st/28047/2559984/skeleton.js');
+                  }
+
+                  if (name == 'google4') {
+                      new Image().src = 'https://ad.doubleclick.net/ad/N5295.197836HABRAHABR.RU/B8064776.109574176;sz=1x1;ord=![rnd]';
+                      requireAdsafe('https://pixel.adsafeprotected.com/rjss/st/25624/2476046/skeleton.js');
+                  }
+              })
+          }
+      }
+
+        $(function(){
+            var keyword = '';
+            if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+            var custom = { 4:ar_duo1 };
+                custom[1] = 'controllers';
+
+            /* Антоша не удаляй это условие блеать! Как я тестить буду? */
+            //if (true)
+            //    show_inner_banner_block('beeline_ios2');
+            //else
+                new adriver("adriver_banner_132032996", {sid: 176776, bt: 52, bn: 3, custom: custom, keyword: keyword});
+        });
+    </script>
+    
+
+
+  	
+  		<div class="comments_list " id="comments">
+
+  <h2 class="title ">Комментарии (<span id="comments_count">6</span>)
+  
+  
+  </h2>
+
+    <div class="comment_item" id="comment_2089379" >
+
+    <span class="parent_id" data-parent_id="0"></span>
+    <div class="comment_body">
+        <div class="author_banned">НЛО прилетело и опубликовало эту надпись здесь</div>
+    </div>
+
+    <div class="reply_comments" id="reply_comments_2089379">
+        <div class="comment_item" id="comment_2089704" >
+
+    <span class="parent_id" data-parent_id="2089379"></span>
+    <div class="comment_body">
+        <div class="author_banned">НЛО прилетело и опубликовало эту надпись здесь</div>
+    </div>
+
+    <div class="reply_comments" id="reply_comments_2089704">
+    </div>
+</div>
+
+    </div>
+</div>
+
+    <div class="comment_item" id="comment_2089465" >
+
+    <span class="parent_id" data-parent_id="0"></span>
+    <div class="comment_body">
+        <div class="info  " rel="2089465">
+            <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+            <div id="voting_2089465" class="voting   ">
+                <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <div class="mark positive ">
+                    <span class="score" title="Всего 4: &uarr;3 и &darr;1">+2</span>
+                </div>
+            </div>
+            <a href="http://habrahabr.ru/users/Levsha100/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/a3a/ea2/d34/a3aea2d34829ab49dd8077779e53d3a3_small.jpg" alt="" /></a>
+            <a href="http://habrahabr.ru/users/Levsha100/" class="username">Levsha100</a><span class="comma">,</span>
+            <time>19 октября 2009 в 18:53</time>
+
+            <a href="#comment_2089465" class="link_to_comment">#</a>
+            <span class="to_chidren"></span>
+            <div class="clear"></div>
+        </div>
+        <div class="message html_format ">
+            Спасибо, теперь буду знать, что если перейду на убунту(все никак не решусь), то смогу программить любимую мегу16 :)
+        </div>
+        <div class="reply_form_placeholder"></div>
+        <div class="reply">
+            
+        </div>
+    </div>
+
+    <div class="reply_comments" id="reply_comments_2089465">
+    </div>
+</div>
+
+    <div class="comment_item" id="comment_2089550" >
+
+    <span class="parent_id" data-parent_id="0"></span>
+    <div class="comment_body">
+        <div class="info  " rel="2089550">
+            <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+            <div id="voting_2089550" class="voting   ">
+                <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <div class="mark positive ">
+                    <span class="score" title="Всего 6: &uarr;4 и &darr;2">+2</span>
+                </div>
+            </div>
+            <a href="http://habrahabr.ru/users/ekzo/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/90d/ead/16f/90dead16f052044d773c37800beac5e7_small.jpg" alt="" /></a>
+            <a href="http://habrahabr.ru/users/ekzo/" class="username">ekzo</a><span class="comma">,</span>
+            <time>19 октября 2009 в 19:07</time>
+
+            <a href="#comment_2089550" class="link_to_comment">#</a>
+            <span class="to_chidren"></span>
+            <div class="clear"></div>
+        </div>
+        <div class="message html_format ">
+            а где программирование для AVR?
+        </div>
+        <div class="reply_form_placeholder"></div>
+        <div class="reply">
+            
+        </div>
+    </div>
+
+    <div class="reply_comments" id="reply_comments_2089550">
+    </div>
+</div>
+
+    <div class="comment_item" id="comment_2090194" >
+
+    <span class="parent_id" data-parent_id="0"></span>
+    <div class="comment_body">
+        <div class="info  " rel="2090194">
+            <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+            <div id="voting_2090194" class="voting   ">
+                <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <div class="mark  negative">
+                    <span class="score" title="Всего 1: &uarr;0 и &darr;1">–1</span>
+                </div>
+            </div>
+            <a href="http://habrahabr.ru/users/DbImko/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/e04/239/569/e04239569923a44ccccfbddfe7c0ab51_small.jpg" alt="" /></a>
+            <a href="http://habrahabr.ru/users/DbImko/" class="username">DbImko</a><span class="comma">,</span>
+            <time>19 октября 2009 в 22:32</time>
+
+            <a href="#comment_2090194" class="link_to_comment">#</a>
+            <span class="to_chidren"></span>
+            <div class="clear"></div>
+        </div>
+        <div class="message html_format bad bad1">
+            Спасибо за информацию. Давно хотел попробывать.
+        </div>
+        <div class="reply_form_placeholder"></div>
+        <div class="reply">
+            
+        </div>
+    </div>
+
+    <div class="reply_comments" id="reply_comments_2090194">
+    </div>
+</div>
+
+    <div class="comment_item" id="comment_2090927" >
+
+    <span class="parent_id" data-parent_id="0"></span>
+    <div class="comment_body">
+        <div class="info  " rel="2090927">
+            <div class="folding-dot-holder"><div class="folding-dot"></div></div>
+            <div id="voting_2090927" class="voting   ">
+                <span class="minus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <span class="plus" title="Голосовать могут только зарегистрированные пользователи"></span>
+                <div class="mark positive ">
+                    <span class="score" title="Всего 2: &uarr;2 и &darr;0">+2</span>
+                </div>
+            </div>
+            <a href="http://habrahabr.ru/users/pingwinator/" class="avatar"><img src="//habrastorage.org/getpro/habr/avatars/4ee/196/40a/4ee19640ac51fe6933516a02929551d9_small.jpg" alt="" /></a>
+            <a href="http://habrahabr.ru/users/pingwinator/" class="username">pingwinator</a><span class="comma">,</span>
+            <time>20 октября 2009 в 04:52</time>
+
+            <a href="#comment_2090927" class="link_to_comment">#</a>
+            <span class="to_chidren"></span>
+            <div class="clear"></div>
+        </div>
+        <div class="message html_format ">
+            хм, ну указали бы что это сокращёная версия от <a href="http://www.ibm.com/developerworks/ru/library/l-Eclipse_and_avr-gcc/index.html?S_TACT=105AGX99&amp;S_CMP=GR01">статьи</a> …
+        </div>
+        <div class="reply_form_placeholder"></div>
+        <div class="reply">
+            
+        </div>
+    </div>
+
+    <div class="reply_comments" id="reply_comments_2090927">
+    </div>
+</div>
+
+</div>
+
+  					<p class="for_users_only_msg">Только зарегистрированные пользователи могут оставлять комментарии.<br><a href="https://habrahabr.ru/auth/login/">Войдите</a>, пожалуйста.</p>
+
+
+  	
+<form action="/json/favorites/" method="post" id="edit_tags_form" class="hidden">
+  <input type="hidden" name="action" value="add" />
+  <input type="hidden" name="ti" value="0" />
+  <input type="hidden" name="tt" value="0" />
+  <label>Пометьте топик понятными вам метками, если хотите</label>
+  <input type="text" name="tags_string" class="tags_string" />
+  <div class="description">Метки лучше разделять запятой. Например: <i>общение, социальные сети, myspace.com, подростки, мердок</i></div>
+  <input type="submit" value="Сохранить" class="submit" /> или <a href="#" class="close" onclick="return close_edit_tags()">закрыть</a>
+</form>
+    
+    
+
+  </div>
+  <div class="sidebar_right">
+      	<div class="banner_300x100">
+		<!--  AdRiver code START. Type:AjaxJS Site: habrahabr PZ: 0 BN: 5 -->
+		<div id="adriver_banner_2100516578"></div>
+		<script type="text/javascript">
+			$(function(){
+				var keyword = '';
+				if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+
+				var custom = {4:ar_duo1};
+					custom[1] = 'controllers';
+
+				new adriver("adriver_banner_2100516578", {sid: 176776, bt: 52, bn: 5, custom: custom, keyword: keyword});
+			}());
+		</script>
+	</div>
+
+
+  			<div class="banner_300x500">
+		<div id="adriver_banner_1863387959"></div>
+		<script type="text/javascript">
+            function show_bn1_block(name, url){
+                console.log('show' + name);
+                if( typeof(name) !== 'undefined'){
+                    $.get('/html/'+name+'/1405438214/', function(html){
+                        $('#adriver_banner_1863387959').html(html);
+                        if( typeof(url) !== 'undefined'){
+                            $('.'+name+'_inner_banner .block_url').attr('href', url);
+                        }
+                    })
+                }
+            }
+
+			$(function(){
+
+				var keyword = '';
+				if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+
+				var custom = {4:ar_duo1};
+					custom[1] = 'controllers';
+
+                 new adriver("adriver_banner_1863387959", {sid: 176776, bt: 52, bn: 1, custom: custom, keyword: keyword});
+			}());
+		</script>
+	</div>
+
+  		
+  		
+<div class="block daily_best_posts">
+  <div class="title">Популярное за сутки</div>
+  <div class="posts_list">
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/company/stratoplan/blog/229957/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Как обсуждать деньги с руководством или почему иногда останавливаются карьеры?</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229109/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">История наушников</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229965/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Почему Outlook запускает по Ctrl+F пересылку вместо поиска, как все нормальные программы?</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229885/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">История еще одного электровелосипеда своими руками: reloaded</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/company/yandex/blog/229929/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Зачем на самом деле используют микроразметку. Обзор от Яндекса</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229963/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Неопределённое поведение и теорема Ферма</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/company/piter/blog/229943/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Отъявленный программист: Неформальные истории и откровенные разговоры об IT-индустрии</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229969/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Релиз KDE Plasma 5.0 и KDE Frameworks 5</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229927/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Компания SpaceX построит футуристичный космодром в Техасе</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/company/web_payment_ru/blog/229699/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Квантовые деньги</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229981/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">FedEx: часть 2. Роняем посылки за деньги: лаборатория упаковки FedEx</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229937/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Ищем мелодию по фрагменту</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/company/wargaming/blog/229933/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Wargaming Developers Contest: семь главных вопросов о конкурсе</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/230003/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Синдром ступеньки и срез посещаемости Хабра</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229985/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Дао программирования, часть 1</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229909/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Search Preview — расширение для Chrome</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/230037/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">TOX — Защищенный мессенджер добрался до Альфа версии (Для всех платформ)</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229905/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Делаем простейший фильтр по свойствам товаров с помощью ElasticSearch на Symfony2</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/company/mailru/blog/229859/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Отчёт с Dribbble Meetup 2014 в Москве</a>
+      </div>
+      <div class="post_item">
+        
+				
+				
+				
+				
+				
+
+        <a href="http://habrahabr.ru/post/229883/"
+           onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'daily_best_posts', $(this).parents('.daily_best_posts').hasClass('float_block') ? 'float' : 'common'); }"
+           class="post_name">Отложенное чтение: OpenSource-альтернатива</a>
+      </div>
+  </div>
+  <div class="all"><a href="/top/">все лучшие</a></div>
+</div>
+
+  	  
+
+
+<div class="block similar_posts">
+
+	<div class="title">Похожие посты</div>
+  <div class="posts_list">
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/221271/">Ubuntu и старые ATI видеокарты (+ немного про BURG)</a>
+    				<span class="when">29 апреля в 13:44</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/220981/">Светодиодное сердце на микроконтроллере Atmega16, или программирование AVR на языке Pascal</a>
+    				<span class="when">26 апреля в 20:15</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/220895/">Ubuntu 14.10 Utopic Unicorn — запланированы радикальные обновления</a>
+    				<span class="when">25 апреля в 17:10</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/219831/">Ubuntu 14.04 LTS (Trusty Tahr) доступна для скачивания!</a>
+    				<span class="when">17 апреля в 19:46</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/224383/">Бутлоадер с AES-128 и EAX на AVR Assembler в 1024 байта</a>
+    				<span class="when"> 1 июня в 19:09</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/225999/">Установка и интеграция solr с django под Ubuntu 12.04</a>
+    				<span class="when">11 июня в 15:16</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/228961/">Ubuntu и Debian Linux для продвинутых</a>
+    				<span class="when"> 7 июля в 14:44</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/227767/">Настройка OpenVPN в связке Mikrotik/Ubuntu</a>
+    				<span class="when">27 июня в 17:10</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/226527/">Ubuntu Phone активирована на 10 000 устройств</a>
+    				<span class="when">17 июня в 15:32</span>
+      </div>
+    	<div class="post_item">
+    				<a class="post_name" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'similar_posts', $(this).parents('.similar_posts').hasClass('float_block') ? 'float' : 'common'); }" href="/post/229293/">Расширение Chrome Remote Desktop теперь поддерживается в Ubuntu и Debian</a>
+    				<span class="when"> 9 июля в 18:45</span>
+      </div>
+  </div>			
+</div>
+
+
+	
+  	  
+<div class="block similar_questions">
+	<div class="title">Вопросы по теме</div>
+
+	<div class="posts_list">
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/112063?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как залить данный ниже код в контроллер с помощью ардуино?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111981?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как заставить программатор работать?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111893?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Почему ноут не грузится с флешки или диска?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111869?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Какой наиболее простой/быстрый способ использовать wifi с микроконтроллером?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111735?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как посмотреть последние действия в Ubuntu?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111595?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как установиь видеодрайвер Intel под ElementaryOS?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111583?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">При подключении к интернету по (DSL Ubuntu) PPPoE, не могу зайти на локальный сайт провайдера, что делать?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111581?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Wireshark не видит сетевой интерфейс в Ubuntu 14.04, что делать?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111439?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Откуда возникают проблемы при подключении Ubuntu 12.04 к роутеру TP-Link TL WR741ND?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/111401?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как поменять разрешение на Ubuntu 14.04?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/110995?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как развернуть среду разработки python3.x.x + Django + Ubuntu?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/110991?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Какие есть способы автоматизации проверки обновлений на дебиановских репо?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/110915?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">В МК Attiny2313 Частота синхронизации ввода-вывода clkI/O  равняется частоте встроенного RC-генератора?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/110837?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как избавиться от самопроизвольного переключение частоты монитора в Ubuntu 14.04?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/110593?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как организовать просмотр видео на chromebook через домашнюю локальную сеть?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/109897?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как портировать Arduino-скетч в реальное устройство на аналогичном кристалле?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/109859?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Можно ли в PhpStorm назначить на кнопку выполнение скрипта?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/109523?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Touchpad на Asus X502CA и Ubuntu 14.04. Как заставить работать?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/109287?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Какую выбрать программу для создания аудиотеки?</a>
+		</div>
+    	<div class="post_item">
+    	    <a class="post_name" href="http://toster.ru/q/109143?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Как изолировать хост в KVM для хождения только в i2p?</a>
+		</div>
+  </div>			
+		
+</div>
+
+  		
+  		
+
+	<div class="block live_broadcast">
+		<div class="title">Что обсуждают? </div>
+
+		<div class="live_broadcast_activity">
+				<div class="posts_list">
+							<div class="post_item">
+								<a href="/post/229427#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Могут ли теги победить рубрики? Иерархии тегов</a>&nbsp;<span class="count">26</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/230021#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">InfoboxCloud — публичное российское «облако» в дата-центре, получившем сертификации TIER III Facility & Design</a>&nbsp;<span class="count">18</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/230037#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">TOX — Защищенный мессенджер добрался до Альфа версии (Для всех платформ)</a>&nbsp;<span class="count">35</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/223237#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Обсерватория Аресибо подтвердила существование во Вселенной нового типа сверхмощных источников радиоизлучения</a>&nbsp;<span class="count">32</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/230033#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Новая модель электромобиля Tesla будет стоить 35 тысяч долларов</a>&nbsp;<span class="count">20</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/229961#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Практические советы и хитрости при работе с дронами DJI и их автопилотными системами</a>&nbsp;<span class="count">14</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/229973#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Книги не бывают плоскими…</a>&nbsp;<span class="count">5</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/229985#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Дао программирования, часть 1</a>&nbsp;<span class="count">13</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/229025#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Как с помощью Google Maps обанкротить компанию</a>&nbsp;<span class="count">98</span>
+							</div>
+							<div class="post_item">
+								<a href="/post/229195#comments" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'post'); }" class="post_name">Обзор межсетевого экрана и системы предотвращения вторжений нового поколения SourceFire FirePower</a>&nbsp;<span class="count">42</span>
+							</div>
+				</div>
+				<div class="all"><a href="/posts/" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'live_broadcast_activity', 'all_posts'); }">все посты</a></div>
+		</div>
+
+	</div>
+  
+  		<!--  AdRiver code START. Type:AjaxJS Site: habrahabr PZ: 0 BN: 2 -->
+
+<div id="adriver_banner_480931290" class="adbanner"></div>
+
+
+<script type="text/javascript">
+    function show_bn2_block(name, url){
+        if( typeof(name) !== 'undefined'){
+            $.get('/html/'+name+'/1405438214/', function(html){
+                $('#adriver_banner_480931290').html(html);
+                if( typeof(url) !== 'undefined'){
+                    $('.'+name+'_inner_banner .block_url').attr('href', url);
+                }
+            })
+        }
+    }
+
+    $(function(){
+
+        var check_scroll_position = function() {
+            var height = $(window).height();
+            var scrollTop = $(window).scrollTop();
+            var scrollBottom = $(window).scrollTop() + height;
+            var blockTop = $('#adriver_banner_480931290').position().top;
+            var show = scrollTop < blockTop && blockTop < scrollBottom;
+            //console.log('scroll', scrollTop, blockTop, scrollBottom, show)
+            if( show ){
+                //console.log('show bn2');
+                $( window ).off('scroll', check_scroll_position);
+                $( window ).trigger('show_bn2');
+            }
+        };
+        $( window ).on('scroll', check_scroll_position);
+
+        $( window ).on('show_bn2', function(){
+            var keyword = '';
+            if (typeof crtg_content !== 'undefined' && crtg_content) { keyword = crtg_content; }
+            var custom = {4:ar_duo1};
+            custom[1] = 'controllers';
+            new adriver("adriver_banner_480931290", {sid: 176776, bt: 52, bn: 2, custom: custom, keyword: keyword});
+        });
+    });
+    </script>
+<!--  AdRiver code END  -->
+
+  		
+<div class="block best_company">
+
+		<div class="title">Компания дня <img src="/images/bg_cicle_help.png" title="
+Компания, чей пост набрал максимальное количество баллов<br>
+среди всех опубликованных в корпоративных блогах постах за <br>
+прошедшие сутки. Учитываются посты, для которых истек срок голосования <br>(3 дня с момента публикации)." class="help-tip"></div>
+
+		<div class="company_info">
+			<div class="name">
+			 <img class="favicon" src="//habrastorage.org/getpro/habr/companies/184/6b7/bc6/1846b7bc67936e5c6306f8bce338c75f_small.png" alt="Яндекс" height="16" width="16" />
+			 <div class="company_name"><a href="http://habrahabr.ru/company/yandex/" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'best_company', 'title'); }" class="title">Яндекс</a></div>
+			</div>
+
+			<p>Последний пост:
+				<a href="http://habrahabr.ru/company/yandex/blog/229929/" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'best_company', 'post'); }">Зачем на самом деле используют микроразметку. Обзор от Яндекса</a>
+			</p>
+
+			<div class="buttons">
+  			<div id="fans_count">12611 подписчиков</div>
+			</div>
+		</div>
+
+	</div>
+
+
+  		
+
+  		
+	<div class="block new_vacanies">
+  <a href="http://brainstorage.me/jobs?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="title">Brainstorage</a>
+  <div class="vacancies">
+		<div class="job_item marked">
+			<a href="http://brainstorage.me/jobs/20653?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Разработчик ядра, коллектор биржы трафика С/C++/Erlang/Lua</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/20983?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">PHP-программист</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/20891?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Senior Java Developer уровня Guru, в GameDev</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/8923?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Младший программист (PHP)</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/20961?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Ведущий разработчик / архитектор (lead developer)</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/20959?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Веб разрабочик в стартап (JS, PHP, HTML5, CSS3)</a>
+		</div>
+		<div class="job_item marked">
+			<a href="http://brainstorage.me/jobs/20657?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Ведущий разработчик / Team leader в E-commerce компанию</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/20927?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">PHP программист</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/20695?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">PHP-разработчик</a>
+		</div>
+		<div class="job_item ">
+			<a href="http://brainstorage.me/jobs/11027?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Python Programmer</a>
+		</div>
+  </div>
+  <div class="all"><a href="http://brainstorage.me/jobs?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">все вакансии</a></div>
+</div>
+
+  		
+	<div class="block freelansim">
+	  <a href="http://freelansim.ru?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo" class="title"></a>
+	  <div class="tasks">
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76339?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Дизайн сайта</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76335?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Разработать интерфейса WPF, Qt + прикрутить API</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76333?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Сверстать одну страницу для готового сайта</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76329?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Мобильное приложение под android</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76331?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Натянуть готовый дизайн на Битрикс</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76325?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Доработать проект на Друпал</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76321?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Реализовать вывод в карточке товара (HostCms)</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76317?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Разработка видео скаллера для IOS</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76313?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Интеграция Simpla CMS + Мой склад</a>
+				</div>
+				<div class="task ">
+					<a href="http://freelansim.ru/tasks/76311?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">Информационный стенд о компании</a>
+				</div>
+
+	  </div>
+	  <div class="all"><a href="http://freelansim.ru/tasks?utm_source=tm_habrahabr&utm_medium=tm_block&utm_campaign=tm_promo">все заказы</a></div>
+	</div>
+
+  		
+  		
+  		
+  </div>
+  <div class="clear"></div>
+
+  <script>
+    // hubs to GA
+      ga('send', 'event', 'Post_view', 'controllers (Программинг микроконтроллеров)',  window.location.pathname + window.location.search);
+  </script>
+
+
+
+        	
+	<div class="rotated_posts">
+			<div class="rotated_post ">
+				<a href="http://habrahabr.ru/post/225539/" class="grey" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'posts_rotation_block'); }">Как IPv6 помогает роутеры ломать</a>
+			</div>
+			<div class="rotated_post ">
+				<a href="http://habrahabr.ru/post/218403/" class="grey" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'posts_rotation_block'); }">Математики нашли способ одновременного соприкосновения 7 цилиндров</a>
+			</div>
+			<div class="rotated_post last">
+				<a href="http://habrahabr.ru/post/223427/" class="grey" onclick="if (typeof ga === 'function') { ga('send', 'event', 'tm_block', 'posts_rotation_block'); }">История китайской космонавтики</a>
+			</div>
+		<div class="clear"></div>
+	</div>
+
+
+        <div class="clear"></div>
+
+        <div class="footer_panel">
+          <div id="footer">
+	<dl>
+		<dd><a href="https://habrahabr.ru/auth/login/">Войти</a></dd>
+		<dd><a href="https://habrahabr.ru/auth/register/">Регистрация</a></dd>
+	</dl>
+	<dl>
+		<dt>Разделы</dt>
+		<dd><a href="http://habrahabr.ru/posts/top/">Посты</a></dd>
+		<dd><a href="http://habrahabr.ru/hubs/">Хабы</a></dd>
+		<dd><a href="http://habrahabr.ru/companies/">Компании</a></dd>
+		<dd><a href="http://habrahabr.ru/users/">Пользователи</a></dd>
+		<dd><a href="http://toster.ru/?_aa=press_anykey">Q&amp;A</a></dd>
+		<dd><a href="http://habrahabr.ru/sandbox/">Песочница</a></dd>
+		
+	</dl>	
+	<dl>
+		<dt>Инфо</dt>
+		<dd><a href="/info/about/">О сайте</a></dd>
+		<dd><a href="/info/help/rules/">Правила</a></dd>
+		<dd><a href="/info/help/">Помощь</a></dd>
+		<dd><a href="/info/agreement/">Соглашение</a></dd>
+	</dl>
+	<dl>
+		<dt>Услуги</dt>
+		<dd><a href="/info/advertising/">Реклама</a></dd>
+		<dd><a href="/info/advertising/corporate/">Корпоративные тарифы</a></dd>
+		<dd><a href="/info/advertising/workshops/">Семинары</a></dd>
+		<dd><a href="/special/">Спецпроекты</a></dd>
+	</dl>
+	<dl>
+		<dt>Разное</dt>
+		<dd><a href="/apps/">Приложения</a></dd>
+		<dd><a href="/special/testdrive/">Тест-драйвы</a></dd>
+		<dd><a href="/info/hello_startup/">Помощь стартапам</a></dd>
+		<dd><a href="/special/minsvyaz/">Льготы стартапам</a></dd>
+	</dl>
+	<div class="copyright">
+
+		<div class="about">
+			<a href="http://tmtm.ru/">TM</a>
+			© 2006&#8211;2014
+			<br><br>
+			<a href="http://habrahabr.ru/feedback/">Служба поддержки</a><br><br>
+			    <a href="http://m.habrahabr.ru?mobile=yes">Мобильная версия</a><br><br>
+			
+
+			<div class="social_accounts">
+				<a href="https://twitter.com/habrahabr" class="tw"></a>
+				<a href="https://www.facebook.com/habrahabr.ru" class="fb"></a>
+				<a href="http://vk.com/habr" class="vk"></a>
+				<!-- <a href="" class="gp"></a> //-->
+			</div>
+
+		</div>
+	</div>
+
+</div>    
+          <div class="footer_logos">
+		
+		<div class="project brainstorage">
+			<a href="http://brainstorage.ru/?utm_source=tm_habrahabr&utm_medium=tm_footer&utm_campaign=tm_promo" class="icon "></a>
+			<div class="text">Все мозги в одном месте</div>
+		</div>
+
+		<div class="project toster">
+			<a href="http://toster.ru/?utm_source=tm_habrahabr&utm_medium=tm_footer&utm_campaign=tm_promo" class="icon "></a>
+			<div class="text">Q&A-сервис для разработчиков</div>
+		</div>
+		
+		<div class="project freelansim">
+			<a href="http://freelansim.ru/?utm_source=tm_habrahabr&utm_medium=tm_footer&utm_campaign=tm_promo" class="icon "></a>
+			<div class="text">Заказы для фрилансеров</div>
+		</div>
+		
+		<div class="project autokadabra">
+			<a href="http://autokadabra.ru/?utm_source=tm_habrahabr&utm_medium=tm_footer&utm_campaign=tm_promo" class="icon "></a>
+			<div class="text ">Уютная и дружелюбная</div>
+		</div>
+		
+</div>
+
+        </div>
+      </div>
+    </div>
+  
+
+      <script type="text/javascript" src="/javascripts/1405438214/libs/jquery.cookie.js"></script>
+      <script type="text/javascript">
+        $(document).ready( function(){
+          window.tmidLogin = function(){ return false; };
+          if( $.cookie('tmid_no_check') == undefined ) {
+            var expire = new Date();
+            expire.setMinutes(expire.getMinutes() + 10 );
+            $.cookie('tmid_no_check', 1, { expires: expire } );
+            $.getScript("https://id.tmtm.ru/checklogin", function(){
+              if( window.tmidLogin() ) {
+
+                  var href = $('#login').attr('href');
+
+                  if( href !== undefined ) {
+                      window.location.href = href;
+                  }
+              }
+            });
+          }
+        });
+      </script>
+
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $.jGrowl.defaults.closerTemplate = '<div>Закрыть все уведомления</div>';         
+        $(".help-tip").tipTip({maxWidth: "300px", edgeOffset: 10});  
+      });
+      // global vars
+      var g_base_url = 'habrahabr.ru';
+      var g_show_xpanel = false;
+      var g_base_fullurl = 'http://habrahabr.ru/';
+      var g_is_guest = false;
+    </script> 
+    
+    <script type="text/javascript" src="/javascripts/1405438214/_parts/shortcuts.js"></script>
+    
+    
+    <script type="text/javascript" src="/javascripts/1405438214/_parts/float_block.js"></script>
+    
+    	<script type="text/javascript" src="http://habrahabr.ru/viewcount/post/72780/"></script>
+
+    
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter24049213 = new Ya.Metrika({id:24049213,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/24049213" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+    
+
+  </body>
+</html>

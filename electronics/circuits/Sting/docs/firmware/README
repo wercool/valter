@@ -1,0 +1,3 @@
+avr-gcc -mmcu=atmega8 -Wall -Os -o blink.elf blink.c
+avr-objcopy -j .text -j .data -O ihex blink.elf blink.hex
+sudo avrdude -c avrispv2 -p m8 -P /dev/ttyUSB0 -e -U flash:w:blink.hex
