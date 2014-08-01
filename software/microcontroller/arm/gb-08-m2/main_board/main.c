@@ -323,6 +323,9 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
 
 
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);        //Reset
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);        //Encoders enable
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
 
@@ -802,6 +805,8 @@ int main(void)
             leftRearCurReadings = 0;
             leftWheelEncoderReadings = 0;
             rightWheelEncoderReadings = 0;
+
+            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
         }
 
         cdcMessageObj = getCDCMEssage();
