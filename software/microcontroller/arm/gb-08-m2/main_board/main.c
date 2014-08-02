@@ -35,6 +35,7 @@ unsigned char radarServoSet = 0;
 
 volatile unsigned int resetCntStart = 0;
 volatile unsigned int resetCnt = 0;
+volatile unsigned int resetGlobalCnt = 0;
 
 
 /*-----------------*/
@@ -198,6 +199,23 @@ __ramfunc void SoftIQRHandlerTC1(void)
     if (resetCntStart)
     {
         resetCnt++;
+    }
+    resetGlobalCnt++;
+    if (resetGlobalCnt > 3500)
+    {
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+        delay_ms(3);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+        delay_ms(200);
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+        delay_ms(3);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+        delay_ms(200);
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+        delay_ms(3);
+        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+        delay_ms(200);
+        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
     }
 }
 
@@ -691,6 +709,8 @@ static void DeviceInit(void)
 {
     InitPIO();
 
+    InitIRQ();
+
     // Enable User Reset and set its minimal assertion to 960 us
     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4 << 8) | (unsigned int)(0xA5 << 24);
 
@@ -701,13 +721,18 @@ static void DeviceInit(void)
     // Initialize USB device
     AT91FUSBOpen();
     // Wait for the end of enumeration
-    while (!pCDC.IsConfigured(&pCDC));
+    unsigned int enumCnt = 0;
+    while (!pCDC.IsConfigured(&pCDC))
+    {
+        enumCnt++;
+        delay_ms(100);
+        if (enumCnt > 1500)
+            break;
+    }
 
     InitPIO();
     InitADC();
     InitPWM();
-    InitIRQ();
-
 }
 
 
@@ -765,7 +790,7 @@ int main(void)
 
             //beep
             AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
-            delay_ms(5);
+            delay_ms(25);
             AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
 
             //LEFTSTOP
@@ -817,6 +842,23 @@ int main(void)
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
+
+            if (strcmp((char*) cmdParts, "RESETCNT") == 0)
+            {
+                sprintf((char *)msg,"RESET COUNTER:%u\n", resetCnt);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RESETGLOBALCNT") == 0)
+            {
+                sprintf((char *)msg,"RESET GLOBAL COUNTER:%u\n", resetGlobalCnt);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
+                continue;
+            }
+
+            resetGlobalCnt = 0;
 
             if (strcmp((char*) cmdParts, "PING") == 0)
             {
