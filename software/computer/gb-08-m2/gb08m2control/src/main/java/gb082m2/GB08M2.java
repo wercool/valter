@@ -337,6 +337,24 @@ public class GB08M2
 
     //Hardware
 
+    //Cameras
+    public void activateFrontCamera()
+    {
+        gb08m2CommandManager.sendCommand("SHELL:/home/maska/startgb08m2ivideo1");
+    }
+    public void deActivateFrontCamera()
+    {
+        gb08m2CommandManager.sendCommand("SHELL:kill -9 $(pidof front_camera_mjpg_streamer)");
+    }
+    public void activateRearCamera()
+    {
+        gb08m2CommandManager.sendCommand("SHELL:/home/maska/startgb08m2ivideo0");
+    }
+    public void deActivateRearCamera()
+    {
+        gb08m2CommandManager.sendCommand("SHELL:kill -9 $(pidof rear_camera_mjpg_streamer)");
+    }
+    
     //Motors
     public synchronized int getFrontLeftMotorDuty()
     {

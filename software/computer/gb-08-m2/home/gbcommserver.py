@@ -3,6 +3,7 @@ import serial
 from time import sleep
 import time
 import threading
+import os
 
 MAXLINE = 100
 
@@ -33,7 +34,7 @@ def linesplit(sock, maxline=0):
 def threaded_ping():
     while True:
         ser.write("PING")
-#        print "PING"
+        print "PING"
         sleep(0.5)
 
 def threaded_reader():
@@ -71,7 +72,10 @@ while True:
             break
         else:
             cmd = line.strip()
-            ser.write(cmd)
+            if cmd.startswith('SHELL:'):
+                os.system(cmd[6:] + " &")
+            else:
+                ser.write(cmd)
             #cur_time = int(round(time.time() * 1000))
             #print "< [", cur_time, "]", cmd
             print "<", cmd

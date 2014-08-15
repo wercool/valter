@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>RPi Android HTML5 Realtime Servo Control « MartinSant.net</title>
+		
+		<!--[if lt IE 9]>
+		<script src="http://martinsant.net/wp-content/themes/the-bootstrap/js/html5.js" type="text/javascript"></script>
+		<![endif]-->
+		
+		<link rel="alternate" type="application/rss+xml" title="MartinSant.net » Feed" href="http://martinsant.net/?feed=rss2">
+<link rel="alternate" type="application/rss+xml" title="MartinSant.net » Comments Feed" href="http://martinsant.net/?feed=comments-rss2">
+<link rel="stylesheet" id="tw-bootstrap-css" href="AndroidHTML5RealtimeServoControl_files/bootstrap.css" type="text/css" media="all">
+<link rel="stylesheet" id="the-bootstrap-css" href="AndroidHTML5RealtimeServoControl_files/style.css" type="text/css" media="all">
+<script type="text/javascript" src="AndroidHTML5RealtimeServoControl_files/jquery.js"></script>
+<script type="text/javascript" src="AndroidHTML5RealtimeServoControl_files/jquery-migrate.js"></script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://martinsant.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://martinsant.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="RPi and the Servo Controller" href="http://martinsant.net/?page_id=402">
+<link rel="next" title="Tin Can Steam Boiler" href="http://martinsant.net/?page_id=608">
+<meta name="generator" content="WordPress 3.9.1">
+<link rel="canonical" href="http://martinsant.net/?page_id=479">
+<link rel="shortlink" href="http://martinsant.net/?p=479">
+
+<!-- WP Simple Shopping Cart plugin v3.9.5 - http://www.tipsandtricks-hq.com/wordpress-simple-paypal-shopping-cart-plugin-768/ -->
+<link type="text/css" rel="stylesheet" href="AndroidHTML5RealtimeServoControl_files/wp_shopping_cart_style.css">
+
+	<script type="text/javascript">
+	<!--
+	//
+	function ReadForm (obj1, tst) 
+	{ 
+	    // Read the user form
+	    var i,j,pos;
+	    val_total="";val_combo="";		
+	
+	    for (i=0; i<obj1.length; i++) 
+	    {     
+	        // run entire form
+	        obj = obj1.elements[i];           // a form element
+	
+	        if (obj.type == "select-one") 
+	        {   // just selects
+	            if (obj.name == "quantity" ||
+	                obj.name == "amount") continue;
+		        pos = obj.selectedIndex;        // which option selected
+		        val = obj.options[pos].value;   // selected value
+		        val_combo = val_combo + " (" + val + ")";
+	        }
+	    }
+		// Now summarize everything we have processed above
+		val_total = obj1.product_tmp.value + val_combo;
+		obj1.product.value = val_total;
+	}
+	//-->
+	</script>	</head>
+	
+	<body class="page page-id-479 page-template-default content-sidebar">
+		<div class="container">
+			<div id="page" class="hfeed row">
+				<header id="branding" role="banner" class="span12">
+										<hgroup>
+						<h1><a class="blog-title" href="http://martinsant.net/" title="MartinSant.net" rel="home">MartinSant.net</a><span> | Software Engineering | MicroMachines</span></h1>
+					</hgroup>
+										<a id="header-image" href="http://martinsant.net/" title="MartinSant.net" rel="home">
+						<img src="AndroidHTML5RealtimeServoControl_files/Image3.jpg" alt="" height="188" width="1170">
+					</a>
+										<nav id="access" role="navigation">
+						<h3 class="assistive-text">Main menu</h3>
+						<div class="skip-link"><a class="assistive-text" href="#content" title="Skip to primary content">Skip to primary content</a></div>
+						<div class="skip-link"><a class="assistive-text" href="#secondary" title="Skip to secondary content">Skip to secondary content</a></div>
+												<div class="navbar">
+							<div class="navbar-inner">
+								<div class="container">
+									<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+									<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+										<span class="icon-bar"></span>
+									</a>
+																		<div class="nav-collapse">
+										<div class="menu-mainmenu-container"><ul id="menu-mainmenu" class="nav"><li id="menu-item-68" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-68"><a href="http://martinsant.net/?cat=12">Software</a></li>
+<li id="menu-item-470" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-470"><a href="http://martinsant.net/?cat=20">Raspberry Pi</a></li>
+<li id="menu-item-489" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-489"><a href="http://martinsant.net/?cat=21">Machines</a></li>
+<li id="menu-item-687" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-687"><a href="http://martinsant.net/?cat=22">Railroad Automation</a></li>
+<li id="menu-item-1077" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1077"><a href="http://martinsant.net/?cat=23">3D prototyping</a></li>
+<li id="menu-item-1085" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1085"><a href="http://martinsant.net/?cat=24">Electronics</a></li>
+<li id="menu-item-1669" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1669"><a href="http://martinsant.net/?cat=27">Xbee</a></li>
+</ul></div>									    <form id="searchform" class="navbar-search pull-right" method="get" action="http://martinsant.net/">
+									    	<label for="s" class="assistive-text hidden">Search</label>
+									    	<input class="search-query" name="s" id="s" placeholder="Search" type="search">
+									    </form>
+									    								    </div>
+								</div>
+							</div>
+						</div>
+											</nav><!-- #access -->
+									</header><!-- #branding -->
+<script language="JavaScript"> 
+<!--
+function openwindow(file, w, h)
+{
+	properties="width="+w+",height="+h;
+    window.open(file,'mywindow0', properties)
+
+}
+//--> 
+</script> 
+
+		<div id="primary" class="span8">
+			<div id="content" role="main">
+
+				<article id="post-479" class="post-479 page type-page status-publish hentry">
+	<header class="page-header">
+		<h1 class="entry-title">RPi Android HTML5 Realtime Servo Control</h1>	</header><!-- .entry-header -->
+
+	<div class="entry-content clearfix">
+		<p><a href="http://martinsant.net/wp-content/uploads/2012/12/pololucontrol1.jpg"><img src="AndroidHTML5RealtimeServoControl_files/pololucontrol1.jpg" alt="" title="pololucontrol" class="alignnone size-full wp-image-579" height="750" width="1000"></a></p>
+<p></p><center><font size="3"><b>Note: I’ve since replaced the maestro servo controller with a Wixel wireless module, more <a href="http://martinsant.net/?p=909" title="Wixel Wireless Servo Control">here</a><p></p>
+</b><p><b>I have also developed a complete application for wireless 
+servo control using the Pololu Wixel and the Raspberry Pi as a web 
+server. You can find details of that <a href="http://servowidget.com/" target="_blank">HERE</a></b></p>
+</font><p><font size="3"></font></p></center><p></p>
+<p>____________________________________________________________________________________________________________</p>
+<p>I moved my somewhat lengthy post about the Raspberry Pi and realtime control of the <a href="http://www.pololu.com/catalog/product/1350" target="_blank">Pololu Micro Maestro Servo controller</a>
+ to this page. I’ve also updated it since it was a little terse and some
+ of the components you needed to run this were not specifically 
+mentioned.</p>
+<p>First, the general idea is that the Raspberry Pi is set up as a web server using <a href="http://www.lighttpd.net/" target="_blank">lighthttpd</a>.
+ (you could probably also use apache if you wanted) A browser (I use 
+firefox) running on a generic Android Tablet is used to access a web 
+page on the RPi web server. The web page has some javascript in it that 
+opens a web socket. Through this web socket data from the touch screen 
+on the tablet is sent to the <a href="http://www.tornadoweb.org/" target="_blank">Tornado</a>
+ Web Server. Tornado loads the python Servo class when a connection is 
+started and x,y commands from the tablet are sent to the servo class 
+with some simple javascript.</p>
+<p>So, as I said, there are a few components that need to be setup on 
+your RPi for all of this to work. I’m running mine remotely, it sits on 
+my small network with no display, keyboard or mouse attached.  Here is a
+ diagram of my setup:<br>
+<a href="http://martinsant.net/wp-content/uploads/2012/12/diagram1.jpg"><img src="AndroidHTML5RealtimeServoControl_files/diagram1.jpg" alt="" title="diagram" class="alignnone size-full wp-image-594" height="304" width="550"></a><br>
+A very typical, minimalistic home network. The DSL modem does the DHCP 
+and the switch is a simple eight port thing I got from a big box store. 
+ There are four devices on the network, a Win7 box, a Ubuntu PC, the 
+Raspberry Pi and an old wireless router for Wifi.</p>
+<p>To set up your RPi for remote access, here is a post on how to install SSH – <a href="http://martinsant.net/?p=349">Setting up Remote SSH</a></p>
+<p>For the web server go here- <a href="http://martinsant.net/?p=362">Set up lighttpd web server</a>.
+ Both of these posts reference two really excellent tutorials by Simon 
+the Pi Man. I encourage you to check out his site for other RPi goodies,
+ he has some great stuff there.</p>
+<p><b>Downloads and reference</b></p>
+<p>Here is the <a href="http://www.tornadoweb.org/" target="_blank">Tornado Home</a> I did the manual installation.</p>
+<p>An excellent Cookbook/Tutorial for setting up and running Tornado is here: <a href="http://mbed.org/cookbook/Websockets-Server" target="_blank">Websockets-Server</a></p>
+<p>Some more good web sockets info is here: <a href="http://today.java.net/article/2010/04/26/html5-server-push-technologies-part-2" target="_blank">More on WebSockets Info</a></p>
+<p>HTML5 JavaScript Library: <a href="http://kineticjs.com/" target="_blank">http://kineticjs.com/</a></p>
+<p>Ok. Armed with all that info, you should be able to use the following
+ code to tie this all together and make it work. Essentially, after 
+installing everything, you take the html file, the server.py file and 
+the kineticJS.js file and place them in the /var/www folder. Then you 
+run server.py which just enters an infinte loop looking for commands 
+that come in.</p>
+<p>As mentioned before, this is a minimalistic bit of code that needs to
+ be fleshed out to use in any sort of ‘production’ situation, but it’s 
+enough to get the basics. The data moves from the touch commands on the 
+tablet to the Rpi via the web socket, then out to the pololu interface 
+which sends the pulses to the servo.</p>
+<p>If you have questions or comments, you can email me at <a href="mailto:martan@cstone.net">MartinSant</a></p>
+<p>Here is the servocontrol.py module, this gives access to the Pololu Micro Maestro Servo Controller</p>
+<pre><font color="blue">
+import serial
+import time
+
+class ServoController:
+    def __init__(self):
+        usbPort = '/dev/ttyACM0'
+        self.sc = serial.Serial(usbPort, timeout=1)
+
+    def closeServo(self):
+        self.sc.close()
+
+    def setAngle(self, n, angle):
+        if angle &gt; 180 or angle &lt;0:
+           angle=90
+        byteone=int(254*angle/180)
+        bud=chr(0xFF)+chr(n)+chr(byteone)
+        self.sc.write(bud)
+
+    def setPosition(self, servo, position):
+        position = position * 4
+        poslo = (position &amp; 0x7f)
+        poshi = (position &gt;&gt; 7) &amp; 0x7f
+        chan  = servo &amp;0x7f
+        data =  chr(0xaa) + chr(0x0c) + chr(0x04) + chr(chan) + chr(poslo) + chr(poshi)
+        self.sc.write(data)
+
+    def getPosition(self, servo):
+        chan  = servo &amp;0x7f
+        data =  chr(0xaa) + chr(0x0c) + chr(0x10) + chr(chan)
+        self.sc.write(data)
+        w1 = ord(self.sc.read())
+        w2 = ord(self.sc.read())
+        return w1, w2
+
+    def getErrors(self):
+        data =  chr(0xaa) + chr(0x0c) + chr(0x21)
+        self.sc.write(data)
+        w1 = ord(self.sc.read())
+        w2 = ord(self.sc.read())
+        return w1, w2
+
+    def triggerScript(self, subNumber):
+        data =  chr(0xaa) + chr(0x0c) + chr(0x27) + chr(0)
+        self.sc.write(data)
+
+</font>
+</pre>
+<p>Here is the Tornado web server module, this runs from the command 
+line on your RPi, it handles the web socket communications.  I have this
+ in my /var/www/ folder along with the above servocontrol.py</p>
+<pre><font color="blue">
+import tornado.httpserver
+import tornado.websocket
+import tornado.ioloop
+import tornado.web
+import servocontrol
+ 
+ 
+class WSHandler(tornado.websocket.WebSocketHandler):
+    def open(self):
+        print 'new connection'
+        self.write_message("Hello World")
+        self.servos = servocontrol.ServoController()
+
+    def on_message(self, message):
+        #print 'message received %s' % message
+        channel = int(message[0])
+        if channel &lt; 9:
+           c = int(channel)
+           value = int(message[1:])
+           value = (value - 20) / 4
+           self.servos.setAngle(c, value)
+           #print "channel: %d angle: %d" % (c, value)
+        else:
+           self.servos.triggerScript(0)
+
+    def on_close(self):
+      print 'connection closed'
+ 
+ 
+application = tornado.web.Application([
+    (r'/ws', WSHandler),
+])
+ 
+ 
+if __name__ == "__main__":
+    http_server = tornado.httpserver.HTTPServer(application)
+    http_server.listen(8888)
+    tornado.ioloop.IOLoop.instance().start()
+
+</font>
+</pre>
+<p>Here is the html5 code for the web page. This should look like this 
+when it gets loaded into the browser. The servo channels are on the 
+left, from zero to 3 and the red button is setup to trigger a script on 
+the servo controller (see the pololu site for setting up scripts and 
+more commands you can send to the servo, I only have a few in the servo 
+class)</p>
+<p>This is a screen shot from the PC, note that this html code won’t 
+work on the PC as the color bars are triggered from the touch commands 
+on the android screen, not mouse commands.  You could modify this to 
+work on the PC but I haven’t added that, you are welcome to add your own
+ mods.</p>
+<p><a href="http://martinsant.net/wp-content/uploads/2012/12/rtc1.jpg"><img src="AndroidHTML5RealtimeServoControl_files/rtc1.jpg" alt="" title="rtc" class="alignnone size-full wp-image-630" height="588" width="635"></a></p>
+<p>As far as the code below, note the &nbsp; <b>ws = new WebSocket(“ws://192.168.2.4:8888/ws”);</b>
+ &nbsp; in the code, this IP will vary depending on your network setup. 
+ I also just called the following file ‘t.html’, feel free to name it 
+whatever you want. This file also goes in the RPi /var/www folder.</p>
+<pre><font color="blue">
+&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=0.552, user-scalable=no"/&gt;
+    &lt;style&gt;
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      canvas {
+        border: 1px solid #9C9898;
+      }
+    &lt;/style&gt;
+    &lt;script src="http://www.html5canvastutorials.com/libraries/kinetic-v4.0.0.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+
+      ws = new WebSocket("ws://192.168.2.4:8888/ws");
+
+      ws.onmessage = function (message) {
+        var messages = document.getElementById('messages');
+        messages.innerHTML += "&lt;br&gt;[in] " + message.data;
+      };
+        
+      sendmsg = function(chan, msg) {
+        var message = chan + msg;
+        ws.send(message);
+      };
+
+      function writeMessage(messageLayer, message) {
+        var context = messageLayer.getContext();
+        messageLayer.clear();
+        context.font = "18pt Calibri";
+        context.fillStyle = "black";
+        context.fillText(message, 10, 325);
+      }
+
+      window.onload = function() {
+        var stage = new Kinetic.Stage({
+          container: "container",
+          width: 610,
+          height: 400
+        });
+
+        var shapesLayer  = new Kinetic.Layer();
+        var textLayer    = new Kinetic.Layer();
+        var messageLayer = new Kinetic.Layer();
+
+        /////////////////////////////////////////// Channel 0
+        var text0 = new Kinetic.Text(
+          {
+            x: 2,
+            y: 30,
+            text: '0',
+            fontSize: 20,
+            fontFamily: 'Calibri',
+            textFill: 'black'
+          }
+        );
+
+        var rect0 = new Kinetic.Rect(
+          {
+            x: 20,
+            y: 10,
+            width: 580,
+            height: 50,
+            cornerRadius: 4,
+            fill: 'blue',
+            stroke: 'black',
+            strokeWidth: 4
+          }
+       );
+
+        rect0.on("touchmove", function() {
+          var touchPos = stage.getTouchPosition();
+          var x = touchPos.x;
+          var y = touchPos.y;
+          writeMessage(messageLayer, "x: " + x + ", y: " + y);
+          sendmsg("0",x)
+        }); 
+
+        textLayer.add(text0);
+        shapesLayer.add(rect0);
+
+        /////////////////////////////////////////// Channel 1
+        var text1 = new Kinetic.Text(
+          {
+            x: 2,
+            y: 85,
+            text: '1',
+            fontSize: 20,
+            fontFamily: 'Calibri',
+            textFill: 'black'
+          }
+        );
+
+        var rect1 = new Kinetic.Rect(
+          {
+            x: 20,
+            y: 70,
+            width: 580,
+            height: 50,
+            cornerRadius: 4,
+            fill: 'green',
+            stroke: 'black',
+            strokeWidth: 4
+          }
+       );
+
+        rect1.on("touchmove", function() {
+          var touchPos = stage.getTouchPosition();
+          var x = touchPos.x;
+          var y = touchPos.y;
+          writeMessage(messageLayer, "x: " + x + ", y: " + y);
+          sendmsg("1",x)
+        });
+
+        textLayer.add(text1);
+        shapesLayer.add(rect1);
+
+        /////////////////////////////////////////// Channel 2
+        var text2 = new Kinetic.Text(
+          {
+            x: 2,
+            y: 143,
+            text: '2',
+            fontSize: 20,
+            fontFamily: 'Calibri',
+            textFill: 'black'
+          }
+        );
+
+        var rect2 = new Kinetic.Rect(
+          {
+            x: 20,
+            y: 130,
+            width: 580,
+            height: 50,
+            cornerRadius: 4,
+            fill: 'brown',
+            stroke: 'black',
+            strokeWidth: 4
+          }
+       );
+
+        rect2.on("touchmove", function() {
+          var touchPos = stage.getTouchPosition();
+          var x = touchPos.x;
+          var y = touchPos.y;
+          writeMessage(messageLayer, "x: " + x + ", y: " + y);
+          sendmsg("2",x)
+        });
+
+        textLayer.add(text2);
+        shapesLayer.add(rect2);
+
+        /////////////////////////////////////////// Channel 3
+        var text3 = new Kinetic.Text(
+          {
+            x: 2,
+            y: 200,
+            text: '3',
+            fontSize: 20,
+            fontFamily: 'Calibri',
+            textFill: 'black'
+          }
+        );
+
+        var rect3 = new Kinetic.Rect(
+          {
+            x: 20,
+            y: 190,
+            width: 580,
+            height: 50,
+            cornerRadius: 4,
+            fill: 'yellow',
+            stroke: 'black',
+            strokeWidth: 4
+          }
+       );
+
+        rect3.on("touchmove", function() {
+          var touchPos = stage.getTouchPosition();
+          var x = touchPos.x;
+          var y = touchPos.y;
+          writeMessage(messageLayer, "x: " + x + ", y: " + y);
+          sendmsg("3",x)
+        });
+
+        textLayer.add(text3);
+        shapesLayer.add(rect3);
+
+
+
+        ///////////////////////////////////////// Circle Button
+
+        var circle = new Kinetic.Circle({
+          x: 563,
+          y: 350,
+          radius: 40,
+          fill: "red",
+          stroke: "black",
+          strokeWidth: 4
+        });
+
+        circle.on("touchstart", function() {
+          writeMessage(messageLayer, "Start Servo Sequence 0");
+          sendmsg(9,"S")
+        });
+
+        //circle.on("touchend", function() {
+        //  writeMessage(messageLayer, "");
+        //  sendmsg(9,"E")
+        //});
+
+        shapesLayer.add(circle);
+
+        stage.add(shapesLayer);
+        stage.add(textLayer);
+        stage.add(messageLayer);
+      };
+
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body onmousedown="return false;"&gt;
+    &lt;div id="container"&gt;&lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</font>
+</pre>
+	</div><!-- .entry-content -->
+	</article><!-- #post-479 -->
+		
+			</div><!-- #content -->
+		</div><!-- #primary -->
+
+<section id="secondary" class="widget-area span4" role="complementary">
+	<aside id="pages-2" class="widget well widget_pages"><h2 class="widget-title">Pages</h2>		<ul>
+			<li class="page_item page-item-1016"><a href="http://martinsant.net/?page_id=1016">3D Printed Figures</a></li>
+<li class="page_item page-item-1322"><a href="http://martinsant.net/?page_id=1322">Android Development – Reels Game App</a></li>
+<li class="page_item page-item-1689"><a href="http://martinsant.net/?page_id=1689">AVR Attiny 1634 s/w UART</a></li>
+<li class="page_item page-item-1903"><a href="http://martinsant.net/?page_id=1903">Control Widgets</a></li>
+<li class="page_item page-item-1329"><a href="http://martinsant.net/?page_id=1329">Flying Hamburger</a></li>
+<li class="page_item page-item-666"><a href="http://martinsant.net/?page_id=666">Garden Scale Railroad Automation</a></li>
+<li class="page_item page-item-1332"><a href="http://martinsant.net/?page_id=1332">Hardware Fun – WiFi Antenna</a></li>
+<li class="page_item page-item-974"><a href="http://martinsant.net/?page_id=974">Model Railroad Sound Card</a></li>
+<li class="page_item page-item-983"><a href="http://martinsant.net/?page_id=983">PyUSB for the Raspberry Pi</a></li>
+<li class="page_item page-item-969"><a href="http://martinsant.net/?page_id=969">Railroad Wixels</a></li>
+<li class="page_item page-item-977"><a href="http://martinsant.net/?page_id=977">Raspberry Pi and the Pololu Servo Controller</a></li>
+<li class="page_item page-item-402"><a href="http://martinsant.net/?page_id=402">RPi and the Servo Controller</a></li>
+<li class="page_item page-item-479 current_page_item"><a href="http://martinsant.net/?page_id=479">RPi Android HTML5 Realtime Servo Control</a></li>
+<li class="page_item page-item-1978"><a href="http://martinsant.net/?page_id=1978">Simple Wifi Servo control with Android</a></li>
+<li class="page_item page-item-987"><a href="http://martinsant.net/?page_id=987">Steam Engine and Dynamo</a></li>
+<li class="page_item page-item-608"><a href="http://martinsant.net/?page_id=608">Tin Can Steam Boiler</a></li>
+<li class="page_item page-item-962"><a href="http://martinsant.net/?page_id=962">Wixel Breakout Board</a></li>
+<li class="page_item page-item-965"><a href="http://martinsant.net/?page_id=965">Wixel drives a servo over 100ft</a></li>
+<li class="page_item page-item-98"><a href="http://martinsant.net/?page_id=98">EightWay Game</a></li>
+<li class="page_item page-item-92"><a href="http://martinsant.net/?page_id=92">Dice In A Stone Box</a></li>
+<li class="page_item page-item-179"><a href="http://martinsant.net/?page_id=179">About Martin</a></li>
+		</ul>
+		</aside><aside id="linkcat-18" class="widget well widget_links"><h2 class="widget-title">Links</h2>
+	<ul class="xoxo blogroll">
+<li><a href="http://1000dollarhamburger.com/">1000dollarhamburger</a></li>
+<li><a href="http://blueridgeairworks.com/" title="Blue Ridge Airworks">BlueRidgeAirworks</a></li>
+<li><a href="http://flycfc.net/" title="Charlottesville Flight Center">Charlottesville Flight Center</a></li>
+<li><a href="http://santfineart.com/">Django Web Site</a></li>
+<li><a href="http://facebook.com/martan3d" title="Facebook">Facebook</a></li>
+<li><a href="http://www.linkedin.com/pub/martin-sant/17/749/653" title="LinkedIn">LinkedIn</a></li>
+<li><a href="http://martanimation.com/" target="_blank">Martanimation</a></li>
+<li><a href="http://www.flickr.com/photos/20924430@N05/" target="_blank">Pictures</a></li>
+<li><a href="http://www.pololu.com/">Pololu Robotics</a></li>
+<li><a href="http://www.raspberrypi.org/">Raspberry Pi Official Site</a></li>
+<li><a href="http://simonthepiman.com/">Raspberry Pi Tutorials</a></li>
+<li><a href="http://martinsant.net/about/resume.html">Resume</a></li>
+<li><a href="http://store.raspberrypi.com/" target="_blank">RPi App Store</a></li>
+<li><a href="https://www.sparkfun.com/">Sparkfun Electronics</a></li>
+<li><a href="http://easternappalachian.com/">The Eastern Appalachian Railroad</a></li>
+<li><a href="http://vfrmap.com/" title="vfr map">VFRMap</a></li>
+<li><a href="http://youtube.com/martan3d" title="youtube">YouTube</a></li>
+
+	</ul>
+</aside>
+</section><!-- #secondary .widget-area -->
+				<footer id="colophon" role="contentinfo" class="span12">
+					<div id="page-footer" class="well clearfix">
+						© 2014 <a href="http://martinsant.net/">MartinSant.net</a>, all rights reserved.						<div id="site-generator">
+							<a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" target="_blank" rel="generator">Proudly powered by WordPress</a>
+						</div>
+					</div>
+				</footer><!-- #colophon -->
+			</div><!-- #page -->
+		</div><!-- .container -->
+	<!-- 24 queries. 1.125 seconds. -->
+	<script type="text/javascript" src="AndroidHTML5RealtimeServoControl_files/bootstrap.js"></script>
+<script type="text/javascript" src="AndroidHTML5RealtimeServoControl_files/the-bootstrap.js"></script>
+	
+
+
+<script type="text/javascript">
+var sc_project=6707514; 
+var sc_invisible=1; 
+var sc_security="7ef06e9a"; 
+</script>
+<script type="text/javascript" src="AndroidHTML5RealtimeServoControl_files/counter.js"></script>
+<noscript><div class="statcounter"><a title="tumblr counter"
+href="http://statcounter.com/tumblr/" target="_blank"><img
+class="statcounter"
+src="http://c.statcounter.com/6707514/0/7ef06e9a/1/"
+alt="tumblr counter"></a></div></noscript>
+<!-- End of StatCounter Code for Default Guide -->
+
+</body><!-- Start of StatCounter Code for Default Guide --></html>

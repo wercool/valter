@@ -729,10 +729,12 @@ public class MainAppController
                 case "frontCamToggleBtn":
                     if (clickedToggleBtn.selectedProperty().get())
                     {
+                        GB08M2.getInstance().activateFrontCamera();
                         GB08M2.getInstance().frontCameraFrameGrabberTask.resume();
                         GB08M2.getInstance().gb08m2ManualControlManager.startFrontCameraFrameVizualization();
                     } else
                     {
+                        GB08M2.getInstance().deActivateFrontCamera();
                         GB08M2.getInstance().frontCameraFrameGrabberTask.pause();
                         GB08M2.getInstance().gb08m2ManualControlManager.stopFrontCameraFrameVizualization();
                     }
@@ -740,10 +742,12 @@ public class MainAppController
                 case "rearCamToggleBtn":
                     if (clickedToggleBtn.selectedProperty().get())
                     {
+                    	GB08M2.getInstance().activateRearCamera();
                         GB08M2.getInstance().rearCameraFrameGrabberTask.resume();
                         GB08M2.getInstance().gb08m2ManualControlManager.startRearCameraFrameVizualization();
                     } else
                     {
+                    	GB08M2.getInstance().deActivateRearCamera();
                         GB08M2.getInstance().rearCameraFrameGrabberTask.pause();
                         GB08M2.getInstance().gb08m2ManualControlManager.stopRearCameraFrameVizualization();
                     }
