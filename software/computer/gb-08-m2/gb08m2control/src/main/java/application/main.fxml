@@ -60,7 +60,7 @@
                 </Accordion>
                 <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
                   <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
+                    <AnchorPane id="Content" fx:id="driveControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                       <children>
                         <Button id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.topAnchor="2.0">
                           <font>
@@ -111,6 +111,9 @@
                           </stylesheets>
                         </ProgressBar>
                       </children>
+                      <stylesheets>
+                        <URL value="@main.css" />
+                      </stylesheets>
                     </AnchorPane>
                   </content>
                 </TitledPane>

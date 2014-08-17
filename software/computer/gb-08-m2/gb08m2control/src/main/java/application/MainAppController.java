@@ -1,5 +1,8 @@
 package application;
 
+import java.io.IOException;
+import java.net.URL;
+
 import gb082m2.GB08M2;
 import gb082m2.GB08M2AutomatedManager;
 import gb082m2.GB08M2ManualControlManager;
@@ -10,6 +13,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -31,8 +36,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainAppController
 {
@@ -92,6 +100,10 @@ public class MainAppController
     public static ProgressIndicator rearCameraImageViewIndicator;
     @FXML
     public static AnchorPane manualControlAnchorPane;
+    @FXML
+    public static AnchorPane driveControlAnchorPane;
+    public static ImageView fullscreenVideoImageView;
+    public static AnchorPane fullscreenVideoContainer;
 
     //Automated Control tab's elements
     @FXML
@@ -449,6 +461,55 @@ public class MainAppController
                     MainAppController.driveControTitledPane.toFront();
                     MainAppController.driveControTitledPane.setLayoutX(frontCameraAutomatedControlOverlayPane.getWidth() + 10);
                     MainAppController.driveControTitledPane.setLayoutY(5);
+                }
+            }
+        });
+        
+        frontCameraImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                URL location = getClass().getResource("fullscreen.fxml");
+                FXMLLoader loader = new FXMLLoader(location);
+                Parent rootNode;
+                try {
+                    if (fullscreenVideoImageView == null)
+                    {
+                        double videoWidth = 800;
+                        double videoHeight = 600;
+                        rootNode = (Parent) loader.load();
+                        final Stage stage = new Stage();
+                        stage.setTitle("Video");
+                        Scene scene = new Scene(rootNode, videoWidth, videoHeight);
+                        stage.setScene(scene);
+                        stage.show();
+                        stage.setFullScreen(true);
+                        fullscreenVideoImageView = (ImageView) scene.lookup("#fullscreenVideoImageView");
+                        fullscreenVideoImageView.setFitWidth(videoWidth);
+                        fullscreenVideoImageView.setFitHeight(videoHeight);
+                        fullscreenVideoImageView.setX((Screen.getPrimary().getVisualBounds().getMaxX() - videoWidth) / 2);
+                        fullscreenVideoImageView.setY((Screen.getPrimary().getVisualBounds().getMaxY() - videoHeight) / 2);
+                        fullscreenVideoContainer = (AnchorPane) scene.lookup("#fullScreenVideoAnchorPane");
+                        fullscreenVideoContainer.setStyle("-fx-background-color: #000000");
+                        MainAppController.driveControTitledPane.setOpacity(0.25);
+                        MainAppController.manualControlAnchorPane.getChildren().remove(MainAppController.driveControTitledPane);
+                        fullscreenVideoContainer.getChildren().add(MainAppController.driveControTitledPane);
+                        stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+                        {
+                            @Override
+                            public void handle(WindowEvent event)
+                            {
+                                fullscreenVideoImageView = null;
+                                fullscreenVideoContainer.getChildren().remove(MainAppController.driveControTitledPane);
+                                MainAppController.manualControlAnchorPane.getChildren().add(MainAppController.driveControTitledPane);
+                                MainAppController.driveControTitledPane.setOpacity(1);
+                                stage.close();
+                            }
+                        });
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         });

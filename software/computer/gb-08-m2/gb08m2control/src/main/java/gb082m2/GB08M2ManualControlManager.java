@@ -380,8 +380,16 @@ public class GB08M2ManualControlManager
                             {
                                 Image frame = null;
                                 frame = SwingFXUtils.toFXImage(GB08M2.getInstance().getFrontCameraFrameBufferedImage(), null);
-                                MainAppController.frontCameraImageView.setImage(frame);
-                                MainAppController.frontCameraImageView.setCache(false);
+                                if (MainAppController.fullscreenVideoImageView != null)
+                                {
+                                    MainAppController.fullscreenVideoImageView.setImage(frame);
+                                    MainAppController.fullscreenVideoImageView.setCache(false);
+                                }
+                                else
+                                {
+                                    MainAppController.frontCameraImageView.setImage(frame);
+                                    MainAppController.frontCameraImageView.setCache(false);
+                                }
                             }
                         }
                     });
