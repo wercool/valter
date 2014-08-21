@@ -1,12 +1,13 @@
 package application;
 
-import java.io.IOException;
-import java.net.URL;
-
 import gb082m2.GB08M2;
 import gb082m2.GB08M2AutomatedManager;
 import gb082m2.GB08M2ManualControlManager;
 import gb082m2.SLAMTask;
+
+import java.io.IOException;
+import java.net.URL;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,7 +37,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -102,6 +102,12 @@ public class MainAppController
     public static AnchorPane manualControlAnchorPane;
     @FXML
     public static AnchorPane driveControlAnchorPane;
+    @FXML
+    public static Slider cameraTiltSlider;
+    @FXML
+    public static Slider cameraPanSlider;
+    @FXML
+    public static Button resetCamBtn;
     public static ImageView fullscreenVideoImageView;
     public static AnchorPane fullscreenVideoContainer;
 
@@ -511,6 +517,35 @@ public class MainAppController
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        cameraTiltSlider.valueProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
+            {
+                GB08M2.setFronCameraTilt((int) Math.round(cameraTiltSlider.getValue()) * -1);
+            }
+        });
+
+        cameraPanSlider.valueProperty().addListener(new ChangeListener<Number>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
+            {
+                GB08M2.setFronCameraPan((int) Math.round(cameraPanSlider.getValue()) * -1);
+            }
+        });
+
+        resetCamBtn.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(final MouseEvent mouseEvent)
+            {
+                GB08M2.resetFrontCam();
+                cameraTiltSlider.setValue(0);
+                cameraPanSlider.setValue(0);
             }
         });
 

@@ -58,7 +58,7 @@
                     </TitledPane>
                   </panes>
                 </Accordion>
-                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
+                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="300.0" prefWidth="280.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
                   <content>
                     <AnchorPane id="Content" fx:id="driveControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                       <children>
@@ -69,23 +69,23 @@
                         </Button>
                         <Button id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.topAnchor="85.0" />
                         <Button id="turnLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="←" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="45.0" />
-                        <Button id="turnRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="turnRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="45.0" />
                         <Button id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="2.0" />
-                        <Button id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="2.0" />
+                        <Button id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="2.0" />
                         <Button id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="85.0" />
-                        <Button id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="85.0" />
+                        <Button id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="85.0" />
                         <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="130.0" />
-                        <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="150.0" />
+                        <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="4.5" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="150.0" />
                         <Label layoutX="6.0" text="Duty Right" AnchorPane.topAnchor="175.0" />
-                        <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="195.0" />
+                        <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="195.0" />
                         <Button id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="45.0" />
-                        <CheckBox fx:id="dutySunchronizedCheckBox" mnemonicParsing="false" selected="false" text="Synchronized" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="172.0" />
+                        <CheckBox fx:id="dutySunchronizedCheckBox" mnemonicParsing="false" selected="false" text="Synchronized" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="171.0" />
                         <ProgressBar id="" fx:id="leftMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" style="" AnchorPane.leftAnchor="-45.0" AnchorPane.topAnchor="55.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="rightMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" AnchorPane.rightAnchor="-45.0" AnchorPane.topAnchor="55.0">
+                        <ProgressBar id="" fx:id="rightMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="55.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
@@ -100,16 +100,19 @@
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="frontRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="25.0">
+                        <ProgressBar id="" fx:id="frontRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="25.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="rearRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="90.0">
+                        <ProgressBar id="" fx:id="rearRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="90.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
+                        <Slider id="" fx:id="cameraTiltSlider" layoutX="254.0" max="30.0" min="-30.0" minorTickCount="5" orientation="VERTICAL" value="0.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="5.0" />
+                        <Slider fx:id="cameraPanSlider" max="70.0" min="-70.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="25.0" />
+                        <Button id="" fx:id="resetCamBtn" layoutX="149.0" layoutY="220.0" mnemonicParsing="false" text="RESET CAM" />
                       </children>
                       <stylesheets>
                         <URL value="@main.css" />
@@ -127,7 +130,7 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="274.0" prefWidth="225.0" text="Other System Controls" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="260.0">
+                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="274.0" prefWidth="225.0" text="Other System Controls" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="662.0" AnchorPane.topAnchor="320.0">
                   <content>
                     <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="300.0" prefWidth="230.0">
                       <children>

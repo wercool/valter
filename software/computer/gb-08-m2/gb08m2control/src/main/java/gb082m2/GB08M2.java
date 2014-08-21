@@ -1,6 +1,12 @@
 package gb082m2;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javafx.scene.shape.Rectangle;
 
@@ -135,6 +141,9 @@ public class GB08M2
     volatile Mat frontCameraDetectedROISURFMatchesWithSelectedTemplateMat;
     Rectangle frontCameraROIRectangle;
     Point ROIMatchLoc;
+    
+    public static int frontCameraTiltValue = 0;
+    public static int frontCameraPanValue = 0;
 
     public GB08M2()
     {
@@ -333,6 +342,163 @@ public class GB08M2
     public synchronized void setFrontCameraDetectedROISURFMatchesWithSelectedTemplateMat(Mat frontCameraDetectedROISURFMatchesWithSelectedTemplateMat)
     {
         this.frontCameraDetectedROISURFMatchesWithSelectedTemplateMat = frontCameraDetectedROISURFMatchesWithSelectedTemplateMat;
+    }
+
+    public static void setFronCameraTilt(int tilt)
+    {
+        final String USER_AGENT = "Mozilla/5.0";
+        String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=tilt_set&value=" + String.valueOf(tilt);
+
+        if (frontCameraTiltValue != tilt)
+        {
+            frontCameraTiltValue = tilt;
+
+            URL obj;
+            try
+            {
+                obj = new URL(url);
+                HttpURLConnection con;
+                try
+                {
+                    con = (HttpURLConnection) obj.openConnection();
+
+                    // optional default is GET
+                    con.setRequestMethod("GET");
+
+                    //add request header
+                    con.setRequestProperty("User-Agent", USER_AGENT);
+
+                    int responseCode = con.getResponseCode();
+                    System.out.println("\nSending 'GET' request to URL : " + url);
+                    System.out.println("Response Code : " + responseCode);
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null)
+                    {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    //print result
+                    System.out.println(response.toString());
+                } catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } catch (MalformedURLException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setFronCameraPan(int pan)
+    {
+        if (frontCameraPanValue != pan)
+        {
+            frontCameraPanValue = pan;
+
+            final String USER_AGENT = "Mozilla/5.0";
+
+            String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=pan_set&value=" + String.valueOf(pan);
+
+            URL obj;
+            try
+            {
+                obj = new URL(url);
+                HttpURLConnection con;
+                try
+                {
+                    con = (HttpURLConnection) obj.openConnection();
+
+                    // optional default is GET
+                    con.setRequestMethod("GET");
+
+                    //add request header
+                    con.setRequestProperty("User-Agent", USER_AGENT);
+
+                    int responseCode = con.getResponseCode();
+                    System.out.println("\nSending 'GET' request to URL : " + url);
+                    System.out.println("Response Code : " + responseCode);
+
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String inputLine;
+                    StringBuffer response = new StringBuffer();
+
+                    while ((inputLine = in.readLine()) != null)
+                    {
+                        response.append(inputLine);
+                    }
+                    in.close();
+
+                    //print result
+                    System.out.println(response.toString());
+                } catch (IOException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } catch (MalformedURLException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public static void resetFrontCam()
+    {
+        final String USER_AGENT = "Mozilla/5.0";
+
+        String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=reset_pan_tilt";
+        System.out.println(url);
+        URL obj;
+        try
+        {
+            obj = new URL(url);
+            HttpURLConnection con;
+            try
+            {
+                con = (HttpURLConnection) obj.openConnection();
+
+                // optional default is GET
+                con.setRequestMethod("GET");
+
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
+
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + url);
+                System.out.println("Response Code : " + responseCode);
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null)
+                {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                //print result
+                System.out.println(response.toString());
+            } catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     //Hardware
