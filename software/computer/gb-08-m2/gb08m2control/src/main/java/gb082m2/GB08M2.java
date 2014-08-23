@@ -13,6 +13,8 @@ import javafx.scene.shape.Rectangle;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 
+import application.MainAppController;
+
 public class GB08M2
 {
     static final GB08M2 instance = new GB08M2();
@@ -141,7 +143,7 @@ public class GB08M2
     volatile Mat frontCameraDetectedROISURFMatchesWithSelectedTemplateMat;
     Rectangle frontCameraROIRectangle;
     Point ROIMatchLoc;
-    
+
     public static int frontCameraTiltValue = 0;
     public static int frontCameraPanValue = 0;
 
@@ -347,10 +349,20 @@ public class GB08M2
     public static void setFronCameraTilt(int tilt)
     {
         final String USER_AGENT = "Mozilla/5.0";
-        String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=tilt_set&value=" + String.valueOf(tilt);
+        //String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=tilt_set&value=" + String.valueOf(tilt);
+        ///?action=command_ng&dest=0&plugin=0&id=10094853&group=1&value=-200
+        String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command_ng&dest=0&plugin=0&id=10094853&group=1&value=";
 
         if (frontCameraTiltValue != tilt)
         {
+            if (tilt > frontCameraTiltValue)
+            {
+                url += "-100";
+            } else
+            {
+                url += "100";
+            }
+
             frontCameraTiltValue = tilt;
 
             URL obj;
@@ -387,12 +399,13 @@ public class GB08M2
                 } catch (IOException e)
                 {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    System.out.println("Network error");
                 }
             } catch (MalformedURLException e)
             {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
     }
@@ -401,12 +414,22 @@ public class GB08M2
     {
         if (frontCameraPanValue != pan)
         {
-            frontCameraPanValue = pan;
-
             final String USER_AGENT = "Mozilla/5.0";
 
-            String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=pan_set&value=" + String.valueOf(pan);
+            //String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=pan_set&value=" + String.valueOf(pan);
+            ///?action=command_ng&dest=0&plugin=0&id=10094852&group=1&value=200
 
+            String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command_ng&dest=0&plugin=0&id=10094852&group=1&value=";
+
+            if (frontCameraPanValue > pan)
+            {
+                url += "100";
+            } else
+            {
+                url += "-100";
+            }
+
+            frontCameraPanValue = pan;
             URL obj;
             try
             {
@@ -441,22 +464,25 @@ public class GB08M2
                 } catch (IOException e)
                 {
                     // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    //e.printStackTrace();
+                    System.out.println("Network error");
                 }
             } catch (MalformedURLException e)
             {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                //e.printStackTrace();
             }
 
         }
     }
 
-    public static void resetFrontCam()
+    public static void resetFrontCamTilt()
     {
         final String USER_AGENT = "Mozilla/5.0";
 
-        String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=reset_pan_tilt";
+        //String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=reset_pan_tilt";
+        ///?action=command_ng&dest=0&plugin=0&id=10094855&group=1&value=1
+        String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command_ng&dest=0&plugin=0&id=10094855&group=1&value=1";
         System.out.println(url);
         URL obj;
         try
@@ -469,6 +495,64 @@ public class GB08M2
 
                 // optional default is GET
                 con.setRequestMethod("GET");
+
+                con.disconnect();
+
+                //add request header
+                con.setRequestProperty("User-Agent", USER_AGENT);
+
+                int responseCode = con.getResponseCode();
+                System.out.println("\nSending 'GET' request to URL : " + url);
+                System.out.println("Response Code : " + responseCode);
+
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null)
+                {
+                    response.append(inputLine);
+                }
+                in.close();
+
+                //print result
+                System.out.println(response.toString());
+            } catch (IOException e)
+            {
+                // TODO Auto-generated catch block
+                //e.printStackTrace();
+                System.out.println("Network error");
+            }
+        } catch (MalformedURLException e)
+        {
+            // TODO Auto-generated catch block
+            //e.printStackTrace();
+        }
+        MainAppController.cameraPanSlider.setValue(0);
+        MainAppController.cameraTiltSlider.setValue(0);
+    }
+
+    public static void resetFrontCamPan()
+    {
+        final String USER_AGENT = "Mozilla/5.0";
+
+        //String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command&command=reset_pan_tilt";
+        ///?action=command_ng&dest=0&plugin=0&id=10094854&group=1&value=1
+        String url = "http://" + hostname + ":" + String.valueOf(frontCameraPort) + "/?action=command_ng&dest=0&plugin=0&id=10094854&group=1&value=1";
+        System.out.println(url);
+        URL obj;
+        try
+        {
+            obj = new URL(url);
+            HttpURLConnection con;
+            try
+            {
+                con = (HttpURLConnection) obj.openConnection();
+
+                // optional default is GET
+                con.setRequestMethod("GET");
+
+                con.disconnect();
 
                 //add request header
                 con.setRequestProperty("User-Agent", USER_AGENT);
@@ -499,6 +583,8 @@ public class GB08M2
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        MainAppController.cameraPanSlider.setValue(0);
+        MainAppController.cameraTiltSlider.setValue(0);
     }
 
     //Hardware
@@ -508,19 +594,22 @@ public class GB08M2
     {
         gb08m2CommandManager.sendCommand("SHELL:/home/maska/startgb08m2ivideo1");
     }
+
     public void deActivateFrontCamera()
     {
         gb08m2CommandManager.sendCommand("SHELL:kill -9 $(pidof front_camera_mjpg_streamer)");
     }
+
     public void activateRearCamera()
     {
         gb08m2CommandManager.sendCommand("SHELL:/home/maska/startgb08m2ivideo0");
     }
+
     public void deActivateRearCamera()
     {
         gb08m2CommandManager.sendCommand("SHELL:kill -9 $(pidof rear_camera_mjpg_streamer)");
     }
-    
+
     //Motors
     public synchronized int getFrontLeftMotorDuty()
     {

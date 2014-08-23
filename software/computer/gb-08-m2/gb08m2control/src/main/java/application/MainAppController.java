@@ -41,6 +41,7 @@ import javafx.stage.Popup;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import utils.Z800Tracker;
 
 public class MainAppController
 {
@@ -108,6 +109,10 @@ public class MainAppController
     public static Slider cameraPanSlider;
     @FXML
     public static Button resetCamBtn;
+    @FXML
+    public static CheckBox z800CursorMoveCheckBox;
+    @FXML
+    public static CheckBox z800TrackingCheckBox;
     public static ImageView fullscreenVideoImageView;
     public static AnchorPane fullscreenVideoContainer;
 
@@ -470,7 +475,7 @@ public class MainAppController
                 }
             }
         });
-        
+
         frontCameraImageView.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
         {
             @Override
@@ -479,7 +484,8 @@ public class MainAppController
                 URL location = getClass().getResource("fullscreen.fxml");
                 FXMLLoader loader = new FXMLLoader(location);
                 Parent rootNode;
-                try {
+                try
+                {
                     if (fullscreenVideoImageView == null)
                     {
                         double videoWidth = 800;
@@ -514,7 +520,8 @@ public class MainAppController
                             }
                         });
                     }
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -525,7 +532,10 @@ public class MainAppController
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
             {
-                GB08M2.setFronCameraTilt((int) Math.round(cameraTiltSlider.getValue()) * -1);
+                if (z800TrackingCheckBox.isSelected())
+                {
+                    GB08M2.setFronCameraTilt((int) Math.round(cameraTiltSlider.getValue()));
+                }
             }
         });
 
@@ -534,7 +544,10 @@ public class MainAppController
             @Override
             public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val)
             {
-                GB08M2.setFronCameraPan((int) Math.round(cameraPanSlider.getValue()) * -1);
+                if (z800TrackingCheckBox.isSelected())
+                {
+                    GB08M2.setFronCameraPan((int) Math.round(cameraPanSlider.getValue()));
+                }
             }
         });
 
@@ -543,9 +556,8 @@ public class MainAppController
             @Override
             public void handle(final MouseEvent mouseEvent)
             {
-                GB08M2.resetFrontCam();
-                cameraTiltSlider.setValue(0);
-                cameraPanSlider.setValue(0);
+                GB08M2.resetFrontCamTilt();
+                GB08M2.resetFrontCamPan();
             }
         });
 
@@ -760,10 +772,13 @@ public class MainAppController
                         }
                     }).start();
                 break;
+                case "z800ResetButton":
+                    Z800Tracker.resetZ800Tracker();
+                break;
             }
             clickedBtn = null;
         }
-
+        //ToggleBtn Handlers
         if (event.getSource().getClass().toString().equalsIgnoreCase("class javafx.scene.control.ToggleButton"))
         {
             ToggleButton clickedToggleBtn = (ToggleButton) (event.getSource());
@@ -838,12 +853,12 @@ public class MainAppController
                 case "rearCamToggleBtn":
                     if (clickedToggleBtn.selectedProperty().get())
                     {
-                    	GB08M2.getInstance().activateRearCamera();
+                        GB08M2.getInstance().activateRearCamera();
                         GB08M2.getInstance().rearCameraFrameGrabberTask.resume();
                         GB08M2.getInstance().gb08m2ManualControlManager.startRearCameraFrameVizualization();
                     } else
                     {
-                    	GB08M2.getInstance().deActivateRearCamera();
+                        GB08M2.getInstance().deActivateRearCamera();
                         GB08M2.getInstance().rearCameraFrameGrabberTask.pause();
                         GB08M2.getInstance().gb08m2ManualControlManager.stopRearCameraFrameVizualization();
                     }
@@ -877,6 +892,15 @@ public class MainAppController
                     } else
                     {
                         GB08M2AutomatedManager.setPatternTracking(false);
+                    }
+                break;
+                case "z800TrackingToggleButton":
+                    if (clickedToggleBtn.selectedProperty().get())
+                    {
+                        GB08M2ManualControlManager.startZ800Tracker();
+                    } else
+                    {
+                        GB08M2ManualControlManager.stopZ800Tracker();
                     }
                 break;
             }

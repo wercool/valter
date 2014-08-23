@@ -3,6 +3,7 @@ package gb082m2;
 import javafx.application.Platform;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import utils.Z800Tracker;
 import application.MainAppController;
 
 public class GB08M2ManualControlManager
@@ -12,6 +13,7 @@ public class GB08M2ManualControlManager
     RearCameraFrameVisualizationTask rearCameraFrameVisualizationTask;
     DistanceScannerTask distanceScannerTask;
     DistanceMeterVisualizationTask distanceMeterVisualizationTask;
+    static Z800Tracker z800Tracker;
 
     public void deinitialize()
     {
@@ -184,6 +186,25 @@ public class GB08M2ManualControlManager
         if (rearCameraFrameVisualizationTask != null)
         {
             rearCameraFrameVisualizationTask.stop();
+        }
+    }
+
+    //z800
+    public static void startZ800Tracker()
+    {
+        if (z800Tracker != null)
+        {
+            z800Tracker.stop();
+        }
+        z800Tracker = new Z800Tracker();
+        z800Tracker.start();
+    }
+
+    public static void stopZ800Tracker()
+    {
+        if (z800Tracker != null)
+        {
+            z800Tracker.stop();
         }
     }
 
@@ -384,8 +405,7 @@ public class GB08M2ManualControlManager
                                 {
                                     MainAppController.fullscreenVideoImageView.setImage(frame);
                                     MainAppController.fullscreenVideoImageView.setCache(false);
-                                }
-                                else
+                                } else
                                 {
                                     MainAppController.frontCameraImageView.setImage(frame);
                                     MainAppController.frontCameraImageView.setCache(false);

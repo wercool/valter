@@ -56,11 +56,30 @@
                         </AnchorPane>
                       </content>
                     </TitledPane>
+                    <TitledPane animated="false" collapsible="true" text="Camera Settings">
+                      <content>
+                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
+                          <children>
+                            <ImageView id="rearCameraImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                            <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="9.0">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <ToggleButton id="frontCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                                    <ToggleButton id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </children>
+                        </AnchorPane>
+                      </content>
+                    </TitledPane>
                   </panes>
                 </Accordion>
-                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="300.0" prefWidth="280.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
+                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="true" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="305.0" prefWidth="280.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
                   <content>
-                    <AnchorPane id="Content" fx:id="driveControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
+                    <AnchorPane id="Content" fx:id="driveControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="288.0" prefWidth="276.0">
                       <children>
                         <Button id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.topAnchor="2.0">
                           <font>
@@ -111,8 +130,16 @@
                           </stylesheets>
                         </ProgressBar>
                         <Slider id="" fx:id="cameraTiltSlider" layoutX="254.0" max="30.0" min="-30.0" minorTickCount="5" orientation="VERTICAL" value="0.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="5.0" />
-                        <Slider fx:id="cameraPanSlider" max="70.0" min="-70.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="25.0" />
+                        <Slider fx:id="cameraPanSlider" max="100.0" min="-100.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="25.0" />
                         <Button id="" fx:id="resetCamBtn" layoutX="149.0" layoutY="220.0" mnemonicParsing="false" text="RESET CAM" />
+                        <ToggleButton id="z800TrackingToggleButton" layoutX="5.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" prefWidth="70.0" text="Z800" />
+                        <CheckBox fx:id="z800CursorMoveCheckBox" layoutY="211.0" mnemonicParsing="false" text="cursor" AnchorPane.leftAnchor="85.0" />
+                        <Button fx:id="z800ResetButton" layoutX="82.0" layoutY="230.0" minHeight="16.0" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" prefHeight="16.0" text="reset">
+                          <font>
+                            <Font size="10.0" />
+                          </font>
+                        </Button>
+                        <CheckBox id="" fx:id="z800TrackingCheckBox" layoutX="4.0" layoutY="237.0" mnemonicParsing="false" text="tracking" />
                       </children>
                       <stylesheets>
                         <URL value="@main.css" />
@@ -120,17 +147,7 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="545.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <children>
-                        <ToggleButton id="frontCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
-                        <ToggleButton id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="274.0" prefWidth="225.0" text="Other System Controls" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="662.0" AnchorPane.topAnchor="320.0">
+                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="274.0" prefWidth="225.0" text="Other System Controls" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="337.0">
                   <content>
                     <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="300.0" prefWidth="230.0">
                       <children>
@@ -163,7 +180,7 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefHeight="169.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="545.0">
+                <TitledPane animated="false" collapsible="false" prefHeight="169.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="559.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>
@@ -342,8 +359,7 @@
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="286.0">
                       <children>
                         <Label text="Host Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <!-- <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" /> -->
-                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="127.0.0.1" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
                         <Label text="Command Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
                         <TextField id="" fx:id="commandPortTextField" prefWidth="100.0" text="9001" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
                         <Label text="Front Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="75.0" />
