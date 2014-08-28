@@ -14,6 +14,7 @@
 /* You must have a display callback that GLUT calls to draw everything. */
 void displayCall()
 {
+    /*
     //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
@@ -34,6 +35,20 @@ void displayCall()
     glPopMatrix();
     glMatrixMode( GL_MODELVIEW );
 
+    glutSwapBuffers();
+    */
+
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0, 1.0, 1.0);
+    glOrtho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+    glBegin(GL_POLYGON);
+        glVertex2f(-0.5, -0.5);
+        glVertex2f(-0.5, 0.5);
+        glVertex2f(0.5, 0.5);
+        glVertex2f(0.5, -0.5);
+    glEnd();
+    glFlush();
     glutSwapBuffers();
 } /* end func displayCall */
 /**********************************************************************************************************************************/
