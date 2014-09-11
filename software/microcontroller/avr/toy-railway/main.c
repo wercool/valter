@@ -52,16 +52,17 @@ ISR(TIMER0_OVF_vect)
 {
 }
 
+unsigned int code = 0;
 
 int main( void )
 {
-  DDRD |= _BV(DDD3);
-  DDRC = 0x00;
+    Tomer0 initialize
 /*
     8000000 / 1024 = 7812    Hz;   1 / 7812  * 256 =  0.03277 s
     8000000 / 256  = 31250   Hz;
     8000000 / 64   = 125000  Hz;
     8000000 / 8    = 1000000 Hz;
+    8000000 / 1    = 8000000 Hz;
 */
   TCCR0 = 0x03;
   TIMSK = 0x01;
@@ -71,7 +72,7 @@ int main( void )
 
   while (1)
   {
-      sprintf(msg, "%d\n", command);
+      sprintf(msg, "%u\n", code);
       //uart_puts(msg);
   }
 }

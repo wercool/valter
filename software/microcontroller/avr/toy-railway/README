@@ -4,5 +4,5 @@ avr-gcc -mmcu=atmega8 -Wall -Os -o main.elf main.c
 avr-objcopy -j .text -j .data -O ihex main.elf main.hex
 sudo avrdude -c avrispv2 -p m8 -P /dev/ttyUSB0 -e -U flash:w:main.hex
 
-avr-gcc -mmcu=atmega8 -Wall -Os -o i2cbus.elf i2cbus.c
-avr-objcopy -j .text -j .data -O ihex i2cbus.elf i2cbus.hex
+
+http://habrahabr.ru/post/204906/
