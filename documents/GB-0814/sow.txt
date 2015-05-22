@@ -33,4 +33,11 @@ GB-0814 ТЗ
 
 
 -----------------------------------------------------------------------------------------------------------------------
-
+1) Solar panel [http://www.kosmodrom.com.ua/el.php?name=F1190]:                 115 UAN x 8 = 920  UAH
+2) LiPo Accumulator [http://www.kosmodrom.com.ua/el.php?name=LP855085-PCB-LD]:  415 UAH x 4 = 1660 UAH
+3) Video Camera [http://arduino-ua.com/prod475-Modyl_kameri_dlya_Raspberry_Pi]: 888 UAH x 1 = 888  UAH
+4) HSDPA USB 3G modem Huawei E352:                                              900 UAH x 1 = 900  UAH
+5) Antenna for 3G Modem:                                                        300 UAH x 1 = 300  UAH
+6) Laser cutting + materials:                                                                 2000 UAH
+                                                                                ----------------------
+                                                                                              6668 UAH
