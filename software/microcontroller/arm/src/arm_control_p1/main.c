@@ -21,7 +21,6 @@ unsigned char thresholdSigma = 2;
 unsigned char graspCurrentMeasureStep = 0;
 unsigned char graspCurrentSUM = 0;
 
-unsigned int irBumperCnt = 0;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -30,17 +29,18 @@ unsigned int irBumperCnt = 0;
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ0Handler(void)
 {
-
+    //forearm.cw.limit
 }
 
 
 //*----------------------------------------------------------------------------
-//* Function Name       : IRQ0Handler
+//* Function Name       : IRQ1Handler
 //* Object              : Interrupt Handler called by the IRQ1 interrupt with AT91
 //*                       compatibility
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ1Handler(void)
 {
+    //forearm.ccw.limit
 
 }
 
@@ -52,7 +52,7 @@ __ramfunc void IRQ1Handler(void)
 //*----------------------------------------------------------------------------
 __ramfunc void FIQHandler(void)
 {
-    irBumperCnt++;
+    //reserved
 }
 
 
@@ -170,12 +170,30 @@ static void InitPWM(void)
 
 static void InitPIO(void)
 {
-    //TODO: revise after forearm control will be done
     // U1 PIO (hand sensors) configuration (perephirals on valter/electronics/circuits/arm_interface.dsn)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);   //U1 A
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //U1 B
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //U1 C
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);   //U1 D
+
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);    //U2 A
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);   //U2 B
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);   //U2 C
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //U2 D
+
+    //hand pitch and yaw drive
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);    //U3.IN1
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);    //U3.IN3
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //U3.ENA
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);   //U3.ENB
+
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);  // IRQ0
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);  // IRQ1
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);  // FIQ (reserved)
+
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA17);  // ADC Channel 0
+    AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA18);  // ADC Channel 1
+
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
@@ -242,6 +260,10 @@ int main(void)
     unsigned int armSensorsChannel = 0;
     unsigned char armSensorsReadings = 0;
     unsigned int armSensorsReading = 0;
+
+    unsigned int sensorsChannel = 0;
+    unsigned char sensorsReadings = 0;
+    unsigned int sensorsReading = 0;
 
     DeviceInit();
 
@@ -416,12 +438,232 @@ int main(void)
                 armSensorsReadings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETARMSENSORREADING") == 0)
+            {
+                armSensorsReading = getValueChannel0();
+                sprintf((char *)msg,"ARM SENSORS CHANNEL [%u]: %u\n", armSensorsChannel, armSensorsReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            //hand.yaw
+            if (strcmp((char*) cmdParts, "SENSORCH0") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 0;
+                continue;
+            }
+            //hand.pitch
+            if (strcmp((char*) cmdParts, "SENSORCH1") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 1;
+                continue;
+            }
+            //forearm.yaw
+            if (strcmp((char*) cmdParts, "SENSORCH2") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 2;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH3") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 3;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH4") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 4;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH5") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 5;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH6") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 6;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH7") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                sensorsChannel = 7;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH8") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 8;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH9") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 9;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH10") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 10;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH11") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 11;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH12") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 12;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH13") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 13;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH14") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 14;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORCH15") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);    //U2   C
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);    //U2   D
+                sensorsChannel = 15;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORREADSTART") == 0)
+            {
+                sensorsReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SENSORREADSTOP") == 0)
+            {
+                sensorsReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETSENSORREADING") == 0)
+            {
+                sensorsReading = getValueChannel1();
+                sprintf((char *)msg,"SENSOR CHANNEL [%u]: %u\n", sensorsChannel, sensorsReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDPITCHCW") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDPITCHCCW") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDPITCHON") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDPITCHOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDYAWCW") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDYAWCCW") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDYAWON") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HANDYAWOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
+                continue;
+            }
         }
         //readings
         if (armSensorsReadings)
         {
             armSensorsReading = getValueChannel0();
             sprintf((char *)msg,"ARM SENSORS CHANNEL [%u]: %u\n", armSensorsChannel, armSensorsReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (sensorsReadings)
+        {
+            sensorsReading = getValueChannel1();
+            sprintf((char *)msg,"SENSOR CHANNEL [%u]: %u\n", sensorsChannel, sensorsReading);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
