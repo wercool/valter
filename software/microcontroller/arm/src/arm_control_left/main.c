@@ -143,7 +143,7 @@ static void InitPWM(void)
 
     pwmFreqSet(0, 8000);
     pwmFreqSet(1, 8000);
-    pwmFreqSet(2, 60); // set by default to control Camera Servo
+    pwmFreqSet(2, 8000);
     pwmFreqSet(3, 8000);
 
     pwmDutySet_u8(0, 1);
@@ -187,6 +187,14 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);   //U3.ENA
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);   //U3.ENB
 
+    //forearm yaw drive
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);   //U4.IN3
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);   //U4.ENB
+
+    //forearm liftup
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);   //U4.IN1
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);   //U4.IN2
+
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);  // IRQ0
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);  // IRQ1
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);  // FIQ (reserved)
@@ -198,6 +206,12 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -264,6 +278,8 @@ int main(void)
     unsigned int sensorsChannel = 0;
     unsigned char sensorsReadings = 0;
     unsigned int sensorsReading = 0;
+
+    unsigned int forearmLiftUpDriveDuty = 1;
 
     DeviceInit();
 
@@ -446,7 +462,7 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
-            //hand.yaw
+            //hand.yaw position
             if (strcmp((char*) cmdParts, "SENSORCH0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
@@ -456,7 +472,7 @@ int main(void)
                 sensorsChannel = 0;
                 continue;
             }
-            //hand.pitch
+            //hand.pitch position
             if (strcmp((char*) cmdParts, "SENSORCH1") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
@@ -466,7 +482,7 @@ int main(void)
                 sensorsChannel = 1;
                 continue;
             }
-            //forearm.yaw
+            //forearm.yaw position
             if (strcmp((char*) cmdParts, "SENSORCH2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
@@ -494,6 +510,7 @@ int main(void)
                 sensorsChannel = 4;
                 continue;
             }
+            //forearm.liftup current
             if (strcmp((char*) cmdParts, "SENSORCH5") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
@@ -503,6 +520,7 @@ int main(void)
                 sensorsChannel = 5;
                 continue;
             }
+            //forearm.yaw current
             if (strcmp((char*) cmdParts, "SENSORCH6") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
@@ -512,6 +530,7 @@ int main(void)
                 sensorsChannel = 6;
                 continue;
             }
+            //hand.yaw current
             if (strcmp((char*) cmdParts, "SENSORCH7") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
@@ -521,6 +540,7 @@ int main(void)
                 sensorsChannel = 7;
                 continue;
             }
+            //hand.pitch current
             if (strcmp((char*) cmdParts, "SENSORCH8") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
@@ -611,44 +631,88 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDPITCHCW") == 0)
+            //L298 U3
+            //HAND YAW
+            if (strcmp((char*) cmdParts, "HANDYAWCW") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDPITCHCCW") == 0)
+            if (strcmp((char*) cmdParts, "HANDYAWCCW") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDPITCHON") == 0)
+            if (strcmp((char*) cmdParts, "HANDYAWON") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDPITCHOFF") == 0)
+            if (strcmp((char*) cmdParts, "HANDYAWOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDYAWCW") == 0)
+            //HAND PITCH
+            if (strcmp((char*) cmdParts, "HANDPITCHCW") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDYAWCCW") == 0)
+            if (strcmp((char*) cmdParts, "HANDPITCHCCW") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDYAWON") == 0)
+            if (strcmp((char*) cmdParts, "HANDPITCHON") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDYAWOFF") == 0)
+            if (strcmp((char*) cmdParts, "HANDPITCHOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
+                continue;
+            }
+            //L298 U4
+            //FOREARM YAW
+            if (strcmp((char*) cmdParts, "FOREARMYAWCW") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMYAWCCW") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMYAWON") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMYAWOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+                continue;
+            }
+            //L298 U4
+            //FOREARM LIF TUP
+            //SETFOREARMLIFTUPDUTY#10
+            //SETFOREARMLIFTUPDUTY#20
+            //SETFOREARMLIFTUPDUTY#30
+            //SETFOREARMLIFTUPDUTY#40
+            //SETFOREARMLIFTUPDUTY#50
+            //SETFOREARMLIFTUPDUTY#60
+            //SETFOREARMLIFTUPDUTY#70
+            //SETFOREARMLIFTUPDUTY#80
+            //SETFOREARMLIFTUPDUTY#90
+            //SETFOREARMLIFTUPDUTY#100
+            if (strcmp((char*) cmdParts, "SETFOREARMLIFTUPDUTY") == 0)
+            {
+                forearmLiftUpDriveDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySetPercent(0, forearmLiftUpDriveDuty);
+                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
                 continue;
             }
         }
