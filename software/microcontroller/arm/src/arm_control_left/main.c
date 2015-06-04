@@ -195,6 +195,22 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);   //U4.IN1
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);   //U4.IN2
 
+    //arm liftup
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);   //U5.IN1
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);   //U5.IN2
+
+    //limb liftup
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U6.IN1
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U6.IN2
+
+    //forearm.roll cnc driver
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+
+    //arm leds
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA20);  // IRQ0
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA30);  // IRQ1
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);  // FIQ (reserved)
@@ -212,6 +228,14 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -280,6 +304,18 @@ int main(void)
     unsigned int sensorsReading = 0;
 
     unsigned int forearmLiftUpDriveDuty = 1;
+    unsigned int armLiftUpDriveDuty = 1;
+    unsigned int limbLiftUpDriveDuty = 1;
+
+    unsigned int forearmLiftUpPositionReading = 0;
+    unsigned int armLiftUpPositionReading = 0;
+    unsigned int limbLiftUpPositionReading = 0;
+
+    unsigned char forearmLiftUpPositionReadings = 0;
+    unsigned char armLiftUpPositionReadings = 0;
+    unsigned char limbLiftUpPositionReadings = 0;
+
+    unsigned int forearmRollSpeed = 10;
 
     DeviceInit();
 
@@ -492,6 +528,7 @@ int main(void)
                 sensorsChannel = 2;
                 continue;
             }
+            //limb.liftup current
             if (strcmp((char*) cmdParts, "SENSORCH3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
@@ -501,6 +538,7 @@ int main(void)
                 sensorsChannel = 3;
                 continue;
             }
+            //arm.liftup current
             if (strcmp((char*) cmdParts, "SENSORCH4") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
@@ -697,7 +735,7 @@ int main(void)
                 continue;
             }
             //L298 U4
-            //FOREARM LIF TUP
+            //FOREARM LIFT UP
             //SETFOREARMLIFTUPDUTY#10
             //SETFOREARMLIFTUPDUTY#20
             //SETFOREARMLIFTUPDUTY#30
@@ -715,6 +753,208 @@ int main(void)
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "FOREARMLIFTUPUP") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMLIFTUPDOWN") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMLIFTUPSTOP") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //U4.IN2
+                continue;
+            }
+            //L298 U5
+            //ARM LIFT UP
+            //SETARMLIFTUPDUTY#10
+            //SETARMLIFTUPDUTY#20
+            //SETARMLIFTUPDUTY#30
+            //SETARMLIFTUPDUTY#40
+            //SETARMLIFTUPDUTY#50
+            //SETARMLIFTUPDUTY#60
+            //SETARMLIFTUPDUTY#70
+            //SETARMLIFTUPDUTY#80
+            //SETARMLIFTUPDUTY#90
+            //SETARMLIFTUPDUTY#100
+            if (strcmp((char*) cmdParts, "SETARMLIFTUPDUTY") == 0)
+            {
+                armLiftUpDriveDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySetPercent(1, armLiftUpDriveDuty);
+                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ARMLIFTUPUP") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ARMLIFTUPDOWN") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ARMLIFTUPSTOP") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U5.IN2
+                continue;
+            }
+            //L298 U6
+            //LIMB LIFT UP
+            //SETLIMBLIFTUPDUTY#10
+            //SETLIMBLIFTUPDUTY#20
+            //SETLIMBLIFTUPDUTY#30
+            //SETLIMBLIFTUPDUTY#40
+            //SETLIMBLIFTUPDUTY#50
+            //SETLIMBLIFTUPDUTY#60
+            //SETLIMBLIFTUPDUTY#70
+            //SETLIMBLIFTUPDUTY#80
+            //SETLIMBLIFTUPDUTY#90
+            //SETLIMBLIFTUPDUTY#100
+            if (strcmp((char*) cmdParts, "SETLIMBLIFTUPDUTY") == 0)
+            {
+                limbLiftUpDriveDuty = atoi(strtok( NULL, "#" ));
+                pwmDutySetPercent(2, limbLiftUpDriveDuty);
+                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LIMBLIFTUPUP") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);  //U6.IN1
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);    //U6.IN2
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LIMBLIFTUPDOWN") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);  //U6.IN1
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);    //U6.IN2
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LIMBLIFTUPSTOP") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);  //U6.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);  //U6.IN2
+                continue;
+            }
+            //forearm liftup position
+            if (strcmp((char*) cmdParts, "FOREARMLIFTUPPOSITIONSTART") == 0)
+            {
+                forearmLiftUpPositionReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMLIFTUPPOSITIONSTOP") == 0)
+            {
+                forearmLiftUpPositionReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETFOREARMLIFTUPPOSITIONREADING") == 0)
+            {
+                forearmLiftUpPositionReading = getValueChannel4();
+                sprintf((char *)msg,"FOREARM LIFTUP POSITION: %u\n", forearmLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            //arm liftup position
+            if (strcmp((char*) cmdParts, "ARMLIFTUPPOSITIONSTART") == 0)
+            {
+                armLiftUpPositionReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ARMLIFTUPPOSITIONSTOP") == 0)
+            {
+                armLiftUpPositionReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETARMLIFTUPPOSITIONREADING") == 0)
+            {
+                armLiftUpPositionReading = getValueChannel5();
+                sprintf((char *)msg,"ARM LIFTUP POSITION: %u\n", armLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            //limb liftup position
+            if (strcmp((char*) cmdParts, "LIMBLIFTUPPOSITIONSTART") == 0)
+            {
+                limbLiftUpPositionReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LIMBLIFTUPPOSITIONSTOP") == 0)
+            {
+                limbLiftUpPositionReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETLIMBLIFTUPPOSITIONREADING") == 0)
+            {
+                limbLiftUpPositionReading = getValueChannel6();
+                sprintf((char *)msg,"LIMB LIFTUP POSITION: %u\n", limbLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            //forearm roll
+            if (strcmp((char*) cmdParts, "FOREARMROLLON") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMROLLOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMROLLCW") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMROLLCCW") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                continue;
+            }
+            //FOREARMROLLSTEPS#1
+            //FOREARMROLLSTEPS#5
+            //FOREARMROLLSTEPS#10
+            //FOREARMROLLSTEPS#20
+            //FOREARMROLLSTEPS#30
+            //FOREARMROLLSTEPS#40
+            //FOREARMROLLSTEPS#50
+            if (strcmp((char*) cmdParts, "FOREARMROLLSTEPS") == 0)
+            {
+                unsigned int forearmRollSteps = atoi(strtok( NULL, "#" ));
+                for(int s = 0; s < forearmRollSteps; s++)
+                {
+                    delay_ms(forearmRollSpeed);
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    delay_ms(forearmRollSpeed);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                }
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                continue;
+            }
+
+            //arm leds
+            if (strcmp((char*) cmdParts, "ARMLEDSON") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "ARMLEDSOFF") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
+                continue;
+            }
         }
         //readings
         if (armSensorsReadings)
@@ -728,6 +968,27 @@ int main(void)
         {
             sensorsReading = getValueChannel1();
             sprintf((char *)msg,"SENSOR CHANNEL [%u]: %u\n", sensorsChannel, sensorsReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (forearmLiftUpPositionReadings)
+        {
+            forearmLiftUpPositionReading = getValueChannel4();
+            sprintf((char *)msg,"FOREARM LIFTUP POSITION: %u\n", forearmLiftUpPositionReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (armLiftUpPositionReadings)
+        {
+            armLiftUpPositionReading = getValueChannel5();
+            sprintf((char *)msg,"ARM LIFTUP POSITION: %u\n", armLiftUpPositionReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (limbLiftUpPositionReadings)
+        {
+            limbLiftUpPositionReading = getValueChannel6();
+            sprintf((char *)msg,"LIMB LIFTUP POSITION: %u\n", limbLiftUpPositionReading);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
