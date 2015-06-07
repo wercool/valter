@@ -332,7 +332,7 @@ int main(void)
 
             if (strcmp((char*) cmdParts, "GETID") == 0)
             {
-                sprintf((char *)msg,"ARM-CONTROL-P1\n");
+                sprintf((char *)msg,"ARM-CONTROL-LEFT\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
