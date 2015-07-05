@@ -17,10 +17,6 @@
 
 #define FIQ_INTERRUPT_LEVEL 0
 
-unsigned char thresholdSigma = 2;
-unsigned char graspCurrentMeasureStep = 0;
-unsigned char graspCurrentSUM = 0;
-
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -121,14 +117,14 @@ static void InitPWM(void)
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA0_PWM0, 0);
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA1_PWM1, 0);
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA2_PWM2, 0);
-    /////////////////////////////////////////////////////////////////////// TODO check and set correctly!
+    /////////////////////////////////////////////////////////////////////// PWM3 output on PA7 used as PIO
     //AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, 0, AT91C_PA7_PWM3);
-    AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA7_PWM3, 0);
+    //AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PA7_PWM3, 0);
 
     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-    AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+    //AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 
     AT91F_PMC_EnablePeriphClock( AT91C_BASE_PMC, 1 << AT91C_ID_PIOA);
 
@@ -139,27 +135,27 @@ static void InitPWM(void)
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-    AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+    //AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 
     pwmFreqSet(0, 8000);
     pwmFreqSet(1, 8000);
     pwmFreqSet(2, 8000);
-    pwmFreqSet(3, 8000);
+    //pwmFreqSet(3, 8000);
 
     pwmDutySet_u8(0, 1);
     pwmDutySet_u8(1, 1);
     pwmDutySet_u8(2, 1);
-    pwmDutySet_u8(3, 1);
+    //pwmDutySet_u8(3, 1);
 
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 0, AT91C_PWMC_CHID0);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 1, AT91C_PWMC_CHID1);
     AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 2, AT91C_PWMC_CHID2);
-    AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 3, AT91C_PWMC_CHID3);
+    //AT91F_PWMC_UpdateChannel(AT91C_BASE_PWMC, 3, AT91C_PWMC_CHID3);
 
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
     AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-    AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
+    //AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 
     // enable PWM channels 0, 1, 2
     //AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
@@ -315,9 +311,12 @@ int main(void)
     unsigned char armLiftUpPositionReadings = 0;
     unsigned char limbLiftUpPositionReadings = 0;
 
-    unsigned int forearmRollSpeed = 10;
+    unsigned int forearmRollSpeed = 5;
 
     DeviceInit();
+
+    //forearm roll off
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
 
     while (1)
     {
@@ -692,12 +691,12 @@ int main(void)
                 continue;
             }
             //HAND PITCH
-            if (strcmp((char*) cmdParts, "HANDPITCHCW") == 0)
+            if (strcmp((char*) cmdParts, "HANDPITCHCCW") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "HANDPITCHCCW") == 0)
+            if (strcmp((char*) cmdParts, "HANDPITCHCW") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);
                 continue;
@@ -714,12 +713,12 @@ int main(void)
             }
             //L298 U4
             //FOREARM YAW
-            if (strcmp((char*) cmdParts, "FOREARMYAWCW") == 0)
+            if (strcmp((char*) cmdParts, "FOREARMYAWCCW") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "FOREARMYAWCCW") == 0)
+            if (strcmp((char*) cmdParts, "FOREARMYAWCW") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA23);
                 continue;
@@ -736,13 +735,14 @@ int main(void)
             }
             //L298 U4
             //FOREARM LIFT UP
+            //SETFOREARMLIFTUPDUTY#1
             //SETFOREARMLIFTUPDUTY#10
             //SETFOREARMLIFTUPDUTY#20
             //SETFOREARMLIFTUPDUTY#30
             //SETFOREARMLIFTUPDUTY#40
             //SETFOREARMLIFTUPDUTY#50
             //SETFOREARMLIFTUPDUTY#60
-            //SETFOREARMLIFTUPDUTY#70
+            //SETFOREARMLIFTUPDUTY#70 -- normal
             //SETFOREARMLIFTUPDUTY#80
             //SETFOREARMLIFTUPDUTY#90
             //SETFOREARMLIFTUPDUTY#100
@@ -753,16 +753,16 @@ int main(void)
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "FOREARMLIFTUPUP") == 0)
+            if (strcmp((char*) cmdParts, "FOREARMLIFTUPDOWN") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
                 continue;
             }
-            if (strcmp((char*) cmdParts, "FOREARMLIFTUPDOWN") == 0)
+            if (strcmp((char*) cmdParts, "FOREARMLIFTUPUP") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMLIFTUPSTOP") == 0)
@@ -780,7 +780,7 @@ int main(void)
             //SETARMLIFTUPDUTY#50
             //SETARMLIFTUPDUTY#60
             //SETARMLIFTUPDUTY#70
-            //SETARMLIFTUPDUTY#80
+            //SETARMLIFTUPDUTY#80 -- normal
             //SETARMLIFTUPDUTY#90
             //SETARMLIFTUPDUTY#100
             if (strcmp((char*) cmdParts, "SETARMLIFTUPDUTY") == 0)
@@ -790,16 +790,16 @@ int main(void)
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
                 continue;
             }
-            if (strcmp((char*) cmdParts, "ARMLIFTUPUP") == 0)
+            if (strcmp((char*) cmdParts, "ARMLIFTUPDOWN") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
                 continue;
             }
-            if (strcmp((char*) cmdParts, "ARMLIFTUPDOWN") == 0)
+            if (strcmp((char*) cmdParts, "ARMLIFTUPUP") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
                 continue;
             }
             if (strcmp((char*) cmdParts, "ARMLIFTUPSTOP") == 0)
@@ -816,7 +816,7 @@ int main(void)
             //SETLIMBLIFTUPDUTY#40
             //SETLIMBLIFTUPDUTY#50
             //SETLIMBLIFTUPDUTY#60
-            //SETLIMBLIFTUPDUTY#70
+            //SETLIMBLIFTUPDUTY#70 -- normal
             //SETLIMBLIFTUPDUTY#80
             //SETLIMBLIFTUPDUTY#90
             //SETLIMBLIFTUPDUTY#100
@@ -835,8 +835,8 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "LIMBLIFTUPDOWN") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);  //U6.IN1
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);    //U6.IN2
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);  //U6.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);    //U6.IN2
                 continue;
             }
             if (strcmp((char*) cmdParts, "LIMBLIFTUPSTOP") == 0)
@@ -905,12 +905,12 @@ int main(void)
             //forearm roll
             if (strcmp((char*) cmdParts, "FOREARMROLLON") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMROLLOFF") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMROLLCW") == 0)
@@ -930,17 +930,19 @@ int main(void)
             //FOREARMROLLSTEPS#30
             //FOREARMROLLSTEPS#40
             //FOREARMROLLSTEPS#50
+            //FOREARMROLLSTEPS#70
+            //FOREARMROLLSTEPS#100
             if (strcmp((char*) cmdParts, "FOREARMROLLSTEPS") == 0)
             {
                 unsigned int forearmRollSteps = atoi(strtok( NULL, "#" ));
                 for(int s = 0; s < forearmRollSteps; s++)
                 {
                     delay_ms(forearmRollSpeed);
-                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
-                    delay_ms(forearmRollSpeed);
                     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    delay_ms(forearmRollSpeed);
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
                 }
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
                 continue;
             }
 
