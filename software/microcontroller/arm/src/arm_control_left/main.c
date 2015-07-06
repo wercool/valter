@@ -17,6 +17,8 @@
 
 #define FIQ_INTERRUPT_LEVEL 0
 
+unsigned int forearmCCWLimit = 0;
+unsigned int forearmCWLimit = 0;
 
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
@@ -37,7 +39,6 @@ __ramfunc void IRQ0Handler(void)
 __ramfunc void IRQ1Handler(void)
 {
     //forearm.ccw.limit
-
 }
 
 
@@ -233,6 +234,8 @@ static void InitPIO(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
 
+
+
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
 }
@@ -242,12 +245,12 @@ static void InitIRQ()
     // IRQ0 initialization
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA20, 0);
     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ0, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ0Handler);
-    //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
 
     // IRQ1 initialization
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA30, 0);
     AT91F_AIC_ConfigureIt(AT91C_BASE_AIC, AT91C_ID_IRQ1, AT91C_AIC_PRIOR_HIGHEST, AT91C_AIC_SRCTYPE_EXT_NEGATIVE_EDGE, (void(*)(void)) IRQ1Handler);
-    //AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+    AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
 
     // FIQ initialization
     AT91F_PIO_CfgPeriph(AT91C_BASE_PIOA, AT91C_PIO_PA19, 0);
@@ -279,7 +282,7 @@ static void DeviceInit(void)
     InitPIO();
     InitADC();
     InitPWM();
-    InitIRQ();
+    //InitIRQ();
 }
 
 // Specific functions
@@ -307,11 +310,39 @@ int main(void)
     unsigned int armLiftUpPositionReading = 0;
     unsigned int limbLiftUpPositionReading = 0;
 
+    //directions
+    unsigned char forearmLiftUpDirection = 0;
+    unsigned char armLiftUpDirection = 0;
+    unsigned char limbLiftUpDirection = 0;
+
+    //thresholds
+    unsigned int forearmLiftUpPositionThreshold = 90;
+    unsigned int armLiftUpPositionThreshold = 750;
+    //unsigned int limbLiftUpPositionReading = 0;
+
     unsigned char forearmLiftUpPositionReadings = 0;
     unsigned char armLiftUpPositionReadings = 0;
     unsigned char limbLiftUpPositionReadings = 0;
 
-    unsigned int forearmRollSpeed = 5;
+    unsigned int forearmRollSpeed = 100;
+
+    unsigned char forearmDirection = 0; // 0 - CW, 1 - CCW
+    unsigned char forearmCWLimitReadings = 0;
+    unsigned char forearmCCWLimitReadings = 0;
+    unsigned int forearmSteps = 0;
+    unsigned char forearmStepsReadings = 0;
+
+    //hand
+    //watchers
+    unsigned char handYawWatch = 0;
+    //directions
+    unsigned char handYawDirection = 0; //0 - CW, 1 - CCW
+    //thresholds
+    unsigned int handYawCWThreshold = 10;
+    unsigned int handYawCCWThreshold = 950;
+    //positions
+    unsigned int handYawPosition = 0;
+
 
     DeviceInit();
 
@@ -320,6 +351,10 @@ int main(void)
 
     while (1)
     {
+        //updating logic variables
+        forearmCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA20) ? 0 : 1;
+        forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
+
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
@@ -672,21 +707,26 @@ int main(void)
             //HAND YAW
             if (strcmp((char*) cmdParts, "HANDYAWCW") == 0)
             {
+                handYawDirection = 0;
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
                 continue;
             }
             if (strcmp((char*) cmdParts, "HANDYAWCCW") == 0)
             {
+                handYawDirection = 1;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
                 continue;
             }
             if (strcmp((char*) cmdParts, "HANDYAWON") == 0)
             {
+                armSensorsReadings = 0;
+                handYawWatch = 1;
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
                 continue;
             }
             if (strcmp((char*) cmdParts, "HANDYAWOFF") == 0)
             {
+                handYawWatch = 0;
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
                 continue;
             }
@@ -736,10 +776,6 @@ int main(void)
             //L298 U4
             //FOREARM LIFT UP
             //SETFOREARMLIFTUPDUTY#1
-            //SETFOREARMLIFTUPDUTY#10
-            //SETFOREARMLIFTUPDUTY#20
-            //SETFOREARMLIFTUPDUTY#30
-            //SETFOREARMLIFTUPDUTY#40
             //SETFOREARMLIFTUPDUTY#50
             //SETFOREARMLIFTUPDUTY#60
             //SETFOREARMLIFTUPDUTY#70 -- normal
@@ -755,14 +791,29 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "FOREARMLIFTUPDOWN") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
+                forearmLiftUpPositionReading = getValueChannel4();
+                if (forearmLiftUpPositionReading <= forearmLiftUpPositionThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //U4.IN2
+
+                    sprintf((char *)msg,"FOREARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", forearmLiftUpPositionThreshold, forearmLiftUpPositionReading);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
+                else
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
+                    forearmLiftUpDirection = 0;
+                }
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMLIFTUPUP") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);    //U4.IN2
+                forearmLiftUpDirection = 1;
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMLIFTUPSTOP") == 0)
@@ -773,10 +824,6 @@ int main(void)
             }
             //L298 U5
             //ARM LIFT UP
-            //SETARMLIFTUPDUTY#10
-            //SETARMLIFTUPDUTY#20
-            //SETARMLIFTUPDUTY#30
-            //SETARMLIFTUPDUTY#40
             //SETARMLIFTUPDUTY#50
             //SETARMLIFTUPDUTY#60
             //SETARMLIFTUPDUTY#70
@@ -792,14 +839,29 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "ARMLIFTUPDOWN") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
+                armLiftUpPositionReading = getValueChannel5();
+                if (armLiftUpPositionReading >= armLiftUpPositionThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U5.IN2
+
+                    sprintf((char *)msg,"ARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", armLiftUpPositionThreshold, armLiftUpPositionReading);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
+                else
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
+                    armLiftUpDirection = 0;
+                }
                 continue;
             }
             if (strcmp((char*) cmdParts, "ARMLIFTUPUP") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U5.IN2
+                armLiftUpDirection = 1;
                 continue;
             }
             if (strcmp((char*) cmdParts, "ARMLIFTUPSTOP") == 0)
@@ -916,11 +978,28 @@ int main(void)
             if (strcmp((char*) cmdParts, "FOREARMROLLCW") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                forearmDirection = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMROLLCCW") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                forearmDirection = 1;
+                continue;
+            }
+            //FOREARMROLLSPEED#200
+            //FOREARMROLLSPEED#300
+            //FOREARMROLLSPEED#400
+            //FOREARMROLLSPEED#500
+            //FOREARMROLLSPEED#600
+            //FOREARMROLLSPEED#700
+            //FOREARMROLLSPEED#800
+            //FOREARMROLLSPEED#900
+            //FOREARMROLLSPEED#1000
+            //FOREARMROLLSPEED#5000
+            if (strcmp((char*) cmdParts, "FOREARMROLLSPEED") == 0)
+            {
+                forearmRollSpeed = atoi(strtok( NULL, "#" ));
                 continue;
             }
             //FOREARMROLLSTEPS#1
@@ -932,17 +1011,116 @@ int main(void)
             //FOREARMROLLSTEPS#50
             //FOREARMROLLSTEPS#70
             //FOREARMROLLSTEPS#100
+            //FOREARMROLLSTEPS#200
+            //FOREARMROLLSTEPS#500
+            //FOREARMROLLSTEPS#1000
+            //FOREARMROLLSTEPS#1500
             if (strcmp((char*) cmdParts, "FOREARMROLLSTEPS") == 0)
             {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                 unsigned int forearmRollSteps = atoi(strtok( NULL, "#" ));
                 for(int s = 0; s < forearmRollSteps; s++)
                 {
-                    delay_ms(forearmRollSpeed);
-                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
-                    delay_ms(forearmRollSpeed);
-                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    forearmCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA20) ? 0 : 1;
+                    forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
+                    if (forearmDirection == 0 && (forearmCWLimit == 1 || forearmSteps >= 2000))
+                    {
+                        sprintf((char *)msg,"FOREARM CW LIMIT REACHED %s\n", (forearmSteps >= 2000) ? "(STEPS LIMIT)" : "");
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                        delay_ms(100);
+                        break;
+                    }
+                    else if (forearmDirection == 1 && forearmCCWLimit == 1)
+                    {
+                        sprintf((char *)msg,"FOREARM CCW LIMIT REACHED\n");
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                        delay_ms(100);
+                        break;
+                    }
+                    else
+                    {
+                        delay_us(forearmRollSpeed);
+                        AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                        delay_us(forearmRollSpeed);
+                        AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                        if (forearmDirection == 0)
+                        {
+                            forearmSteps++;
+                        }
+                        else
+                        {
+                            forearmSteps--;
+                        }
+                    }
                 }
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMROLLINIT") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                forearmDirection = 1;
+                forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
+                while (forearmCCWLimit == 0)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    delay_us(200);
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    delay_us(200);
+                    forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
+                }
+                forearmSteps = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMSTEPSREADINGSSTART") == 0)
+            {
+                forearmStepsReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMSTEPSREADINGSSTOP") == 0)
+            {
+                forearmStepsReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETFOREARMSTEPS") == 0)
+            {
+                sprintf((char *)msg,"FOREARM STEPS: %u\n", forearmSteps);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETFOREARMCCWLIMIT") == 0)
+            {
+                sprintf((char *)msg,"FOREARM CCW LIMIT: %u\n", forearmCCWLimit);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETFOREARMCWLIMIT") == 0)
+            {
+                sprintf((char *)msg,"FOREARM CW LIMIT: %u\n", forearmCWLimit);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMCWLIMITREADINGSSTART") == 0)
+            {
+                forearmCWLimitReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMCWLIMITREADINGSSTOP") == 0)
+            {
+                forearmCWLimitReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMCCWLIMITREADINGSSTART") == 0)
+            {
+                forearmCCWLimitReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "FOREARMCCWLIMITREADINGSSTOP") == 0)
+            {
+                forearmCCWLimitReadings = 0;
                 continue;
             }
 
@@ -956,6 +1134,47 @@ int main(void)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA21);
                 continue;
+            }
+        }
+        //check thresholds
+        if (armLiftUpDirection == 0)
+        {
+            armLiftUpPositionReading = getValueChannel5();
+            if (armLiftUpPositionReading >= armLiftUpPositionThreshold)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U5.IN2
+
+                sprintf((char *)msg,"ARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", armLiftUpPositionThreshold, armLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+            }
+        }
+        if (forearmLiftUpDirection == 0)
+        {
+            forearmLiftUpPositionReading = getValueChannel4();
+            if (forearmLiftUpPositionReading <= forearmLiftUpPositionThreshold)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //U4.IN2
+
+                sprintf((char *)msg,"FOREARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", forearmLiftUpPositionThreshold, forearmLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+            }
+        }
+        if (handYawWatch == 1)
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+
+            handYawPosition = getValueChannel1();
+            if ((handYawDirection == 0 && handYawPosition <= handYawCWThreshold) || (handYawDirection == 1 && handYawPosition >= handYawCCWThreshold))
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+                handYawWatch = 0;
             }
         }
         //readings
@@ -991,6 +1210,24 @@ int main(void)
         {
             limbLiftUpPositionReading = getValueChannel6();
             sprintf((char *)msg,"LIMB LIFTUP POSITION: %u\n", limbLiftUpPositionReading);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (forearmCWLimitReadings)
+        {
+            sprintf((char *)msg,"FOREARM CW LIMIT: %u\n", forearmCWLimit);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (forearmCCWLimitReadings)
+        {
+            sprintf((char *)msg,"FOREARM CCW LIMIT: %u\n", forearmCCWLimit);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
+        }
+        if (forearmStepsReadings)
+        {
+            sprintf((char *)msg,"FOREARM STEPS: %u\n", forearmSteps);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
