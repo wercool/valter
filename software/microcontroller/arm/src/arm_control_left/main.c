@@ -1012,6 +1012,7 @@ int main(void)
             //FOREARMROLLSTEPS#500
             //FOREARMROLLSTEPS#1000
             //FOREARMROLLSTEPS#1500
+            //FOREARMROLLSTEPS#2000
             if (strcmp((char*) cmdParts, "FOREARMROLLSTEPS") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
