@@ -977,6 +977,7 @@ int main(void)
                 forearmDirection = 0;
                 continue;
             }
+            //INIT DIRECTION
             if (strcmp((char*) cmdParts, "FOREARMROLLCCW") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
