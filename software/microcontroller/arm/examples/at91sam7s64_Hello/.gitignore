@@ -4,3 +4,13 @@
 /main.lst
 /main.map
 /main.o
+/ExtInt.lst
+/ExtInt.o
+/serial.lst
+/serial.o
+/startup_SAM7S.o
+/syscalls.lst
+/syscalls.o
+/Time.lst
+/Time.o
+/main.bin

@@ -4,7 +4,7 @@
 # by Martin Thomas, Kaiserslautern, Germany 
 # <eversmith@heizung-thomas.de>
 #
-# based on the WinAVR makefile written by Eric B. Weddington, Jörg Wunsch, et al.
+# based on the WinAVR makefile written by Eric B. Weddington, Jï¿½rg Wunsch, et al.
 # Released to the Public Domain
 # Please read the make user manual!
 #
@@ -282,11 +282,23 @@ all: begin gccversion sizebefore build sizeafter finished end
 
 build: elf hex lss sym
 
-elf: $(TARGET).elf
+ifeq ($(FORMAT),ihex)
+build: elf hex lss sym
 hex: $(TARGET).hex
+IMGEXT=hex
+else 
+ifeq ($(FORMAT),binary)
+build: elf bin lss sym
+bin: $(TARGET).bin
+IMGEXT=bin
+else 
+$(error "$(MSG_FORMATERROR) $(FORMAT)")
+endif
+endif
+
+elf: $(TARGET).elf
 lss: $(TARGET).lss 
 sym: $(TARGET).sym
-bin: $(TARGET).bin
 
 # Eye candy.
 begin:
