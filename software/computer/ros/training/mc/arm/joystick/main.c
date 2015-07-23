@@ -216,11 +216,11 @@ static void InitPWM(void)
 
 static void InitPIO(void)
 {
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
-    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
-    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
 
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA17);
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA18);
+
+    /*
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
@@ -239,7 +239,10 @@ static void InitPIO(void)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
 
+    */
+
     // PWM configuration
+    /*
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);    //PWM0
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);    //PWM1
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);    //PWM2
@@ -256,6 +259,8 @@ static void InitPIO(void)
     //FIQ
     //AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);    // FIQ
     AT91F_PIO_CfgInput(AT91C_BASE_PIOA, AT91C_PIO_PA19);      // AD2
+
+    */
 
     // disable all pull-ups
     AT91C_BASE_PIOA->PIO_PPUDR = ~0;
@@ -323,10 +328,11 @@ static void DeviceInit(void)
     while (!pCDC.IsConfigured(&pCDC));
 
     InitPIO();
-    //InitADC();
+    InitADC();
     //InitPWM();
     //InitIRQ();
 
+    /*
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
@@ -335,7 +341,7 @@ static void DeviceInit(void)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
-
+    */
 }
 
 
@@ -348,10 +354,16 @@ int main(void)
 
     DeviceInit();
 
-    pwmDutySetPercent(0, 1);
-    pwmDutySetPercent(1, 1);
-    pwmDutySetPercent(2, 1);
-    pwmDutySetPercent(3, 1);
+    //pwmDutySetPercent(0, 1);
+    //pwmDutySetPercent(1, 1);
+    //pwmDutySetPercent(2, 1);
+    //pwmDutySetPercent(3, 1);
+
+    unsigned char readings = 0;
+    unsigned int leftFwdBwd = 0;
+    unsigned int leftLeftRight = 0;
+    unsigned int rightFwdBwd = 0;
+    unsigned int rightLeftRight = 0;
 
     while (1)
     {
@@ -367,66 +379,30 @@ int main(void)
 
             if (strcmp((char*) cmdParts, "GETID") == 0)
             {
-                sprintf((char *)msg,"RC-Tank\n");
+                sprintf((char *)msg,"ROS Joystick\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp((char*) cmdParts, "ONOFF") == 0)
+            if (strcmp((char*) cmdParts, "START") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
-                delay_ms(1000);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
+                readings = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "LF") == 0)
+            if (strcmp((char*) cmdParts, "STOP") == 0)
             {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
+                readings = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "RF") == 0)
-            {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "LB") == 0)
-            {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "RB") == 0)
-            {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "LS") == 0)
-            {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA0);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA1);
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "RS") == 0)
-            {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA2);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
-                continue;
-            }
-            //Turret left start
-            if (strcmp((char*) cmdParts, "TL") == 0)
-            {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "TR") == 0)
-            {
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "TS") == 0)
-            {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
-                continue;
-            }
+        }
+        if (readings)
+        {
+            leftFwdBwd      = getValueChannel0();
+            leftLeftRight   = getValueChannel1();
+            rightFwdBwd     = getValueChannel6();
+            rightLeftRight  = getValueChannel7();
+            sprintf((char *)msg,"LFB:%u,LLR:%u,RFB:%u,RLR:%u\n", leftFwdBwd, leftLeftRight, rightFwdBwd, rightLeftRight);
+            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+            delay_ms(100);
         }
     }
 
