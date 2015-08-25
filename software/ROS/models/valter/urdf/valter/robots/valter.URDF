@@ -1,0 +1,149 @@
+<robot
+  name="valter">
+  <link
+    name="Base">
+    <inertial>
+      <origin
+        xyz="-0.07928 0.0018706 0.38377"
+        rpy="0 0 0" />
+      <mass
+        value="40" />
+      <inertia
+        ixx="0.80227"
+        ixy="0.0067218"
+        ixz="-0.1014"
+        iyy="1.1525"
+        iyz="0.0015163"
+        izz="0.72944" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="RWheel">
+    <inertial>
+      <origin
+        xyz="-5.8005E-18 -0.03989 0"
+        rpy="0 0 0" />
+      <mass
+        value="2" />
+      <inertia
+        ixx="0.020721"
+        ixy="1.4758E-19"
+        ixz="-6.7497E-22"
+        iyy="0.037955"
+        iyz="-5.1313E-21"
+        izz="0.020721" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RWheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RWheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RWheelAxis"
+    type="continuous">
+    <origin
+      xyz="0.00034158 -0.15368 0.14"
+      rpy="-6.123E-17 0 0" />
+    <parent
+      link="Base" />
+    <child
+      link="RWheel" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="LWheel">
+    <inertial>
+      <origin
+        xyz="-2.7756E-17 -0.03989 2.7756E-17"
+        rpy="0 0 0" />
+      <mass
+        value="2" />
+      <inertia
+        ixx="0.020721"
+        ixy="-3.5506E-19"
+        ixz="-4.3368E-19"
+        iyy="0.037955"
+        iyz="-8.6758E-20"
+        izz="0.020721" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LWheel.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LWheel.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LWheelAxis"
+    type="continuous">
+    <origin
+      xyz="0.00034158 0.15432 0.14"
+      rpy="6.6286E-17 0.39309 -3.1416" />
+    <parent
+      link="Base" />
+    <child
+      link="LWheel" />
+    <axis
+      xyz="0 -1 0" />
+  </joint>
+</robot>
