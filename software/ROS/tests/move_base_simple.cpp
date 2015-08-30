@@ -12,8 +12,8 @@ typedef enum _SimpleNavigationState {
     SN_MOVING = 2,
     SN_ROTATING = 3,
     SN_MOVING_AS = 4,
-    SN_ROTATING_AS = 5
-   
+    SN_ROTATING_AS = 5,
+    SN_GOAL_ORIENTATION_FINALIZATION = 6
 } SimpleNavigationState;
 
 // Simple Navigation State
@@ -74,9 +74,9 @@ int main(int argc, char** argv)
     pn.param("attraction_coefficient", attraction_coefficient, 0.01);
     pn.param("alpha", alpha, 0.1);
     pn.param("max_linear_velocity", max_linear_velocity, 0.1);
-    pn.param("min_linear_velocity", min_linear_velocity, 0.05);
+    pn.param("min_linear_velocity", min_linear_velocity, 0.02);
     pn.param("angular_threshold", angular_threshold, 0.05);
-    pn.param("in_place_angular_velocity", in_place_angular_velocity, 0.1);
+    pn.param("in_place_angular_velocity", in_place_angular_velocity, 0.05);
 
     state = SN_STOPPED;
 
@@ -109,10 +109,47 @@ int main(int argc, char** argv)
         // If we reached our target position
         if((state == SN_MOVING || state == SN_MOVING_AS || state == SN_ROTATING || state == SN_ROTATING_AS) && sqrt(pow(current_x-goal.pose.position.x,2)+pow(current_y-goal.pose.position.y,2)) < goal_tolerance)
         {
-            state = SN_STOPPED;
+            state = SN_GOAL_ORIENTATION_FINALIZATION;
             linear_velocity = 0.0;
             angular_velocity = 0.0;
-            ROS_INFO("Goal reached with tolerance %f", goal_tolerance);
+            ROS_INFO("Goal position reached with tolerance %f", goal_tolerance);
+
+            double goal_orientation = tf::getYaw(goal.pose.orientation);
+            double goal_current_diff = fabs(angles::shortest_angular_distance(current_orientation, goal_orientation));
+
+            ROS_INFO("Goal to Current orientation diff: %f", goal_current_diff);
+
+            if (goal_current_diff < angular_threshold)
+            {
+                state = SN_STOPPED;
+                ROS_INFO("Goal reached finally");
+            }
+
+            cmd_vel.linear.x = linear_velocity;
+            cmd_vel.linear.y = linear_velocity;
+            cmd_vel.angular.z = angular_velocity;
+
+            cmd_vel_pub.publish(cmd_vel);
+        }
+
+        if (state == SN_GOAL_ORIENTATION_FINALIZATION)
+        {
+            double goal_orientation = tf::getYaw(goal.pose.orientation);
+            double goal_current_diff = fabs(angles::shortest_angular_distance(current_orientation, goal_orientation));
+
+            ROS_INFO("Goal to Current orientation diff: %f", goal_current_diff);
+
+            if (goal_current_diff > angular_threshold)
+            {
+                angular_velocity = -alpha*(angles::shortest_angular_distance(goal_orientation, current_orientation));
+            }
+            else
+            {
+                linear_velocity = 0.0;
+                angular_velocity = 0.0;
+                state = SN_STOPPED;
+                ROS_INFO("Goal reached after finalization");
+            }
 
             cmd_vel.linear.x = linear_velocity;
             cmd_vel.linear.y = linear_velocity;
