@@ -72,10 +72,10 @@ int main(int argc, char** argv)
 
     pn.param("goal_tolerance", goal_tolerance, 0.1);
     pn.param("attraction_coefficient", attraction_coefficient, 0.01);
-    pn.param("alpha", alpha, 0.1);
+    pn.param("alpha", alpha, 0.05);
     pn.param("max_linear_velocity", max_linear_velocity, 0.1);
     pn.param("min_linear_velocity", min_linear_velocity, 0.02);
-    pn.param("angular_threshold", angular_threshold, 0.05);
+    pn.param("angular_threshold", angular_threshold, 0.1);
     pn.param("in_place_angular_velocity", in_place_angular_velocity, 0.05);
 
     state = SN_STOPPED;
