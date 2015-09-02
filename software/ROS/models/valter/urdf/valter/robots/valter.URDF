@@ -4,17 +4,17 @@
     name="Base">
     <inertial>
       <origin
-        xyz="-0.0857715206977578 0.00202750279877116 0.417759281041388"
+        xyz="-0.0831283905237907 -8.99639602360447E-05 0.418094636104011"
         rpy="0 0 0" />
       <mass
-        value="12.6233325032135" />
+        value="12.7723641606721" />
       <inertia
-        ixx="0.622457706177705"
-        ixy="0.00684983540071118"
-        ixz="-0.0806846238754764"
-        iyy="0.914165189645381"
-        iyz="0.000877831452103835"
-        izz="0.635271744172888" />
+        ixx="0.63101889741738"
+        ixy="0.000795005642128454"
+        ixz="-0.0797256865961889"
+        iyy="0.92537319207376"
+        iyz="0.000109606779379405"
+        izz="0.647741226002251" />
     </inertial>
     <visual>
       <origin
@@ -51,7 +51,7 @@
       <inertia
         ixx="0.020659903156417"
         ixy="1.44560289664734E-19"
-        ixz="7.49879891330915E-37"
+        ixz="7.4987989133092E-37"
         iyy="0.0378846933725851"
         iyz="-4.56881253081795E-35"
         izz="0.020659903156417" />
@@ -81,7 +81,7 @@
     </collision>
   </link>
   <joint
-    name="RWheelAxis"
+    name="RWheelJoint"
     type="continuous">
     <origin
       xyz="0.000341577688738742 -0.153675665570238 0.14"
@@ -103,11 +103,11 @@
         value="0.0783773140784392" />
       <inertia
         ixx="5.85727895452634E-05"
-        ixy="-9.93439486155922E-22"
+        ixy="-9.79373587283321E-22"
         ixz="6.74972677106586E-22"
         iyy="7.03620982427163E-05"
         iyz="5.91608801681983E-21"
-        izz="5.85727895452635E-05" />
+        izz="5.85727895452634E-05" />
     </inertial>
     <visual>
       <origin
@@ -144,7 +144,7 @@
     <child
       link="rwheel_centers" />
     <axis
-      xyz="0 1 0" />
+      xyz="0 0 0" />
   </joint>
   <link
     name="LWheel">
@@ -187,7 +187,7 @@
     </collision>
   </link>
   <joint
-    name="LWheelAxis"
+    name="LWheelJoint"
     type="continuous">
     <origin
       xyz="0.000341577688738742 0.154324334429763 0.14"
@@ -203,16 +203,16 @@
     name="lwheel_centers">
     <inertial>
       <origin
-        xyz="-1.38777878078145E-17 -0.032994484499226 0"
+        xyz="-6.93889390390723E-18 -0.032994484499226 -2.77555756156289E-17"
         rpy="0 0 0" />
       <mass
         value="0.0783773140784395" />
       <inertia
         ixx="5.85727895452638E-05"
-        ixy="6.79585568242382E-21"
-        ixz="3.3881317890172E-21"
+        ixy="9.54148206615152E-21"
+        ixz="5.0821976835258E-21"
         iyy="7.03620982427167E-05"
-        iyz="1.67632102109803E-20"
+        iyz="1.01053730361333E-20"
         izz="5.85727895452638E-05" />
     </inertial>
     <visual>
@@ -250,7 +250,7 @@
     <child
       link="lwheel_centers" />
     <axis
-      xyz="0 1 0" />
+      xyz="0 0 0" />
   </joint>
   <link
     name="support_wheels">
@@ -262,10 +262,10 @@
         value="1.30791131979034" />
       <inertia
         ixx="0.0180362608696526"
-        ixy="-1.32542149329189E-18"
-        ixz="0"
+        ixy="-2.31948761326081E-18"
+        ixz="-1.73472347597681E-18"
         iyy="0.0808033145464291"
-        iyz="3.38263990177013E-19"
+        iyz="-1.69131995088506E-19"
         izz="0.0658583097429299" />
     </inertial>
     <visual>
@@ -309,16 +309,16 @@
     name="support_wheels_centers">
     <inertial>
       <origin
-        xyz="-0.219066879644595 1.38777878078145E-17 0.110556114336065"
+        xyz="-0.219066879644595 -2.77555756156289E-17 0.110556114336065"
         rpy="0 0 0" />
       <mass
         value="0.101015328916835" />
       <inertia
         ixx="0.00129045558161767"
-        ixy="-9.77029153679058E-20"
-        ixz="-3.3881317890172E-19"
+        ixy="-3.57206423378616E-19"
+        ixz="-4.87890977618477E-19"
         iyy="0.00613821129438006"
-        iyz="4.09724133506638E-20"
+        iyz="-9.32123320537486E-20"
         izz="0.00487802902064206" />
     </inertial>
     <visual>
@@ -368,7 +368,7 @@
         value="0.178834143520891" />
       <inertia
         ixx="0.000174752266227878"
-        ixy="3.75007914498888E-21"
+        ixy="3.10938477218533E-21"
         ixz="-2.30189996267457E-20"
         iyy="0.000407098672925193"
         iyz="3.53103137965607E-21"
@@ -402,8 +402,8 @@
     name="ManipulatorBaseFixed"
     type="fixed">
     <origin
-      xyz="0.157269945428792 0.0354609509421621 0.707041900761443"
-      rpy="1.5707963267949 0 3.14159265358979" />
+      xyz="0.15727 0.035461 0.70704"
+      rpy="1.5708 0 3.1416" />
     <parent
       link="Base" />
     <child
@@ -415,17 +415,17 @@
     name="ManipulatorLink1">
     <inertial>
       <origin
-        xyz="0.0084271 -0.29887 0.034995"
+        xyz="0.00842708530014899 -0.298874962931971 0.0349954696862612"
         rpy="0 0 0" />
       <mass
-        value="0.47801" />
+        value="0.478012742893284" />
       <inertia
-        ixx="0.013436"
-        ixy="-0.00089216"
-        ixz="-1.6445E-10"
-        iyy="0.0004086"
-        iyz="5.7508E-09"
-        izz="0.013731" />
+        ixx="0.0134357023569837"
+        ixy="-0.00089216385063622"
+        ixz="-1.64451506307396E-10"
+        iyy="0.000408600161913005"
+        iyz="5.75075282237831E-09"
+        izz="0.0137310509899334" />
     </inertial>
     <visual>
       <origin
@@ -438,7 +438,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.8 1" />
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
       </material>
     </visual>
     <collision>
@@ -452,7 +452,7 @@
     </collision>
   </link>
   <joint
-    name="ManipulatorLink1Axis"
+    name="ManipulatorLink1Joint"
     type="revolute">
     <origin
       xyz="0.015824 -0.0090419 0"
@@ -473,17 +473,17 @@
     name="ManipulatorLink2">
     <inertial>
       <origin
-        xyz="-0.0019648 0.34838 0.034995"
+        xyz="-0.00196480942981017 0.348379096758467 0.0349954207736472"
         rpy="0 0 0" />
       <mass
-        value="0.30452" />
+        value="0.304515245459477" />
       <inertia
-        ixx="0.0077703"
-        ixy="-0.00010965"
-        ixz="-4.7931E-12"
-        iyy="0.000301"
-        iyz="2.8093E-10"
-        izz="0.007534" />
+        ixx="0.00777034817250903"
+        ixy="-0.000109646222750572"
+        ixz="-4.79308609658045E-12"
+        iyy="0.000301003154376517"
+        iyz="2.80929115257025E-10"
+        izz="0.00753395528428255" />
     </inertial>
     <visual>
       <origin
@@ -496,7 +496,7 @@
       <material
         name="">
         <color
-          rgba="0.79216 0.81961 0.7 1" />
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
       </material>
     </visual>
     <collision>
@@ -510,7 +510,7 @@
     </collision>
   </link>
   <joint
-    name="ManipulatorLink2Axis"
+    name="ManipulatorLink2Joint"
     type="revolute">
     <origin
       xyz="0.10656 -0.49054 0"
@@ -531,17 +531,17 @@
     name="ManipulatorLink3">
     <inertial>
       <origin
-        xyz="-0.0046526 -0.021945 0.034995"
+        xyz="-0.0046525999175398 -0.0219448226910157 0.0349954293087308"
         rpy="0 0 0" />
       <mass
-        value="0.22788" />
+        value="0.227882111375496" />
       <inertia
-        ixx="0.00019702"
-        ixy="4.0348E-05"
-        ixz="-2.4752E-12"
-        iyy="0.00015328"
-        iyz="3.0548E-12"
-        izz="0.00021369" />
+        ixx="0.000197016969488881"
+        ixy="4.03477911259816E-05"
+        ixz="-2.47517782084006E-12"
+        iyy="0.000153281907899611"
+        iyz="3.05482637122469E-12"
+        izz="0.000213692740260064" />
     </inertial>
     <visual>
       <origin
@@ -554,7 +554,7 @@
       <material
         name="">
         <color
-          rgba="0.32157 0.43137 0.4549 1" />
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
       </material>
     </visual>
     <collision>
@@ -568,7 +568,7 @@
     </collision>
   </link>
   <joint
-    name="ManipulatorLink3Axis"
+    name="ManipulatorLink3Joint"
     type="revolute">
     <origin
       xyz="-0.012962 0.55415 0"
@@ -589,17 +589,17 @@
     name="ManipulatorLink4">
     <inertial>
       <origin
-        xyz="-2.2732E-05 0.083954 0"
+        xyz="-2.27324754187949E-05 0.0839540654377264 0"
         rpy="0 0 0" />
       <mass
-        value="0.42935" />
+        value="0.42934890554545" />
       <inertia
-        ixx="0.00093594"
-        ixy="4.2609E-07"
-        ixz="9.132E-21"
-        iyy="0.00033918"
-        iyz="1.5845E-19"
-        izz="0.0010509" />
+        ixx="0.000935940058808039"
+        ixy="4.26089557359053E-07"
+        ixz="7.47764376006503E-21"
+        iyy="0.000339182318745931"
+        iyz="1.65064699619049E-19"
+        izz="0.00105088366308352" />
     </inertial>
     <visual>
       <origin
@@ -612,7 +612,7 @@
       <material
         name="">
         <color
-          rgba="0.4 0.82353 0.8 1" />
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
       </material>
     </visual>
     <collision>
@@ -626,7 +626,7 @@
     </collision>
   </link>
   <joint
-    name="ManipulatorLink4Axis"
+    name="ManipulatorLink4Joint"
     type="revolute">
     <origin
       xyz="0 0.008 0.034995"
@@ -647,17 +647,17 @@
     name="GripperL">
     <inertial>
       <origin
-        xyz="0.0029778 0.087145 -0.0098651"
+        xyz="0.00297778710330867 0.0871448028863351 -0.00986508075006032"
         rpy="0 0 0" />
       <mass
-        value="0.039858" />
+        value="0.0398581317877607" />
       <inertia
-        ixx="0.00010179"
-        ixy="-4.7356E-06"
-        ixz="-2.1627E-22"
-        iyy="2.3271E-06"
-        iyz="1.1485E-21"
-        izz="0.00010172" />
+        ixx="0.000101786832064384"
+        ixy="-4.73556735923986E-06"
+        ixz="-2.16269325497472E-22"
+        iyy="2.32711481887779E-06"
+        iyz="1.14850927404621E-21"
+        izz="0.000101715815954032" />
     </inertial>
     <visual>
       <origin
@@ -670,7 +670,7 @@
       <material
         name="">
         <color
-          rgba="0.15686 0.15686 0.15686 1" />
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
       </material>
     </visual>
     <collision>
@@ -684,7 +684,7 @@
     </collision>
   </link>
   <joint
-    name="GripperLAxis"
+    name="GripperLJoint"
     type="prismatic">
     <origin
       xyz="0.049892 0.090686 -0.0096825"
@@ -705,17 +705,17 @@
     name="GripperR">
     <inertial>
       <origin
-        xyz="0.0029778 0.087145 0.0098651"
+        xyz="0.00297778710330867 0.0871448028863351 0.00986508075006029"
         rpy="0 0 0" />
       <mass
-        value="0.039858" />
+        value="0.0398581317877607" />
       <inertia
-        ixx="0.00010179"
-        ixy="-4.7356E-06"
-        ixz="2.1438E-23"
-        iyy="2.3271E-06"
-        iyz="-1.4599E-21"
-        izz="0.00010172" />
+        ixx="0.000101786832064384"
+        ixy="-4.73556735923985E-06"
+        ixz="2.14379316231562E-23"
+        iyy="2.32711481887779E-06"
+        iyz="-1.45989050367712E-21"
+        izz="0.000101715815954032" />
     </inertial>
     <visual>
       <origin
@@ -728,7 +728,7 @@
       <material
         name="">
         <color
-          rgba="0.15686 0.15686 0.15686 1" />
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
       </material>
     </visual>
     <collision>
@@ -742,7 +742,7 @@
     </collision>
   </link>
   <joint
-    name="GripperRAxis"
+    name="GripperRJoint"
     type="prismatic">
     <origin
       xyz="-0.049892 0.090686 -0.0096825"
@@ -756,6 +756,1862 @@
     <limit
       lower="0"
       upper="0.03"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Trunk">
+    <inertial>
+      <origin
+        xyz="1.9082E-17 0.23891 1.3227E-17"
+        rpy="0 0 0" />
+      <mass
+        value="27.438" />
+      <inertia
+        ixx="0.53579"
+        ixy="-9.7948E-18"
+        ixz="-1.7984E-17"
+        iyy="0.31051"
+        iyz="9.2013E-18"
+        izz="0.59879" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Trunk.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.3 0.3 0.3 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Trunk.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="TrunkJoint"
+    type="revolute">
+    <origin
+      xyz="-0.01423 0.00097293 0.686"
+      rpy="1.5708 0 0" />
+    <parent
+      link="Base" />
+    <child
+      link="Trunk" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.5"
+      upper="1.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Torso">
+    <inertial>
+      <origin
+        xyz="-5.96337908854803E-05 0.239039736167763 6.11490025281825E-17"
+        rpy="0 0 0" />
+      <mass
+        value="12.3493829426964" />
+      <inertia
+        ixx="0.15897366060386"
+        ixy="7.65084055002173E-07"
+        ixz="-8.58200089376519E-18"
+        iyy="0.0778382030536952"
+        iyz="1.53719102033197E-17"
+        izz="0.167042668806572" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Torso.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Torso.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="TorsoJoint"
+    type="revolute">
+    <origin
+      xyz="0 0.45 0"
+      rpy="0 0 0" />
+    <parent
+      link="Trunk" />
+    <child
+      link="Torso" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Neck">
+    <inertial>
+      <origin
+        xyz="-2.54485853576885E-05 0.0271590293807542 3.30681662608079E-17"
+        rpy="0 0 0" />
+      <mass
+        value="0.264426936484469" />
+      <inertia
+        ixx="0.000196321181926634"
+        ixy="-1.53703548617312E-07"
+        ixz="-1.66950531439128E-20"
+        iyy="0.000255700323088497"
+        iyz="6.78826048678108E-20"
+        izz="0.000261741840412162" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Neck.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Neck.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="NeckJoint"
+    type="revolute">
+    <origin
+      xyz="-0.00017682 0.42056 0"
+      rpy="0 0 0" />
+    <parent
+      link="Torso" />
+    <child
+      link="Neck" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="Head">
+    <inertial>
+      <origin
+        xyz="0.00279372413046049 0.114190295410849 1.01047642475649E-16"
+        rpy="0 0 0" />
+      <mass
+        value="5.04298545454377" />
+      <inertia
+        ixx="0.0302760164879703"
+        ixy="-0.00143147694204146"
+        ixz="-2.37109041052788E-18"
+        iyy="0.0332278761873306"
+        iyz="-2.81858474691739E-18"
+        izz="0.0193071888170094" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Head.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/Head.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="HeadJoint"
+    type="revolute">
+    <origin
+      xyz="0.0085 0.05 0"
+      rpy="0 0 0" />
+    <parent
+      link="Neck" />
+    <child
+      link="Head" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="0.85"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LTorso">
+    <inertial>
+      <origin
+        xyz="0.108478345413569 0.154168360329165 0.0336168458210233"
+        rpy="0 0 0" />
+      <mass
+        value="7.0955682087774" />
+      <inertia
+        ixx="0.156492905049855"
+        ixy="-4.26349291669547E-05"
+        ixz="6.98446874820989E-06"
+        iyy="0.0267552134369736"
+        iyz="0.000725408696917087"
+        izz="0.17778025466118" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LTorso.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LTorso.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LTorsoJoint"
+    type="revolute">
+    <origin
+      xyz="0.10841 0 -0.09"
+      rpy="3.1416 0 -3.1416" />
+    <parent
+      link="Torso" />
+    <child
+      link="LTorso" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="0"
+      upper="0.85"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LShoulder">
+    <inertial>
+      <origin
+        xyz="2.22044604925031E-16 0.0630498866526663 -5.20417042793042E-18"
+        rpy="0 0 0" />
+      <mass
+        value="0.175328671502516" />
+      <inertia
+        ixx="0.00024755425271954"
+        ixy="-1.63165782943239E-20"
+        ixz="4.17115943052412E-20"
+        iyy="6.56937608813347E-05"
+        iyz="-2.54354849648763E-20"
+        izz="0.00022589138848891" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LShoulder.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LShoulder.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LShoulderJoint"
+    type="revolute">
+    <origin
+      xyz="0.1085 0.31956 0.067"
+      rpy="1.5708 0 1.5708" />
+    <parent
+      link="LTorso" />
+    <child
+      link="LShoulder" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-1.5"
+      upper="0.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LArm">
+    <inertial>
+      <origin
+        xyz="-2.22044604925031E-16 -0.193246670700552 2.61943244872498E-16"
+        rpy="0 0 0" />
+      <mass
+        value="0.244790015736888" />
+      <inertia
+        ixx="0.00347202868354709"
+        ixy="4.47603684624087E-18"
+        ixz="1.55953448379727E-21"
+        iyy="3.01861230030171E-05"
+        iyz="-4.69150709266768E-18"
+        izz="0.00348781472034764" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LArm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LArm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LArmJoint"
+    type="revolute">
+    <origin
+      xyz="0 0.116 0"
+      rpy="-3.1416 0 1.5708" />
+    <parent
+      link="LShoulder" />
+    <child
+      link="LArm" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.5"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LArmElbow">
+    <inertial>
+      <origin
+        xyz="-0.0211862096312088 -2.60208521396521E-17 4.9960036108132E-16"
+        rpy="0 0 0" />
+      <mass
+        value="0.0397123450849927" />
+      <inertia
+        ixx="3.18965617916285E-05"
+        ixy="2.53868987017113E-21"
+        ixz="7.07375802938059E-23"
+        iyy="2.18422007810781E-05"
+        iyz="4.52683780196601E-21"
+        izz="1.34391771581529E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LArmElbow.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LArmElbow.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LArmElbowJoint"
+    type="revolute">
+    <origin
+      xyz="0 -0.39975 0"
+      rpy="-1.5708 0 1.5708" />
+    <parent
+      link="LArm" />
+    <child
+      link="LArmElbow" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-0.9"
+      upper="0.9"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LForearmYaw">
+    <inertial>
+      <origin
+        xyz="0 -0.04907 0.00379"
+        rpy="0 0 0" />
+      <mass
+        value="0.60265" />
+      <inertia
+        ixx="0.0007473"
+        ixy="2.6052E-20"
+        ixz="1.2796E-19"
+        iyy="0.00062925"
+        iyz="-9.4851E-07"
+        izz="0.00084031" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LForearmYaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.3 0.3 0.3 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LForearmYaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LForearmYawJoint"
+    type="revolute">
+    <origin
+      xyz="-0.036 0 0"
+      rpy="1.5708 1.5708 0" />
+    <parent
+      link="LArmElbow" />
+    <child
+      link="LForearmYaw" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-0.1"
+      upper="0.4"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LForearmRoll">
+    <inertial>
+      <origin
+        xyz="-0.111710352281004 -0.000515769839272595 5.55111512312578E-17"
+        rpy="0 0 0" />
+      <mass
+        value="0.93501476271025" />
+      <inertia
+        ixx="0.000763936847833718"
+        ixy="1.34977861347765E-06"
+        ixz="-1.62040826862028E-19"
+        iyy="0.00442640411973123"
+        iyz="-1.03620339942239E-20"
+        izz="0.00403695569885687" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LForearmRoll.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LForearmRoll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LForearmRollJoint"
+    type="revolute">
+    <origin
+      xyz="0 -0.055 0.0395"
+      rpy="0 1.5708 0" />
+    <parent
+      link="LForearmYaw" />
+    <child
+      link="LForearmRoll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-3.7"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LHandPitch">
+    <inertial>
+      <origin
+        xyz="-1.32032809794236E-05 -0.00026825864092217 -0.010071754197082"
+        rpy="0 0 0" />
+      <mass
+        value="0.0061941814843542" />
+      <inertia
+        ixx="4.4190403444526E-07"
+        ixy="-1.49325589877469E-12"
+        ixz="4.62856822491242E-10"
+        iyy="7.29536858804216E-07"
+        iyz="-1.1390885637953E-09"
+        izz="4.58624175583739E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LHandPitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LHandPitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LHandPitchJoint"
+    type="revolute">
+    <origin
+      xyz="-0.23422 -0.005 0"
+      rpy="0 1.5708 0" />
+    <parent
+      link="LForearmRoll" />
+    <child
+      link="LHandPitch" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-0.3"
+      upper="0.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LHandYaw">
+    <inertial>
+      <origin
+        xyz="0.0496641940766464 0.00041782761922482 -5.08440733959503E-10"
+        rpy="0 0 0" />
+      <mass
+        value="0.312277803709901" />
+      <inertia
+        ixx="0.000301787624881494"
+        ixy="-4.04907456706471E-06"
+        ixz="4.28145467875751E-15"
+        iyy="0.000418103664635785"
+        iyz="-7.39848484937202E-16"
+        izz="0.000203953310852931" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LHandYaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LHandYaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LHandYawJoint"
+    type="revolute">
+    <origin
+      xyz="0.0002314 0 -0.015731"
+      rpy="0 1.5708 0" />
+    <parent
+      link="LHandPitch" />
+    <child
+      link="LHandYaw" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-0.5"
+      upper="0.2"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LFinger0">
+    <inertial>
+      <origin
+        xyz="0.0387329517739758 0.0115334888203411 0.01"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973467252E-06"
+        ixy="5.88137120352322E-06"
+        ixz="-3.11053616405498E-22"
+        iyy="1.21122746789668E-05"
+        iyz="-4.81625768704879E-22"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger0.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger0.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LFinger0Joint"
+    type="revolute">
+    <origin
+      xyz="0.01463 0.0125 -0.025"
+      rpy="3.1416 0 2.3562" />
+    <parent
+      link="LHandYaw" />
+    <child
+      link="LFinger0" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LFinger1">
+    <inertial>
+      <origin
+        xyz="0.0387329517739756 0.0115334888203408 -0.01"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973467248E-06"
+        ixy="5.8813712035232E-06"
+        ixz="-2.33401983978783E-22"
+        iyy="1.21122746789668E-05"
+        iyz="2.68669281789629E-22"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LFinger1Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 -0.02375"
+      rpy="0 0 0" />
+    <parent
+      link="LHandYaw" />
+    <child
+      link="LFinger1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LFinger2">
+    <inertial>
+      <origin
+        xyz="0.0387329517739756 0.0115334888203408 -0.0100000000000001"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973467248E-06"
+        ixy="5.8813712035232E-06"
+        ixz="-2.33401983978783E-22"
+        iyy="1.21122746789668E-05"
+        iyz="2.68669281789629E-22"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LFinger2Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 -0.00125"
+      rpy="0 0 0" />
+    <parent
+      link="LHandYaw" />
+    <child
+      link="LFinger2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LFinger3">
+    <inertial>
+      <origin
+        xyz="0.0387329517739756 0.0115334888203408 0.01"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973467249E-06"
+        ixy="5.8813712035232E-06"
+        ixz="-2.33401983978783E-22"
+        iyy="1.21122746789668E-05"
+        iyz="2.68669281789629E-22"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LFinger3Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 0.00125"
+      rpy="0 0 0" />
+    <parent
+      link="LHandYaw" />
+    <child
+      link="LFinger3" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LFinger4">
+    <inertial>
+      <origin
+        xyz="0.0387329517739756 0.0115334888203408 0.00999999999999998"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973467247E-06"
+        ixy="5.88137120352319E-06"
+        ixz="-3.81962207677889E-22"
+        iyy="1.21122746789668E-05"
+        iyz="3.62254269523736E-23"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LFinger4Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 0.02375"
+      rpy="0 0 0" />
+    <parent
+      link="LHandYaw" />
+    <child
+      link="LFinger4" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="LFinger5">
+    <inertial>
+      <origin
+        xyz="0.0387329517739756 0.0115334888203409 -0.01"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973467255E-06"
+        ixy="5.88137120352326E-06"
+        ixz="-1.82480470419128E-21"
+        iyy="1.21122746789668E-05"
+        iyz="-1.00241504630637E-21"
+        izz="1.60030956478887E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/LFinger5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="LFinger5Joint"
+    type="revolute">
+    <origin
+      xyz="0.01463 0.0125 0.025"
+      rpy="3.1416 0 2.3562" />
+    <parent
+      link="LHandYaw" />
+    <child
+      link="LFinger5" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RTorso">
+    <inertial>
+      <origin
+        xyz="0.108478345413569 0.154168360329165 -0.0336168458210233"
+        rpy="0 0 0" />
+      <mass
+        value="7.0955682087774" />
+      <inertia
+        ixx="0.156492905049855"
+        ixy="-4.26349291668109E-05"
+        ixz="-6.98446874821223E-06"
+        iyy="0.0267552134369736"
+        iyz="-0.00072540869691709"
+        izz="0.17778025466118" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RTorso.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RTorso.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RTorsoJoint"
+    type="revolute">
+    <origin
+      xyz="0.10841 0 0.09"
+      rpy="3.1416 0 -3.1416" />
+    <parent
+      link="Torso" />
+    <child
+      link="RTorso" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-0.85"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RShoulder">
+    <inertial>
+      <origin
+        xyz="-2.22044604925031E-16 0.0630498866526663 -3.46944695195361E-18"
+        rpy="0 0 0" />
+      <mass
+        value="0.175328671502516" />
+      <inertia
+        ixx="0.00024755425271954"
+        ixy="8.75580987271659E-21"
+        ixz="-2.6440960235002E-20"
+        iyy="6.56937608813347E-05"
+        iyz="-1.98000778885119E-20"
+        izz="0.00022589138848891" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RShoulder.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RShoulder.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RShoulderJoint"
+    type="revolute">
+    <origin
+      xyz="0.1085 0.31956 -0.067"
+      rpy="-1.5708 0 1.5708" />
+    <parent
+      link="RTorso" />
+    <child
+      link="RShoulder" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-1.5"
+      upper="0.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RArm">
+    <inertial>
+      <origin
+        xyz="-1.72695191480443E-13 -0.193246670700552 5.20417042793042E-18"
+        rpy="0 0 0" />
+      <mass
+        value="0.244790015736889" />
+      <inertia
+        ixx="0.0034720286835471"
+        ixy="3.07467262233252E-15"
+        ixz="-5.25152757513477E-22"
+        iyy="3.01861230030172E-05"
+        iyz="2.12110647006146E-20"
+        izz="0.00348781472034765" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RArm.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RArm.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RArmJoint"
+    type="revolute">
+    <origin
+      xyz="0 0.116 0"
+      rpy="-3.1416 1.3305E-19 1.5709" />
+    <parent
+      link="RShoulder" />
+    <child
+      link="RArm" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RArmElbow">
+    <inertial>
+      <origin
+        xyz="-0.0211862096312081 1.82145964977565E-16 -3.33066907387547E-16"
+        rpy="0 0 0" />
+      <mass
+        value="0.0397123450849928" />
+      <inertia
+        ixx="3.18965617916288E-05"
+        ixy="-3.07426310164862E-20"
+        ixz="5.52949559976385E-21"
+        iyy="2.18422007810782E-05"
+        iyz="6.4433688573145E-21"
+        izz="1.34391771581529E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RArmElbow.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RArmElbow.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RArmElbowJoint"
+    type="revolute">
+    <origin
+      xyz="0 -0.39975 0"
+      rpy="1.5708 8.6736E-16 1.5708" />
+    <parent
+      link="RArm" />
+    <child
+      link="RArmElbow" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-0.9"
+      upper="0.9"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RForearmYaw">
+    <inertial>
+      <origin
+        xyz="-3.586E-14 -0.049084 0.00379"
+        rpy="0 0 0" />
+      <mass
+        value="0.60265" />
+      <inertia
+        ixx="0.0007473"
+        ixy="8.6808E-17"
+        ixz="-1.4143E-18"
+        iyy="0.00062925"
+        iyz="-9.4851E-07"
+        izz="0.00084031" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RForearmYaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.3 0.3 0.3 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RForearmYaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RForearmYawJoint"
+    type="revolute">
+    <origin
+      xyz="-0.035987 0 0"
+      rpy="4.0616E-07 1.5708 -1.5708" />
+    <parent
+      link="RArmElbow" />
+    <child
+      link="RForearmYaw" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-0.4"
+      upper="0.1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RForearmRoll">
+    <inertial>
+      <origin
+        xyz="-0.111710507444709 -0.000515769808357547 -2.01533796595488E-07"
+        rpy="0 0 0" />
+      <mass
+        value="0.935014762710249" />
+      <inertia
+        ixx="0.000763936847843622"
+        ixy="1.34977759991252E-06"
+        ixz="5.90476160988418E-09"
+        iyy="0.00442640411973197"
+        iyz="2.43509505948216E-12"
+        izz="0.00403695569884622" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RForearmRoll.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RForearmRoll.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RForearmRollJoint"
+    type="revolute">
+    <origin
+      xyz="0 -0.055013 0.0395"
+      rpy="3.1414 1.5708 3.1416" />
+    <parent
+      link="RForearmYaw" />
+    <child
+      link="RForearmRoll" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="3.7"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RHandPitch">
+    <inertial>
+      <origin
+        xyz="-1.32032809797011E-05 -0.00026825864092217 -0.0100717541970821"
+        rpy="0 0 0" />
+      <mass
+        value="0.00619418148435421" />
+      <inertia
+        ixx="4.41904034445262E-07"
+        ixy="-1.49325590802666E-12"
+        ixz="4.62856822490332E-10"
+        iyy="7.29536858804215E-07"
+        iyz="-1.13908856379463E-09"
+        izz="4.5862417558374E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RHandPitch.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RHandPitch.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RHandPitchJoint"
+    type="revolute">
+    <origin
+      xyz="-0.23422 -0.005 0"
+      rpy="-0.00030678 1.5708 1.9045E-08" />
+    <parent
+      link="RForearmRoll" />
+    <child
+      link="RHandPitch" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-0.3"
+      upper="0.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RHandYaw">
+    <inertial>
+      <origin
+        xyz="0.0496641940766524 0.000417827618507838 -2.84577250653228E-09"
+        rpy="0 0 0" />
+      <mass
+        value="0.312277803709901" />
+      <inertia
+        ixx="0.000301787624881611"
+        ixy="-4.04907456874447E-06"
+        ixz="4.60862963863986E-12"
+        iyy="0.000418103664635668"
+        iyz="1.89820845266711E-13"
+        izz="0.000203953310852931" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RHandYaw.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.796078431372549 0.823529411764706 0.937254901960784 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RHandYaw.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RHandYawJoint"
+    type="revolute">
+    <origin
+      xyz="0.0002314 0 -0.015731"
+      rpy="3.1416 1.5708 3.1416" />
+    <parent
+      link="RHandPitch" />
+    <child
+      link="RHandYaw" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-0.2"
+      upper="0.5"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RFinger0">
+    <inertial>
+      <origin
+        xyz="0.0387329517739757 0.0115334888203411 -0.00999999560888332"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.4482497346725E-06"
+        ixy="5.88137120352321E-06"
+        ixz="6.08333179395932E-21"
+        iyy="1.21122746789668E-05"
+        iyz="5.3146354356532E-21"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger0.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger0.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RFinger0Joint"
+    type="revolute">
+    <origin
+      xyz="0.01463 0.0125 0.025"
+      rpy="-3.1416 -3.3278E-08 2.3562" />
+    <parent
+      link="RHandYaw" />
+    <child
+      link="RFinger0" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RFinger1">
+    <inertial>
+      <origin
+        xyz="0.0387329513032653 0.0115334888206206 0.00999999994036582"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973475746E-06"
+        ixy="5.88137120357133E-06"
+        ixz="4.9673969256437E-13"
+        iyy="1.21122746788819E-05"
+        iyz="2.76793288826578E-13"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RFinger1Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 0.02375"
+      rpy="1.4439E-11 9.4125E-08 0.0003068" />
+    <parent
+      link="RHandYaw" />
+    <child
+      link="RFinger1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RFinger2">
+    <inertial>
+      <origin
+        xyz="0.0387329513032652 0.0115334888206207 0.00999999994036582"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973475746E-06"
+        ixy="5.88137120357133E-06"
+        ixz="4.96739695822635E-13"
+        iyy="1.21122746788819E-05"
+        iyz="2.76793293032378E-13"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RFinger2Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 0.00125"
+      rpy="1.4439E-11 9.4125E-08 0.0003068" />
+    <parent
+      link="RHandYaw" />
+    <child
+      link="RFinger2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RFinger3">
+    <inertial>
+      <origin
+        xyz="0.0387329522445194 0.0115334888206204 -0.00999999629461007"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973475746E-06"
+        ixy="5.88137120357133E-06"
+        ixz="4.96739692275684E-13"
+        iyy="1.21122746788819E-05"
+        iyz="2.76793288704156E-13"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RFinger3Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 -0.00125"
+      rpy="1.4439E-11 9.4125E-08 0.0003068" />
+    <parent
+      link="RHandYaw" />
+    <child
+      link="RFinger3" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RFinger4">
+    <inertial>
+      <origin
+        xyz="0.0387329522445194 0.0115334888206207 -0.00999999629461018"
+        rpy="0 0 0" />
+      <mass
+        value="0.02336143148626" />
+      <inertia
+        ixx="5.44824973475747E-06"
+        ixy="5.88137120357133E-06"
+        ixz="4.967396960468E-13"
+        iyy="1.21122746788819E-05"
+        iyz="2.76793291308741E-13"
+        izz="1.60030956478886E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RFinger4Joint"
+    type="revolute">
+    <origin
+      xyz="0.08863 0.0135 -0.02375"
+      rpy="1.4439E-11 9.4125E-08 0.0003068" />
+    <parent
+      link="RHandYaw" />
+    <child
+      link="RFinger4" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="RFinger5">
+    <inertial>
+      <origin
+        xyz="0.0387329517739756 0.0115334888203409 0.00999999560888332"
+        rpy="0 0 0" />
+      <mass
+        value="0.0233614314862599" />
+      <inertia
+        ixx="5.44824973467247E-06"
+        ixy="5.88137120352318E-06"
+        ixz="-1.04370353894188E-20"
+        iyy="1.21122746789667E-05"
+        iyz="-7.57428607399494E-21"
+        izz="1.60030956478885E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://valter/meshes/RFinger5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="RFinger5Joint"
+    type="revolute">
+    <origin
+      xyz="0.01463 0.0125 -0.025"
+      rpy="-3.1416 -3.3278E-08 2.3562" />
+    <parent
+      link="RHandYaw" />
+    <child
+      link="RFinger5" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="1"
       effort="0"
       velocity="0" />
   </joint>
