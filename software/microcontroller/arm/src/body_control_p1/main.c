@@ -162,6 +162,8 @@ static void InitPWM(void)
 
 static void InitPIO(void)
 {
+    AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //shift registers enable
+
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);   //U2 A
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);   //U2 B
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2 C
@@ -359,6 +361,8 @@ int main(void)
 
     setShiftRegister();
 
+    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);//SHIFTREGENABLE
+
     while (1)
     {
 
@@ -375,6 +379,16 @@ int main(void)
             {
                 sprintf((char *) msg, "BODY-CONTROL-P1\n");
                 pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SHIFTREGENABLE") == 0)
+            {
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SHIFTREGDISABLE") == 0)
+            {
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
                 continue;
             }
             //Body pitch current
@@ -941,6 +955,6 @@ int main(void)
             delay_ms(100);
         }
 
-        return 0; /* never reached */
     }
+    return 0; /* never reached */
 }
