@@ -12,6 +12,7 @@
 #include "async.h"
 #include "delay.h"
 #include "util_math.h"
+#include "serial.h"
 
 #define FIQ_INTERRUPT_LEVEL 0
 
@@ -121,7 +122,7 @@ static void InitPWM(void)
     AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
     //AT91F_PWMC_InterruptDisable(AT91C_BASE_PWMC, AT91C_PWMC_CHID3);
 
-    AT91F_PMC_EnablePeriphClock(AT91C_BASE_PMC, 1 << AT91C_ID_PIOA);
+    AT91F_PMC_EnablePeriphClock(AT91C_BASE_PMC, ( 1 << AT91C_ID_PIOA ) | ( 1 << AT91C_ID_US0 ));
 
     // enable PWM clock in PMC
     AT91F_PWMC_CfgPMC();
@@ -242,6 +243,8 @@ static void DeviceInit(void)
     InitADC();
     InitPWM();
     //InitIRQ();
+
+    uart0_init();
 }
 
 // Specific functions
@@ -308,22 +311,22 @@ int main(void)
     unsigned int channelReading = 0;
 
     unsigned char bodyPitchReadings = 0;
-    unsigned int bodyPitchReading = 0;
-    unsigned int bodyPitchDriveDuty = 1;
+    unsigned int  bodyPitchReading = 0;
+    unsigned int  bodyPitchDriveDuty = 1;
     unsigned char bodyPitchDirection = 0; //0 - up, 1 - down
     unsigned char bodyPitchINaIndex = 13;
     unsigned char bodyPitchINbIndex = 14;
 
     unsigned char rightArmYawReadings = 0;
-    unsigned int rightArmYawReading = 0;
-    unsigned int rightArmYawDriveDuty = 1;
+    unsigned int  rightArmYawReading = 0;
+    unsigned int  rightArmYawDriveDuty = 1;
     unsigned char rightArmYawDirection = 0; //0 - open, 1 - close
     unsigned char rightArmYawINaIndex = 11;
     unsigned char rightArmYawINbIndex = 12;
 
     unsigned char leftArmYawReadings = 0;
-    unsigned int leftArmYawReading = 0;
-    unsigned int leftArmYawDriveDuty = 1;
+    unsigned int  leftArmYawReading = 0;
+    unsigned int  leftArmYawDriveDuty = 1;
     unsigned char leftArmYawDirection = 0; //0 - open, 1 - close
     unsigned char leftArmYawINaIndex = 9;
     unsigned char leftArmYawINbIndex = 10;
@@ -337,7 +340,7 @@ int main(void)
 
     unsigned char headYawENIndex = 3;
     unsigned char headYawDIRIndex = 4;
-    unsigned char headYawREFIndex = 4;
+    unsigned char headYawREFIndex = 5;
     unsigned char headYawDirection = 0; //0 - left, 1 - right
     unsigned int  headYawStepTime = 1000;
 
@@ -831,6 +834,29 @@ int main(void)
                 headYawStepTime = atoi(strtok( NULL, "#" ));
                 continue;
             }
+            //HEADYAWSTEPS#1
+            //HEADYAWSTEPS#5
+            //HEADYAWSTEPS#10
+            //HEADYAWSTEPS#20
+            //HEADYAWSTEPS#30
+            //HEADYAWSTEPS#40
+            //HEADYAWSTEPS#50
+            //HEADYAWSTEPS#100
+            //HEADYAWSTEPS#200
+            //HEADYAWSTEPS#400
+            //HEADYAWSTEPS#500
+            if (strcmp((char*) cmdParts, "HEADYAWSTEPS") == 0)
+            {
+                unsigned int headYawSteps = atoi(strtok( NULL, "#" ));
+                for(int s = 0; s < headYawSteps; s++)
+                {
+                    delay_us(headYawStepTime);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                    delay_us(headYawStepTime);
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                }
+                continue;
+            }
             if (strcmp((char*) cmdParts, "HEADPITCHENABLE") == 0)
             {
                 setShiftRegisterBit(headPitchENIndex, 0);
@@ -870,6 +896,18 @@ int main(void)
             if (strcmp((char*) cmdParts, "HEADPITCHSTEPTIME") == 0)
             {
                 headPitchStepTime = atoi(strtok( NULL, "#" ));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HEADPITCHSTEPS") == 0)
+            {
+                unsigned int headPitchSteps = atoi(strtok( NULL, "#" ));
+                for(int s = 0; s < headPitchSteps; s++)
+                {
+                    delay_us(headPitchStepTime);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                    delay_us(headPitchStepTime);
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                }
                 continue;
             }
         }

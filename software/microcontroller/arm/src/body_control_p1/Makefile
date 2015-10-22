@@ -76,6 +76,7 @@ SRCARM  += aic.c
 SRCARM  += async.c
 SRCARM  += delay.c
 SRCARM  += util_math.c
+SRCARM  += serial.c
 
 # List C++ source files here.
 # use file-extension cpp for C++-files (use extension .cpp)
