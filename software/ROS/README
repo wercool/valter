@@ -1,0 +1,2 @@
+map
+rosrun gmapping slam_gmapping scan:=ir1_scan _odom_frame:=odom _base_frame:=Base
