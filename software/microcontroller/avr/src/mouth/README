@@ -1,0 +1,8 @@
+sudo apt-get install gcc-avr binutils-avr avr-libc avrdude
+
+avr-gcc -mmcu=atmega8 -Wall -Os -o main.elf main.c
+avr-objcopy -j .text -j .data -O ihex main.elf main.hex
+sudo avrdude -c avrispv2 -p m8 -P /dev/ttyUSB0 -e -U flash:w:main.hex
+
+
+http://habrahabr.ru/post/204906/
