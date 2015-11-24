@@ -142,17 +142,23 @@ unsigned char rows[8];
 
 unsigned char frame[8][24];
 
-unsigned char signal_r3_1_2[24]   = {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1};
-unsigned char signal_r3_4[24]   = {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1};
+unsigned char frame_1_r_2_5[24]   = {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0};
+unsigned char frame_1_r_3_4[24]   = {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1};
 
-unsigned char signal_f1[24] = {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0};
+unsigned char frame_2_r_1_6[24]   = {0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0};
+unsigned char frame_2_r_2_5[24]   = {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0};
+unsigned char frame_2_r_3_4[24]   = {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1};
 
-unsigned char signal_f2_2[24] = {0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0};
-unsigned char signal_f2_1[24] = {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0};
+unsigned char frame_3_r_0_7[24]   = {0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0};
+unsigned char frame_3_r_1_6[24]   = {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0};
+unsigned char frame_3_r_2_5[24]   = {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0};
+unsigned char frame_3_r_3_4[24]   = {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1};
 
-unsigned char signal_f3_3[24] = {0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0};
-unsigned char signal_f3_2[24] = {0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0};
-unsigned char signal_f3_1[24] = {0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0};
+unsigned char frame_4_r_0_7[24]   = {0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0};
+unsigned char frame_4_r_1_6[24]   = {0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0};
+unsigned char frame_4_r_2_5[24]   = {0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0};
+unsigned char frame_4_r_3_4[24]   = {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1};
+
 
 int main( void )
 {
@@ -161,7 +167,8 @@ int main( void )
     signed char c;
     unsigned int adcSUM = 0;
     unsigned int adcCNT = 0;
-    unsigned char frameNum = 0;
+    signed char frameNum = 0;
+    unsigned char animDirection = 1;
 
     unsigned int signal;
 
@@ -207,43 +214,87 @@ int main( void )
             adcCNT = 0;
             adcSUM = 0;
 
-            sprintf(uart_buf, "SIGNAL:%u\r\n", signal);
-            uart_puts(uart_buf);
+            //sprintf(uart_buf, "SIGNAL:%u\r\n", signal);
+            //uart_puts(uart_buf);
 
             if (signal > 23)
             {
+                animDirection = rand() % 2;
+
                 for (c = 0; c < 24; c++)
                 {
                     switch (frameNum)
                     {
-                    case 0:
-                        frame[0][c] = 0;
-                        frame[1][c] = 0;
-                        frame[2][c] = signal_f1[c];
-                        frame[3][c] = signal_r3_1_2[c];
-                        frame[4][c] = signal_r3_1_2[c];
-                        frame[5][c] = signal_f1[c];
-                        frame[6][c] = 0;
-                        frame[7][c] = 0;
-                        break;
-                    case 1:
-                        frame[0][c] = 0;
-                        frame[1][c] = signal_f2_2[c];
-                        frame[2][c] = signal_f2_1[c];
-                        frame[3][c] = signal_r3_1_2[c];
-                        frame[4][c] = signal_r3_1_2[c];
-                        frame[5][c] = signal_f2_1[c];
-                        frame[6][c] = signal_f2_2[c];
-                        frame[7][c] = 0;
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        frameNum = 0;
-                        break;
+                        case 0:
+                            frame[0][c] = 0;
+                            frame[1][c] = 0;
+                            frame[2][c] = 0;
+                            frame[3][c] = 1;
+                            frame[4][c] = 1;
+                            frame[5][c] = 0;
+                            frame[6][c] = 0;
+                            frame[7][c] = 0;
+                            break;
+                        case 1:
+                            frame[0][c] = 0;
+                            frame[1][c] = 0;
+                            frame[2][c] = frame_1_r_2_5[c];
+                            frame[3][c] = frame_1_r_3_4[c];
+                            frame[4][c] = frame_1_r_3_4[c];
+                            frame[5][c] = frame_1_r_2_5[c];
+                            frame[6][c] = 0;
+                            frame[7][c] = 0;
+                            break;
+                        case 2:
+                            frame[0][c] = 0;
+                            frame[1][c] = frame_2_r_1_6[c];
+                            frame[2][c] = frame_2_r_2_5[c];
+                            frame[3][c] = frame_2_r_3_4[c];
+                            frame[4][c] = frame_2_r_3_4[c];
+                            frame[5][c] = frame_2_r_2_5[c];
+                            frame[6][c] = frame_2_r_1_6[c];
+                            frame[7][c] = 0;
+                            break;
+                        case 3:
+                            frame[0][c] = frame_3_r_0_7[c];
+                            frame[1][c] = frame_3_r_1_6[c];
+                            frame[2][c] = frame_3_r_2_5[c];
+                            frame[3][c] = frame_3_r_3_4[c];
+                            frame[4][c] = frame_3_r_3_4[c];
+                            frame[5][c] = frame_3_r_2_5[c];
+                            frame[6][c] = frame_3_r_1_6[c];
+                            frame[7][c] = frame_3_r_0_7[c];
+                            break;
+                        case 4:
+                            frame[0][c] = frame_4_r_0_7[c];
+                            frame[1][c] = frame_4_r_1_6[c];
+                            frame[2][c] = frame_4_r_2_5[c];
+                            frame[3][c] = frame_4_r_3_4[c];
+                            frame[4][c] = frame_4_r_3_4[c];
+                            frame[5][c] = frame_4_r_2_5[c];
+                            frame[6][c] = frame_4_r_1_6[c];
+                            frame[7][c] = frame_4_r_0_7[c];
+                            break;
                     }
                 }
-                frameNum++;
+                if (animDirection == 1)
+                {
+                    frameNum++;
+                    if (frameNum == 5)
+                    {
+                        frameNum = 4;
+                        animDirection = 0;
+                    }
+                }
+                else
+                {
+                    frameNum--;
+                    if (frameNum == -1)
+                    {
+                        frameNum = 0;
+                        animDirection = 1;
+                    }
+                }
             }
             else
             {
@@ -308,5 +359,6 @@ int main( void )
 
             PORTC |= _BV(PC2);
         }
+        _delay_ms(1);
     }
 }
