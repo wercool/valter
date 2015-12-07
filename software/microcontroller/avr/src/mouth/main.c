@@ -217,7 +217,9 @@ int main( void )
             //sprintf(uart_buf, "SIGNAL:%u\r\n", signal);
             //uart_puts(uart_buf);
 
-            if (signal > 23)
+            //TODO: fix after tests
+            //if (signal > 23)
+            if (1)
             {
                 animDirection = rand() % 2;
 
@@ -359,6 +361,5 @@ int main( void )
 
             PORTC |= _BV(PC2);
         }
-        _delay_ms(1);
     }
 }
