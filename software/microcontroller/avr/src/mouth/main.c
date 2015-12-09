@@ -201,25 +201,23 @@ int main( void )
     while (1)
     {
         signal = read_adc(6);
-        if (signal > 23)
+        if (signal < 220)
         {
             adcSUM += signal;
         }
         adcCNT++;
 
-        if (adcCNT > 10)
+        if (adcCNT > 5)
         {
 
             signal = round((double)adcSUM / (double)adcCNT);
             adcCNT = 0;
             adcSUM = 0;
 
-            //sprintf(uart_buf, "SIGNAL:%u\r\n", signal);
-            //uart_puts(uart_buf);
+            sprintf(uart_buf, "S:%u\n", signal);
+            uart_puts(uart_buf);
 
-            //TODO: fix after tests
-            //if (signal > 23)
-            if (1)
+            if (signal > 10)
             {
                 animDirection = rand() % 2;
 
@@ -227,16 +225,6 @@ int main( void )
                 {
                     switch (frameNum)
                     {
-                        case 0:
-                            frame[0][c] = 0;
-                            frame[1][c] = 0;
-                            frame[2][c] = 0;
-                            frame[3][c] = 1;
-                            frame[4][c] = 1;
-                            frame[5][c] = 0;
-                            frame[6][c] = 0;
-                            frame[7][c] = 0;
-                            break;
                         case 1:
                             frame[0][c] = 0;
                             frame[1][c] = 0;
