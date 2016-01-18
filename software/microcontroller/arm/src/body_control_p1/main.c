@@ -251,7 +251,7 @@ static void DeviceInit(void)
 
 // Specific functions
 
-void setShiftRegisterBit(unsigned char index, unsigned int value)
+void setShiftRegisterBit(unsigned char idx, unsigned int value)
 {
     /*
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //ST_CP
@@ -259,7 +259,7 @@ void setShiftRegisterBit(unsigned char index, unsigned int value)
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);   //DS
     */
 
-    shiftRegistersStates[index] = value;
+    shiftRegistersStates[idx] = value;
 
     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
     for (signed char i = 23; i >= 0; i--)
