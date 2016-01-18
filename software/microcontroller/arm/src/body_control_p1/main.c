@@ -349,7 +349,7 @@ int main(void)
     unsigned char headPitchENIndex = 6;
     unsigned char headPitchDIRIndex = 7;
     unsigned char headPitchREFIndex = 8;
-    unsigned char headPitchDirection = 0; //0 - down, 1 - up
+    unsigned char headPitchDirection = 0; //1 - down, 0 - up
     unsigned int  headPitchStepTime = 1000;
 
     DeviceInit();
@@ -663,7 +663,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "SETRIGHTARMYAWDRIVEDUTY") == 0)
             {
                 rightArmYawDriveDuty = atoi(strtok(NULL, "#"));
-                pwmDutySetPercent(1, bodyPitchDriveDuty);
+                pwmDutySetPercent(1, rightArmYawDriveDuty);
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
                 continue;
             }
@@ -702,7 +702,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "SETLEFTARMYAWDRIVEDUTY") == 0)
             {
                 leftArmYawDriveDuty = atoi(strtok(NULL, "#"));
-                pwmDutySetPercent(0, bodyPitchDriveDuty);
+                pwmDutySetPercent(0, leftArmYawDriveDuty);
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
                 continue;
             }
@@ -885,14 +885,14 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "HEADPITCHDOWN") == 0)
             {
-                setShiftRegisterBit(headPitchDIRIndex, 0);
-                headPitchDirection = 0;
+                setShiftRegisterBit(headPitchDIRIndex, 1);
+                headPitchDirection = 1;
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADPITCHUP") == 0)
             {
-                setShiftRegisterBit(headPitchDIRIndex, 1);
-                headPitchDirection = 1;
+                setShiftRegisterBit(headPitchDIRIndex, 0);
+                headPitchDirection = 0;
                 continue;
             }
             //HEADPITCHSTEPTIME#200
@@ -912,6 +912,17 @@ int main(void)
                 headPitchStepTime = atoi(strtok( NULL, "#" ));
                 continue;
             }
+            //HEADPITCHSTEPS#1
+            //HEADPITCHSTEPS#5
+            //HEADPITCHSTEPS#10
+            //HEADPITCHSTEPS#20
+            //HEADPITCHSTEPS#30
+            //HEADPITCHSTEPS#40
+            //HEADPITCHSTEPS#50
+            //HEADPITCHSTEPS#100
+            //HEADPITCHSTEPS#200
+            //HEADPITCHSTEPS#400
+            //HEADPITCHSTEPS#500
             if (strcmp((char*) cmdParts, "HEADPITCHSTEPS") == 0)
             {
                 unsigned int headPitchSteps = atoi(strtok( NULL, "#" ));
