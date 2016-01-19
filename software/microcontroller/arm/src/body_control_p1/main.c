@@ -344,13 +344,19 @@ int main(void)
     unsigned char headYawDIRIndex = 4;
     unsigned char headYawREFIndex = 5;
     unsigned char headYawDirection = 0; //0 - left, 1 - right
-    unsigned int  headYawStepTime = 1000;
+    unsigned int  headYawStepTime = 2500;
+    unsigned char headYawHoldStep = 0;
+    unsigned char headYawReadings = 0;
+    unsigned int  headYawReading = 0;
 
     unsigned char headPitchENIndex = 6;
     unsigned char headPitchDIRIndex = 7;
     unsigned char headPitchREFIndex = 8;
     unsigned char headPitchDirection = 0; //1 - down, 0 - up
-    unsigned int  headPitchStepTime = 1000;
+    unsigned int  headPitchStepTime = 2500;
+    unsigned char headPitchHoldStep = 0;
+    unsigned char headPitchReadings = 0;
+    unsigned int  headPitchReading = 0;
 
     DeviceInit();
 
@@ -576,6 +582,7 @@ int main(void)
                 bodyPitchReadings = 0;
                 continue;
             }
+            //min 200
             if (strcmp((char*) cmdParts, "RIGHTARMYAWREADING") == 0)
             {
                 rightArmYawReading = getValueChannel5();
@@ -593,6 +600,7 @@ int main(void)
                 rightArmYawReadings = 0;
                 continue;
             }
+            //min 160
             if (strcmp((char*) cmdParts, "LEFTARMYAWREADING") == 0)
             {
                 leftArmYawReading = getValueChannel6();
@@ -610,10 +618,6 @@ int main(void)
                 leftArmYawReadings = 0;
                 continue;
             }
-            //SETBODYPITCHDRIVEDUTY#1
-            //SETBODYPITCHDRIVEDUTY#10
-            //SETBODYPITCHDRIVEDUTY#20
-            //SETBODYPITCHDRIVEDUTY#30
             //SETBODYPITCHDRIVEDUTY#40
             //SETBODYPITCHDRIVEDUTY#50
             //SETBODYPITCHDRIVEDUTY#60
@@ -649,16 +653,8 @@ int main(void)
                 bodyPitchDriveDuty = 1;
                 continue;
             }
-            //SETRIGHTARMYAWDRIVEDUTY#1
-            //SETRIGHTARMYAWDRIVEDUTY#10
-            //SETRIGHTARMYAWDRIVEDUTY#20
-            //SETRIGHTARMYAWDRIVEDUTY#30
-            //SETRIGHTARMYAWDRIVEDUTY#40
-            //SETRIGHTARMYAWDRIVEDUTY#50
-            //SETRIGHTARMYAWDRIVEDUTY#60
-            //SETRIGHTARMYAWDRIVEDUTY#70
-            //SETRIGHTARMYAWDRIVEDUTY#80
             //SETRIGHTARMYAWDRIVEDUTY#90
+            //SETRIGHTARMYAWDRIVEDUTY#95
             //SETRIGHTARMYAWDRIVEDUTY#100
             if (strcmp((char*) cmdParts, "SETRIGHTARMYAWDRIVEDUTY") == 0)
             {
@@ -669,16 +665,16 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "RIGHTARMYAWOPEN") == 0)
             {
-                setShiftRegisterBit(rightArmYawINaIndex, 1);
-                setShiftRegisterBit(rightArmYawINbIndex, 0);
-                rightArmYawDirection = 0;
+                setShiftRegisterBit(rightArmYawINaIndex, 0);
+                setShiftRegisterBit(rightArmYawINbIndex, 1);
+                rightArmYawDirection = 1;
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTARMYAWCLOSE") == 0)
             {
-                setShiftRegisterBit(rightArmYawINaIndex, 0);
-                setShiftRegisterBit(rightArmYawINbIndex, 1);
-                rightArmYawDirection = 1;
+                setShiftRegisterBit(rightArmYawINaIndex, 1);
+                setShiftRegisterBit(rightArmYawINbIndex, 0);
+                rightArmYawDirection = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTARMYAWSTOP") == 0)
@@ -688,16 +684,8 @@ int main(void)
                 rightArmYawDriveDuty = 1;
                 continue;
             }
-            //SETLEFTARMYAWDRIVEDUTY#1
-            //SETLEFTARMYAWDRIVEDUTY#10
-            //SETLEFTARMYAWDRIVEDUTY#20
-            //SETLEFTARMYAWDRIVEDUTY#30
-            //SETLEFTARMYAWDRIVEDUTY#40
-            //SETLEFTARMYAWDRIVEDUTY#50
-            //SETLEFTARMYAWDRIVEDUTY#60
-            //SETLEFTARMYAWDRIVEDUTY#70
-            //SETLEFTARMYAWDRIVEDUTY#80
             //SETLEFTARMYAWDRIVEDUTY#90
+            //SETLEFTARMYAWDRIVEDUTY#95
             //SETLEFTARMYAWDRIVEDUTY#100
             if (strcmp((char*) cmdParts, "SETLEFTARMYAWDRIVEDUTY") == 0)
             {
@@ -807,42 +795,53 @@ int main(void)
                 setShiftRegisterBit(rightAccumulatorSwitchIndex, 0);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "HEADYAWHOLDSTEPON") == 0)
+            {
+                headYawHoldStep = 1;
+                setShiftRegisterBit(headYawREFIndex, 0);
+                continue;
+            }
+            //!!!!
+            //USE STEP OFF (as working solution)!
+            if (strcmp((char*) cmdParts, "HEADYAWHOLDSTEPOFF") == 0)
+            {
+                headYawHoldStep = 0;
+                setShiftRegisterBit(headYawREFIndex, 1);
+                continue;
+            }
             if (strcmp((char*) cmdParts, "HEADYAWENABLE") == 0)
             {
                 setShiftRegisterBit(headYawENIndex, 0);
-                setShiftRegisterBit(headYawREFIndex, 0);
+                if (headYawHoldStep)
+                {
+                    setShiftRegisterBit(headYawREFIndex, 0);
+                }
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADYAWDISABLE") == 0)
             {
-                setShiftRegisterBit(headYawREFIndex, 1);
                 setShiftRegisterBit(headYawENIndex, 1);
+                setShiftRegisterBit(headYawREFIndex, 1);
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADYAWLEFT") == 0)
             {
-                setShiftRegisterBit(headYawDIRIndex, 0);
+                setShiftRegisterBit(headYawDIRIndex, 1);
                 headYawDirection = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADYAWRIGHT") == 0)
             {
-                setShiftRegisterBit(headYawDIRIndex, 1);
+                setShiftRegisterBit(headYawDIRIndex, 0);
                 headYawDirection = 1;
                 continue;
             }
-            //HEADYAWSTEPTIME#200
-            //HEADYAWSTEPTIME#300
-            //HEADYAWSTEPTIME#400
-            //HEADYAWSTEPTIME#500
-            //HEADYAWSTEPTIME#600
-            //HEADYAWSTEPTIME#700
-            //HEADYAWSTEPTIME#800
-            //HEADYAWSTEPTIME#900
-            //HEADYAWSTEPTIME#1000
-            //HEADYAWSTEPTIME#1500
             //HEADYAWSTEPTIME#2000
+            //HEADYAWSTEPTIME#2500
+            //HEADYAWSTEPTIME#3000
             //HEADYAWSTEPTIME#5000
+            //HEADYAWSTEPTIME#10000
+            //HEADYAWSTEPTIME#50000
             if (strcmp((char*) cmdParts, "HEADYAWSTEPTIME") == 0)
             {
                 headYawStepTime = atoi(strtok( NULL, "#" ));
@@ -857,10 +856,17 @@ int main(void)
             //HEADYAWSTEPS#50
             //HEADYAWSTEPS#100
             //HEADYAWSTEPS#200
+            //HEADYAWSTEPS#300
             //HEADYAWSTEPS#400
             //HEADYAWSTEPS#500
+            //HEADYAWSTEPS#600
+            // << 600 >>
             if (strcmp((char*) cmdParts, "HEADYAWSTEPS") == 0)
             {
+                if (headYawHoldStep)
+                {
+                    setShiftRegisterBit(headYawREFIndex, 0);
+                }
                 unsigned int headYawSteps = atoi(strtok( NULL, "#" ));
                 for(int s = 0; s < headYawSteps; s++)
                 {
@@ -871,10 +877,44 @@ int main(void)
                 }
                 continue;
             }
+            if (strcmp((char*) cmdParts, "HEADYAWREADING") == 0)
+            {
+                headYawReading = getValueChannel1();
+                sprintf((char *) msg, "HEAD YAW POSITION: %u\n", headYawReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HEADYAWREADINGSSTART") == 0)
+            {
+                headYawReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HEADYAWREADINGSTOP") == 0)
+            {
+                headYawReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HEADPITCHHOLDSTEPON") == 0)
+            {
+                headPitchHoldStep = 1;
+                setShiftRegisterBit(headPitchREFIndex, 0);
+                continue;
+            }
+            //!!!!
+            //USE STEP OFF (as working solution)!
+            if (strcmp((char*) cmdParts, "HEADPITCHHOLDSTEPOFF") == 0)
+            {
+                headPitchHoldStep = 0;
+                setShiftRegisterBit(headPitchREFIndex, 1);
+                continue;
+            }
             if (strcmp((char*) cmdParts, "HEADPITCHENABLE") == 0)
             {
                 setShiftRegisterBit(headPitchENIndex, 0);
-                setShiftRegisterBit(headPitchREFIndex, 0);
+                if (headPitchHoldStep)
+                {
+                    setShiftRegisterBit(headPitchREFIndex, 0);
+                }
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADPITCHDISABLE") == 0)
@@ -895,17 +935,8 @@ int main(void)
                 headPitchDirection = 0;
                 continue;
             }
-            //HEADPITCHSTEPTIME#200
-            //HEADPITCHSTEPTIME#300
-            //HEADPITCHSTEPTIME#400
-            //HEADPITCHSTEPTIME#500
-            //HEADPITCHSTEPTIME#600
-            //HEADPITCHSTEPTIME#700
-            //HEADPITCHSTEPTIME#800
-            //HEADPITCHSTEPTIME#900
-            //HEADPITCHSTEPTIME#1000
-            //HEADPITCHSTEPTIME#1500
             //HEADPITCHSTEPTIME#2000
+            //HEADPITCHSTEPTIME#2500
             //HEADPITCHSTEPTIME#5000
             if (strcmp((char*) cmdParts, "HEADPITCHSTEPTIME") == 0)
             {
@@ -923,8 +954,14 @@ int main(void)
             //HEADPITCHSTEPS#200
             //HEADPITCHSTEPS#400
             //HEADPITCHSTEPS#500
+            //HEADPITCHSTEPS#600
+            // << 600 >>
             if (strcmp((char*) cmdParts, "HEADPITCHSTEPS") == 0)
             {
+                if (headPitchHoldStep)
+                {
+                    setShiftRegisterBit(headPitchREFIndex, 0);
+                }
                 unsigned int headPitchSteps = atoi(strtok( NULL, "#" ));
                 for(int s = 0; s < headPitchSteps; s++)
                 {
@@ -935,6 +972,24 @@ int main(void)
                 }
                 continue;
             }
+            if (strcmp((char*) cmdParts, "HEADPITCHREADING") == 0)
+            {
+                headPitchReading = getValueChannel2();
+                sprintf((char *) msg, "HEAD PITCH POSITION: %u\n", headPitchReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HEADPITCHREADINGSSTART") == 0)
+            {
+                headPitchReadings = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "HEADPITCHREADINGSTOP") == 0)
+            {
+                headPitchReadings = 0;
+                continue;
+            }
+
         }
 
         if (channelReadings)
@@ -962,6 +1017,20 @@ int main(void)
         {
             leftArmYawReading = getValueChannel6();
             sprintf((char *) msg, "LEFT ARM YAW POSITION: %u\n", leftArmYawReading);
+            pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+            delay_ms(100);
+        }
+        if (headYawReadings)
+        {
+            headYawReading = getValueChannel1();
+            sprintf((char *) msg, "HEAD YAW POSITION: %u\n", headYawReading);
+            pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+            delay_ms(100);
+        }
+        if (headPitchReadings)
+        {
+            headPitchReading = getValueChannel2();
+            sprintf((char *) msg, "HEAD PITCH POSITION: %u\n", headPitchReading);
             pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
             delay_ms(100);
         }
