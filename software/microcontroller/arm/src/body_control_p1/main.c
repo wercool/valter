@@ -397,7 +397,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
                 continue;
             }
-            //Body pitch current
+            //Left arm current
             if (strcmp((char*) cmdParts, "CHANNEL0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U2   A
@@ -417,7 +417,7 @@ int main(void)
                 channel = 1;
                 continue;
             }
-            //Left arm current
+            //Body pitch current
             if (strcmp((char*) cmdParts, "CHANNEL2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U2   A
@@ -427,6 +427,7 @@ int main(void)
                 channel = 2;
                 continue;
             }
+            //left accumulator
             if (strcmp((char*) cmdParts, "CHANNEL3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U2   A
@@ -436,6 +437,7 @@ int main(void)
                 channel = 3;
                 continue;
             }
+            //right accumulator
             if (strcmp((char*) cmdParts, "CHANNEL4") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U2   A
@@ -445,7 +447,7 @@ int main(void)
                 channel = 4;
                 continue;
             }
-            //turret initial position
+            //body pitch initial position
             if (strcmp((char*) cmdParts, "CHANNEL5") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);    //U2   A
@@ -582,6 +584,8 @@ int main(void)
                 bodyPitchReadings = 0;
                 continue;
             }
+            //min 40 (opned)
+            //max 904 (closed)
             if (strcmp((char*) cmdParts, "RIGHTARMYAWREADING") == 0)
             {
                 rightArmYawReading = getValueChannel5();
@@ -599,6 +603,8 @@ int main(void)
                 rightArmYawReadings = 0;
                 continue;
             }
+            //max 584 (closed)
+            //min 0 (opned)
             if (strcmp((char*) cmdParts, "LEFTARMYAWREADING") == 0)
             {
                 leftArmYawReading = getValueChannel6();
@@ -800,7 +806,7 @@ int main(void)
                 continue;
             }
             //!!!!
-            //USE STEP OFF (as working solution)!
+            //USE HOLD STEP OFF (as working solution)!
             if (strcmp((char*) cmdParts, "HEADYAWHOLDSTEPOFF") == 0)
             {
                 headYawHoldStep = 0;
@@ -899,7 +905,7 @@ int main(void)
                 continue;
             }
             //!!!!
-            //USE STEP OFF (as working solution)!
+            //USE HOLD STEP OFF (as working solution)!
             if (strcmp((char*) cmdParts, "HEADPITCHHOLDSTEPOFF") == 0)
             {
                 headPitchHoldStep = 0;
