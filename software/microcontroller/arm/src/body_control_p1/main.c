@@ -582,7 +582,6 @@ int main(void)
                 bodyPitchReadings = 0;
                 continue;
             }
-            //min 200
             if (strcmp((char*) cmdParts, "RIGHTARMYAWREADING") == 0)
             {
                 rightArmYawReading = getValueChannel5();
@@ -600,7 +599,6 @@ int main(void)
                 rightArmYawReadings = 0;
                 continue;
             }
-            //min 160
             if (strcmp((char*) cmdParts, "LEFTARMYAWREADING") == 0)
             {
                 leftArmYawReading = getValueChannel6();
