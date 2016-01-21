@@ -861,9 +861,11 @@ int main(void)
             //HEADYAWSTEPS#100
             //HEADYAWSTEPS#200
             //HEADYAWSTEPS#300
+            //HEADYAWSTEPS#350
             //HEADYAWSTEPS#400
             //HEADYAWSTEPS#500
             //HEADYAWSTEPS#600
+            //HEADYAWSTEPS#700
             // << 600 >>
             if (strcmp((char*) cmdParts, "HEADYAWSTEPS") == 0)
             {
@@ -888,6 +890,9 @@ int main(void)
                 pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
+            //max 970 (left)
+            //center 885
+            //min 540 (right)
             if (strcmp((char*) cmdParts, "HEADYAWREADINGSSTART") == 0)
             {
                 headYawReadings = 1;
@@ -939,6 +944,7 @@ int main(void)
                 headPitchDirection = 0;
                 continue;
             }
+            //HEADPITCHSTEPTIME#1500
             //HEADPITCHSTEPTIME#2000
             //HEADPITCHSTEPTIME#2500
             //HEADPITCHSTEPTIME#5000
@@ -959,7 +965,8 @@ int main(void)
             //HEADPITCHSTEPS#400
             //HEADPITCHSTEPS#500
             //HEADPITCHSTEPS#600
-            // << 600 >>
+            //HEADPITCHSTEPS#700
+            // << 700 >>
             if (strcmp((char*) cmdParts, "HEADPITCHSTEPS") == 0)
             {
                 if (headPitchHoldStep)
@@ -976,6 +983,8 @@ int main(void)
                 }
                 continue;
             }
+            //max 940 (up)
+            //min 25 (down)
             if (strcmp((char*) cmdParts, "HEADPITCHREADING") == 0)
             {
                 headPitchReading = getValueChannel2();
