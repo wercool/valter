@@ -584,7 +584,7 @@ int main(void)
                 bodyPitchReadings = 0;
                 continue;
             }
-            //min 40 (opned)
+            //min 40 (opened)
             //max 904 (closed)
             if (strcmp((char*) cmdParts, "RIGHTARMYAWREADING") == 0)
             {
@@ -604,7 +604,7 @@ int main(void)
                 continue;
             }
             //max 584 (closed)
-            //min 0 (opned)
+            //min 0 (opened)
             if (strcmp((char*) cmdParts, "LEFTARMYAWREADING") == 0)
             {
                 leftArmYawReading = getValueChannel6();
