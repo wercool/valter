@@ -567,6 +567,7 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
                 continue;
             }
+            //max 1000 (up)
             if (strcmp((char*) cmdParts, "BODYPITCHREADING") == 0)
             {
                 bodyPitchReading = getValueChannel4();
