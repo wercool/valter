@@ -19,7 +19,7 @@
 
 #include "Board.h"
 
-#define BR    115200                        /* Baud Rate */
+#define BR    600                        /* Baud Rate */
 
 #define BRD  (MCK/16/BR)                    /* Baud Rate Divisor */
 
@@ -83,7 +83,7 @@ int uart0_kbhit( void ) /* returns true if character in receive buffer */
 }
 
 int uart0_getc ( void )  /* Read Character from Serial Port */
-{    
+{
 
   while (!(pUSART->US_CSR & AT91C_US_RXRDY));   /* Wait for Full Rx Buffer */
   return (pUSART->US_RHR);                      /* Read Character */

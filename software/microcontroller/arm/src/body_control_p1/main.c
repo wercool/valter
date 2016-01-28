@@ -226,7 +226,7 @@ static void InitIRQ()
 ///*----------------------------------------------------------------------------
 static void DeviceInit(void)
 {
-    InitPIO();
+    //InitPIO();
 
     // Enable User Reset and set its minimal assertion to 960 us
     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4 << 8) | (unsigned int) (0xA5 << 24);
@@ -241,7 +241,7 @@ static void DeviceInit(void)
     while (!pCDC.IsConfigured(&pCDC))
         ;
 
-    InitPIO();
+    //InitPIO();
     InitADC();
     InitPWM();
     //InitIRQ();
@@ -358,6 +358,9 @@ int main(void)
     unsigned char headPitchReadings = 0;
     unsigned int  headPitchReading = 0;
 
+    char uart0Buff[32];
+    unsigned int uart0BuffCnt = 1;
+
     DeviceInit();
 
     shiftRegistersStates[headYawENIndex] = 1;
@@ -368,6 +371,11 @@ int main(void)
     setShiftRegister();
 
     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);//SHIFTREGENABLE
+
+    for (unsigned c = 0; c < 32; c++)
+    {
+        uart0Buff[c] = '\0';
+    }
 
     while (1)
     {
@@ -881,6 +889,9 @@ int main(void)
                     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
                     delay_us(headYawStepTime);
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                    headYawReading = getValueChannel1();
+                    sprintf((char *) msg, "HEAD YAW POSITION: %u\n", headYawReading);
+                    pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 }
                 continue;
             }
@@ -981,6 +992,9 @@ int main(void)
                     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                     delay_us(headPitchStepTime);
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                    headPitchReading = getValueChannel2();
+                    sprintf((char *) msg, "HEAD PITCH POSITION: %u\n", headPitchReading);
+                    pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 }
                 continue;
             }
@@ -1002,6 +1016,21 @@ int main(void)
             {
                 headPitchReadings = 0;
                 continue;
+            }
+            //UART0
+            //UART0#message
+            if (strcmp((char*) cmdParts, "UART0") == 0)
+            {
+                char* uart0msg = strtok( NULL, "#" );
+                sprintf((char *) msg, "UART0 ->: %s\n", uart0msg);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+
+                uart0_putc(0xFF);
+                uart0_putc(0xFF);
+                uart0_putc(0xFF);
+                uart0_putc(0xFF);
+
+                uart0_puts((char *)uart0msg);
             }
 
         }
@@ -1049,6 +1078,47 @@ int main(void)
             delay_ms(100);
         }
 
+        //UART0
+        while (uart0_kbhit())
+        {
+            char uart0Char = uart0_getc();
+            if (uart0Char != 0xFF)
+            {
+                if (uart0Char != '*')
+                {
+                    if (uart0BuffCnt < 32)
+                    {
+                        uart0Buff[uart0BuffCnt++] = uart0Char;
+                    }
+                    else
+                    {
+                        for (unsigned c = 0; c < 32; c++)
+                        {
+                            uart0Buff[c] = '\0';
+                        }
+                        uart0BuffCnt = 1;
+                    }
+                }
+                else
+                {
+                    uart0Buff[0] = '*';
+                }
+            }
+        }
+        if (uart0Buff[0] == '*')
+        {
+            for (unsigned c = 0; c < 31; c++)
+            {
+                uart0Buff[c] = uart0Buff[c + 1];
+            }
+            sprintf((char *) msg, "UART0 <-: %s\n", uart0Buff);
+            pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+            for (unsigned c = 0; c < 32; c++)
+            {
+                uart0Buff[c] = '\0';
+            }
+            uart0BuffCnt = 1;
+        }
     }
     return 0; /* never reached */
 }
