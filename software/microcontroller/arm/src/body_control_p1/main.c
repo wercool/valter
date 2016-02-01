@@ -226,7 +226,7 @@ static void InitIRQ()
 ///*----------------------------------------------------------------------------
 static void DeviceInit(void)
 {
-    //InitPIO();
+    InitPIO();
 
     // Enable User Reset and set its minimal assertion to 960 us
     AT91C_BASE_RSTC->RSTC_RMR = AT91C_RSTC_URSTEN | (0x4 << 8) | (unsigned int) (0xA5 << 24);
@@ -241,7 +241,7 @@ static void DeviceInit(void)
     while (!pCDC.IsConfigured(&pCDC))
         ;
 
-    //InitPIO();
+    InitPIO();
     InitADC();
     InitPWM();
     //InitIRQ();
@@ -358,6 +358,14 @@ int main(void)
     unsigned char headPitchReadings = 0;
     unsigned int  headPitchReading = 0;
 
+    unsigned char kinect1Power12VIndex = 18;
+    unsigned char kinect2Power12VIndex = 19;
+
+    unsigned char usb1Index = 22;
+    unsigned char usb2Index = 23;
+
+    unsigned char wifi12VPowerIndex = 20;
+
     char uart0Buff[32];
     unsigned int uart0BuffCnt = 1;
 
@@ -403,6 +411,19 @@ int main(void)
             if (strcmp((char*) cmdParts, "SHIFTREGDISABLE") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "SHIFTREGRESET") == 0)
+            {
+                for (unsigned char s = 0; s < 23; s++)
+                {
+                    shiftRegistersStates[s] = 0;
+                }
+                shiftRegistersStates[headYawENIndex] = 1;
+                shiftRegistersStates[headYawREFIndex] = 1;
+                shiftRegistersStates[headPitchENIndex] = 1;
+                shiftRegistersStates[headPitchREFIndex] = 1;
+                setShiftRegister();
                 continue;
             }
             //Left arm current
@@ -1033,6 +1054,45 @@ int main(void)
                 uart0_puts((char *)uart0msg);
             }
 
+            if (strcmp((char*) cmdParts, "USB1ON") == 0)
+            {
+                setShiftRegisterBit(usb1Index, 1);
+                delay_ms(500);
+                setShiftRegisterBit(usb1Index, 0);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "USB2ON") == 0)
+            {
+                setShiftRegisterBit(usb2Index, 1);
+                delay_ms(500);
+                setShiftRegisterBit(usb2Index, 0);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "KINECT1POWER12VON") == 0)
+            {
+                setShiftRegisterBit(kinect1Power12VIndex, 1);
+            }
+            if (strcmp((char*) cmdParts, "KINECT1POWER12VOFF") == 0)
+            {
+                setShiftRegisterBit(kinect1Power12VIndex, 0);
+            }
+            if (strcmp((char*) cmdParts, "KINECT2POWER12VON") == 0)
+            {
+                setShiftRegisterBit(kinect2Power12VIndex, 1);
+            }
+            if (strcmp((char*) cmdParts, "KINECT2POWER12VOFF") == 0)
+            {
+                setShiftRegisterBit(kinect2Power12VIndex, 0);
+            }
+            if (strcmp((char*) cmdParts, "WIFIPOWER12VON") == 0)
+            {
+                setShiftRegisterBit(wifi12VPowerIndex, 1);
+            }
+            if (strcmp((char*) cmdParts, "WIFIPOWER12VOFF") == 0)
+            {
+                setShiftRegisterBit(wifi12VPowerIndex, 0);
+            }
+
         }
 
         if (channelReadings)
@@ -1119,6 +1179,7 @@ int main(void)
             }
             uart0BuffCnt = 1;
         }
+
     }
     return 0; /* never reached */
 }
