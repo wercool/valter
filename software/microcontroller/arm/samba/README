@@ -20,3 +20,5 @@ $ chmod +x sam-ba
 # ln -s /dev/ttyACM0 /dev/ttyUSB0
 
     Launch sam-ba 
+
+For 64 bit extract sam-ba_2.15.zip and use ./sam-ba_64

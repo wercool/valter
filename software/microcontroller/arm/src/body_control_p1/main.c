@@ -162,6 +162,9 @@ static void InitPWM(void)
 
 static void InitPIO(void)
 {
+    //TODO: for dev board
+    return;
+
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //shift registers enable
 
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);   //U2 A
@@ -368,6 +371,7 @@ int main(void)
 
     char uart0Buff[32];
     unsigned int uart0BuffCnt = 1;
+    unsigned char uart0BuffFilterCnt = 0;
 
     DeviceInit();
 
@@ -1039,7 +1043,8 @@ int main(void)
                 continue;
             }
             //UART0
-            //UART0#message
+            //template: UART0#^^^message* //sum length 32 bytes - service bytes = 28 bytes
+            //UART0#^^^0123456789*
             if (strcmp((char*) cmdParts, "UART0") == 0)
             {
                 char* uart0msg = strtok( NULL, "#" );
@@ -1144,24 +1149,40 @@ int main(void)
             char uart0Char = uart0_getc();
             if (uart0Char != 0xFF)
             {
-                if (uart0Char != '*')
+                if (uart0Char == 0x5E)//0x5E = '^' receive bytes only after '^' has come 3 times
                 {
-                    if (uart0BuffCnt < 32)
+                    uart0BuffFilterCnt++;
+                    if (uart0BuffFilterCnt > 3)
                     {
-                        uart0Buff[uart0BuffCnt++] = uart0Char;
+                        uart0BuffFilterCnt = 0;
+                    }
+                }
+                if (uart0BuffFilterCnt == 3)
+                {
+                    if (uart0Char != '*')
+                    {
+                        if (uart0Char != '^')
+                        {
+                            if (uart0BuffCnt < 32)
+                            {
+                                uart0Buff[uart0BuffCnt++] = uart0Char;
+                            }
+                            else
+                            {
+                                for (unsigned c = 0; c < 32; c++)
+                                {
+                                    uart0Buff[c] = '\0';
+                                }
+                                uart0BuffCnt = 1;
+                                uart0BuffFilterCnt = 0;
+                            }
+                        }
                     }
                     else
                     {
-                        for (unsigned c = 0; c < 32; c++)
-                        {
-                            uart0Buff[c] = '\0';
-                        }
-                        uart0BuffCnt = 1;
+                        uart0Buff[0] = '*';
+                        uart0BuffFilterCnt = 0;
                     }
-                }
-                else
-                {
-                    uart0Buff[0] = '*';
                 }
             }
         }
