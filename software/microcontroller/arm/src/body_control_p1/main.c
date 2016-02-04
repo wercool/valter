@@ -162,8 +162,6 @@ static void InitPWM(void)
 
 static void InitPIO(void)
 {
-    //TODO: for dev board
-    return;
 
     AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //shift registers enable
 
