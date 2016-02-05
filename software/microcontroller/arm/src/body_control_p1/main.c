@@ -599,6 +599,7 @@ int main(void)
                 continue;
             }
             //max 1000 (up)
+            //min 100 (down)
             if (strcmp((char*) cmdParts, "BODYPITCHREADING") == 0)
             {
                 bodyPitchReading = getValueChannel4();
