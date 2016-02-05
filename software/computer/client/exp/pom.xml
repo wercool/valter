@@ -173,7 +173,7 @@ http://myjavafx.blogspot.com/2012/08/building-signing-and-deploying-your.html
 
 
     <dependencies>
-
+<!-- 
         <dependency>
           <groupId>com.oracle</groupId>
           <artifactId>javafx</artifactId>
@@ -181,7 +181,7 @@ http://myjavafx.blogspot.com/2012/08/building-signing-and-deploying-your.html
           <systemPath>${java.home}/lib/jfxrt.jar</systemPath>
           <scope>system</scope>
         </dependency>
-
+ -->
         <dependency>
             <groupId>org.rxtx</groupId>
             <artifactId>rxtx</artifactId>
