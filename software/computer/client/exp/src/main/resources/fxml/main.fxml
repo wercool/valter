@@ -28,9 +28,9 @@
                           <children>
                             <GridPane prefHeight="520.0" prefWidth="776.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
                               <children>
-                                <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="Platform Drives General Control" underline="false" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                                <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="280.0" minHeight="290.0" prefHeight="280.0" prefWidth="280.0" text="Platform Drives General Control" underline="false" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
                                   <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
+                                    <AnchorPane id="Content" minHeight="0.0" minWidth="200.0" prefHeight="290.0" prefWidth="230.0">
                                       <children>
                                         <Button fx:id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" mnemonicParsing="false" styleClass="forward-button" text="↑" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="2.0">
                                           <!-- 
@@ -116,7 +116,7 @@
                                     <Insets />
                                   </GridPane.margin>
                                 </TitledPane>
-                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="Turret Control" underline="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="280.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="Turret Control" underline="false" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
                                   <content>
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                                       <children>
