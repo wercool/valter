@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.web.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="app.MainWindowController">
+<BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.MainWindowController">
   <center>
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -28,11 +41,11 @@
                           <children>
                             <GridPane prefHeight="520.0" prefWidth="776.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="10.0">
                               <children>
-                                <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="280.0" minHeight="290.0" prefHeight="280.0" prefWidth="280.0" text="Platform Drives General Control" underline="false" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                                <TitledPane fx:id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" minHeight="290.0" prefHeight="291.0" prefWidth="285.0" text="Platform Drives General Control" underline="false" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="0" GridPane.valignment="TOP">
                                   <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="200.0" prefHeight="290.0" prefWidth="230.0">
+                                    <AnchorPane id="Content" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="190.0" prefHeight="263.0" prefWidth="250.0">
                                       <children>
-                                        <Button fx:id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" mnemonicParsing="false" styleClass="forward-button" text="↑" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="2.0">
+                                        <Button fx:id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" mnemonicParsing="false" styleClass="forward-button" text="↑" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="0.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
@@ -42,17 +55,17 @@
                                             <Font size="20.0" fx:id="x1" />
                                           </font>
                                         </Button>
-                                        <Button id="backwardBtn" fx:id="backwardtn" defaultButton="false" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="backward-button" text="↓" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="85.0">
+                                        <Button id="backwardBtn" fx:id="backwardtn" defaultButton="false" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="backward-button" text="↓" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="90.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <Slider id="platformMotorsAcceleration" fx:id="platformMotorsDeceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" showTickLabels="false" showTickMarks="false" value="1.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                        <Label text="Deceleration" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="5.0" />
-                                        <Label text="Duty" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="5.0" />
-                                        <Slider id="platformMotorsPower" fx:id="platformMotorsDuty" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" />
+                                        <Slider id="platformMotorsAcceleration" fx:id="platformMotorsDeceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" showTickLabels="false" showTickMarks="false" value="1.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                        <Label text="Deceleration" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" />
+                                        <Label text="Duty" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="5.0" />
+                                        <Slider id="platformMotorsPower" fx:id="platformMotorsDuty" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" />
                                         <Button id="forwardBtn" fx:id="turnCCWBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="←" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="45.0">
                                           <!-- 
                                           <stylesheets>
@@ -67,9 +80,9 @@
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <Slider id="platformMotorsAcceleration" fx:id="platformMotorsAсceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" prefWidth="245.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                        <Label text="Aсceleration" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="5.0" />
-                                        <Button id="backwardBtn" fx:id="stopBtn" focusTraversable="false" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="48.0">
+                                        <Slider id="platformMotorsAcceleration" fx:id="platformMotorsAсceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" prefWidth="245.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                        <Label text="Aсceleration" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="5.0" />
+                                        <Button id="backwardBtn" fx:id="stopBtn" focusTraversable="false" graphicTextGap="4.0" layoutX="101.0" layoutY="65.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="90.0" AnchorPane.topAnchor="48.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
@@ -79,36 +92,36 @@
                                             <Font name="System Bold" size="16.0" fx:id="x2" />
                                           </font>
                                         </Button>
-                                        <ProgressBar id="dutyProgressBar" fx:id="leftDutyProgressBar" disable="false" focusTraversable="false" layoutX="-49.0" layoutY="55.0" prefWidth="120.0" progress="0.0" rotate="270.0" visible="true" />
-                                        <Button id="forwardBtn" fx:id="leftForwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↗" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="2.0">
+                                        <ProgressBar id="dutyProgressBar" fx:id="leftDutyProgressBar" disable="false" focusTraversable="false" layoutX="-35.0" layoutY="78.0" prefWidth="120.0" progress="0.0" rotate="270.0" visible="true" AnchorPane.leftAnchor="-55.0" AnchorPane.topAnchor="55.0" />
+                                        <Button id="forwardBtn" fx:id="leftForwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↗" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <Button id="forwardBtn" fx:id="rightForwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↖" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="2.0">
+                                        <Button id="forwardBtn" fx:id="rightForwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↖" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="0.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <Button id="forwardBtn" fx:id="leftBackwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↘" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="85.0">
+                                        <Button id="forwardBtn" fx:id="leftBackwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↘" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="90.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <Button id="forwardBtn" fx:id="rightBackwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↙" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="85.0">
+                                        <Button id="forwardBtn" fx:id="rightBackwardBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↙" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="90.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <ProgressBar id="dutyProgressBar" fx:id="rightDutyProgressBar" disable="false" focusTraversable="false" layoutX="157.0" layoutY="55.0" prefWidth="120.0" progress="0.0" rotate="270.0" visible="true" />
+                                        <ProgressBar id="dutyProgressBar" fx:id="rightDutyProgressBar" disable="false" focusTraversable="false" layoutX="157.0" layoutY="55.0" prefWidth="120.0" progress="0.0" rotate="270.0" visible="true" AnchorPane.rightAnchor="-47.0" AnchorPane.topAnchor="55.0" />
                                       </children>
                                     </AnchorPane>
                                   </content>
@@ -120,41 +133,36 @@
                                   <content>
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
                                       <children>
-                                        <Slider id="platformMotorsAcceleration" fx:id="turretMotorDeceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" showTickLabels="false" showTickMarks="false" value="1.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                        <Label text="Deceleration" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="5.0" />
-                                        <Label text="Duty" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="5.0" />
-                                        <Slider id="platformMotorsPower" fx:id="turretMotorDuty" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" />
-                                        <Button id="forwardBtn" fx:id="turnTurretCCWBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↺" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="2.0">
+                                        <Slider id="platformMotorsAcceleration" fx:id="turretMotorDeceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" showTickLabels="false" showTickMarks="false" value="1.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                        <Label text="Deceleration" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="5.0" />
+                                        <Label text="Duty" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="5.0" />
+                                        <Slider id="platformMotorsPower" fx:id="turretMotorDuty" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" />
+                                        <Button id="forwardBtn" fx:id="turnTurretCCWBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↺" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="0.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <Button id="forwardBtn" fx:id="turnTurretCWBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↻" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="2.0">
+                                        <Button id="forwardBtn" fx:id="turnTurretCWBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↻" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="0.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <Slider id="platformMotorsAcceleration" fx:id="turretMotorAсceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" prefWidth="245.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                                        <Label text="Aсceleration" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="5.0" />
-                                        <Button id="backwardBtn" fx:id="turnTurretStopBtn" focusTraversable="false" font="$x2" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="5.0">
+                                        <Slider id="platformMotorsAcceleration" fx:id="turretMotorAсceleration" focusTraversable="false" majorTickUnit="24.0" max="10.0" min="1.0" minorTickCount="5" prefWidth="245.0" showTickLabels="false" showTickMarks="false" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
+                                        <Label text="Aсceleration" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="5.0" />
+                                        <Button id="backwardBtn" fx:id="turnTurretStopBtn" focusTraversable="false" font="$x2" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="3.0">
                                           <!-- 
                                           <stylesheets>
                                             <URL value="@buttons.css" />
                                           </stylesheets>
                                          -->
                                         </Button>
-                                        <ProgressBar id="dutyProgressBar" fx:id="turretDutyProgressBar" disable="false" focusTraversable="false" prefWidth="120.0" progress="0.0" rotate="0.0" visible="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="130.0" />
-                                        <Label fx:id="currentTurretPositionLabel" text="Current Position: &lt;?&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
-                                        <Arc length="270.0" radiusX="35.0" radiusY="35.0" startAngle="315.0" stroke="BLACK" strokeLineJoin="MITER" strokeType="CENTERED" type="ROUND" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="60.0">
-                                          <fill>
-                                            <Color blue="0.875" green="0.875" red="0.875" fx:id="x3" />
-                                          </fill>
-                                        </Arc>
-                                        <Button fx:id="getTurrePositionBtn" focusTraversable="false" mnemonicParsing="false" text="Get" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
+                                        <ProgressBar id="dutyProgressBar" fx:id="turretDutyProgressBar" disable="false" focusTraversable="false" prefWidth="120.0" progress="0.0" rotate="0.0" visible="true" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="120.0" />
+                                        <Label fx:id="currentTurretPositionLabel" text="Current Position: &lt;?&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="50.0" />
+                                        <Button fx:id="getTurrePositionBtn" focusTraversable="false" mnemonicParsing="false" text="Get" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="80.0" />
                                       </children>
                                     </AnchorPane>
                                   </content>
@@ -180,14 +188,14 @@
                           <children>
                             <GridPane layoutX="12.0" layoutY="13.0" prefHeight="508.0" prefWidth="776.0">
                               <children>
-                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" prefHeight="297.0" prefWidth="250.0" text="Power Switches" underline="false" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" prefHeight="297.0" prefWidth="250.0" text="Power Switches" underline="false" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
                                   <content>
-                                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="209.0" prefWidth="386.0">
+                                    <AnchorPane id="Content" maxWidth="-Infinity" minHeight="0.0" minWidth="120.0" prefHeight="208.0" prefWidth="210.0">
                                       <children>
-                                        <ToggleButton fx:id="platform_conrol_p1_5VEnableToggleButton" focusTraversable="false" mnemonicParsing="false" text="5V Enable" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_MainAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Main Accumulator Relay ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="35.0" />
-                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_LeftAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Left Accumulator Relay ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="65.0" />
-                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1RightAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Right Accumulator Relay ON" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="95.0" />
+                                        <ToggleButton fx:id="platform_conrol_p1_5VEnableToggleButton" focusTraversable="false" mnemonicParsing="false" text="5V Enable" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="5.0" />
+                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_MainAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Main Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="35.0" />
+                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_LeftAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Left Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="65.0" />
+                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1RightAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Right Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="95.0" />
                                         <Button fx:id="platform_conrol_p1ChargerButtonPressBtn" focusTraversable="false" mnemonicParsing="false" text="Charger Button Press" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                       </children>
                                     </AnchorPane>
@@ -259,9 +267,9 @@
               <children>
                 <TableView fx:id="deviceTable" minWidth="-1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="0.0">
                   <columns>
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="136.0" text="Device Port" fx:id="portNameCol" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="301.0" text="Device Name" fx:id="deviceNameCol" />
-                    <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="115.0" style="" text="Connected" fx:id="deviceConnectedCol" />
+                    <TableColumn fx:id="portNameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="136.0" text="Device Port" />
+                    <TableColumn fx:id="deviceNameCol" maxWidth="5000.0" minWidth="10.0" prefWidth="301.0" text="Device Name" />
+                    <TableColumn fx:id="deviceConnectedCol" maxWidth="5000.0" minWidth="10.0" prefWidth="115.0" style="" text="Connected" />
                   </columns>
                 </TableView>
                 <Button fx:id="scanBoardsBtn" mnemonicParsing="false" onAction="#scanBoardsBtnAction" text="Scan" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="205.0" />
@@ -286,278 +294,6 @@
                   </items>
                 </ComboBox>
                 <CheckBox fx:id="scanAndConnectCB" mnemonicParsing="false" selected="true" text="and connect" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="230.0" />
-              </children>
-            </AnchorPane>
-          </content>
-        </Tab>
-        <Tab text="SETTINGS">
-          <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-              <children>
-                <TitledPane animated="false" collapsible="false" prefHeight="140.0" prefWidth="250.0" text="Server Settings" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="217.0">
-                      <children>
-                        <Button fx:id="startServerButton" mnemonicParsing="false" text="Start Server" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="85.0" />
-                        <TextField id="serverPort" fx:id="serverPortTextInput" prefWidth="90.0" text="9001" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="32.0" />
-                        <Label text="Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0" />
-                        <Label fx:id="serverAddressLabel" text="Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" collapsible="false" disable="false" prefHeight="140.0" prefWidth="270.0" text="Act as Remote Client" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="5.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="217.0">
-                      <children>
-                        <Button fx:id="connectToServerBtn" mnemonicParsing="false" text="Connect to Server" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="85.0" />
-                        <TextField fx:id="commandsServerPortTextIntput" prefWidth="90.0" text="9001" AnchorPane.leftAnchor="45.0" AnchorPane.topAnchor="32.0" />
-                        <Label text="Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="35.0" />
-                        <TextField id="commandsServerAddress" fx:id="commandsServerAddressTextIntput" layoutY="3.0" prefWidth="90.0" text="192.168.0.33" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="5.0" />
-                        <Label text="Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="6.0" />
-                        <Button fx:id="pingPongBtn" mnemonicParsing="false" text="PING" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="85.0" />
-                        <CheckBox fx:id="gb08m2TCPIPListener" mnemonicParsing="false" selected="true" text="Start GB08M2 TCP/IP Listener" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="63.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-              </children>
-            </AnchorPane>
-          </content>
-        </Tab>
-        <Tab text="GB-08-M2">
-          <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-              <children>
-                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="0.0" minHeight="290.0" prefHeight="280.0" prefWidth="250.0" text="GB-08-M2 Drives General Control" underline="false" AnchorPane.leftAnchor="690.0" AnchorPane.topAnchor="5.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="290.0" prefWidth="230.0">
-                      <children>
-                        <Button id="forwardBtn" fx:id="gb08m2ForwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↑" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="2.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Button id="backwardBtn" fx:id="gb08m2BackwardBtn" defaultButton="false" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="backward-button" text="↓" AnchorPane.leftAnchor="85.0" AnchorPane.topAnchor="85.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="125.0" />
-                        <Slider id="platformMotorsPower" fx:id="gb08m2DutyLeft" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="246.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="145.0" />
-                        <Button id="forwardBtn" fx:id="gb08m2TurnLeftBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="←" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="45.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Button id="forwardBtn" fx:id="gb08m2TurnRightBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="→" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="45.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Button id="backwardBtn" focusTraversable="false" font="$x2" graphicTextGap="4.0" mnemonicParsing="false" styleClass="backward-button" text="S" textFill="RED" AnchorPane.leftAnchor="92.0" AnchorPane.topAnchor="48.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Button id="forwardBtn" fx:id="gb08m2ForwardLeftBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↗" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="2.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Button id="forwardBtn" fx:id="gb08m2ForwardRightBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↖" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="2.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Button id="forwardBtn" fx:id="gb08m2BackwardLeftBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↘" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="85.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Button id="forwardBtn" fx:id="gb08m2BackwardRightBtn" focusTraversable="false" font="$x1" mnemonicParsing="false" styleClass="forward-button" text="↙" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="85.0">
-                          <!-- 
-                                          <stylesheets>
-                                            <URL value="@buttons.css" />
-                                          </stylesheets>
-                                         -->
-                        </Button>
-                        <Separator prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
-                        <CheckBox fx:id="overTCPIPgb08m2" mnemonicParsing="false" selected="true" text="Over TCP/IP" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
-                        <Label layoutX="6.0" layoutY="173.0" text="Duty Right" />
-                        <Slider id="platformMotorsPower" fx:id="gb08m2DutyRight" focusTraversable="false" layoutX="5.0" layoutY="193.0" majorTickUnit="1.0" max="100.0" min="1.0" prefWidth="226.0" showTickLabels="false" showTickMarks="false" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefWidth="240.0" text="System Commands" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="540.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="155.0" prefWidth="236.0">
-                      <children>
-                        <Label fx:id="batteryVoltageLabel" text="Battery Voltage:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                        <Button fx:id="getBatteryVoltageBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
-                        <Button id="lightBtn" fx:id="lighstOnBtn" mnemonicParsing="false" text="LIGHTS ON" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0" />
-                        <Button fx:id="lightsOffBtn" mnemonicParsing="false" text="LIGHTS OFF" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" />
-                        <Slider fx:id="alarmBeepDuration" min="1.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="90.0" />
-                        <Label text="ALARM Beep" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                        <Button fx:id="alarmBeepBtn" mnemonicParsing="false" text="ALARM BEEP" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefHeight="181.0" prefWidth="289.0" text="Encoders" AnchorPane.leftAnchor="265.0" AnchorPane.topAnchor="540.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="201.0">
-                      <children>
-                        <Label id="batteryVoltageLabel" fx:id="leftEncoderLabel" text="Left:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <Button id="getBatteryVoltageBtn" fx:id="getLeftEncoderBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                        <Label id="batteryVoltageLabel" fx:id="rightEncoderLabel" text="Right:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
-                        <Button id="getBatteryVoltageBtn" fx:id="getRightEncoderBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0" />
-                        <Button id="resetLeftEncoder" fx:id="resetLeftEncoderBtn" mnemonicParsing="false" text="Reset left" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
-                        <Button id="resetRightEncoder" fx:id="resetRightEncoderBtn" mnemonicParsing="false" text="Reset right" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0" />
-                        <Button fx:id="enableEncodersBtn" mnemonicParsing="false" text="Enable Encoders" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="80.0" />
-                        <Button fx:id="disableEncodersBtn" mnemonicParsing="false" text="Disable Encoders" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="110.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefHeight="169.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="565.0" AnchorPane.topAnchor="540.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <children>
-                        <Label id="batteryVoltageLabel" fx:id="distanceLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <Button id="getBatteryVoltageBtn" fx:id="getDistanceBtn" mnemonicParsing="false" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                        <Label text="Direction" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
-                        <Slider id="alarmBeepDuration" fx:id="setDistanceScannerDirection" blockIncrement="50.0" majorTickUnit="50.0" max="2200.0" min="700.0" minorTickCount="50" prefWidth="216.0" value="1450.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                        <Button fx:id="releaseServoBtn" mnemonicParsing="false" text="Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="100.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" prefWidth="285.0" text="Video Control" AnchorPane.leftAnchor="690.0" AnchorPane.topAnchor="300.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <children>
-                        <Button id="startMainVideBtn" fx:id="startMainVideoBtn" mnemonicParsing="false" text="Start Front Video" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                        <Button id="startMainVideBtn" fx:id="stopMainVideoBtn" mnemonicParsing="false" text="Stop Front Video" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="5.0" />
-                        <Button id="startMainVideBtn" fx:id="startRearVideoBtn" layoutX="5.0" layoutY="36.0" mnemonicParsing="false" text="Start Rear Video" />
-                        <Button id="startMainVideBtn" fx:id="stopRearVideoBtn" layoutX="145.0" layoutY="36.0" mnemonicParsing="false" text="Stop Rear Video" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-                  <expandedPane>
-                    <TitledPane fx:id="x4" animated="false" text="Front Camera">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                          <children>
-                            <ImageView fx:id="mainVideoImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </TitledPane>
-                  </expandedPane>
-                  <panes>
-                    <fx:reference source="x4" />
-                    <TitledPane fx:id="x5" animated="false" text="Rear Camera">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                          <children>
-                            <ImageView fx:id="rearVideoImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </TitledPane>
-                  </panes>
-                </Accordion>
-              </children>
-            </AnchorPane>
-          </content>
-        </Tab>
-        <Tab text="GB-08-M2 Autonomous Controls">
-          <content>
-            <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-              <children>
-                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-                  <expandedPane>
-                    <TitledPane id="x4" fx:id="x7" animated="false" text="Front Camera">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                          <children>
-                            <ImageView id="mainVideoImageView" fx:id="frontCameraFrameImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            <Pane fx:id="frontCameraFrameOverlay" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </TitledPane>
-                  </expandedPane>
-                  <panes>
-                    <fx:reference source="x7" />
-                    <TitledPane id="x5" fx:id="x6" animated="false" text="Rear Camera">
-                      <content>
-                        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
-                          <children>
-                            <ImageView id="rearVideoImageView" fx:id="rearCameraFrameImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                          </children>
-                        </AnchorPane>
-                      </content>
-                    </TitledPane>
-                  </panes>
-                </Accordion>
-                <TitledPane animated="false" prefWidth="300.0" text="Video Control" AnchorPane.leftAnchor="660.0" AnchorPane.topAnchor="5.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <children>
-                        <Button id="startMainVideBtn" fx:id="startAutonomousVideoFrontBtn" mnemonicParsing="false" text="Start Front Video" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                        <Button id="startMainVideBtn" fx:id="stopAutonomousVideoFrontBtn" mnemonicParsing="false" text="Stop Front Video" AnchorPane.leftAnchor="145.0" AnchorPane.topAnchor="5.0" />
-                        <Button id="startMainVideBtn" fx:id="startAutonomousVideoRearBtn" layoutX="5.0" layoutY="36.0" mnemonicParsing="false" text="Start Rear Video" />
-                        <Button id="startMainVideBtn" fx:id="stopAutonomousVideoRearBtn" layoutX="145.0" layoutY="36.0" mnemonicParsing="false" text="Stop Rear Video" />
-                        <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="67.0" />
-                        <Button id="getFronROIBtn" fx:id="getFrontROIBtn" mnemonicParsing="false" text="Start  ROI capture from the Front Video" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="75.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane fx:id="IRRangeFinderPanel" animated="false" expanded="true" prefHeight="372.0" prefWidth="354.0" text="IR Range Finder" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="660.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="220.0">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <children>
-                        <Pane fx:id="IRRangeFinderPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <ImageView fx:id="irRangeFinderImageView" fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Separator prefWidth="200.0" AnchorPane.bottomAnchor="65.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Button fx:id="startIRScanningBtn" mnemonicParsing="false" text="Start Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
-                        <Button fx:id="stopIRScanningBtn" mnemonicParsing="false" text="Stop Scanning" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" />
-                        <CheckBox fx:id="clearIRRangeFinder" mnemonicParsing="false" selected="true" text="Clear after each scan" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="10.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
-                <TitledPane fx:id="selectedROITitledPanel" animated="false" collapsible="false" contentDisplay="LEFT" layoutX="5.0" layoutY="545.0" minWidth="150.0" prefHeight="150.0" prefWidth="150.0" text="Selected ROI" textAlignment="LEFT" wrapText="false">
-                  <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <children>
-                        <ImageView id="selcetdROIImageView" fx:id="selectedROIImageView" fitHeight="125.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                      </children>
-                    </AnchorPane>
-                  </content>
-                </TitledPane>
               </children>
             </AnchorPane>
           </content>
