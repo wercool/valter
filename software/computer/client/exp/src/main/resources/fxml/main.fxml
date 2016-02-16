@@ -193,9 +193,9 @@
                                     <AnchorPane id="Content" maxWidth="-Infinity" minHeight="0.0" minWidth="120.0" prefHeight="208.0" prefWidth="210.0">
                                       <children>
                                         <ToggleButton fx:id="platform_conrol_p1_5VEnableToggleButton" focusTraversable="false" mnemonicParsing="false" text="5V Enable" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="5.0" />
-                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_MainAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Main Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="35.0" />
-                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_LeftAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Left Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="65.0" />
-                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1RightAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Right Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="95.0" />
+                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_MainAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Main Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="45.0" />
+                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1_LeftAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Left Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="85.0" />
+                                        <ToggleButton id="platform_conrol_p1_5VEnableToggleButton" fx:id="platform_conrol_p1RightAccumulatorOnOffBtn" focusTraversable="false" mnemonicParsing="false" text="Right Accumulator Relay ON" AnchorPane.leftAnchor="-90.0" AnchorPane.topAnchor="120.0" />
                                         <Button fx:id="platform_conrol_p1ChargerButtonPressBtn" focusTraversable="false" mnemonicParsing="false" text="Charger Button Press" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                       </children>
                                     </AnchorPane>
@@ -204,17 +204,17 @@
                                     <Insets />
                                   </GridPane.margin>
                                 </TitledPane>
-                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="350.0" minWidth="350.0" prefHeight="235.0" prefWidth="350.0" text="Power Status" underline="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
+                                <TitledPane id="platformDrivesControlPane" alignment="TOP_CENTER" animated="false" collapsible="false" contentDisplay="TOP" disable="false" expanded="true" focusTraversable="true" maxWidth="-Infinity" prefHeight="235.0" text="Power Status" underline="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="TOP">
                                   <content>
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="209.0" prefWidth="386.0">
                                       <children>
                                         <CheckBox id="chargerConnectedInspect" fx:id="chargerConnectedInspectCheckBox" mnemonicParsing="false" opacity="1.0" text="Inspect Charger" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                                         <RadioButton fx:id="chargerConnectedRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="Charger Connected" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
-                                        <RadioButton id="chargerConnectedRadioButton" fx:id="charger35AhModeRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="14.4V / 0.8A 1.2-35Ah" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="50.0" />
-                                        <RadioButton id="chargerConnectedRadioButton" fx:id="charger120AhModeRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="14.4V / 3.6A 35-120Ah" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="70.0" />
+                                        <RadioButton id="chargerConnectedRadioButton" fx:id="charger35AhModeRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="14.4V / 0.8A 1.2-35Ah" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="55.0" />
+                                        <RadioButton id="chargerConnectedRadioButton" fx:id="charger120AhModeRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="14.4V / 3.6A 35-120Ah" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="80.0" />
                                         <RadioButton id="chargerConnectedRadioButton" fx:id="chargeInProgressRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="CHARGE IN PROGRESS" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="30.0" />
-                                        <RadioButton id="chargerConnectedRadioButton" fx:id="chargeCompleteRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="CHARGE COMPLETE" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="50.0" />
-                                        <Label fx:id="chargerVoltageLabel" layoutX="5.0" text="Charger Voltage: &lt;?&gt;" AnchorPane.topAnchor="90.0" />
+                                        <RadioButton id="chargerConnectedRadioButton" fx:id="chargeCompleteRadioButton" disable="false" focusTraversable="false" mnemonicParsing="false" onMouseClicked="#mousePressedEventConsume" selected="false" text="CHARGE COMPLETE" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="55.0" />
+                                        <Label fx:id="chargerVoltageLabel" layoutX="5.0" text="Charger Voltage: &lt;?&gt;" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="110.0" />
                                       </children>
                                     </AnchorPane>
                                   </content>
