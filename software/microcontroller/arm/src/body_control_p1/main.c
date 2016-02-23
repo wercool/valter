@@ -366,10 +366,13 @@ int main(void)
     unsigned char usb2Index = 23;
 
     unsigned char wifi12VPowerIndex = 20;
+    unsigned char headLEDVPowerIndex = 21;
 
     char uart0Buff[32];
     unsigned int uart0BuffCnt = 1;
     unsigned char uart0BuffFilterCnt = 0;
+
+    unsigned char shiftRegisterConstantResetting = 1;
 
     DeviceInit();
 
@@ -390,6 +393,11 @@ int main(void)
     while (1)
     {
 
+        if (shiftRegisterConstantResetting)
+        {
+            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);
+        }
+
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
@@ -403,6 +411,11 @@ int main(void)
             {
                 sprintf((char *) msg, "BODY-CONTROL-P1\n");
                 pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPSHIFTREGRESET") == 0)
+            {
+                shiftRegisterConstantResetting = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "SHIFTREGENABLE") == 0)
@@ -1095,6 +1108,14 @@ int main(void)
             if (strcmp((char*) cmdParts, "WIFIPOWER12VOFF") == 0)
             {
                 setShiftRegisterBit(wifi12VPowerIndex, 0);
+            }
+            if (strcmp((char*) cmdParts, "HEADLEDON") == 0)
+            {
+                setShiftRegisterBit(headLEDVPowerIndex, 1);
+            }
+            if (strcmp((char*) cmdParts, "HEADLEDOFF") == 0)
+            {
+                setShiftRegisterBit(headLEDVPowerIndex, 0);
             }
 
         }
