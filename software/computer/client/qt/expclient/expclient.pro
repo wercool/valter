@@ -8,17 +8,17 @@ QT       += core gui serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = expclient
+TARGET   = expclient
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    controldevice.cpp \
-    valter.cpp
+           mainwindow.cpp \
+           controldevice.cpp \
+           valter.cpp
 
 HEADERS  += mainwindow.h \
-    controldevice.h \
-    valter.h
+            controldevice.h \
+            valter.h
 
 FORMS    += mainwindow.ui
