@@ -6,6 +6,8 @@ using std::ifstream;
 #include <algorithm>
 using std::copy;
 
+#include <boost/algorithm/string.hpp>
+
 #include "controldevice.h"
 
 using namespace std;
