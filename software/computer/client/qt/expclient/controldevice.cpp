@@ -30,7 +30,7 @@ void ControlDevice::listDevices()
             ttyACMPortsNum++;
         }
     }
-    qDebug("%u ttyACM* ports found\n", ttyACMPortsNum);
+    qDebug("%u ttyACM* ports found", ttyACMPortsNum);
 }
 
 void ControlDevice::scanControlDevices()

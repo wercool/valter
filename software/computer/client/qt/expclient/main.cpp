@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
     w.show();
 
     qDebug("Valter Exp Client V%s", Valter::getVersion().c_str());
-    ControlDevice::listDevices();
 
     int r = a.exec();
 

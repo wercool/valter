@@ -15,6 +15,8 @@ bool Valter::instanceFlag = false;
 Valter::Valter()
 {
     controlDeviceIds = {"PLATFORM-CONTROL-P1", "BODY-CONTROL-P1"};
+    ControlDevice::listDevices();
+    readControlDevicesCommandsFromFiles();
 }
 
 map<string, ControlDevice *> Valter::getControlDevicesMap() const
@@ -44,6 +46,32 @@ Valter* Valter::getInstance()
 string Valter::getVersion()
 {
     return "0.0.1";
+}
+
+void Valter::readControlDevicesCommandsFromFiles()
+{
+    vector<string> commands;
+    for(vector<string>::size_type i = 0; i != controlDeviceIds.size(); i++)
+    {
+        commands.clear();
+        ifstream cmdfile(cmdFilesPath + (string)controlDeviceIds[i]);
+        string line;
+        while (getline(cmdfile, line, '\n'))
+        {
+            commands.push_back(line);
+        }
+        controlDevicesCommands[(string)controlDeviceIds[i]] = commands;
+    }
+    typedef map<string, vector<string>>::iterator it_type;
+
+    for(it_type iterator = controlDevicesCommands.begin(); iterator != controlDevicesCommands.end(); iterator++)
+    {
+        vector<string> commands = controlDevicesCommands[iterator->first];
+        for(vector<string>::size_type i = 0; i != commands.size(); i++)
+        {
+            qDebug("%s", ((string)commands[i]).c_str());
+        }
+    }
 }
 
 void Valter::scanControlDevices()

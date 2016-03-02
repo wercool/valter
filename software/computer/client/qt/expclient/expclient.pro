@@ -38,6 +38,8 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 DISTFILES += \
-    valter_head_icon.png
+    valter_head_icon.png \
+    resources/commands/PLATFORM_CONROL_P1 \
+    resources/commands/BODY-CONTROL-P1
 
 CONFIG += c++11
