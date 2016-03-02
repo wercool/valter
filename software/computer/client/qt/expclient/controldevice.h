@@ -29,11 +29,19 @@ public:
     string getStatus() const;
     void setStatus(const string &value);
 
+    std::thread *getReadControlDeviceOutputThread() const;
+    void setReadControlDeviceOutputThread(std::thread *value);
+
+    void spawnReadControlDeviceOutputThreadWorker();
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
     static string sanitizeConrtolDeviceResponse(string &msg);
     string status;
+
+    void readControlDeviceOutputThreadWorker();
+    std::thread *readControlDeviceOutputThread;
 };
 
 #endif // CONTROLDEVICE_H

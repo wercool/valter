@@ -83,7 +83,7 @@ void MainWindow::on_pushButton_clicked()
         {
             controlDevice->getControlDevicePort()->open();
             controlDevice->setStatus(ControlDevice::StatusActive);
-            //controlDevice->spawnReadControlDeviceOutputThreadWorker();
+            controlDevice->spawnReadControlDeviceOutputThreadWorker();
         }
     }
     refreshControlDeviceTableWidget();

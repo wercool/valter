@@ -124,6 +124,51 @@ string ControlDevice::sanitizeConrtolDeviceResponse(string &msg)
     return msg;
 }
 
+void ControlDevice::readControlDeviceOutputThreadWorker()
+{
+    string msgFromControlDevice;
+
+    while (this->getStatus() == ControlDevice::StatusActive)
+    {
+        if (this->getControlDevicePort()->available() > 0)
+        {
+            msgFromControlDevice = this->getControlDevicePort()->readline();
+            sanitizeConrtolDeviceResponse(msgFromControlDevice);
+            qDebug(">%s", msgFromControlDevice.c_str());
+        }
+        std::this_thread::sleep_for(std::chrono::microseconds(100));
+    }
+
+//    if (!this->getControlDevicePort()->isOpen())
+//    {
+//        this->getControlDevicePort()->open();
+//    }
+//    cd.getControlDevicePort()->write("CHANNELREADSTART");
+
+
+
+//    if (this->getControlDevicePort()->isOpen())
+//    {
+//        qDebug("%s is opened", this->getControlDeviceName().c_str());
+//        this->getControlDevicePort()->close();
+//    }
+}
+
+std::thread *ControlDevice::getReadControlDeviceOutputThread() const
+{
+    return readControlDeviceOutputThread;
+}
+
+void ControlDevice::setReadControlDeviceOutputThread(std::thread *value)
+{
+    readControlDeviceOutputThread = value;
+}
+
+void ControlDevice::spawnReadControlDeviceOutputThreadWorker()
+{
+    readControlDeviceOutputThread = new std::thread(&ControlDevice::readControlDeviceOutputThreadWorker, this);
+}
+
 string ControlDevice::getStatus() const
 {
     return status;
