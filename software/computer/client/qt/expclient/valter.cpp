@@ -11,12 +11,13 @@
 
 Valter* Valter::pValter = NULL;
 bool Valter::instanceFlag = false;
+const string Valter::cmdFilesPath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/commands/";
 
 Valter::Valter()
 {
     controlDeviceIds = {"PLATFORM-CONTROL-P1", "BODY-CONTROL-P1"};
+    readControlDevicesCommandsFromFiles(true);
     ControlDevice::listDevices();
-    readControlDevicesCommandsFromFiles();
 }
 
 map<string, ControlDevice *> Valter::getControlDevicesMap() const
@@ -48,7 +49,7 @@ string Valter::getVersion()
     return "0.0.1";
 }
 
-void Valter::readControlDevicesCommandsFromFiles()
+void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
 {
     vector<string> commands;
     for(vector<string>::size_type i = 0; i != controlDeviceIds.size(); i++)
@@ -64,12 +65,17 @@ void Valter::readControlDevicesCommandsFromFiles()
     }
     typedef map<string, vector<string>>::iterator it_type;
 
-    for(it_type iterator = controlDevicesCommands.begin(); iterator != controlDevicesCommands.end(); iterator++)
+    if (printCommands)
     {
-        vector<string> commands = controlDevicesCommands[iterator->first];
-        for(vector<string>::size_type i = 0; i != commands.size(); i++)
+        for(it_type iterator = controlDevicesCommands.begin(); iterator != controlDevicesCommands.end(); iterator++)
         {
-            qDebug("%s", ((string)commands[i]).c_str());
+            vector<string> commands = controlDevicesCommands[iterator->first];
+            qDebug("%s commands: ", ((string)iterator->first).c_str());
+            for(vector<string>::size_type i = 0; i != commands.size(); i++)
+            {
+                qDebug("%s", ((string)commands[i]).c_str());
+            }
+            qDebug("\n");
         }
     }
 }

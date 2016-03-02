@@ -15,7 +15,7 @@ class Valter
 public:
    static Valter* getInstance();
    static string getVersion();
-   void readControlDevicesCommandsFromFiles();
+   void readControlDevicesCommandsFromFiles(bool printCommands = false);
 
    void scanControlDevices();
 
@@ -36,7 +36,7 @@ private:
    static bool instanceFlag;
    map<string, ControlDevice*> controlDevicesMap;
 
-   const string cmdFilesPath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/commands/";
+   static const string cmdFilesPath;
 };
 
 
