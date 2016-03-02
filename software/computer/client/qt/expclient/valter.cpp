@@ -12,9 +12,11 @@
 Valter* Valter::pValter = NULL;
 bool Valter::instanceFlag = false;
 
-
 Valter::Valter()
 {
+    controlDeviceIds = {"PLATFORM-CONTROL-P1", "BODY-CONTROL-P1"};
+
+
     qDebug("Valter's model version: %s", getVersion().c_str());
     listControlDevices();
 }

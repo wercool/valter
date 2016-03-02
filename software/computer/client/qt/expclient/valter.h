@@ -11,19 +11,17 @@ public:
    static Valter* getInstance();
    string getVersion();
 
-   const std::vector<std::string> ControlDeviceIds{"BODY-CONTROL-P1"};
-
    void listControlDevices(bool fullInfo = false);
    void scanControlDevices();
 
    vector<ControlDevice> getControlDevices() const;
    void setControlDevices(const vector<ControlDevice> &value);
 
-
+   std::vector<std::string> controlDeviceIds;
 
 private:
    Valter();
-   static Valter* pValter;		// Valter's main singleton instance
+   static Valter* pValter;		// Valter's singleton instance
    static bool instanceFlag;
 
    vector<ControlDevice> controlDevices;
