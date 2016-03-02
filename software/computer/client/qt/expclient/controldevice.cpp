@@ -14,7 +14,7 @@ ControlDevice::ControlDevice()
 
 }
 
-void ControlDevice::listDevices(bool fullInfo)
+void ControlDevice::listDevices()
 {
     vector<serial::PortInfo> devices_found = serial::list_ports();
     vector<serial::PortInfo>::iterator iter = devices_found.begin();
@@ -24,20 +24,13 @@ void ControlDevice::listDevices(bool fullInfo)
     while( iter != devices_found.end() )
     {
         serial::PortInfo device = *iter++;
-        if (fullInfo)
+        if (device.port.find("ttyACM") != string::npos)
         {
-            qDebug( "(%s, %s, %s)\n", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str() );
-        }
-        else
-        {
-            if (device.port.find("ttyACM") != string::npos)
-            {
-                qDebug( "(%s, %s, %s)", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str() );
-                ttyACMPortsNum++;
-            }
+            qDebug( "(%s, %s, %s)", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str() );
+            ttyACMPortsNum++;
         }
     }
-    qDebug("%u ttyACM* ports found\n\n", ttyACMPortsNum);
+    qDebug("%u ttyACM* ports found\n", ttyACMPortsNum);
 }
 
 void ControlDevice::scanControlDevices()
@@ -55,41 +48,48 @@ void ControlDevice::scanControlDevices()
         {
             ttyACMDevicesNum++;
             qDebug("Trying to connect %s port", serialPortDeviceInfo.port.c_str());
-            serial::Serial potentialControlDeviceSerialPort(serialPortDeviceInfo.port.c_str(), ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
-
-            if(potentialControlDeviceSerialPort.isOpen())
+            try
             {
-                potentialControlDeviceSerialPort.flush();
-                potentialControlDeviceSerialPort.write("GETID");
-                qDebug("< GETID");
+                serial::Serial potentialControlDeviceSerialPort(serialPortDeviceInfo.port.c_str(), ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
 
-                string result;
-                unsigned int scanStep = 0;
-                bool isValterControlDevicePort = false;
-                while (scanStep < 5 && !isValterControlDevicePort)
+                if(potentialControlDeviceSerialPort.isOpen())
                 {
-                    result = potentialControlDeviceSerialPort.readline();
-                    sanitizeConrtolDeviceResponse(result);
-                    qDebug("> %s", result.c_str());
-                    isValterControlDevicePort = (find(Valter::getInstance()->controlDeviceIds.begin(), Valter::getInstance()->controlDeviceIds.end(), result) != Valter::getInstance()->controlDeviceIds.end());
-                    scanStep++;
-                }
+                    potentialControlDeviceSerialPort.flush();
+                    potentialControlDeviceSerialPort.write("GETID");
+                    qDebug("< GETID");
 
-                if (isValterControlDevicePort)
-                {
-                    potentialControlDeviceSerialPort.close();
+                    string result;
+                    unsigned int scanStep = 0;
+                    bool isValterControlDevicePort = false;
+                    while (scanStep < 5 && !isValterControlDevicePort)
+                    {
+                        result = potentialControlDeviceSerialPort.readline();
+                        sanitizeConrtolDeviceResponse(result);
+                        qDebug("> %s", result.c_str());
+                        isValterControlDevicePort = (find(Valter::getInstance()->controlDeviceIds.begin(), Valter::getInstance()->controlDeviceIds.end(), result) != Valter::getInstance()->controlDeviceIds.end());
+                        scanStep++;
+                    }
 
-                    Valter::getInstance()->addControlDevice(result, serialPortDeviceInfo.port);
+                    if (isValterControlDevicePort)
+                    {
+                        potentialControlDeviceSerialPort.close();
+
+                        Valter::getInstance()->addControlDevice(result, serialPortDeviceInfo.port);
+                    }
+                    else
+                    {
+                        qDebug("Not a Valter Control Device\n");
+                        potentialControlDeviceSerialPort.close();
+                    }
                 }
                 else
                 {
-                    qDebug("Not a Valter Control Device\n");
-                    potentialControlDeviceSerialPort.close();
+                    qDebug("busy port");
                 }
             }
-            else
+            catch (...)
             {
-                qDebug("busy port");
+                qDebug("exception fired while scanning ttyACM* ports...");
             }
         }
     }
@@ -136,7 +136,7 @@ void ControlDevice::readControlDeviceOutputThreadWorker()
             sanitizeConrtolDeviceResponse(msgFromControlDevice);
             qDebug(">%s", msgFromControlDevice.c_str());
         }
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
+        this_thread::sleep_for(std::chrono::microseconds(1));
     }
 
 //    if (!this->getControlDevicePort()->isOpen())

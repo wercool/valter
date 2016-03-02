@@ -13,7 +13,7 @@ class ControlDevice
 {
 public:
     ControlDevice();
-    static void listDevices(bool fullInfo = false);
+    static void listDevices();
     static void scanControlDevices();
 
     static const string StatusReady;

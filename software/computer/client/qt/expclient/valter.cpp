@@ -15,10 +15,6 @@ bool Valter::instanceFlag = false;
 Valter::Valter()
 {
     controlDeviceIds = {"PLATFORM-CONTROL-P1", "BODY-CONTROL-P1"};
-
-
-    qDebug("Valter's model version: %s", getVersion().c_str());
-    listControlDevices();
 }
 
 map<string, ControlDevice *> Valter::getControlDevicesMap() const
@@ -50,11 +46,6 @@ string Valter::getVersion()
     return "0.0.1";
 }
 
-void Valter::listControlDevices(bool fullInfo)
-{
-    ControlDevice::listDevices(fullInfo);
-}
-
 void Valter::scanControlDevices()
 {
     ControlDevice::scanControlDevices();
@@ -79,4 +70,20 @@ void Valter::addControlDeviceToControlDevicesMap(ControlDevice *controlDevice)
 ControlDevice *Valter::getControlDeviceById(string controlDeviceId)
 {
     return controlDevicesMap[controlDeviceId];
+}
+
+void Valter::closeAllControlDevicePorts()
+{
+
+    map<string, ControlDevice*> controlDevicesMap = getControlDevicesMap();
+    typedef map<string, ControlDevice*>::iterator it_type;
+
+    for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
+    {
+        ControlDevice *controlDevice = controlDevicesMap[iterator->first];
+        if (controlDevice->getControlDevicePort()->isOpen())
+        {
+            controlDevice->getControlDevicePort()->close();
+        }
+    }
 }

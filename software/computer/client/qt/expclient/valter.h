@@ -9,9 +9,8 @@ class Valter
 {
 public:
    static Valter* getInstance();
-   string getVersion();
+   static string getVersion();
 
-   void listControlDevices(bool fullInfo = false);
    void scanControlDevices();
 
    vector<string> controlDeviceIds;
@@ -19,6 +18,7 @@ public:
    void addControlDevice(string controlDeviceId, string port);
    void addControlDeviceToControlDevicesMap(ControlDevice* controlDevice);
    ControlDevice* getControlDeviceById(string controlDeviceId);
+   void closeAllControlDevicePorts();
 
    map<string, ControlDevice *> getControlDevicesMap() const;
    void setControlDevicesMap(const map<string, ControlDevice *> &value);

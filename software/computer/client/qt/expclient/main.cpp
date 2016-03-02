@@ -13,5 +13,12 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    return a.exec();
+    qDebug("Valter Exp Client V%s", Valter::getVersion().c_str());
+    ControlDevice::listDevices();
+
+    int r = a.exec();
+
+    qDebug("Finished");
+
+    return r;
 }
