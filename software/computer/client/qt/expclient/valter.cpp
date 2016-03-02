@@ -15,8 +15,8 @@ const string Valter::cmdFilesPath = "/home/maska/git/valter/software/computer/cl
 
 Valter::Valter()
 {
-    controlDeviceIds = {"PLATFORM-CONTROL-P1", "BODY-CONTROL-P1"};
-    readControlDevicesCommandsFromFiles(true);
+    controlDeviceIds = {"PLATFORM-CONTROL-P1", "PLATFORM-CONTROL-P2", "PLATFORM-LOCATION-P1", "PLATFORM-MANIPULATOR-AND-IR-BUMPER", "BODY-CONTROL-P1", "ARM-CONTROL-RIGHT", "ARM-CONTROL-LEFT"};
+    readControlDevicesCommandsFromFiles();
     ControlDevice::listDevices();
 }
 
