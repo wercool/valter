@@ -14,37 +14,26 @@ class ControlDevice
 public:
     ControlDevice();
     static void listDevices(bool fullInfo = false);
-    static vector<ControlDevice> scanControlDevices();
+    static void scanControlDevices();
 
-    serial::PortInfo getControlDevicePortInfo() const;
-    void setControlDevicePortInfo(const serial::PortInfo &value);
-
-    std::string getStatus() const;
-    void setStatus(const std::string &value);
-
-    static const string StatusActive;
-    static const string StatusBusy;
     static const string StatusReady;
-
+    static const string StatusActive;
     static const uint32_t DefaultBaudRate;
 
     serial::Serial *getControlDevicePort() const;
     void setControlDevicePort(serial::Serial *value);
 
-    std::string getControlDeviceName() const;
-    void setControlDeviceName(const std::string &value);
+    string getControlDeviceId() const;
+    void setControlDeviceId(const string &value);
 
-    void runReadControlDeviceOutputWorker();
+    string getStatus() const;
+    void setStatus(const string &value);
 
 private:
-    serial::PortInfo controlDevicePortInfo;
-    std::string status;
+    string controlDeviceId;
     serial::Serial *controlDevicePort;
-    std::string static sanitizeConrtolDeviceResponse(std::string &msg);
-    std::string controlDeviceName;
-
-    std::thread *readControlDeviceOutputThread;
-    void readControlDeviceOutputWorker();
+    static string sanitizeConrtolDeviceResponse(string &msg);
+    string status;
 };
 
 #endif // CONTROLDEVICE_H

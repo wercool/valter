@@ -21,14 +21,14 @@ Valter::Valter()
     listControlDevices();
 }
 
-vector<ControlDevice> Valter::getControlDevices() const
+map<string, ControlDevice *> Valter::getControlDevicesMap() const
 {
-    return controlDevices;
+    return controlDevicesMap;
 }
 
-void Valter::setControlDevices(const vector<ControlDevice> &value)
+void Valter::setControlDevicesMap(const map<string, ControlDevice *> &value)
 {
-    controlDevices = value;
+    controlDevicesMap = value;
 }
 
 Valter* Valter::getInstance()
@@ -57,5 +57,26 @@ void Valter::listControlDevices(bool fullInfo)
 
 void Valter::scanControlDevices()
 {
-    controlDevices = ControlDevice::scanControlDevices();
+    ControlDevice::scanControlDevices();
+}
+
+void Valter::addControlDevice(string controlDeviceId, string port)
+{
+    serial::Serial *controlDevicePort = new serial::Serial(port, ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
+    ControlDevice *controlDevice = new ControlDevice();
+    controlDevice->setControlDeviceId(controlDeviceId);
+    controlDevice->setControlDevicePort(controlDevicePort);
+    controlDevice->getControlDevicePort()->close();
+    controlDevice->setStatus(ControlDevice::StatusReady);
+    addControlDeviceToControlDevicesMap(controlDevice);
+}
+
+void Valter::addControlDeviceToControlDevicesMap(ControlDevice *controlDevice)
+{
+    controlDevicesMap[controlDevice->getControlDeviceId()] = controlDevice;
+}
+
+ControlDevice *Valter::getControlDeviceById(string controlDeviceId)
+{
+    return controlDevicesMap[controlDeviceId];
 }

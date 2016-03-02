@@ -14,17 +14,20 @@ public:
    void listControlDevices(bool fullInfo = false);
    void scanControlDevices();
 
-   vector<ControlDevice> getControlDevices() const;
-   void setControlDevices(const vector<ControlDevice> &value);
+   vector<string> controlDeviceIds;
 
-   std::vector<std::string> controlDeviceIds;
+   void addControlDevice(string controlDeviceId, string port);
+   void addControlDeviceToControlDevicesMap(ControlDevice* controlDevice);
+   ControlDevice* getControlDeviceById(string controlDeviceId);
+
+   map<string, ControlDevice *> getControlDevicesMap() const;
+   void setControlDevicesMap(const map<string, ControlDevice *> &value);
 
 private:
    Valter();
    static Valter* pValter;		// Valter's singleton instance
    static bool instanceFlag;
-
-   vector<ControlDevice> controlDevices;
+   map<string, ControlDevice*> controlDevicesMap;
 };
 
 

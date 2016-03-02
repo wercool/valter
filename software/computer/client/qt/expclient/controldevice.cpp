@@ -6,9 +6,8 @@
 
 const uint32_t ControlDevice::DefaultBaudRate = 115200;
 
-const string ControlDevice::StatusActive = "active";
-const string ControlDevice::StatusReady  = "ready";
-const string ControlDevice::StatusBusy   = "busy";
+const string ControlDevice::StatusActive        = "active";
+const string ControlDevice::StatusReady         = "ready";
 
 ControlDevice::ControlDevice()
 {
@@ -31,7 +30,7 @@ void ControlDevice::listDevices(bool fullInfo)
         }
         else
         {
-            if (device.port.find("ttyACM") != std::string::npos)
+            if (device.port.find("ttyACM") != string::npos)
             {
                 qDebug( "(%s, %s, %s)", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str() );
                 ttyACMPortsNum++;
@@ -41,10 +40,8 @@ void ControlDevice::listDevices(bool fullInfo)
     qDebug("%u ttyACM* ports found\n\n", ttyACMPortsNum);
 }
 
-vector<ControlDevice> ControlDevice::scanControlDevices()
+void ControlDevice::scanControlDevices()
 {
-    vector<ControlDevice> controlDevices;
-
     unsigned char ttyACMDevicesNum = 0;
 
 
@@ -54,7 +51,7 @@ vector<ControlDevice> ControlDevice::scanControlDevices()
     while( iter != devices_found.end() )
     {
         serial::PortInfo serialPortDeviceInfo = *iter++;
-        if (serialPortDeviceInfo.port.find("ttyACM") != std::string::npos)
+        if (serialPortDeviceInfo.port.find("ttyACM") != string::npos)
         {
             ttyACMDevicesNum++;
             qDebug("Trying to connect %s port", serialPortDeviceInfo.port.c_str());
@@ -66,34 +63,27 @@ vector<ControlDevice> ControlDevice::scanControlDevices()
                 potentialControlDeviceSerialPort.write("GETID");
                 qDebug("< GETID");
 
-                std::string result;
-                result = potentialControlDeviceSerialPort.readline();
-                sanitizeConrtolDeviceResponse(result);
-                qDebug("> %s", result.c_str());
-
-                result = potentialControlDeviceSerialPort.readline();
-                sanitizeConrtolDeviceResponse(result);
-
-                qDebug("> %s", result.c_str());
-
-                bool isValterControlDevicePort = (std::find(Valter::getInstance()->controlDeviceIds.begin(), Valter::getInstance()->controlDeviceIds.end(), result) != Valter::getInstance()->controlDeviceIds.end());
+                string result;
+                unsigned int scanStep = 0;
+                bool isValterControlDevicePort = false;
+                while (scanStep < 5 && !isValterControlDevicePort)
+                {
+                    result = potentialControlDeviceSerialPort.readline();
+                    sanitizeConrtolDeviceResponse(result);
+                    qDebug("> %s", result.c_str());
+                    isValterControlDevicePort = (find(Valter::getInstance()->controlDeviceIds.begin(), Valter::getInstance()->controlDeviceIds.end(), result) != Valter::getInstance()->controlDeviceIds.end());
+                    scanStep++;
+                }
 
                 if (isValterControlDevicePort)
                 {
-                    ControlDevice cd = ControlDevice();
-                    cd.setControlDeviceName(result);
-                    cd.setControlDevicePort(&potentialControlDeviceSerialPort);
-                    cd.setControlDevicePortInfo(serialPortDeviceInfo);
-                    cd.getControlDevicePort()->close();
-                    cd.setStatus(ControlDevice::StatusReady);
+                    potentialControlDeviceSerialPort.close();
 
-                    qDebug("Control Device [%s] added to Valter\n\n", cd.getControlDeviceName().c_str());
-
-                    controlDevices.push_back(cd);
+                    Valter::getInstance()->addControlDevice(result, serialPortDeviceInfo.port);
                 }
                 else
                 {
-                    qDebug("Not a Valter Control Device");
+                    qDebug("Not a Valter Control Device\n");
                     potentialControlDeviceSerialPort.close();
                 }
             }
@@ -103,31 +93,6 @@ vector<ControlDevice> ControlDevice::scanControlDevices()
             }
         }
     }
-
-    qDebug("%u ttyACM* devices scanned, %zu of them are Valter Control Devices\n\n", ttyACMDevicesNum, controlDevices.size()*1);
-
-    return controlDevices;
-}
-
-
-serial::PortInfo ControlDevice::getControlDevicePortInfo() const
-{
-    return controlDevicePortInfo;
-}
-
-void ControlDevice::setControlDevicePortInfo(const serial::PortInfo &value)
-{
-    controlDevicePortInfo = value;
-}
-
-std::string ControlDevice::getStatus() const
-{
-    return status;
-}
-
-void ControlDevice::setStatus(const std::string &value)
-{
-    status = value;
 }
 
 serial::Serial *ControlDevice::getControlDevicePort() const
@@ -140,6 +105,16 @@ void ControlDevice::setControlDevicePort(serial::Serial *value)
     controlDevicePort = value;
 }
 
+string ControlDevice::getControlDeviceId() const
+{
+    return controlDeviceId;
+}
+
+void ControlDevice::setControlDeviceId(const string &value)
+{
+    controlDeviceId = value;
+}
+
 string ControlDevice::sanitizeConrtolDeviceResponse(string &msg)
 {
     if (!msg.empty() && msg[msg.length()-1] == '\n')
@@ -149,23 +124,12 @@ string ControlDevice::sanitizeConrtolDeviceResponse(string &msg)
     return msg;
 }
 
-void ControlDevice::readControlDeviceOutputWorker()
+string ControlDevice::getStatus() const
 {
-
+    return status;
 }
 
-void ControlDevice::runReadControlDeviceOutputWorker()
+void ControlDevice::setStatus(const string &value)
 {
-    *readControlDeviceOutputThread = std::thread(&ControlDevice::readControlDeviceOutputWorker, this);
-}
-
-
-std::string ControlDevice::getControlDeviceName() const
-{
-    return controlDeviceName;
-}
-
-void ControlDevice::setControlDeviceName(const std::string &value)
-{
-    controlDeviceName = value;
+    status = value;
 }
