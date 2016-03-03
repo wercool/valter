@@ -6,8 +6,6 @@ using std::ifstream;
 #include <algorithm>
 using std::copy;
 
-#include <boost/algorithm/string.hpp>
-
 #include "controldevice.h"
 
 using namespace std;
@@ -23,6 +21,7 @@ public:
 
    vector<string> controlDeviceIds;
    map<string, vector<string>> controlDevicesCommands;
+   map<string, vector<string>> getControlDevicesCommands();
 
    void addControlDevice(string controlDeviceId, string port);
    void addControlDeviceToControlDevicesMap(ControlDevice* controlDevice);

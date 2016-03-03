@@ -20,16 +20,6 @@ Valter::Valter()
     ControlDevice::listDevices();
 }
 
-map<string, ControlDevice *> Valter::getControlDevicesMap() const
-{
-    return controlDevicesMap;
-}
-
-void Valter::setControlDevicesMap(const map<string, ControlDevice *> &value)
-{
-    controlDevicesMap = value;
-}
-
 Valter* Valter::getInstance()
 {
     if(! instanceFlag)
@@ -80,9 +70,24 @@ void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
     }
 }
 
+map<string, ControlDevice *> Valter::getControlDevicesMap() const
+{
+    return controlDevicesMap;
+}
+
+void Valter::setControlDevicesMap(const map<string, ControlDevice *> &value)
+{
+    controlDevicesMap = value;
+}
+
 void Valter::scanControlDevices()
 {
     ControlDevice::scanControlDevices();
+}
+
+map<string, vector<string> > Valter::getControlDevicesCommands()
+{
+    return controlDevicesCommands;
 }
 
 void Valter::addControlDevice(string controlDeviceId, string port)

@@ -21,7 +21,13 @@ public:
 private slots:
     void on_scanControlDevicesBtn_clicked();
 
-    void on_pushButton_clicked();
+    void on_connectDisconnectControlDeviceButton_clicked();
+
+    void on_controlDeviceTableWidget_clicked(const QModelIndex &index);
+
+    void on_selectedControlDeviceListWidget_doubleClicked(const QModelIndex &index);
+
+    void on_clearCommandButton_clicked();
 
 private:
     Ui::MainWindow *ui;

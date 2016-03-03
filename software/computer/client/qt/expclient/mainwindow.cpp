@@ -59,11 +59,13 @@ void MainWindow::refreshControlDeviceTableWidget()
 
 void MainWindow::on_scanControlDevicesBtn_clicked()
 {
+    ui->selectedControlDeviceListWidget->clear();
+    ui->commandEdit->clear();
     Valter::getInstance()->scanControlDevices();
     refreshControlDeviceTableWidget();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_connectDisconnectControlDeviceButton_clicked()
 {
     int selectedControlDeviceRowIndex = ui->controlDeviceTableWidget->selectionModel()->currentIndex().row();
     if (selectedControlDeviceRowIndex >= 0)
@@ -87,4 +89,39 @@ void MainWindow::on_pushButton_clicked()
         }
     }
     refreshControlDeviceTableWidget();
+    ui->controlDeviceTableWidget->selectRow(selectedControlDeviceRowIndex);
+}
+
+void MainWindow::on_controlDeviceTableWidget_clicked(const QModelIndex &index)
+{
+    QTableWidgetItem *selectedControlDeviceItem = new QTableWidgetItem();
+    selectedControlDeviceItem = ui->controlDeviceTableWidget->item(index.row(), 1);
+    string selectedControlDeviceId = selectedControlDeviceItem->text().toStdString();
+
+    ui->selectedControlDeviceListWidget->clear();
+    ui->commandEdit->clear();
+
+    map<string, vector<string>> controlDevicesCommands = Valter::getInstance()->getControlDevicesCommands();
+    vector<string> controlDeviceCommands = controlDevicesCommands[selectedControlDeviceId];
+
+    for(vector<string>::size_type i = 0; i != controlDeviceCommands.size(); i++)
+    {
+        QListWidgetItem *item = new QListWidgetItem;
+        item->setText(((string)controlDeviceCommands[i]).c_str());
+        ui->selectedControlDeviceListWidget->insertItem(i, item);
+    }
+}
+
+void MainWindow::on_selectedControlDeviceListWidget_doubleClicked(const QModelIndex &index)
+{
+    QListWidgetItem *selectedCommandsItem= new QListWidgetItem;
+    selectedCommandsItem = ui->selectedControlDeviceListWidget->item(index.row());
+    string selectedCommand = selectedCommandsItem->text().toStdString();
+
+     ui->commandEdit->setText(selectedCommand.c_str());
+}
+
+void MainWindow::on_clearCommandButton_clicked()
+{
+    ui->commandEdit->clear();
 }
