@@ -64,7 +64,7 @@ private:
    static Valter* pValter;		// Valter's singleton instance
    static bool instanceFlag;
    static const bool logToGUI = true;
-   bool logControlDeviceMessages = true;
+   bool logControlDeviceMessages;
    static const string cmdFilesPath;
    map<string, ControlDevice*> controlDevicesMap;
 };

@@ -14,6 +14,8 @@ const string Valter::cmdFilesPath = "/home/maska/git/valter/software/computer/cl
 
 Valter::Valter()
 {
+    logControlDeviceMessages = true;
+
     controlDeviceIds = {"PLATFORM-CONTROL-P1",
                         "PLATFORM-CONTROL-P2",
                         "PLATFORM-LOCATION-P1",
