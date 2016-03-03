@@ -44,6 +44,7 @@ public:
     void addMsgToDataExchangeLog(string msg);
     string getMsgFromDataExchangeLog();
     int dataExchangeLogAvailable();
+    void clearDataExchangeLog();
 
 private:
     string controlDeviceId;

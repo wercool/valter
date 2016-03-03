@@ -234,6 +234,11 @@ int ControlDevice::dataExchangeLogAvailable()
     return (int)dataExchangeLog.size();
 }
 
+void ControlDevice::clearDataExchangeLog()
+{
+    dataExchangeLog.clear();
+}
+
 string ControlDevice::getStatus() const
 {
     return status;

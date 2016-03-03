@@ -191,6 +191,14 @@ void MainWindow::on_pauseLoggingButton_clicked()
 {
     if (Valter::getInstance()->getLogControlDeviceMessages())
     {
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        typedef map<string, ControlDevice*>::iterator it_type;
+
+        for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
+        {
+            ControlDevice *controlDevice = controlDevicesMap[iterator->first];
+            controlDevice->clearDataExchangeLog();
+        }
         Valter::getInstance()->setLogControlDeviceMessages(false);
         ui->pauseLoggingButton->setText("Resume");
     }
