@@ -4,18 +4,25 @@
 
 #include <valter.h>
 
+MainWindow *mainGUIWindow;
 int main(int argc, char *argv[])
 {
+    QApplication application(argc, argv);
+
+    mainGUIWindow = MainWindow::getInstance();
+    mainGUIWindow->show();
+
     Valter::getInstance();
+    Valter::log(Valter::format_string("Valter Exp Client V.%s", Valter::getVersion().c_str()));
 
-    QApplication a(argc, argv);
 
-    MainWindow w;
-    w.show();
+    int r = application.exec();
 
-    qDebug("Valter Exp Client V%s", Valter::getVersion().c_str());
+    Valter::getInstance()->closeAllControlDevicePorts();
 
-    int r = a.exec();
+    delete(mainGUIWindow);
+    mainGUIWindow = NULL;
+    delete(Valter::getInstance());
 
     qDebug("Finished");
 

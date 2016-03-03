@@ -1,7 +1,6 @@
 //Qt specific
 #include <QtDebug>
 
-
 #include <string>
 #include <iostream>
 #include <cstdio>
@@ -15,14 +14,23 @@ const string Valter::cmdFilesPath = "/home/maska/git/valter/software/computer/cl
 
 Valter::Valter()
 {
-    controlDeviceIds = {"PLATFORM-CONTROL-P1", "PLATFORM-CONTROL-P2", "PLATFORM-LOCATION-P1", "PLATFORM-MANIPULATOR-AND-IR-BUMPER", "BODY-CONTROL-P1", "ARM-CONTROL-RIGHT", "ARM-CONTROL-LEFT"};
+    controlDeviceIds = {"PLATFORM-CONTROL-P1",
+                        "PLATFORM-CONTROL-P2",
+                        "PLATFORM-LOCATION-P1",
+                        "PLATFORM-MANIPULATOR-AND-IR-BUMPER",
+                        "BODY-CONTROL-P1",
+                        "ARM-CONTROL-RIGHT",
+                        "ARM-CONTROL-LEFT"};
+
     readControlDevicesCommandsFromFiles();
+
     ControlDevice::listDevices();
 }
 
+
 Valter* Valter::getInstance()
 {
-    if(! instanceFlag)
+    if(!instanceFlag)
     {
         pValter = new Valter();
         instanceFlag = true;
@@ -37,6 +45,24 @@ Valter* Valter::getInstance()
 string Valter::getVersion()
 {
     return "0.0.1";
+}
+
+bool Valter::getLogControlDeviceMessages() const
+{
+    return logControlDeviceMessages;
+}
+
+void Valter::setLogControlDeviceMessages(bool value)
+{
+    logControlDeviceMessages = value;
+}
+
+void Valter::log(string msg)
+{
+    if (logToGUI)
+    {
+        MainWindow::getInstance()->addMsgToLog(msg);
+    }
 }
 
 void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
@@ -60,12 +86,12 @@ void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
         for(it_type iterator = controlDevicesCommands.begin(); iterator != controlDevicesCommands.end(); iterator++)
         {
             vector<string> commands = controlDevicesCommands[iterator->first];
-            qDebug("%s commands: ", ((string)iterator->first).c_str());
+            Valter::log(format_string("%s commands: ", ((string)iterator->first).c_str()));
             for(vector<string>::size_type i = 0; i != commands.size(); i++)
             {
-                qDebug("%s", ((string)commands[i]).c_str());
+                Valter::log(format_string("%s", ((string)commands[i]).c_str()));
             }
-            qDebug("\n");
+            Valter::log("\n");
         }
     }
 }
@@ -122,6 +148,8 @@ void Valter::closeAllControlDevicePorts()
         ControlDevice *controlDevice = controlDevicesMap[iterator->first];
         if (controlDevice->getControlDevicePort()->isOpen())
         {
+            controlDevice->setStatus(ControlDevice::StatusReady);
+            this_thread::sleep_for(std::chrono::milliseconds(10));
             controlDevice->getControlDevicePort()->close();
         }
     }

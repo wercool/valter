@@ -26,11 +26,11 @@ void ControlDevice::listDevices()
         serial::PortInfo device = *iter++;
         if (device.port.find("ttyACM") != string::npos)
         {
-            qDebug( "(%s, %s, %s)", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str() );
+            Valter::log(Valter::format_string("(%s, %s, %s)", device.port.c_str(), device.description.c_str(), device.hardware_id.c_str() ));
             ttyACMPortsNum++;
         }
     }
-    qDebug("%u ttyACM* ports found", ttyACMPortsNum);
+    Valter::log(Valter::format_string("%u ttyACM* ports found", ttyACMPortsNum));
 }
 
 void ControlDevice::scanControlDevices()
@@ -47,7 +47,7 @@ void ControlDevice::scanControlDevices()
         if (serialPortDeviceInfo.port.find("ttyACM") != string::npos)
         {
             ttyACMDevicesNum++;
-            qDebug("Trying to connect %s port", serialPortDeviceInfo.port.c_str());
+            Valter::log(Valter::format_string("Trying to connect %s port", serialPortDeviceInfo.port.c_str()));
             try
             {
                 serial::Serial potentialControlDeviceSerialPort(serialPortDeviceInfo.port.c_str(), ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
@@ -56,7 +56,7 @@ void ControlDevice::scanControlDevices()
                 {
                     potentialControlDeviceSerialPort.flush();
                     potentialControlDeviceSerialPort.write("GETID");
-                    qDebug("< GETID");
+                    Valter::log(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
 
                     string result;
                     unsigned int scanStep = 0;
@@ -65,7 +65,7 @@ void ControlDevice::scanControlDevices()
                     {
                         result = potentialControlDeviceSerialPort.readline();
                         sanitizeConrtolDeviceResponse(result);
-                        qDebug("> %s", result.c_str());
+                        Valter::log(Valter::format_string("%s → %s", serialPortDeviceInfo.port.c_str(), result.c_str()));
                         isValterControlDevicePort = (find(Valter::getInstance()->controlDeviceIds.begin(), Valter::getInstance()->controlDeviceIds.end(), result) != Valter::getInstance()->controlDeviceIds.end());
                         scanStep++;
                     }
@@ -78,18 +78,18 @@ void ControlDevice::scanControlDevices()
                     }
                     else
                     {
-                        qDebug("Not a Valter Control Device\n");
+                        Valter::log(Valter::format_string("Not a Valter Control Device\n"));
                         potentialControlDeviceSerialPort.close();
                     }
                 }
                 else
                 {
-                    qDebug("busy port");
+                    Valter::log("busy port");
                 }
             }
             catch (...)
             {
-                qDebug("exception fired while scanning ttyACM* ports...");
+                Valter::log("exception fired while scanning ttyACM* ports...");
             }
         }
     }
@@ -124,49 +124,114 @@ string ControlDevice::sanitizeConrtolDeviceResponse(string &msg)
     return msg;
 }
 
-void ControlDevice::readControlDeviceOutputThreadWorker()
+void ControlDevice::controlDeviceThreadWorker()
 {
-    string msgFromControlDevice;
+    this->addMsgToDataExchangeLog(Valter::format_string("%s worker started...", this->getControlDeviceId().c_str()));
+
+    string request;
+    string response;
 
     while (this->getStatus() == ControlDevice::StatusActive)
     {
         if (this->getControlDevicePort()->available() > 0)
         {
-            msgFromControlDevice = this->getControlDevicePort()->readline();
-            sanitizeConrtolDeviceResponse(msgFromControlDevice);
-            qDebug(">%s", msgFromControlDevice.c_str());
+            response = this->getControlDevicePort()->readline();
+            sanitizeConrtolDeviceResponse(response);
+            addResponse(response);
+            if (Valter::getInstance()->getLogControlDeviceMessages())
+            {
+                this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", this->getControlDeviceId().c_str(), response.c_str()));
+            }
         }
-        this_thread::sleep_for(std::chrono::microseconds(1));
+        if (requestsAwainting() > 0)
+        {
+            string request = pullRequest();
+            this->getControlDevicePort()->write(request.c_str());
+            if (Valter::getInstance()->getLogControlDeviceMessages())
+            {
+                this->addMsgToDataExchangeLog(Valter::format_string("%s ← %s", this->getControlDeviceId().c_str(), request.c_str()));
+            }
+        }
+
+        this_thread::sleep_for(std::chrono::milliseconds(1));
     }
-
-//    if (!this->getControlDevicePort()->isOpen())
-//    {
-//        this->getControlDevicePort()->open();
-//    }
-//    cd.getControlDevicePort()->write("CHANNELREADSTART");
-
-
-
-//    if (this->getControlDevicePort()->isOpen())
-//    {
-//        qDebug("%s is opened", this->getControlDeviceName().c_str());
-//        this->getControlDevicePort()->close();
-//    }
+    this->addMsgToDataExchangeLog(Valter::format_string("%s worker stopped...", this->getControlDeviceId().c_str()));
 }
 
-std::thread *ControlDevice::getReadControlDeviceOutputThread() const
+std::thread *ControlDevice::getControlDeviceThread() const
 {
-    return readControlDeviceOutputThread;
+    return controlDeviceThread;
 }
 
-void ControlDevice::setReadControlDeviceOutputThread(std::thread *value)
+void ControlDevice::setControlDeviceThread(std::thread *value)
 {
-    readControlDeviceOutputThread = value;
+    controlDeviceThread = value;
 }
 
-void ControlDevice::spawnReadControlDeviceOutputThreadWorker()
+void ControlDevice::spawnControlDeviceThreadWorker()
 {
-    readControlDeviceOutputThread = new std::thread(&ControlDevice::readControlDeviceOutputThreadWorker, this);
+    controlDeviceThread = new std::thread(&ControlDevice::controlDeviceThreadWorker, this);
+}
+
+void ControlDevice::addRequest(string msg)
+{
+    if (controlDevicePort->isOpen())
+    {
+        requests.push_back(msg);
+    }
+    else
+    {
+        Valter::log(this->getControlDeviceId() + " port is closed");
+    }
+}
+
+void ControlDevice::addResponse(string msg)
+{
+    responses.push_back(msg);
+}
+
+string ControlDevice::pullRequest()
+{
+    string request = (string)requests.front();
+    requests.pop_front();
+    return request;
+}
+
+string ControlDevice::pullResponse()
+{
+    string response = (string)responses.front();
+    responses.pop_front();
+    return response;
+}
+
+int ControlDevice::responsesAvailable()
+{
+    return (int)responses.size();
+}
+
+int ControlDevice::requestsAwainting()
+{
+    return (int)requests.size();
+}
+
+void ControlDevice::addMsgToDataExchangeLog(string msg)
+{
+    if (Valter::getInstance()->getLogControlDeviceMessages())
+    {
+        dataExchangeLog.push_back(msg);
+    }
+}
+
+string ControlDevice::getMsgFromDataExchangeLog()
+{
+    string logMsg = (string)dataExchangeLog.front();
+    dataExchangeLog.pop_front();
+    return logMsg;
+}
+
+int ControlDevice::dataExchangeLogAvailable()
+{
+    return (int)dataExchangeLog.size();
 }
 
 string ControlDevice::getStatus() const

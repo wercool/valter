@@ -3,6 +3,7 @@
 
 #include <unistd.h>
 #include <thread>
+#include <list>
 
 #include "serial/include/serial/serial.h"
 
@@ -29,10 +30,20 @@ public:
     string getStatus() const;
     void setStatus(const string &value);
 
-    std::thread *getReadControlDeviceOutputThread() const;
-    void setReadControlDeviceOutputThread(std::thread *value);
+    std::thread *getControlDeviceThread() const;
+    void setControlDeviceThread(std::thread *value);
+    void spawnControlDeviceThreadWorker();
 
-    void spawnReadControlDeviceOutputThreadWorker();
+    void addRequest(string msg);
+    void addResponse(string msg);
+    string pullRequest();
+    string pullResponse();
+    int responsesAvailable();
+    int requestsAwainting();
+
+    void addMsgToDataExchangeLog(string msg);
+    string getMsgFromDataExchangeLog();
+    int dataExchangeLogAvailable();
 
 private:
     string controlDeviceId;
@@ -40,8 +51,12 @@ private:
     static string sanitizeConrtolDeviceResponse(string &msg);
     string status;
 
-    void readControlDeviceOutputThreadWorker();
-    std::thread *readControlDeviceOutputThread;
+    void controlDeviceThreadWorker();
+    std::thread *controlDeviceThread;
+
+    list<string> responses;
+    list<string> requests;
+    list<string> dataExchangeLog;
 };
 
 #endif // CONTROLDEVICE_H
