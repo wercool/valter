@@ -6,6 +6,7 @@
 
 #include "Board.h"
 #include "cdc_enumerate.h"
+#include "watchdog.h"
 #include "adc.h"
 #include "delay.h"
 #include "pwm.h"
@@ -338,6 +339,8 @@ void stopTurretDrive()
  */
 int main(void)
 {
+    watchdogEnable(1000);
+
     struct cdcMessage cdcMessageObj;
 
     unsigned int input1Readings = 0;
@@ -371,6 +374,8 @@ int main(void)
 
     while (1)
     {
+
+        watchdogReset();
 
         if (turretStaticMode)
         {
