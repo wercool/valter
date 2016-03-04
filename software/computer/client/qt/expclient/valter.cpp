@@ -65,6 +65,10 @@ void Valter::log(string msg)
     {
         MainWindow::getInstance()->addMsgToLog(msg);
     }
+    if (logToConsole)
+    {
+        qDebug("%s", msg.c_str());
+    }
 }
 
 void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
@@ -131,12 +135,40 @@ void Valter::addControlDevice(string controlDeviceId, string port)
     controlDevice->setControlDevicePort(controlDevicePort);
     controlDevice->getControlDevicePort()->close();
     controlDevice->setStatus(ControlDevice::StatusReady);
+
+    string controlDeviceSysPathCmdWithDev = Valter::format_string(ControlDevice::controlDeviceSysPathCmd, port.c_str());
+    string sys_usb_bus_device = Valter::exec_shell(controlDeviceSysPathCmdWithDev);
+    sys_usb_bus_device.erase(sys_usb_bus_device.length()-1);
+
+    controlDevice->setSysDevicePath(sys_usb_bus_device);
+
     addControlDeviceToControlDevicesMap(controlDevice);
 }
 
 void Valter::addControlDeviceToControlDevicesMap(ControlDevice *controlDevice)
 {
     controlDevicesMap[controlDevice->getControlDeviceId()] = controlDevice;
+}
+
+void Valter::updateControlDevice(string controlDeviceId, string port)
+{
+    serial::Serial *controlDevicePort = new serial::Serial(port, ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
+    ControlDevice *controlDevice = getControlDeviceById(controlDeviceId);
+    controlDevice->setControlDeviceId(controlDeviceId);
+    controlDevice->setControlDevicePort(controlDevicePort);
+    controlDevice->getControlDevicePort()->close();
+    controlDevice->setStatus(ControlDevice::StatusReady);
+
+    string controlDeviceSysPathCmdWithDev = Valter::format_string(ControlDevice::controlDeviceSysPathCmd, port.c_str());
+    string sys_usb_bus_device = Valter::exec_shell(controlDeviceSysPathCmdWithDev);
+    sys_usb_bus_device.erase(sys_usb_bus_device.length()-1);
+
+    controlDevice->setSysDevicePath(sys_usb_bus_device);
+}
+
+void Valter::removeControlDevice(string controlDeviceId)
+{
+    controlDevicesMap.erase(controlDeviceId);
 }
 
 ControlDevice *Valter::getControlDeviceById(string controlDeviceId)

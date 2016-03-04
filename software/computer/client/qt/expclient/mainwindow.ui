@@ -83,6 +83,7 @@
                 </property>
                 <property name="font">
                  <font>
+                  <pointsize>25</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -873,7 +874,14 @@ border-radius: 10px;</string>
              <string extracomment="sss"/>
             </property>
             <property name="text">
-             <string>Scan Control Devices</string>
+             <string>Scan</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="reScanControlDevicesButton">
+            <property name="text">
+             <string>Rescan</string>
             </property>
            </widget>
           </item>
@@ -884,6 +892,22 @@ border-radius: 10px;</string>
             </property>
             <property name="text">
              <string>Connect / Disconnect</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="wdResetStopButton">
+            <property name="maximumSize">
+             <size>
+              <width>130</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="text">
+             <string>WD RESET STOP</string>
             </property>
            </widget>
           </item>

@@ -29,6 +29,8 @@ public:
    map<string, vector<string>> getControlDevicesCommands();
    void addControlDevice(string controlDeviceId, string port);
    void addControlDeviceToControlDevicesMap(ControlDevice* controlDevice);
+   void updateControlDevice(string controlDeviceId, string port);
+   void removeControlDevice(string controlDeviceId);
    ControlDevice* getControlDeviceById(string controlDeviceId);
    void closeAllControlDevicePorts();
    map<string, ControlDevice *> getControlDevicesMap() const;
@@ -58,13 +60,30 @@ public:
        }
        return std::string(formatted.get());
    }
+   static std::string exec_shell(string cmd)
+   {
+       char * writableCmd = new char[cmd.size() + 1];
+       std::copy(cmd.begin(), cmd.end(), writableCmd);
+       writableCmd[cmd.size()] = '\0';
 
+       std::shared_ptr<FILE> pipe(popen(writableCmd, "r"), pclose);
+       if (!pipe) return "ERROR";
+       char buffer[128];
+       std::string result = "";
+       while (!feof(pipe.get()))
+       {
+           if (fgets(buffer, 128, pipe.get()) != NULL)
+               result += buffer;
+       }
+       return result;
+   }
 
 private:
    Valter();
    static Valter* pValter;		// Valter's singleton instance
    static bool instanceFlag;
    static const bool logToGUI = true;
+   static const bool logToConsole = true;
    bool logControlDeviceMessages;
    static const string cmdFilesPath;
    map<string, ControlDevice*> controlDevicesMap;

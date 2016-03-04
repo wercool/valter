@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("Status"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("System Device Path"));
     QHeaderView* controlDeviceTableWidgetHeaderView = new QHeaderView(Qt::Horizontal);
     controlDeviceTableWidgetHeaderView->setStretchLastSection(true);
     controlDeviceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::Stretch);
@@ -33,6 +33,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     controlDevicesDataExchangeLogTimer = new QTimer(this);
     connect(controlDevicesDataExchangeLogTimer, SIGNAL(timeout()), this, SLOT(controlDevicesDataExchangeLogTimerUpdate()));
     controlDevicesDataExchangeLogTimer->start(1);
+
+    controlDevicesTableRefreshTimer = new QTimer(this);
+    connect(controlDevicesTableRefreshTimer, SIGNAL(timeout()), this, SLOT(controlDevicesTableRefreshTimerUpdate()));
+    controlDevicesTableRefreshTimer->start(5000);
 }
 
 MainWindow::~MainWindow()
@@ -61,7 +65,7 @@ void MainWindow::refreshControlDeviceTableWidget()
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("Status"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("System Device Path"));
 
     map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
     typedef map<string, ControlDevice*>::iterator it_type;
@@ -75,7 +79,7 @@ void MainWindow::refreshControlDeviceTableWidget()
         ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
         ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
         ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "true" :"false")));
-        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getStatus().c_str()));
+        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
         i++;
     }
 
@@ -133,6 +137,7 @@ void MainWindow::on_scanControlDevicesBtn_clicked()
     ui->selectedControlDeviceListWidget->clear();
     ui->commandEdit->clear();
     selectedControlDeviceId = "";
+    ui->connectAllPushButton->setText("Connect All");
 
 
     Valter::getInstance()->closeAllControlDevicePorts();
@@ -151,6 +156,8 @@ void MainWindow::on_connectDisconnectControlDeviceButton_clicked()
         string controlDeviceId = item->text().toStdString();
 
         ControlDevice *controlDevice = Valter::getInstance()->getControlDeviceById(controlDeviceId);
+
+        controlDevice->setResetWDTimer(true);
 
         if (controlDevice->getControlDevicePort()->isOpen())
         {
@@ -290,6 +297,46 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
     }
 }
 
+void MainWindow::controlDevicesTableRefreshTimerUpdate()
+{
+    int selectedControlDeviceRowIndex = ui->controlDeviceTableWidget->selectionModel()->currentIndex().row();
+
+    ui->controlDeviceTableWidget->clear();
+
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opened"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("System Device Path"));
+
+    map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+    typedef map<string, ControlDevice*>::iterator it_type;
+
+    ui->controlDeviceTableWidget->setRowCount(controlDevicesMap.size());
+
+    char i = 0;
+    for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
+    {
+        ControlDevice *controlDevice = controlDevicesMap[iterator->first];
+        ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
+        ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
+        if (controlDevice->getRescanningAfterPossibleReset())
+        {
+            ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem(("rescanning...")));
+        }
+        else
+        {
+            ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "true" :"false")));
+        }
+        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
+        i++;
+    }
+
+    if (selectedControlDeviceRowIndex >= 0)
+    {
+        ui->controlDeviceTableWidget->selectRow(selectedControlDeviceRowIndex);
+    }
+}
+
 void MainWindow::on_connectAllPushButton_clicked()
 {
     int selectedControlDeviceRowIndex = ui->controlDeviceTableWidget->selectionModel()->currentIndex().row();
@@ -331,5 +378,26 @@ void MainWindow::on_connectAllPushButton_clicked()
     if (selectedControlDeviceRowIndex >= 0)
     {
         ui->controlDeviceTableWidget->selectRow(selectedControlDeviceRowIndex);
+    }
+}
+
+void MainWindow::on_wdResetStopButton_clicked()
+{
+    if (selectedControlDeviceId.length() > 0)
+    {
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
+        controlDevice->setResetWDTimer(false);
+    }
+}
+
+void MainWindow::on_reScanControlDevicesButton_clicked()
+{
+    if (selectedControlDeviceId.length() > 0)
+    {
+        Valter::log("WD STOP RESET signal sent to " + selectedControlDeviceId);
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
+        controlDevice->reScanControlDevice();
     }
 }

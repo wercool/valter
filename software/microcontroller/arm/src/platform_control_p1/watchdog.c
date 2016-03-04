@@ -1,5 +1,5 @@
-#include "watchdog.h"
 #include "Board.h"
+#include "watchdog.h"
 
 /**
   \defgroup Watchdog

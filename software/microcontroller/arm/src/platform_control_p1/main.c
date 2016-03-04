@@ -232,7 +232,10 @@ static void DeviceInit(void)
     // Initialize USB device
     AT91FUSBOpen();
     // Wait for the end of enumeration
-    while (!pCDC.IsConfigured(&pCDC));
+    while (!pCDC.IsConfigured(&pCDC))
+    {
+        watchdogReset();
+    };
 
     InitPIO();
     InitADC();
@@ -339,7 +342,9 @@ void stopTurretDrive()
  */
 int main(void)
 {
-    watchdogEnable(1000);
+    watchdogReset();
+
+    unsigned char WDINTENTIONALRESET = 0;
 
     struct cdcMessage cdcMessageObj;
 
@@ -372,10 +377,15 @@ int main(void)
 
     DeviceInit();
 
+    watchdogReset();
+
     while (1)
     {
 
-        watchdogReset();
+        if (WDINTENTIONALRESET == 0)
+        {
+            watchdogReset();
+        }
 
         if (turretStaticMode)
         {
@@ -410,10 +420,27 @@ int main(void)
 
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
 
+            if (strcmp((char*) cmdParts, "WDRESET") == 0)
+            {
+                watchdogReset();
+                sprintf((char *)msg,"WDRST\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "GETID") == 0)
             {
                 sprintf((char *)msg,"PLATFORM-CONTROL-P1\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETON") == 0)
+            {
+                WDINTENTIONALRESET = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
+            {
+                WDINTENTIONALRESET = 0;
                 continue;
             }
             // CAUTION!!! Use only when AC/DC 12V connected.

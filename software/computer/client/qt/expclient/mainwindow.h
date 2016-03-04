@@ -41,7 +41,13 @@ private slots:
 
     void controlDevicesDataExchangeLogTimerUpdate();
 
+    void controlDevicesTableRefreshTimerUpdate();
+
     void on_connectAllPushButton_clicked();
+
+    void on_wdResetStopButton_clicked();
+
+    void on_reScanControlDevicesButton_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -50,6 +56,7 @@ private:
     static const int logMaxLength = 5000;
     int logLength;
     QTimer *controlDevicesDataExchangeLogTimer;
+    QTimer *controlDevicesTableRefreshTimer;
     string selectedControlDeviceId;
     bool allConnect;
 };

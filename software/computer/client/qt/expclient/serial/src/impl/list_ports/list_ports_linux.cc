@@ -301,10 +301,10 @@ serial::list_ports()
 
     vector<string> search_globs;
     search_globs.push_back("/dev/ttyACM*");
-    search_globs.push_back("/dev/ttyS*");
+    //search_globs.push_back("/dev/ttyS*");
     search_globs.push_back("/dev/ttyUSB*");
-    search_globs.push_back("/dev/tty.*");
-    search_globs.push_back("/dev/cu.*");
+    //search_globs.push_back("/dev/tty.*");
+    //search_globs.push_back("/dev/cu.*");
 
     vector<string> devices_found = glob( search_globs );
 

@@ -5,6 +5,12 @@
 #include <thread>
 #include <list>
 
+#include <stdio.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/ioctl.h>
+#include <linux/usbdevice_fs.h>
+
 #include "serial/include/serial/serial.h"
 
 
@@ -16,6 +22,8 @@ public:
     ControlDevice();
     static void listDevices();
     static void scanControlDevices();
+
+    void reScanControlDevice();
 
     static const string StatusReady;
     static const string StatusActive;
@@ -47,15 +55,35 @@ public:
     void clearDataExchangeLog();
 
     static const int maxLogBufferSize = 100;
+    static const string controlDeviceSysPathCmd;
+
+    string getSysDevicePath() const;
+    void setSysDevicePath(const string &value);
+
+    bool getResetWDTimer() const;
+    void setResetWDTimer(bool value);
+
+    bool getRescanningAfterPossibleReset() const;
+    void setRescanningAfterPossibleReset(bool value);
+
+    bool getFailedAfterRescanning() const;
+    void setFailedAfterRescanning(bool value);
 
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
     static string sanitizeConrtolDeviceResponse(string &msg);
     string status;
+    string sysDevicePath;
 
     void controlDeviceThreadWorker();
     std::thread *controlDeviceThread;
+
+    void resetUSBSysDevice();
+    bool resetWDTimer;
+
+    bool rescanningAfterPossibleReset;
+    bool failedAfterRescanning;
 
     list<string> responses;
     list<string> requests;
