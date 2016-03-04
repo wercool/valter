@@ -46,6 +46,8 @@ public:
     int dataExchangeLogAvailable();
     void clearDataExchangeLog();
 
+    static const int maxLogBufferSize = 100;
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;

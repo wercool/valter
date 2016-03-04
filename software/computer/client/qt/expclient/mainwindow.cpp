@@ -113,6 +113,17 @@ void MainWindow::addMsgToLog(string msg)
 
 void MainWindow::on_clearLogButton_clicked()
 {
+    if (ui->clearBufferCheckBox->isChecked())
+    {
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        typedef map<string, ControlDevice*>::iterator it_type;
+
+        for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
+        {
+            ControlDevice *controlDevice = controlDevicesMap[iterator->first];
+            controlDevice->clearDataExchangeLog();
+        }
+    }
     ui->loggingTextEdit->clear();
 }
 
@@ -122,6 +133,10 @@ void MainWindow::on_scanControlDevicesBtn_clicked()
     ui->selectedControlDeviceListWidget->clear();
     ui->commandEdit->clear();
     selectedControlDeviceId = "";
+
+
+    Valter::getInstance()->closeAllControlDevicePorts();
+    Valter::getInstance()->clearControlDevicesMap();
     Valter::getInstance()->scanControlDevices();
     refreshControlDeviceTableWidget();
 }
@@ -245,6 +260,13 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
             if (controlDevice->dataExchangeLogAvailable() > 0)
             {
                 Valter::log(controlDevice->getMsgFromDataExchangeLog());
+                if (ui->autoclearLogBox->isChecked())
+                {
+                    if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
+                    {
+                        controlDevice->clearDataExchangeLog();
+                    }
+                }
             }
         }
     }
@@ -256,6 +278,13 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
             if (controlDevice->dataExchangeLogAvailable() > 0)
             {
                 Valter::log(controlDevice->getMsgFromDataExchangeLog());
+                if (ui->autoclearLogBox->isChecked())
+                {
+                    if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
+                    {
+                        controlDevice->clearDataExchangeLog();
+                    }
+                }
             }
         }
     }

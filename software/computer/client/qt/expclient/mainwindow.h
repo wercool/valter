@@ -47,7 +47,7 @@ private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
     static bool instanceFlag;
-    static const int logMaxLength = 50000;
+    static const int logMaxLength = 5000;
     int logLength;
     QTimer *controlDevicesDataExchangeLogTimer;
     string selectedControlDeviceId;

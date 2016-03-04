@@ -17,21 +17,16 @@ SOURCES += main.cpp\
            controldevice.cpp \
            valter.cpp \
            serial/src/impl/list_ports/list_ports_linux.cc \
-           serial/src/impl/list_ports/list_ports_osx.cc \
-           serial/src/impl/list_ports/list_ports_win.cc \
            serial/src/impl/unix.cc \
-           serial/src/impl/win.cc \
            serial/src/serial.cc
 
 HEADERS  += mainwindow.h \
             controldevice.h \
             valter.h \
             include/serial/impl/unix.h \
-            include/serial/impl/win.h \
             include/serial/serial.h \
             include/serial/v8stdint.h \
             serial/include/serial/impl/unix.h \
-            serial/include/serial/impl/win.h \
             serial/include/serial/serial.h \
             serial/include/serial/v8stdint.h
 

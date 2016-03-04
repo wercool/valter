@@ -108,6 +108,11 @@ void Valter::setControlDevicesMap(const map<string, ControlDevice *> &value)
     controlDevicesMap = value;
 }
 
+void Valter::clearControlDevicesMap()
+{
+    controlDevicesMap.clear();
+}
+
 void Valter::scanControlDevices()
 {
     ControlDevice::scanControlDevices();

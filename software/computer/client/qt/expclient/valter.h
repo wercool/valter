@@ -33,6 +33,7 @@ public:
    void closeAllControlDevicePorts();
    map<string, ControlDevice *> getControlDevicesMap() const;
    void setControlDevicesMap(const map<string, ControlDevice *> &value);
+   void clearControlDevicesMap();
    bool getLogControlDeviceMessages() const;
    void setLogControlDeviceMessages(bool value);
 
