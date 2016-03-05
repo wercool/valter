@@ -139,6 +139,7 @@ void MainWindow::on_scanControlDevicesBtn_clicked()
     selectedControlDeviceId = "";
     ui->connectAllPushButton->setText("Connect All");
 
+    allConnect = true;
 
     Valter::getInstance()->closeAllControlDevicePorts();
     Valter::getInstance()->clearControlDevicesMap();
@@ -387,6 +388,7 @@ void MainWindow::on_wdResetStopButton_clicked()
     {
         map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
         ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
+        Valter::log(Valter::format_string("Stop WDR signal is sent to %s", controlDevice->getControlDeviceId().c_str()));
         controlDevice->setResetWDTimer(false);
     }
 }
@@ -399,5 +401,17 @@ void MainWindow::on_reScanControlDevicesButton_clicked()
         map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
         ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
         controlDevice->reScanControlDevice();
+        ui->wdResetStopButton->setText("WDR Stop");
+    }
+}
+
+void MainWindow::on_wdResetOnButton_clicked()
+{
+    if (selectedControlDeviceId.length() > 0)
+    {
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
+        Valter::log(Valter::format_string("Start WDR signal is sent to %s", controlDevice->getControlDeviceId().c_str()));
+        controlDevice->setResetWDTimer(true);
     }
 }

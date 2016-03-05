@@ -242,44 +242,31 @@ void ControlDevice::controlDeviceThreadWorker()
 
     string request;
     string response;
+    bool isWDReset = false;
 
     while (this->getStatus() == ControlDevice::StatusActive)
     {
-
-        if (WDRESETTIMER > 4000)
-        {
-            if (this->getResetWDTimer())
-            {
-                this->getControlDevicePort()->write("WDRESET");
-                this->addMsgToDataExchangeLog(Valter::format_string("%s ← %s", this->getControlDeviceId().c_str(), "WDRESET"));
-            }
-            vector<string> responses = this->getControlDevicePort()->readlines();
-
-            bool isReset = false;
-
-            for(vector<string>::size_type i = 0; i != responses.size(); i++)
-            {
-                response = responses[i];
-                sanitizeConrtolDeviceResponse(response);
-                addResponse(response);
-
-                this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", this->getControlDeviceId().c_str(), response.c_str()));
-
-                if (response.compare("WDRST") != 0)
-                {
-                    isReset = true;
-                }
-            }
-
-            if (!isReset)
-            {
-                USBRESET = true;
-                break;
-            }
-            WDRESETTIMER = 0;
-        }
         try
         {
+            if (WDRESETTIMER == wdResetTime - 500)
+            {
+                isWDReset = false;
+                if (resetWDTimer)
+                {
+                    this->addRequest("WDRESET");
+                }
+            }
+            //process outgoing
+            if (requestsAwainting() > 0)
+            {
+                request = pullRequest();
+                this->getControlDevicePort()->write(request.c_str());
+                if (Valter::getInstance()->getLogControlDeviceMessages())
+                {
+                    this->addMsgToDataExchangeLog(Valter::format_string("%s ← %s", this->getControlDeviceId().c_str(), request.c_str()));
+                }
+            }
+            //process incoming
             if (this->getControlDevicePort()->available() > 0)
             {
                 response = this->getControlDevicePort()->readline();
@@ -289,19 +276,25 @@ void ControlDevice::controlDeviceThreadWorker()
                 {
                     this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", this->getControlDeviceId().c_str(), response.c_str()));
                 }
-            }
-            if (requestsAwainting() > 0)
-            {
-                string request = pullRequest();
-                this->getControlDevicePort()->write(request.c_str());
-                if (Valter::getInstance()->getLogControlDeviceMessages())
+                if (response.compare("WDRST") == 0)
                 {
-                    this->addMsgToDataExchangeLog(Valter::format_string("%s ← %s", this->getControlDeviceId().c_str(), request.c_str()));
+                    isWDReset = true;
+                    WDRESETTIMER = 0;
                 }
             }
 
             this_thread::sleep_for(std::chrono::milliseconds(1));
+
             WDRESETTIMER++;
+
+            if (WDRESETTIMER > wdResetTime)
+            {
+                if (!isWDReset)
+                {
+                    USBRESET = true;
+                    break;
+                }
+            }
         }
         catch (const exception &ex)
         {

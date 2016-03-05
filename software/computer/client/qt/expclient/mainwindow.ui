@@ -83,7 +83,7 @@
                 </property>
                 <property name="font">
                  <font>
-                  <pointsize>25</pointsize>
+                  <pointsize>20</pointsize>
                   <weight>75</weight>
                   <bold>true</bold>
                  </font>
@@ -92,10 +92,8 @@
                  <bool>false</bool>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">color:white;
-font-weight: bold;
-background-color: red;
-border-radius: 10px;</string>
+                 <string notr="true">color:red;
+font-weight: bold;</string>
                 </property>
                 <property name="text">
                  <string>STOP</string>
@@ -899,7 +897,7 @@ border-radius: 10px;</string>
            <widget class="QPushButton" name="wdResetStopButton">
             <property name="maximumSize">
              <size>
-              <width>130</width>
+              <width>16777215</width>
               <height>16777215</height>
              </size>
             </property>
@@ -907,7 +905,14 @@ border-radius: 10px;</string>
              <string notr="true"/>
             </property>
             <property name="text">
-             <string>WD RESET STOP</string>
+             <string>WDR Stop</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="wdResetOnButton">
+            <property name="text">
+             <string>WDR Start</string>
             </property>
            </widget>
           </item>

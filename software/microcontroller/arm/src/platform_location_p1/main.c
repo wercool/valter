@@ -5,6 +5,7 @@
 
 #include "Board.h"
 #include "cdc_enumerate.h"
+#include "watchdog.h"
 #include "adc.h"
 #include "pwm.h"
 #include "aic.h"
@@ -320,7 +321,10 @@ static void DeviceInit(void)
     // Initialize USB device
     AT91FUSBOpen();
     // Wait for the end of enumeration
-    while (!pCDC.IsConfigured(&pCDC));
+    while (!pCDC.IsConfigured(&pCDC))
+    {
+        watchdogReset();
+    };
 
     InitPIO();
     InitADC();
@@ -376,6 +380,10 @@ void setShRegU13U14(char * regState)
  */
 int main(void)
 {
+    watchdogReset();
+
+    unsigned char WDINTENTIONALRESET = 0;
+
     struct cdcMessage cdcMessageObj;
 
     unsigned int sensorsChannel = 0;
@@ -407,8 +415,15 @@ int main(void)
 
     DeviceInit();
 
+    watchdogReset();
+
     while (1)
     {
+        if (WDINTENTIONALRESET == 0)
+        {
+            watchdogReset();
+        }
+
         // perform US Sensor measurement
         if (sensorsUSReadings)
         {
@@ -490,6 +505,23 @@ int main(void)
             {
                 sprintf((char *)msg,"PLATFORM-LOCATION-P1\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDRESET") == 0)
+            {
+                watchdogReset();
+                sprintf((char *)msg,"WDRST\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETON") == 0)
+            {
+                WDINTENTIONALRESET = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
+            {
+                WDINTENTIONALRESET = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "ENABLESENSORS") == 0)

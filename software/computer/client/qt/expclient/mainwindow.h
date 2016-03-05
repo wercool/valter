@@ -49,6 +49,8 @@ private slots:
 
     void on_reScanControlDevicesButton_clicked();
 
+    void on_wdResetOnButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

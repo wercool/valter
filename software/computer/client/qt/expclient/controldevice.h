@@ -29,6 +29,8 @@ public:
     static const string StatusActive;
     static const uint32_t DefaultBaudRate;
 
+    static const uint32_t wdResetTime = 5000;
+
     serial::Serial *getControlDevicePort() const;
     void setControlDevicePort(serial::Serial *value);
 

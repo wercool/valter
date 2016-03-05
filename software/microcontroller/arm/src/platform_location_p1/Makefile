@@ -70,6 +70,7 @@ SRCARM = $(TARGET).c
 SRCARM += Cstartup_SAM7.c
 SRCARM += syscalls.c 
 SRCARM += cdc_enumerate.c
+SRCARM += watchdog.c
 SRCARM  += adc.c
 SRCARM  += pwm.c
 SRCARM  += twi.c

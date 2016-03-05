@@ -337,6 +337,7 @@ void stopTurretDrive()
     turretPositioning = 0;
 }
 
+
 /*
  * Main Entry Point and Main Loop
  */
@@ -420,16 +421,16 @@ int main(void)
 
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
 
+            if (strcmp((char*) cmdParts, "GETID") == 0)
+            {
+                sprintf((char *)msg,"PLATFORM-CONTROL-P1\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "WDRESET") == 0)
             {
                 watchdogReset();
                 sprintf((char *)msg,"WDRST\n");
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "GETID") == 0)
-            {
-                sprintf((char *)msg,"PLATFORM-CONTROL-P1\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
@@ -504,6 +505,13 @@ int main(void)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
                 sprintf((char *)msg,"RIGHT ACCUMULATOR RELAY SET OFF\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETINPUT1") == 0)
+            {
+                input1Reading = getValueChannel0();
+                sprintf((char *)msg,"INPUT1 CHANNEL [%u]: %u\n", input1Channel, input1Reading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
@@ -679,6 +687,13 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETINPUT2") == 0)
+            {
+                input2Reading = getValueChannel6();
+                sprintf((char *)msg,"INPUT2 CHANNEL [%u]: %u\n", input2Channel, input2Reading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+            }
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -841,6 +856,14 @@ int main(void)
             if (strcmp((char*) cmdParts, "STOPINPUT2READINGS") == 0)
             {
                 input2Readings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETTURRETPOSITION") == 0)
+            {
+                turretReading = getValueChannel5();
+                sprintf((char *)msg,"TURRET: %u\n", turretReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTTURRETREADINGS") == 0)
@@ -1040,6 +1063,13 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29); //turretMotorINb
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETLMOTORCUR") == 0)
+            {
+                leftMotorCurrentReading = getValueChannel1();
+                sprintf((char *)msg,"LEFT MOTOR CURRENT: %u\n", leftMotorCurrentReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
+            }
             if (strcmp((char*) cmdParts, "STARTLEFTMOTORCURRENTREADINGS") == 0)
             {
                 leftMotorCurrentReadings = 1;
@@ -1049,6 +1079,13 @@ int main(void)
             {
                 leftMotorCurrentReadings = 0;
                 continue;
+            }
+            if (strcmp((char*) cmdParts, "GETRMOTORCUR") == 0)
+            {
+                rightMotorCurrentReading = getValueChannel2();
+                sprintf((char *)msg,"RIGHT MOTOR CURRENT: %u\n", rightMotorCurrentReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(100);
             }
             if (strcmp((char*) cmdParts, "STARTRIGHTMOTORCURRENTREADINGS") == 0)
             {
@@ -1113,6 +1150,7 @@ int main(void)
                 continue;
             }
         }
+
         if (input1Readings)
         {
             input1Reading = getValueChannel0();
@@ -1167,6 +1205,7 @@ int main(void)
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
             delay_ms(100);
         }
+
     }
 
     return 0; /* never reached */
