@@ -14,6 +14,7 @@ const string ControlDevice::controlDeviceSysPathCmd  = "echo /dev/bus/usb/`udeva
 ControlDevice::ControlDevice()
 {
     resetWDTimer = true;
+    intentionalWDTimerResetOnAT91SAM7s = false;
     rescanningAfterPossibleReset = false;
     failedAfterRescanning = false;
 }
@@ -122,6 +123,12 @@ void ControlDevice::reScanControlDevice()
             this->addMsgToDataExchangeLog(Valter::format_string("Trying to connect %s port", serialPortDeviceInfo.port.c_str()));
             try
             {
+                try
+                {
+                    this->controlDevicePort->close();
+                }
+                catch (const exception &ex){}
+
                 serial::Serial potentialControlDeviceSerialPort(serialPortDeviceInfo.port.c_str(), ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
 
                 if(potentialControlDeviceSerialPort.isOpen())
@@ -158,7 +165,15 @@ void ControlDevice::reScanControlDevice()
                     else
                     {
                         this->addMsgToDataExchangeLog(Valter::format_string("Not a re-scanned [%s] Control Device\n", this->getControlDeviceId().c_str()));
-                        potentialControlDeviceSerialPort.close();
+                        try
+                        {
+                            potentialControlDeviceSerialPort.close();
+                        }
+                        catch (const exception &ex)
+                        {
+                            this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired while scanning %s port...", ex.what(), potentialControlDeviceSerialPort.getPort().c_str()));
+                            break;
+                        }
                     }
                 }
                 else
@@ -169,6 +184,7 @@ void ControlDevice::reScanControlDevice()
             catch (const exception &ex)
             {
                 this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired while scanning ttyACM* ports...", ex.what()));
+                break;
             }
         }
     }
@@ -260,6 +276,14 @@ void ControlDevice::controlDeviceThreadWorker()
             if (requestsAwainting() > 0)
             {
                 request = pullRequest();
+                if (request.compare("WDINTENTIONALRESETON") == 0)
+                {
+                    intentionalWDTimerResetOnAT91SAM7s = true;
+                }
+                if (request.compare("WDINTENTIONALRESETOFF") == 0)
+                {
+                    intentionalWDTimerResetOnAT91SAM7s = false;
+                }
                 this->getControlDevicePort()->write(request.c_str());
                 if (Valter::getInstance()->getLogControlDeviceMessages())
                 {
@@ -291,8 +315,16 @@ void ControlDevice::controlDeviceThreadWorker()
             {
                 if (!isWDReset)
                 {
-                    USBRESET = true;
-                    break;
+                    if (intentionalWDTimerResetOnAT91SAM7s)
+                    {
+                        USBRESET = true;
+                        break;
+                    }
+                    else
+                    {
+                        this->addMsgToDataExchangeLog(Valter::format_string("(EMULATED Reset %s system device of [%s] Control Device)", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
+                        WDRESETTIMER = 0;
+                    }
                 }
             }
         }
@@ -306,7 +338,7 @@ void ControlDevice::controlDeviceThreadWorker()
     this->addMsgToDataExchangeLog(Valter::format_string("%s worker stopped...", this->getControlDeviceId().c_str()));
     if (USBRESET)
     {
-        this_thread::sleep_for(std::chrono::seconds(2));
+        this_thread::sleep_for(std::chrono::seconds(5));
         resetUSBSysDevice();
     }
 }

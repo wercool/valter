@@ -29,7 +29,7 @@ public:
     static const string StatusActive;
     static const uint32_t DefaultBaudRate;
 
-    static const uint32_t wdResetTime = 5000;
+    static const uint32_t wdResetTime = 2500;
 
     serial::Serial *getControlDevicePort() const;
     void setControlDevicePort(serial::Serial *value);
@@ -83,6 +83,7 @@ private:
 
     void resetUSBSysDevice();
     bool resetWDTimer;
+    bool intentionalWDTimerResetOnAT91SAM7s;
 
     bool rescanningAfterPossibleReset;
     bool failedAfterRescanning;
