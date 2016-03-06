@@ -10,6 +10,10 @@
 #include <ctime>
 
 #include "controldevice.h"
+#include "ivaltermodule.h"
+#include "platformcontrolp1.h"
+#include "platformcontrolp2.h"
+#include "platformlocationp1.h"
 
 using namespace std;
 using std::ifstream;
@@ -18,7 +22,7 @@ using std::copy;
 class Valter
 {
 public:
-   static Valter* getInstance();
+   static Valter *getInstance();
    static string getVersion();
    static void log(string msg);
 
@@ -77,15 +81,24 @@ public:
        return result;
    }
 
+   map<string, IValterModule *> getValterModulesMap() const;
+   void setValterModulesMap(const map<string, IValterModule *> &value);
+   void addUpdateValterModule(string controlDeviceId, IValterModule *valterModule);
+   IValterModule *getValterModule(string controlDeviceId);
+
+   void stopAllModules();
+
 private:
    Valter();
-   static Valter* pValter;		// Valter's singleton instance
+   static Valter *pValter;		// Valter's singleton instance
    static bool instanceFlag;
    static const bool logToGUI = true;
    static const bool logToConsole = true;
    bool logControlDeviceMessages;
    static const string cmdFilesPath;
    map<string, ControlDevice*> controlDevicesMap;
+
+   map<string, IValterModule*> valterModulesMap;
 };
 
 

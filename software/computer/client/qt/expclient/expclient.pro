@@ -18,7 +18,10 @@ SOURCES += main.cpp\
            valter.cpp \
            serial/src/impl/list_ports/list_ports_linux.cc \
            serial/src/impl/unix.cc \
-           serial/src/serial.cc
+           serial/src/serial.cc \
+    platformcontrolp1.cpp \
+    platformlocationp1.cpp \
+    platformcontrolp2.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -28,7 +31,11 @@ HEADERS  += mainwindow.h \
             include/serial/v8stdint.h \
             serial/include/serial/impl/unix.h \
             serial/include/serial/serial.h \
-            serial/include/serial/v8stdint.h
+            serial/include/serial/v8stdint.h \
+    platformcontrolp1.h \
+    ivaltermodule.h \
+    platformlocationp1.h \
+    platformcontrolp2.h
 
 FORMS    += mainwindow.ui
 

@@ -27,7 +27,42 @@ Valter::Valter()
     readControlDevicesCommandsFromFiles();
 
     ControlDevice::listDevices();
+
+    addUpdateValterModule(PlatformControlP1::getInstance()->getControlDeviceId(), PlatformControlP1::getInstance());
+    addUpdateValterModule(PlatformControlP2::getInstance()->getControlDeviceId(), PlatformControlP2::getInstance());
+    addUpdateValterModule(PlatformLocationP1::getInstance()->getControlDeviceId(), PlatformLocationP1::getInstance());
 }
+
+map<string, IValterModule *> Valter::getValterModulesMap() const
+{
+    return valterModulesMap;
+}
+
+void Valter::setValterModulesMap(const map<string, IValterModule *> &value)
+{
+    valterModulesMap = value;
+}
+
+void Valter::addUpdateValterModule(string controlDeviceId, IValterModule *valterModule)
+{
+    valterModulesMap[controlDeviceId] = valterModule;
+}
+
+IValterModule *Valter::getValterModule(string controlDeviceId)
+{
+    return valterModulesMap[controlDeviceId];
+}
+
+void Valter::stopAllModules()
+{
+    typedef map<string, IValterModule*>::iterator it_type;
+    for(it_type iterator = valterModulesMap.begin(); iterator != valterModulesMap.end(); iterator++)
+    {
+        IValterModule *valterModule = valterModulesMap[iterator->first];
+        valterModule->stopAll();
+    }
+}
+
 
 
 Valter* Valter::getInstance()
@@ -148,6 +183,8 @@ void Valter::addControlDevice(string controlDeviceId, string port)
 void Valter::addControlDeviceToControlDevicesMap(ControlDevice *controlDevice)
 {
     controlDevicesMap[controlDevice->getControlDeviceId()] = controlDevice;
+    Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->setControlDevice(controlDevice);
+    Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->resetToDefault();
 }
 
 void Valter::updateControlDevice(string controlDeviceId, string port)
@@ -165,6 +202,7 @@ void Valter::updateControlDevice(string controlDeviceId, string port)
     sys_usb_bus_device.erase(sys_usb_bus_device.length()-1);
 
     controlDevice->setSysDevicePath(sys_usb_bus_device);
+    Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->resetToDefault();
 }
 
 

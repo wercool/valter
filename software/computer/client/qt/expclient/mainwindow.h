@@ -51,6 +51,10 @@ private slots:
 
     void on_wdResetOnButton_clicked();
 
+    void on_stopAllPlatformControlP1Button_clicked();
+
+    void platformControlP1TabRefreshTimerUpdate();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -59,6 +63,7 @@ private:
     int logLength;
     QTimer *controlDevicesDataExchangeLogTimer;
     QTimer *controlDevicesTableRefreshTimer;
+    QTimer *platformControlP1TabRefreshTimer;
     string selectedControlDeviceId;
     bool allConnect;
 };

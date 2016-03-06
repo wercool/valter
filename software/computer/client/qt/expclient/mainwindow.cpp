@@ -38,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     controlDevicesTableRefreshTimer = new QTimer(this);
     connect(controlDevicesTableRefreshTimer, SIGNAL(timeout()), this, SLOT(controlDevicesTableRefreshTimerUpdate()));
     controlDevicesTableRefreshTimer->start(1000);
+
+    platformControlP1TabRefreshTimer = new QTimer(this);
+    connect(platformControlP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP1TabRefreshTimerUpdate()));
+    platformControlP1TabRefreshTimer->start(10);
 }
 
 MainWindow::~MainWindow()
@@ -429,4 +433,20 @@ void MainWindow::on_wdResetOnButton_clicked()
         Valter::log(Valter::format_string("Start WDR signal is sent to %s", controlDevice->getControlDeviceId().c_str()));
         controlDevice->setResetWDTimer(true);
     }
+}
+
+void MainWindow::on_stopAllPlatformControlP1Button_clicked()
+{
+    Valter::getInstance()->stopAllModules();
+}
+
+void MainWindow::platformControlP1TabRefreshTimerUpdate()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    ui->powerSource5VRadioButton->setChecked(platformControlP1->getPower5VOnState());
+    ui->leftAccumulatorConnectedRadioButton->setChecked(platformControlP1->getLeftAccumulatorConnected());
+    ui->rightAccumulatorConnected->setChecked(platformControlP1->getRightAccumulatorConnected());
+    ui->mainAccumulatorRelayRadioButton->setChecked(platformControlP1->getMainAccumulatorRelayOnState());
+    ui->leftAccumulatorRelay->setChecked(platformControlP1->getLeftAccumulatorRelayOnState());
+    ui->rightAccumulatorRelay->setChecked(platformControlP1->getRightAccumulatorRelayOnState());
 }

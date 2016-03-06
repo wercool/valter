@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     Valter::getInstance();
     Valter::log(Valter::format_string("Valter Exp Client V.%s", Valter::getVersion().c_str()));
 
-
     int r = application.exec();
 
     Valter::getInstance()->closeAllControlDevicePorts();
