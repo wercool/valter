@@ -158,6 +158,7 @@ void Valter::updateControlDevice(string controlDeviceId, string port)
     controlDevice->setControlDevicePort(controlDevicePort);
     controlDevice->getControlDevicePort()->close();
     controlDevice->setStatus(ControlDevice::StatusReady);
+    controlDevice->setResetWDTimer(true);
 
     string controlDeviceSysPathCmdWithDev = Valter::format_string(ControlDevice::controlDeviceSysPathCmd, port.c_str());
     string sys_usb_bus_device = Valter::exec_shell(controlDeviceSysPathCmdWithDev);
@@ -166,10 +167,6 @@ void Valter::updateControlDevice(string controlDeviceId, string port)
     controlDevice->setSysDevicePath(sys_usb_bus_device);
 }
 
-void Valter::removeControlDevice(string controlDeviceId)
-{
-    controlDevicesMap.erase(controlDeviceId);
-}
 
 ControlDevice *Valter::getControlDeviceById(string controlDeviceId)
 {

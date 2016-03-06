@@ -15,16 +15,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     setWindowIcon(QIcon(":/valter_head_icon.png"));
 
     //controlDeviceTableWidget
-    ui->controlDeviceTableWidget->setColumnCount(4);
+    ui->controlDeviceTableWidget->setColumnCount(5);
     ui->controlDeviceTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->controlDeviceTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("System Device Path"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("WDR Intent"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("System Device Path"));
     QHeaderView* controlDeviceTableWidgetHeaderView = new QHeaderView(Qt::Horizontal);
     controlDeviceTableWidgetHeaderView->setStretchLastSection(true);
-    controlDeviceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::Stretch);
+    controlDeviceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->controlDeviceTableWidget->setHorizontalHeader(controlDeviceTableWidgetHeaderView);
 
     logLength = 0;
@@ -36,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     controlDevicesTableRefreshTimer = new QTimer(this);
     connect(controlDevicesTableRefreshTimer, SIGNAL(timeout()), this, SLOT(controlDevicesTableRefreshTimerUpdate()));
-    controlDevicesTableRefreshTimer->start(5000);
+    controlDevicesTableRefreshTimer->start(1000);
 }
 
 MainWindow::~MainWindow()
@@ -64,8 +65,9 @@ void MainWindow::refreshControlDeviceTableWidget()
 
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("System Device Path"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Port Opened"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("WDR Intent"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("System Device Path"));
 
     map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
     typedef map<string, ControlDevice*>::iterator it_type;
@@ -78,11 +80,11 @@ void MainWindow::refreshControlDeviceTableWidget()
         ControlDevice *controlDevice = controlDevicesMap[iterator->first];
         ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
         ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
-        ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "true" :"false")));
-        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
+        ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "TRUE" :"FALSE")));
+        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
+        ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
         i++;
     }
-
 }
 
 void MainWindow::addMsgToLog(string msg)
@@ -306,8 +308,9 @@ void MainWindow::controlDevicesTableRefreshTimerUpdate()
 
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
     ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("System Device Path"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Port Opened"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("WDR Intent"));
+    ui->controlDeviceTableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("System Device Path"));
 
     map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
     typedef map<string, ControlDevice*>::iterator it_type;
@@ -322,13 +325,25 @@ void MainWindow::controlDevicesTableRefreshTimerUpdate()
         ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
         if (controlDevice->getRescanningAfterPossibleReset())
         {
-            ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem(("rescanning...")));
+            QTableWidgetItem *item = new QTableWidgetItem("rescanning...");
+            item->setBackground(Qt::yellow);
+            ui->controlDeviceTableWidget->setItem(i, 2, item);
         }
         else
         {
-            ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "true" :"false")));
+            if (controlDevice->getFailedAfterRescanning())
+            {
+                QTableWidgetItem *item = new QTableWidgetItem("FAILED");
+                item->setBackground(Qt::red);
+                ui->controlDeviceTableWidget->setItem(i, 2, item);
+            }
+            else
+            {
+                ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "TRUE" :"FALSE")));
+            }
         }
-        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
+        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
+        ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
         i++;
     }
 
@@ -400,7 +415,7 @@ void MainWindow::on_reScanControlDevicesButton_clicked()
         Valter::log("WD STOP RESET signal sent to " + selectedControlDeviceId);
         map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
         ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
-        controlDevice->reScanControlDevice();
+        controlDevice->reScanThisControlDevice();
         ui->wdResetStopButton->setText("WDR Stop");
     }
 }

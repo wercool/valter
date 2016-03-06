@@ -45,6 +45,7 @@ void ControlDevice::scanControlDevices()
 {
     unsigned char ttyACMDevicesNum = 0;
 
+    bool needsReScan = false;
 
     vector<serial::PortInfo> devices_found = serial::list_ports();
     vector<serial::PortInfo>::iterator iter = devices_found.begin();
@@ -86,8 +87,21 @@ void ControlDevice::scanControlDevices()
                     }
                     else
                     {
-                        Valter::log(Valter::format_string("Not a Valter Control Device\n"));
                         potentialControlDeviceSerialPort.close();
+                        //if ID 03eb:6125 Atmel Corp. detected
+                        if (serialPortDeviceInfo.hardware_id.compare("03eb:6125"))
+                        {
+                            Valter::log("ID 03eb:6125 Atmel Corp. detected, resetting respective System Device");
+                            string controlDeviceSysPathCmdWithDev = Valter::format_string(controlDeviceSysPathCmd, serialPortDeviceInfo.port.c_str());
+                            string sys_usb_bus_device = Valter::exec_shell(controlDeviceSysPathCmdWithDev);
+                            sys_usb_bus_device.erase(sys_usb_bus_device.length()-1);
+                            USBSysDeviceReset(sys_usb_bus_device);
+                            needsReScan = true;
+                        }
+                        else
+                        {
+                            Valter::log(Valter::format_string("Not a Valter Control Device\n"));
+                        }
                     }
                 }
                 else
@@ -101,90 +115,115 @@ void ControlDevice::scanControlDevices()
             }
         }
     }
+
+    if (needsReScan) scanControlDevices();
 }
 
-void ControlDevice::reScanControlDevice()
+void ControlDevice::reScanThisControlDevice()
 {
     setRescanningAfterPossibleReset(true);
-    static unsigned int rescanNum = 0;
 
-    this->addMsgToDataExchangeLog(Valter::format_string("Rescanning Control Device [%s] port... Attempt #%d", this->getControlDeviceId().c_str(), rescanNum++));
+    unsigned int cnt = getRescanNum();
+    cnt++;
+    this->setRescanNum(cnt);
+    this->addMsgToDataExchangeLog(Valter::format_string("Rescanning Control Device [%s] port... Attempt #%d", this->getControlDeviceId().c_str(), cnt));
 
     vector<serial::PortInfo> devices_found = serial::list_ports();
     vector<serial::PortInfo>::iterator iter = devices_found.begin();
 
     bool rescanSuccessful = false;
 
+    map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+    typedef map<string, ControlDevice*>::iterator it_type;
+
+    bool portAlreadyOpenedAndInUseByAnotherControlDevice = false;
+
     while( iter != devices_found.end() )
     {
         serial::PortInfo serialPortDeviceInfo = *iter++;
         if (serialPortDeviceInfo.port.find("ttyACM") != string::npos)
         {
-            this->addMsgToDataExchangeLog(Valter::format_string("Trying to connect %s port", serialPortDeviceInfo.port.c_str()));
-            try
+            portAlreadyOpenedAndInUseByAnotherControlDevice = false;
+            for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
             {
+                ControlDevice *controlDevice = controlDevicesMap[iterator->first];
+                if (controlDevice->getControlDeviceId().compare(this->getControlDeviceId()) != 0) //ignore re-scanned Control Device
+                {
+                    if (controlDevice->getControlDevicePort()->getPort().compare(serialPortDeviceInfo.port) == 0 && controlDevice->getControlDevicePort()->isOpen())
+                    {
+                        this->addMsgToDataExchangeLog(Valter::format_string("Ignoring port %s which is opened and belongs to %s", controlDevice->getControlDevicePort()->getPort().c_str(), controlDevice->getControlDeviceId().c_str()));
+                        portAlreadyOpenedAndInUseByAnotherControlDevice = true;
+                    }
+                }
+            }
+            if (!portAlreadyOpenedAndInUseByAnotherControlDevice)
+            {
+                this->addMsgToDataExchangeLog(Valter::format_string("Trying to connect %s port", serialPortDeviceInfo.port.c_str()));
                 try
                 {
-                    this->controlDevicePort->close();
-                }
-                catch (const exception &ex){}
-
-                serial::Serial potentialControlDeviceSerialPort(serialPortDeviceInfo.port.c_str(), ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
-
-                if(potentialControlDeviceSerialPort.isOpen())
-                {
-                    potentialControlDeviceSerialPort.flush();
-                    potentialControlDeviceSerialPort.write("GETID");
-                    this->addMsgToDataExchangeLog(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
-
-                    string result;
-                    unsigned int scanStep = 0;
-                    bool isValterRescanningControlDevicePort = false;
-                    while (scanStep < 5 && !isValterRescanningControlDevicePort)
+                    try
                     {
-                        result = potentialControlDeviceSerialPort.readline();
-                        sanitizeConrtolDeviceResponse(result);
-                        this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", serialPortDeviceInfo.port.c_str(), result.c_str()));
-                        if (result.compare(this->getControlDeviceId()) == 0)
-                        {
-                            isValterRescanningControlDevicePort = true;
-                        }
-                        scanStep++;
+                        this->controlDevicePort->close();
                     }
+                    catch (const exception &ex){}
 
-                    if (isValterRescanningControlDevicePort)
+                    serial::Serial potentialControlDeviceSerialPort(serialPortDeviceInfo.port.c_str(), ControlDevice::DefaultBaudRate, serial::Timeout::simpleTimeout(500));
+
+                    if(potentialControlDeviceSerialPort.isOpen())
                     {
-                        potentialControlDeviceSerialPort.close();
+                        potentialControlDeviceSerialPort.flush();
+                        potentialControlDeviceSerialPort.write("GETID");
+                        this->addMsgToDataExchangeLog(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
 
-                        Valter::getInstance()->updateControlDevice(result, serialPortDeviceInfo.port);
+                        string result;
+                        unsigned int scanStep = 0;
+                        bool isValterRescanningControlDevice = false;
+                        while (scanStep < 5 && !isValterRescanningControlDevice)
+                        {
+                            result = potentialControlDeviceSerialPort.readline();
+                            sanitizeConrtolDeviceResponse(result);
+                            this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", serialPortDeviceInfo.port.c_str(), result.c_str()));
+                            if (result.compare(this->getControlDeviceId()) == 0)
+                            {
+                                isValterRescanningControlDevice = true;
+                            }
+                            scanStep++;
+                        }
 
-                        rescanSuccessful = true;
+                        if (isValterRescanningControlDevice)
+                        {
+                            potentialControlDeviceSerialPort.close();
 
-                        break;
+                            Valter::getInstance()->updateControlDevice(result, serialPortDeviceInfo.port);
+
+                            rescanSuccessful = true;
+
+                            break;
+                        }
+                        else
+                        {
+                            this->addMsgToDataExchangeLog(Valter::format_string("Not a re-scanned [%s] Control Device\n", this->getControlDeviceId().c_str()));
+                            try
+                            {
+                                potentialControlDeviceSerialPort.close();
+                            }
+                            catch (const exception &ex)
+                            {
+                                this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired while scanning %s port...", ex.what(), potentialControlDeviceSerialPort.getPort().c_str()));
+                                continue;
+                            }
+                        }
                     }
                     else
                     {
-                        this->addMsgToDataExchangeLog(Valter::format_string("Not a re-scanned [%s] Control Device\n", this->getControlDeviceId().c_str()));
-                        try
-                        {
-                            potentialControlDeviceSerialPort.close();
-                        }
-                        catch (const exception &ex)
-                        {
-                            this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired while scanning %s port...", ex.what(), potentialControlDeviceSerialPort.getPort().c_str()));
-                            break;
-                        }
+                        this->addMsgToDataExchangeLog("busy port");
                     }
                 }
-                else
+                catch (const exception &ex)
                 {
-                    this->addMsgToDataExchangeLog("busy port");
+                    this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired while scanning ttyACM* ports...", ex.what()));
+                    continue;
                 }
-            }
-            catch (const exception &ex)
-            {
-                this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired while scanning ttyACM* ports...", ex.what()));
-                break;
             }
         }
     }
@@ -195,19 +234,40 @@ void ControlDevice::reScanControlDevice()
     }
     else
     {
-        if (rescanNum < 10)
+        if (cnt < 10)
         {
             this_thread::sleep_for(std::chrono::seconds(1));
-            new std::thread(&ControlDevice::reScanControlDevice, this);
+            new std::thread(&ControlDevice::reScanThisControlDevice, this);
         }
         else
         {
-            this->addMsgToDataExchangeLog(Valter::format_string("Rescanning Control Device [%s] port FAILED after Attempt #%d", this->getControlDeviceId().c_str(), rescanNum));
+            this->addMsgToDataExchangeLog(Valter::format_string("Rescanning Control Device [%s] port FAILED after Attempt #%d", this->getControlDeviceId().c_str(), cnt));
             setFailedAfterRescanning(true);
-            Valter::getInstance()->removeControlDevice(this->getControlDeviceId());
         }
     }
     setRescanningAfterPossibleReset(false);
+}
+
+void ControlDevice::USBSysDeviceReset(string sysDevicePath)
+{
+    Valter::log(Valter::format_string("Resetting %s system device", sysDevicePath.c_str()));
+
+    int fd;
+    fd = open(sysDevicePath.c_str(), O_WRONLY);
+    if (fd < 0)
+    {
+        Valter::log(Valter::format_string("Error while opening %s system device file", sysDevicePath.c_str()));
+        return;
+    }
+    int rc;
+    rc = ioctl(fd, USBDEVFS_RESET, 0);
+    if (rc < 0)
+    {
+        Valter::log(Valter::format_string("Error in IOCTL of %s system device file", sysDevicePath.c_str()));
+        return;
+    }
+    Valter::log(Valter::format_string("%s system device file of Reset successful!", sysDevicePath.c_str()));
+    close(fd);
 }
 
 serial::Serial *ControlDevice::getControlDevicePort() const
@@ -253,6 +313,7 @@ void ControlDevice::controlDeviceThreadWorker()
 {
     unsigned int WDRESETTIMER = 0;
     bool USBRESET = false;
+    bool RESCANAFTEREXCEPTION = false;
 
     this->addMsgToDataExchangeLog(Valter::format_string("%s worker started...", this->getControlDeviceId().c_str()));
 
@@ -331,6 +392,7 @@ void ControlDevice::controlDeviceThreadWorker()
         catch (const exception &ex)
         {
             this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired in %s worker", ex.what(), this->getControlDeviceId().c_str()));
+            RESCANAFTEREXCEPTION = true;
             break;
         }
     }
@@ -339,7 +401,16 @@ void ControlDevice::controlDeviceThreadWorker()
     if (USBRESET)
     {
         this_thread::sleep_for(std::chrono::seconds(5));
+        this->setRescanNum(0);
+        intentionalWDTimerResetOnAT91SAM7s = false;
         resetUSBSysDevice();
+    }
+    if (RESCANAFTEREXCEPTION)
+    {
+        rescanningAfterPossibleReset = true;
+        this->setRescanNum(0);
+        intentionalWDTimerResetOnAT91SAM7s = false;
+        reScanThisControlDevice();
     }
 }
 
@@ -352,7 +423,7 @@ void ControlDevice::resetUSBSysDevice()
     if (fd < 0)
     {
         this->addMsgToDataExchangeLog(Valter::format_string("Error while opening %s system device file of [%s] Control Device", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
-        new std::thread(&ControlDevice::reScanControlDevice, this);
+        new std::thread(&ControlDevice::reScanThisControlDevice, this);
         return;
     }
     int rc;
@@ -360,14 +431,34 @@ void ControlDevice::resetUSBSysDevice()
     if (rc < 0)
     {
         this->addMsgToDataExchangeLog(Valter::format_string("Error in IOCTL of %s system device file of [%s] Control Device", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
-        new std::thread(&ControlDevice::reScanControlDevice, this);
+        new std::thread(&ControlDevice::reScanThisControlDevice, this);
         return;
     }
     this->addMsgToDataExchangeLog(Valter::format_string("%s system device file of [%s] Control Device Reset successful!", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
     close(fd);
 
-    new std::thread(&ControlDevice::reScanControlDevice, this);
+    new std::thread(&ControlDevice::reScanThisControlDevice, this);
 }
+bool ControlDevice::getIntentionalWDTimerResetOnAT91SAM7s() const
+{
+    return intentionalWDTimerResetOnAT91SAM7s;
+}
+
+void ControlDevice::setIntentionalWDTimerResetOnAT91SAM7s(bool value)
+{
+    intentionalWDTimerResetOnAT91SAM7s = value;
+}
+
+unsigned int ControlDevice::getRescanNum() const
+{
+    return rescanNum;
+}
+
+void ControlDevice::setRescanNum(unsigned int value)
+{
+    rescanNum = value;
+}
+
 
 bool ControlDevice::getFailedAfterRescanning() const
 {

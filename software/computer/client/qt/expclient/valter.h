@@ -30,7 +30,6 @@ public:
    void addControlDevice(string controlDeviceId, string port);
    void addControlDeviceToControlDevicesMap(ControlDevice* controlDevice);
    void updateControlDevice(string controlDeviceId, string port);
-   void removeControlDevice(string controlDeviceId);
    ControlDevice* getControlDeviceById(string controlDeviceId);
    void closeAllControlDevicePorts();
    map<string, ControlDevice *> getControlDevicesMap() const;

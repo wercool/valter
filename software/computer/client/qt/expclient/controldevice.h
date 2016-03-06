@@ -23,7 +23,8 @@ public:
     static void listDevices();
     static void scanControlDevices();
 
-    void reScanControlDevice();
+    void reScanThisControlDevice();
+    static void USBSysDeviceReset(string sysDevicePath);
 
     static const string StatusReady;
     static const string StatusActive;
@@ -33,10 +34,8 @@ public:
 
     serial::Serial *getControlDevicePort() const;
     void setControlDevicePort(serial::Serial *value);
-
     string getControlDeviceId() const;
     void setControlDeviceId(const string &value);
-
     string getStatus() const;
     void setStatus(const string &value);
 
@@ -71,6 +70,12 @@ public:
     bool getFailedAfterRescanning() const;
     void setFailedAfterRescanning(bool value);
 
+    unsigned int getRescanNum() const;
+    void setRescanNum(unsigned int value);
+
+    bool getIntentionalWDTimerResetOnAT91SAM7s() const;
+    void setIntentionalWDTimerResetOnAT91SAM7s(bool value);
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
@@ -87,6 +92,7 @@ private:
 
     bool rescanningAfterPossibleReset;
     bool failedAfterRescanning;
+    unsigned int rescanNum;
 
     list<string> responses;
     list<string> requests;
