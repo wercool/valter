@@ -414,9 +414,10 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
+/*
             sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-
+*/
             char *cmdParts;
 
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
@@ -442,6 +443,19 @@ int main(void)
             if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
             {
                 WDINTENTIONALRESET = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETALLCURREADINGS") == 0)
+            {
+                input1Reading = getValueChannel0();
+                input2Reading = getValueChannel6();
+                turretReading = getValueChannel5();
+                leftMotorCurrentReading = getValueChannel1();
+                rightMotorCurrentReading = getValueChannel2();
+                turretMotorCurrentReading = getValueChannel4();
+                //ALLCURREADINGS:{IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER}
+                sprintf((char *)msg,"ALLCURREADINGS:%u,%u;%u,%u;%u;%u;%u;%u;%u;%u\n", input1Channel, input1Reading, input2Channel, input2Reading, turretReading, leftMotorCurrentReading, rightMotorCurrentReading, turretMotorCurrentReading, leftMotorCounter, rightMotorCounter);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             // CAUTION!!! Use only when AC/DC 12V connected.
