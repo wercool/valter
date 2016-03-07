@@ -51,6 +51,11 @@ public:
         processMessagesQueueWorkerThread = value;
     }
 
+    bool getControlDeviceIsSet()
+    {
+        return controlDeviceIsSet;
+    }
+
 private:
     ControlDevice *controlDevice;
     std::thread *processMessagesQueueWorkerThread;

@@ -14,7 +14,8 @@ PlatformControlP1::PlatformControlP1()
     Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
     this->controlDeviceIsSet = false;
     resetValuesToDefault();
-    new std::thread(&PlatformControlP1::lookFor220VACAvailable, this);
+    new std::thread(&PlatformControlP1::scanFor220VACAvailable, this);
+    chargerButtonPressStep = 0;
 }
 
 string PlatformControlP1::getControlDeviceId()
@@ -59,6 +60,12 @@ void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
 
 void PlatformControlP1::resetValuesToDefault()
 {
+    if (this->controlDeviceIsSet)
+    {
+        getControlDevice()->clearMessageQueue();
+        getControlDevice()->clearDataExchangeLog();
+    }
+
     power5VOnState                      = false;
     leftAccumulatorConnected            = false;
     rightAccumulatorConnected           = false;
@@ -70,15 +77,22 @@ void PlatformControlP1::resetValuesToDefault()
     charger120Ah                        = false;
     chargingInProgress                  = false;
     chargingComplete                    = false;
-    curChannel1Input                    = false;
+    scan220ACAvailable                  = false;
+    chargerConnected                    = false;
+
+    curChannel1Input                    = 0;
+    curChannel2Input                    = 0;
     leftMotorDutyMax                    = 1;
     rightMotorDutyMax                   = 1;
     leftMotorDuty                       = 1;
     rightMotorDuty                      = 1;
-    if (this->controlDeviceIsSet)
+
+    chargerVoltageADC                   = 0;
+    chargerVoltageVolts                 = 0.0;
+
+    if (chargerButtonPressStep != 0)
     {
-        getControlDevice()->clearMessageQueue();
-        getControlDevice()->clearDataExchangeLog();
+        setChargerMode(false);
     }
 }
 
@@ -135,6 +149,112 @@ void PlatformControlP1::processMessagesQueueWorker()
                     {
                         setPower220VACAvailable(false);
                     }
+                    setChargerVoltageADC(value);
+                    continue;
+                }
+                if (response.compare("MAIN ACCUMULATOR RELAY SET ON") == 0)
+                {
+                    setMainAccumulatorRelayOnState(true);
+                    continue;
+                }
+                if (response.compare("MAIN ACCUMULATOR RELAY SET OFF") == 0)
+                {
+                    setMainAccumulatorRelayOnState(false);
+                    continue;
+                }
+                if (response.compare("LEFT ACCUMULATOR RELAY SET ON") == 0)
+                {
+                    setLeftAccumulatorRelayOnState(true);
+                    continue;
+                }
+                if (response.compare("LEFT ACCUMULATOR RELAY SET OFF") == 0)
+                {
+                    setLeftAccumulatorRelayOnState(false);
+                    continue;
+                }
+                if (response.compare("RIGHT ACCUMULATOR RELAY SET ON") == 0)
+                {
+                    setRightAccumulatorRelayOnState(true);
+                    continue;
+                }
+                if (response.compare("RIGHT ACCUMULATOR RELAY SET OFF") == 0)
+                {
+                    setRightAccumulatorRelayOnState(false);
+                    continue;
+                }
+                if (response.find("INPUT2 CHANNEL [8]: ") !=std::string::npos) //charger connected
+                {
+                    int substr_pos = response.find(":") + 1;
+                    string value_str = response.substr(substr_pos);
+                    int value = atoi(value_str.c_str());
+                    if (value > 1000)
+                    {
+                        setChargerConnected(true);
+                    }
+                    else
+                    {
+                        setChargerConnected(false);
+                    }
+                    continue;
+                }
+                if (response.find("INPUT2 CHANNEL [9]: ") !=std::string::npos) //14.4V / 0.8A 1.2-35Ah
+                {
+                    int substr_pos = response.find(":") + 1;
+                    string value_str = response.substr(substr_pos);
+                    int value = atoi(value_str.c_str());
+                    if (value > 1000)
+                    {
+                        setCharger35Ah(true);
+                    }
+                    else
+                    {
+                        setCharger35Ah(false);
+                    }
+                    continue;
+                }
+                if (response.find("INPUT2 CHANNEL [10]: ") !=std::string::npos) //14.4V / 3.6A 35-120Ah
+                {
+                    int substr_pos = response.find(":") + 1;
+                    string value_str = response.substr(substr_pos);
+                    int value = atoi(value_str.c_str());
+                    if (value > 1000)
+                    {
+                        setCharger120Ah(true);
+                    }
+                    else
+                    {
+                        setCharger120Ah(false);
+                    }
+                    continue;
+                }
+                if (response.find("INPUT2 CHANNEL [6]: ") !=std::string::npos) //Charging in progress
+                {
+                    int substr_pos = response.find(":") + 1;
+                    string value_str = response.substr(substr_pos);
+                    int value = atoi(value_str.c_str());
+                    if (value > 600)
+                    {
+                        setChargingInProgress(true);
+                    }
+                    else
+                    {
+                        setChargingInProgress(false);
+                    }
+                    continue;
+                }
+                if (response.find("INPUT2 CHANNEL [7]: ") !=std::string::npos) //Charging complete
+                {
+                    int substr_pos = response.find(":") + 1;
+                    string value_str = response.substr(substr_pos);
+                    int value = atoi(value_str.c_str());
+                    if (value > 700)
+                    {
+                        setChargingComplete(true);
+                    }
+                    else
+                    {
+                        setChargingComplete(false);
+                    }
                     continue;
                 }
             }
@@ -144,19 +264,178 @@ void PlatformControlP1::processMessagesQueueWorker()
     }
 }
 
-void PlatformControlP1::lookFor220VACAvailable()
+void PlatformControlP1::scanFor220VACAvailable()
 {
     while (!stopAllProcesses)
     {
-        int _curChannel1Input = getCurChannel1Input();
-        setCurChannel1Input(8);
-        sendCommand("SETINPUT1CHANNEL8");
-        sendCommand("GETINPUT1");
-        sendCommand(Valter::format_string("SETINPUT1CHANNEL%d", _curChannel1Input));
-        setCurChannel1Input(_curChannel1Input);
-        this_thread::sleep_for(std::chrono::milliseconds(500));
+        if (getScan220ACAvailable())
+        {
+            int _curChannel1Input = getCurChannel1Input();
+            int _curChannel2Input = getCurChannel2Input();
+
+            setCurChannel1Input(8);
+            sendCommand("SETINPUT1CHANNEL8");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            setCurChannel2Input(8);
+            sendCommand("SETINPUT2CHANNEL8");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT2");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            setCurChannel2Input(9);
+            sendCommand("SETINPUT2CHANNEL9");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT2");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            setCurChannel2Input(10);
+            sendCommand("SETINPUT2CHANNEL10");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT2");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            setCurChannel2Input(6);
+            sendCommand("SETINPUT2CHANNEL6");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT2");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            setCurChannel2Input(7);
+            sendCommand("SETINPUT2CHANNEL7");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT2");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+
+            sendCommand(Valter::format_string("SETINPUT1CHANNEL%d", _curChannel1Input));
+            setCurChannel1Input(_curChannel1Input);
+            sendCommand(Valter::format_string("SETINPUT2CHANNEL%d", _curChannel2Input));
+            setCurChannel2Input(_curChannel2Input);
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
+
+void PlatformControlP1::chargerModeSetting()
+{
+    if (!getChargerMode())
+    {
+        while (getChargerButtonPressStep() != 0)
+        {
+            chargerButtonPress();
+            this_thread::sleep_for(std::chrono::seconds(1));
+        }
+    }
+    else
+    {
+        while (getChargerButtonPressStep() != 2)
+        {
+            chargerButtonPress();
+            this_thread::sleep_for(std::chrono::seconds(1));
+        }
+    }
+}
+bool PlatformControlP1::getChargerMode() const
+{
+    return chargerMode;
+}
+
+void PlatformControlP1::setChargerMode(bool value)
+{
+    chargerMode = value;
+    new std::thread(&PlatformControlP1::chargerModeSetting, this);
+}
+
+int PlatformControlP1::getChargerButtonPressStep() const
+{
+    return chargerButtonPressStep;
+}
+
+void PlatformControlP1::setChargerButtonPressStep(int value)
+{
+    chargerButtonPressStep = value;
+}
+
+bool PlatformControlP1::getChargerConnected() const
+{
+    return chargerConnected;
+}
+
+void PlatformControlP1::setChargerConnected(bool value)
+{
+    chargerConnected = value;
+}
+
+void PlatformControlP1::chargerButtonPress()
+{
+    if (controlDeviceIsSet)
+    {
+        if (getControlDevice()->getControlDevicePort()->isOpen())
+        {
+            sendCommand("CHARGERBUTTONPRESS");
+            if (chargerButtonPressStep + 1 < 4)
+            {
+                chargerButtonPressStep++;
+            }
+            else
+            {
+                chargerButtonPressStep = 0;
+            }
+        }
+    }
+}
+
+bool PlatformControlP1::mainAccumulatorON()
+{
+    if (getPower220VACAvailable())
+    {
+        sendCommand("MAINACCUMULATORRELAYON");
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int PlatformControlP1::getCurChannel2Input() const
+{
+    return curChannel2Input;
+}
+
+void PlatformControlP1::setCurChannel2Input(int value)
+{
+    curChannel2Input = value;
+}
+
+float PlatformControlP1::getChargerVoltageVolts() const
+{
+    return chargerVoltageVolts;
+}
+
+void PlatformControlP1::setChargerVoltageVolts(float value)
+{
+    chargerVoltageVolts = value;
+}
+
+int PlatformControlP1::getChargerVoltageADC() const
+{
+    return chargerVoltageADC;
+}
+
+void PlatformControlP1::setChargerVoltageADC(int value)
+{
+    chargerVoltageADC = value;
+    setChargerVoltageVolts(value * 0.1);
+}
+
+bool PlatformControlP1::getScan220ACAvailable() const
+{
+    return scan220ACAvailable;
+}
+
+void PlatformControlP1::setScan220ACAvailable(bool value)
+{
+    scan220ACAvailable = value;
+}
+
 int PlatformControlP1::getCurChannel1Input() const
 {
     return curChannel1Input;

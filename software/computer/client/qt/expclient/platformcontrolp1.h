@@ -68,6 +68,31 @@ public:
     int getCurChannel1Input() const;
     void setCurChannel1Input(int value);
 
+    bool getScan220ACAvailable() const;
+    void setScan220ACAvailable(bool value);
+
+    int getChargerVoltageADC() const;
+    void setChargerVoltageADC(int value);
+
+    float getChargerVoltageVolts() const;
+    void setChargerVoltageVolts(float value);
+
+    int getCurChannel2Input() const;
+    void setCurChannel2Input(int value);
+
+    bool getChargerConnected() const;
+    void setChargerConnected(bool value);
+
+    void chargerButtonPress();
+
+    bool mainAccumulatorON();
+
+    int getChargerButtonPressStep() const;
+    void setChargerButtonPressStep(int value);
+
+    bool getChargerMode() const;
+    void setChargerMode(bool value);
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
@@ -76,9 +101,14 @@ private:
 
     void processMessagesQueueWorker();
 
-    //PlatforomControlP1 strictly specific
-    void lookFor220VACAvailable();
+    //PlatforomControlP1 strictly specific methods
+    void scanFor220VACAvailable();
+    bool scan220ACAvailable;
+    bool chargerMode; //0 - turning off; 1 - set charging
+    int chargerButtonPressStep;
+    void chargerModeSetting();
 
+    //PlatforomControlP1 strictly specific properties
     bool power5VOnState;
     bool leftAccumulatorConnected;
     bool rightAccumulatorConnected;
@@ -86,15 +116,20 @@ private:
     bool leftAccumulatorRelayOnState;
     bool rightAccumulatorRelayOnState;
     bool power220VACAvailable;
+    int chargerVoltageADC;
+    float chargerVoltageVolts;
+    bool chargerConnected;
     bool charger35Ah;
     bool charger120Ah;
     bool chargingInProgress;
     bool chargingComplete;
     int curChannel1Input;
+    int curChannel2Input;
     int leftMotorDutyMax;
     int rightMotorDutyMax;
     int leftMotorDuty;
     int rightMotorDuty;
+
 };
 
 #endif // PLATFORMCONTROLP1_H

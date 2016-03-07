@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QtDebug>
+#include <QMessageBox>
+
 #include <valter.h>
 
 namespace Ui {
@@ -74,9 +77,32 @@ private slots:
 
     void on_offRightAccumulatorPlatformControlP1Button_clicked();
 
+    void on_scan220VAOnCButton_clicked();
+
+    void on_scan220VAOffCButton_clicked();
+
+    void on_onMainAccumulatorRelayPlatformControlP1Button_clicked();
+
+    void on_offMainAccumulatorRelayPlatformControlP1Button_clicked();
+
+    void on_onLeftAccumulatorRelayPlatformControlP1Button_clicked();
+
+    void on_offLeftAccumulatorRelayPlatformControlP1Button_clicked();
+
+    void on_onRightAccumulatorRelayPlatformControlP1Button_clicked();
+
+    void on_offRightAccumulatorRelayPlatformControlP1Button_clicked();
+
+    void on_chargerButton_clicked();
+
+    void on_setChargeOnButton_clicked();
+
+    void on_setChargeOffButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
+    QLabel *statusBarText;
     static bool instanceFlag;
     static const int logMaxLength = 5000;
     int logLength;

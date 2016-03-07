@@ -1,5 +1,3 @@
-#include <QtDebug>
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <valter.h>
@@ -11,6 +9,9 @@ bool MainWindow::instanceFlag = false;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    statusBarText = new QLabel();
+    statusBar()->addWidget(statusBarText, 1);
 
     setWindowIcon(QIcon(":/valter_head_icon.png"));
 
@@ -273,7 +274,9 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
             ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
             if (controlDevice->dataExchangeLogAvailable() > 0)
             {
-                Valter::log(controlDevice->getMsgFromDataExchangeLog());
+                string logMsg = controlDevice->getMsgFromDataExchangeLog();
+                Valter::log(logMsg);
+                statusBarText->setText(logMsg.c_str());
                 if (ui->autoclearLogBox->isChecked())
                 {
                     if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
@@ -291,7 +294,9 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
             ControlDevice *controlDevice = controlDevicesMap[iterator->first];
             if (controlDevice->dataExchangeLogAvailable() > 0)
             {
-                Valter::log(controlDevice->getMsgFromDataExchangeLog());
+                string logMsg = controlDevice->getMsgFromDataExchangeLog();
+                Valter::log(logMsg);
+                statusBarText->setText(logMsg.c_str());
                 if (ui->autoclearLogBox->isChecked())
                 {
                     if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
@@ -444,6 +449,42 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
 
+    if (!platformControlP1->getScan220ACAvailable())
+    {
+        ui->power220VACAvailableRadioButton->setChecked(false);
+        ui->power220VACAvailableRadioButton->setEnabled(false);
+        ui->chargerVoltageLabel->setEnabled(false);
+        ui->chargerVoltageADCCheckBox->setEnabled(false);
+        ui->chargerVoltageLcdNumber->setEnabled(false);
+        ui->charger35AhRadioButton->setEnabled(false);
+        ui->charger35AhRadioButton->setChecked(false);
+        ui->charger120AhRadioButton->setEnabled(false);
+        ui->charger120AhRadioButton->setChecked(false);
+        ui->chargingInProgressRadioButton->setEnabled(false);
+        ui->chargingInProgressRadioButton->setChecked(false);
+        ui->chargingCompleteRadioButton->setEnabled(false);
+        ui->chargingCompleteRadioButton->setChecked(false);
+        ui->chargerConnectedRadioButton->setEnabled(false);
+        ui->chargerConnectedRadioButton->setChecked(false);
+        ui->charger120Ah14v7RadioButton->setEnabled(false);
+        ui->chargerButton->setEnabled(false);
+        platformControlP1->setChargerVoltageADC(0);
+    }
+    else
+    {
+        ui->power220VACAvailableRadioButton->setEnabled(true);
+        ui->chargerVoltageLabel->setEnabled(true);
+        ui->chargerVoltageADCCheckBox->setEnabled(true);
+        ui->chargerVoltageLcdNumber->setEnabled(true);
+        ui->charger35AhRadioButton->setEnabled(true);
+        ui->charger120AhRadioButton->setEnabled(true);
+        ui->chargingInProgressRadioButton->setEnabled(true);
+        ui->chargingCompleteRadioButton->setEnabled(true);
+        ui->chargerButton->setEnabled(true);
+        ui->chargerConnectedRadioButton->setEnabled(true);
+        ui->charger120Ah14v7RadioButton->setEnabled(true);
+    }
+
     ui->powerSource5VRadioButton->setChecked(platformControlP1->getPower5VOnState());
     ui->leftAccumulatorConnectedRadioButton->setChecked(platformControlP1->getLeftAccumulatorConnected());
     ui->rightAccumulatorConnected->setChecked(platformControlP1->getRightAccumulatorConnected());
@@ -455,6 +496,52 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
     ui->charger120AhRadioButton->setChecked(platformControlP1->getCharger120Ah());
     ui->chargingInProgressRadioButton->setChecked(platformControlP1->getChargingInProgress());
     ui->chargingCompleteRadioButton->setChecked(platformControlP1->getChargingComplete());
+    ui->chargerConnectedRadioButton->setChecked(platformControlP1->getChargerConnected());
+    if (ui->chargerVoltageADCCheckBox->isChecked())
+    {
+        ui->chargerVoltageLcdNumber->display(platformControlP1->getChargerVoltageADC());
+    }
+    else
+    {
+        ui->chargerVoltageLcdNumber->display(platformControlP1->getChargerVoltageVolts());
+    }
+    if (platformControlP1->getControlDeviceIsSet())
+    {
+        switch (platformControlP1->getChargerButtonPressStep())
+        {
+                case 0:
+                    ui->chargerButtonPressStep0->setText("←");
+                    ui->chargerButtonPressStep1->setText("");
+                    ui->chargerButtonPressStep2->setText("");
+                    ui->chargerButtonPressStep3->setText("");
+                break;
+                case 1:
+                    ui->chargerButtonPressStep0->setText("");
+                    ui->chargerButtonPressStep1->setText("←");
+                    ui->chargerButtonPressStep2->setText("");
+                    ui->chargerButtonPressStep3->setText("");
+                break;
+                case 2:
+                    ui->chargerButtonPressStep0->setText("");
+                    ui->chargerButtonPressStep1->setText("");
+                    ui->chargerButtonPressStep2->setText("←");
+                    ui->chargerButtonPressStep3->setText("");
+                break;
+                case 3:
+                    ui->chargerButtonPressStep0->setText("");
+                    ui->chargerButtonPressStep1->setText("");
+                    ui->chargerButtonPressStep2->setText("");
+                    ui->chargerButtonPressStep3->setText("←");
+                break;
+        }
+    }
+    else
+    {
+        ui->chargerButtonPressStep0->setText("");
+        ui->chargerButtonPressStep1->setText("");
+        ui->chargerButtonPressStep2->setText("");
+        ui->chargerButtonPressStep3->setText("");
+    }
 }
 
 void MainWindow::on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue)
@@ -534,4 +621,75 @@ void MainWindow::on_offRightAccumulatorPlatformControlP1Button_clicked()
 {
     IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     valterModule->sendCommand("RIGHTACCUMULATORDISCONNECT");
+}
+
+void MainWindow::on_scan220VAOnCButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setScan220ACAvailable(true);
+}
+
+void MainWindow::on_scan220VAOffCButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setScan220ACAvailable(false);
+}
+
+void MainWindow::on_onMainAccumulatorRelayPlatformControlP1Button_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (!platformControlP1->mainAccumulatorON())
+    {
+        QMessageBox msgBox;
+        msgBox.setText("220V AC is not connected");
+        msgBox.exec();
+    }
+}
+
+void MainWindow::on_offMainAccumulatorRelayPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("MAINACCUMULATORRELAYOFF");
+}
+
+void MainWindow::on_onLeftAccumulatorRelayPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("LEFTACCUMULATORRELAYON");
+}
+
+void MainWindow::on_offLeftAccumulatorRelayPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("LEFTACCUMULATORRELAYOFF");
+}
+
+void MainWindow::on_onRightAccumulatorRelayPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("RIGHTACCUMULATORRELAYON");
+}
+
+void MainWindow::on_offRightAccumulatorRelayPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("RIGHTACCUMULATORRELAYOFF");
+}
+
+void MainWindow::on_chargerButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->chargerButtonPress();
+}
+
+void MainWindow::on_setChargeOnButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setChargerMode(true);
+}
+
+void MainWindow::on_setChargeOffButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setChargerMode(false);
 }
