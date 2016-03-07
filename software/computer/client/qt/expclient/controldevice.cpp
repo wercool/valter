@@ -397,7 +397,7 @@ void ControlDevice::controlDeviceThreadWorker()
         }
     }
 
-    this->addMsgToDataExchangeLog(Valter::format_string("%s worker stopped...", this->getControlDeviceId().c_str()));
+    this->addMsgToDataExchangeLog(Valter::format_string("%s worker stopped!", this->getControlDeviceId().c_str()));
     if (USBRESET)
     {
         this_thread::sleep_for(std::chrono::seconds(5));
@@ -503,6 +503,9 @@ void ControlDevice::setControlDeviceThread(std::thread *value)
 void ControlDevice::spawnControlDeviceThreadWorker()
 {
     controlDeviceThread = new std::thread(&ControlDevice::controlDeviceThreadWorker, this);
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(getControlDeviceId());
+    valterModule->spawnProcessMessagesQueueWorkerThread();
+
 }
 
 void ControlDevice::addRequest(string msg)
@@ -544,6 +547,12 @@ int ControlDevice::responsesAvailable()
 int ControlDevice::requestsAwainting()
 {
     return (int)requests.size();
+}
+
+void ControlDevice::clearMessageQueue()
+{
+    responses.clear();
+    requests.clear();
 }
 
 void ControlDevice::addMsgToDataExchangeLog(string msg)

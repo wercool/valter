@@ -55,6 +55,25 @@ private slots:
 
     void platformControlP1TabRefreshTimerUpdate();
 
+    void on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue);
+
+    void on_leftMotorPlatformControlP1DutySlider_sliderMoved(int value);
+
+    void on_rightMotorPlatformControlP1DutySlider_sliderMoved(int value);
+
+
+    void on_on5VPlatformControlP1pushButton_clicked();
+
+    void on_off5VPlatformControlP1pushButton_clicked();
+
+    void on_onLeftAccumulatorPlatformControlP1Button_clicked();
+
+    void on_offLeftAccumulatorPlatformControlP1Button_clicked();
+
+    void on_onRightAccumulatorPlatformControlP1Button_clicked();
+
+    void on_offRightAccumulatorPlatformControlP1Button_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

@@ -16,10 +16,11 @@ public:
 
     void stopAll();
     void resetToDefault();
+    void spawnProcessMessagesQueueWorkerThread();
 
 private:
     PlatformLocationP1();
-    static PlatformLocationP1* pPlatformLocationP1;		// PLATFORM-LOCATION-P1's singleton instance
+    static PlatformLocationP1* pPlatformLocationP1;         // PLATFORM-LOCATION-P1's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
 };

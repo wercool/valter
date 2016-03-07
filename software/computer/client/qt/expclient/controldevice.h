@@ -49,6 +49,7 @@ public:
     string pullResponse();
     int responsesAvailable();
     int requestsAwainting();
+    void clearMessageQueue();
 
     void addMsgToDataExchangeLog(string msg);
     string getMsgFromDataExchangeLog();

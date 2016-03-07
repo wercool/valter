@@ -47,3 +47,8 @@ void PlatformControlP2::resetToDefault()
 {
     getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformControlP2::controlDeviceId.c_str()));
 }
+
+void PlatformControlP2::spawnProcessMessagesQueueWorkerThread()
+{
+    //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));
+}

@@ -213,7 +213,6 @@ ControlDevice *Valter::getControlDeviceById(string controlDeviceId)
 
 void Valter::closeAllControlDevicePorts()
 {
-
     map<string, ControlDevice*> controlDevicesMap = getControlDevicesMap();
     typedef map<string, ControlDevice*>::iterator it_type;
 

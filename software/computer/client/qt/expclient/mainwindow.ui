@@ -47,8 +47,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>758</width>
-             <height>507</height>
+             <width>742</width>
+             <height>585</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -65,7 +65,7 @@
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_5">
                   <property name="spacing">
-                   <number>6</number>
+                   <number>3</number>
                   </property>
                   <property name="topMargin">
                    <number>0</number>
@@ -432,13 +432,18 @@
                       <height>20</height>
                      </size>
                     </property>
+                    <property name="font">
+                     <font>
+                      <italic>true</italic>
+                     </font>
+                    </property>
                     <property name="text">
-                     <string>Duty</string>
+                     <string>Max Duty</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSlider" name="horizontalSlider">
+                   <widget class="QSlider" name="platformControlP1WheelMotorsDutySlider">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -450,6 +455,12 @@
                       <width>16777215</width>
                       <height>20</height>
                      </size>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
                     </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -521,6 +532,64 @@
                    </widget>
                   </item>
                   <item>
+                   <widget class="QLabel" name="label_12">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>Left Wheel Motor Max Duty </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSlider" name="leftMotorPlatformControlP1DutySlider">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_13">
+                    <property name="text">
+                     <string>Right Wheel Motor Max Duty</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSlider" name="rightMotorPlatformControlP1DutySlider">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="Line" name="line_4">
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -573,6 +642,9 @@
               </item>
               <item row="0" column="1">
                <layout class="QVBoxLayout" name="verticalLayout_9">
+                <property name="spacing">
+                 <number>3</number>
+                </property>
                 <property name="topMargin">
                  <number>0</number>
                 </property>
@@ -803,7 +875,7 @@
                 </item>
                </layout>
               </item>
-              <item row="0" column="4" alignment="Qt::AlignRight|Qt::AlignTop">
+              <item row="0" column="5" alignment="Qt::AlignRight|Qt::AlignTop">
                <widget class="QPushButton" name="stopAllPlatformControlP1Button">
                 <property name="minimumSize">
                  <size>
@@ -836,7 +908,7 @@ font-weight: bold;</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="4">
+              <item row="2" column="5">
                <spacer name="horizontalSpacer">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -851,6 +923,9 @@ font-weight: bold;</string>
               </item>
               <item row="0" column="3">
                <layout class="QVBoxLayout" name="verticalLayout_6">
+                <property name="spacing">
+                 <number>2</number>
+                </property>
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
@@ -886,14 +961,14 @@ font-weight: bold;</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton">
+                   <widget class="QPushButton" name="on5VPlatformControlP1pushButton">
                     <property name="text">
                      <string>ON</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_14">
+                   <widget class="QPushButton" name="off5VPlatformControlP1pushButton">
                     <property name="text">
                      <string>OFF</string>
                     </property>
@@ -917,14 +992,14 @@ font-weight: bold;</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_15">
+                   <widget class="QPushButton" name="onLeftAccumulatorPlatformControlP1Button">
                     <property name="text">
                      <string>ON</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_16">
+                   <widget class="QPushButton" name="offLeftAccumulatorPlatformControlP1Button">
                     <property name="text">
                      <string>OFF</string>
                     </property>
@@ -948,14 +1023,14 @@ font-weight: bold;</string>
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_17">
+                   <widget class="QPushButton" name="onRightAccumulatorPlatformControlP1Button">
                     <property name="text">
                      <string>ON</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_18">
+                   <widget class="QPushButton" name="offRightAccumulatorPlatformControlP1Button">
                     <property name="text">
                      <string>OFF</string>
                     </property>
@@ -980,6 +1055,83 @@ font-weight: bold;</string>
                   </property>
                   <property name="text">
                    <string>Charging</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="power220VACAvailableRadioButton">
+                  <property name="text">
+                   <string>220V available</string>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_10">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="charger35AhRadioButton">
+                  <property name="text">
+                   <string>14.4V / 0.8A 1.2-35Ah</string>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="charger120AhRadioButton">
+                  <property name="text">
+                   <string>14.4V / 3.6A 35-120Ah</string>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="chargingInProgressRadioButton">
+                  <property name="text">
+                   <string>Charging in progress</string>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="chargingCompleteRadioButton">
+                  <property name="text">
+                   <string>Charging complete</string>
+                  </property>
+                  <property name="autoExclusive">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item alignment="Qt::AlignHCenter">
+                 <widget class="QPushButton" name="chargerButton">
+                  <property name="maximumSize">
+                   <size>
+                    <width>150</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Charger Button</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_9">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
                   </property>
                  </widget>
                 </item>
@@ -1106,6 +1258,13 @@ font-weight: bold;</string>
                  </spacer>
                 </item>
                </layout>
+              </item>
+              <item row="0" column="4">
+               <widget class="Line" name="line_11">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
               </item>
              </layout>
             </item>

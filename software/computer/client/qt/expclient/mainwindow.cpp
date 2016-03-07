@@ -443,10 +443,95 @@ void MainWindow::on_stopAllPlatformControlP1Button_clicked()
 void MainWindow::platformControlP1TabRefreshTimerUpdate()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+
     ui->powerSource5VRadioButton->setChecked(platformControlP1->getPower5VOnState());
     ui->leftAccumulatorConnectedRadioButton->setChecked(platformControlP1->getLeftAccumulatorConnected());
     ui->rightAccumulatorConnected->setChecked(platformControlP1->getRightAccumulatorConnected());
     ui->mainAccumulatorRelayRadioButton->setChecked(platformControlP1->getMainAccumulatorRelayOnState());
     ui->leftAccumulatorRelay->setChecked(platformControlP1->getLeftAccumulatorRelayOnState());
     ui->rightAccumulatorRelay->setChecked(platformControlP1->getRightAccumulatorRelayOnState());
+    ui->power220VACAvailableRadioButton->setChecked(platformControlP1->getPower220VACAvailable());
+    ui->charger35AhRadioButton->setChecked(platformControlP1->getCharger35Ah());
+    ui->charger120AhRadioButton->setChecked(platformControlP1->getCharger120Ah());
+    ui->chargingInProgressRadioButton->setChecked(platformControlP1->getChargingInProgress());
+    ui->chargingCompleteRadioButton->setChecked(platformControlP1->getChargingComplete());
+}
+
+void MainWindow::on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue)
+{
+    static int prevDutyVal = 1;
+
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
+    int maxDutyRight = platformControlP1->getRightMotorDutyMax();
+
+    if(dutyValue > prevDutyVal)
+    {
+        if (maxDutyLeft < 100)
+            maxDutyLeft++;
+        if (maxDutyRight < 100)
+            maxDutyRight++;
+    }
+    else
+    {
+        if (maxDutyLeft > 1)
+            maxDutyLeft--;
+        if (maxDutyRight > 1)
+            maxDutyRight--;
+    }
+    platformControlP1->setLeftMotorDutyMax(maxDutyLeft);
+    platformControlP1->setRightMotorDutyMax(maxDutyRight);
+
+    ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyMax());
+    ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyMax());
+
+    prevDutyVal = dutyValue;
+}
+
+void MainWindow::on_leftMotorPlatformControlP1DutySlider_sliderMoved(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorDutyMax(value);
+}
+
+void MainWindow::on_rightMotorPlatformControlP1DutySlider_sliderMoved(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setRightMotorDutyMax(value);
+}
+
+void MainWindow::on_on5VPlatformControlP1pushButton_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("DCDC5VENABLEON");
+}
+
+void MainWindow::on_off5VPlatformControlP1pushButton_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("DCDC5VENABLEOFF");
+}
+
+void MainWindow::on_onLeftAccumulatorPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("LEFTACCUMULATORCONNECT");
+}
+
+void MainWindow::on_offLeftAccumulatorPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("LEFTACCUMULATORDISCONNECT");
+}
+
+void MainWindow::on_onRightAccumulatorPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("RIGHTACCUMULATORCONNECT");
+}
+
+void MainWindow::on_offRightAccumulatorPlatformControlP1Button_clicked()
+{
+    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    valterModule->sendCommand("RIGHTACCUMULATORDISCONNECT");
 }

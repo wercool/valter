@@ -16,10 +16,11 @@ public:
 
     void stopAll();
     void resetToDefault();
+    void spawnProcessMessagesQueueWorkerThread();
 
 private:
     PlatformControlP2();
-    static PlatformControlP2* pPlatformControlP2;		// PLATFORM-CONTROL-P2's singleton instance
+    static PlatformControlP2* pPlatformControlP2;       // PLATFORM-CONTROL-P2's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
 };

@@ -601,6 +601,7 @@ int main(void)
                 input1Channel = 7;
                 continue;
             }
+            //charger connected
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL8") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A

@@ -8,6 +8,11 @@ class IValterModule
 public:
     virtual ~IValterModule() {}
 
+    IValterModule()
+    {
+        stopAllProcesses = false;
+    }
+
     ControlDevice *getControlDevice()
     {
         return controlDevice;
@@ -19,12 +24,37 @@ public:
     }
 
     bool controlDeviceIsSet;
+    bool stopAllProcesses;
 
     virtual void stopAll() = 0;
     virtual void resetToDefault() = 0;
-    void resetValuesToDefault();
+    virtual void spawnProcessMessagesQueueWorkerThread() = 0;
+
+    void sendCommand(string cmd)
+    {
+        if (controlDeviceIsSet)
+        {
+            if (getControlDevice()->getStatus() == ControlDevice::StatusActive)
+            {
+                getControlDevice()->addRequest(cmd);
+            }
+        }
+    }
+
+    std::thread *getProcessMessagesQueueWorkerThread()
+    {
+        return processMessagesQueueWorkerThread;
+    }
+
+    void setProcessMessagesQueueWorkerThread(std::thread *value)
+    {
+        processMessagesQueueWorkerThread = value;
+    }
+
 private:
     ControlDevice *controlDevice;
+    std::thread *processMessagesQueueWorkerThread;
+
 };
 
 #endif // IVALTERMODULE_H

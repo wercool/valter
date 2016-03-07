@@ -47,3 +47,8 @@ void PlatformLocationP1::resetToDefault()
 {
     getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformLocationP1::controlDeviceId.c_str()));
 }
+
+void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()
+{
+    //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformLocationP1::processMessagesQueueWorker, this));
+}
