@@ -12,17 +12,17 @@ const string PlatformControlP1::controlDeviceId = "PLATFORM-CONTROL-P1";
 PlatformControlP1::PlatformControlP1()
 {
     Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
-    this->controlDeviceIsSet = false;
+    controlDeviceIsSet = false;
     resetValuesToDefault();
-    new std::thread(&PlatformControlP1::scanFor220VACAvailable, this);
     chargerButtonPressStep = 0;
+    new std::thread(&PlatformControlP1::platformMovementWorker, this);
+    new std::thread(&PlatformControlP1::scanFor220VACAvailable, this);
 }
 
 string PlatformControlP1::getControlDeviceId()
 {
     return controlDeviceId;
 }
-
 
 PlatformControlP1 *PlatformControlP1::getInstance()
 {
@@ -79,6 +79,19 @@ void PlatformControlP1::resetValuesToDefault()
     chargingComplete                    = false;
     scan220ACAvailable                  = false;
     chargerConnected                    = false;
+    leftMotorDirectionCanChange         = true;
+    rightMotorDirectionCanChange        = true;
+    leftMotorDirection                  = true;
+    rightMotorDirection                 = true;
+    leftMotorStop                       = true;
+    rightMotorStop                      = true;
+    platformEmergencyStop               = false;
+    leftMotorActivated                  = false;
+    rightMotorActivated                 = false;
+    leftMotorAccelerating               = false;
+    rightMotorAccelerating              = false;
+    leftMotorDecelerating               = false;
+    rightMotorDecelerating              = false;
 
     curChannel1Input                    = 0;
     curChannel2Input                    = 0;
@@ -86,6 +99,8 @@ void PlatformControlP1::resetValuesToDefault()
     rightMotorDutyMax                   = 1;
     leftMotorDuty                       = 1;
     rightMotorDuty                      = 1;
+    platformDeceleration                = 1;
+    platformAcceleration                = 1;
 
     chargerVoltageADC                   = 0;
     chargerVoltageVolts                 = 0.0;
@@ -98,7 +113,7 @@ void PlatformControlP1::resetValuesToDefault()
 
 void PlatformControlP1::processMessagesQueueWorker()
 {
-    if (this->controlDeviceIsSet)
+    if (getControlDeviceIsSet())
     {
         while (getControlDevice()->getStatus() == ControlDevice::StatusActive)
         {
@@ -106,156 +121,160 @@ void PlatformControlP1::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
-                if (response.compare("DC/DC 5V ENABLED") == 0)
+                //execute identification of responses with priority
+                if (getLeftMotorStop() && getRightMotorStop())
                 {
-                    setPower5VOnState(true);
-                    continue;
-                }
-                if (response.compare("DC/DC 5V DISABLED") == 0)
-                {
-                    setPower5VOnState(false);
-                    continue;
-                }
-                if (response.compare("LEFT ACCUMULATOR CONNECTED") == 0)
-                {
-                    setLeftAccumulatorConnected(true);
-                    continue;
-                }
-                if (response.compare("LEFT ACCUMULATOR DISCONNECTED") == 0)
-                {
-                    setLeftAccumulatorConnected(false);
-                    continue;
-                }
-                if (response.compare("RIGHT ACCUMULATOR CONNECTED") == 0)
-                {
-                    setRightAccumulatorConnected(true);
-                    continue;
-                }
-                if (response.compare("RIGHT ACCUMULATOR DISCONNECTED") == 0)
-                {
-                    setRightAccumulatorConnected(false);
-                    continue;
-                }
-                if (response.find("INPUT1 CHANNEL [8]: ") !=std::string::npos) //charger voltage
-                {
-                    int substr_pos = response.find(":") + 1;
-                    string value_str = response.substr(substr_pos);
-                    int value = atoi(value_str.c_str());
-                    if (value > 1000)
+                    if (response.compare("DC/DC 5V ENABLED") == 0)
                     {
-                        setPower220VACAvailable(true);
+                        setPower5VOnState(true);
+                        continue;
                     }
-                    else
+                    if (response.compare("DC/DC 5V DISABLED") == 0)
                     {
-                        setPower220VACAvailable(false);
+                        setPower5VOnState(false);
+                        continue;
                     }
-                    setChargerVoltageADC(value);
-                    continue;
-                }
-                if (response.compare("MAIN ACCUMULATOR RELAY SET ON") == 0)
-                {
-                    setMainAccumulatorRelayOnState(true);
-                    continue;
-                }
-                if (response.compare("MAIN ACCUMULATOR RELAY SET OFF") == 0)
-                {
-                    setMainAccumulatorRelayOnState(false);
-                    continue;
-                }
-                if (response.compare("LEFT ACCUMULATOR RELAY SET ON") == 0)
-                {
-                    setLeftAccumulatorRelayOnState(true);
-                    continue;
-                }
-                if (response.compare("LEFT ACCUMULATOR RELAY SET OFF") == 0)
-                {
-                    setLeftAccumulatorRelayOnState(false);
-                    continue;
-                }
-                if (response.compare("RIGHT ACCUMULATOR RELAY SET ON") == 0)
-                {
-                    setRightAccumulatorRelayOnState(true);
-                    continue;
-                }
-                if (response.compare("RIGHT ACCUMULATOR RELAY SET OFF") == 0)
-                {
-                    setRightAccumulatorRelayOnState(false);
-                    continue;
-                }
-                if (response.find("INPUT2 CHANNEL [8]: ") !=std::string::npos) //charger connected
-                {
-                    int substr_pos = response.find(":") + 1;
-                    string value_str = response.substr(substr_pos);
-                    int value = atoi(value_str.c_str());
-                    if (value > 1000)
+                    if (response.compare("LEFT ACCUMULATOR CONNECTED") == 0)
                     {
-                        setChargerConnected(true);
+                        setLeftAccumulatorConnected(true);
+                        continue;
                     }
-                    else
+                    if (response.compare("LEFT ACCUMULATOR DISCONNECTED") == 0)
                     {
-                        setChargerConnected(false);
+                        setLeftAccumulatorConnected(false);
+                        continue;
                     }
-                    continue;
-                }
-                if (response.find("INPUT2 CHANNEL [9]: ") !=std::string::npos) //14.4V / 0.8A 1.2-35Ah
-                {
-                    int substr_pos = response.find(":") + 1;
-                    string value_str = response.substr(substr_pos);
-                    int value = atoi(value_str.c_str());
-                    if (value > 1000)
+                    if (response.compare("RIGHT ACCUMULATOR CONNECTED") == 0)
                     {
-                        setCharger35Ah(true);
+                        setRightAccumulatorConnected(true);
+                        continue;
                     }
-                    else
+                    if (response.compare("RIGHT ACCUMULATOR DISCONNECTED") == 0)
                     {
-                        setCharger35Ah(false);
+                        setRightAccumulatorConnected(false);
+                        continue;
                     }
-                    continue;
-                }
-                if (response.find("INPUT2 CHANNEL [10]: ") !=std::string::npos) //14.4V / 3.6A 35-120Ah
-                {
-                    int substr_pos = response.find(":") + 1;
-                    string value_str = response.substr(substr_pos);
-                    int value = atoi(value_str.c_str());
-                    if (value > 1000)
+                    if (response.find("INPUT1 CHANNEL [8]: ") !=std::string::npos) //charger voltage
                     {
-                        setCharger120Ah(true);
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        if (value > 1000)
+                        {
+                            setPower220VACAvailable(true);
+                        }
+                        else
+                        {
+                            setPower220VACAvailable(false);
+                        }
+                        setChargerVoltageADC(value);
+                        continue;
                     }
-                    else
+                    if (response.compare("MAIN ACCUMULATOR RELAY SET ON") == 0)
                     {
-                        setCharger120Ah(false);
+                        setMainAccumulatorRelayOnState(true);
+                        continue;
                     }
-                    continue;
-                }
-                if (response.find("INPUT2 CHANNEL [6]: ") !=std::string::npos) //Charging in progress
-                {
-                    int substr_pos = response.find(":") + 1;
-                    string value_str = response.substr(substr_pos);
-                    int value = atoi(value_str.c_str());
-                    if (value > 600)
+                    if (response.compare("MAIN ACCUMULATOR RELAY SET OFF") == 0)
                     {
-                        setChargingInProgress(true);
+                        setMainAccumulatorRelayOnState(false);
+                        continue;
                     }
-                    else
+                    if (response.compare("LEFT ACCUMULATOR RELAY SET ON") == 0)
                     {
-                        setChargingInProgress(false);
+                        setLeftAccumulatorRelayOnState(true);
+                        continue;
                     }
-                    continue;
-                }
-                if (response.find("INPUT2 CHANNEL [7]: ") !=std::string::npos) //Charging complete
-                {
-                    int substr_pos = response.find(":") + 1;
-                    string value_str = response.substr(substr_pos);
-                    int value = atoi(value_str.c_str());
-                    if (value > 700)
+                    if (response.compare("LEFT ACCUMULATOR RELAY SET OFF") == 0)
                     {
-                        setChargingComplete(true);
+                        setLeftAccumulatorRelayOnState(false);
+                        continue;
                     }
-                    else
+                    if (response.compare("RIGHT ACCUMULATOR RELAY SET ON") == 0)
                     {
-                        setChargingComplete(false);
+                        setRightAccumulatorRelayOnState(true);
+                        continue;
                     }
-                    continue;
+                    if (response.compare("RIGHT ACCUMULATOR RELAY SET OFF") == 0)
+                    {
+                        setRightAccumulatorRelayOnState(false);
+                        continue;
+                    }
+                    if (response.find("INPUT2 CHANNEL [8]: ") !=std::string::npos) //charger connected
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        if (value > 1000)
+                        {
+                            setChargerConnected(true);
+                        }
+                        else
+                        {
+                            setChargerConnected(false);
+                        }
+                        continue;
+                    }
+                    if (response.find("INPUT2 CHANNEL [9]: ") !=std::string::npos) //14.4V / 0.8A 1.2-35Ah
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        if (value > 1000)
+                        {
+                            setCharger35Ah(true);
+                        }
+                        else
+                        {
+                            setCharger35Ah(false);
+                        }
+                        continue;
+                    }
+                    if (response.find("INPUT2 CHANNEL [10]: ") !=std::string::npos) //14.4V / 3.6A 35-120Ah
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        if (value > 1000)
+                        {
+                            setCharger120Ah(true);
+                        }
+                        else
+                        {
+                            setCharger120Ah(false);
+                        }
+                        continue;
+                    }
+                    if (response.find("INPUT2 CHANNEL [6]: ") !=std::string::npos) //Charging in progress
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        if (value > 600)
+                        {
+                            setChargingInProgress(true);
+                        }
+                        else
+                        {
+                            setChargingInProgress(false);
+                        }
+                        continue;
+                    }
+                    if (response.find("INPUT2 CHANNEL [7]: ") !=std::string::npos) //Charging complete
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        if (value > 700)
+                        {
+                            setChargingComplete(true);
+                        }
+                        else
+                        {
+                            setChargingComplete(false);
+                        }
+                        continue;
+                    }
                 }
             }
             this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -332,6 +351,295 @@ void PlatformControlP1::chargerModeSetting()
         }
     }
 }
+
+bool PlatformControlP1::preparePlatformMovement()
+{
+    bool canMove = true;
+
+    canMove &= !getPower220VACAvailable();
+    canMove &= !getMainAccumulatorRelayOnState();
+
+    setScan220ACAvailable(false);
+
+    setLeftMotorDirectionCanChange(false);
+    setRightMotorDirectionCanChange(false);
+
+    return canMove;
+}
+
+void PlatformControlP1::platformMovementWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (!getPlatformEmergencyStop())
+        {
+            //Left Motor
+            if (!getLeftMotorStop())
+            {
+                int curLeftMotorDuty = getLeftMotorDuty();
+                bool acceleration, decceleration;
+                if (getLeftMotorActivated())
+                {
+                    acceleration = getLeftMotorAccelerating();
+                    if (curLeftMotorDuty + getPlatformAcceleration() < getLeftMotorDutyMax())
+                    {
+                        curLeftMotorDuty += getPlatformAcceleration();
+                        acceleration = true;
+                    }
+                    else
+                    {
+                        curLeftMotorDuty = getLeftMotorDutyMax();
+                        acceleration = false;
+                    }
+                    if (getLeftMotorAccelerating())
+                    {
+                        setLeftMotorDuty(curLeftMotorDuty);
+                        sendCommand(Valter::format_string("SETLEFTMOTORPWMDUTY#%d", curLeftMotorDuty));
+                    }
+                    setLeftMotorAccelerating(acceleration);
+                }
+                else
+                {
+                    decceleration = getLeftMotorDecelerating();
+                    if (curLeftMotorDuty - getPlatformDeceleration() > 1)
+                    {
+                        curLeftMotorDuty -= getPlatformDeceleration();
+                        decceleration = true;
+                    }
+                    else
+                    {
+                        curLeftMotorDuty = 1;
+                        decceleration = false;
+                        setLeftMotorStop(true);
+                    }
+
+                    if (getLeftMotorDecelerating())
+                    {
+                        setLeftMotorDuty(curLeftMotorDuty);
+                        sendCommand(Valter::format_string("SETLEFTMOTORPWMDUTY#%d", curLeftMotorDuty));
+                    }
+                    setLeftMotorDecelerating(decceleration);
+                    if (getLeftMotorStop())
+                    {
+                        sendCommand("LEFTMOTORSTOP");
+                    }
+                }
+            }
+            //Right Motor
+            if (!getRightMotorStop())
+            {
+                int curRightMotorDuty = getRightMotorDuty();
+                bool acceleration, decceleration;
+                if (getRightMotorActivated())
+                {
+                    acceleration = getRightMotorAccelerating();
+                    if (curRightMotorDuty + getPlatformAcceleration() < getRightMotorDutyMax())
+                    {
+                        curRightMotorDuty += getPlatformAcceleration();
+                        acceleration = true;
+                    }
+                    else
+                    {
+                        curRightMotorDuty = getRightMotorDutyMax();
+                        acceleration = false;
+                    }
+                    if (getRightMotorAccelerating())
+                    {
+                        setRightMotorDuty(curRightMotorDuty);
+                        sendCommand(Valter::format_string("SETRIGHTMOTORPWMDUTY#%d", curRightMotorDuty));
+                    }
+                    setRightMotorAccelerating(acceleration);
+                }
+                else
+                {
+                    decceleration = getRightMotorDecelerating();
+                    if (curRightMotorDuty - getPlatformDeceleration() > 1)
+                    {
+                        curRightMotorDuty -= getPlatformDeceleration();
+                        decceleration = true;
+                    }
+                    else
+                    {
+                        curRightMotorDuty = 1;
+                        decceleration = false;
+                        setRightMotorStop(true);
+                    }
+
+                    if (getRightMotorDecelerating())
+                    {
+                        setRightMotorDuty(curRightMotorDuty);
+                        sendCommand(Valter::format_string("SETRIGHTMOTORPWMDUTY#%d", curRightMotorDuty));
+                    }
+                    setRightMotorDecelerating(decceleration);
+                    if (getRightMotorStop())
+                    {
+                        sendCommand("RIGHTMOTORSTOP");
+                    }
+                }
+            }
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+bool PlatformControlP1::getRightMotorDecelerating() const
+{
+    return rightMotorDecelerating;
+}
+
+void PlatformControlP1::setRightMotorDecelerating(bool value)
+{
+    rightMotorDecelerating = value;
+}
+
+bool PlatformControlP1::getLeftMotorDecelerating() const
+{
+    return leftMotorDecelerating;
+}
+
+void PlatformControlP1::setLeftMotorDecelerating(bool value)
+{
+    leftMotorDecelerating = value;
+}
+
+bool PlatformControlP1::getRightMotorAccelerating() const
+{
+    return rightMotorAccelerating;
+}
+
+void PlatformControlP1::setRightMotorAccelerating(bool value)
+{
+    rightMotorAccelerating = value;
+}
+
+bool PlatformControlP1::getLeftMotorAccelerating() const
+{
+    return leftMotorAccelerating;
+}
+
+void PlatformControlP1::setLeftMotorAccelerating(bool value)
+{
+    leftMotorAccelerating = value;
+}
+
+int PlatformControlP1::getPlatformAcceleration() const
+{
+    return platformAcceleration;
+}
+
+void PlatformControlP1::setPlatformAcceleration(int value)
+{
+    platformAcceleration = value;
+}
+
+int PlatformControlP1::getPlatformDeceleration() const
+{
+    return platformDeceleration;
+}
+
+void PlatformControlP1::setPlatformDeceleration(int value)
+{
+    platformDeceleration = value;
+}
+
+bool PlatformControlP1::getRightMotorActivated() const
+{
+    return rightMotorActivated;
+}
+
+void PlatformControlP1::setRightMotorActivated(bool value)
+{
+    rightMotorActivated = value;
+    if (value)
+    {
+        setRightMotorStop(false);
+    }
+}
+
+bool PlatformControlP1::getLeftMotorActivated() const
+{
+    return leftMotorActivated;
+}
+
+void PlatformControlP1::setLeftMotorActivated(bool value)
+{
+    leftMotorActivated = value;
+    if (value)
+    {
+        setLeftMotorStop(false);
+    }
+}
+
+
+bool PlatformControlP1::getPlatformEmergencyStop() const
+{
+    return platformEmergencyStop;
+}
+
+void PlatformControlP1::setPlatformEmergencyStop(bool value)
+{
+    platformEmergencyStop = value;
+}
+
+bool PlatformControlP1::getRightMotorStop() const
+{
+    return rightMotorStop;
+}
+
+void PlatformControlP1::setRightMotorStop(bool value)
+{
+    rightMotorStop = value;
+}
+
+bool PlatformControlP1::getLeftMotorStop() const
+{
+    return leftMotorStop;
+}
+
+void PlatformControlP1::setLeftMotorStop(bool value)
+{
+    leftMotorStop = value;
+}
+
+bool PlatformControlP1::getRightMotorDirection() const
+{
+    return rightMotorDirection;
+}
+
+void PlatformControlP1::setRightMotorDirection(bool value)
+{
+    rightMotorDirection = value;
+}
+
+bool PlatformControlP1::getLeftMotorDirection() const
+{
+    return leftMotorDirection;
+}
+
+void PlatformControlP1::setLeftMotorDirection(bool value)
+{
+    leftMotorDirection = value;
+}
+
+bool PlatformControlP1::getRightMotorDirectionCanChange() const
+{
+    return rightMotorDirectionCanChange;
+}
+
+void PlatformControlP1::setRightMotorDirectionCanChange(bool value)
+{
+    rightMotorDirectionCanChange = value;
+}
+
+bool PlatformControlP1::getLeftMotorDirectionCanChange() const
+{
+    return leftMotorDirectionCanChange;
+}
+
+void PlatformControlP1::setLeftMotorDirectionCanChange(bool value)
+{
+    leftMotorDirectionCanChange = value;
+}
+
 bool PlatformControlP1::getChargerMode() const
 {
     return chargerMode;

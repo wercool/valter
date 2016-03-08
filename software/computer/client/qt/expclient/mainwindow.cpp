@@ -486,6 +486,11 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
         ui->charger120Ah14v7RadioButton->setEnabled(true);
     }
 
+    ui->leftMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getLeftMotorDutyMax()).c_str());
+    ui->rightMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getRightMotorDutyMax()).c_str());
+    ui->leftMotorCurDutyBar->setValue(platformControlP1->getLeftMotorDuty());
+    ui->rightMotorCurDutyBar->setValue(platformControlP1->getRightMotorDuty());
+
     ui->powerSource5VRadioButton->setChecked(platformControlP1->getPower5VOnState());
     ui->leftAccumulatorConnectedRadioButton->setChecked(platformControlP1->getLeftAccumulatorConnected());
     ui->rightAccumulatorConnected->setChecked(platformControlP1->getRightAccumulatorConnected());
@@ -693,4 +698,39 @@ void MainWindow::on_setChargeOffButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setChargerMode(false);
+}
+
+void MainWindow::on_platformMoveStopButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setPlatformEmergencyStop(true);
+}
+
+void MainWindow::on_platformMovementAccelerationSlider_sliderMoved(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setPlatformAcceleration(value);
+}
+
+void MainWindow::on_platformMovementDecelerationSlider_sliderMoved(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setPlatformDeceleration(value);
+}
+
+void MainWindow::on_platformMoveForwardButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        platformControlP1->setLeftMotorActivated(true);
+        platformControlP1->setRightMotorActivated(true);
+    }
+}
+
+void MainWindow::on_platformMoveForwardButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
 }

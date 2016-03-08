@@ -30,7 +30,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -46,7 +46,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-37</y>
+             <y>0</y>
              <width>747</width>
              <height>677</height>
             </rect>
@@ -92,7 +92,7 @@
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QProgressBar" name="progressBar">
+                     <widget class="QProgressBar" name="leftMotorCurDutyBar">
                       <property name="enabled">
                        <bool>true</bool>
                       </property>
@@ -114,11 +114,19 @@
                         <height>250</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>8</pointsize>
+                       </font>
+                      </property>
                       <property name="styleSheet">
                        <string notr="true"/>
                       </property>
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
                       <property name="value">
-                       <number>0</number>
+                       <number>1</number>
                       </property>
                       <property name="alignment">
                        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -149,7 +157,7 @@
                        <number>8</number>
                       </property>
                       <item row="0" column="0">
-                       <widget class="QPushButton" name="pushButton_2">
+                       <widget class="QPushButton" name="platformMoveForwardRightButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -178,7 +186,7 @@
                        </widget>
                       </item>
                       <item row="4" column="2">
-                       <widget class="QPushButton" name="pushButton_8">
+                       <widget class="QPushButton" name="platformMoveBackwardLeftButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -204,7 +212,7 @@
                        </widget>
                       </item>
                       <item row="3" column="2">
-                       <widget class="QPushButton" name="pushButton_5">
+                       <widget class="QPushButton" name="platformRotateRightButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -230,7 +238,7 @@
                        </widget>
                       </item>
                       <item row="3" column="1">
-                       <widget class="QPushButton" name="pushButton_6">
+                       <widget class="QPushButton" name="platformMoveStopButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -257,7 +265,7 @@
                        </widget>
                       </item>
                       <item row="0" column="1">
-                       <widget class="QPushButton" name="pushButton_10">
+                       <widget class="QPushButton" name="platformMoveForwardButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -283,7 +291,7 @@
                        </widget>
                       </item>
                       <item row="4" column="1">
-                       <widget class="QPushButton" name="pushButton_9">
+                       <widget class="QPushButton" name="platformBackwardForwardButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -303,13 +311,16 @@
                           <bold>true</bold>
                          </font>
                         </property>
+                        <property name="styleSheet">
+                         <string notr="true"/>
+                        </property>
                         <property name="text">
                          <string>↓</string>
                         </property>
                        </widget>
                       </item>
                       <item row="0" column="2">
-                       <widget class="QPushButton" name="pushButton_3">
+                       <widget class="QPushButton" name="platformMoveForwardLeftButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -335,7 +346,7 @@
                        </widget>
                       </item>
                       <item row="3" column="0">
-                       <widget class="QPushButton" name="pushButton_4">
+                       <widget class="QPushButton" name="platformRotateLeftButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -361,7 +372,7 @@
                        </widget>
                       </item>
                       <item row="4" column="0">
-                       <widget class="QPushButton" name="pushButton_7">
+                       <widget class="QPushButton" name="platformMoveBackwardRightButton">
                         <property name="minimumSize">
                          <size>
                           <width>50</width>
@@ -389,7 +400,7 @@
                      </layout>
                     </item>
                     <item>
-                     <widget class="QProgressBar" name="progressBar_2">
+                     <widget class="QProgressBar" name="rightMotorCurDutyBar">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Fixed" vsizetype="MinimumExpanding">
                         <horstretch>0</horstretch>
@@ -408,8 +419,16 @@
                         <height>250</height>
                        </size>
                       </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>8</pointsize>
+                       </font>
+                      </property>
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
                       <property name="value">
-                       <number>0</number>
+                       <number>1</number>
                       </property>
                       <property name="textVisible">
                        <bool>false</bool>
@@ -465,6 +484,9 @@
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
+                    <property name="tickPosition">
+                     <enum>QSlider::NoTicks</enum>
+                    </property>
                    </widget>
                   </item>
                   <item>
@@ -481,7 +503,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSlider" name="horizontalSlider_2">
+                   <widget class="QSlider" name="platformMovementDecelerationSlider">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -494,8 +516,20 @@
                       <height>20</height>
                      </size>
                     </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>10</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>2</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="tickPosition">
+                     <enum>QSlider::NoTicks</enum>
                     </property>
                    </widget>
                   </item>
@@ -513,7 +547,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSlider" name="horizontalSlider_3">
+                   <widget class="QSlider" name="platformMovementAccelerationSlider">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -526,23 +560,52 @@
                       <height>20</height>
                      </size>
                     </property>
+                    <property name="minimum">
+                     <number>1</number>
+                    </property>
+                    <property name="maximum">
+                     <number>10</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>2</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_12">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>20</height>
-                     </size>
+                   <layout class="QHBoxLayout" name="horizontalLayout_19">
+                    <property name="topMargin">
+                     <number>0</number>
                     </property>
-                    <property name="text">
-                     <string>Left Wheel Motor Max Duty </string>
-                    </property>
-                   </widget>
+                    <item>
+                     <widget class="QLabel" name="label_12">
+                      <property name="maximumSize">
+                       <size>
+                        <width>16777215</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Left Motor Max Duty    </string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="leftMotorMaxDutyLabel">
+                      <property name="font">
+                       <font>
+                        <pointsize>8</pointsize>
+                        <italic>true</italic>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>[000]</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QSlider" name="leftMotorPlatformControlP1DutySlider">
@@ -564,11 +627,31 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_13">
-                    <property name="text">
-                     <string>Right Wheel Motor Max Duty</string>
+                   <layout class="QHBoxLayout" name="horizontalLayout_20">
+                    <property name="topMargin">
+                     <number>0</number>
                     </property>
-                   </widget>
+                    <item>
+                     <widget class="QLabel" name="label_13">
+                      <property name="text">
+                       <string>Right Motor Max Duty</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="rightMotorMaxDutyLabel">
+                      <property name="font">
+                       <font>
+                        <pointsize>8</pointsize>
+                        <italic>true</italic>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>[000]</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QSlider" name="rightMotorPlatformControlP1DutySlider">
@@ -695,7 +778,7 @@
                    <number>0</number>
                   </property>
                   <item row="0" column="0">
-                   <widget class="QPushButton" name="pushButton_11">
+                   <widget class="QPushButton" name="bodyRotationLeftButton">
                     <property name="minimumSize">
                      <size>
                       <width>50</width>
@@ -721,7 +804,7 @@
                    </widget>
                   </item>
                   <item row="0" column="1">
-                   <widget class="QPushButton" name="pushButton_13">
+                   <widget class="QPushButton" name="bodyRotationStopButton">
                     <property name="minimumSize">
                      <size>
                       <width>50</width>
@@ -748,7 +831,7 @@
                    </widget>
                   </item>
                   <item row="0" column="2">
-                   <widget class="QPushButton" name="pushButton_12">
+                   <widget class="QPushButton" name="bodyRotationRightButton">
                     <property name="minimumSize">
                      <size>
                       <width>50</width>
@@ -783,7 +866,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="horizontalSlider_4">
+                 <widget class="QSlider" name="bodyRotationDutySlider">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -809,7 +892,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="horizontalSlider_5">
+                 <widget class="QSlider" name="decelerationRotationDutySlider">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -835,7 +918,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QSlider" name="horizontalSlider_6">
+                 <widget class="QSlider" name="accelerationRotationDutySlider">
                   <property name="minimumSize">
                    <size>
                     <width>0</width>
@@ -1643,6 +1726,11 @@ font-weight: bold;</string>
           </item>
           <item>
            <widget class="QPushButton" name="connectAllPushButton">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
             <property name="statusTip">
              <string extracomment="sss"/>
             </property>

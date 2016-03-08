@@ -64,7 +64,6 @@ private slots:
 
     void on_rightMotorPlatformControlP1DutySlider_sliderMoved(int value);
 
-
     void on_on5VPlatformControlP1pushButton_clicked();
 
     void on_off5VPlatformControlP1pushButton_clicked();
@@ -98,6 +97,16 @@ private slots:
     void on_setChargeOnButton_clicked();
 
     void on_setChargeOffButton_clicked();
+
+    void on_platformMoveStopButton_clicked();
+
+    void on_platformMovementAccelerationSlider_sliderMoved(int value);
+
+    void on_platformMovementDecelerationSlider_sliderMoved(int value);
+
+    void on_platformMoveForwardButton_pressed();
+
+    void on_platformMoveForwardButton_released();
 
 private:
     Ui::MainWindow *ui;

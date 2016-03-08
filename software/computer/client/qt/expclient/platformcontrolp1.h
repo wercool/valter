@@ -93,6 +93,53 @@ public:
     bool getChargerMode() const;
     void setChargerMode(bool value);
 
+    bool getLeftMotorDirectionCanChange() const;
+    void setLeftMotorDirectionCanChange(bool value);
+
+    bool getRightMotorDirectionCanChange() const;
+    void setRightMotorDirectionCanChange(bool value);
+
+    bool getLeftMotorDirection() const;
+    void setLeftMotorDirection(bool value);
+
+    bool getRightMotorDirection() const;
+    void setRightMotorDirection(bool value);
+
+    bool getLeftMotorStop() const;
+    void setLeftMotorStop(bool value);
+
+    bool getRightMotorStop() const;
+    void setRightMotorStop(bool value);
+
+    bool preparePlatformMovement();
+
+    bool getPlatformEmergencyStop() const;
+    void setPlatformEmergencyStop(bool value);
+
+    bool getLeftMotorActivated() const;
+    void setLeftMotorActivated(bool value);
+
+    bool getRightMotorActivated() const;
+    void setRightMotorActivated(bool value);
+
+    int getPlatformDeceleration() const;
+    void setPlatformDeceleration(int value);
+
+    int getPlatformAcceleration() const;
+    void setPlatformAcceleration(int value);
+
+    bool getLeftMotorAccelerating() const;
+    void setLeftMotorAccelerating(bool value);
+
+    bool getRightMotorAccelerating() const;
+    void setRightMotorAccelerating(bool value);
+
+    bool getLeftMotorDecelerating() const;
+    void setLeftMotorDecelerating(bool value);
+
+    bool getRightMotorDecelerating() const;
+    void setRightMotorDecelerating(bool value);
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
@@ -104,9 +151,17 @@ private:
     //PlatforomControlP1 strictly specific methods
     void scanFor220VACAvailable();
     bool scan220ACAvailable;
-    bool chargerMode; //0 - turning off; 1 - set charging
+    bool chargerMode; //[false] - turning off; [true] - set charging
     int chargerButtonPressStep;
     void chargerModeSetting();
+
+    //motors
+    void platformMovementWorker();
+    bool platformEmergencyStop;
+    bool leftMotorDirection; //[true] - forward; [false] - backward
+    bool rightMotorDirection; //[true] - forward; [false] - backward
+    bool leftMotorDirectionCanChange;
+    bool rightMotorDirectionCanChange;
 
     //PlatforomControlP1 strictly specific properties
     bool power5VOnState;
@@ -129,7 +184,16 @@ private:
     int rightMotorDutyMax;
     int leftMotorDuty;
     int rightMotorDuty;
-
+    bool leftMotorStop;
+    bool rightMotorStop;
+    bool leftMotorActivated;
+    bool rightMotorActivated;
+    int platformDeceleration;
+    int platformAcceleration;
+    bool leftMotorAccelerating;
+    bool rightMotorAccelerating;
+    bool leftMotorDecelerating;
+    bool rightMotorDecelerating;
 };
 
 #endif // PLATFORMCONTROLP1_H
