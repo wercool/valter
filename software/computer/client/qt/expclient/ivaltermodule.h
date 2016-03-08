@@ -29,6 +29,7 @@ public:
     virtual void stopAll() = 0;
     virtual void resetToDefault() = 0;
     virtual void spawnProcessMessagesQueueWorkerThread() = 0;
+    virtual void loadDefaults() = 0;
 
     void sendCommand(string cmd)
     {
@@ -56,9 +57,30 @@ public:
         return controlDeviceIsSet;
     }
 
+    map<string, string> getDefaults() const
+    {
+        return defaults;
+    }
+
+    void setDefaults(const map<string, string> &value)
+    {
+        defaults = value;
+    }
+
+    void addDefault(string valueName, string value)
+    {
+        defaults[valueName] = value;
+    }
+
+    string getDefault(string valueName)
+    {
+        return defaults[valueName];
+    }
+
 private:
     ControlDevice *controlDevice;
     std::thread *processMessagesQueueWorkerThread;
+    map<string, string> defaults;
 
 };
 

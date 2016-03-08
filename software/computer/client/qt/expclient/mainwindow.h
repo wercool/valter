@@ -108,6 +108,52 @@ private slots:
 
     void on_platformMoveForwardButton_released();
 
+    void on_platformBackwardForwardButton_pressed();
+
+    void on_platformBackwardForwardButton_released();
+
+    void on_platformMoveForwardLeftButton_pressed();
+
+    void on_platformMoveForwardLeftButton_released();
+
+    void on_platformMoveForwardRightButton_pressed();
+
+    void on_platformMoveForwardRightButton_released();
+
+    void on_platformMoveBackwardLeftButton_pressed();
+
+    void on_platformMoveBackwardRightButton_pressed();
+
+    void on_platformMoveBackwardLeftButton_released();
+
+    void on_platformMoveBackwardRightButton_released();
+
+    void on_platformRotateLeftButton_pressed();
+
+    void on_platformRotateRightButton_pressed();
+
+    void on_platformRotateLeftButton_released();
+
+    void on_platformRotateRightButton_released();
+
+    void on_turretRotationDutySlider_sliderMoved(int value);
+
+    void on_decelerationTurretRotationSlider_sliderMoved(int value);
+
+    void on_accelerationTurretRotationSlider_sliderMoved(int value);
+
+    void on_turretRotateLeftButton_pressed();
+
+    void on_turretRotateLeftButton_released();
+
+    void on_turretRotateRightButton_pressed();
+
+    void on_bodyRotationStopButton_clicked();
+
+    void on_turretRotateRightButton_released();
+
+    void on_platformControlP1LoadDefaultsButton_pressed();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -120,6 +166,7 @@ private:
     QTimer *platformControlP1TabRefreshTimer;
     string selectedControlDeviceId;
     bool allConnect;
+
 };
 
 #endif // MAINWINDOW_H

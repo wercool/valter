@@ -52,3 +52,8 @@ void PlatformControlP2::spawnProcessMessagesQueueWorkerThread()
 {
     //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));
 }
+
+void PlatformControlP2::loadDefaults()
+{
+
+}

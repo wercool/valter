@@ -1,0 +1,5 @@
+platformControlP1WheelMotorsDutySlider:30,1,100
+platformMovementDecelerationSlider:5,1,10
+platformMovementAccelerationSlider:2,1,10
+leftMotorPlatformControlP1DutySlider:30,1,100
+rightMotorPlatformControlP1DutySlider:30,1,100

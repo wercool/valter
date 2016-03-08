@@ -119,6 +119,7 @@ void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
             commands.push_back(line);
         }
         controlDevicesCommands[(string)controlDeviceIds[i]] = commands;
+        cmdfile.close();
     }
     typedef map<string, vector<string>>::iterator it_type;
 

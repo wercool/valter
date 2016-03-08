@@ -1,7 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <valter.h>
 #include <sys/time.h>
+#include <mainwindowutils.h>
+
+#include <valter.h>
 
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
@@ -449,7 +451,6 @@ void MainWindow::on_stopAllPlatformControlP1Button_clicked()
 void MainWindow::platformControlP1TabRefreshTimerUpdate()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-
     if (!platformControlP1->getScan220ACAvailable())
     {
         ui->power220VACAvailableRadioButton->setChecked(false);
@@ -488,8 +489,10 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
 
     ui->leftMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getLeftMotorDutyMax()).c_str());
     ui->rightMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getRightMotorDutyMax()).c_str());
+    ui->turretMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getTurretMotorDutyMax()).c_str());
     ui->leftMotorCurDutyBar->setValue(platformControlP1->getLeftMotorDuty());
     ui->rightMotorCurDutyBar->setValue(platformControlP1->getRightMotorDuty());
+    ui->turretMotorCurDutyBar->setValue(platformControlP1->getTurretMotorDuty());
 
     ui->powerSource5VRadioButton->setChecked(platformControlP1->getPower5VOnState());
     ui->leftAccumulatorConnectedRadioButton->setChecked(platformControlP1->getLeftAccumulatorConnected());
@@ -552,9 +555,8 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
 
 void MainWindow::on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue)
 {
-    static int prevDutyVal = 1;
-
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    static int prevDutyVal = 1;
     int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
     int maxDutyRight = platformControlP1->getRightMotorDutyMax();
 
@@ -723,8 +725,12 @@ void MainWindow::on_platformMoveForwardButton_pressed()
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     if (platformControlP1->preparePlatformMovement())
     {
-        platformControlP1->setLeftMotorActivated(true);
-        platformControlP1->setRightMotorActivated(true);
+        //left and right forward
+        if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
+        {
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
+        }
     }
 }
 
@@ -733,4 +739,210 @@ void MainWindow::on_platformMoveForwardButton_released()
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setLeftMotorActivated(false);
     platformControlP1->setRightMotorActivated(false);
+}
+
+void MainWindow::on_platformBackwardForwardButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //left and right backward
+        if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(false))
+        {
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_platformBackwardForwardButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
+}
+
+void MainWindow::on_platformMoveForwardLeftButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //left forward
+        if (platformControlP1->setLeftMotorDirection(true))
+        {
+            platformControlP1->setLeftMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_platformMoveForwardLeftButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorActivated(false);
+}
+
+void MainWindow::on_platformMoveForwardRightButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //right forward
+        if (platformControlP1->setRightMotorDirection(true))
+        {
+            platformControlP1->setRightMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_platformMoveForwardRightButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setRightMotorActivated(false);
+}
+
+void MainWindow::on_platformMoveBackwardLeftButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //left backward
+        if (platformControlP1->setLeftMotorDirection(false))
+        {
+            platformControlP1->setLeftMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_platformMoveBackwardRightButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //right backward
+        if (platformControlP1->setRightMotorDirection(false))
+        {
+            platformControlP1->setRightMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_platformMoveBackwardLeftButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorActivated(false);
+}
+
+void MainWindow::on_platformMoveBackwardRightButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setRightMotorActivated(false);
+}
+
+void MainWindow::on_platformRotateLeftButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //left backward right forward
+        if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(true))
+        {
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_platformRotateRightButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //left forward right backward
+        if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(false))
+        {
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_platformRotateLeftButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
+}
+
+void MainWindow::on_platformRotateRightButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
+}
+
+void MainWindow::on_turretRotationDutySlider_sliderMoved(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretMotorDutyMax(value);
+}
+
+void MainWindow::on_decelerationTurretRotationSlider_sliderMoved(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretDeceleration(value);
+}
+
+void MainWindow::on_accelerationTurretRotationSlider_sliderMoved(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretAcceleration(value);
+}
+
+void MainWindow::on_turretRotateLeftButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //rotate left (ccw)
+        if (platformControlP1->setTurretMotorDirection(false))
+        {
+            platformControlP1->setTurretMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_turretRotateLeftButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretMotorActivated(false);
+}
+
+void MainWindow::on_turretRotateRightButton_pressed()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (platformControlP1->preparePlatformMovement())
+    {
+        //rotate right (cw)
+        if (platformControlP1->setTurretMotorDirection(true))
+        {
+            platformControlP1->setTurretMotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_bodyRotationStopButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretEmergencyStop(true);
+}
+
+void MainWindow::on_turretRotateRightButton_released()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretMotorActivated(false);
+}
+
+void MainWindow::on_platformControlP1LoadDefaultsButton_pressed()
+{
+    loadPlatformControlP1Defaults(ui);
 }

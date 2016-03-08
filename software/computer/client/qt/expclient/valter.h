@@ -80,6 +80,13 @@ public:
        }
        return result;
    }
+   static char* stringToCharPtr(string str)
+   {
+       char *charPtr = new char[str.size() + 1];
+       std::copy(str.begin(), str.end(), charPtr);
+       charPtr[str.size()] = '\0';
+       return charPtr;
+   }
 
    map<string, IValterModule *> getValterModulesMap() const;
    void setValterModulesMap(const map<string, IValterModule *> &value);
@@ -90,7 +97,7 @@ public:
 
 private:
    Valter();
-   static Valter *pValter;		// Valter's singleton instance
+   static Valter *pValter;      // Valter's singleton instance
    static bool instanceFlag;
    static const bool logToGUI = true;
    static const bool logToConsole = true;

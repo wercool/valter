@@ -17,6 +17,7 @@ public:
     void stopAll();
     void resetToDefault();
     void spawnProcessMessagesQueueWorkerThread();
+    void loadDefaults();
 
 private:
     PlatformControlP2();

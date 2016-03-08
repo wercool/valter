@@ -17,6 +17,7 @@ public:
     void stopAll();
     void resetToDefault();
     void spawnProcessMessagesQueueWorkerThread();
+    void loadDefaults();
 
     void resetValuesToDefault();
 
@@ -93,17 +94,11 @@ public:
     bool getChargerMode() const;
     void setChargerMode(bool value);
 
-    bool getLeftMotorDirectionCanChange() const;
-    void setLeftMotorDirectionCanChange(bool value);
-
-    bool getRightMotorDirectionCanChange() const;
-    void setRightMotorDirectionCanChange(bool value);
-
     bool getLeftMotorDirection() const;
-    void setLeftMotorDirection(bool value);
+    bool setLeftMotorDirection(bool value);
 
     bool getRightMotorDirection() const;
-    void setRightMotorDirection(bool value);
+    bool setRightMotorDirection(bool value);
 
     bool getLeftMotorStop() const;
     void setLeftMotorStop(bool value);
@@ -140,11 +135,42 @@ public:
     bool getRightMotorDecelerating() const;
     void setRightMotorDecelerating(bool value);
 
+    int getTurretMotorDutyMax() const;
+    void setTurretMotorDutyMax(int value);
+
+    int getTurretMotorDuty() const;
+    void setTurretMotorDuty(int value);
+
+    bool getTurretMotorStop() const;
+    void setTurretMotorStop(bool value);
+
+    bool getTurretMotorActivated() const;
+    void setTurretMotorActivated(bool value);
+
+    int getTurretDeceleration() const;
+    void setTurretDeceleration(int value);
+
+    int getTurretAcceleration() const;
+    void setTurretAcceleration(int value);
+
+    bool getTurretMotorAccelerating() const;
+    void setTurretMotorAccelerating(bool value);
+
+    bool getTurretMotorDecelerating() const;
+    void setTurretMotorDecelerating(bool value);
+
+    bool getTurretEmergencyStop() const;
+    void setTurretEmergencyStop(bool value);
+
+    bool getTurretMotorDirection() const;
+    bool setTurretMotorDirection(bool value);
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
+    static const string defaultsFilePath;
 
     void processMessagesQueueWorker();
 
@@ -156,12 +182,17 @@ private:
     void chargerModeSetting();
 
     //motors
+    //platform
     void platformMovementWorker();
+    void platformMovementDynamics();
     bool platformEmergencyStop;
     bool leftMotorDirection; //[true] - forward; [false] - backward
     bool rightMotorDirection; //[true] - forward; [false] - backward
-    bool leftMotorDirectionCanChange;
-    bool rightMotorDirectionCanChange;
+    //turret
+    void turretRotationWorker();
+    void turretRotationDynamics();
+    bool turretEmergencyStop;
+    bool turretMotorDirection; //[true] - right; [false] - left
 
     //PlatforomControlP1 strictly specific properties
     bool power5VOnState;
@@ -180,6 +211,7 @@ private:
     bool chargingComplete;
     int curChannel1Input;
     int curChannel2Input;
+
     int leftMotorDutyMax;
     int rightMotorDutyMax;
     int leftMotorDuty;
@@ -194,6 +226,15 @@ private:
     bool rightMotorAccelerating;
     bool leftMotorDecelerating;
     bool rightMotorDecelerating;
+
+    int turretMotorDutyMax;
+    int turretMotorDuty;
+    bool turretMotorStop;
+    bool turretMotorActivated;
+    int turretDeceleration;
+    int turretAcceleration;
+    bool turretMotorAccelerating;
+    bool turretMotorDecelerating;
 };
 
 #endif // PLATFORMCONTROLP1_H

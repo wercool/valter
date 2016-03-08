@@ -35,7 +35,8 @@ HEADERS  += mainwindow.h \
     platformcontrolp1.h \
     ivaltermodule.h \
     platformlocationp1.h \
-    platformcontrolp2.h
+    platformcontrolp2.h \
+    mainwindowutils.h
 
 FORMS    += mainwindow.ui
 

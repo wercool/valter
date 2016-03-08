@@ -52,3 +52,8 @@ void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()
 {
     //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformLocationP1::processMessagesQueueWorker, this));
 }
+
+void PlatformLocationP1::loadDefaults()
+{
+
+}
