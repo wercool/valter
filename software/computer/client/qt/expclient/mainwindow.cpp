@@ -136,6 +136,7 @@ void MainWindow::on_clearLogButton_clicked()
         }
     }
     ui->loggingTextEdit->clear();
+    statusBarText->setText("");
 }
 
 
