@@ -31,6 +31,8 @@ Valter::Valter()
     addUpdateValterModule(PlatformControlP1::getInstance()->getControlDeviceId(), PlatformControlP1::getInstance());
     addUpdateValterModule(PlatformControlP2::getInstance()->getControlDeviceId(), PlatformControlP2::getInstance());
     addUpdateValterModule(PlatformLocationP1::getInstance()->getControlDeviceId(), PlatformLocationP1::getInstance());
+    addUpdateValterModule(PlatformManipulatorAndIRBumper::getInstance()->getControlDeviceId(), PlatformManipulatorAndIRBumper::getInstance());
+    addUpdateValterModule(BodyControlP1::getInstance()->getControlDeviceId(), BodyControlP1::getInstance());
 }
 
 map<string, IValterModule *> Valter::getValterModulesMap() const

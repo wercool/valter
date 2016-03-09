@@ -6,6 +6,7 @@
 
 #include "Board.h"
 #include "cdc_enumerate.h"
+#include "watchdog.h"
 #include "adc.h"
 #include "pwm.h"
 #include "aic.h"
@@ -239,7 +240,10 @@ static void DeviceInit(void)
     // Initialize USB device
     AT91FUSBOpen();
     // Wait for the end of enumeration
-    while (!pCDC.IsConfigured(&pCDC));
+    while (!pCDC.IsConfigured(&pCDC))
+    {
+        watchdogReset();
+    };
 
     InitPIO();
     InitADC();
@@ -306,6 +310,10 @@ void setShiftRegister()
  */
 int main(void)
 {
+    watchdogReset();
+
+    unsigned char WDINTENTIONALRESET = 0;
+
     struct cdcMessage cdcMessageObj;
 
     unsigned int channel = 0;
@@ -380,6 +388,8 @@ int main(void)
     shiftRegistersStates[headPitchENIndex] = 1;
     shiftRegistersStates[headPitchREFIndex] = 1;
 
+    watchdogReset();
+
     setShiftRegister();
 
     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);//SHIFTREGENABLE
@@ -389,8 +399,15 @@ int main(void)
         uart0Buff[c] = '\0';
     }
 
+    watchdogReset();
+
     while (1)
     {
+
+        if (WDINTENTIONALRESET == 0)
+        {
+            watchdogReset();
+        }
 
         if (shiftRegisterConstantResetting)
         {
@@ -400,9 +417,10 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
+/*
             sprintf((char *) msg, "MSG:%s\n", cdcMessageObj.data);
             pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
-
+*/
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#");
 
@@ -410,6 +428,23 @@ int main(void)
             {
                 sprintf((char *) msg, "BODY-CONTROL-P1\n");
                 pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDRESET") == 0)
+            {
+                watchdogReset();
+                sprintf((char *)msg,"WDRST\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETON") == 0)
+            {
+                WDINTENTIONALRESET = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
+            {
+                WDINTENTIONALRESET = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "STOPSHIFTREGRESET") == 0)

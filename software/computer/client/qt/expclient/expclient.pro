@@ -21,7 +21,9 @@ SOURCES += main.cpp\
            serial/src/serial.cc \
     platformcontrolp1.cpp \
     platformlocationp1.cpp \
-    platformcontrolp2.cpp
+    platformcontrolp2.cpp \
+    platformmanipulatorandirbumper.cpp \
+    bodycontrolp1.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -36,7 +38,9 @@ HEADERS  += mainwindow.h \
     ivaltermodule.h \
     platformlocationp1.h \
     platformcontrolp2.h \
-    mainwindowutils.h
+    mainwindowutils.h \
+    platformmanipulatorandirbumper.h \
+    bodycontrolp1.h
 
 FORMS    += mainwindow.ui
 

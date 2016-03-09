@@ -14,6 +14,8 @@
 #include "platformcontrolp1.h"
 #include "platformcontrolp2.h"
 #include "platformlocationp1.h"
+#include "platformmanipulatorandirbumper.h"
+#include "bodycontrolp1.h"
 
 using namespace std;
 using std::ifstream;

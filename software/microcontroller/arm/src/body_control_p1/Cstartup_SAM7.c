@@ -19,6 +19,7 @@
 
 // Include the board file description
 #include "Board.h"
+#include "watchdog.h"
 
 // The following functions must be write in ARM mode this function called directly
 // by exception vector
@@ -41,7 +42,8 @@ void AT91F_LowLevelInit( void)
 	    AT91C_BASE_MC->MC_FMR = AT91C_MC_FWS_1FWS ;
 
     //* Watchdog Disable
-        AT91C_BASE_WDTC->WDTC_WDMR= AT91C_WDTC_WDDIS;
+        //AT91C_BASE_WDTC->WDTC_WDMR= AT91C_WDTC_WDDIS;
+        watchdogEnable(5000);
 
 	//* Set MCK at 48 054 850
     // 1 Enabling the Main Oscillator:
