@@ -45,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     platformControlP1TabRefreshTimer = new QTimer(this);
     connect(platformControlP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP1TabRefreshTimerUpdate()));
     platformControlP1TabRefreshTimer->start(10);
+
+    delayedGUIActionsProcessingTimer = new QTimer(this);
+    connect(delayedGUIActionsProcessingTimer, SIGNAL(timeout()), this, SLOT(delayedGUIActionsProcessingTimerUpdate()));
+    delayedGUIActionsProcessingTimer->start(250);
 }
 
 MainWindow::~MainWindow()
@@ -120,6 +124,23 @@ void MainWindow::addMsgToLog(string msg)
         {
             ui->loggingTextEdit->clear();
             logLength = 0;
+        }
+    }
+}
+
+void MainWindow::delayGUIAction(IValterModule *valterModule)
+{
+    int action = valterModule->getActionFromDelayedGUIActions();
+
+    //from PlatformControlP1
+    if (valterModule->getControlDevice()->getControlDeviceId().compare(PlatformControlP1::getControlDeviceId()) == 0)
+    {
+        switch (action)
+        {
+            case IValterModule::RELOAD_DEFAULTS:
+                valterModule->loadDefaults();
+                loadPlatformControlP1Defaults(ui);
+            break;
         }
     }
 }
@@ -334,14 +355,23 @@ void MainWindow::controlDevicesTableRefreshTimerUpdate()
         ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
         if (controlDevice->getRescanningAfterPossibleReset())
         {
-            QTableWidgetItem *item = new QTableWidgetItem("rescanning...");
+            string rescanningMsg = Valter::format_string("rescanning... Attempt #%d", controlDevice->getRescanNum());
+            QTableWidgetItem *item = new QTableWidgetItem(rescanningMsg.c_str());
             item->setBackground(Qt::yellow);
             ui->controlDeviceTableWidget->setItem(i, 2, item);
         }
         else
         {
-            if (controlDevice->getFailedAfterRescanning())
+            if (controlDevice->getWdTimerNotResetCnt() > 0)
             {
+                string noWDResetMsg = Valter::format_string("no WDRESET answer... Attempt #%d", controlDevice->getWdTimerNotResetCnt());
+                QTableWidgetItem *item = new QTableWidgetItem(noWDResetMsg.c_str());
+                item->setBackground(Qt::yellow);
+                ui->controlDeviceTableWidget->setItem(i, 2, item);
+            }
+            else if (controlDevice->getFailedAfterRescanning())
+            {
+                controlDevice->setWdTimerNotResetCnt(0);
                 QTableWidgetItem *item = new QTableWidgetItem("FAILED");
                 item->setBackground(Qt::red);
                 ui->controlDeviceTableWidget->setItem(i, 2, item);
@@ -354,24 +384,6 @@ void MainWindow::controlDevicesTableRefreshTimerUpdate()
         ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
         ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
         i++;
-
-        if (!controlDevice->getFailedAfterRescanning())
-        {
-            IValterModule *valterModule = Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId());
-            if (valterModule->getReloadDefaults())
-            {
-                valterModule->loadDefaults();
-
-                switch (valterModule->getIdx())
-                {
-                    case 1:
-                        loadPlatformControlP1Defaults(ui);
-                    break;
-                }
-
-                valterModule->setReloadDefaults(false);
-            }
-        }
     }
 
     if (selectedControlDeviceRowIndex >= 0)
@@ -458,6 +470,21 @@ void MainWindow::on_wdResetOnButton_clicked()
 void MainWindow::on_stopAllPlatformControlP1Button_clicked()
 {
     Valter::getInstance()->stopAllModules();
+}
+
+void MainWindow::delayedGUIActionsProcessingTimerUpdate()
+{
+    map<string, IValterModule*> valterModulesMap = Valter::getInstance()->getValterModulesMap();
+    typedef map<string, IValterModule*>::iterator it_type;
+
+    for(it_type iterator = valterModulesMap.begin(); iterator != valterModulesMap.end(); iterator++)
+    {
+        IValterModule *valterModule = valterModulesMap[iterator->first];
+        if (valterModule->areActionsInDelayedGUIActions())
+        {
+            delayGUIAction(valterModule);
+        }
+    }
 }
 
 void MainWindow::platformControlP1TabRefreshTimerUpdate()
@@ -956,5 +983,7 @@ void MainWindow::on_turretRotateRightButton_released()
 
 void MainWindow::on_platformControlP1LoadDefaultsButton_clicked()
 {
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->loadDefaults();
     loadPlatformControlP1Defaults(ui);
 }

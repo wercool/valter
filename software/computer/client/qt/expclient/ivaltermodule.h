@@ -89,23 +89,38 @@ public:
         reloadDefaults = value;
     }
 
-    unsigned char getIdx() const
+    void addActionToDelayedGUIActions(int action)
     {
-        return idx;
+        delayedGUIActions.push_back(action);
     }
 
-    void setIdx(unsigned char value)
+    int getActionFromDelayedGUIActions()
     {
-        idx = value;
+        int action = (int)delayedGUIActions.front();
+        delayedGUIActions.pop_front();
+        return action;
     }
 
+    bool areActionsInDelayedGUIActions()
+    {
+        if (delayedGUIActions.size() > 0)
+        {
+           return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    static const enum {RELOAD_DEFAULTS = 1} GUIACTION;
 
 private:
-    unsigned char idx;
     ControlDevice *controlDevice;
     std::thread *processMessagesQueueWorkerThread;
     map<string, string> defaults;
     bool reloadDefaults;
+    list<int> delayedGUIActions;
 
 };
 

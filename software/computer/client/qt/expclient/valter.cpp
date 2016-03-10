@@ -108,6 +108,11 @@ void Valter::log(string msg)
     }
 }
 
+void Valter::delayGUIAction(string msg)
+{
+    MainWindow::getInstance()->addMsgToLog(msg);
+}
+
 void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
 {
     vector<string> commands;

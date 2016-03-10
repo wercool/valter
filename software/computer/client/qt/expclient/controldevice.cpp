@@ -18,6 +18,7 @@ ControlDevice::ControlDevice()
     rescanningAfterPossibleReset = false;
     failedAfterRescanning = false;
     autoReActivation = false;
+    wdTimerNotResetCnt = 0;
 }
 
 void ControlDevice::listDevices()
@@ -65,14 +66,14 @@ void ControlDevice::scanControlDevices()
                 if(potentialControlDeviceSerialPort.isOpen())
                 {
                     potentialControlDeviceSerialPort.flush();
-                    potentialControlDeviceSerialPort.write("GETID");
-                    Valter::log(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
 
                     string result;
                     unsigned int scanStep = 0;
                     bool isValterControlDevicePort = false;
                     while (scanStep < 5 && !isValterControlDevicePort)
                     {
+                        potentialControlDeviceSerialPort.write("GETID");
+                        Valter::log(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
                         result = potentialControlDeviceSerialPort.readline();
                         sanitizeConrtolDeviceResponse(result);
                         Valter::log(Valter::format_string("%s → %s", serialPortDeviceInfo.port.c_str(), result.c_str()));
@@ -122,8 +123,6 @@ void ControlDevice::scanControlDevices()
 
 void ControlDevice::reScanThisControlDevice()
 {
-    setRescanningAfterPossibleReset(true);
-
     unsigned int cnt = getRescanNum();
     cnt++;
     this->setRescanNum(cnt);
@@ -173,14 +172,14 @@ void ControlDevice::reScanThisControlDevice()
                     if(potentialControlDeviceSerialPort.isOpen())
                     {
                         potentialControlDeviceSerialPort.flush();
-                        potentialControlDeviceSerialPort.write("GETID");
-                        this->addMsgToDataExchangeLog(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
 
                         string result;
                         unsigned int scanStep = 0;
                         bool isValterRescanningControlDevice = false;
                         while (scanStep < 5 && !isValterRescanningControlDevice)
                         {
+                            potentialControlDeviceSerialPort.write("GETID");
+                            this->addMsgToDataExchangeLog(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
                             result = potentialControlDeviceSerialPort.readline();
                             sanitizeConrtolDeviceResponse(result);
                             this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", serialPortDeviceInfo.port.c_str(), result.c_str()));
@@ -232,21 +231,22 @@ void ControlDevice::reScanThisControlDevice()
     {
         this->addMsgToDataExchangeLog(Valter::format_string("Control Device [%s] re-scanned successfuly", this->getControlDeviceId().c_str()));
         setFailedAfterRescanning(false);
+        setRescanningAfterPossibleReset(false);
     }
     else
     {
         if (cnt < 10)
         {
             this_thread::sleep_for(std::chrono::seconds(1));
-            new std::thread(&ControlDevice::reScanThisControlDevice, this);
+            reScanThisControlDevice();
         }
         else
         {
             this->addMsgToDataExchangeLog(Valter::format_string("Rescanning Control Device [%s] port FAILED after Attempt #%d", this->getControlDeviceId().c_str(), cnt));
             setFailedAfterRescanning(true);
+            setRescanningAfterPossibleReset(false);
         }
     }
-    setRescanningAfterPossibleReset(false);
 }
 
 void ControlDevice::USBSysDeviceReset(string sysDevicePath)
@@ -322,6 +322,8 @@ void ControlDevice::controlDeviceThreadWorker()
     string response;
     bool isWDReset = false;
 
+    wdTimerNotResetCnt = 0;
+
     while (this->getStatus() == ControlDevice::StatusActive)
     {
         try
@@ -346,10 +348,13 @@ void ControlDevice::controlDeviceThreadWorker()
                 {
                     intentionalWDTimerResetOnAT91SAM7s = false;
                 }
-                this->getControlDevicePort()->write(request.c_str());
-                if (Valter::getInstance()->getLogControlDeviceMessages())
+                if (wdTimerNotResetCnt == 0)
                 {
-                    this->addMsgToDataExchangeLog(Valter::format_string("%s ← %s", this->getControlDeviceId().c_str(), request.c_str()));
+                    this->getControlDevicePort()->write(request.c_str());
+                    if (Valter::getInstance()->getLogControlDeviceMessages())
+                    {
+                        this->addMsgToDataExchangeLog(Valter::format_string("%s ← %s", this->getControlDeviceId().c_str(), request.c_str()));
+                    }
                 }
             }
             //process incoming
@@ -366,6 +371,7 @@ void ControlDevice::controlDeviceThreadWorker()
                 {
                     isWDReset = true;
                     WDRESETTIMER = 0;
+                    wdTimerNotResetCnt = 0;
                 }
             }
 
@@ -377,40 +383,56 @@ void ControlDevice::controlDeviceThreadWorker()
             {
                 if (!isWDReset)
                 {
-                    if (intentionalWDTimerResetOnAT91SAM7s)
+                    if (resetWDTimer)
                     {
-                        USBRESET = true;
-                        break;
+                        this->getControlDevicePort()->write("WDRESET");
+                        this->addMsgToDataExchangeLog(Valter::format_string("%s ← WDRESET", this->getControlDeviceId().c_str()));
                     }
-                    else
+                    wdTimerNotResetCnt++;
+                    this->addMsgToDataExchangeLog(Valter::format_string("WD was not Reset on %s Control Device [attempt #%d]", this->getControlDeviceId().c_str(), wdTimerNotResetCnt));
+                    if (wdTimerNotResetCnt > 10)
                     {
-                        this->addMsgToDataExchangeLog(Valter::format_string("(EMULATED Reset %s system device of [%s] Control Device)", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
-                        WDRESETTIMER = 0;
+                        if (intentionalWDTimerResetOnAT91SAM7s)
+                        {
+                            USBRESET = true;
+                            break;
+                        }
+                        else
+                        {
+                            this->addMsgToDataExchangeLog(Valter::format_string("(EMULATED Reset %s system device of [%s] Control Device)", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
+                        }
                     }
                 }
+                WDRESETTIMER = 0;
             }
         }
         catch (const exception &ex)
         {
-            this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired in %s worker", ex.what(), this->getControlDeviceId().c_str()));
+            this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired in the %s worker", ex.what(), this->getControlDeviceId().c_str()));
             RESCANAFTEREXCEPTION = true;
             break;
         }
     }
 
+    wdTimerNotResetCnt = 0;
+
     this->addMsgToDataExchangeLog(Valter::format_string("%s worker stopped!", this->getControlDeviceId().c_str()));
     if (USBRESET)
     {
+        setStatus(ControlDevice::StatusReady);
+        intentionalWDTimerResetOnAT91SAM7s = false;
+        rescanningAfterPossibleReset = true;
         this_thread::sleep_for(std::chrono::seconds(5));
         this->setRescanNum(0);
-        intentionalWDTimerResetOnAT91SAM7s = false;
         resetUSBSysDevice();
     }
     if (RESCANAFTEREXCEPTION)
     {
-        rescanningAfterPossibleReset = true;
-        this->setRescanNum(0);
+        setStatus(ControlDevice::StatusReady);
         intentionalWDTimerResetOnAT91SAM7s = false;
+        rescanningAfterPossibleReset = true;
+        this_thread::sleep_for(std::chrono::seconds(5));
+        this->setRescanNum(0);
         reScanThisControlDevice();
     }
 }
@@ -438,7 +460,17 @@ void ControlDevice::resetUSBSysDevice()
     this->addMsgToDataExchangeLog(Valter::format_string("%s system device file of [%s] Control Device Reset successful!", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
     close(fd);
 
-    new std::thread(&ControlDevice::reScanThisControlDevice, this);
+    reScanThisControlDevice();
+}
+
+unsigned char ControlDevice::getWdTimerNotResetCnt() const
+{
+    return wdTimerNotResetCnt;
+}
+
+void ControlDevice::setWdTimerNotResetCnt(unsigned char value)
+{
+    wdTimerNotResetCnt = value;
 }
 bool ControlDevice::getAutoReActivation() const
 {
@@ -479,13 +511,6 @@ bool ControlDevice::getFailedAfterRescanning() const
 void ControlDevice::setFailedAfterRescanning(bool value)
 {
     failedAfterRescanning = value;
-    if (!failedAfterRescanning)
-    {
-        if (autoReActivation)
-        {
-            activate();
-        }
-    }
 }
 
 bool ControlDevice::getRescanningAfterPossibleReset() const
@@ -496,6 +521,26 @@ bool ControlDevice::getRescanningAfterPossibleReset() const
 void ControlDevice::setRescanningAfterPossibleReset(bool value)
 {
     rescanningAfterPossibleReset = value;
+    if (rescanningAfterPossibleReset)
+    {
+        setStatus(ControlDevice::StatusReady);
+    }
+    else
+    {
+        IValterModule *valterModule = Valter::getInstance()->getValterModule(getControlDeviceId());
+        if (valterModule->getReloadDefaults())
+        {
+            valterModule->loadDefaults();
+            valterModule->addActionToDelayedGUIActions(IValterModule::RELOAD_DEFAULTS);
+        }
+        if (autoReActivation)
+        {
+            if (!failedAfterRescanning)
+            {
+                activate();
+            }
+        }
+    }
 }
 
 bool ControlDevice::getResetWDTimer() const
@@ -523,7 +568,6 @@ void ControlDevice::spawnControlDeviceThreadWorker()
     controlDeviceThread = new std::thread(&ControlDevice::controlDeviceThreadWorker, this);
     IValterModule *valterModule = Valter::getInstance()->getValterModule(getControlDeviceId());
     valterModule->spawnProcessMessagesQueueWorkerThread();
-
 }
 
 void ControlDevice::addRequest(string msg)
@@ -610,9 +654,19 @@ void ControlDevice::setStatus(const string &value)
 
 void ControlDevice::activate()
 {
-    getControlDevicePort()->open();
-    setStatus(ControlDevice::StatusActive);
-    spawnControlDeviceThreadWorker();
+    if (getStatus() == ControlDevice::StatusReady)
+    {
+        try
+        {
+            getControlDevicePort()->open();
+        }
+        catch (const exception &ex)
+        {
+            this->addMsgToDataExchangeLog(Valter::format_string("Exception [%s] fired in the %s worker", ex.what(), this->getControlDeviceId().c_str()));
+        }
+        setStatus(ControlDevice::StatusActive);
+        spawnControlDeviceThreadWorker();
+    }
 }
 
 void ControlDevice::deactivate()

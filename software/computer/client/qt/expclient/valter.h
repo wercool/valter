@@ -27,6 +27,7 @@ public:
    static Valter *getInstance();
    static string getVersion();
    static void log(string msg);
+   static void delayGUIAction(string msg);
 
    void readControlDevicesCommandsFromFiles(bool printCommands = false);
    void scanControlDevices();
@@ -43,6 +44,13 @@ public:
    void clearControlDevicesMap();
    bool getLogControlDeviceMessages() const;
    void setLogControlDeviceMessages(bool value);
+
+   map<string, IValterModule *> getValterModulesMap() const;
+   void setValterModulesMap(const map<string, IValterModule *> &value);
+   void addUpdateValterModule(string controlDeviceId, IValterModule *valterModule);
+   IValterModule *getValterModule(string controlDeviceId);
+
+   void stopAllModules();
 
    //Utils
    static std::string format_string(const std::string fmt_str, ...)
@@ -90,13 +98,6 @@ public:
        return charPtr;
    }
 
-   map<string, IValterModule *> getValterModulesMap() const;
-   void setValterModulesMap(const map<string, IValterModule *> &value);
-   void addUpdateValterModule(string controlDeviceId, IValterModule *valterModule);
-   IValterModule *getValterModule(string controlDeviceId);
-
-   void stopAllModules();
-
 private:
    Valter();
    static Valter *pValter;      // Valter's singleton instance
@@ -108,7 +109,9 @@ private:
    map<string, ControlDevice*> controlDevicesMap;
 
    map<string, IValterModule*> valterModulesMap;
+
 };
+
 
 
 #endif // VALTER_H

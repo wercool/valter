@@ -7,6 +7,7 @@
 #include <QMessageBox>
 
 #include <valter.h>
+#include <ivaltermodule.h>
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,7 @@ public:
     static MainWindow* getInstance();
     void refreshControlDeviceTableWidget();
     void addMsgToLog(string msg);
+    void delayGUIAction(IValterModule *valterModule);
 
 private slots:
     void on_scanControlDevicesBtn_clicked();
@@ -57,6 +59,8 @@ private slots:
     void on_stopAllPlatformControlP1Button_clicked();
 
     void platformControlP1TabRefreshTimerUpdate();
+
+    void delayedGUIActionsProcessingTimerUpdate();
 
     void on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue);
 
@@ -164,6 +168,7 @@ private:
     QTimer *controlDevicesDataExchangeLogTimer;
     QTimer *controlDevicesTableRefreshTimer;
     QTimer *platformControlP1TabRefreshTimer;
+    QTimer *delayedGUIActionsProcessingTimer;
     string selectedControlDeviceId;
     bool allConnect;
 

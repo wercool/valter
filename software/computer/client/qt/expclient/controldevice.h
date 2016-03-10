@@ -83,6 +83,9 @@ public:
     bool getAutoReActivation() const;
     void setAutoReActivation(bool value);
 
+    unsigned char getWdTimerNotResetCnt() const;
+    void setWdTimerNotResetCnt(unsigned char value);
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
@@ -96,6 +99,7 @@ private:
     void resetUSBSysDevice();
     bool resetWDTimer;
     bool intentionalWDTimerResetOnAT91SAM7s;
+    unsigned char wdTimerNotResetCnt;
 
     bool rescanningAfterPossibleReset;
     bool failedAfterRescanning;

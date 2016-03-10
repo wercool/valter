@@ -12,7 +12,6 @@ const string PlatformLocationP1::controlDeviceId = "PLATFORM-LOCATION-P1";
 PlatformLocationP1::PlatformLocationP1()
 {
     Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
-    setIdx(3);
     setReloadDefaults(false);
     controlDeviceIsSet = false;
 }
@@ -47,7 +46,12 @@ void PlatformLocationP1::stopAll()
 
 void PlatformLocationP1::resetToDefault()
 {
-    getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformLocationP1::controlDeviceId.c_str()));
+    if (this->controlDeviceIsSet)
+    {
+        getControlDevice()->setAutoReActivation(true);
+        getControlDevice()->clearMessageQueue();
+        getControlDevice()->clearDataExchangeLog();
+    }
 }
 
 void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()
