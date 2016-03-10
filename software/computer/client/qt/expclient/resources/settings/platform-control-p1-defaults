@@ -1,5 +1,7 @@
-platformControlP1WheelMotorsDutySlider:30,1,100
-platformMovementDecelerationSlider:5,1,10
-platformMovementAccelerationSlider:2,1,10
-leftMotorPlatformControlP1DutySlider:30,1,100
-rightMotorPlatformControlP1DutySlider:30,1,100
+leftMotorDuty:1,100,30
+rightMotorDuty:1,100,30
+motorsDeceleration:1,10,5
+motorsAcceleration:1,10,5
+turretMotorDuty:1,100,20
+turretMotorDeceleration:1,10,5
+turretMotorAcceleration:1,10,2

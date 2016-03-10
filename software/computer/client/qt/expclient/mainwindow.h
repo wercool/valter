@@ -152,7 +152,7 @@ private slots:
 
     void on_turretRotateRightButton_released();
 
-    void on_platformControlP1LoadDefaultsButton_pressed();
+    void on_platformControlP1LoadDefaultsButton_clicked();
 
 private:
     Ui::MainWindow *ui;

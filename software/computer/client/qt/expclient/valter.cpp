@@ -16,13 +16,13 @@ Valter::Valter()
 {
     logControlDeviceMessages = true;
 
-    controlDeviceIds = {"PLATFORM-CONTROL-P1",
-                        "PLATFORM-CONTROL-P2",
-                        "PLATFORM-LOCATION-P1",
-                        "PLATFORM-MANIPULATOR-AND-IR-BUMPER",
-                        "BODY-CONTROL-P1",
-                        "ARM-CONTROL-RIGHT",
-                        "ARM-CONTROL-LEFT"};
+    controlDeviceIds = {"PLATFORM-CONTROL-P1",                  //idx 1
+                        "PLATFORM-CONTROL-P2",                  //idx 2
+                        "PLATFORM-LOCATION-P1",                 //idx 3
+                        "PLATFORM-MANIPULATOR-AND-IR-BUMPER",   //idx 4
+                        "BODY-CONTROL-P1",                      //idx 5
+                        "ARM-CONTROL-RIGHT",                    //idx 6
+                        "ARM-CONTROL-LEFT"};                    //idx 7
 
     readControlDevicesCommandsFromFiles();
 
@@ -188,6 +188,7 @@ void Valter::addControlDeviceToControlDevicesMap(ControlDevice *controlDevice)
     controlDevicesMap[controlDevice->getControlDeviceId()] = controlDevice;
     Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->setControlDevice(controlDevice);
     Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->resetToDefault();
+    Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->setReloadDefaults(true);
 }
 
 void Valter::updateControlDevice(string controlDeviceId, string port)
@@ -206,6 +207,7 @@ void Valter::updateControlDevice(string controlDeviceId, string port)
 
     controlDevice->setSysDevicePath(sys_usb_bus_device);
     Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->resetToDefault();
+    Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->setReloadDefaults(true);
 }
 
 

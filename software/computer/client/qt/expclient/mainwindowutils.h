@@ -6,71 +6,61 @@
 #include <QtDebug>
 #include <QMessageBox>
 
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
 #include <valter.h>
 
 void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
 
-    string deFaultvalue;
-    char *deFaultvaluePtr;
-    int curValue;
-    int minValue;
-    int maxValue;
-
     //platformControlP1WheelMotorsDutySlider
-    deFaultvalue = platformControlP1->getDefault("platformControlP1WheelMotorsDutySlider");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    curValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
-    minValue = atoi(strtok(NULL, "," ));
-    maxValue = atoi(strtok(NULL, "," ));
-    ui->platformControlP1WheelMotorsDutySlider->setValue(curValue);
-    ui->platformControlP1WheelMotorsDutySlider->setMinimum(minValue);
-    ui->platformControlP1WheelMotorsDutySlider->setMaximum(maxValue);
+    ui->platformControlP1WheelMotorsDutySlider->setMinimum(platformControlP1->getLeftMotorDutyPresetMin()); //use left preset as common
+    ui->platformControlP1WheelMotorsDutySlider->setMaximum(platformControlP1->getLeftMotorDutyPresetMax()); //use left preset as common
+    if (platformControlP1->getLeftMotorDutyPresetCur() > platformControlP1->getRightMotorDutyPresetCur())
+    {
+        ui->platformControlP1WheelMotorsDutySlider->setValue(platformControlP1->getLeftMotorDutyPresetCur());
+    }
+    else
+    {
+        ui->platformControlP1WheelMotorsDutySlider->setValue(platformControlP1->getRightMotorDutyPresetCur());
+    }
 
     //platformMovementDecelerationSlider
-    deFaultvalue = platformControlP1->getDefault("platformMovementDecelerationSlider");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    curValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
-    minValue = atoi(strtok(NULL, "," ));
-    maxValue = atoi(strtok(NULL, "," ));
-    ui->platformMovementDecelerationSlider->setValue(curValue);
-    ui->platformMovementDecelerationSlider->setMinimum(minValue);
-    ui->platformMovementDecelerationSlider->setMaximum(maxValue);
-    platformControlP1->setPlatformDeceleration(curValue);
+    ui->platformMovementDecelerationSlider->setMinimum(platformControlP1->getPlatformDecelerationPresetMin());
+    ui->platformMovementDecelerationSlider->setMaximum(platformControlP1->getPlatformDecelerationPresetMax());
+    ui->platformMovementDecelerationSlider->setValue(platformControlP1->getPlatformDecelerationPresetCur());
 
     //platformMovementAccelerationSlider
-    deFaultvalue = platformControlP1->getDefault("platformMovementAccelerationSlider");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    curValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
-    minValue = atoi(strtok(NULL, "," ));
-    maxValue = atoi(strtok(NULL, "," ));
-    ui->platformMovementAccelerationSlider->setValue(curValue);
-    ui->platformMovementAccelerationSlider->setMinimum(minValue);
-    ui->platformMovementAccelerationSlider->setMaximum(maxValue);
-    platformControlP1->setPlatformAcceleration(curValue);
+    ui->platformMovementAccelerationSlider->setMinimum(platformControlP1->getPlatformAccelerationPresetMin());
+    ui->platformMovementAccelerationSlider->setMaximum(platformControlP1->getPlatformAccelerationPresetMax());
+    ui->platformMovementAccelerationSlider->setValue(platformControlP1->getPlatformAccelerationPresetCur());
 
     //leftMotorPlatformControlP1DutySlider
-    deFaultvalue = platformControlP1->getDefault("leftMotorPlatformControlP1DutySlider");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    curValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
-    minValue = atoi(strtok(NULL, "," ));
-    maxValue = atoi(strtok(NULL, "," ));
-    ui->leftMotorPlatformControlP1DutySlider->setValue(curValue);
-    ui->leftMotorPlatformControlP1DutySlider->setMinimum(minValue);
-    ui->leftMotorPlatformControlP1DutySlider->setMaximum(maxValue);
-    platformControlP1->setLeftMotorDutyMax(curValue);
+    ui->leftMotorPlatformControlP1DutySlider->setMinimum(platformControlP1->getLeftMotorDutyPresetMin());
+    ui->leftMotorPlatformControlP1DutySlider->setMaximum(platformControlP1->getLeftMotorDutyPresetMax());
+    ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyPresetCur());
 
     //rightMotorPlatformControlP1DutySlider
-    deFaultvalue = platformControlP1->getDefault("rightMotorPlatformControlP1DutySlider");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    curValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
-    minValue = atoi(strtok(NULL, "," ));
-    maxValue = atoi(strtok(NULL, "," ));
-    ui->rightMotorPlatformControlP1DutySlider->setValue(curValue);
-    ui->rightMotorPlatformControlP1DutySlider->setMinimum(minValue);
-    ui->rightMotorPlatformControlP1DutySlider->setMaximum(maxValue);
-    platformControlP1->setRightMotorDutyMax(curValue);
+    ui->rightMotorPlatformControlP1DutySlider->setMinimum(platformControlP1->getRightMotorDutyPresetMin());
+    ui->rightMotorPlatformControlP1DutySlider->setMaximum(platformControlP1->getRightMotorDutyPresetMax());
+    ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyPresetCur());
+
+    //turretRotationDutySlider
+    ui->turretRotationDutySlider->setMinimum(platformControlP1->getTurretMotorDutyPresetMin());
+    ui->turretRotationDutySlider->setMaximum(platformControlP1->getTurretMotorDutyPresetMax());
+    ui->turretRotationDutySlider->setValue(platformControlP1->getTurretMotorDutyPresetCur());
+
+    //decelerationTurretRotationSlider
+    ui->decelerationTurretRotationSlider->setMinimum(platformControlP1->getTurretDecelerationPresetMin());
+    ui->decelerationTurretRotationSlider->setMaximum(platformControlP1->getTurretDecelerationPresetMax());
+    ui->decelerationTurretRotationSlider->setValue(platformControlP1->getTurretDecelerationPresetCur());
+
+    //accelerationTurretRotationSlider
+    ui->accelerationTurretRotationSlider->setMinimum(platformControlP1->getTurretAccelerationPresetMin());
+    ui->accelerationTurretRotationSlider->setMaximum(platformControlP1->getTurretAccelerationPresetMax());
+    ui->accelerationTurretRotationSlider->setValue(platformControlP1->getTurretAccelerationPresetCur());
 }
 
 #endif // MAINWINDOWUTILS_H

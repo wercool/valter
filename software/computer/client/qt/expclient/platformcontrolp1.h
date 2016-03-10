@@ -165,6 +165,69 @@ public:
     bool getTurretMotorDirection() const;
     bool setTurretMotorDirection(bool value);
 
+    int getLeftMotorDutyPresetMin() const;
+    void setLeftMotorDutyPresetMin(int value);
+
+    int getLeftMotorDutyPresetMax() const;
+    void setLeftMotorDutyPresetMax(int value);
+
+    int getLeftMotorDutyPresetCur() const;
+    void setLeftMotorDutyPresetCur(int value);
+
+    int getRightMotorDutyPresetMin() const;
+    void setRightMotorDutyPresetMin(int value);
+
+    int getRightMotorDutyPresetMax() const;
+    void setRightMotorDutyPresetMax(int value);
+
+    int getRightMotorDutyPresetCur() const;
+    void setRightMotorDutyPresetCur(int value);
+
+    int getPlatformDecelerationPresetMin() const;
+    void setPlatformDecelerationPresetMin(int value);
+
+    int getPlatformDecelerationPresetMax() const;
+    void setPlatformDecelerationPresetMax(int value);
+
+    int getPlatformDecelerationPresetCur() const;
+    void setPlatformDecelerationPresetCur(int value);
+
+    int getPlatformAccelerationPresetMin() const;
+    void setPlatformAccelerationPresetMin(int value);
+
+    int getPlatformAccelerationPresetMax() const;
+    void setPlatformAccelerationPresetMax(int value);
+
+    int getPlatformAccelerationPresetCur() const;
+    void setPlatformAccelerationPresetCur(int value);
+
+    int getTurretMotorDutyPresetMin() const;
+    void setTurretMotorDutyPresetMin(int value);
+
+    int getTurretMotorDutyPresetMax() const;
+    void setTurretMotorDutyPresetMax(int value);
+
+    int getTurretMotorDutyPresetCur() const;
+    void setTurretMotorDutyPresetCur(int value);
+
+    int getTurretDecelerationPresetMin() const;
+    void setTurretDecelerationPresetMin(int value);
+
+    int getTurretDecelerationPresetMax() const;
+    void setTurretDecelerationPresetMax(int value);
+
+    int getTurretDecelerationPresetCur() const;
+    void setTurretDecelerationPresetCur(int value);
+
+    int getTurretAccelerationPresetMin() const;
+    void setTurretAccelerationPresetMin(int value);
+
+    int getTurretAccelerationPresetMax() const;
+    void setTurretAccelerationPresetMax(int value);
+
+    int getTurretAccelerationPresetCur() const;
+    void setTurretAccelerationPresetCur(int value);
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
@@ -235,6 +298,29 @@ private:
     int turretAcceleration;
     bool turretMotorAccelerating;
     bool turretMotorDecelerating;
+
+    //preset defaults
+    int leftMotorDutyPresetMin;
+    int leftMotorDutyPresetMax;
+    int leftMotorDutyPresetCur;
+    int rightMotorDutyPresetMin;
+    int rightMotorDutyPresetMax;
+    int rightMotorDutyPresetCur;
+    int platformDecelerationPresetMin;
+    int platformDecelerationPresetMax;
+    int platformDecelerationPresetCur;
+    int platformAccelerationPresetMin;
+    int platformAccelerationPresetMax;
+    int platformAccelerationPresetCur;
+    int turretMotorDutyPresetMin;
+    int turretMotorDutyPresetMax;
+    int turretMotorDutyPresetCur;
+    int turretDecelerationPresetMin;
+    int turretDecelerationPresetMax;
+    int turretDecelerationPresetCur;
+    int turretAccelerationPresetMin;
+    int turretAccelerationPresetMax;
+    int turretAccelerationPresetCur;
 };
 
 #endif // PLATFORMCONTROLP1_H

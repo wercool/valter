@@ -13,6 +13,7 @@ const string PlatformControlP1::defaultsFilePath = "/home/maska/git/valter/softw
 PlatformControlP1::PlatformControlP1()
 {
     Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
+    setIdx(1);
     loadDefaults();
     controlDeviceIsSet = false;
     resetValuesToDefault();
@@ -61,24 +62,11 @@ void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
     getControlDevice()->addMsgToDataExchangeLog("PlatformControlP1 Module process messages queue worker started...");
 }
 
-void PlatformControlP1::loadDefaults()
-{
-    ifstream defaultsFile(PlatformControlP1::defaultsFilePath);
-    string line;
-    while (getline(defaultsFile, line, '\n'))
-    {
-        char *lineStrPtr = Valter::stringToCharPtr(line);
-        string defaultValueName(strtok(lineStrPtr, ":" ));
-        string defaultValue(strtok(NULL, ":" ));
-        addDefault(defaultValueName, defaultValue);
-    }
-    defaultsFile.close();
-}
-
 void PlatformControlP1::resetValuesToDefault()
 {
     if (this->controlDeviceIsSet)
     {
+        getControlDevice()->setAutoReActivation(true);
         getControlDevice()->clearMessageQueue();
         getControlDevice()->clearDataExchangeLog();
     }
@@ -606,6 +594,216 @@ void PlatformControlP1::turretRotationDynamics()
         }
     }
 }
+int PlatformControlP1::getTurretAccelerationPresetCur() const
+{
+    return turretAccelerationPresetCur;
+}
+
+void PlatformControlP1::setTurretAccelerationPresetCur(int value)
+{
+    turretAccelerationPresetCur = value;
+}
+
+int PlatformControlP1::getTurretAccelerationPresetMax() const
+{
+    return turretAccelerationPresetMax;
+}
+
+void PlatformControlP1::setTurretAccelerationPresetMax(int value)
+{
+    turretAccelerationPresetMax = value;
+}
+
+int PlatformControlP1::getTurretAccelerationPresetMin() const
+{
+    return turretAccelerationPresetMin;
+}
+
+void PlatformControlP1::setTurretAccelerationPresetMin(int value)
+{
+    turretAccelerationPresetMin = value;
+}
+
+int PlatformControlP1::getTurretDecelerationPresetCur() const
+{
+    return turretDecelerationPresetCur;
+}
+
+void PlatformControlP1::setTurretDecelerationPresetCur(int value)
+{
+    turretDecelerationPresetCur = value;
+}
+
+int PlatformControlP1::getTurretDecelerationPresetMax() const
+{
+    return turretDecelerationPresetMax;
+}
+
+void PlatformControlP1::setTurretDecelerationPresetMax(int value)
+{
+    turretDecelerationPresetMax = value;
+}
+
+int PlatformControlP1::getTurretDecelerationPresetMin() const
+{
+    return turretDecelerationPresetMin;
+}
+
+void PlatformControlP1::setTurretDecelerationPresetMin(int value)
+{
+    turretDecelerationPresetMin = value;
+}
+
+int PlatformControlP1::getTurretMotorDutyPresetCur() const
+{
+    return turretMotorDutyPresetCur;
+}
+
+void PlatformControlP1::setTurretMotorDutyPresetCur(int value)
+{
+    turretMotorDutyPresetCur = value;
+}
+
+int PlatformControlP1::getTurretMotorDutyPresetMax() const
+{
+    return turretMotorDutyPresetMax;
+}
+
+void PlatformControlP1::setTurretMotorDutyPresetMax(int value)
+{
+    turretMotorDutyPresetMax = value;
+}
+
+int PlatformControlP1::getTurretMotorDutyPresetMin() const
+{
+    return turretMotorDutyPresetMin;
+}
+
+void PlatformControlP1::setTurretMotorDutyPresetMin(int value)
+{
+    turretMotorDutyPresetMin = value;
+}
+
+int PlatformControlP1::getPlatformAccelerationPresetCur() const
+{
+    return platformAccelerationPresetCur;
+}
+
+void PlatformControlP1::setPlatformAccelerationPresetCur(int value)
+{
+    platformAccelerationPresetCur = value;
+}
+
+int PlatformControlP1::getPlatformAccelerationPresetMax() const
+{
+    return platformAccelerationPresetMax;
+}
+
+void PlatformControlP1::setPlatformAccelerationPresetMax(int value)
+{
+    platformAccelerationPresetMax = value;
+}
+
+int PlatformControlP1::getPlatformAccelerationPresetMin() const
+{
+    return platformAccelerationPresetMin;
+}
+
+void PlatformControlP1::setPlatformAccelerationPresetMin(int value)
+{
+    platformAccelerationPresetMin = value;
+}
+
+int PlatformControlP1::getPlatformDecelerationPresetCur() const
+{
+    return platformDecelerationPresetCur;
+}
+
+void PlatformControlP1::setPlatformDecelerationPresetCur(int value)
+{
+    platformDecelerationPresetCur = value;
+}
+
+int PlatformControlP1::getPlatformDecelerationPresetMax() const
+{
+    return platformDecelerationPresetMax;
+}
+
+void PlatformControlP1::setPlatformDecelerationPresetMax(int value)
+{
+    platformDecelerationPresetMax = value;
+}
+
+int PlatformControlP1::getPlatformDecelerationPresetMin() const
+{
+    return platformDecelerationPresetMin;
+}
+
+void PlatformControlP1::setPlatformDecelerationPresetMin(int value)
+{
+    platformDecelerationPresetMin = value;
+}
+
+int PlatformControlP1::getRightMotorDutyPresetCur() const
+{
+    return rightMotorDutyPresetCur;
+}
+
+void PlatformControlP1::setRightMotorDutyPresetCur(int value)
+{
+    rightMotorDutyPresetCur = value;
+}
+
+int PlatformControlP1::getRightMotorDutyPresetMax() const
+{
+    return rightMotorDutyPresetMax;
+}
+
+void PlatformControlP1::setRightMotorDutyPresetMax(int value)
+{
+    rightMotorDutyPresetMax = value;
+}
+
+int PlatformControlP1::getRightMotorDutyPresetMin() const
+{
+    return rightMotorDutyPresetMin;
+}
+
+void PlatformControlP1::setRightMotorDutyPresetMin(int value)
+{
+    rightMotorDutyPresetMin = value;
+}
+
+int PlatformControlP1::getLeftMotorDutyPresetCur() const
+{
+    return leftMotorDutyPresetCur;
+}
+
+void PlatformControlP1::setLeftMotorDutyPresetCur(int value)
+{
+    leftMotorDutyPresetCur = value;
+}
+
+int PlatformControlP1::getLeftMotorDutyPresetMax() const
+{
+    return leftMotorDutyPresetMax;
+}
+
+void PlatformControlP1::setLeftMotorDutyPresetMax(int value)
+{
+    leftMotorDutyPresetMax = value;
+}
+
+int PlatformControlP1::getLeftMotorDutyPresetMin() const
+{
+    return leftMotorDutyPresetMin;
+}
+
+void PlatformControlP1::setLeftMotorDutyPresetMin(int value)
+{
+    leftMotorDutyPresetMin = value;
+}
+
 bool PlatformControlP1::getTurretMotorDirection() const
 {
     return turretMotorDirection;
@@ -1181,4 +1379,101 @@ int PlatformControlP1::getLeftMotorDuty() const
 void PlatformControlP1::setLeftMotorDuty(int value)
 {
     leftMotorDuty = value;
+}
+
+void PlatformControlP1::loadDefaults()
+{
+    ifstream defaultsFile(PlatformControlP1::defaultsFilePath);
+    string line;
+    while (getline(defaultsFile, line, '\n'))
+    {
+        char *lineStrPtr = Valter::stringToCharPtr(line);
+        string defaultValueName(strtok(lineStrPtr, ":" ));
+        string defaultValue(strtok(NULL, ":" ));
+        addDefault(defaultValueName, defaultValue);
+    }
+    defaultsFile.close();
+
+    string deFaultvalue;
+    char *deFaultvaluePtr;
+    int curValue;
+    int minValue;
+    int maxValue;
+
+    //leftMotorDuty
+    deFaultvalue = getDefault("leftMotorDuty");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setLeftMotorDutyPresetMin(minValue);
+    setLeftMotorDutyPresetMax(maxValue);
+    setLeftMotorDutyPresetCur(curValue);
+    setLeftMotorDutyMax(getLeftMotorDutyPresetCur());
+
+    //rightMotorDuty
+    deFaultvalue = getDefault("rightMotorDuty");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setRightMotorDutyPresetMin(minValue);
+    setRightMotorDutyPresetMax(maxValue);
+    setRightMotorDutyPresetCur(curValue);
+    setRightMotorDutyMax(getRightMotorDutyPresetCur());
+
+    //motorsDeceleration
+    deFaultvalue = getDefault("motorsDeceleration");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setPlatformDecelerationPresetMin(minValue);
+    setPlatformDecelerationPresetMax(maxValue);
+    setPlatformDecelerationPresetCur(curValue);
+    setPlatformDeceleration(getPlatformDecelerationPresetCur());
+
+    //motorsAcceleration
+    deFaultvalue = getDefault("motorsAcceleration");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setPlatformAccelerationPresetMin(minValue);
+    setPlatformAccelerationPresetMax(maxValue);
+    setPlatformAccelerationPresetCur(curValue);
+    setPlatformAcceleration(getPlatformAccelerationPresetCur());
+
+    //turretMotorDuty
+    deFaultvalue = getDefault("turretMotorDuty");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setTurretMotorDutyPresetMin(minValue);
+    setTurretMotorDutyPresetMax(maxValue);
+    setTurretMotorDutyPresetCur(curValue);
+    setTurretMotorDutyMax(getTurretMotorDutyPresetCur());
+
+    //turretMotorDeceleration
+    deFaultvalue = getDefault("turretMotorDeceleration");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setTurretDecelerationPresetMin(minValue);
+    setTurretDecelerationPresetMax(maxValue);
+    setTurretDecelerationPresetCur(curValue);
+    setTurretDeceleration(getTurretDecelerationPresetCur());
+
+    //turretMotorAcceleration
+    deFaultvalue = getDefault("turretMotorAcceleration");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setTurretAccelerationPresetMin(minValue);
+    setTurretAccelerationPresetMax(maxValue);
+    setTurretAccelerationPresetCur(curValue);
+    setTurretAcceleration(getTurretAccelerationPresetCur());
 }

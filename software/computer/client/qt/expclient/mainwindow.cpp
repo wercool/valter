@@ -172,14 +172,11 @@ void MainWindow::on_connectDisconnectControlDeviceButton_clicked()
 
         if (controlDevice->getControlDevicePort()->isOpen())
         {
-            controlDevice->setStatus(ControlDevice::StatusReady);
-            controlDevice->getControlDevicePort()->close();
+            controlDevice->deactivate();
         }
         else
         {
-            controlDevice->getControlDevicePort()->open();
-            controlDevice->setStatus(ControlDevice::StatusActive);
-            controlDevice->spawnControlDeviceThreadWorker();
+            controlDevice->activate();
         }
     }
     refreshControlDeviceTableWidget();
@@ -357,6 +354,24 @@ void MainWindow::controlDevicesTableRefreshTimerUpdate()
         ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
         ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
         i++;
+
+        if (!controlDevice->getFailedAfterRescanning())
+        {
+            IValterModule *valterModule = Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId());
+            if (valterModule->getReloadDefaults())
+            {
+                valterModule->loadDefaults();
+
+                switch (valterModule->getIdx())
+                {
+                    case 1:
+                        loadPlatformControlP1Defaults(ui);
+                    break;
+                }
+
+                valterModule->setReloadDefaults(false);
+            }
+        }
     }
 
     if (selectedControlDeviceRowIndex >= 0)
@@ -378,17 +393,14 @@ void MainWindow::on_connectAllPushButton_clicked()
         {
             if (!controlDevice->getControlDevicePort()->isOpen())
             {
-                controlDevice->getControlDevicePort()->open();
-                controlDevice->setStatus(ControlDevice::StatusActive);
-                controlDevice->spawnControlDeviceThreadWorker();
+                controlDevice->activate();
             }
         }
         else
         {
             if (controlDevice->getControlDevicePort()->isOpen())
             {
-                controlDevice->setStatus(ControlDevice::StatusReady);
-                controlDevice->getControlDevicePort()->close();
+                controlDevice->deactivate();
             }
         }
     }
@@ -942,7 +954,7 @@ void MainWindow::on_turretRotateRightButton_released()
     platformControlP1->setTurretMotorActivated(false);
 }
 
-void MainWindow::on_platformControlP1LoadDefaultsButton_pressed()
+void MainWindow::on_platformControlP1LoadDefaultsButton_clicked()
 {
     loadPlatformControlP1Defaults(ui);
 }

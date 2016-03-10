@@ -39,6 +39,9 @@ public:
     string getStatus() const;
     void setStatus(const string &value);
 
+    void activate();
+    void deactivate();
+
     std::thread *getControlDeviceThread() const;
     void setControlDeviceThread(std::thread *value);
     void spawnControlDeviceThreadWorker();
@@ -77,6 +80,9 @@ public:
     bool getIntentionalWDTimerResetOnAT91SAM7s() const;
     void setIntentionalWDTimerResetOnAT91SAM7s(bool value);
 
+    bool getAutoReActivation() const;
+    void setAutoReActivation(bool value);
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
@@ -94,6 +100,7 @@ private:
     bool rescanningAfterPossibleReset;
     bool failedAfterRescanning;
     unsigned int rescanNum;
+    bool autoReActivation;
 
     list<string> responses;
     list<string> requests;

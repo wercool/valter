@@ -17,6 +17,7 @@ ControlDevice::ControlDevice()
     intentionalWDTimerResetOnAT91SAM7s = false;
     rescanningAfterPossibleReset = false;
     failedAfterRescanning = false;
+    autoReActivation = false;
 }
 
 void ControlDevice::listDevices()
@@ -439,6 +440,16 @@ void ControlDevice::resetUSBSysDevice()
 
     new std::thread(&ControlDevice::reScanThisControlDevice, this);
 }
+bool ControlDevice::getAutoReActivation() const
+{
+    return autoReActivation;
+}
+
+void ControlDevice::setAutoReActivation(bool value)
+{
+    autoReActivation = value;
+}
+
 bool ControlDevice::getIntentionalWDTimerResetOnAT91SAM7s() const
 {
     return intentionalWDTimerResetOnAT91SAM7s;
@@ -468,6 +479,13 @@ bool ControlDevice::getFailedAfterRescanning() const
 void ControlDevice::setFailedAfterRescanning(bool value)
 {
     failedAfterRescanning = value;
+    if (!failedAfterRescanning)
+    {
+        if (autoReActivation)
+        {
+            activate();
+        }
+    }
 }
 
 bool ControlDevice::getRescanningAfterPossibleReset() const
@@ -588,4 +606,17 @@ string ControlDevice::getStatus() const
 void ControlDevice::setStatus(const string &value)
 {
     status = value;
+}
+
+void ControlDevice::activate()
+{
+    getControlDevicePort()->open();
+    setStatus(ControlDevice::StatusActive);
+    spawnControlDeviceThreadWorker();
+}
+
+void ControlDevice::deactivate()
+{
+    setStatus(ControlDevice::StatusReady);
+    getControlDevicePort()->close();
 }

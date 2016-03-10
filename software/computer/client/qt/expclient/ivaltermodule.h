@@ -17,10 +17,12 @@ public:
     {
         return controlDevice;
     }
+
     void setControlDevice(ControlDevice *value)
     {
         controlDevice = value;
         controlDeviceIsSet = true;
+        reloadDefaults = false;
     }
 
     bool controlDeviceIsSet;
@@ -77,10 +79,33 @@ public:
         return defaults[valueName];
     }
 
+    bool getReloadDefaults() const
+    {
+        return reloadDefaults;
+    }
+
+    void setReloadDefaults(bool value)
+    {
+        reloadDefaults = value;
+    }
+
+    unsigned char getIdx() const
+    {
+        return idx;
+    }
+
+    void setIdx(unsigned char value)
+    {
+        idx = value;
+    }
+
+
 private:
+    unsigned char idx;
     ControlDevice *controlDevice;
     std::thread *processMessagesQueueWorkerThread;
     map<string, string> defaults;
+    bool reloadDefaults;
 
 };
 

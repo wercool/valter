@@ -12,7 +12,9 @@ const string PlatformLocationP1::controlDeviceId = "PLATFORM-LOCATION-P1";
 PlatformLocationP1::PlatformLocationP1()
 {
     Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
-    this->controlDeviceIsSet = false;
+    setIdx(3);
+    setReloadDefaults(false);
+    controlDeviceIsSet = false;
 }
 
 string PlatformLocationP1::getControlDeviceId()
