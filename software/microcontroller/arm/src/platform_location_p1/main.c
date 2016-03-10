@@ -495,8 +495,10 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
+/*
             sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+*/
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
