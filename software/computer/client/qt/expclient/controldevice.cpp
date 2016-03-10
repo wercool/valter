@@ -367,6 +367,7 @@ void ControlDevice::controlDeviceThreadWorker()
                 {
                     this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", this->getControlDeviceId().c_str(), response.c_str()));
                 }
+                wdTimerNotResetCnt = 0;
                 if (response.compare("WDRST") == 0)
                 {
                     isWDReset = true;
