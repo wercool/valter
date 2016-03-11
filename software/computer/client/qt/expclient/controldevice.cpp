@@ -392,7 +392,7 @@ void ControlDevice::controlDeviceThreadWorker()
                     }
                     wdTimerNotResetCnt++;
                     this->addMsgToDataExchangeLog(Valter::format_string("WD was not Reset on %s Control Device [attempt #%d]", this->getControlDeviceId().c_str(), wdTimerNotResetCnt));
-                    if (wdTimerNotResetCnt > 10)
+                    if (wdTimerNotResetCnt > 4)
                     {
                         if (intentionalWDTimerResetOnAT91SAM7s)
                         {

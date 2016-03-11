@@ -21,7 +21,7 @@ public:
 
     void resetValuesToDefault();
 
-
+    bool preparePlatformMovement();
 
     bool getPower5VOnState() const;
     void setPower5VOnState(bool value);
@@ -107,8 +107,6 @@ public:
 
     bool getRightMotorStop() const;
     void setRightMotorStop(bool value);
-
-    bool preparePlatformMovement();
 
     bool getPlatformEmergencyStop() const;
     void setPlatformEmergencyStop(bool value);
@@ -269,6 +267,27 @@ public:
     bool getTurretMotorCurrentRead() const;
     void setTurretMotorCurrentRead(bool value);
 
+    int getLeftWheelEncoder() const;
+    void setLeftWheelEncoder(int value);
+
+    int getRightWheelEncoder() const;
+    void setRightWheelEncoder(int value);
+
+    bool getLeftWheelEncoderRead() const;
+    void setLeftWheelEncoderRead(bool value);
+
+    bool getRightWheelEncoderRead() const;
+    void setRightWheelEncoderRead(bool value);
+
+    bool getLeftWheelEncoderAutoreset() const;
+    void setLeftWheelEncoderAutoreset(bool value);
+
+    bool getRightWheelEncoderAutoreset() const;
+    void setRightWheelEncoderAutoreset(bool value);
+
+    void resetLeftWheelEncoder();
+    void resetRightWheelEncoder();
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
@@ -351,6 +370,13 @@ private:
     bool leftMotorCurrentRead;
     bool rightMotorCurrentRead;
     bool turretMotorCurrentRead;
+
+    int leftWheelEncoder;
+    int rightWheelEncoder;
+    bool leftWheelEncoderRead;
+    bool rightWheelEncoderRead;
+    bool leftWheelEncoderAutoreset;
+    bool rightWheelEncoderAutoreset;
 
     //preset defaults
     int leftMotorDutyPresetMin;

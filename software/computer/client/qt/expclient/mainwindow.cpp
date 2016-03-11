@@ -31,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     controlDeviceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->controlDeviceTableWidget->setHorizontalHeader(controlDeviceTableWidgetHeaderView);
 
+    //platfrom control p1
+    ui->turretPositionVisual->setDisabled(true);
+
     logLength = 0;
     allConnect = true;
 
@@ -1040,4 +1043,30 @@ void MainWindow::on_turretMotorCurrentCheckBox_clicked()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setTurretMotorCurrentRead(ui->turretMotorCurrentCheckBox->isChecked());
+}
+
+void MainWindow::on_platformControlP1LeftWheelEncoderResetButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->resetLeftWheelEncoder();
+    platformControlP1->setLeftWheelEncoder(0);
+}
+
+void MainWindow::on_platformControlP1RightWheelEncoderResetButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->resetRightWheelEncoder();
+    platformControlP1->setRightWheelEncoder(0);
+}
+
+void MainWindow::on_platformControlP1LeftWheelEncoderGetButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    ui->platformControlP1LeftWheelEncoderLcdNumber->display(Valter::format_string("%d", platformControlP1->getLeftWheelEncoder()).c_str());
+}
+
+void MainWindow::on_platformControlP1RightWheelEncoderGetButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    ui->platformControlP1RightWheelEncoderLcdNumber->display(Valter::format_string("%d", platformControlP1->getRightWheelEncoder()).c_str());
 }

@@ -529,6 +529,7 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
+            //main accumulator voltage
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -538,6 +539,7 @@ int main(void)
                 input1Channel = 0;
                 continue;
             }
+            //left accumulator vaoltage
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL1") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -547,6 +549,7 @@ int main(void)
                 input1Channel = 1;
                 continue;
             }
+            //right accumulator voltage
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -556,6 +559,7 @@ int main(void)
                 input1Channel = 2;
                 continue;
             }
+            //main accumulator aperage total
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -565,6 +569,7 @@ int main(void)
                 input1Channel = 3;
                 continue;
             }
+            //main accumulator amperage bottom
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL4") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -574,6 +579,7 @@ int main(void)
                 input1Channel = 4;
                 continue;
             }
+            //main accumulator amperage top
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL5") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -583,6 +589,7 @@ int main(void)
                 input1Channel = 5;
                 continue;
             }
+            //left accumulator amperage
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL6") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -592,6 +599,7 @@ int main(void)
                 input1Channel = 6;
                 continue;
             }
+            //right accumulator amperage
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL7") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -601,7 +609,7 @@ int main(void)
                 input1Channel = 7;
                 continue;
             }
-            //charger connected
+            //charger connected (charger voltage)
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL8") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -611,6 +619,7 @@ int main(void)
                 input1Channel = 8;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL9") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -620,6 +629,7 @@ int main(void)
                 input1Channel = 9;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL10") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -629,6 +639,7 @@ int main(void)
                 input1Channel = 10;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL11") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -638,6 +649,7 @@ int main(void)
                 input1Channel = 11;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL12") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -647,6 +659,7 @@ int main(void)
                 input1Channel = 12;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL13") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -656,6 +669,7 @@ int main(void)
                 input1Channel = 13;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL14") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12); //A
@@ -665,6 +679,7 @@ int main(void)
                 input1Channel = 14;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL15") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -709,6 +724,7 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(100);
             }
+            //left motor DIAGa/ENa
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -718,6 +734,7 @@ int main(void)
                 input2Channel = 0;
                 continue;
             }
+            //left motor DIAGb/ENb
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL1") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
@@ -727,6 +744,7 @@ int main(void)
                 input2Channel = 1;
                 continue;
             }
+            //right motor DIAGa/ENa
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -736,6 +754,7 @@ int main(void)
                 input2Channel = 2;
                 continue;
             }
+            //right motor DIAGb/ENb
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
@@ -745,6 +764,7 @@ int main(void)
                 input2Channel = 3;
                 continue;
             }
+            //turret motor DIAGa/ENa
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL4") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -754,6 +774,7 @@ int main(void)
                 input2Channel = 4;
                 continue;
             }
+            //turret motor DIAGb/ENb
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL5") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
@@ -763,6 +784,7 @@ int main(void)
                 input2Channel = 5;
                 continue;
             }
+            //(from charger) CHARGE IN PROGRESS
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL6") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -772,6 +794,7 @@ int main(void)
                 input2Channel = 6;
                 continue;
             }
+            //(from charger) CHARGE COMPLETE
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL7") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
@@ -781,6 +804,7 @@ int main(void)
                 input2Channel = 7;
                 continue;
             }
+            //(from charger) CHARGER CONNECTED
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL8") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -790,6 +814,7 @@ int main(void)
                 input2Channel = 8;
                 continue;
             }
+            //(from charger) 14.4 V / 0.8 A 1.2 - 35 Ah
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL9") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
@@ -799,6 +824,7 @@ int main(void)
                 input2Channel = 9;
                 continue;
             }
+            //(from charger) 14.4 V / 3.6 A 35 - 120 Ah
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL10") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -808,6 +834,7 @@ int main(void)
                 input2Channel = 10;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL11") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
@@ -817,6 +844,7 @@ int main(void)
                 input2Channel = 11;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL12") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -826,6 +854,7 @@ int main(void)
                 input2Channel = 12;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL13") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A
@@ -835,6 +864,7 @@ int main(void)
                 input2Channel = 13;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL14") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26); //A
@@ -844,6 +874,7 @@ int main(void)
                 input2Channel = 14;
                 continue;
             }
+            //reserved
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL15") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);   //A

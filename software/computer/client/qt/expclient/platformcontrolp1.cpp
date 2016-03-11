@@ -107,6 +107,11 @@ void PlatformControlP1::resetValuesToDefault()
     rightMotorCurrentRead               = false;
     turretMotorCurrentRead              = false;
 
+    leftWheelEncoderRead                = false;
+    rightWheelEncoderRead               = false;
+    leftWheelEncoderAutoreset           = false;
+    rightWheelEncoderAutoreset          = false;
+
     curChannel1Input                    = 0;
     curChannel2Input                    = 0;
     //platform motors
@@ -129,6 +134,9 @@ void PlatformControlP1::resetValuesToDefault()
     leftMotorCurrentAmps                = 0.0;
     rightMotorCurrentAmps               = 0.0;
     turretMotorCurrentAmps              = 0.0;
+
+    leftWheelEncoder                    = 0;
+    rightWheelEncoder                   = 0;
 
     chargerVoltageADC                   = 0;
     chargerVoltageVolts                 = 0.0;
@@ -318,6 +326,10 @@ void PlatformControlP1::processMessagesQueueWorker()
                         int leftMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[3]));
                         int rightMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[4]));
                         int turretMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[5]));
+
+                        int leftWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[6]));
+                        int rightWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[7]));
+
                         if (!getLeftMotorStop())
                         {
                             setLeftMotorCurrentADC(leftMotorCurrent);
@@ -329,6 +341,14 @@ void PlatformControlP1::processMessagesQueueWorker()
                         if (!getTurretMotorStop())
                         {
                             setTurretMotorCurrentADC(turretMotorCurrent);
+                        }
+                        if (getLeftWheelEncoderRead())
+                        {
+                            setLeftWheelEncoder(leftWheelEncoder);
+                        }
+                        if (getRightWheelEncoderRead())
+                        {
+                            setRightWheelEncoder(rightWheelEncoder);
                         }
                     }
                 }
@@ -416,6 +436,15 @@ bool PlatformControlP1::preparePlatformMovement()
     canMove &= !getMainAccumulatorRelayOnState();
 
     setScan220ACAvailable(false);
+
+    if (getLeftWheelEncoderAutoreset())
+    {
+        resetLeftWheelEncoder();
+    }
+    if (getRightWheelEncoderAutoreset())
+    {
+        resetRightWheelEncoder();
+    }
 
     return canMove;
 }
@@ -643,6 +672,76 @@ void PlatformControlP1::turretRotationDynamics()
             sendCommand("GETALLCURREADINGS");
         }
     }
+}
+
+bool PlatformControlP1::getRightWheelEncoderAutoreset() const
+{
+    return rightWheelEncoderAutoreset;
+}
+
+void PlatformControlP1::setRightWheelEncoderAutoreset(bool value)
+{
+    rightWheelEncoderAutoreset = value;
+}
+
+void PlatformControlP1::resetLeftWheelEncoder()
+{
+    sendCommand("RESETLEFTMOTORCOUNTER");
+}
+
+void PlatformControlP1::resetRightWheelEncoder()
+{
+    sendCommand("RESETRIGHTMOTORCOUNTER");
+}
+
+bool PlatformControlP1::getLeftWheelEncoderAutoreset() const
+{
+    return leftWheelEncoderAutoreset;
+}
+
+void PlatformControlP1::setLeftWheelEncoderAutoreset(bool value)
+{
+    leftWheelEncoderAutoreset = value;
+}
+
+bool PlatformControlP1::getRightWheelEncoderRead() const
+{
+    return rightWheelEncoderRead;
+}
+
+void PlatformControlP1::setRightWheelEncoderRead(bool value)
+{
+    rightWheelEncoderRead = value;
+}
+
+bool PlatformControlP1::getLeftWheelEncoderRead() const
+{
+    return leftWheelEncoderRead;
+}
+
+void PlatformControlP1::setLeftWheelEncoderRead(bool value)
+{
+    leftWheelEncoderRead = value;
+}
+
+int PlatformControlP1::getRightWheelEncoder() const
+{
+    return rightWheelEncoder;
+}
+
+void PlatformControlP1::setRightWheelEncoder(int value)
+{
+    rightWheelEncoder = value;
+}
+
+int PlatformControlP1::getLeftWheelEncoder() const
+{
+    return leftWheelEncoder;
+}
+
+void PlatformControlP1::setLeftWheelEncoder(int value)
+{
+    leftWheelEncoder = value;
 }
 bool PlatformControlP1::getTurretMotorCurrentRead() const
 {
@@ -1551,10 +1650,13 @@ void PlatformControlP1::loadDefaults()
     string line;
     while (getline(defaultsFile, line, '\n'))
     {
-        char *lineStrPtr = Valter::stringToCharPtr(line);
-        string defaultValueName(strtok(lineStrPtr, ":" ));
-        string defaultValue(strtok(NULL, ":" ));
-        addDefault(defaultValueName, defaultValue);
+        if (line.substr(0, 2).compare("//") != 0)
+        {
+            char *lineStrPtr = Valter::stringToCharPtr(line);
+            string defaultValueName(strtok(lineStrPtr, ":" ));
+            string defaultValue(strtok(NULL, ":" ));
+            addDefault(defaultValueName, defaultValue);
+        }
     }
     defaultsFile.close();
 
@@ -1655,4 +1757,24 @@ void PlatformControlP1::loadDefaults()
     deFaultvalue = getDefault("trackTurretMotorCurrent");
     deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
     setTurretMotorCurrentRead((atoi(deFaultvaluePtr)) ? true : false);
+
+    //trackLeftWheelEncoder
+    deFaultvalue = getDefault("trackLeftWheelEncoder");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setLeftWheelEncoderRead((atoi(deFaultvaluePtr)) ? true : false);
+
+    //trackRightWheelEncoder
+    deFaultvalue = getDefault("trackRightWheelEncoder");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setRightWheelEncoderRead((atoi(deFaultvaluePtr)) ? true : false);
+
+    //leftWheelEncoderAutoreset
+    deFaultvalue = getDefault("leftWheelEncoderAutoreset");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setLeftWheelEncoderAutoreset((atoi(deFaultvaluePtr)) ? true : false);
+
+    //rightWheelEncoderAutoreset
+    deFaultvalue = getDefault("rightWheelEncoderAutoreset");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setRightWheelEncoderAutoreset((atoi(deFaultvaluePtr)) ? true : false);
 }

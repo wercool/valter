@@ -72,6 +72,15 @@ void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
     ui->rightMotorCurrentCheckBox->setChecked(platformControlP1->getRightMotorCurrentRead());
     //turretMotorCurrentCheckBox
     ui->turretMotorCurrentCheckBox->setChecked(platformControlP1->getTurretMotorCurrentRead());
+
+    //platformControlP1LeftWheelEncoderCheckBox
+    ui->platformControlP1LeftWheelEncoderCheckBox->setChecked(platformControlP1->getLeftWheelEncoderRead());
+    //platformControlP1RightWheelEncoderCheckBox
+    ui->platformControlP1RightWheelEncoderCheckBox->setChecked(platformControlP1->getRightWheelEncoderRead());
+    //platformControlP1LeftWheelEncoderAutoresetCheckBox
+    ui->platformControlP1LeftWheelEncoderAutoresetCheckBox->setChecked(platformControlP1->getLeftWheelEncoderAutoreset());
+    //platformControlP1RightWheelEncoderAutoresetCheckBox
+    ui->platformControlP1RightWheelEncoderAutoresetCheckBox->setChecked(platformControlP1->getRightWheelEncoderAutoreset());
 }
 
 #endif // MAINWINDOWUTILS_H

@@ -167,6 +167,14 @@ private slots:
 
     void on_turretMotorCurrentCheckBox_clicked();
 
+    void on_platformControlP1LeftWheelEncoderResetButton_clicked();
+
+    void on_platformControlP1RightWheelEncoderResetButton_clicked();
+
+    void on_platformControlP1LeftWheelEncoderGetButton_clicked();
+
+    void on_platformControlP1RightWheelEncoderGetButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

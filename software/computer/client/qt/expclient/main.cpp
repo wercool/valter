@@ -7,23 +7,31 @@
 MainWindow *mainGUIWindow;
 int main(int argc, char *argv[])
 {
-    QApplication application(argc, argv);
+    int r = 0;
+    try
+    {
+        QApplication application(argc, argv);
 
-    mainGUIWindow = MainWindow::getInstance();
-    mainGUIWindow->show();
+        mainGUIWindow = MainWindow::getInstance();
+        mainGUIWindow->show();
 
-    Valter::getInstance();
-    Valter::log(Valter::format_string("Valter Exp Client V.%s", Valter::getVersion().c_str()));
+        Valter::getInstance();
+        Valter::log(Valter::format_string("Valter Exp Client V.%s", Valter::getVersion().c_str()));
 
-    int r = application.exec();
+        r = application.exec();
 
-    Valter::getInstance()->closeAllControlDevicePorts();
+        Valter::getInstance()->closeAllControlDevicePorts();
 
-    delete(mainGUIWindow);
-    mainGUIWindow = NULL;
-    delete(Valter::getInstance());
+        delete(mainGUIWindow);
+        mainGUIWindow = NULL;
+        delete(Valter::getInstance());
 
-    qDebug("Finished");
+        qDebug("Finished");
+    }
+    catch (const exception &ex)
+    {
+        qDebug("Fatal esception: %s", ex.what());
+    }
 
     return r;
 }
