@@ -19,6 +19,7 @@ ControlDevice::ControlDevice()
     failedAfterRescanning = false;
     autoReActivation = false;
     wdTimerNotResetCnt = 0;
+    rescanNum = 0;
 }
 
 void ControlDevice::listDevices()

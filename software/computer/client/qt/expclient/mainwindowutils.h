@@ -31,11 +31,13 @@ void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
     ui->platformMovementDecelerationSlider->setMinimum(platformControlP1->getPlatformDecelerationPresetMin());
     ui->platformMovementDecelerationSlider->setMaximum(platformControlP1->getPlatformDecelerationPresetMax());
     ui->platformMovementDecelerationSlider->setValue(platformControlP1->getPlatformDecelerationPresetCur());
+    ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", platformControlP1->getPlatformDecelerationPresetCur()).c_str());
 
     //platformMovementAccelerationSlider
     ui->platformMovementAccelerationSlider->setMinimum(platformControlP1->getPlatformAccelerationPresetMin());
     ui->platformMovementAccelerationSlider->setMaximum(platformControlP1->getPlatformAccelerationPresetMax());
     ui->platformMovementAccelerationSlider->setValue(platformControlP1->getPlatformAccelerationPresetCur());
+    ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", platformControlP1->getPlatformAccelerationPresetCur()).c_str());
 
     //leftMotorPlatformControlP1DutySlider
     ui->leftMotorPlatformControlP1DutySlider->setMinimum(platformControlP1->getLeftMotorDutyPresetMin());
@@ -56,11 +58,20 @@ void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
     ui->decelerationTurretRotationSlider->setMinimum(platformControlP1->getTurretDecelerationPresetMin());
     ui->decelerationTurretRotationSlider->setMaximum(platformControlP1->getTurretDecelerationPresetMax());
     ui->decelerationTurretRotationSlider->setValue(platformControlP1->getTurretDecelerationPresetCur());
+    ui->platformControlP1TurretMotorDecelerationLabel->setText(Valter::format_string("[%d]", platformControlP1->getTurretDecelerationPresetCur()).c_str());
 
     //accelerationTurretRotationSlider
     ui->accelerationTurretRotationSlider->setMinimum(platformControlP1->getTurretAccelerationPresetMin());
     ui->accelerationTurretRotationSlider->setMaximum(platformControlP1->getTurretAccelerationPresetMax());
     ui->accelerationTurretRotationSlider->setValue(platformControlP1->getTurretAccelerationPresetCur());
+    ui->platformControlP1TurretMotorAccelerationLabel->setText(Valter::format_string("[%d]", platformControlP1->getTurretAccelerationPresetCur()).c_str());
+
+    //leftMotorCurrentCheckBox
+    ui->leftMotorCurrentCheckBox->setChecked(platformControlP1->getLeftMotorCurrentRead());
+    //rightMotorCurrentCheckBox
+    ui->rightMotorCurrentCheckBox->setChecked(platformControlP1->getRightMotorCurrentRead());
+    //turretMotorCurrentCheckBox
+    ui->turretMotorCurrentCheckBox->setChecked(platformControlP1->getTurretMotorCurrentRead());
 }
 
 #endif // MAINWINDOWUTILS_H

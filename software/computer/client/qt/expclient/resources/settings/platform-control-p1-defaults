@@ -5,3 +5,6 @@ motorsAcceleration:1,10,5
 turretMotorDuty:1,100,20
 turretMotorDeceleration:1,10,5
 turretMotorAcceleration:1,10,2
+trackLeftMotorCurrent:1
+trackRightMotorCurrent:1
+trackTurretMotorCurrent:1

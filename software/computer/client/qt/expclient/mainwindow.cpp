@@ -188,6 +188,7 @@ void MainWindow::on_connectDisconnectControlDeviceButton_clicked()
         string controlDeviceId = item->text().toStdString();
 
         ControlDevice *controlDevice = Valter::getInstance()->getControlDeviceById(controlDeviceId);
+        IValterModule *valterModule = Valter::getInstance()->getValterModule(controlDeviceId);
 
         controlDevice->setResetWDTimer(true);
 
@@ -198,6 +199,9 @@ void MainWindow::on_connectDisconnectControlDeviceButton_clicked()
         else
         {
             controlDevice->activate();
+
+            valterModule->loadDefaults();
+            valterModule->addActionToDelayedGUIActions(IValterModule::RELOAD_DEFAULTS);
         }
     }
     refreshControlDeviceTableWidget();
@@ -406,6 +410,10 @@ void MainWindow::on_connectAllPushButton_clicked()
             if (!controlDevice->getControlDevicePort()->isOpen())
             {
                 controlDevice->activate();
+
+                IValterModule *valterModule = Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId());
+                valterModule->loadDefaults();
+                valterModule->addActionToDelayedGUIActions(IValterModule::RELOAD_DEFAULTS);
             }
         }
         else
@@ -552,6 +560,24 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
     else
     {
         ui->chargerVoltageLcdNumber->display(platformControlP1->getChargerVoltageVolts());
+    }
+    if (ui->wheelMotorsCurrentADCCheckBox->isChecked())
+    {
+        ui->leftMotorCurrentLcdNumber->display(platformControlP1->getLeftMotorCurrentADC());
+        ui->rightMotorCurrentLcdNumber->display(platformControlP1->getRightMotorCurrentADC());
+    }
+    else
+    {
+        ui->leftMotorCurrentLcdNumber->display(platformControlP1->getLeftMotorCurrentAmps());
+        ui->rightMotorCurrentLcdNumber->display(platformControlP1->getRightMotorCurrentAmps());
+    }
+    if (ui->turretMotorCurrentADCCheckBox->isChecked())
+    {
+        ui->turretMotorCurrentLcdNumber->display(platformControlP1->getTurretMotorCurrentADC());
+    }
+    else
+    {
+        ui->turretMotorCurrentLcdNumber->display(platformControlP1->getTurretMotorCurrentAmps());
     }
     if (platformControlP1->getControlDeviceIsSet())
     {
@@ -751,12 +777,14 @@ void MainWindow::on_platformMovementAccelerationSlider_sliderMoved(int value)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setPlatformAcceleration(value);
+    ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_platformMovementDecelerationSlider_sliderMoved(int value)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setPlatformDeceleration(value);
+    ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_platformMoveForwardButton_pressed()
@@ -929,12 +957,14 @@ void MainWindow::on_decelerationTurretRotationSlider_sliderMoved(int value)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setTurretDeceleration(value);
+    ui->platformControlP1TurretMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_accelerationTurretRotationSlider_sliderMoved(int value)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setTurretAcceleration(value);
+    ui->platformControlP1TurretMotorAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_turretRotateLeftButton_pressed()
@@ -986,4 +1016,28 @@ void MainWindow::on_platformControlP1LoadDefaultsButton_clicked()
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->loadDefaults();
     loadPlatformControlP1Defaults(ui);
+}
+
+void MainWindow::on_platformControlP1MotorsPWMFrequencySetButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setMotorsPWMFrequncy(ui->platformControlP1MotorsPWMFrequencySpinBox->value());
+}
+
+void MainWindow::on_leftMotorCurrentCheckBox_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorCurrentRead(ui->leftMotorCurrentCheckBox->isChecked());
+}
+
+void MainWindow::on_rightMotorCurrentCheckBox_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setRightMotorCurrentRead(ui->rightMotorCurrentCheckBox->isChecked());
+}
+
+void MainWindow::on_turretMotorCurrentCheckBox_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretMotorCurrentRead(ui->turretMotorCurrentCheckBox->isChecked());
 }

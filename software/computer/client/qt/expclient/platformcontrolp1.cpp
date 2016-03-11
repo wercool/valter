@@ -103,6 +103,10 @@ void PlatformControlP1::resetValuesToDefault()
     turretMotorAccelerating             = false;
     turretMotorDecelerating             = false;
 
+    leftMotorCurrentRead                = false;
+    rightMotorCurrentRead               = false;
+    turretMotorCurrentRead              = false;
+
     curChannel1Input                    = 0;
     curChannel2Input                    = 0;
     //platform motors
@@ -112,11 +116,19 @@ void PlatformControlP1::resetValuesToDefault()
     rightMotorDuty                      = 1;
     platformDeceleration                = 1;
     platformAcceleration                = 1;
-    //turret motors
+    //turret motor
     turretDeceleration                  = 1;
     turretAcceleration                  = 1;
     turretMotorDutyMax                  = 1;
     turretMotorDuty                     = 1;
+
+    motorsPWMFrequncy                   = 8000;
+    leftMotorCurrentADC                 = 0;
+    rightMotorCurrentADC                = 0;
+    turretMotorCurrentADC               = 0;
+    leftMotorCurrentAmps                = 0.0;
+    rightMotorCurrentAmps               = 0.0;
+    turretMotorCurrentAmps              = 0.0;
 
     chargerVoltageADC                   = 0;
     chargerVoltageVolts                 = 0.0;
@@ -290,6 +302,34 @@ void PlatformControlP1::processMessagesQueueWorker()
                             setChargingComplete(false);
                         }
                         continue;
+                    }
+                }
+                else
+                {
+                    //response template
+                    //ALLCURREADINGS:{IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER}
+                    if (response.find("ALLCURREADINGS:") !=std::string::npos) //composed readings
+                    {
+                        int substr_pos = response.find(":");
+                        string value_str = response.substr(substr_pos);
+                        value_str.replace(0,1,"");
+                        value_str.replace(value_str.length() - 1,1,"");
+                        vector<string>value_str_values = Valter::split(value_str, ';');
+                        int leftMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[3]));
+                        int rightMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[4]));
+                        int turretMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[5]));
+                        if (!getLeftMotorStop())
+                        {
+                            setLeftMotorCurrentADC(leftMotorCurrent);
+                        }
+                        if (!getRightMotorStop())
+                        {
+                            setRightMotorCurrentADC(rightMotorCurrent);
+                        }
+                        if (!getTurretMotorStop())
+                        {
+                            setTurretMotorCurrentADC(turretMotorCurrent);
+                        }
                     }
                 }
             }
@@ -512,6 +552,13 @@ void PlatformControlP1::platformMovementDynamics()
             }
         }
     }
+    if (!getLeftMotorStop() || !getRightMotorStop())
+    {
+        if (getLeftMotorCurrentRead() || getRightMotorCurrentRead())
+        {
+            sendCommand("GETALLCURREADINGS");
+        }
+    }
 }
 
 void PlatformControlP1::turretRotationWorker()
@@ -591,8 +638,114 @@ void PlatformControlP1::turretRotationDynamics()
                 sendCommand("TURRETMOTORSTOP");
             }
         }
+        if (getTurretMotorCurrentRead())
+        {
+            sendCommand("GETALLCURREADINGS");
+        }
     }
 }
+bool PlatformControlP1::getTurretMotorCurrentRead() const
+{
+    return turretMotorCurrentRead;
+}
+
+void PlatformControlP1::setTurretMotorCurrentRead(bool value)
+{
+    turretMotorCurrentRead = value;
+}
+
+bool PlatformControlP1::getRightMotorCurrentRead() const
+{
+    return rightMotorCurrentRead;
+}
+
+void PlatformControlP1::setRightMotorCurrentRead(bool value)
+{
+    rightMotorCurrentRead = value;
+}
+
+bool PlatformControlP1::getLeftMotorCurrentRead() const
+{
+    return leftMotorCurrentRead;
+}
+
+void PlatformControlP1::setLeftMotorCurrentRead(bool value)
+{
+    leftMotorCurrentRead = value;
+}
+
+float PlatformControlP1::getTurretMotorCurrentAmps() const
+{
+    return turretMotorCurrentAmps;
+}
+
+void PlatformControlP1::setTurretMotorCurrentAmps(float value)
+{
+    turretMotorCurrentAmps = value / 10;
+}
+
+float PlatformControlP1::getRightMotorCurrentAmps() const
+{
+    return rightMotorCurrentAmps;
+}
+
+void PlatformControlP1::setRightMotorCurrentAmps(float value)
+{
+    rightMotorCurrentAmps = value / 10;
+}
+
+float PlatformControlP1::getLeftMotorCurrentAmps() const
+{
+    return leftMotorCurrentAmps;
+}
+
+void PlatformControlP1::setLeftMotorCurrentAmps(float value)
+{
+    leftMotorCurrentAmps = value / 10;
+}
+
+int PlatformControlP1::getRightMotorCurrentADC() const
+{
+    return rightMotorCurrentADC;
+}
+
+void PlatformControlP1::setRightMotorCurrentADC(int value)
+{
+    rightMotorCurrentADC = value;
+}
+
+int PlatformControlP1::getTurretMotorCurrentADC() const
+{
+    return turretMotorCurrentADC;
+}
+
+void PlatformControlP1::setTurretMotorCurrentADC(int value)
+{
+    turretMotorCurrentADC = value;
+}
+
+int PlatformControlP1::getLeftMotorCurrentADC() const
+{
+    return leftMotorCurrentADC;
+}
+
+void PlatformControlP1::setLeftMotorCurrentADC(int value)
+{
+    leftMotorCurrentADC = value;
+}
+
+
+int PlatformControlP1::getMotorsPWMFrequncy() const
+{
+    return motorsPWMFrequncy;
+}
+
+void PlatformControlP1::setMotorsPWMFrequncy(int value)
+{
+    motorsPWMFrequncy = value;
+    sendCommand(Valter::format_string("SETPWMFREQUENCY#%d", motorsPWMFrequncy));
+}
+
 int PlatformControlP1::getTurretAccelerationPresetCur() const
 {
     return turretAccelerationPresetCur;
@@ -908,6 +1061,10 @@ bool PlatformControlP1::getTurretMotorStop() const
 void PlatformControlP1::setTurretMotorStop(bool value)
 {
     turretMotorStop = value;
+    if (turretMotorStop)
+    {
+        setTurretMotorCurrentADC(0);
+    }
 }
 
 int PlatformControlP1::getTurretMotorDuty() const
@@ -1037,6 +1194,10 @@ bool PlatformControlP1::getRightMotorStop() const
 void PlatformControlP1::setRightMotorStop(bool value)
 {
     rightMotorStop = value;
+    if (rightMotorStop)
+    {
+        setRightMotorCurrentADC(0);
+    }
 }
 
 bool PlatformControlP1::getLeftMotorStop() const
@@ -1047,6 +1208,10 @@ bool PlatformControlP1::getLeftMotorStop() const
 void PlatformControlP1::setLeftMotorStop(bool value)
 {
     leftMotorStop = value;
+    if (leftMotorStop)
+    {
+        setLeftMotorCurrentADC(0);
+    }
 }
 
 bool PlatformControlP1::getRightMotorDirection() const
@@ -1475,4 +1640,19 @@ void PlatformControlP1::loadDefaults()
     setTurretAccelerationPresetMax(maxValue);
     setTurretAccelerationPresetCur(curValue);
     setTurretAcceleration(getTurretAccelerationPresetCur());
+
+    //trackLeftMotorCurrent
+    deFaultvalue = getDefault("trackLeftMotorCurrent");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setLeftMotorCurrentRead((atoi(deFaultvaluePtr)) ? true : false);
+
+    //trackRightMotorCurrent
+    deFaultvalue = getDefault("trackRightMotorCurrent");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setRightMotorCurrentRead((atoi(deFaultvaluePtr)) ? true : false);
+
+    //trackTurretMotorCurrent
+    deFaultvalue = getDefault("trackTurretMotorCurrent");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setTurretMotorCurrentRead((atoi(deFaultvaluePtr)) ? true : false);
 }

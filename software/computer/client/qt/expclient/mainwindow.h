@@ -158,6 +158,15 @@ private slots:
 
     void on_platformControlP1LoadDefaultsButton_clicked();
 
+
+    void on_platformControlP1MotorsPWMFrequencySetButton_clicked();
+
+    void on_leftMotorCurrentCheckBox_clicked();
+
+    void on_rightMotorCurrentCheckBox_clicked();
+
+    void on_turretMotorCurrentCheckBox_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

@@ -21,6 +21,8 @@ public:
 
     void resetValuesToDefault();
 
+
+
     bool getPower5VOnState() const;
     void setPower5VOnState(bool value);
 
@@ -228,6 +230,45 @@ public:
     int getTurretAccelerationPresetCur() const;
     void setTurretAccelerationPresetCur(int value);
 
+    int getMotorsPWMFrequncy() const;
+    void setMotorsPWMFrequncy(int value);
+
+    bool getWheelMotorsAmperes() const;
+    void setWheelMotorsAmperes(bool value);
+
+    int getTurretMotorCurrent() const;
+    void setTurretMotorCurrent(int value);
+
+    bool getTurretMotorsAmperes() const;
+    void setTurretMotorsAmperes(bool value);
+
+    int getLeftMotorCurrentADC() const;
+    void setLeftMotorCurrentADC(int value);
+
+    int getTurretMotorCurrentADC() const;
+    void setTurretMotorCurrentADC(int value);
+
+    int getRightMotorCurrentADC() const;
+    void setRightMotorCurrentADC(int value);
+
+    float getLeftMotorCurrentAmps() const;
+    void setLeftMotorCurrentAmps(float value);
+
+    float getRightMotorCurrentAmps() const;
+    void setRightMotorCurrentAmps(float value);
+
+    float getTurretMotorCurrentAmps() const;
+    void setTurretMotorCurrentAmps(float value);
+
+    bool getLeftMotorCurrentRead() const;
+    void setLeftMotorCurrentRead(bool value);
+
+    bool getRightMotorCurrentRead() const;
+    void setRightMotorCurrentRead(bool value);
+
+    bool getTurretMotorCurrentRead() const;
+    void setTurretMotorCurrentRead(bool value);
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
@@ -298,6 +339,18 @@ private:
     int turretAcceleration;
     bool turretMotorAccelerating;
     bool turretMotorDecelerating;
+
+    int motorsPWMFrequncy;
+
+    int leftMotorCurrentADC;
+    int rightMotorCurrentADC;
+    int turretMotorCurrentADC;
+    float leftMotorCurrentAmps;
+    float rightMotorCurrentAmps;
+    float turretMotorCurrentAmps;
+    bool leftMotorCurrentRead;
+    bool rightMotorCurrentRead;
+    bool turretMotorCurrentRead;
 
     //preset defaults
     int leftMotorDutyPresetMin;
