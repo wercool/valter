@@ -288,6 +288,129 @@ public:
     void resetLeftWheelEncoder();
     void resetRightWheelEncoder();
 
+    bool getTurretPositionRead() const;
+    void setTurretPositionRead(bool value);
+
+    int getTurretPositionADC() const;
+    void setTurretPositionADC(int value);
+
+    float getTurretPositionDeg() const;
+    void setTurretPositionDeg(float value);
+
+    float getTurretPositionRad() const;
+    void setTurretPositionRad(float value);
+
+    bool getLeftWheelEncoderGetOnce() const;
+    void setLeftWheelEncoderGetOnce(bool value);
+
+    bool getRightWheelEncoderGetOnce() const;
+    void setRightWheelEncoderGetOnce(bool value);
+
+    bool getTurretPositionGetOnce() const;
+    void setTurretPositionGetOnce(bool value);
+
+    int getMainAccumulatorVoltageADC() const;
+    void setMainAccumulatorVoltageADC(int value);
+
+    int getLeftAccumulatorVoltageADC() const;
+    void setLeftAccumulatorVoltageADC(int value);
+
+    int getRightAccumulatorVoltageADC() const;
+    void setRightAccumulatorVoltageADC(int value);
+
+    int getMainAccumulatorAmperageTotalADC() const;
+    void setMainAccumulatorAmperageTotalADC(int value);
+
+    int getPlatformAmperageADC() const;
+    void setPlatformAmperageADC(int value);
+
+    int getBodyAmperageADC() const;
+    void setBodyAmperageADC(int value);
+
+    int getLeftAccumulatorAmperageADC() const;
+    void setLeftAccumulatorAmperageADC(int value);
+
+    int getRightAccumulatorAmperageADC() const;
+    void setRightAccumulatorAmperageADC(int value);
+
+    float getMainAccumulatorVoltageVolts() const;
+    void setMainAccumulatorVoltageVolts(float value);
+
+    float getLeftAccumulatorVoltageVolts() const;
+    void setLeftAccumulatorVoltageVolts(float value);
+
+    float getRightAccumulatorVoltageVolts() const;
+    void setRightAccumulatorVoltageVolts(float value);
+
+    float getMainAccumulatorAmperageTotalAmps() const;
+    void setMainAccumulatorAmperageTotalAmps(float value);
+
+    float getPlatformAmperageAmps() const;
+    void setPlatformAmperageAmps(float value);
+
+    float getBodyAmperageAmps() const;
+    void setBodyAmperageAmps(float value);
+
+    float getLeftAccumulatorAmperageAmps() const;
+    void setLeftAccumulatorAmperageAmps(float value);
+
+    float getRightAccumulatorAmperageAmps() const;
+    void setRightAccumulatorAmperageAmps(float value);
+
+    bool getMainAccumulatorVoltageRead() const;
+    void setMainAccumulatorVoltageRead(bool value);
+
+    bool getLeftAccumulatorVoltageRead() const;
+    void setLeftAccumulatorVoltageRead(bool value);
+
+    bool getRightAccumulatorVoltageRead() const;
+    void setRightAccumulatorVoltageRead(bool value);
+
+    bool getMainAccumulatorAmperageTotalRead() const;
+    void setMainAccumulatorAmperageTotalRead(bool value);
+
+    bool getPlatformAmperageRead() const;
+    void setPlatformAmperageRead(bool value);
+
+    bool getBodyAmperageRead() const;
+    void setBodyAmperageRead(bool value);
+
+    bool getLeftAccumulatorAmperageRead() const;
+    void setLeftAccumulatorAmperageRead(bool value);
+
+    bool getRightAccumulatorAmperageRead() const;
+    void setRightAccumulatorAmperageRead(bool value);
+
+    bool getChargerVoltageRead() const;
+    void setChargerVoltageRead(bool value);
+
+    bool getMainAccumulatorVoltageReadADCPreset() const;
+    void setMainAccumulatorVoltageReadADCPreset(bool value);
+
+    bool getLeftAccumulatorVoltageReadADCPreset() const;
+    void setLeftAccumulatorVoltageReadADCPreset(bool value);
+
+    bool getRightAccumulatorVoltageReadADCPreset() const;
+    void setRightAccumulatorVoltageReadADCPreset(bool value);
+
+    bool getMainAccumulatorAmperageTotalReadADCPreset() const;
+    void setMainAccumulatorAmperageTotalReadADCPreset(bool value);
+
+    bool getPlatformAmperageReadADCPreset() const;
+    void setPlatformAmperageReadADCPreset(bool value);
+
+    bool getBodyAmperageReadADCPreset() const;
+    void setBodyAmperageReadADCPreset(bool value);
+
+    bool getLeftAccumulatorAmperageReadADCPreset() const;
+    void setLeftAccumulatorAmperageReadADCPreset(bool value);
+
+    bool getRightAccumulatorAmperageReadADCPreset() const;
+    void setRightAccumulatorAmperageReadADCPreset(bool value);
+
+    bool getChargerVoltageReadADCPreset() const;
+    void setChargerVoltageReadADCPreset(bool value);
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
@@ -358,6 +481,7 @@ private:
     int turretAcceleration;
     bool turretMotorAccelerating;
     bool turretMotorDecelerating;
+    bool turretPositionGetOnce;
 
     int motorsPWMFrequncy;
 
@@ -377,6 +501,43 @@ private:
     bool rightWheelEncoderRead;
     bool leftWheelEncoderAutoreset;
     bool rightWheelEncoderAutoreset;
+    bool leftWheelEncoderGetOnce;
+    bool rightWheelEncoderGetOnce;
+
+    bool turretPositionRead;
+    int turretPositionADC;
+    float turretPositionDeg;
+    float turretPositionRad;
+
+
+    //additional readings
+    int mainAccumulatorVoltageADC;
+    int leftAccumulatorVoltageADC;
+    int rightAccumulatorVoltageADC;
+    int mainAccumulatorAmperageTotalADC;
+    int platformAmperageADC;
+    int bodyAmperageADC;
+    int leftAccumulatorAmperageADC;
+    int rightAccumulatorAmperageADC;
+
+    float mainAccumulatorVoltageVolts;
+    float leftAccumulatorVoltageVolts;
+    float rightAccumulatorVoltageVolts;
+    float mainAccumulatorAmperageTotalAmps;
+    float platformAmperageAmps;
+    float bodyAmperageAmps;
+    float leftAccumulatorAmperageAmps;
+    float rightAccumulatorAmperageAmps;
+
+    bool mainAccumulatorVoltageRead;
+    bool leftAccumulatorVoltageRead;
+    bool rightAccumulatorVoltageRead;
+    bool mainAccumulatorAmperageTotalRead;
+    bool platformAmperageRead;
+    bool bodyAmperageRead;
+    bool leftAccumulatorAmperageRead;
+    bool rightAccumulatorAmperageRead;
+    bool chargerVoltageRead;
 
     //preset defaults
     int leftMotorDutyPresetMin;
@@ -400,6 +561,16 @@ private:
     int turretAccelerationPresetMin;
     int turretAccelerationPresetMax;
     int turretAccelerationPresetCur;
+
+    bool mainAccumulatorVoltageReadADCPreset;
+    bool leftAccumulatorVoltageReadADCPreset;
+    bool rightAccumulatorVoltageReadADCPreset;
+    bool mainAccumulatorAmperageTotalReadADCPreset;
+    bool platformAmperageReadADCPreset;
+    bool bodyAmperageReadADCPreset;
+    bool leftAccumulatorAmperageReadADCPreset;
+    bool rightAccumulatorAmperageReadADCPreset;
+    bool chargerVoltageReadADCPreset;
 };
 
 #endif // PLATFORMCONTROLP1_H

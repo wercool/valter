@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QtDebug>
+#include <QSlider>
 #include <QMessageBox>
 
 #include <valter.h>
@@ -26,6 +27,14 @@ public:
     void refreshControlDeviceTableWidget();
     void addMsgToLog(string msg);
     void delayGUIAction(IValterModule *valterModule);
+
+protected:
+    bool sliderWheelEventFilter(QObject *obj, QEvent *event)
+    {
+        (void) obj;
+        (void) event;
+        return false;
+    }
 
 private slots:
     void on_scanControlDevicesBtn_clicked();
@@ -174,6 +183,12 @@ private slots:
     void on_platformControlP1LeftWheelEncoderGetButton_clicked();
 
     void on_platformControlP1RightWheelEncoderGetButton_clicked();
+
+    void on_platformControlP1LeftWheelEncoderAutoresetCheckBox_clicked(bool checked);
+
+    void on_platformControlP1RightWheelEncoderAutoresetCheckBox_clicked(bool checked);
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

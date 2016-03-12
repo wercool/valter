@@ -1,9 +1,29 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <sys/time.h>
-#include <mainwindowutils.h>
+#include <platformcontrolp1GUI.h>
 
 #include <valter.h>
+
+class WheelEventFilter: public QObject
+{
+  public:
+  WheelEventFilter():QObject(){}
+
+  ~WheelEventFilter(){}
+
+  bool eventFilter(QObject* object,QEvent* event)
+  {
+      if(event->type() == QEvent::Wheel)
+      {
+        return true;
+      }
+      else
+      {
+        return QObject::eventFilter(object,event);
+      }
+  }
+};
 
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
@@ -18,21 +38,30 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     setWindowIcon(QIcon(":/valter_head_icon.png"));
 
     //controlDeviceTableWidget
-    ui->controlDeviceTableWidget->setColumnCount(5);
     ui->controlDeviceTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->controlDeviceTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("WDR Intent"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("System Device Path"));
     QHeaderView* controlDeviceTableWidgetHeaderView = new QHeaderView(Qt::Horizontal);
     controlDeviceTableWidgetHeaderView->setStretchLastSection(true);
     controlDeviceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->controlDeviceTableWidget->setHorizontalHeader(controlDeviceTableWidgetHeaderView);
 
     //platfrom control p1
-    ui->turretPositionVisual->setDisabled(true);
+    ui->platformControlP1ReadingsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->platformControlP1ReadingsTable->setSelectionBehavior(QAbstractItemView::SelectItems);
+    QHeaderView* platformControlP1ReadingsTableHeaderView = new QHeaderView(Qt::Horizontal);
+    platformControlP1ReadingsTableHeaderView->setStretchLastSection(true);
+    platformControlP1ReadingsTableHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->platformControlP1ReadingsTable->setHorizontalHeader(platformControlP1ReadingsTableHeaderView);
+
+    ui->platformControlP1WheelMotorsDutySlider->installEventFilter(new WheelEventFilter());
+    ui->platformMovementDecelerationSlider->installEventFilter(new WheelEventFilter());
+    ui->platformMovementAccelerationSlider->installEventFilter(new WheelEventFilter());
+    ui->leftMotorPlatformControlP1DutySlider->installEventFilter(new WheelEventFilter());
+    ui->rightMotorPlatformControlP1DutySlider->installEventFilter(new WheelEventFilter());
+    ui->turretRotationDutySlider->installEventFilter(new WheelEventFilter());
+    ui->decelerationTurretRotationSlider->installEventFilter(new WheelEventFilter());
+    ui->accelerationTurretRotationSlider->installEventFilter(new WheelEventFilter());
+    ui->platformControlP1MotorsPWMFrequencySpinBox->installEventFilter(new WheelEventFilter());
 
     logLength = 0;
     allConnect = true;
@@ -75,30 +104,7 @@ MainWindow *MainWindow::getInstance()
 
 void MainWindow::refreshControlDeviceTableWidget()
 {
-    ui->controlDeviceTableWidget->clear();
-
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Port Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("WDR Intent"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("System Device Path"));
-
-    map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
-    typedef map<string, ControlDevice*>::iterator it_type;
-
-    ui->controlDeviceTableWidget->setRowCount(controlDevicesMap.size());
-
-    char i = 0;
-    for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
-    {
-        ControlDevice *controlDevice = controlDevicesMap[iterator->first];
-        ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
-        ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
-        ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "TRUE" :"FALSE")));
-        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
-        ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
-        i++;
-    }
+    refreshControlDeviceTableWorker(ui);
 }
 
 void MainWindow::addMsgToLog(string msg)
@@ -339,64 +345,7 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
 
 void MainWindow::controlDevicesTableRefreshTimerUpdate()
 {
-    int selectedControlDeviceRowIndex = ui->controlDeviceTableWidget->selectionModel()->currentIndex().row();
-
-    ui->controlDeviceTableWidget->clear();
-
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Device File Name"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Control Device Id"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(2, new QTableWidgetItem("Port Opened"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(3, new QTableWidgetItem("WDR Intent"));
-    ui->controlDeviceTableWidget->setHorizontalHeaderItem(4, new QTableWidgetItem("System Device Path"));
-
-    map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
-    typedef map<string, ControlDevice*>::iterator it_type;
-
-    ui->controlDeviceTableWidget->setRowCount(controlDevicesMap.size());
-
-    char i = 0;
-    for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
-    {
-        ControlDevice *controlDevice = controlDevicesMap[iterator->first];
-        ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
-        ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
-        if (controlDevice->getRescanningAfterPossibleReset())
-        {
-            string rescanningMsg = Valter::format_string("rescanning... Attempt #%d", controlDevice->getRescanNum());
-            QTableWidgetItem *item = new QTableWidgetItem(rescanningMsg.c_str());
-            item->setBackground(Qt::yellow);
-            ui->controlDeviceTableWidget->setItem(i, 2, item);
-        }
-        else
-        {
-            if (controlDevice->getWdTimerNotResetCnt() > 0)
-            {
-                string noWDResetMsg = Valter::format_string("no WDRESET answer... Attempt #%d", controlDevice->getWdTimerNotResetCnt());
-                QTableWidgetItem *item = new QTableWidgetItem(noWDResetMsg.c_str());
-                item->setBackground(Qt::yellow);
-                ui->controlDeviceTableWidget->setItem(i, 2, item);
-            }
-            else if (controlDevice->getFailedAfterRescanning())
-            {
-                controlDevice->setWdTimerNotResetCnt(0);
-                QTableWidgetItem *item = new QTableWidgetItem("FAILED");
-                item->setBackground(Qt::red);
-                ui->controlDeviceTableWidget->setItem(i, 2, item);
-            }
-            else
-            {
-                ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "TRUE" :"FALSE")));
-            }
-        }
-        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
-        ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
-        i++;
-    }
-
-    if (selectedControlDeviceRowIndex >= 0)
-    {
-        ui->controlDeviceTableWidget->selectRow(selectedControlDeviceRowIndex);
-    }
+    controlDevicesTableRefreshTimerUpdateWorker(ui);
 }
 
 void MainWindow::on_connectAllPushButton_clicked()
@@ -500,125 +449,7 @@ void MainWindow::delayedGUIActionsProcessingTimerUpdate()
 
 void MainWindow::platformControlP1TabRefreshTimerUpdate()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (!platformControlP1->getScan220ACAvailable())
-    {
-        ui->power220VACAvailableRadioButton->setChecked(false);
-        ui->power220VACAvailableRadioButton->setEnabled(false);
-        ui->chargerVoltageLabel->setEnabled(false);
-        ui->chargerVoltageADCCheckBox->setEnabled(false);
-        ui->chargerVoltageLcdNumber->setEnabled(false);
-        ui->charger35AhRadioButton->setEnabled(false);
-        ui->charger35AhRadioButton->setChecked(false);
-        ui->charger120AhRadioButton->setEnabled(false);
-        ui->charger120AhRadioButton->setChecked(false);
-        ui->chargingInProgressRadioButton->setEnabled(false);
-        ui->chargingInProgressRadioButton->setChecked(false);
-        ui->chargingCompleteRadioButton->setEnabled(false);
-        ui->chargingCompleteRadioButton->setChecked(false);
-        ui->chargerConnectedRadioButton->setEnabled(false);
-        ui->chargerConnectedRadioButton->setChecked(false);
-        ui->charger120Ah14v7RadioButton->setEnabled(false);
-        ui->chargerButton->setEnabled(false);
-        platformControlP1->setChargerVoltageADC(0);
-    }
-    else
-    {
-        ui->power220VACAvailableRadioButton->setEnabled(true);
-        ui->chargerVoltageLabel->setEnabled(true);
-        ui->chargerVoltageADCCheckBox->setEnabled(true);
-        ui->chargerVoltageLcdNumber->setEnabled(true);
-        ui->charger35AhRadioButton->setEnabled(true);
-        ui->charger120AhRadioButton->setEnabled(true);
-        ui->chargingInProgressRadioButton->setEnabled(true);
-        ui->chargingCompleteRadioButton->setEnabled(true);
-        ui->chargerButton->setEnabled(true);
-        ui->chargerConnectedRadioButton->setEnabled(true);
-        ui->charger120Ah14v7RadioButton->setEnabled(true);
-    }
-
-    ui->leftMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getLeftMotorDutyMax()).c_str());
-    ui->rightMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getRightMotorDutyMax()).c_str());
-    ui->turretMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getTurretMotorDutyMax()).c_str());
-    ui->leftMotorCurDutyBar->setValue(platformControlP1->getLeftMotorDuty());
-    ui->rightMotorCurDutyBar->setValue(platformControlP1->getRightMotorDuty());
-    ui->turretMotorCurDutyBar->setValue(platformControlP1->getTurretMotorDuty());
-
-    ui->powerSource5VRadioButton->setChecked(platformControlP1->getPower5VOnState());
-    ui->leftAccumulatorConnectedRadioButton->setChecked(platformControlP1->getLeftAccumulatorConnected());
-    ui->rightAccumulatorConnected->setChecked(platformControlP1->getRightAccumulatorConnected());
-    ui->mainAccumulatorRelayRadioButton->setChecked(platformControlP1->getMainAccumulatorRelayOnState());
-    ui->leftAccumulatorRelay->setChecked(platformControlP1->getLeftAccumulatorRelayOnState());
-    ui->rightAccumulatorRelay->setChecked(platformControlP1->getRightAccumulatorRelayOnState());
-    ui->power220VACAvailableRadioButton->setChecked(platformControlP1->getPower220VACAvailable());
-    ui->charger35AhRadioButton->setChecked(platformControlP1->getCharger35Ah());
-    ui->charger120AhRadioButton->setChecked(platformControlP1->getCharger120Ah());
-    ui->chargingInProgressRadioButton->setChecked(platformControlP1->getChargingInProgress());
-    ui->chargingCompleteRadioButton->setChecked(platformControlP1->getChargingComplete());
-    ui->chargerConnectedRadioButton->setChecked(platformControlP1->getChargerConnected());
-    if (ui->chargerVoltageADCCheckBox->isChecked())
-    {
-        ui->chargerVoltageLcdNumber->display(platformControlP1->getChargerVoltageADC());
-    }
-    else
-    {
-        ui->chargerVoltageLcdNumber->display(platformControlP1->getChargerVoltageVolts());
-    }
-    if (ui->wheelMotorsCurrentADCCheckBox->isChecked())
-    {
-        ui->leftMotorCurrentLcdNumber->display(platformControlP1->getLeftMotorCurrentADC());
-        ui->rightMotorCurrentLcdNumber->display(platformControlP1->getRightMotorCurrentADC());
-    }
-    else
-    {
-        ui->leftMotorCurrentLcdNumber->display(platformControlP1->getLeftMotorCurrentAmps());
-        ui->rightMotorCurrentLcdNumber->display(platformControlP1->getRightMotorCurrentAmps());
-    }
-    if (ui->turretMotorCurrentADCCheckBox->isChecked())
-    {
-        ui->turretMotorCurrentLcdNumber->display(platformControlP1->getTurretMotorCurrentADC());
-    }
-    else
-    {
-        ui->turretMotorCurrentLcdNumber->display(platformControlP1->getTurretMotorCurrentAmps());
-    }
-    if (platformControlP1->getControlDeviceIsSet())
-    {
-        switch (platformControlP1->getChargerButtonPressStep())
-        {
-                case 0:
-                    ui->chargerButtonPressStep0->setText("←");
-                    ui->chargerButtonPressStep1->setText("");
-                    ui->chargerButtonPressStep2->setText("");
-                    ui->chargerButtonPressStep3->setText("");
-                break;
-                case 1:
-                    ui->chargerButtonPressStep0->setText("");
-                    ui->chargerButtonPressStep1->setText("←");
-                    ui->chargerButtonPressStep2->setText("");
-                    ui->chargerButtonPressStep3->setText("");
-                break;
-                case 2:
-                    ui->chargerButtonPressStep0->setText("");
-                    ui->chargerButtonPressStep1->setText("");
-                    ui->chargerButtonPressStep2->setText("←");
-                    ui->chargerButtonPressStep3->setText("");
-                break;
-                case 3:
-                    ui->chargerButtonPressStep0->setText("");
-                    ui->chargerButtonPressStep1->setText("");
-                    ui->chargerButtonPressStep2->setText("");
-                    ui->chargerButtonPressStep3->setText("←");
-                break;
-        }
-    }
-    else
-    {
-        ui->chargerButtonPressStep0->setText("");
-        ui->chargerButtonPressStep1->setText("");
-        ui->chargerButtonPressStep2->setText("");
-        ui->chargerButtonPressStep3->setText("");
-    }
+    platformControlP1TabRefreshTimerUpdateWorker(ui);
 }
 
 void MainWindow::on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue)
@@ -1062,11 +893,35 @@ void MainWindow::on_platformControlP1RightWheelEncoderResetButton_clicked()
 void MainWindow::on_platformControlP1LeftWheelEncoderGetButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    ui->platformControlP1LeftWheelEncoderLcdNumber->display(Valter::format_string("%d", platformControlP1->getLeftWheelEncoder()).c_str());
+    ui->platformControlP1LeftWheelEncoderLcdNumber->display("");
+    platformControlP1->setLeftWheelEncoderGetOnce(true);
+    platformControlP1->sendCommand("GETLEFTMOTORCOUNTER");
 }
 
 void MainWindow::on_platformControlP1RightWheelEncoderGetButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    ui->platformControlP1RightWheelEncoderLcdNumber->display(Valter::format_string("%d", platformControlP1->getRightWheelEncoder()).c_str());
+    ui->platformControlP1RightWheelEncoderLcdNumber->display("");
+    platformControlP1->setRightWheelEncoderGetOnce(true);
+    platformControlP1->sendCommand("GETRIGHTMOTORCOUNTER");
+}
+
+void MainWindow::on_platformControlP1LeftWheelEncoderAutoresetCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftWheelEncoderAutoreset(checked);
+}
+
+void MainWindow::on_platformControlP1RightWheelEncoderAutoresetCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setRightWheelEncoderAutoreset(checked);
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    ui->turretPositionLcdNumber->display("");
+    platformControlP1->setTurretPositionGetOnce(true);
+    platformControlP1->sendCommand("GETTURRETPOSITION");
 }

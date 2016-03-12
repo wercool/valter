@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
     try
     {
         QApplication application(argc, argv);
+        application.setStyle("gtk+");
 
         mainGUIWindow = MainWindow::getInstance();
         mainGUIWindow->show();

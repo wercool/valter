@@ -111,6 +111,31 @@ void PlatformControlP1::resetValuesToDefault()
     rightWheelEncoderRead               = false;
     leftWheelEncoderAutoreset           = false;
     rightWheelEncoderAutoreset          = false;
+    leftWheelEncoderGetOnce              = false;
+    rightWheelEncoderGetOnce             = false;
+
+    turretPositionRead                  = false;
+    turretPositionGetOnce               = false;
+
+    mainAccumulatorVoltageRead          = false;
+    leftAccumulatorVoltageRead          = false;
+    rightAccumulatorVoltageRead         = false;
+    mainAccumulatorAmperageTotalRead    = false;
+    platformAmperageRead                = false;
+    bodyAmperageRead                    = false;
+    leftAccumulatorAmperageRead         = false;
+    rightAccumulatorAmperageRead        = false;
+    chargerVoltageRead                  = false;
+
+    mainAccumulatorVoltageReadADCPreset         = false;
+    leftAccumulatorVoltageReadADCPreset         = false;
+    rightAccumulatorVoltageReadADCPreset        = false;
+    mainAccumulatorAmperageTotalReadADCPreset   = false;
+    platformAmperageReadADCPreset               = false;
+    bodyAmperageReadADCPreset                   = false;
+    leftAccumulatorAmperageReadADCPreset        = false;
+    rightAccumulatorAmperageReadADCPreset       = false;
+    chargerVoltageReadADCPreset                 = false;
 
     curChannel1Input                    = 0;
     curChannel2Input                    = 0;
@@ -138,8 +163,30 @@ void PlatformControlP1::resetValuesToDefault()
     leftWheelEncoder                    = 0;
     rightWheelEncoder                   = 0;
 
+    turretPositionADC                   = 0;
+    turretPositionDeg                   = 0.0;
+    turretPositionRad                   = 0.0;
+
     chargerVoltageADC                   = 0;
     chargerVoltageVolts                 = 0.0;
+
+    mainAccumulatorVoltageADC           = 0;
+    leftAccumulatorVoltageADC           = 0;
+    rightAccumulatorVoltageADC          = 0;
+    mainAccumulatorAmperageTotalADC     = 0;
+    platformAmperageADC                 = 0;
+    bodyAmperageADC                     = 0;
+    leftAccumulatorAmperageADC          = 0;
+    rightAccumulatorAmperageADC         = 0;
+
+    mainAccumulatorVoltageVolts         = 0.0;
+    leftAccumulatorVoltageVolts         = 0.0;
+    rightAccumulatorVoltageVolts        = 0.0;
+    mainAccumulatorAmperageTotalAmps    = 0.0;
+    platformAmperageAmps                = 0.0;
+    bodyAmperageAmps                    = 0.0;
+    leftAccumulatorAmperageAmps         = 0.0;
+    rightAccumulatorAmperageAmps        = 0.0;
 
     if (chargerButtonPressStep != 0)
     {
@@ -321,8 +368,11 @@ void PlatformControlP1::processMessagesQueueWorker()
                         int substr_pos = response.find(":");
                         string value_str = response.substr(substr_pos);
                         value_str.replace(0,1,"");
-                        value_str.replace(value_str.length() - 1,1,"");
+                        value_str.replace(value_str.length(),1,"");
                         vector<string>value_str_values = Valter::split(value_str, ';');
+
+                        int turretPosition = atoi(Valter::stringToCharPtr(value_str_values[3]));
+
                         int leftMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[3]));
                         int rightMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[4]));
                         int turretMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[5]));
@@ -350,6 +400,49 @@ void PlatformControlP1::processMessagesQueueWorker()
                         {
                             setRightWheelEncoder(rightWheelEncoder);
                         }
+
+                        if (getTurretPositionRead())
+                        {
+                            setTurretPositionADC(turretPosition);
+                        }
+                        continue;
+                    }
+                }
+                //get when requested inspite motors is not stopped
+                if (getLeftWheelEncoderGetOnce())
+                {
+                    if (response.find("LEFT MOTOR COUNTER: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setLeftWheelEncoder(value);
+                        setLeftWheelEncoderGetOnce(false);
+                        continue;
+                    }
+                }
+                if (getRightWheelEncoderGetOnce())
+                {
+                    if (response.find("RIGHT MOTOR COUNTER: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setRightWheelEncoder(value);
+                        setRightWheelEncoderGetOnce(false);
+                        continue;
+                    }
+                }
+                if (getTurretPositionGetOnce())
+                {
+                    if (response.find("TURRET: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setTurretPositionADC(value);
+                        setTurretPositionGetOnce(false);
+                        continue;
                     }
                 }
             }
@@ -460,7 +553,7 @@ void PlatformControlP1::platformMovementWorker()
         else
         {
             int curDeceleration = getPlatformDeceleration();
-            setPlatformDeceleration(10);
+            setPlatformDeceleration(getPlatformDecelerationPresetMax());
             setLeftMotorActivated(false);
             setRightMotorActivated(false);
             while (!getLeftMotorStop() || !getRightMotorStop())
@@ -601,7 +694,7 @@ void PlatformControlP1::turretRotationWorker()
         else
         {
             int curDeceleration = getTurretAcceleration();
-            setTurretAcceleration(10);
+            setTurretDeceleration(getTurretDecelerationPresetMax());
             setTurretMotorActivated(false);
             while (!getTurretMotorStop())
             {
@@ -609,7 +702,7 @@ void PlatformControlP1::turretRotationWorker()
                 this_thread::sleep_for(std::chrono::milliseconds(10));
             }
             setTurretEmergencyStop(false);
-            setTurretAcceleration(curDeceleration);
+            setTurretDeceleration(curDeceleration);
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
@@ -673,6 +766,418 @@ void PlatformControlP1::turretRotationDynamics()
         }
     }
 }
+bool PlatformControlP1::getChargerVoltageReadADCPreset() const
+{
+    return chargerVoltageReadADCPreset;
+}
+
+void PlatformControlP1::setChargerVoltageReadADCPreset(bool value)
+{
+    chargerVoltageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getRightAccumulatorAmperageReadADCPreset() const
+{
+    return rightAccumulatorAmperageReadADCPreset;
+}
+
+void PlatformControlP1::setRightAccumulatorAmperageReadADCPreset(bool value)
+{
+    rightAccumulatorAmperageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getLeftAccumulatorAmperageReadADCPreset() const
+{
+    return leftAccumulatorAmperageReadADCPreset;
+}
+
+void PlatformControlP1::setLeftAccumulatorAmperageReadADCPreset(bool value)
+{
+    leftAccumulatorAmperageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getBodyAmperageReadADCPreset() const
+{
+    return bodyAmperageReadADCPreset;
+}
+
+void PlatformControlP1::setBodyAmperageReadADCPreset(bool value)
+{
+    bodyAmperageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getPlatformAmperageReadADCPreset() const
+{
+    return platformAmperageReadADCPreset;
+}
+
+void PlatformControlP1::setPlatformAmperageReadADCPreset(bool value)
+{
+    platformAmperageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getMainAccumulatorAmperageTotalReadADCPreset() const
+{
+    return mainAccumulatorAmperageTotalReadADCPreset;
+}
+
+void PlatformControlP1::setMainAccumulatorAmperageTotalReadADCPreset(bool value)
+{
+    mainAccumulatorAmperageTotalReadADCPreset = value;
+}
+
+bool PlatformControlP1::getRightAccumulatorVoltageReadADCPreset() const
+{
+    return rightAccumulatorVoltageReadADCPreset;
+}
+
+void PlatformControlP1::setRightAccumulatorVoltageReadADCPreset(bool value)
+{
+    rightAccumulatorVoltageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getLeftAccumulatorVoltageReadADCPreset() const
+{
+    return leftAccumulatorVoltageReadADCPreset;
+}
+
+void PlatformControlP1::setLeftAccumulatorVoltageReadADCPreset(bool value)
+{
+    leftAccumulatorVoltageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getMainAccumulatorVoltageReadADCPreset() const
+{
+    return mainAccumulatorVoltageReadADCPreset;
+}
+
+void PlatformControlP1::setMainAccumulatorVoltageReadADCPreset(bool value)
+{
+    mainAccumulatorVoltageReadADCPreset = value;
+}
+
+bool PlatformControlP1::getChargerVoltageRead() const
+{
+    return chargerVoltageRead;
+}
+
+void PlatformControlP1::setChargerVoltageRead(bool value)
+{
+    chargerVoltageRead = value;
+}
+
+bool PlatformControlP1::getRightAccumulatorAmperageRead() const
+{
+    return rightAccumulatorAmperageRead;
+}
+
+void PlatformControlP1::setRightAccumulatorAmperageRead(bool value)
+{
+    rightAccumulatorAmperageRead = value;
+}
+
+bool PlatformControlP1::getLeftAccumulatorAmperageRead() const
+{
+    return leftAccumulatorAmperageRead;
+}
+
+void PlatformControlP1::setLeftAccumulatorAmperageRead(bool value)
+{
+    leftAccumulatorAmperageRead = value;
+}
+
+bool PlatformControlP1::getBodyAmperageRead() const
+{
+    return bodyAmperageRead;
+}
+
+void PlatformControlP1::setBodyAmperageRead(bool value)
+{
+    bodyAmperageRead = value;
+}
+
+bool PlatformControlP1::getPlatformAmperageRead() const
+{
+    return platformAmperageRead;
+}
+
+void PlatformControlP1::setPlatformAmperageRead(bool value)
+{
+    platformAmperageRead = value;
+}
+
+bool PlatformControlP1::getMainAccumulatorAmperageTotalRead() const
+{
+    return mainAccumulatorAmperageTotalRead;
+}
+
+void PlatformControlP1::setMainAccumulatorAmperageTotalRead(bool value)
+{
+    mainAccumulatorAmperageTotalRead = value;
+}
+
+bool PlatformControlP1::getRightAccumulatorVoltageRead() const
+{
+    return rightAccumulatorVoltageRead;
+}
+
+void PlatformControlP1::setRightAccumulatorVoltageRead(bool value)
+{
+    rightAccumulatorVoltageRead = value;
+}
+
+bool PlatformControlP1::getLeftAccumulatorVoltageRead() const
+{
+    return leftAccumulatorVoltageRead;
+}
+
+void PlatformControlP1::setLeftAccumulatorVoltageRead(bool value)
+{
+    leftAccumulatorVoltageRead = value;
+}
+
+bool PlatformControlP1::getMainAccumulatorVoltageRead() const
+{
+    return mainAccumulatorVoltageRead;
+}
+
+void PlatformControlP1::setMainAccumulatorVoltageRead(bool value)
+{
+    mainAccumulatorVoltageRead = value;
+}
+
+float PlatformControlP1::getRightAccumulatorAmperageAmps() const
+{
+    return rightAccumulatorAmperageAmps;
+}
+
+void PlatformControlP1::setRightAccumulatorAmperageAmps(float value)
+{
+    rightAccumulatorAmperageAmps = value;
+}
+
+float PlatformControlP1::getLeftAccumulatorAmperageAmps() const
+{
+    return leftAccumulatorAmperageAmps;
+}
+
+void PlatformControlP1::setLeftAccumulatorAmperageAmps(float value)
+{
+    leftAccumulatorAmperageAmps = value;
+}
+
+float PlatformControlP1::getBodyAmperageAmps() const
+{
+    return bodyAmperageAmps;
+}
+
+void PlatformControlP1::setBodyAmperageAmps(float value)
+{
+    bodyAmperageAmps = value;
+}
+
+float PlatformControlP1::getPlatformAmperageAmps() const
+{
+    return platformAmperageAmps;
+}
+
+void PlatformControlP1::setPlatformAmperageAmps(float value)
+{
+    platformAmperageAmps = value;
+}
+
+float PlatformControlP1::getMainAccumulatorAmperageTotalAmps() const
+{
+    return mainAccumulatorAmperageTotalAmps;
+}
+
+void PlatformControlP1::setMainAccumulatorAmperageTotalAmps(float value)
+{
+    mainAccumulatorAmperageTotalAmps = value;
+}
+
+float PlatformControlP1::getRightAccumulatorVoltageVolts() const
+{
+    return rightAccumulatorVoltageVolts;
+}
+
+void PlatformControlP1::setRightAccumulatorVoltageVolts(float value)
+{
+    rightAccumulatorVoltageVolts = value;
+}
+
+float PlatformControlP1::getLeftAccumulatorVoltageVolts() const
+{
+    return leftAccumulatorVoltageVolts;
+}
+
+void PlatformControlP1::setLeftAccumulatorVoltageVolts(float value)
+{
+    leftAccumulatorVoltageVolts = value;
+}
+
+float PlatformControlP1::getMainAccumulatorVoltageVolts() const
+{
+    return mainAccumulatorVoltageVolts;
+}
+
+void PlatformControlP1::setMainAccumulatorVoltageVolts(float value)
+{
+    mainAccumulatorVoltageVolts = value;
+}
+
+int PlatformControlP1::getRightAccumulatorAmperageADC() const
+{
+    return rightAccumulatorAmperageADC;
+}
+
+void PlatformControlP1::setRightAccumulatorAmperageADC(int value)
+{
+    rightAccumulatorAmperageADC = value;
+}
+
+int PlatformControlP1::getLeftAccumulatorAmperageADC() const
+{
+    return leftAccumulatorAmperageADC;
+}
+
+void PlatformControlP1::setLeftAccumulatorAmperageADC(int value)
+{
+    leftAccumulatorAmperageADC = value;
+}
+
+int PlatformControlP1::getBodyAmperageADC() const
+{
+    return bodyAmperageADC;
+}
+
+void PlatformControlP1::setBodyAmperageADC(int value)
+{
+    bodyAmperageADC = value;
+}
+
+int PlatformControlP1::getPlatformAmperageADC() const
+{
+    return platformAmperageADC;
+}
+
+void PlatformControlP1::setPlatformAmperageADC(int value)
+{
+    platformAmperageADC = value;
+}
+
+int PlatformControlP1::getMainAccumulatorAmperageTotalADC() const
+{
+    return mainAccumulatorAmperageTotalADC;
+}
+
+void PlatformControlP1::setMainAccumulatorAmperageTotalADC(int value)
+{
+    mainAccumulatorAmperageTotalADC = value;
+}
+
+int PlatformControlP1::getRightAccumulatorVoltageADC() const
+{
+    return rightAccumulatorVoltageADC;
+}
+
+void PlatformControlP1::setRightAccumulatorVoltageADC(int value)
+{
+    rightAccumulatorVoltageADC = value;
+}
+
+int PlatformControlP1::getLeftAccumulatorVoltageADC() const
+{
+    return leftAccumulatorVoltageADC;
+}
+
+void PlatformControlP1::setLeftAccumulatorVoltageADC(int value)
+{
+    leftAccumulatorVoltageADC = value;
+}
+
+int PlatformControlP1::getMainAccumulatorVoltageADC() const
+{
+    return mainAccumulatorVoltageADC;
+}
+
+void PlatformControlP1::setMainAccumulatorVoltageADC(int value)
+{
+    mainAccumulatorVoltageADC = value;
+}
+
+bool PlatformControlP1::getTurretPositionGetOnce() const
+{
+    return turretPositionGetOnce;
+}
+
+void PlatformControlP1::setTurretPositionGetOnce(bool value)
+{
+    turretPositionGetOnce = value;
+}
+
+bool PlatformControlP1::getRightWheelEncoderGetOnce() const
+{
+    return rightWheelEncoderGetOnce;
+}
+
+void PlatformControlP1::setRightWheelEncoderGetOnce(bool value)
+{
+    rightWheelEncoderGetOnce = value;
+}
+
+bool PlatformControlP1::getLeftWheelEncoderGetOnce() const
+{
+    return leftWheelEncoderGetOnce;
+}
+
+void PlatformControlP1::setLeftWheelEncoderGetOnce(bool value)
+{
+    leftWheelEncoderGetOnce = value;
+}
+
+float PlatformControlP1::getTurretPositionRad() const
+{
+    return turretPositionRad;
+}
+
+void PlatformControlP1::setTurretPositionRad(float value)
+{
+    turretPositionRad = value;
+}
+
+float PlatformControlP1::getTurretPositionDeg() const
+{
+    return turretPositionDeg;
+}
+
+void PlatformControlP1::setTurretPositionDeg(float value)
+{
+    turretPositionDeg = value;
+}
+
+int PlatformControlP1::getTurretPositionADC() const
+{
+    return turretPositionADC;
+}
+
+void PlatformControlP1::setTurretPositionADC(int value)
+{
+    turretPositionADC = value;
+    setTurretPositionDeg((float)value / (float)10);
+    setTurretPositionRad((float)value / (float)10);
+}
+
+bool PlatformControlP1::getTurretPositionRead() const
+{
+    return turretPositionRead;
+}
+
+void PlatformControlP1::setTurretPositionRead(bool value)
+{
+    turretPositionRead = value;
+}
+
 
 bool PlatformControlP1::getRightWheelEncoderAutoreset() const
 {
@@ -780,7 +1285,7 @@ float PlatformControlP1::getTurretMotorCurrentAmps() const
 
 void PlatformControlP1::setTurretMotorCurrentAmps(float value)
 {
-    turretMotorCurrentAmps = value / 10;
+    turretMotorCurrentAmps = value;
 }
 
 float PlatformControlP1::getRightMotorCurrentAmps() const
@@ -790,7 +1295,7 @@ float PlatformControlP1::getRightMotorCurrentAmps() const
 
 void PlatformControlP1::setRightMotorCurrentAmps(float value)
 {
-    rightMotorCurrentAmps = value / 10;
+    rightMotorCurrentAmps = value;
 }
 
 float PlatformControlP1::getLeftMotorCurrentAmps() const
@@ -800,7 +1305,7 @@ float PlatformControlP1::getLeftMotorCurrentAmps() const
 
 void PlatformControlP1::setLeftMotorCurrentAmps(float value)
 {
-    leftMotorCurrentAmps = value / 10;
+    leftMotorCurrentAmps = value;
 }
 
 int PlatformControlP1::getRightMotorCurrentADC() const
@@ -811,6 +1316,7 @@ int PlatformControlP1::getRightMotorCurrentADC() const
 void PlatformControlP1::setRightMotorCurrentADC(int value)
 {
     rightMotorCurrentADC = value;
+    setRightMotorCurrentAmps((float)value / (float)10);
 }
 
 int PlatformControlP1::getTurretMotorCurrentADC() const
@@ -821,6 +1327,7 @@ int PlatformControlP1::getTurretMotorCurrentADC() const
 void PlatformControlP1::setTurretMotorCurrentADC(int value)
 {
     turretMotorCurrentADC = value;
+    setTurretMotorCurrentAmps((float)value / (float)10);
 }
 
 int PlatformControlP1::getLeftMotorCurrentADC() const
@@ -831,6 +1338,7 @@ int PlatformControlP1::getLeftMotorCurrentADC() const
 void PlatformControlP1::setLeftMotorCurrentADC(int value)
 {
     leftMotorCurrentADC = value;
+    setLeftMotorCurrentAmps((float)value / (float)10);
 }
 
 
@@ -1777,4 +2285,80 @@ void PlatformControlP1::loadDefaults()
     deFaultvalue = getDefault("rightWheelEncoderAutoreset");
     deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
     setRightWheelEncoderAutoreset((atoi(deFaultvaluePtr)) ? true : false);
+
+    //trackTurretPosition
+    deFaultvalue = getDefault("trackTurretPosition");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    setTurretPositionRead((atoi(deFaultvaluePtr)) ? true : false);
+
+    //platformControlP1ReadingsTable
+    deFaultvalue = getDefault("platformControlP1ReadingsTable");
+    vector<string>deFaultvalue_str_values = Valter::split(deFaultvalue, ',');
+    vector<string>::iterator iter = deFaultvalue_str_values.begin();
+
+    int idx = 1;
+    while( iter != deFaultvalue_str_values.end() )
+    {
+        string val = *iter++;
+        deFaultvaluePtr = Valter::stringToCharPtr(val);
+        switch (idx)
+        {
+            case 1:
+                setMainAccumulatorVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 2:
+                setLeftAccumulatorVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 3:
+                setRightAccumulatorVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 4:
+                setMainAccumulatorAmperageTotalRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 5:
+                setPlatformAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 6:
+                setBodyAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 7:
+                setLeftAccumulatorAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 8:
+                setRightAccumulatorAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 9:
+                setChargerVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 10:
+                setMainAccumulatorVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 11:
+                setLeftAccumulatorVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 12:
+                setRightAccumulatorVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 13:
+                setMainAccumulatorAmperageTotalReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 14:
+                setPlatformAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 15:
+                setBodyAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 16:
+                setLeftAccumulatorAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 17:
+                setRightAccumulatorAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+            case 18:
+                setChargerVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+            break;
+        }
+
+        idx++;
+    }
 }

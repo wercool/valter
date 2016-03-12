@@ -4,7 +4,13 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport
+#QT       += core gui serialport
+QT       -= core
+QT       -= gui
+QT       += serialport
+
+unix: CONFIG += link_pkgconfig
+unix: PKGCONFIG += gtk+-3.0
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -38,9 +44,9 @@ HEADERS  += mainwindow.h \
             ivaltermodule.h \
             platformlocationp1.h \
             platformcontrolp2.h \
-            mainwindowutils.h \
             platformmanipulatorandirbumper.h \
-            bodycontrolp1.h
+            bodycontrolp1.h \
+    platformcontrolp1GUI.h
 
 FORMS    += mainwindow.ui
 

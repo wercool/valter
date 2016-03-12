@@ -1,9 +1,9 @@
 leftMotorDuty:1,100,30
 rightMotorDuty:1,100,30
-motorsDeceleration:1,10,5
-motorsAcceleration:1,10,5
+motorsDeceleration:1,20,5
+motorsAcceleration:1,15,5
 turretMotorDuty:1,100,20
-turretMotorDeceleration:1,10,5
+turretMotorDeceleration:1,15,5
 turretMotorAcceleration:1,10,2
 trackLeftMotorCurrent:1
 trackRightMotorCurrent:1
@@ -12,3 +12,6 @@ trackLeftWheelEncoder:1
 trackRightWheelEncoder:1
 leftWheelEncoderAutoreset:1
 rightWheelEncoderAutoreset:1
+trackTurretPosition:1
+//platformControlP1ReadingsTable:0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1
+platformControlP1ReadingsTable:1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1

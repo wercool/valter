@@ -47,13 +47,20 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>791</width>
-             <height>753</height>
+             <width>792</width>
+             <height>1002</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
             <item>
              <layout class="QGridLayout" name="gridLayout_4">
+              <item row="0" column="4">
+               <widget class="Line" name="line_11">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
               <item row="0" column="5">
                <layout class="QVBoxLayout" name="verticalLayout_10">
                 <item alignment="Qt::AlignRight|Qt::AlignTop">
@@ -105,587 +112,6 @@ font-weight: bold;</string>
                 </item>
                 <item>
                  <spacer name="verticalSpacer_7">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item row="0" column="1">
-               <layout class="QVBoxLayout" name="verticalLayout_9">
-                <property name="spacing">
-                 <number>3</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <item>
-                 <widget class="QLabel" name="label_6">
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                    <weight>75</weight>
-                    <bold>true</bold>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Body Rotation</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QProgressBar" name="turretMotorCurDutyBar">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>10</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>10</height>
-                   </size>
-                  </property>
-                  <property name="value">
-                   <number>0</number>
-                  </property>
-                  <property name="textVisible">
-                   <bool>false</bool>
-                  </property>
-                  <property name="format">
-                   <string/>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QGridLayout" name="gridLayout_2">
-                  <property name="rightMargin">
-                   <number>0</number>
-                  </property>
-                  <item row="0" column="0">
-                   <widget class="QPushButton" name="turretRotateLeftButton">
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>↶</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QPushButton" name="bodyRotationStopButton">
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>50</pointsize>
-                     </font>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">color:red;</string>
-                    </property>
-                    <property name="text">
-                     <string>•</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="2">
-                   <widget class="QPushButton" name="turretRotateRightButton">
-                    <property name="minimumSize">
-                     <size>
-                      <width>50</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>50</width>
-                      <height>50</height>
-                     </size>
-                    </property>
-                    <property name="font">
-                     <font>
-                      <pointsize>20</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>↷</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_17">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_8">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_18">
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                      <weight>75</weight>
-                      <bold>true</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Body Rotation Position</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_30">
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QDial" name="turretPositionVisual">
-                      <property name="maximumSize">
-                       <size>
-                        <width>40</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="minimum">
-                       <number>-30</number>
-                      </property>
-                      <property name="maximum">
-                       <number>30</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QVBoxLayout" name="verticalLayout_12">
-                      <item>
-                       <widget class="QCheckBox" name="turretPositionReadCheckBox">
-                        <property name="text">
-                         <string>Body Position</string>
-                        </property>
-                        <property name="checked">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QRadioButton" name="turretPositionADCRadioButton">
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>15</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>ADC</string>
-                        </property>
-                        <property name="checked">
-                         <bool>true</bool>
-                        </property>
-                        <attribute name="buttonGroup">
-                         <string notr="true">buttonGroup</string>
-                        </attribute>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QRadioButton" name="turretPositionDegRadioButton">
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>15</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>degrees</string>
-                        </property>
-                        <attribute name="buttonGroup">
-                         <string notr="true">buttonGroup</string>
-                        </attribute>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QRadioButton" name="turretPositionRadRadioButton">
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>15</height>
-                         </size>
-                        </property>
-                        <property name="text">
-                         <string>radians</string>
-                        </property>
-                        <attribute name="buttonGroup">
-                         <string notr="true">buttonGroup</string>
-                        </attribute>
-                       </widget>
-                      </item>
-                      <item>
-                       <layout class="QVBoxLayout" name="verticalLayout_13">
-                        <item>
-                         <widget class="QLCDNumber" name="turretPositionLcdNumber">
-                          <property name="maximumSize">
-                           <size>
-                            <width>16777215</width>
-                            <height>16777215</height>
-                           </size>
-                          </property>
-                          <property name="smallDecimalPoint">
-                           <bool>true</bool>
-                          </property>
-                          <property name="segmentStyle">
-                           <enum>QLCDNumber::Flat</enum>
-                          </property>
-                          <property name="value" stdset="0">
-                           <double>0.000000000000000</double>
-                          </property>
-                          <property name="intValue" stdset="0">
-                           <number>0</number>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_21">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_7">
-                    <property name="text">
-                     <string>Duty</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="turretMotorMaxDutyLabel">
-                    <property name="font">
-                     <font>
-                      <pointsize>8</pointsize>
-                      <italic>true</italic>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>[...]</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QSlider" name="turretRotationDutySlider">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::NoFocus</enum>
-                  </property>
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>100</number>
-                  </property>
-                  <property name="pageStep">
-                   <number>2</number>
-                  </property>
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="invertedAppearance">
-                   <bool>false</bool>
-                  </property>
-                  <property name="tickPosition">
-                   <enum>QSlider::TicksBelow</enum>
-                  </property>
-                  <property name="tickInterval">
-                   <number>5</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_36">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_8">
-                    <property name="text">
-                     <string>Deceleration</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="platformControlP1TurretMotorDecelerationLabel">
-                    <property name="font">
-                     <font>
-                      <pointsize>8</pointsize>
-                      <italic>true</italic>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>[...]</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QSlider" name="decelerationTurretRotationSlider">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::NoFocus</enum>
-                  </property>
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>10</number>
-                  </property>
-                  <property name="pageStep">
-                   <number>2</number>
-                  </property>
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="tickPosition">
-                   <enum>QSlider::TicksBelow</enum>
-                  </property>
-                  <property name="tickInterval">
-                   <number>1</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_37">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QLabel" name="label_9">
-                    <property name="text">
-                     <string>Acceleration</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="platformControlP1TurretMotorAccelerationLabel">
-                    <property name="font">
-                     <font>
-                      <pointsize>8</pointsize>
-                      <italic>true</italic>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>[...]</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QSlider" name="accelerationTurretRotationSlider">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                  <property name="focusPolicy">
-                   <enum>Qt::NoFocus</enum>
-                  </property>
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>10</number>
-                  </property>
-                  <property name="pageStep">
-                   <number>2</number>
-                  </property>
-                  <property name="tracking">
-                   <bool>true</bool>
-                  </property>
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="invertedAppearance">
-                   <bool>false</bool>
-                  </property>
-                  <property name="tickPosition">
-                   <enum>QSlider::TicksBelow</enum>
-                  </property>
-                  <property name="tickInterval">
-                   <number>1</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="Line" name="line_16">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QCheckBox" name="turretMotorCurrentCheckBox">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>0</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>16777215</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="text">
-                   <string>Body Motor Current</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_34">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QCheckBox" name="turretMotorCurrentADCCheckBox">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>ADC</string>
-                    </property>
-                    <property name="checked">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLCDNumber" name="turretMotorCurrentLcdNumber">
-                    <property name="maximumSize">
-                     <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="smallDecimalPoint">
-                     <bool>true</bool>
-                    </property>
-                    <property name="segmentStyle">
-                     <enum>QLCDNumber::Flat</enum>
-                    </property>
-                    <property name="value" stdset="0">
-                     <double>0.000000000000000</double>
-                    </property>
-                    <property name="intValue" stdset="0">
-                     <number>0</number>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_5">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_3">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
@@ -894,19 +320,6 @@ font-weight: bold;</string>
                  </layout>
                 </item>
                 <item>
-                 <spacer name="verticalSpacer_6">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
                  <widget class="QRadioButton" name="power220VACAvailableRadioButton">
                   <property name="maximumSize">
                    <size>
@@ -951,6 +364,9 @@ font-weight: bold;</string>
                       <width>16777215</width>
                       <height>16777215</height>
                      </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color:white;</string>
                     </property>
                     <property name="smallDecimalPoint">
                      <bool>true</bool>
@@ -1297,32 +713,703 @@ font-weight: bold;</string>
                 </item>
                </layout>
               </item>
-              <item row="0" column="4">
-               <widget class="Line" name="line_11">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
+              <item row="0" column="1">
+               <layout class="QVBoxLayout" name="verticalLayout_9">
+                <property name="spacing">
+                 <number>3</number>
                 </property>
-               </widget>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Body Rotation</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QProgressBar" name="turretMotorCurDutyBar">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>10</height>
+                   </size>
+                  </property>
+                  <property name="value">
+                   <number>0</number>
+                  </property>
+                  <property name="textVisible">
+                   <bool>false</bool>
+                  </property>
+                  <property name="format">
+                   <string/>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_2">
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QPushButton" name="turretRotateLeftButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>↶</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QPushButton" name="bodyRotationStopButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>50</pointsize>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">color:red;</string>
+                    </property>
+                    <property name="text">
+                     <string>•</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QPushButton" name="turretRotateRightButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>50</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>50</width>
+                      <height>50</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>↷</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_17">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_18">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Body Rotation Position</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_30">
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_14">
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <item alignment="Qt::AlignHCenter">
+                       <widget class="QDial" name="turretPositionVisual">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>40</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                        <property name="minimum">
+                         <number>-30</number>
+                        </property>
+                        <property name="maximum">
+                         <number>30</number>
+                        </property>
+                        <property name="invertedAppearance">
+                         <bool>false</bool>
+                        </property>
+                        <property name="invertedControls">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_12">
+                      <property name="spacing">
+                       <number>2</number>
+                      </property>
+                      <item>
+                       <widget class="QCheckBox" name="turretPositionReadCheckBox">
+                        <property name="text">
+                         <string>Body Position</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="turretPositionADCRadioButton">
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>15</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>ADC</string>
+                        </property>
+                        <property name="checked">
+                         <bool>true</bool>
+                        </property>
+                        <attribute name="buttonGroup">
+                         <string notr="true">buttonGroup</string>
+                        </attribute>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="turretPositionDegRadioButton">
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>degrees</string>
+                        </property>
+                        <attribute name="buttonGroup">
+                         <string notr="true">buttonGroup</string>
+                        </attribute>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QRadioButton" name="turretPositionRadRadioButton">
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>radians</string>
+                        </property>
+                        <attribute name="buttonGroup">
+                         <string notr="true">buttonGroup</string>
+                        </attribute>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QVBoxLayout" name="verticalLayout_13">
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_38">
+                          <property name="topMargin">
+                           <number>0</number>
+                          </property>
+                          <item>
+                           <widget class="QPushButton" name="pushButton">
+                            <property name="maximumSize">
+                             <size>
+                              <width>35</width>
+                              <height>24</height>
+                             </size>
+                            </property>
+                            <property name="text">
+                             <string>get</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLCDNumber" name="turretPositionLcdNumber">
+                            <property name="maximumSize">
+                             <size>
+                              <width>16777215</width>
+                              <height>22</height>
+                             </size>
+                            </property>
+                            <property name="styleSheet">
+                             <string notr="true">background-color:white;</string>
+                            </property>
+                            <property name="smallDecimalPoint">
+                             <bool>true</bool>
+                            </property>
+                            <property name="segmentStyle">
+                             <enum>QLCDNumber::Flat</enum>
+                            </property>
+                            <property name="value" stdset="0">
+                             <double>0.000000000000000</double>
+                            </property>
+                            <property name="intValue" stdset="0">
+                             <number>0</number>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_21">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_7">
+                    <property name="text">
+                     <string>Duty</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="turretMotorMaxDutyLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                      <italic>true</italic>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>[...]</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QSlider" name="turretRotationDutySlider">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="invertedAppearance">
+                   <bool>false</bool>
+                  </property>
+                  <property name="tickPosition">
+                   <enum>QSlider::TicksBelow</enum>
+                  </property>
+                  <property name="tickInterval">
+                   <number>5</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_36">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_8">
+                    <property name="text">
+                     <string>Deceleration</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="platformControlP1TurretMotorDecelerationLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                      <italic>true</italic>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>[...]</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QSlider" name="decelerationTurretRotationSlider">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="tickPosition">
+                   <enum>QSlider::TicksBelow</enum>
+                  </property>
+                  <property name="tickInterval">
+                   <number>1</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_37">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_9">
+                    <property name="text">
+                     <string>Acceleration</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="platformControlP1TurretMotorAccelerationLabel">
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                      <italic>true</italic>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>[...]</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QSlider" name="accelerationTurretRotationSlider">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
+                  <property name="tracking">
+                   <bool>true</bool>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="invertedAppearance">
+                   <bool>false</bool>
+                  </property>
+                  <property name="tickPosition">
+                   <enum>QSlider::TicksBelow</enum>
+                  </property>
+                  <property name="tickInterval">
+                   <number>1</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_16">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="turretMotorCurrentCheckBox">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>Body Motor Current</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_34">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QCheckBox" name="turretMotorCurrentADCCheckBox">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>ADC</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLCDNumber" name="turretMotorCurrentLcdNumber">
+                    <property name="maximumSize">
+                     <size>
+                      <width>16777215</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color:white;</string>
+                    </property>
+                    <property name="smallDecimalPoint">
+                     <bool>true</bool>
+                    </property>
+                    <property name="segmentStyle">
+                     <enum>QLCDNumber::Flat</enum>
+                    </property>
+                    <property name="value" stdset="0">
+                     <double>0.000000000000000</double>
+                    </property>
+                    <property name="intValue" stdset="0">
+                     <number>0</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_5">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
               </item>
-              <item row="0" column="2">
-               <widget class="Line" name="line_6">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="5">
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
+              <item row="1" column="0">
+               <layout class="QHBoxLayout" name="horizontalLayout_24">
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_11">
+                  <item>
+                   <widget class="Line" name="line_15">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_15">
+                    <property name="text">
+                     <string>Turret and Wheel Motors Freq</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_22">
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QSpinBox" name="platformControlP1MotorsPWMFrequencySpinBox">
+                      <property name="minimum">
+                       <number>1000</number>
+                      </property>
+                      <property name="maximum">
+                       <number>10000</number>
+                      </property>
+                      <property name="singleStep">
+                       <number>10</number>
+                      </property>
+                      <property name="value">
+                       <number>8000</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="platformControlP1MotorsPWMFrequencySetButton">
+                      <property name="text">
+                       <string>Set</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_13">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item row="0" column="0">
                <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -1842,6 +1929,9 @@ font-weight: bold;</string>
                         <bold>false</bold>
                        </font>
                       </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:white;</string>
+                      </property>
                       <property name="smallDecimalPoint">
                        <bool>true</bool>
                       </property>
@@ -1863,6 +1953,9 @@ font-weight: bold;</string>
                         <width>16777215</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:white;</string>
                       </property>
                       <property name="smallDecimalPoint">
                        <bool>true</bool>
@@ -1912,6 +2005,9 @@ font-weight: bold;</string>
                       <width>16777215</width>
                       <height>20</height>
                      </size>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
                     </property>
                     <property name="minimum">
                      <number>1</number>
@@ -2295,6 +2391,9 @@ font-weight: bold;</string>
                         <bold>false</bold>
                        </font>
                       </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:white;</string>
+                      </property>
                       <property name="smallDecimalPoint">
                        <bool>true</bool>
                       </property>
@@ -2316,6 +2415,9 @@ font-weight: bold;</string>
                         <width>16777215</width>
                         <height>16777215</height>
                        </size>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">background-color:white;</string>
                       </property>
                       <property name="smallDecimalPoint">
                        <bool>true</bool>
@@ -2382,13 +2484,6 @@ font-weight: bold;</string>
                    </layout>
                   </item>
                   <item>
-                   <widget class="Line" name="line_15">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
                    <spacer name="verticalSpacer_5">
                     <property name="orientation">
                      <enum>Qt::Vertical</enum>
@@ -2412,54 +2507,307 @@ font-weight: bold;</string>
                 </item>
                </layout>
               </item>
-              <item row="2" column="0">
-               <layout class="QHBoxLayout" name="horizontalLayout_24">
+              <item row="0" column="2">
+               <widget class="Line" name="line_6">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="5">
+               <layout class="QVBoxLayout" name="verticalLayout_15">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_11">
-                  <item>
-                   <widget class="QLabel" name="label_15">
-                    <property name="text">
-                     <string>Turret and Wheel Motors Freq</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_22">
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QSpinBox" name="platformControlP1MotorsPWMFrequencySpinBox">
-                      <property name="minimum">
-                       <number>1000</number>
-                      </property>
-                      <property name="maximum">
-                       <number>10000</number>
-                      </property>
-                      <property name="singleStep">
-                       <number>10</number>
-                      </property>
-                      <property name="value">
-                       <number>8000</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="platformControlP1MotorsPWMFrequencySetButton">
-                      <property name="text">
-                       <string>Set</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                 </layout>
+                 <widget class="Line" name="line_12">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="Line" name="line_13">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
+                 <widget class="QTableWidget" name="platformControlP1ReadingsTable">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>300</height>
+                   </size>
                   </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color:transparent;</string>
+                  </property>
+                  <attribute name="verticalHeaderVisible">
+                   <bool>false</bool>
+                  </attribute>
+                  <row>
+                   <property name="text">
+                    <string>1</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>2</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>3</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>4</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>5</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>6</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>7</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>8</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>9</string>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>Reading Name</string>
+                   </property>
+                   <property name="foreground">
+                    <brush brushstyle="NoBrush">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Reading Value</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>ADC</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Tracking</string>
+                   </property>
+                  </column>
+                  <item row="0" column="0">
+                   <property name="text">
+                    <string>Main Accumulator Voltage</string>
+                   </property>
+                  </item>
+                  <item row="0" column="1">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </item>
+                  <item row="0" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="0" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="1" column="0">
+                   <property name="text">
+                    <string>Left Accumulator Voltage</string>
+                   </property>
+                  </item>
+                  <item row="1" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="1" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="2" column="0">
+                   <property name="text">
+                    <string>Right Accumulator Voltage</string>
+                   </property>
+                  </item>
+                  <item row="2" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="2" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="3" column="0">
+                   <property name="text">
+                    <string>Amperage Total</string>
+                   </property>
+                  </item>
+                  <item row="3" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="3" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="4" column="0">
+                   <property name="text">
+                    <string>Platform Amperage</string>
+                   </property>
+                  </item>
+                  <item row="4" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="4" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="5" column="0">
+                   <property name="text">
+                    <string>Body Amperage</string>
+                   </property>
+                  </item>
+                  <item row="5" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="5" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="6" column="0">
+                   <property name="text">
+                    <string>Left Accumulator Amperage</string>
+                   </property>
+                  </item>
+                  <item row="6" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="6" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="7" column="0">
+                   <property name="text">
+                    <string>Right Accumulator Amperage</string>
+                   </property>
+                  </item>
+                  <item row="7" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="7" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="8" column="0">
+                   <property name="text">
+                    <string>Charger Voltage</string>
+                   </property>
+                  </item>
+                  <item row="8" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="8" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                </layout>
@@ -2524,6 +2872,34 @@ font-weight: bold;</string>
           <property name="statusTip">
            <string/>
           </property>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Device File Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Control Device Id</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Opened</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>WDR Intent</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>System Device Path</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item>

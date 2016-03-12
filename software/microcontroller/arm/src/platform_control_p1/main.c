@@ -539,7 +539,7 @@ int main(void)
                 input1Channel = 0;
                 continue;
             }
-            //left accumulator vaoltage
+            //left accumulator voltage
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL1") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -559,7 +559,7 @@ int main(void)
                 input1Channel = 2;
                 continue;
             }
-            //main accumulator aperage total
+            //main accumulator amperage total
             if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);   //A
@@ -722,7 +722,7 @@ int main(void)
                 input2Reading = getValueChannel6();
                 sprintf((char *)msg,"INPUT2 CHANNEL [%u]: %u\n", input2Channel, input2Reading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                continue;
             }
             //left motor DIAGa/ENa
             if (strcmp((char*) cmdParts, "SETINPUT2CHANNEL0") == 0)
@@ -909,7 +909,6 @@ int main(void)
                 turretReading = getValueChannel5();
                 sprintf((char *)msg,"TURRET: %u\n", turretReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
                 continue;
             }
             if (strcmp((char*) cmdParts, "STARTTURRETREADINGS") == 0)
@@ -1114,7 +1113,7 @@ int main(void)
                 leftMotorCurrentReading = getValueChannel1();
                 sprintf((char *)msg,"LEFT MOTOR CURRENT: %u\n", leftMotorCurrentReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                continue;
             }
             if (strcmp((char*) cmdParts, "STARTLEFTMOTORCURRENTREADINGS") == 0)
             {
@@ -1131,7 +1130,7 @@ int main(void)
                 rightMotorCurrentReading = getValueChannel2();
                 sprintf((char *)msg,"RIGHT MOTOR CURRENT: %u\n", rightMotorCurrentReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                continue;
             }
             if (strcmp((char*) cmdParts, "STARTRIGHTMOTORCURRENTREADINGS") == 0)
             {
