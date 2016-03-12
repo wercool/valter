@@ -354,4 +354,75 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
     }
 }
 
+void setPlatfromControlP1AdditionalReadings(QTableWidgetItem *item)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (item->column() == 3)
+    {
+        switch (item->row())
+        {
+            case 0:
+                platformControlP1->setMainAccumulatorVoltageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 1:
+                platformControlP1->setLeftAccumulatorVoltageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 2:
+                platformControlP1->setRightAccumulatorVoltageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 3:
+                platformControlP1->setMainAccumulatorAmperageTotalRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 4:
+                platformControlP1->setPlatformAmperageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 5:
+                platformControlP1->setBodyAmperageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 6:
+                platformControlP1->setLeftAccumulatorAmperageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 7:
+                platformControlP1->setRightAccumulatorAmperageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 8:
+                platformControlP1->setChargerVoltageRead((item->checkState() == Qt::Checked) ? true : false);
+            break;
+        }
+    }
+    else if (item->column() == 2)
+    {
+        switch (item->row())
+        {
+        case 0:
+                platformControlP1->setMainAccumulatorVoltageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 1:
+                platformControlP1->setLeftAccumulatorVoltageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 2:
+                platformControlP1->setRightAccumulatorVoltageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 3:
+                platformControlP1->setMainAccumulatorAmperageTotalReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 4:
+                platformControlP1->setPlatformAmperageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 5:
+                platformControlP1->setBodyAmperageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 6:
+                platformControlP1->setLeftAccumulatorAmperageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 7:
+                platformControlP1->setRightAccumulatorAmperageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 8:
+                platformControlP1->setChargerVoltageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
+            break;
+        }
+    }
+}
+
 #endif // MAINWINDOWUTILS_H

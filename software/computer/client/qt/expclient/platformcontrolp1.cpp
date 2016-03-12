@@ -20,6 +20,7 @@ PlatformControlP1::PlatformControlP1()
     new std::thread(&PlatformControlP1::platformMovementWorker, this);
     new std::thread(&PlatformControlP1::turretRotationWorker, this);
     new std::thread(&PlatformControlP1::scanFor220VACAvailable, this);
+    new std::thread(&PlatformControlP1::additionalReadingsScanWorker, this);
 }
 
 string PlatformControlP1::getControlDeviceId()
@@ -764,6 +765,15 @@ void PlatformControlP1::turretRotationDynamics()
         {
             sendCommand("GETALLCURREADINGS");
         }
+    }
+}
+
+void PlatformControlP1::additionalReadingsScanWorker()
+{
+    while (!stopAllProcesses)
+    {
+        qDebug("%s", getMainAccumulatorAmperageTotalRead() ? "TRUE" : "FALSE");
+        this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 bool PlatformControlP1::getChargerVoltageReadADCPreset() const

@@ -6,6 +6,7 @@
 #include <QtDebug>
 #include <QSlider>
 #include <QMessageBox>
+#include <QTableWidgetItem>
 
 #include <valter.h>
 #include <ivaltermodule.h>
@@ -189,6 +190,8 @@ private slots:
     void on_platformControlP1RightWheelEncoderAutoresetCheckBox_clicked(bool checked);
 
     void on_pushButton_clicked();
+
+    void on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

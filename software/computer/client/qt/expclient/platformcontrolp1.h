@@ -440,6 +440,8 @@ private:
     bool turretEmergencyStop;
     bool turretMotorDirection; //[true] - right; [false] - left
 
+    void additionalReadingsScanWorker();
+
     //PlatforomControlP1 strictly specific properties
     bool power5VOnState;
     bool leftAccumulatorConnected;

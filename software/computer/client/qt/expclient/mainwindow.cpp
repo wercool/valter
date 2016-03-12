@@ -925,3 +925,8 @@ void MainWindow::on_pushButton_clicked()
     platformControlP1->setTurretPositionGetOnce(true);
     platformControlP1->sendCommand("GETTURRETPOSITION");
 }
+
+void MainWindow::on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem *item)
+{
+    setPlatfromControlP1AdditionalReadings(item);
+}
