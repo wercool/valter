@@ -772,8 +772,60 @@ void PlatformControlP1::additionalReadingsScanWorker()
 {
     while (!stopAllProcesses)
     {
-        qDebug("%s", getMainAccumulatorAmperageTotalRead() ? "TRUE" : "FALSE");
-        this_thread::sleep_for(std::chrono::milliseconds(100));
+        if (getMainAccumulatorVoltageRead())
+        {
+            //main accumulator voltage
+            sendCommand("SETINPUT1CHANNEL0");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getLeftAccumulatorVoltageRead())
+        {
+            //left accumulator voltage
+            sendCommand("SETINPUT1CHANNEL1");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getRightAccumulatorVoltageRead())
+        {
+            //right accumulator voltage
+            sendCommand("SETINPUT1CHANNEL2");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getMainAccumulatorAmperageTotalRead())
+        {
+            //main accumulator amperage total
+            sendCommand("SETINPUT1CHANNEL3");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getPlatformAmperageRead())
+        {
+            //main accumulator amperage bottom
+            sendCommand("SETINPUT1CHANNEL4");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getBodyAmperageRead())
+        {
+            //main accumulator amperage top
+            sendCommand("SETINPUT1CHANNEL5");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getLeftAccumulatorAmperageRead())
+        {
+            //left accumulator amperage
+            sendCommand("SETINPUT1CHANNEL6");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getRightAccumulatorAmperageRead())
+        {
+            //right accumulator amperage
+            sendCommand("SETINPUT1CHANNEL7");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+        if (getChargerVoltageRead())
+        {
+            //charger connected (charger voltage)
+            sendCommand("SETINPUT1CHANNEL8");
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
     }
 }
 bool PlatformControlP1::getChargerVoltageReadADCPreset() const
