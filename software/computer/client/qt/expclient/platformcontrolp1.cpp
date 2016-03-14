@@ -1255,6 +1255,7 @@ int PlatformControlP1::getRightAccumulatorAmperageADC() const
 void PlatformControlP1::setRightAccumulatorAmperageADC(int value)
 {
     rightAccumulatorAmperageADC = value;
+    setRightAccumulatorAmperageAmps((float)value / (float)10);
 }
 
 int PlatformControlP1::getLeftAccumulatorAmperageADC() const
@@ -1265,6 +1266,7 @@ int PlatformControlP1::getLeftAccumulatorAmperageADC() const
 void PlatformControlP1::setLeftAccumulatorAmperageADC(int value)
 {
     leftAccumulatorAmperageADC = value;
+    setLeftAccumulatorAmperageAmps((float)value / (float)10);
 }
 
 int PlatformControlP1::getBodyAmperageADC() const
@@ -1275,6 +1277,7 @@ int PlatformControlP1::getBodyAmperageADC() const
 void PlatformControlP1::setBodyAmperageADC(int value)
 {
     bodyAmperageADC = value;
+    setBodyAmperageAmps((float)value / (float)10);
 }
 
 int PlatformControlP1::getPlatformAmperageADC() const
@@ -1285,6 +1288,7 @@ int PlatformControlP1::getPlatformAmperageADC() const
 void PlatformControlP1::setPlatformAmperageADC(int value)
 {
     platformAmperageADC = value;
+    setPlatformAmperageAmps((float)value / (float)10);
 }
 
 int PlatformControlP1::getMainAccumulatorAmperageTotalADC() const
@@ -1295,6 +1299,7 @@ int PlatformControlP1::getMainAccumulatorAmperageTotalADC() const
 void PlatformControlP1::setMainAccumulatorAmperageTotalADC(int value)
 {
     mainAccumulatorAmperageTotalADC = value;
+    setMainAccumulatorAmperageTotalAmps((float)value / (float)10);
 }
 
 int PlatformControlP1::getRightAccumulatorVoltageADC() const
@@ -1305,6 +1310,7 @@ int PlatformControlP1::getRightAccumulatorVoltageADC() const
 void PlatformControlP1::setRightAccumulatorVoltageADC(int value)
 {
     rightAccumulatorVoltageADC = value;
+    setRightAccumulatorVoltageVolts((float)value / (float)10);
 }
 
 int PlatformControlP1::getLeftAccumulatorVoltageADC() const
@@ -1315,6 +1321,7 @@ int PlatformControlP1::getLeftAccumulatorVoltageADC() const
 void PlatformControlP1::setLeftAccumulatorVoltageADC(int value)
 {
     leftAccumulatorVoltageADC = value;
+    setLeftAccumulatorVoltageVolts((float)value / (float)10);
 }
 
 int PlatformControlP1::getMainAccumulatorVoltageADC() const
@@ -1325,6 +1332,7 @@ int PlatformControlP1::getMainAccumulatorVoltageADC() const
 void PlatformControlP1::setMainAccumulatorVoltageADC(int value)
 {
     mainAccumulatorVoltageADC = value;
+    setMainAccumulatorVoltageVolts((float)value / (float)10);
 }
 
 bool PlatformControlP1::getTurretPositionGetOnce() const
@@ -2199,7 +2207,7 @@ int PlatformControlP1::getChargerVoltageADC() const
 void PlatformControlP1::setChargerVoltageADC(int value)
 {
     chargerVoltageADC = value;
-    setChargerVoltageVolts(value * 0.1);
+    setChargerVoltageVolts((float)value / (float)10);
 }
 
 bool PlatformControlP1::getScan220ACAvailable() const

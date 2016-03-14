@@ -30,7 +30,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -46,7 +46,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-512</y>
+             <y>0</y>
              <width>791</width>
              <height>1022</height>
             </rect>

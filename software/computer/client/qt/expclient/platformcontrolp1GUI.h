@@ -360,13 +360,13 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         {
             //main accumulator voltage
             QTableWidgetItem* mainAccumulatorVoltageReading = new QTableWidgetItem;
-            if (platformControlP1->getMainAccumulatorAmperageTotalReadADCPreset())
+            if (platformControlP1->getMainAccumulatorVoltageReadADCPreset())
             {
                 mainAccumulatorVoltageReading->setText(Valter::format_string("%d", platformControlP1->getMainAccumulatorVoltageADC()).c_str());
             }
             else
             {
-                mainAccumulatorVoltageReading->setText(Valter::format_string("%f", platformControlP1->getMainAccumulatorVoltageVolts()).c_str());
+                mainAccumulatorVoltageReading->setText(Valter::format_string("%.2f V", platformControlP1->getMainAccumulatorVoltageVolts()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(0, 1, mainAccumulatorVoltageReading);
         }
@@ -374,13 +374,13 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         {
             //left accumulator voltage
             QTableWidgetItem *leftAccumulatorVoltageReading = new QTableWidgetItem;
-            if (platformControlP1->getLeftAccumulatorAmperageReadADCPreset())
+            if (platformControlP1->getLeftAccumulatorVoltageReadADCPreset())
             {
                 leftAccumulatorVoltageReading->setText(Valter::format_string("%d", platformControlP1->getLeftAccumulatorVoltageADC()).c_str());
             }
             else
             {
-                leftAccumulatorVoltageReading->setText(Valter::format_string("%f", platformControlP1->getLeftAccumulatorVoltageVolts()).c_str());
+                leftAccumulatorVoltageReading->setText(Valter::format_string("%.2f V", platformControlP1->getLeftAccumulatorVoltageVolts()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(1, 1, leftAccumulatorVoltageReading);
         }
@@ -395,7 +395,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             else
             {
-                rightAccumulatorVoltageReading->setText(Valter::format_string("%f", platformControlP1->getRightAccumulatorVoltageVolts()).c_str());
+                rightAccumulatorVoltageReading->setText(Valter::format_string("%.2f V", platformControlP1->getRightAccumulatorVoltageVolts()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(2, 1, rightAccumulatorVoltageReading);
         }
@@ -409,7 +409,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             else
             {
-                mainAccumulatorAmperageTotalReading->setText(Valter::format_string("%f", platformControlP1->getMainAccumulatorAmperageTotalAmps()).c_str());
+                mainAccumulatorAmperageTotalReading->setText(Valter::format_string("%.2f A", platformControlP1->getMainAccumulatorAmperageTotalAmps()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(3, 1, mainAccumulatorAmperageTotalReading);
         }
@@ -423,7 +423,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             else
             {
-                platformAmperageReading->setText(Valter::format_string("%f", platformControlP1->getPlatformAmperageAmps()).c_str());
+                platformAmperageReading->setText(Valter::format_string("%.2f A", platformControlP1->getPlatformAmperageAmps()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(4, 1, platformAmperageReading);
         }
@@ -437,7 +437,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             else
             {
-                bodyAmperageReading->setText(Valter::format_string("%f", platformControlP1->getBodyAmperageAmps()).c_str());
+                bodyAmperageReading->setText(Valter::format_string("%.2f A", platformControlP1->getBodyAmperageAmps()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(5, 1, bodyAmperageReading);
         }
@@ -451,7 +451,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             else
             {
-                leftAccumulatorAmperageReading->setText(Valter::format_string("%f", platformControlP1->getLeftAccumulatorAmperageAmps()).c_str());
+                leftAccumulatorAmperageReading->setText(Valter::format_string("%.2f A", platformControlP1->getLeftAccumulatorAmperageAmps()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(6, 1, leftAccumulatorAmperageReading);
         }
@@ -465,7 +465,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             else
             {
-                rightAccumulatorAmperageReading->setText(Valter::format_string("%f", platformControlP1->getRightAccumulatorAmperageAmps()).c_str());
+                rightAccumulatorAmperageReading->setText(Valter::format_string("%.2f A", platformControlP1->getRightAccumulatorAmperageAmps()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(7, 1, rightAccumulatorAmperageReading);
         }
@@ -479,7 +479,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             else
             {
-                chargerVoltageReading->setText(Valter::format_string("%f", platformControlP1->getChargerVoltageVolts()).c_str());
+                chargerVoltageReading->setText(Valter::format_string("%.2f V", platformControlP1->getChargerVoltageVolts()).c_str());
             }
             ui->platformControlP1ReadingsTable->setItem(8, 1, chargerVoltageReading);
         }
@@ -526,7 +526,7 @@ void setPlatfromControlP1AdditionalReadings(QTableWidgetItem *item)
     {
         switch (item->row())
         {
-        case 0:
+            case 0:
                 platformControlP1->setMainAccumulatorVoltageReadADCPreset((item->checkState() == Qt::Checked) ? true : false);
             break;
             case 1:
