@@ -313,6 +313,8 @@ void ControlDevice::setSysDevicePath(const string &value)
 
 void ControlDevice::controlDeviceThreadWorker()
 {
+    clearMessageQueue();
+
     unsigned int WDRESETTIMER = 0;
     bool USBRESET = false;
     bool RESCANAFTEREXCEPTION = false;
