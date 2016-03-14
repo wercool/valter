@@ -452,48 +452,6 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
     platformControlP1TabRefreshTimerUpdateWorker(ui);
 }
 
-void MainWindow::on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    static int prevDutyVal = 1;
-    int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
-    int maxDutyRight = platformControlP1->getRightMotorDutyMax();
-
-    if(dutyValue > prevDutyVal)
-    {
-        if (maxDutyLeft < 100)
-            maxDutyLeft++;
-        if (maxDutyRight < 100)
-            maxDutyRight++;
-    }
-    else
-    {
-        if (maxDutyLeft > 1)
-            maxDutyLeft--;
-        if (maxDutyRight > 1)
-            maxDutyRight--;
-    }
-    platformControlP1->setLeftMotorDutyMax(maxDutyLeft);
-    platformControlP1->setRightMotorDutyMax(maxDutyRight);
-
-    ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyMax());
-    ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyMax());
-
-    prevDutyVal = dutyValue;
-}
-
-void MainWindow::on_leftMotorPlatformControlP1DutySlider_sliderMoved(int value)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorDutyMax(value);
-}
-
-void MainWindow::on_rightMotorPlatformControlP1DutySlider_sliderMoved(int value)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setRightMotorDutyMax(value);
-}
-
 void MainWindow::on_on5VPlatformControlP1pushButton_clicked()
 {
     IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
@@ -605,20 +563,6 @@ void MainWindow::on_platformMoveStopButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setPlatformEmergencyStop(true);
-}
-
-void MainWindow::on_platformMovementAccelerationSlider_sliderMoved(int value)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setPlatformAcceleration(value);
-    ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
-}
-
-void MainWindow::on_platformMovementDecelerationSlider_sliderMoved(int value)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setPlatformDeceleration(value);
-    ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_platformMoveForwardButton_pressed()
@@ -781,26 +725,6 @@ void MainWindow::on_platformRotateRightButton_released()
     platformControlP1->setRightMotorActivated(false);
 }
 
-void MainWindow::on_turretRotationDutySlider_sliderMoved(int value)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setTurretMotorDutyMax(value);
-}
-
-void MainWindow::on_decelerationTurretRotationSlider_sliderMoved(int value)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setTurretDeceleration(value);
-    ui->platformControlP1TurretMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
-}
-
-void MainWindow::on_accelerationTurretRotationSlider_sliderMoved(int value)
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setTurretAcceleration(value);
-    ui->platformControlP1TurretMotorAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
-}
-
 void MainWindow::on_turretRotateLeftButton_pressed()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
@@ -929,4 +853,90 @@ void MainWindow::on_pushButton_clicked()
 void MainWindow::on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem *item)
 {
     setPlatfromControlP1AdditionalReadings(item);
+}
+
+void MainWindow::on_leftMotorPlatformControlP1DutySlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setLeftMotorDutyMax(value);
+    ui->leftMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getLeftMotorDutyMax()).c_str());
+}
+
+void MainWindow::on_rightMotorPlatformControlP1DutySlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setRightMotorDutyMax(value);
+    ui->rightMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getRightMotorDutyMax()).c_str());
+}
+
+void MainWindow::on_platformMovementAccelerationSlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setPlatformAcceleration(value);
+    ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_platformMovementDecelerationSlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setPlatformDeceleration(value);
+    ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_platformControlP1WheelMotorsDutySlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    static int prevDutyVal = 1;
+    int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
+    int maxDutyRight = platformControlP1->getRightMotorDutyMax();
+
+    if(value > prevDutyVal)
+    {
+        if (maxDutyLeft < 100)
+            maxDutyLeft++;
+        if (maxDutyRight < 100)
+            maxDutyRight++;
+    }
+    else
+    {
+        if (maxDutyLeft > 1)
+            maxDutyLeft--;
+        if (maxDutyRight > 1)
+            maxDutyRight--;
+    }
+    platformControlP1->setLeftMotorDutyMax(maxDutyLeft);
+    platformControlP1->setRightMotorDutyMax(maxDutyRight);
+
+    ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyMax());
+    ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyMax());
+
+    prevDutyVal = value;
+}
+
+void MainWindow::on_turretRotationDutySlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretMotorDutyMax(value);
+    ui->turretMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getTurretMotorDutyMax()).c_str());
+}
+
+void MainWindow::on_decelerationTurretRotationSlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretDeceleration(value);
+    ui->platformControlP1TurretMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_accelerationTurretRotationSlider_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setTurretAcceleration(value);
+    ui->platformControlP1TurretMotorAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_platformControlP1additionalReadingsTrackingDelay_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    platformControlP1->setAdditionalReadingsDelayCur(value);
+    ui->platformControlP1additionalReadingsTrackingDelayLabel->setText(Valter::format_string("[%d]", value).c_str());
 }

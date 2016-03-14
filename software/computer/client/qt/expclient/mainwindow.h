@@ -72,12 +72,6 @@ private slots:
 
     void delayedGUIActionsProcessingTimerUpdate();
 
-    void on_platformControlP1WheelMotorsDutySlider_sliderMoved(int dutyValue);
-
-    void on_leftMotorPlatformControlP1DutySlider_sliderMoved(int value);
-
-    void on_rightMotorPlatformControlP1DutySlider_sliderMoved(int value);
-
     void on_on5VPlatformControlP1pushButton_clicked();
 
     void on_off5VPlatformControlP1pushButton_clicked();
@@ -114,10 +108,6 @@ private slots:
 
     void on_platformMoveStopButton_clicked();
 
-    void on_platformMovementAccelerationSlider_sliderMoved(int value);
-
-    void on_platformMovementDecelerationSlider_sliderMoved(int value);
-
     void on_platformMoveForwardButton_pressed();
 
     void on_platformMoveForwardButton_released();
@@ -149,12 +139,6 @@ private slots:
     void on_platformRotateLeftButton_released();
 
     void on_platformRotateRightButton_released();
-
-    void on_turretRotationDutySlider_sliderMoved(int value);
-
-    void on_decelerationTurretRotationSlider_sliderMoved(int value);
-
-    void on_accelerationTurretRotationSlider_sliderMoved(int value);
 
     void on_turretRotateLeftButton_pressed();
 
@@ -192,6 +176,24 @@ private slots:
     void on_pushButton_clicked();
 
     void on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem *item);
+
+    void on_leftMotorPlatformControlP1DutySlider_valueChanged(int value);
+
+    void on_rightMotorPlatformControlP1DutySlider_valueChanged(int value);
+
+    void on_platformMovementAccelerationSlider_valueChanged(int value);
+
+    void on_platformMovementDecelerationSlider_valueChanged(int value);
+
+    void on_platformControlP1WheelMotorsDutySlider_valueChanged(int value);
+
+    void on_turretRotationDutySlider_valueChanged(int value);
+
+    void on_decelerationTurretRotationSlider_valueChanged(int value);
+
+    void on_accelerationTurretRotationSlider_valueChanged(int value);
+
+    void on_platformControlP1additionalReadingsTrackingDelay_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;

@@ -189,6 +189,10 @@ void PlatformControlP1::resetValuesToDefault()
     leftAccumulatorAmperageAmps         = 0.0;
     rightAccumulatorAmperageAmps        = 0.0;
 
+    additionalReadingsDelayPresetMin    = 5;
+    additionalReadingsDelayPresetMax    = 1000;
+    additionalReadingsDelayCur          = 250;
+
     if (chargerButtonPressStep != 0)
     {
         setChargerMode(false);
@@ -443,6 +447,122 @@ void PlatformControlP1::processMessagesQueueWorker()
                         int value = atoi(value_str.c_str());
                         setTurretPositionADC(value);
                         setTurretPositionGetOnce(false);
+                        continue;
+                    }
+                }
+                if (getMainAccumulatorVoltageRead())
+                {
+                    //main accumulator voltage
+                    if (response.find("INPUT1 CHANNEL [0]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setMainAccumulatorVoltageADC(value);
+                        continue;
+                    }
+                }
+                if (getLeftAccumulatorVoltageRead())
+                {
+                    //left accumulator voltage
+                    if (response.find("INPUT1 CHANNEL [1]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setLeftAccumulatorVoltageADC(value);
+                        continue;
+                    }
+                }
+                if (getRightAccumulatorVoltageRead())
+                {
+                    //right accumulator voltage
+                    if (response.find("INPUT1 CHANNEL [2]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setRightAccumulatorVoltageADC(value);
+                        continue;
+                    }
+                }
+                if (getMainAccumulatorAmperageTotalRead())
+                {
+                    //main accumulator amperage total
+                    if (response.find("INPUT1 CHANNEL [3]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setMainAccumulatorAmperageTotalADC(value);
+                        continue;
+                    }
+                }
+                if (getPlatformAmperageRead())
+                {
+                    //main accumulator amperage bottom (platform)
+                    if (response.find("INPUT1 CHANNEL [4]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setPlatformAmperageADC(value);
+                        continue;
+                    }
+                }
+                if (getBodyAmperageRead())
+                {
+                    //main accumulator amperage top (body)
+                    if (response.find("INPUT1 CHANNEL [5]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setBodyAmperageADC(value);
+                        continue;
+                    }
+                }
+                if (getLeftAccumulatorAmperageRead())
+                {
+                    //left accumulator amperage
+                    if (response.find("INPUT1 CHANNEL [6]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setLeftAccumulatorAmperageADC(value);
+                        continue;
+                    }
+                }
+                if (getRightAccumulatorAmperageRead())
+                {
+                    //right accumulator amperage
+                    if (response.find("INPUT1 CHANNEL [7]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        setRightAccumulatorAmperageADC(value);
+                        continue;
+                    }
+                }
+                if (getChargerVoltageRead())
+                {
+                    //charger connected (charger voltage)
+                    if (response.find("INPUT1 CHANNEL [8]: ") !=std::string::npos)
+                    {
+                        int substr_pos = response.find(":") + 1;
+                        string value_str = response.substr(substr_pos);
+                        int value = atoi(value_str.c_str());
+                        if (value > 1000)
+                        {
+                            setPower220VACAvailable(true);
+                        }
+                        else
+                        {
+                            setPower220VACAvailable(false);
+                        }
+                        setChargerVoltageADC(value);
                         continue;
                     }
                 }
@@ -776,57 +896,96 @@ void PlatformControlP1::additionalReadingsScanWorker()
         {
             //main accumulator voltage
             sendCommand("SETINPUT1CHANNEL0");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getLeftAccumulatorVoltageRead())
         {
             //left accumulator voltage
             sendCommand("SETINPUT1CHANNEL1");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getRightAccumulatorVoltageRead())
         {
             //right accumulator voltage
             sendCommand("SETINPUT1CHANNEL2");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getMainAccumulatorAmperageTotalRead())
         {
             //main accumulator amperage total
             sendCommand("SETINPUT1CHANNEL3");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getPlatformAmperageRead())
         {
             //main accumulator amperage bottom
             sendCommand("SETINPUT1CHANNEL4");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getBodyAmperageRead())
         {
             //main accumulator amperage top
             sendCommand("SETINPUT1CHANNEL5");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getLeftAccumulatorAmperageRead())
         {
             //left accumulator amperage
             sendCommand("SETINPUT1CHANNEL6");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getRightAccumulatorAmperageRead())
         {
             //right accumulator amperage
             sendCommand("SETINPUT1CHANNEL7");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
         if (getChargerVoltageRead())
         {
             //charger connected (charger voltage)
             sendCommand("SETINPUT1CHANNEL8");
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            sendCommand("GETINPUT1");
+            this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
     }
+}
+
+int PlatformControlP1::getAdditionalReadingsDelayCur() const
+{
+    return additionalReadingsDelayCur;
+}
+
+void PlatformControlP1::setAdditionalReadingsDelayCur(int value)
+{
+    additionalReadingsDelayCur = value;
+}
+
+int PlatformControlP1::getAdditionalReadingsDelayPresetMax() const
+{
+    return additionalReadingsDelayPresetMax;
+}
+
+void PlatformControlP1::setAdditionalReadingsDelayPresetMax(int value)
+{
+    additionalReadingsDelayPresetMax = value;
+}
+
+int PlatformControlP1::getAdditionalReadingsDelayPresetMin() const
+{
+    return additionalReadingsDelayPresetMin;
+}
+
+void PlatformControlP1::setAdditionalReadingsDelayPresetMin(int value)
+{
+    additionalReadingsDelayPresetMin = value;
 }
 bool PlatformControlP1::getChargerVoltageReadADCPreset() const
 {
@@ -2423,4 +2582,13 @@ void PlatformControlP1::loadDefaults()
 
         idx++;
     }
+    //additionalReadingsScanDelay
+    deFaultvalue = getDefault("additionalReadingsScanDelay");
+    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setAdditionalReadingsDelayPresetMin(minValue);
+    setAdditionalReadingsDelayPresetMax(maxValue);
+    setAdditionalReadingsDelayCur(curValue);
 }

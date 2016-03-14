@@ -4,13 +4,12 @@
 #
 #-------------------------------------------------
 
-#QT       += core gui serialport
-QT       -= core
-QT       -= gui
+QT       += core
+QT       += gui
 QT       += serialport
 
-unix: CONFIG += link_pkgconfig
-unix: PKGCONFIG += gtk+-3.0
+#unix: CONFIG += link_pkgconfig
+#unix: PKGCONFIG += gtk+-3.0
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 

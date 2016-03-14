@@ -203,6 +203,12 @@ void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
     leftAccumulatorAmperageRead->setCheckState((platformControlP1->getLeftAccumulatorAmperageRead()) ? Qt::Checked : Qt::Unchecked);
     rightAccumulatorAmperageRead->setCheckState((platformControlP1->getRightAccumulatorAmperageRead()) ? Qt::Checked : Qt::Unchecked);
     chargerVoltageRead->setCheckState((platformControlP1->getChargerVoltageRead()) ? Qt::Checked : Qt::Unchecked);
+
+    //platformControlP1additionalReadingsTrackingDelay
+    ui->platformControlP1additionalReadingsTrackingDelay->setMinimum(platformControlP1->getAdditionalReadingsDelayPresetMin());
+    ui->platformControlP1additionalReadingsTrackingDelay->setMaximum(platformControlP1->getAdditionalReadingsDelayPresetMax());
+    ui->platformControlP1additionalReadingsTrackingDelay->setValue(platformControlP1->getAdditionalReadingsDelayCur());
+    ui->platformControlP1additionalReadingsTrackingDelayLabel->setText(Valter::format_string("[%d]", platformControlP1->getAdditionalReadingsDelayCur()).c_str());
 }
 
 void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
@@ -246,9 +252,6 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             ui->charger120Ah14v7RadioButton->setEnabled(true);
         }
 
-        ui->leftMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getLeftMotorDutyMax()).c_str());
-        ui->rightMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getRightMotorDutyMax()).c_str());
-        ui->turretMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getTurretMotorDutyMax()).c_str());
         ui->leftMotorCurDutyBar->setValue(platformControlP1->getLeftMotorDuty());
         ui->rightMotorCurDutyBar->setValue(platformControlP1->getRightMotorDuty());
         ui->turretMotorCurDutyBar->setValue(platformControlP1->getTurretMotorDuty());
@@ -350,6 +353,135 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         if (ui->platformControlP1RightWheelEncoderCheckBox->isChecked())
         {
             ui->platformControlP1RightWheelEncoderLcdNumber->display(platformControlP1->getRightWheelEncoder());
+        }
+
+
+        if (platformControlP1->getMainAccumulatorVoltageRead())
+        {
+            //main accumulator voltage
+            QTableWidgetItem* mainAccumulatorVoltageReading = new QTableWidgetItem;
+            if (platformControlP1->getMainAccumulatorAmperageTotalReadADCPreset())
+            {
+                mainAccumulatorVoltageReading->setText(Valter::format_string("%d", platformControlP1->getMainAccumulatorVoltageADC()).c_str());
+            }
+            else
+            {
+                mainAccumulatorVoltageReading->setText(Valter::format_string("%f", platformControlP1->getMainAccumulatorVoltageVolts()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(0, 1, mainAccumulatorVoltageReading);
+        }
+        if (platformControlP1->getLeftAccumulatorVoltageRead())
+        {
+            //left accumulator voltage
+            QTableWidgetItem *leftAccumulatorVoltageReading = new QTableWidgetItem;
+            if (platformControlP1->getLeftAccumulatorAmperageReadADCPreset())
+            {
+                leftAccumulatorVoltageReading->setText(Valter::format_string("%d", platformControlP1->getLeftAccumulatorVoltageADC()).c_str());
+            }
+            else
+            {
+                leftAccumulatorVoltageReading->setText(Valter::format_string("%f", platformControlP1->getLeftAccumulatorVoltageVolts()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(1, 1, leftAccumulatorVoltageReading);
+        }
+
+        if (platformControlP1->getRightAccumulatorVoltageRead())
+        {
+            //right accumulator voltage
+            QTableWidgetItem* rightAccumulatorVoltageReading = new QTableWidgetItem;
+            if (platformControlP1->getRightAccumulatorVoltageReadADCPreset())
+            {
+                rightAccumulatorVoltageReading->setText(Valter::format_string("%d", platformControlP1->getRightAccumulatorVoltageADC()).c_str());
+            }
+            else
+            {
+                rightAccumulatorVoltageReading->setText(Valter::format_string("%f", platformControlP1->getRightAccumulatorVoltageVolts()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(2, 1, rightAccumulatorVoltageReading);
+        }
+        if (platformControlP1->getMainAccumulatorAmperageTotalRead())
+        {
+            //main accumulator amperage total
+            QTableWidgetItem* mainAccumulatorAmperageTotalReading = new QTableWidgetItem;
+            if (platformControlP1->getMainAccumulatorAmperageTotalReadADCPreset())
+            {
+                mainAccumulatorAmperageTotalReading->setText(Valter::format_string("%d", platformControlP1->getMainAccumulatorAmperageTotalADC()).c_str());
+            }
+            else
+            {
+                mainAccumulatorAmperageTotalReading->setText(Valter::format_string("%f", platformControlP1->getMainAccumulatorAmperageTotalAmps()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(3, 1, mainAccumulatorAmperageTotalReading);
+        }
+        if (platformControlP1->getPlatformAmperageRead())
+        {
+            //main accumulator amperage bottom (platform)
+            QTableWidgetItem* platformAmperageReading = new QTableWidgetItem;
+            if (platformControlP1->getPlatformAmperageReadADCPreset())
+            {
+                platformAmperageReading->setText(Valter::format_string("%d", platformControlP1->getPlatformAmperageADC()).c_str());
+            }
+            else
+            {
+                platformAmperageReading->setText(Valter::format_string("%f", platformControlP1->getPlatformAmperageAmps()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(4, 1, platformAmperageReading);
+        }
+        if (platformControlP1->getBodyAmperageRead())
+        {
+            //main accumulator amperage top (body)
+            QTableWidgetItem* bodyAmperageReading = new QTableWidgetItem;
+            if (platformControlP1->getBodyAmperageReadADCPreset())
+            {
+                bodyAmperageReading->setText(Valter::format_string("%d", platformControlP1->getBodyAmperageADC()).c_str());
+            }
+            else
+            {
+                bodyAmperageReading->setText(Valter::format_string("%f", platformControlP1->getBodyAmperageAmps()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(5, 1, bodyAmperageReading);
+        }
+        if (platformControlP1->getLeftAccumulatorAmperageRead())
+        {
+            //left accumulator amperage
+            QTableWidgetItem* leftAccumulatorAmperageReading = new QTableWidgetItem;
+            if (platformControlP1->getLeftAccumulatorAmperageReadADCPreset())
+            {
+                leftAccumulatorAmperageReading->setText(Valter::format_string("%d", platformControlP1->getLeftAccumulatorAmperageADC()).c_str());
+            }
+            else
+            {
+                leftAccumulatorAmperageReading->setText(Valter::format_string("%f", platformControlP1->getLeftAccumulatorAmperageAmps()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(6, 1, leftAccumulatorAmperageReading);
+        }
+        if (platformControlP1->getRightAccumulatorAmperageRead())
+        {
+            //right accumulator amperage
+            QTableWidgetItem* rightAccumulatorAmperageReading = new QTableWidgetItem;
+            if (platformControlP1->getRightAccumulatorAmperageReadADCPreset())
+            {
+                rightAccumulatorAmperageReading->setText(Valter::format_string("%d", platformControlP1->getRightAccumulatorAmperageADC()).c_str());
+            }
+            else
+            {
+                rightAccumulatorAmperageReading->setText(Valter::format_string("%f", platformControlP1->getRightAccumulatorAmperageAmps()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(7, 1, rightAccumulatorAmperageReading);
+        }
+        if (platformControlP1->getChargerVoltageRead())
+        {
+            //charger connected (charger voltage)
+            QTableWidgetItem* chargerVoltageReading = new QTableWidgetItem;
+            if (platformControlP1->getChargerVoltageReadADCPreset())
+            {
+                chargerVoltageReading->setText(Valter::format_string("%d", platformControlP1->getChargerVoltageADC()).c_str());
+            }
+            else
+            {
+                chargerVoltageReading->setText(Valter::format_string("%f", platformControlP1->getChargerVoltageVolts()).c_str());
+            }
+            ui->platformControlP1ReadingsTable->setItem(8, 1, chargerVoltageReading);
         }
     }
 }

@@ -411,6 +411,15 @@ public:
     bool getChargerVoltageReadADCPreset() const;
     void setChargerVoltageReadADCPreset(bool value);
 
+    int getAdditionalReadingsDelayPresetMin() const;
+    void setAdditionalReadingsDelayPresetMin(int value);
+
+    int getAdditionalReadingsDelayPresetMax() const;
+    void setAdditionalReadingsDelayPresetMax(int value);
+
+    int getAdditionalReadingsDelayCur() const;
+    void setAdditionalReadingsDelayCur(int value);
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance
@@ -573,6 +582,10 @@ private:
     bool leftAccumulatorAmperageReadADCPreset;
     bool rightAccumulatorAmperageReadADCPreset;
     bool chargerVoltageReadADCPreset;
+
+    int additionalReadingsDelayPresetMin;
+    int additionalReadingsDelayPresetMax;
+    int additionalReadingsDelayCur;
 };
 
 #endif // PLATFORMCONTROLP1_H
