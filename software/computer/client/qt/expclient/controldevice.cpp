@@ -336,7 +336,8 @@ void ControlDevice::controlDeviceThreadWorker()
                 isWDReset = false;
                 if (resetWDTimer)
                 {
-                    this->addRequest("WDRESET");
+                    this->getControlDevicePort()->write("WDRESET");
+                    this->addMsgToDataExchangeLog(Valter::format_string("%s ← WDRESET", this->getControlDeviceId().c_str()));
                 }
             }
             //process outgoing
@@ -375,7 +376,6 @@ void ControlDevice::controlDeviceThreadWorker()
                 {
                     this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", this->getControlDeviceId().c_str(), response.c_str()));
                 }
-                wdTimerNotResetCnt = 0;
                 if (response.compare("WDRST") == 0)
                 {
                     isWDReset = true;
@@ -583,6 +583,7 @@ void ControlDevice::addRequest(string msg)
 {
     if (controlDevicePort->isOpen())
     {
+        std::lock_guard<std::mutex> guard(requests_mutex);
         requests.push_back(msg);
     }
     else
@@ -593,6 +594,7 @@ void ControlDevice::addRequest(string msg)
 
 void ControlDevice::addResponse(string msg)
 {
+    std::lock_guard<std::mutex> guard(responses_mutex);
     responses.push_back(msg);
 }
 
@@ -600,8 +602,9 @@ string ControlDevice::pullRequest()
 {
     if (requests.size() > 0)
     {
+        std::lock_guard<std::mutex> guard(requests_mutex);
         string request = (string)requests.front();
-        requests.pop_front();
+        requests.erase(requests.begin());
         return request;
     }
     return "";
@@ -609,14 +612,23 @@ string ControlDevice::pullRequest()
 
 string ControlDevice::pullResponse()
 {
-    string response = (string)responses.front();
-    responses.pop_front();
-    return response;
+    if (!responses.empty())
+    {
+        std::lock_guard<std::mutex> guard(responses_mutex);
+        string response = (string)responses.front();
+        responses.erase(responses.begin());
+        return response;
+    }
+    return "";
 }
 
 int ControlDevice::responsesAvailable()
 {
-    return (int)responses.size();
+    if (!responses.empty())
+    {
+        return (int)responses.size();
+    }
+    return 0;
 }
 
 int ControlDevice::requestsAwainting()
@@ -634,6 +646,7 @@ void ControlDevice::addMsgToDataExchangeLog(string msg)
 {
     if (Valter::getInstance()->getLogControlDeviceMessages())
     {
+        std::lock_guard<std::mutex> guard(dataExchangeLog_mutex);
         dataExchangeLog.push_back(msg);
     }
 }
@@ -642,8 +655,9 @@ string ControlDevice::getMsgFromDataExchangeLog()
 {
     if (!dataExchangeLog.empty())
     {
+        std::lock_guard<std::mutex> guard(dataExchangeLog_mutex);
         string logMsg = (string)dataExchangeLog.front();
-        dataExchangeLog.pop_front();
+        dataExchangeLog.erase(dataExchangeLog.begin());
         return logMsg;
     }
     return "";

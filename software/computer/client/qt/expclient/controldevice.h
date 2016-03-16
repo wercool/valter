@@ -3,7 +3,7 @@
 
 #include <unistd.h>
 #include <thread>
-#include <list>
+#include <cassert>
 
 #include <stdio.h>
 #include <fcntl.h>
@@ -106,9 +106,13 @@ private:
     unsigned int rescanNum;
     bool autoReActivation;
 
-    list<string> responses;
-    list<string> requests;
-    list<string> dataExchangeLog;
+    vector<string> responses;
+    vector<string> requests;
+    vector<string> dataExchangeLog;
+
+    std::mutex responses_mutex;
+    std::mutex requests_mutex;
+    std::mutex dataExchangeLog_mutex;
 };
 
 #endif // CONTROLDEVICE_H
