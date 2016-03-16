@@ -98,13 +98,16 @@ void Valter::setLogControlDeviceMessages(bool value)
 
 void Valter::log(string msg)
 {
-    if (logToGUI)
+    if (msg.length() > 0)
     {
-        MainWindow::getInstance()->addMsgToLog(msg);
-    }
-    if (logToConsole)
-    {
-        qDebug("%s", msg.c_str());
+        if (logToGUI)
+        {
+            MainWindow::getInstance()->addMsgToLog(msg);
+        }
+        if (logToConsole)
+        {
+            qDebug("%s", msg.c_str());
+        }
     }
 }
 

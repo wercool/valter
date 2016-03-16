@@ -310,7 +310,10 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
             {
                 string logMsg = controlDevice->getMsgFromDataExchangeLog();
                 Valter::log(logMsg);
-                statusBarText->setText(logMsg.c_str());
+                if (ui->logToStatusBarCheckBox->isChecked())
+                {
+                    statusBarText->setText(logMsg.c_str());
+                }
                 if (ui->autoclearLogBox->isChecked())
                 {
                     if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)

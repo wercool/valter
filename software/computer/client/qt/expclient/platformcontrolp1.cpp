@@ -955,6 +955,7 @@ void PlatformControlP1::additionalReadingsScanWorker()
             sendCommand("GETINPUT1");
             this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
         }
+        this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
     }
 }
 

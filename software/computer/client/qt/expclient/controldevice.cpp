@@ -343,6 +343,11 @@ void ControlDevice::controlDeviceThreadWorker()
             if (requestsAwainting() > 0)
             {
                 request = pullRequest();
+                if (request.length() == 0)
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(1));
+                    continue;
+                }
                 if (request.compare("WDINTENTIONALRESETON") == 0)
                 {
                     intentionalWDTimerResetOnAT91SAM7s = true;
@@ -593,9 +598,13 @@ void ControlDevice::addResponse(string msg)
 
 string ControlDevice::pullRequest()
 {
-    string request = (string)requests.front();
-    requests.pop_front();
-    return request;
+    if (requests.size() > 0)
+    {
+        string request = (string)requests.front();
+        requests.pop_front();
+        return request;
+    }
+    return "";
 }
 
 string ControlDevice::pullResponse()
@@ -631,9 +640,13 @@ void ControlDevice::addMsgToDataExchangeLog(string msg)
 
 string ControlDevice::getMsgFromDataExchangeLog()
 {
-    string logMsg = (string)dataExchangeLog.front();
-    dataExchangeLog.pop_front();
-    return logMsg;
+    if (!dataExchangeLog.empty())
+    {
+        string logMsg = (string)dataExchangeLog.front();
+        dataExchangeLog.pop_front();
+        return logMsg;
+    }
+    return "";
 }
 
 int ControlDevice::dataExchangeLogAvailable()

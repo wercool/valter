@@ -3012,6 +3012,13 @@ font-weight: bold;</string>
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="logToStatusBarCheckBox">
+              <property name="text">
+               <string>to status bar</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="logSelectedOnlyCheckBox">
               <property name="statusTip">
                <string extracomment="sss"/>
