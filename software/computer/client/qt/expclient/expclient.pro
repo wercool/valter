@@ -52,3 +52,6 @@ FORMS    += mainwindow.ui
 DISTFILES +=
 
 CONFIG += c++11
+
+RESOURCES += \
+    resources/platform-location.qrc

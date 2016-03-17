@@ -195,6 +195,8 @@ private slots:
 
     void on_platformControlP1additionalReadingsTrackingDelay_valueChanged(int value);
 
+    void on_mainTabWidget_tabBarDoubleClicked(int index);
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>platfrom-top-view.png</file>
+        <file>dark-red-led-circle.png</file>
+        <file>green-led-on.png</file>
+    </qresource>
+</RCC>

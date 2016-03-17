@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>platform-cap.png</file>
+    </qresource>
+</RCC>

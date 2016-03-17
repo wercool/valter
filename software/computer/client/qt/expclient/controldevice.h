@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <thread>
 #include <cassert>
+#include <mutex>
 
 #include <stdio.h>
 #include <fcntl.h>

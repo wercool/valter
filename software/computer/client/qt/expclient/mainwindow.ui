@@ -30,7 +30,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -100,6 +100,16 @@ font-weight: bold;</string>
                  <widget class="Line" name="line_10">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="platformControlP1RedrawGUICheckBox">
+                  <property name="text">
+                   <string>redraw GUI</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -2721,6 +2731,1639 @@ font-weight: bold;</string>
        <attribute name="title">
         <string>PLATFORM-LOCATION-P1</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_17">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QScrollArea" name="scrollArea_2">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="lineWidth">
+           <number>1</number>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>809</width>
+             <height>1024</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>1024</height>
+            </size>
+           </property>
+           <widget class="QFrame" name="frame">
+            <property name="geometry">
+             <rect>
+              <x>125</x>
+              <y>25</y>
+              <width>521</width>
+              <height>451</height>
+             </rect>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">image: url(:/platfrom-top-view.png);</string>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::NoFrame</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QPushButton" name="ch0RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>212</x>
+               <y>82</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch0GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>212</x>
+               <y>82</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch1RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>317</x>
+               <y>82</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch2RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>350</x>
+               <y>100</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch3RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>368</x>
+               <y>130</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch4RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>368</x>
+               <y>317</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch5RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>350</x>
+               <y>345</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch6RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>290</x>
+               <y>360</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch7RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>238</x>
+               <y>360</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch8RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>180</x>
+               <y>345</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch9RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>160</x>
+               <y>317</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch10RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>160</x>
+               <y>130</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch11RedLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>178</x>
+               <y>100</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/dark-red-led-circle.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch1GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>317</x>
+               <y>82</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch2GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>350</x>
+               <y>100</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch3GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>368</x>
+               <y>130</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch4GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>368</x>
+               <y>317</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch5GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>350</x>
+               <y>345</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch6GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>290</x>
+               <y>360</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch7GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>238</x>
+               <y>360</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch8GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>180</x>
+               <y>345</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch9GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>160</x>
+               <y>317</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch10GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>160</x>
+               <y>130</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="ch11GreenLed">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="geometry">
+              <rect>
+               <x>178</x>
+               <y>100</y>
+               <width>16</width>
+               <height>16</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset>
+               <activeon>:/green-led-on.png</activeon>
+              </iconset>
+             </property>
+             <property name="flat">
+              <bool>true</bool>
+             </property>
+            </widget>
+            <zorder>ch0GreenLed</zorder>
+            <zorder>ch0RedLed</zorder>
+            <zorder>ch9GreenLed</zorder>
+            <zorder>ch2GreenLed</zorder>
+            <zorder>ch4GreenLed</zorder>
+            <zorder>ch3GreenLed</zorder>
+            <zorder>ch1GreenLed</zorder>
+            <zorder>ch10GreenLed</zorder>
+            <zorder>ch5GreenLed</zorder>
+            <zorder>ch6GreenLed</zorder>
+            <zorder>ch8GreenLed</zorder>
+            <zorder>ch11GreenLed</zorder>
+            <zorder>ch7GreenLed</zorder>
+            <zorder>verticalLayoutWidget</zorder>
+            <zorder>verticalLayoutWidget</zorder>
+            <zorder>horizontalLayoutWidget</zorder>
+            <zorder>horizontalLayoutWidget_12</zorder>
+            <zorder>horizontalLayoutWidget_12</zorder>
+            <zorder>ch1RedLed</zorder>
+            <zorder>ch2RedLed</zorder>
+            <zorder>ch3RedLed</zorder>
+            <zorder>ch4RedLed</zorder>
+            <zorder>ch5RedLed</zorder>
+            <zorder>ch6RedLed</zorder>
+            <zorder>ch7RedLed</zorder>
+            <zorder>ch8RedLed</zorder>
+            <zorder>ch9RedLed</zorder>
+            <zorder>ch10RedLed</zorder>
+            <zorder>ch11RedLed</zorder>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>140</x>
+              <y>0</y>
+              <width>221</width>
+              <height>29</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_40">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_21">
+               <property name="text">
+                <string>IR0</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir0LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_20">
+               <property name="text">
+                <string>US0</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us0LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_2">
+            <property name="geometry">
+             <rect>
+              <x>450</x>
+              <y>0</y>
+              <width>221</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_41">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string>IR1</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir1LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_23">
+               <property name="text">
+                <string>US1</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us1LcdNumber">
+               <property name="font">
+                <font>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_3">
+            <property name="geometry">
+             <rect>
+              <x>530</x>
+              <y>130</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_43">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_26">
+               <property name="text">
+                <string>IR2</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir2LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_27">
+               <property name="text">
+                <string>US2</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us2LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_7">
+            <property name="geometry">
+             <rect>
+              <x>530</x>
+              <y>240</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_47">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_34">
+               <property name="text">
+                <string>IR3</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir3LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_35">
+               <property name="text">
+                <string>US3</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us3LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_8">
+            <property name="geometry">
+             <rect>
+              <x>540</x>
+              <y>340</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_48">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_36">
+               <property name="text">
+                <string>IR4</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir4LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_37">
+               <property name="text">
+                <string>US4</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us4LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_9">
+            <property name="geometry">
+             <rect>
+              <x>540</x>
+              <y>440</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_49">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_38">
+               <property name="text">
+                <string>IR5</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir5LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_39">
+               <property name="text">
+                <string>US5</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us5LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_10">
+            <property name="geometry">
+             <rect>
+              <x>430</x>
+              <y>480</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_50">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_40">
+               <property name="text">
+                <string>IR6</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir6LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_41">
+               <property name="text">
+                <string>US6</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us6LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_11">
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>480</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_51">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_42">
+               <property name="text">
+                <string>IR7</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir7LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_43">
+               <property name="text">
+                <string>US7</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us7LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_12">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>440</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_53">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_46">
+               <property name="text">
+                <string>IR8</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir8LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_47">
+               <property name="text">
+                <string>US8</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us8LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_13">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>340</y>
+              <width>201</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_54">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_48">
+               <property name="text">
+                <string>IR9</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir9LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_49">
+               <property name="text">
+                <string>US9</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us9LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_14">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>240</y>
+              <width>215</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_55">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_50">
+               <property name="text">
+                <string>IR10</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir10LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_51">
+               <property name="text">
+                <string>US10</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us10LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_15">
+            <property name="geometry">
+             <rect>
+              <x>50</x>
+              <y>130</y>
+              <width>215</width>
+              <height>28</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_56">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_52">
+               <property name="text">
+                <string>IR11</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="ir11LcdNumber"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_53">
+               <property name="text">
+                <string>US11</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLCDNumber" name="us11LcdNumber"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QTableWidget" name="irSensorsPresetsTable">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>530</y>
+              <width>271</width>
+              <height>391</height>
+             </rect>
+            </property>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <row>
+             <property name="text">
+              <string>IR CH0</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH1</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH2</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH3</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH4</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH5</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH6</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH7</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH8</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH9</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH10</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>IR CH11</string>
+             </property>
+            </row>
+            <column>
+             <property name="text">
+              <string>Track</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>ADC</string>
+             </property>
+            </column>
+            <item row="0" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="0" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="1" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="1" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="2" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="2" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="3" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="3" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="4" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="4" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="5" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="5" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="6" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="6" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="7" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="7" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="8" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="8" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="9" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="9" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="10" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="10" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="11" column="0">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="11" column="1">
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+           </widget>
+           <widget class="QTableWidget" name="usSensorsPresetsTable">
+            <property name="geometry">
+             <rect>
+              <x>290</x>
+              <y>530</y>
+              <width>271</width>
+              <height>391</height>
+             </rect>
+            </property>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <row>
+             <property name="text">
+              <string>US CH0</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH1</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH2</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH3</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH4</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH5</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH6</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH7</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH8</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH9</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH10</string>
+             </property>
+            </row>
+            <row>
+             <property name="text">
+              <string>US CH11</string>
+             </property>
+            </row>
+            <column>
+             <property name="text">
+              <string>Track</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>ADC</string>
+             </property>
+            </column>
+            <item row="0" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="0" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="1" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="1" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="2" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="2" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="3" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="3" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="4" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="4" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="5" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="5" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="6" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="6" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="7" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="7" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="8" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="8" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="9" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="9" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="10" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="10" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="11" column="0">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="11" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+           </widget>
+           <widget class="QCheckBox" name="platformLocationP1RedrawGUICheckBox">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>111</width>
+              <height>22</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>redraw GUI</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="platformManipulatorAndIRBumperTab">
        <attribute name="title">
@@ -3108,6 +4751,94 @@ font-weight: bold;</string>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>stopAllPlatformControlP1Button</tabstop>
+  <tabstop>platformControlP1LoadDefaultsButton</tabstop>
+  <tabstop>powerSource5VRadioButton</tabstop>
+  <tabstop>on5VPlatformControlP1pushButton</tabstop>
+  <tabstop>off5VPlatformControlP1pushButton</tabstop>
+  <tabstop>leftAccumulatorConnectedRadioButton</tabstop>
+  <tabstop>onLeftAccumulatorPlatformControlP1Button</tabstop>
+  <tabstop>offLeftAccumulatorPlatformControlP1Button</tabstop>
+  <tabstop>rightAccumulatorConnected</tabstop>
+  <tabstop>onRightAccumulatorPlatformControlP1Button</tabstop>
+  <tabstop>offRightAccumulatorPlatformControlP1Button</tabstop>
+  <tabstop>scan220VAOnCButton</tabstop>
+  <tabstop>scan220VAOffCButton</tabstop>
+  <tabstop>power220VACAvailableRadioButton</tabstop>
+  <tabstop>chargerVoltageADCCheckBox</tabstop>
+  <tabstop>chargerConnectedRadioButton</tabstop>
+  <tabstop>charger35AhRadioButton</tabstop>
+  <tabstop>charger120AhRadioButton</tabstop>
+  <tabstop>chargingInProgressRadioButton</tabstop>
+  <tabstop>chargingCompleteRadioButton</tabstop>
+  <tabstop>chargerButton</tabstop>
+  <tabstop>setChargeOnButton</tabstop>
+  <tabstop>setChargeOffButton</tabstop>
+  <tabstop>mainAccumulatorRelayRadioButton</tabstop>
+  <tabstop>onMainAccumulatorRelayPlatformControlP1Button</tabstop>
+  <tabstop>offMainAccumulatorRelayPlatformControlP1Button</tabstop>
+  <tabstop>leftAccumulatorRelay</tabstop>
+  <tabstop>onLeftAccumulatorRelayPlatformControlP1Button</tabstop>
+  <tabstop>offLeftAccumulatorRelayPlatformControlP1Button</tabstop>
+  <tabstop>rightAccumulatorRelay</tabstop>
+  <tabstop>onRightAccumulatorRelayPlatformControlP1Button</tabstop>
+  <tabstop>offRightAccumulatorRelayPlatformControlP1Button</tabstop>
+  <tabstop>turretRotateLeftButton</tabstop>
+  <tabstop>bodyRotationStopButton</tabstop>
+  <tabstop>turretRotateRightButton</tabstop>
+  <tabstop>turretPositionVisual</tabstop>
+  <tabstop>turretPositionReadCheckBox</tabstop>
+  <tabstop>turretPositionADCRadioButton</tabstop>
+  <tabstop>turretPositionDegRadioButton</tabstop>
+  <tabstop>turretPositionRadRadioButton</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>turretMotorCurrentCheckBox</tabstop>
+  <tabstop>turretMotorCurrentADCCheckBox</tabstop>
+  <tabstop>platformControlP1MotorsPWMFrequencySpinBox</tabstop>
+  <tabstop>platformControlP1MotorsPWMFrequencySetButton</tabstop>
+  <tabstop>platformMoveForwardRightButton</tabstop>
+  <tabstop>platformMoveBackwardLeftButton</tabstop>
+  <tabstop>platformRotateRightButton</tabstop>
+  <tabstop>platformMoveStopButton</tabstop>
+  <tabstop>platformMoveForwardButton</tabstop>
+  <tabstop>platformBackwardForwardButton</tabstop>
+  <tabstop>platformMoveForwardLeftButton</tabstop>
+  <tabstop>platformRotateLeftButton</tabstop>
+  <tabstop>platformMoveBackwardRightButton</tabstop>
+  <tabstop>wheelMotorsCurrentADCCheckBox</tabstop>
+  <tabstop>leftMotorCurrentCheckBox</tabstop>
+  <tabstop>rightMotorCurrentCheckBox</tabstop>
+  <tabstop>platformControlP1LeftWheelEncoderCheckBox</tabstop>
+  <tabstop>platformControlP1RightWheelEncoderCheckBox</tabstop>
+  <tabstop>platformControlP1LeftWheelEncoderGetButton</tabstop>
+  <tabstop>platformControlP1RightWheelEncoderGetButton</tabstop>
+  <tabstop>platformControlP1LeftWheelEncoderResetButton</tabstop>
+  <tabstop>platformControlP1RightWheelEncoderResetButton</tabstop>
+  <tabstop>platformControlP1LeftWheelEncoderAutoresetCheckBox</tabstop>
+  <tabstop>platformControlP1RightWheelEncoderAutoresetCheckBox</tabstop>
+  <tabstop>platformControlP1ReadingsTable</tabstop>
+  <tabstop>controlDeviceTableWidget</tabstop>
+  <tabstop>scanControlDevicesBtn</tabstop>
+  <tabstop>reScanControlDevicesButton</tabstop>
+  <tabstop>connectDisconnectControlDeviceButton</tabstop>
+  <tabstop>wdResetStopButton</tabstop>
+  <tabstop>wdResetOnButton</tabstop>
+  <tabstop>connectAllPushButton</tabstop>
+  <tabstop>pauseLoggingButton</tabstop>
+  <tabstop>clearLogButton</tabstop>
+  <tabstop>clearBufferCheckBox</tabstop>
+  <tabstop>loggingTextEdit</tabstop>
+  <tabstop>autoclearLogBox</tabstop>
+  <tabstop>logToStatusBarCheckBox</tabstop>
+  <tabstop>logSelectedOnlyCheckBox</tabstop>
+  <tabstop>addTimeToLogCheckBox</tabstop>
+  <tabstop>commandEdit</tabstop>
+  <tabstop>sendCommandButton</tabstop>
+  <tabstop>clearCommandButton</tabstop>
+  <tabstop>selectedControlDeviceListWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <buttongroups>

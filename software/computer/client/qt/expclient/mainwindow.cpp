@@ -5,6 +5,7 @@
 
 #include <valter.h>
 
+
 class WheelEventFilter: public QObject
 {
   public:
@@ -21,6 +22,35 @@ class WheelEventFilter: public QObject
       else
       {
         return QObject::eventFilter(object,event);
+      }
+  }
+};
+
+class GenericEventFilter: public QObject
+{
+  public:
+  Ui::MainWindow *ui;
+  QString title;
+  int index;
+  GenericEventFilter(Ui::MainWindow *ui, QString title, int index):QObject()
+  {
+      this->ui = ui;
+      this->title = title;
+      this->index = index;
+  }
+
+  ~GenericEventFilter(){}
+
+  bool eventFilter(QObject* widget,QEvent* event)
+  {
+      if(event->type() == QEvent::Close)
+      {
+          ui->mainTabWidget->insertTab(index, (QWidget*)widget, title);
+          return true;
+      }
+      else
+      {
+        return QObject::eventFilter(widget, event);
       }
   }
 };
@@ -81,6 +111,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     delayedGUIActionsProcessingTimer = new QTimer(this);
     connect(delayedGUIActionsProcessingTimer, SIGNAL(timeout()), this, SLOT(delayedGUIActionsProcessingTimerUpdate()));
     delayedGUIActionsProcessingTimer->start(250);
+
 }
 
 MainWindow::~MainWindow()
@@ -432,6 +463,7 @@ void MainWindow::on_wdResetOnButton_clicked()
 
 void MainWindow::on_stopAllPlatformControlP1Button_clicked()
 {
+    qDebug("STOP ALL at PlatformControlP1");
     Valter::getInstance()->stopAllModules();
 }
 
@@ -942,4 +974,14 @@ void MainWindow::on_platformControlP1additionalReadingsTrackingDelay_valueChange
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->setAdditionalReadingsDelayCur(value);
     ui->platformControlP1additionalReadingsTrackingDelayLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
+{
+    QWidget* pWidget = ui->mainTabWidget->widget(index);
+    pWidget->installEventFilter(new GenericEventFilter(ui, ui->mainTabWidget->tabText(index), index));
+    pWidget = ui->mainTabWidget->widget(index);
+    pWidget->setWindowTitle(ui->mainTabWidget->tabText(index));
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
 }

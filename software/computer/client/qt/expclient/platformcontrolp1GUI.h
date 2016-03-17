@@ -213,7 +213,7 @@ void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
 
 void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 {
-    if (ui->mainTabWidget->currentIndex() == 0) //PLATFROM-CONROL-P1 Tab
+    if (ui->platformControlP1RedrawGUICheckBox->isChecked()) //PLATFROM-CONROL-P1 Tab
     {
         PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
         if (!platformControlP1->getScan220ACAvailable())

@@ -2,6 +2,7 @@
 #define IVALTERMODULE_H
 
 #include "controldevice.h"
+#include <mutex>
 
 class IValterModule
 {
@@ -91,11 +92,13 @@ public:
 
     void addActionToDelayedGUIActions(int action)
     {
+        std::lock_guard<std::mutex> guard(delayedGUIActions_mutex);
         delayedGUIActions.push_back(action);
     }
 
     int getActionFromDelayedGUIActions()
     {
+        std::lock_guard<std::mutex> guard(delayedGUIActions_mutex);
         int action = (int)delayedGUIActions.front();
         delayedGUIActions.pop_front();
         return action;
@@ -121,6 +124,7 @@ private:
     map<string, string> defaults;
     bool reloadDefaults;
     list<int> delayedGUIActions;
+    std::mutex delayedGUIActions_mutex;
 
 };
 
