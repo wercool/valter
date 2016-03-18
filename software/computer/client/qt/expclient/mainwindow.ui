@@ -30,7 +30,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -47,8 +47,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>791</width>
-             <height>1022</height>
+             <width>792</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2768,8 +2768,8 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>809</width>
+             <y>-499</y>
+             <width>810</width>
              <height>1024</height>
             </rect>
            </property>
@@ -2809,13 +2809,28 @@ font-weight: bold;</string>
                <height>16</height>
               </rect>
              </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="text">
               <string/>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+             <property name="autoDefault">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -2827,8 +2842,8 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>212</x>
-               <y>82</y>
+               <x>213</x>
+               <y>98</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -2862,7 +2877,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -2886,7 +2901,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -2910,7 +2925,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -2934,7 +2949,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -2958,7 +2973,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -2982,7 +2997,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -3006,7 +3021,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -3030,7 +3045,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -3054,7 +3069,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -3078,7 +3093,7 @@ font-weight: bold;</string>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
              </property>
              <property name="flat">
@@ -3097,13 +3112,25 @@ font-weight: bold;</string>
                <height>16</height>
               </rect>
              </property>
+             <property name="autoFillBackground">
+              <bool>false</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
              <property name="text">
               <string/>
              </property>
              <property name="icon">
               <iconset>
-               <activeon>:/dark-red-led-circle.png</activeon>
+               <activeon>:/red-led-on.png</activeon>
               </iconset>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <property name="default">
+              <bool>false</bool>
              </property>
              <property name="flat">
               <bool>true</bool>
@@ -3116,7 +3143,7 @@ font-weight: bold;</string>
              <property name="geometry">
               <rect>
                <x>317</x>
-               <y>82</y>
+               <y>98</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -3139,8 +3166,8 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>350</x>
-               <y>100</y>
+               <x>338</x>
+               <y>111</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -3163,7 +3190,7 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>368</x>
+               <x>352</x>
                <y>130</y>
                <width>16</width>
                <height>16</height>
@@ -3187,7 +3214,7 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>368</x>
+               <x>353</x>
                <y>317</y>
                <width>16</width>
                <height>16</height>
@@ -3211,8 +3238,8 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>350</x>
-               <y>345</y>
+               <x>339</x>
+               <y>332</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -3236,7 +3263,7 @@ font-weight: bold;</string>
              <property name="geometry">
               <rect>
                <x>290</x>
-               <y>360</y>
+               <y>343</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -3260,7 +3287,7 @@ font-weight: bold;</string>
              <property name="geometry">
               <rect>
                <x>238</x>
-               <y>360</y>
+               <y>343</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -3283,8 +3310,8 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>180</x>
-               <y>345</y>
+               <x>191</x>
+               <y>332</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -3307,7 +3334,7 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>160</x>
+               <x>176</x>
                <y>317</y>
                <width>16</width>
                <height>16</height>
@@ -3331,7 +3358,7 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>160</x>
+               <x>176</x>
                <y>130</y>
                <width>16</width>
                <height>16</height>
@@ -3355,8 +3382,8 @@ font-weight: bold;</string>
              </property>
              <property name="geometry">
               <rect>
-               <x>178</x>
-               <y>100</y>
+               <x>190</x>
+               <y>111</y>
                <width>16</width>
                <height>16</height>
               </rect>
@@ -3373,8 +3400,19 @@ font-weight: bold;</string>
               <bool>true</bool>
              </property>
             </widget>
-            <zorder>ch0GreenLed</zorder>
+            <zorder>ch10RedLed</zorder>
+            <zorder>ch5RedLed</zorder>
+            <zorder>ch8RedLed</zorder>
+            <zorder>ch11RedLed</zorder>
+            <zorder>ch4RedLed</zorder>
+            <zorder>ch3RedLed</zorder>
+            <zorder>ch7RedLed</zorder>
+            <zorder>ch2RedLed</zorder>
             <zorder>ch0RedLed</zorder>
+            <zorder>ch9RedLed</zorder>
+            <zorder>ch1RedLed</zorder>
+            <zorder>ch6RedLed</zorder>
+            <zorder>ch0GreenLed</zorder>
             <zorder>ch9GreenLed</zorder>
             <zorder>ch2GreenLed</zorder>
             <zorder>ch4GreenLed</zorder>
@@ -3386,22 +3424,6 @@ font-weight: bold;</string>
             <zorder>ch8GreenLed</zorder>
             <zorder>ch11GreenLed</zorder>
             <zorder>ch7GreenLed</zorder>
-            <zorder>verticalLayoutWidget</zorder>
-            <zorder>verticalLayoutWidget</zorder>
-            <zorder>horizontalLayoutWidget</zorder>
-            <zorder>horizontalLayoutWidget_12</zorder>
-            <zorder>horizontalLayoutWidget_12</zorder>
-            <zorder>ch1RedLed</zorder>
-            <zorder>ch2RedLed</zorder>
-            <zorder>ch3RedLed</zorder>
-            <zorder>ch4RedLed</zorder>
-            <zorder>ch5RedLed</zorder>
-            <zorder>ch6RedLed</zorder>
-            <zorder>ch7RedLed</zorder>
-            <zorder>ch8RedLed</zorder>
-            <zorder>ch9RedLed</zorder>
-            <zorder>ch10RedLed</zorder>
-            <zorder>ch11RedLed</zorder>
            </widget>
            <widget class="QWidget" name="horizontalLayoutWidget">
             <property name="geometry">
@@ -3871,12 +3893,18 @@ font-weight: bold;</string>
              <rect>
               <x>10</x>
               <y>530</y>
-              <width>271</width>
+              <width>311</width>
               <height>391</height>
              </rect>
             </property>
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderHighlightSections">
+             <bool>true</bool>
+            </attribute>
+            <attribute name="verticalHeaderStretchLastSection">
+             <bool>true</bool>
             </attribute>
             <row>
              <property name="text">
@@ -3940,6 +3968,11 @@ font-weight: bold;</string>
             </row>
             <column>
              <property name="text">
+              <string>IR Sensor</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
               <string>Track</string>
              </property>
             </column>
@@ -3949,121 +3982,253 @@ font-weight: bold;</string>
              </property>
             </column>
             <item row="0" column="0">
+             <property name="text">
+              <string>IR CH0</string>
+             </property>
+            </item>
+            <item row="0" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="0" column="1">
+            <item row="0" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="1" column="0">
+             <property name="text">
+              <string>IR CH1</string>
+             </property>
+            </item>
+            <item row="1" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="1" column="1">
+            <item row="1" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="2" column="0">
+             <property name="text">
+              <string>IR CH2</string>
+             </property>
+            </item>
+            <item row="2" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="2" column="1">
+            <item row="2" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="3" column="0">
+             <property name="text">
+              <string>IR CH3</string>
+             </property>
+            </item>
+            <item row="3" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="3" column="1">
+            <item row="3" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="4" column="0">
+             <property name="text">
+              <string>IR CH4</string>
+             </property>
+            </item>
+            <item row="4" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="4" column="1">
+            <item row="4" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="5" column="0">
+             <property name="text">
+              <string>IR CH5</string>
+             </property>
+            </item>
+            <item row="5" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="5" column="1">
+            <item row="5" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="6" column="0">
+             <property name="text">
+              <string>IR CH6</string>
+             </property>
+            </item>
+            <item row="6" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="6" column="1">
+            <item row="6" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="7" column="0">
+             <property name="text">
+              <string>IR CH7</string>
+             </property>
+            </item>
+            <item row="7" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="7" column="1">
+            <item row="7" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="8" column="0">
+             <property name="text">
+              <string>IR CH8</string>
+             </property>
+            </item>
+            <item row="8" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="8" column="1">
+            <item row="8" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="9" column="0">
+             <property name="text">
+              <string>IR CH9</string>
+             </property>
+            </item>
+            <item row="9" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="9" column="1">
+            <item row="9" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="10" column="0">
+             <property name="text">
+              <string>IR CH10</string>
+             </property>
+            </item>
+            <item row="10" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="10" column="1">
+            <item row="10" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
             <item row="11" column="0">
+             <property name="text">
+              <string>IR CH11</string>
+             </property>
+            </item>
+            <item row="11" column="1">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="11" column="1">
+            <item row="11" column="2">
+             <property name="text">
+              <string/>
+             </property>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
@@ -4072,14 +4237,17 @@ font-weight: bold;</string>
            <widget class="QTableWidget" name="usSensorsPresetsTable">
             <property name="geometry">
              <rect>
-              <x>290</x>
+              <x>340</x>
               <y>530</y>
-              <width>271</width>
+              <width>311</width>
               <height>391</height>
              </rect>
             </property>
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
+            </attribute>
+            <attribute name="verticalHeaderStretchLastSection">
+             <bool>true</bool>
             </attribute>
             <row>
              <property name="text">
@@ -4143,6 +4311,11 @@ font-weight: bold;</string>
             </row>
             <column>
              <property name="text">
+              <string>US Sensor</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
               <string>Track</string>
              </property>
             </column>
@@ -4153,10 +4326,7 @@ font-weight: bold;</string>
             </column>
             <item row="0" column="0">
              <property name="text">
-              <string/>
-             </property>
-             <property name="checkState">
-              <enum>Checked</enum>
+              <string>US CH0</string>
              </property>
             </item>
             <item row="0" column="1">
@@ -4167,12 +4337,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="1" column="0">
+            <item row="0" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="1" column="0">
+             <property name="text">
+              <string>US CH1</string>
              </property>
             </item>
             <item row="1" column="1">
@@ -4183,12 +4358,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="2" column="0">
+            <item row="1" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="2" column="0">
+             <property name="text">
+              <string>US CH2</string>
              </property>
             </item>
             <item row="2" column="1">
@@ -4199,12 +4379,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="3" column="0">
+            <item row="2" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="3" column="0">
+             <property name="text">
+              <string>US CH3</string>
              </property>
             </item>
             <item row="3" column="1">
@@ -4215,12 +4400,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="4" column="0">
+            <item row="3" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="4" column="0">
+             <property name="text">
+              <string>US CH4</string>
              </property>
             </item>
             <item row="4" column="1">
@@ -4231,12 +4421,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="5" column="0">
+            <item row="4" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="5" column="0">
+             <property name="text">
+              <string>US CH5</string>
              </property>
             </item>
             <item row="5" column="1">
@@ -4247,12 +4442,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="6" column="0">
+            <item row="5" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="6" column="0">
+             <property name="text">
+              <string>US CH6</string>
              </property>
             </item>
             <item row="6" column="1">
@@ -4263,12 +4463,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="7" column="0">
+            <item row="6" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="7" column="0">
+             <property name="text">
+              <string>US CH7</string>
              </property>
             </item>
             <item row="7" column="1">
@@ -4279,12 +4484,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="8" column="0">
+            <item row="7" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="8" column="0">
+             <property name="text">
+              <string>US CH8</string>
              </property>
             </item>
             <item row="8" column="1">
@@ -4295,12 +4505,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="9" column="0">
+            <item row="8" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="9" column="0">
+             <property name="text">
+              <string>US CH9</string>
              </property>
             </item>
             <item row="9" column="1">
@@ -4311,12 +4526,17 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="10" column="0">
+            <item row="9" column="2">
              <property name="text">
               <string/>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="10" column="0">
+             <property name="text">
+              <string>US CH10</string>
              </property>
             </item>
             <item row="10" column="1">
@@ -4327,7 +4547,7 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
-            <item row="11" column="0">
+            <item row="10" column="2">
              <property name="text">
               <string/>
              </property>
@@ -4335,7 +4555,20 @@ font-weight: bold;</string>
               <enum>Checked</enum>
              </property>
             </item>
+            <item row="11" column="0">
+             <property name="text">
+              <string>US CH11</string>
+             </property>
+            </item>
             <item row="11" column="1">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item row="11" column="2">
              <property name="text">
               <string/>
              </property>
@@ -4463,6 +4696,9 @@ font-weight: bold;</string>
           </item>
           <item>
            <widget class="QPushButton" name="reScanControlDevicesButton">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
             <property name="text">
              <string>Rescan</string>
             </property>

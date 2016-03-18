@@ -124,6 +124,11 @@ void ControlDevice::scanControlDevices()
 
 void ControlDevice::reScanThisControlDevice()
 {
+    if (getControlDevicePort()->isOpen())
+    {
+        deactivate();
+    }
+
     unsigned int cnt = getRescanNum();
     cnt++;
     this->setRescanNum(cnt);

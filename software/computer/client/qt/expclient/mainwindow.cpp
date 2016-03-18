@@ -1,9 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <sys/time.h>
-#include <platformcontrolp1GUI.h>
 
 #include <valter.h>
+
+#include <platformcontrolp1GUI.h>
+#include <platformlocationp1GUI.h>
 
 
 class WheelEventFilter: public QObject
@@ -112,6 +114,43 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(delayedGUIActionsProcessingTimer, SIGNAL(timeout()), this, SLOT(delayedGUIActionsProcessingTimerUpdate()));
     delayedGUIActionsProcessingTimer->start(250);
 
+
+    //platform location p1
+    redLedOffPix = QPixmap(":/red-led-off.png");
+    redLedOffIcon = QIcon(redLedOffPix);
+    redLedOnPix = QPixmap(":/red-led-on.png");
+    redLedOnIcon = QIcon(redLedOnPix);
+    greenLedOffPix = QPixmap(":/green-led-off.png");
+    greenLefOffIcon = QIcon(greenLedOffPix);
+    greenLedOnPix = QPixmap(":/green-led-on.png");
+    greenLefOnIcon = QIcon(greenLedOnPix);
+    initLedButtons(this);
+
+    connect(ui->ch0RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch1RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch2RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch3RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch4RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch5RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch6RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch7RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch8RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch9RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch10RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch11RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+
+    connect(ui->ch0GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch1GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch2GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch3GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch4GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch5GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch6GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch7GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch8GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch9GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch10GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+    connect(ui->ch11GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
 }
 
 MainWindow::~MainWindow()
@@ -131,6 +170,16 @@ MainWindow *MainWindow::getInstance()
     {
         return pMainWindow;
     }
+}
+
+Ui::MainWindow *MainWindow::getUi() const
+{
+    return ui;
+}
+
+void MainWindow::setUi(Ui::MainWindow *value)
+{
+    ui = value;
 }
 
 void MainWindow::refreshControlDeviceTableWidget()
@@ -442,11 +491,9 @@ void MainWindow::on_reScanControlDevicesButton_clicked()
 {
     if (selectedControlDeviceId.length() > 0)
     {
-        Valter::log("WD STOP RESET signal sent to " + selectedControlDeviceId);
         map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
         ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
         controlDevice->reScanThisControlDevice();
-        ui->wdResetStopButton->setText("WDR Stop");
     }
 }
 
@@ -984,4 +1031,18 @@ void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
     pWidget->setWindowTitle(ui->mainTabWidget->tabText(index));
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
+}
+
+void MainWindow::platfromLocationP1LEDHandler()
+{
+    QPushButton* btn = (QPushButton*) sender();
+    int channel = atoi(btn->objectName().toStdString().substr(2, (btn->objectName().length() - 8)).c_str());
+    if (btn->objectName().endsWith("RedLed"))
+    {
+        setRedLedButtonOn(this, btn);
+    }
+    else if (btn->objectName().endsWith("GreenLed"))
+    {
+        setGreenLedButtonOn(this, btn);
+    }
 }

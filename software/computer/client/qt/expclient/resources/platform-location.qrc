@@ -1,7 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>platfrom-top-view.png</file>
-        <file>dark-red-led-circle.png</file>
+        <file>red-led-on.png</file>
         <file>green-led-on.png</file>
+        <file>green-led-off.png</file>
+        <file>red-led-off.png</file>
     </qresource>
 </RCC>

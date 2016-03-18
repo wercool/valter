@@ -45,7 +45,8 @@ HEADERS  += mainwindow.h \
             platformcontrolp2.h \
             platformmanipulatorandirbumper.h \
             bodycontrolp1.h \
-    platformcontrolp1GUI.h
+    platformcontrolp1GUI.h \
+    platformlocationp1GUI.h
 
 FORMS    += mainwindow.ui
 

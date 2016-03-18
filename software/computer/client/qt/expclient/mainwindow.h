@@ -29,6 +29,19 @@ public:
     void addMsgToLog(string msg);
     void delayGUIAction(IValterModule *valterModule);
 
+    //helpers
+    QPixmap redLedOffPix;
+    QIcon redLedOffIcon;
+    QPixmap redLedOnPix;
+    QIcon redLedOnIcon;
+    QPixmap greenLedOffPix;
+    QIcon greenLefOffIcon;
+    QPixmap greenLedOnPix;
+    QIcon greenLefOnIcon;
+
+    Ui::MainWindow *getUi() const;
+    void setUi(Ui::MainWindow *value);
+
 protected:
     bool sliderWheelEventFilter(QObject *obj, QEvent *event)
     {
@@ -197,6 +210,9 @@ private slots:
 
     void on_mainTabWidget_tabBarDoubleClicked(int index);
 
+    //PLATFORM-LOCATION-P1
+    void platfromLocationP1LEDHandler();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -210,7 +226,6 @@ private:
     QTimer *delayedGUIActionsProcessingTimer;
     string selectedControlDeviceId;
     bool allConnect;
-
 };
 
 #endif // MAINWINDOW_H
