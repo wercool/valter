@@ -40,9 +40,16 @@ void initLedButtons(MainWindow *mainWindow)
     mainWindow->getUi()->ch11GreenLed->setIcon(mainWindow->greenLefOffIcon);
 }
 
-void setRedLedButtonOn(MainWindow *mainWindow, QPushButton *btn)
+void setRedLedButtonOn(MainWindow *mainWindow, QPushButton *btn, bool state)
 {
-    btn->setIcon(mainWindow->redLedOnIcon);
+    if (state)
+    {
+        btn->setIcon(mainWindow->redLedOnIcon);
+    }
+    else
+    {
+        btn->setIcon(mainWindow->redLedOffIcon);
+    }
 }
 
 void setRedLedButtonOff(MainWindow *mainWindow, QPushButton *btn)
@@ -50,9 +57,16 @@ void setRedLedButtonOff(MainWindow *mainWindow, QPushButton *btn)
     btn->setIcon(mainWindow->redLedOffIcon);
 }
 
-void setGreenLedButtonOn(MainWindow *mainWindow, QPushButton *btn)
+void setGreenLedButtonOn(MainWindow *mainWindow, QPushButton *btn, bool state)
 {
-    btn->setIcon(mainWindow->greenLefOnIcon);
+    if (state)
+    {
+        btn->setIcon(mainWindow->greenLefOnIcon);
+    }
+    else
+    {
+        btn->setIcon(mainWindow->greenLefOffIcon);
+    }
 }
 
 void setGreenLedButtonOff(MainWindow *mainWindow, QPushButton *btn)

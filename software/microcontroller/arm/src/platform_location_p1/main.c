@@ -1049,8 +1049,8 @@ int main(void)
             if (strcmp((char*) cmdParts, "SETLEDS") == 0)
             {
                 char * ledsState = strtok( NULL, "#" );
-                sprintf((char *)msg,"LEDS STATE: %s\n", ledsState);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                //sprintf((char *)msg,"LEDS STATE: %s\n", ledsState);
+                //pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 setLeds(ledsState);
                 continue;
             }
@@ -1065,8 +1065,8 @@ int main(void)
             if (strcmp((char*) cmdParts, "SETSHREG") == 0)
             {
                 char * regState = strtok( NULL, "#" );
-                sprintf((char *)msg,"SHIFT REG STATE: %s\n", regState);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                //sprintf((char *)msg,"SHIFT REG STATE: %s\n", regState);
+                //pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 setShRegU13U14(regState);
                 continue;
             }
@@ -1076,7 +1076,7 @@ int main(void)
             sensorsIRReading = getValueChannel4();
             sprintf((char *)msg,"SENSORS CHANNEL [%u] IR: %u\n", sensorsChannel, sensorsIRReading);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(100);
+            delay_ms(10);
         }
         if (sensorsUSReadings)
         {
@@ -1089,7 +1089,7 @@ int main(void)
                 sprintf((char *)msg,"SENSORS CHANNEL [%u] US: %u\n", sensorsChannel, sensorsUSReading);
             }
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(100);
+            delay_ms(10);
         }
         if (leftUSSonarReadings)
         {
@@ -1102,7 +1102,7 @@ int main(void)
                 sprintf((char *)msg,"LEFT US SONAR: %u\n", leftUSSonarReading);
             }
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(100);
+            delay_ms(10);
         }
         if (rightUSSonarReadings)
         {
@@ -1115,14 +1115,14 @@ int main(void)
                 sprintf((char *)msg,"RIGHT US SONAR: %u\n", rightUSSonarReading);
             }
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(100);
+            delay_ms(10);
         }
         if (input1Readings)
         {
             input1Reading = getValueChannel5();
             sprintf((char *)msg,"INPUT1 CHANNEL [%u]: %u\n", input1Channel, input1Reading);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(100);
+            delay_ms(10);
         }
         if (accelerometerReadings)
         {
@@ -1145,7 +1145,7 @@ int main(void)
 
             sprintf((char *)msg,"ACCELEROMETER [X,Y,Z]: %d, %d, %d\n", Ax, Ay, Az);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(100);
+            delay_ms(10);
         }
         if (magnetometerReadings)
         {
@@ -1168,9 +1168,7 @@ int main(void)
 
             sprintf((char *)msg,"MAGNETOMETER [X,Y,Z]: %d, %d, %d\n", Mx, My, Mz);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(100);
-
-            delay_ms(100);
+            delay_ms(10);
         }
     }
 

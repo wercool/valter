@@ -11,6 +11,7 @@
 
 #include "controldevice.h"
 #include "ivaltermodule.h"
+
 #include "platformcontrolp1.h"
 #include "platformcontrolp2.h"
 #include "platformlocationp1.h"

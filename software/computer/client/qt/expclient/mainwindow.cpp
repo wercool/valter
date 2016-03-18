@@ -1033,16 +1033,21 @@ void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
     pWidget->show();
 }
 
+
+//PLATFORM-LOCATION-P1
 void MainWindow::platfromLocationP1LEDHandler()
 {
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
     QPushButton* btn = (QPushButton*) sender();
     int channel = atoi(btn->objectName().toStdString().substr(2, (btn->objectName().length() - 8)).c_str());
     if (btn->objectName().endsWith("RedLed"))
     {
-        setRedLedButtonOn(this, btn);
+        platformLocationP1->setRedLedState(channel, !platformLocationP1->getRedLedState(channel));
+        setRedLedButtonOn(this, btn, platformLocationP1->getRedLedState(channel));
     }
     else if (btn->objectName().endsWith("GreenLed"))
     {
-        setGreenLedButtonOn(this, btn);
+        platformLocationP1->setGreenLedState(channel, !platformLocationP1->getGreenLedState(channel));
+        setGreenLedButtonOn(this, btn, platformLocationP1->getGreenLedState(channel));
     }
 }
