@@ -15,6 +15,14 @@ PlatformLocationP1::PlatformLocationP1()
     Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
     setReloadDefaults(false);
     controlDeviceIsSet = false;
+    for (int i = 0; i < 12; i++)
+    {
+        redLedArray[i] = false;
+    }
+    for (int i = 0; i < 12; i++)
+    {
+        greenLedArray[i] = false;
+    }
 }
 
 string PlatformLocationP1::getControlDeviceId()

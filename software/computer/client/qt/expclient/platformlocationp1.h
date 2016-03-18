@@ -34,8 +34,8 @@ private:
 
     void processMessagesQueueWorker();
 
-    bool redLedArray[12] = { false };
-    bool greenLedArray[12] = { false };
+    bool redLedArray[12];
+    bool greenLedArray[12];
 };
 
 #endif // PLATFORMLOCATIONP1_H
