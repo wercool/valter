@@ -1051,3 +1051,10 @@ void MainWindow::platfromLocationP1LEDHandler()
         setGreenLedButtonOn(this, btn, platformLocationP1->getGreenLedState(channel));
     }
 }
+
+void MainWindow::on_loadDefaultsPlatformLocationP1Button_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->loadDefaults();
+    loadPlatformLocationP1Defaults(ui);
+}

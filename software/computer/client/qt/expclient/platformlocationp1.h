@@ -19,7 +19,6 @@ public:
     void spawnProcessMessagesQueueWorkerThread();
     void loadDefaults();
 
-
     bool getRedLedState(int index);
     void setRedLedState(int index, bool value);
     bool getGreenLedState(int index);

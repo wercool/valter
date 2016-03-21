@@ -15,7 +15,6 @@ PlatformControlP1::PlatformControlP1()
     Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
     loadDefaults();
     controlDeviceIsSet = false;
-    resetValuesToDefault();
     chargerButtonPressStep = 0;
     new std::thread(&PlatformControlP1::platformMovementWorker, this);
     new std::thread(&PlatformControlP1::turretRotationWorker, this);
@@ -51,18 +50,6 @@ void PlatformControlP1::stopAll()
 }
 
 void PlatformControlP1::resetToDefault()
-{
-    resetValuesToDefault();
-    getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformControlP1::controlDeviceId.c_str()));
-}
-
-void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
-{
-    setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP1::processMessagesQueueWorker, this));
-    getControlDevice()->addMsgToDataExchangeLog("PlatformControlP1 Module process messages queue worker started...");
-}
-
-void PlatformControlP1::resetValuesToDefault()
 {
     if (this->controlDeviceIsSet)
     {
@@ -197,6 +184,13 @@ void PlatformControlP1::resetValuesToDefault()
     {
         setChargerMode(false);
     }
+    getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformControlP1::controlDeviceId.c_str()));
+}
+
+void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
+{
+    setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP1::processMessagesQueueWorker, this));
+    getControlDevice()->addMsgToDataExchangeLog("PlatformControlP1 Module process messages queue worker started...");
 }
 
 void PlatformControlP1::processMessagesQueueWorker()

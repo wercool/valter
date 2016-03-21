@@ -13,16 +13,8 @@ const string PlatformLocationP1::defaultsFilePath = "/home/maska/git/valter/soft
 PlatformLocationP1::PlatformLocationP1()
 {
     Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
-    setReloadDefaults(false);
+    loadDefaults();
     controlDeviceIsSet = false;
-    for (int i = 0; i < 12; i++)
-    {
-        redLedArray[i] = false;
-    }
-    for (int i = 0; i < 12; i++)
-    {
-        greenLedArray[i] = false;
-    }
 }
 
 string PlatformLocationP1::getControlDeviceId()
@@ -61,6 +53,12 @@ void PlatformLocationP1::resetToDefault()
         getControlDevice()->clearMessageQueue();
         getControlDevice()->clearDataExchangeLog();
     }
+
+    for (int i = 0; i < 12; i++)
+    {
+        redLedArray[i] = false;
+        greenLedArray[i] = false;
+    }
 }
 
 void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()
@@ -70,7 +68,40 @@ void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()
 
 void PlatformLocationP1::loadDefaults()
 {
+    ifstream defaultsFile(PlatformLocationP1::defaultsFilePath);
+    string line;
+    while (getline(defaultsFile, line, '\n'))
+    {
+        if (line.substr(0, 2).compare("//") != 0)
+        {
+            char *lineStrPtr = Valter::stringToCharPtr(line);
+            string defaultValueName(strtok(lineStrPtr, ":" ));
+            string defaultValue(strtok(NULL, ":" ));
+            addDefault(defaultValueName, defaultValue);
+        }
+    }
+    defaultsFile.close();
 
+    string deFaultvalue;
+    char *deFaultvaluePtr;
+
+    //IRSensorsReadTable
+    deFaultvalue = getDefault("IRSensorsReadTable");
+    vector<string>deFaultvalue_str_values = Valter::split(deFaultvalue, ',');
+    vector<string>::iterator iter = deFaultvalue_str_values.begin();
+
+    int idx = 1;
+    while( iter != deFaultvalue_str_values.end() )
+    {
+        string val = *iter++;
+        deFaultvaluePtr = Valter::stringToCharPtr(val);
+        switch (idx)
+        {
+            case 1:
+                qDebug("!!!!!!");
+            break;
+        }
+    }
 }
 
 bool PlatformLocationP1::getRedLedState(int index)

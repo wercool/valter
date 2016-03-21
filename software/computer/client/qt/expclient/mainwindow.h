@@ -213,6 +213,8 @@ private slots:
     //PLATFORM-LOCATION-P1
     void platfromLocationP1LEDHandler();
 
+    void on_loadDefaultsPlatformLocationP1Button_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

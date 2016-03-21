@@ -11,6 +11,11 @@
 
 #include <valter.h>
 
+void loadPlatformLocationP1Defaults(Ui::MainWindow *ui)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+}
+
 void initLedButtons(MainWindow *mainWindow)
 {
     mainWindow->getUi()->ch0RedLed->setIcon(mainWindow->redLedOffIcon);

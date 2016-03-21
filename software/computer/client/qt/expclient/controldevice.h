@@ -105,7 +105,7 @@ private:
     bool rescanningAfterPossibleReset;
     bool failedAfterRescanning;
     unsigned int rescanNum;
-    bool autoReActivation;
+    bool autoReActivation; //connect ttyACM after rescanning
 
     vector<string> responses;
     vector<string> requests;

@@ -19,8 +19,6 @@ public:
     void spawnProcessMessagesQueueWorkerThread();
     void loadDefaults();
 
-    void resetValuesToDefault();
-
     bool preparePlatformMovement();
 
     bool getPower5VOnState() const;
