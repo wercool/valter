@@ -48,6 +48,11 @@ void BodyControlP1::resetToDefault()
     getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", BodyControlP1::controlDeviceId.c_str()));
 }
 
+void BodyControlP1::setModuleInitialState()
+{
+
+}
+
 void BodyControlP1::spawnProcessMessagesQueueWorkerThread()
 {
     //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));

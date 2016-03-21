@@ -31,8 +31,9 @@ public:
 
     virtual void stopAll() = 0;
     virtual void resetToDefault() = 0;
-    virtual void spawnProcessMessagesQueueWorkerThread() = 0;
     virtual void loadDefaults() = 0;
+    virtual void setModuleInitialState() = 0;
+    virtual void spawnProcessMessagesQueueWorkerThread() = 0;
 
     void sendCommand(string cmd)
     {

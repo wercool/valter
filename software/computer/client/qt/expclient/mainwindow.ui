@@ -47,8 +47,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>792</width>
-             <height>1016</height>
+             <width>791</width>
+             <height>1022</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2768,8 +2768,8 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>810</width>
+             <y>-499</y>
+             <width>809</width>
              <height>1024</height>
             </rect>
            </property>
@@ -3449,7 +3449,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir0LcdNumber"/>
+              <widget class="QLCDNumber" name="ir0LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_20">
@@ -3459,7 +3463,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us0LcdNumber"/>
+              <widget class="QLCDNumber" name="us0LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3484,7 +3492,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir1LcdNumber"/>
+              <widget class="QLCDNumber" name="ir1LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_23">
@@ -3500,6 +3512,9 @@ font-weight: bold;</string>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Raised</enum>
@@ -3532,7 +3547,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir2LcdNumber"/>
+              <widget class="QLCDNumber" name="ir2LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_27">
@@ -3542,7 +3561,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us2LcdNumber"/>
+              <widget class="QLCDNumber" name="us2LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3570,7 +3593,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir3LcdNumber"/>
+              <widget class="QLCDNumber" name="ir3LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_35">
@@ -3580,7 +3607,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us3LcdNumber"/>
+              <widget class="QLCDNumber" name="us3LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3608,7 +3639,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir4LcdNumber"/>
+              <widget class="QLCDNumber" name="ir4LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_37">
@@ -3618,7 +3653,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us4LcdNumber"/>
+              <widget class="QLCDNumber" name="us4LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3646,7 +3685,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir5LcdNumber"/>
+              <widget class="QLCDNumber" name="ir5LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_39">
@@ -3656,7 +3699,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us5LcdNumber"/>
+              <widget class="QLCDNumber" name="us5LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3684,7 +3731,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir6LcdNumber"/>
+              <widget class="QLCDNumber" name="ir6LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_41">
@@ -3694,7 +3745,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us6LcdNumber"/>
+              <widget class="QLCDNumber" name="us6LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3722,7 +3777,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir7LcdNumber"/>
+              <widget class="QLCDNumber" name="ir7LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_43">
@@ -3732,7 +3791,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us7LcdNumber"/>
+              <widget class="QLCDNumber" name="us7LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3760,7 +3823,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir8LcdNumber"/>
+              <widget class="QLCDNumber" name="ir8LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_47">
@@ -3770,7 +3837,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us8LcdNumber"/>
+              <widget class="QLCDNumber" name="us8LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3798,7 +3869,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir9LcdNumber"/>
+              <widget class="QLCDNumber" name="ir9LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_49">
@@ -3808,7 +3883,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us9LcdNumber"/>
+              <widget class="QLCDNumber" name="us9LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3836,7 +3915,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir10LcdNumber"/>
+              <widget class="QLCDNumber" name="ir10LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_51">
@@ -3846,7 +3929,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us10LcdNumber"/>
+              <widget class="QLCDNumber" name="us10LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3874,7 +3961,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="ir11LcdNumber"/>
+              <widget class="QLCDNumber" name="ir11LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_53">
@@ -3884,7 +3975,11 @@ font-weight: bold;</string>
               </widget>
              </item>
              <item>
-              <widget class="QLCDNumber" name="us11LcdNumber"/>
+              <widget class="QLCDNumber" name="us11LcdNumber">
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(255, 255, 255);</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>
@@ -3985,6 +4080,9 @@ font-weight: bold;</string>
              <property name="text">
               <string>IR CH0</string>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="0" column="1">
              <property name="text">
@@ -3992,6 +4090,9 @@ font-weight: bold;</string>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="0" column="2">
@@ -4001,10 +4102,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="1" column="0">
              <property name="text">
               <string>IR CH1</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="1" column="1">
@@ -4014,6 +4121,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="1" column="2">
              <property name="text">
@@ -4022,10 +4132,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="2" column="0">
              <property name="text">
               <string>IR CH2</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="2" column="1">
@@ -4035,6 +4151,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="2" column="2">
              <property name="text">
@@ -4043,10 +4162,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="3" column="0">
              <property name="text">
               <string>IR CH3</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="3" column="1">
@@ -4056,6 +4181,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="3" column="2">
              <property name="text">
@@ -4064,10 +4192,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="4" column="0">
              <property name="text">
               <string>IR CH4</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="4" column="1">
@@ -4077,6 +4211,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="4" column="2">
              <property name="text">
@@ -4085,10 +4222,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="5" column="0">
              <property name="text">
               <string>IR CH5</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="5" column="1">
@@ -4098,6 +4241,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="5" column="2">
              <property name="text">
@@ -4106,10 +4252,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="6" column="0">
              <property name="text">
               <string>IR CH6</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="6" column="1">
@@ -4119,6 +4271,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="6" column="2">
              <property name="text">
@@ -4127,10 +4282,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="7" column="0">
              <property name="text">
               <string>IR CH7</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="7" column="1">
@@ -4140,6 +4301,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="7" column="2">
              <property name="text">
@@ -4148,10 +4312,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="8" column="0">
              <property name="text">
               <string>IR CH8</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="8" column="1">
@@ -4161,6 +4331,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="8" column="2">
              <property name="text">
@@ -4169,10 +4342,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="9" column="0">
              <property name="text">
               <string>IR CH9</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="9" column="1">
@@ -4182,6 +4361,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="9" column="2">
              <property name="text">
@@ -4190,10 +4372,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="10" column="0">
              <property name="text">
               <string>IR CH10</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="10" column="1">
@@ -4203,6 +4391,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="10" column="2">
              <property name="text">
@@ -4211,10 +4402,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="11" column="0">
              <property name="text">
               <string>IR CH11</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="11" column="1">
@@ -4224,6 +4421,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="11" column="2">
              <property name="text">
@@ -4231,6 +4431,9 @@ font-weight: bold;</string>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
            </widget>
@@ -4321,12 +4524,15 @@ font-weight: bold;</string>
             </column>
             <column>
              <property name="text">
-              <string>ADC</string>
+              <string>Ticks</string>
              </property>
             </column>
             <item row="0" column="0">
              <property name="text">
               <string>US CH0</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="0" column="1">
@@ -4336,6 +4542,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="0" column="2">
              <property name="text">
@@ -4344,10 +4553,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="1" column="0">
              <property name="text">
               <string>US CH1</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="1" column="1">
@@ -4357,6 +4572,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="1" column="2">
              <property name="text">
@@ -4365,10 +4583,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="2" column="0">
              <property name="text">
               <string>US CH2</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="2" column="1">
@@ -4378,6 +4602,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="2" column="2">
              <property name="text">
@@ -4386,10 +4613,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="3" column="0">
              <property name="text">
               <string>US CH3</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="3" column="1">
@@ -4399,6 +4632,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="3" column="2">
              <property name="text">
@@ -4407,10 +4643,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="4" column="0">
              <property name="text">
               <string>US CH4</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="4" column="1">
@@ -4420,6 +4662,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="4" column="2">
              <property name="text">
@@ -4428,10 +4673,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="5" column="0">
              <property name="text">
               <string>US CH5</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="5" column="1">
@@ -4441,6 +4692,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="5" column="2">
              <property name="text">
@@ -4449,10 +4703,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="6" column="0">
              <property name="text">
               <string>US CH6</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="6" column="1">
@@ -4462,6 +4722,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="6" column="2">
              <property name="text">
@@ -4470,10 +4733,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="7" column="0">
              <property name="text">
               <string>US CH7</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="7" column="1">
@@ -4483,6 +4752,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="7" column="2">
              <property name="text">
@@ -4491,10 +4763,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="8" column="0">
              <property name="text">
               <string>US CH8</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="8" column="1">
@@ -4504,6 +4782,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="8" column="2">
              <property name="text">
@@ -4512,10 +4793,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="9" column="0">
              <property name="text">
               <string>US CH9</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="9" column="1">
@@ -4525,6 +4812,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="9" column="2">
              <property name="text">
@@ -4533,10 +4823,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="10" column="0">
              <property name="text">
               <string>US CH10</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="10" column="1">
@@ -4546,6 +4842,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="10" column="2">
              <property name="text">
@@ -4554,10 +4853,16 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="11" column="0">
              <property name="text">
               <string>US CH11</string>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
             <item row="11" column="1">
@@ -4567,6 +4872,9 @@ font-weight: bold;</string>
              <property name="checkState">
               <enum>Checked</enum>
              </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+             </property>
             </item>
             <item row="11" column="2">
              <property name="text">
@@ -4574,6 +4882,9 @@ font-weight: bold;</string>
              </property>
              <property name="checkState">
               <enum>Checked</enum>
+             </property>
+             <property name="flags">
+              <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
              </property>
             </item>
            </widget>
@@ -4604,6 +4915,44 @@ font-weight: bold;</string>
             </property>
             <property name="text">
              <string>Load Defaults</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="LEDStatesButton">
+            <property name="geometry">
+             <rect>
+              <x>5</x>
+              <y>60</y>
+              <width>99</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>LED States</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <selectedoff>:/green-led-off.png</selectedoff>
+              <selectedon>:/green-led-on.png</selectedon>
+             </iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="Line" name="line_18">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>930</y>
+              <width>780</width>
+              <height>3</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </widget>

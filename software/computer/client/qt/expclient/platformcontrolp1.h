@@ -16,8 +16,9 @@ public:
 
     void stopAll();
     void resetToDefault();
-    void spawnProcessMessagesQueueWorkerThread();
     void loadDefaults();
+    void setModuleInitialState();
+    void spawnProcessMessagesQueueWorkerThread();
 
     bool preparePlatformMovement();
 

@@ -766,13 +766,35 @@ int main(void)
                 sensorsChannel = 11;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETSENSORSCHANNEL12") == 0)
+            if (strcmp((char*) cmdParts, "GETCURIRSENSOR") == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U2, U3, U4, U8 A
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA27);  //U2, U3, U4, U8 B
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);    //U2, U3, U4, U8 C
-                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);    //U2, U3, U4, U8 D
-                sensorsChannel = 12;
+                sensorsIRReading = getValueChannel4();
+                sprintf((char *)msg,"IR[%u]:%u\n", sensorsChannel, sensorsIRReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETCURUSSENSOR") == 0)
+            {
+                usSensorsDelayCounter = 0;
+                usSensorsPongTrigger = 0;
+
+                pwmDutySet_u8(2, sensorsUSDuty);
+                AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                delay_us(sensorsUSBurst);
+                AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
+                delay_us(sensorsUSDelay);
+
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
+
+                while (usSensorsPongTrigger == 0)
+                {
+                    usSensorsDelayCounter++;
+                    if (usSensorsDelayCounter > 4999)
+                        break;
+                }
+                sensorsUSReading = usSensorsDelayCounter;
+                sprintf((char *)msg,"US[%u]:%u\n", sensorsChannel, sensorsUSReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "DISABLELEFTUSSONARSERVO") == 0)
@@ -1080,7 +1102,7 @@ int main(void)
         }
         if (sensorsUSReadings)
         {
-            if (sensorsUSReading > 7000)
+            if (sensorsUSReading > 4999)
             {
                 sprintf((char *)msg,"SENSORS CHANNEL [%u] US: FAILED\n", sensorsChannel);
             }

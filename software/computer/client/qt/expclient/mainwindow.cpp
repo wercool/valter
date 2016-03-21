@@ -116,14 +116,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
     //platform location p1
+    platformLocationP1TabRefreshTimer = new QTimer(this);
+    connect(platformLocationP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1TabRefreshTimerUpdate()));
+    platformLocationP1TabRefreshTimer->start(10);
+
     redLedOffPix = QPixmap(":/red-led-off.png");
     redLedOffIcon = QIcon(redLedOffPix);
     redLedOnPix = QPixmap(":/red-led-on.png");
     redLedOnIcon = QIcon(redLedOnPix);
     greenLedOffPix = QPixmap(":/green-led-off.png");
-    greenLefOffIcon = QIcon(greenLedOffPix);
+    greenLedOffIcon = QIcon(greenLedOffPix);
     greenLedOnPix = QPixmap(":/green-led-on.png");
-    greenLefOnIcon = QIcon(greenLedOnPix);
+    greenLedOnIcon = QIcon(greenLedOnPix);
     initLedButtons(this);
 
     connect(ui->ch0RedLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
@@ -229,6 +233,17 @@ void MainWindow::delayGUIAction(IValterModule *valterModule)
             case IValterModule::RELOAD_DEFAULTS:
                 valterModule->loadDefaults();
                 loadPlatformControlP1Defaults(ui);
+            break;
+        }
+    }
+    //from PlatformLocationP1
+    if (valterModule->getControlDevice()->getControlDeviceId().compare(PlatformLocationP1::getControlDeviceId()) == 0)
+    {
+        switch (action)
+        {
+            case IValterModule::RELOAD_DEFAULTS:
+                valterModule->loadDefaults();
+                loadPlatformLocationP1Defaults(ui);
             break;
         }
     }
@@ -1035,6 +1050,12 @@ void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
 
 
 //PLATFORM-LOCATION-P1
+
+void MainWindow::platformLocationP1TabRefreshTimerUpdate()
+{
+    platformLocationP1TabRefreshTimerUpdateWorker(ui);
+}
+
 void MainWindow::platfromLocationP1LEDHandler()
 {
     PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
@@ -1057,4 +1078,20 @@ void MainWindow::on_loadDefaultsPlatformLocationP1Button_clicked()
     PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
     platformLocationP1->loadDefaults();
     loadPlatformLocationP1Defaults(ui);
+}
+
+void MainWindow::on_irSensorsPresetsTable_itemClicked(QTableWidgetItem *item)
+{
+    setPlatformLocationIRSensorPresets(item);
+}
+
+void MainWindow::on_usSensorsPresetsTable_itemClicked(QTableWidgetItem *item)
+{
+    setPlatformLocationUSSensorPresets(item);
+}
+
+void MainWindow::on_LEDStatesButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setLedStatesSet(checked);
 }

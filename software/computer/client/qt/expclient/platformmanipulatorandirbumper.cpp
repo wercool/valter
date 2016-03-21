@@ -48,6 +48,11 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
     getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformManipulatorAndIRBumper::controlDeviceId.c_str()));
 }
 
+void PlatformManipulatorAndIRBumper::setModuleInitialState()
+{
+
+}
+
 void PlatformManipulatorAndIRBumper::spawnProcessMessagesQueueWorkerThread()
 {
     //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));
@@ -57,4 +62,3 @@ void PlatformManipulatorAndIRBumper::loadDefaults()
 {
 
 }
-

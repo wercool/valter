@@ -35,9 +35,9 @@ public:
     QPixmap redLedOnPix;
     QIcon redLedOnIcon;
     QPixmap greenLedOffPix;
-    QIcon greenLefOffIcon;
+    QIcon greenLedOffIcon;
     QPixmap greenLedOnPix;
-    QIcon greenLefOnIcon;
+    QIcon greenLedOnIcon;
 
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
@@ -165,7 +165,6 @@ private slots:
 
     void on_platformControlP1LoadDefaultsButton_clicked();
 
-
     void on_platformControlP1MotorsPWMFrequencySetButton_clicked();
 
     void on_leftMotorCurrentCheckBox_clicked();
@@ -211,9 +210,17 @@ private slots:
     void on_mainTabWidget_tabBarDoubleClicked(int index);
 
     //PLATFORM-LOCATION-P1
+    void platformLocationP1TabRefreshTimerUpdate();
+
     void platfromLocationP1LEDHandler();
 
     void on_loadDefaultsPlatformLocationP1Button_clicked();
+
+    void on_irSensorsPresetsTable_itemClicked(QTableWidgetItem *item);
+
+    void on_usSensorsPresetsTable_itemClicked(QTableWidgetItem *item);
+
+    void on_LEDStatesButton_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;
@@ -224,10 +231,12 @@ private:
     int logLength;
     QTimer *controlDevicesDataExchangeLogTimer;
     QTimer *controlDevicesTableRefreshTimer;
-    QTimer *platformControlP1TabRefreshTimer;
     QTimer *delayedGUIActionsProcessingTimer;
     string selectedControlDeviceId;
     bool allConnect;
+
+    QTimer *platformControlP1TabRefreshTimer;
+    QTimer *platformLocationP1TabRefreshTimer;
 };
 
 #endif // MAINWINDOW_H

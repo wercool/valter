@@ -1,4 +1,4 @@
 IRSensorsReadTable:0,0,0,0,0,0,0,0,0,0,0,0
-IRSensorsADCReadingTable:0,0,0,0,0,0,0,0,0,0,0,0
+IRSensorsADCReadingTable:1,1,1,1,1,1,1,1,1,1,1,1
 USSensorsReadTable:0,0,0,0,0,0,0,0,0,0,0,0
-USSensorsADCReadingTable:0,0,0,0,0,0,0,0,0,0,0,0
+USSensorsTicksReadingTable:1,1,1,1,1,1,1,1,1,1,1,1

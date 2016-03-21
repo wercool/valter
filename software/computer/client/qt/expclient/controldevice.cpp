@@ -233,6 +233,7 @@ void ControlDevice::reScanThisControlDevice()
             }
         }
     }
+
     if (rescanSuccessful)
     {
         this->addMsgToDataExchangeLog(Valter::format_string("Control Device [%s] re-scanned successfuly", this->getControlDeviceId().c_str()));
@@ -541,18 +542,20 @@ void ControlDevice::setRescanningAfterPossibleReset(bool value)
     }
     else
     {
-        IValterModule *valterModule = Valter::getInstance()->getValterModule(getControlDeviceId());
-        if (valterModule->getReloadDefaults())
-        {
-            valterModule->loadDefaults();
-            valterModule->addActionToDelayedGUIActions(IValterModule::RELOAD_DEFAULTS);
-        }
         if (autoReActivation)
         {
             if (!failedAfterRescanning)
             {
                 activate();
             }
+        }
+
+        IValterModule *valterModule = Valter::getInstance()->getValterModule(getControlDeviceId());
+        if (valterModule->getReloadDefaults())
+        {
+            valterModule->loadDefaults();
+            valterModule->setModuleInitialState();
+            valterModule->addActionToDelayedGUIActions(IValterModule::RELOAD_DEFAULTS);
         }
     }
 }

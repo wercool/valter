@@ -187,6 +187,11 @@ void PlatformControlP1::resetToDefault()
     getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformControlP1::controlDeviceId.c_str()));
 }
 
+void PlatformControlP1::setModuleInitialState()
+{
+
+}
+
 void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP1::processMessagesQueueWorker, this));
@@ -236,9 +241,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                         setRightAccumulatorConnected(false);
                         continue;
                     }
-                    if (response.find("INPUT1 CHANNEL [8]: ") !=std::string::npos) //charger voltage
+                    if (response.find("INPUT1 CHANNEL [8]: ") != std::string::npos) //charger voltage
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         if (value > 1000)
@@ -282,9 +287,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                         setRightAccumulatorRelayOnState(false);
                         continue;
                     }
-                    if (response.find("INPUT2 CHANNEL [8]: ") !=std::string::npos) //charger connected
+                    if (response.find("INPUT2 CHANNEL [8]: ") != std::string::npos) //charger connected
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         if (value > 1000)
@@ -297,9 +302,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                         }
                         continue;
                     }
-                    if (response.find("INPUT2 CHANNEL [9]: ") !=std::string::npos) //14.4V / 0.8A 1.2-35Ah
+                    if (response.find("INPUT2 CHANNEL [9]: ") != std::string::npos) //14.4V / 0.8A 1.2-35Ah
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         if (value > 1000)
@@ -312,9 +317,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                         }
                         continue;
                     }
-                    if (response.find("INPUT2 CHANNEL [10]: ") !=std::string::npos) //14.4V / 3.6A 35-120Ah
+                    if (response.find("INPUT2 CHANNEL [10]: ") != std::string::npos) //14.4V / 3.6A 35-120Ah
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         if (value > 1000)
@@ -327,9 +332,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                         }
                         continue;
                     }
-                    if (response.find("INPUT2 CHANNEL [6]: ") !=std::string::npos) //Charging in progress
+                    if (response.find("INPUT2 CHANNEL [6]: ") != std::string::npos) //Charging in progress
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         if (value > 600)
@@ -342,9 +347,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                         }
                         continue;
                     }
-                    if (response.find("INPUT2 CHANNEL [7]: ") !=std::string::npos) //Charging complete
+                    if (response.find("INPUT2 CHANNEL [7]: ") != std::string::npos) //Charging complete
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         if (value > 700)
@@ -361,16 +366,14 @@ void PlatformControlP1::processMessagesQueueWorker()
                 else
                 {
                     //response template
-                    //ALLCURREADINGS:{IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER}
-                    if (response.find("ALLCURREADINGS:") !=std::string::npos) //composed readings
+                    //ALLCURREADINGS:IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER
+                    if (response.find("ALLCURREADINGS:") != std::string::npos) //composed readings
                     {
-                        int substr_pos = response.find(":");
+                        int substr_pos = response.find(":") + 1;
                         string value_str = response.substr(substr_pos);
-                        value_str.replace(0,1,"");
-                        value_str.replace(value_str.length(),1,"");
                         vector<string>value_str_values = Valter::split(value_str, ';');
 
-                        int turretPosition = atoi(Valter::stringToCharPtr(value_str_values[3]));
+                        int turretPosition = atoi(Valter::stringToCharPtr(value_str_values[2]));
 
                         int leftMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[3]));
                         int rightMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[4]));
@@ -410,9 +413,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 //get when requested inspite motors is not stopped
                 if (getLeftWheelEncoderGetOnce())
                 {
-                    if (response.find("LEFT MOTOR COUNTER: ") !=std::string::npos)
+                    if (response.find("LEFT MOTOR COUNTER: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setLeftWheelEncoder(value);
@@ -422,9 +425,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 }
                 if (getRightWheelEncoderGetOnce())
                 {
-                    if (response.find("RIGHT MOTOR COUNTER: ") !=std::string::npos)
+                    if (response.find("RIGHT MOTOR COUNTER: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setRightWheelEncoder(value);
@@ -434,9 +437,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 }
                 if (getTurretPositionGetOnce())
                 {
-                    if (response.find("TURRET: ") !=std::string::npos)
+                    if (response.find("TURRET: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setTurretPositionADC(value);
@@ -447,9 +450,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getMainAccumulatorVoltageRead())
                 {
                     //main accumulator voltage
-                    if (response.find("INPUT1 CHANNEL [0]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [0]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setMainAccumulatorVoltageADC(value);
@@ -459,9 +462,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getLeftAccumulatorVoltageRead())
                 {
                     //left accumulator voltage
-                    if (response.find("INPUT1 CHANNEL [1]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [1]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setLeftAccumulatorVoltageADC(value);
@@ -471,9 +474,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getRightAccumulatorVoltageRead())
                 {
                     //right accumulator voltage
-                    if (response.find("INPUT1 CHANNEL [2]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [2]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setRightAccumulatorVoltageADC(value);
@@ -483,9 +486,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getMainAccumulatorAmperageTotalRead())
                 {
                     //main accumulator amperage total
-                    if (response.find("INPUT1 CHANNEL [3]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [3]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setMainAccumulatorAmperageTotalADC(value);
@@ -495,9 +498,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getPlatformAmperageRead())
                 {
                     //main accumulator amperage bottom (platform)
-                    if (response.find("INPUT1 CHANNEL [4]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [4]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setPlatformAmperageADC(value);
@@ -507,9 +510,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getBodyAmperageRead())
                 {
                     //main accumulator amperage top (body)
-                    if (response.find("INPUT1 CHANNEL [5]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [5]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setBodyAmperageADC(value);
@@ -519,9 +522,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getLeftAccumulatorAmperageRead())
                 {
                     //left accumulator amperage
-                    if (response.find("INPUT1 CHANNEL [6]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [6]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setLeftAccumulatorAmperageADC(value);
@@ -531,9 +534,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getRightAccumulatorAmperageRead())
                 {
                     //right accumulator amperage
-                    if (response.find("INPUT1 CHANNEL [7]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [7]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setRightAccumulatorAmperageADC(value);
@@ -543,9 +546,9 @@ void PlatformControlP1::processMessagesQueueWorker()
                 if (getChargerVoltageRead())
                 {
                     //charger connected (charger voltage)
-                    if (response.find("INPUT1 CHANNEL [8]: ") !=std::string::npos)
+                    if (response.find("INPUT1 CHANNEL [8]: ") != std::string::npos)
                     {
-                        int substr_pos = response.find(":") + 1;
+                        int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         if (value > 1000)
@@ -2392,16 +2395,16 @@ void PlatformControlP1::loadDefaults()
     }
     defaultsFile.close();
 
-    string deFaultvalue;
-    char *deFaultvaluePtr;
+    string defaultValue;
+    char *defaultValuePtr;
     int curValue;
     int minValue;
     int maxValue;
 
     //leftMotorDuty
-    deFaultvalue = getDefault("leftMotorDuty");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("leftMotorDuty");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setLeftMotorDutyPresetMin(minValue);
@@ -2410,9 +2413,9 @@ void PlatformControlP1::loadDefaults()
     setLeftMotorDutyMax(getLeftMotorDutyPresetCur());
 
     //rightMotorDuty
-    deFaultvalue = getDefault("rightMotorDuty");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("rightMotorDuty");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setRightMotorDutyPresetMin(minValue);
@@ -2421,9 +2424,9 @@ void PlatformControlP1::loadDefaults()
     setRightMotorDutyMax(getRightMotorDutyPresetCur());
 
     //motorsDeceleration
-    deFaultvalue = getDefault("motorsDeceleration");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("motorsDeceleration");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setPlatformDecelerationPresetMin(minValue);
@@ -2432,9 +2435,9 @@ void PlatformControlP1::loadDefaults()
     setPlatformDeceleration(getPlatformDecelerationPresetCur());
 
     //motorsAcceleration
-    deFaultvalue = getDefault("motorsAcceleration");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("motorsAcceleration");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setPlatformAccelerationPresetMin(minValue);
@@ -2443,9 +2446,9 @@ void PlatformControlP1::loadDefaults()
     setPlatformAcceleration(getPlatformAccelerationPresetCur());
 
     //turretMotorDuty
-    deFaultvalue = getDefault("turretMotorDuty");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("turretMotorDuty");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setTurretMotorDutyPresetMin(minValue);
@@ -2454,9 +2457,9 @@ void PlatformControlP1::loadDefaults()
     setTurretMotorDutyMax(getTurretMotorDutyPresetCur());
 
     //turretMotorDeceleration
-    deFaultvalue = getDefault("turretMotorDeceleration");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("turretMotorDeceleration");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setTurretDecelerationPresetMin(minValue);
@@ -2465,9 +2468,9 @@ void PlatformControlP1::loadDefaults()
     setTurretDeceleration(getTurretDecelerationPresetCur());
 
     //turretMotorAcceleration
-    deFaultvalue = getDefault("turretMotorAcceleration");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("turretMotorAcceleration");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setTurretAccelerationPresetMin(minValue);
@@ -2476,119 +2479,119 @@ void PlatformControlP1::loadDefaults()
     setTurretAcceleration(getTurretAccelerationPresetCur());
 
     //trackLeftMotorCurrent
-    deFaultvalue = getDefault("trackLeftMotorCurrent");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setLeftMotorCurrentRead((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("trackLeftMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setLeftMotorCurrentRead((atoi(defaultValuePtr)) ? true : false);
 
     //trackRightMotorCurrent
-    deFaultvalue = getDefault("trackRightMotorCurrent");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setRightMotorCurrentRead((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("trackRightMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setRightMotorCurrentRead((atoi(defaultValuePtr)) ? true : false);
 
     //trackTurretMotorCurrent
-    deFaultvalue = getDefault("trackTurretMotorCurrent");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setTurretMotorCurrentRead((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("trackTurretMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setTurretMotorCurrentRead((atoi(defaultValuePtr)) ? true : false);
 
     //trackLeftWheelEncoder
-    deFaultvalue = getDefault("trackLeftWheelEncoder");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setLeftWheelEncoderRead((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("trackLeftWheelEncoder");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setLeftWheelEncoderRead((atoi(defaultValuePtr)) ? true : false);
 
     //trackRightWheelEncoder
-    deFaultvalue = getDefault("trackRightWheelEncoder");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setRightWheelEncoderRead((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("trackRightWheelEncoder");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setRightWheelEncoderRead((atoi(defaultValuePtr)) ? true : false);
 
     //leftWheelEncoderAutoreset
-    deFaultvalue = getDefault("leftWheelEncoderAutoreset");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setLeftWheelEncoderAutoreset((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("leftWheelEncoderAutoreset");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setLeftWheelEncoderAutoreset((atoi(defaultValuePtr)) ? true : false);
 
     //rightWheelEncoderAutoreset
-    deFaultvalue = getDefault("rightWheelEncoderAutoreset");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setRightWheelEncoderAutoreset((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("rightWheelEncoderAutoreset");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setRightWheelEncoderAutoreset((atoi(defaultValuePtr)) ? true : false);
 
     //trackTurretPosition
-    deFaultvalue = getDefault("trackTurretPosition");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    setTurretPositionRead((atoi(deFaultvaluePtr)) ? true : false);
+    defaultValue = getDefault("trackTurretPosition");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    setTurretPositionRead((atoi(defaultValuePtr)) ? true : false);
 
     //platformControlP1ReadingsTable
-    deFaultvalue = getDefault("platformControlP1ReadingsTable");
-    vector<string>deFaultvalue_str_values = Valter::split(deFaultvalue, ',');
-    vector<string>::iterator iter = deFaultvalue_str_values.begin();
+    defaultValue = getDefault("platformControlP1ReadingsTable");
+    vector<string>defaultValue_str_values = Valter::split(defaultValue, ',');
+    vector<string>::iterator iter = defaultValue_str_values.begin();
 
     int idx = 1;
-    while( iter != deFaultvalue_str_values.end() )
+    while( iter != defaultValue_str_values.end() )
     {
         string val = *iter++;
-        deFaultvaluePtr = Valter::stringToCharPtr(val);
+        defaultValuePtr = Valter::stringToCharPtr(val);
         switch (idx)
         {
             case 1:
-                setMainAccumulatorVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setMainAccumulatorVoltageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 2:
-                setLeftAccumulatorVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setLeftAccumulatorVoltageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 3:
-                setRightAccumulatorVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setRightAccumulatorVoltageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 4:
-                setMainAccumulatorAmperageTotalRead((atoi(deFaultvaluePtr)) ? true : false);
+                setMainAccumulatorAmperageTotalRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 5:
-                setPlatformAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setPlatformAmperageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 6:
-                setBodyAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setBodyAmperageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 7:
-                setLeftAccumulatorAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setLeftAccumulatorAmperageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 8:
-                setRightAccumulatorAmperageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setRightAccumulatorAmperageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 9:
-                setChargerVoltageRead((atoi(deFaultvaluePtr)) ? true : false);
+                setChargerVoltageRead((atoi(defaultValuePtr)) ? true : false);
             break;
             case 10:
-                setMainAccumulatorVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setMainAccumulatorVoltageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 11:
-                setLeftAccumulatorVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setLeftAccumulatorVoltageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 12:
-                setRightAccumulatorVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setRightAccumulatorVoltageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 13:
-                setMainAccumulatorAmperageTotalReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setMainAccumulatorAmperageTotalReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 14:
-                setPlatformAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setPlatformAmperageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 15:
-                setBodyAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setBodyAmperageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 16:
-                setLeftAccumulatorAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setLeftAccumulatorAmperageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 17:
-                setRightAccumulatorAmperageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setRightAccumulatorAmperageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
             case 18:
-                setChargerVoltageReadADCPreset((atoi(deFaultvaluePtr)) ? true : false);
+                setChargerVoltageReadADCPreset((atoi(defaultValuePtr)) ? true : false);
             break;
         }
 
         idx++;
     }
     //additionalReadingsScanDelay
-    deFaultvalue = getDefault("additionalReadingsScanDelay");
-    deFaultvaluePtr = Valter::stringToCharPtr(deFaultvalue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(deFaultvaluePtr, "," )));
+    defaultValue = getDefault("additionalReadingsScanDelay");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
     maxValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setAdditionalReadingsDelayPresetMin(minValue);

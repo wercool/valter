@@ -453,7 +453,7 @@ int main(void)
                 leftMotorCurrentReading = getValueChannel1();
                 rightMotorCurrentReading = getValueChannel2();
                 turretMotorCurrentReading = getValueChannel4();
-                //ALLCURREADINGS:{IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER}
+                //ALLCURREADINGS:IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER
                 sprintf((char *)msg,"ALLCURREADINGS:%u,%u;%u,%u;%u;%u;%u;%u;%u;%u\n", input1Channel, input1Reading, input2Channel, input2Reading, turretReading, leftMotorCurrentReading, rightMotorCurrentReading, turretMotorCurrentReading, leftMotorCounter, rightMotorCounter);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;

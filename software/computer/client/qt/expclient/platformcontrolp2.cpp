@@ -57,3 +57,8 @@ void PlatformControlP2::loadDefaults()
 {
 
 }
+
+void PlatformControlP2::setModuleInitialState()
+{
+
+}
