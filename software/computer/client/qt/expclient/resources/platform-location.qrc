@@ -5,5 +5,6 @@
         <file>green-led-on.png</file>
         <file>green-led-off.png</file>
         <file>red-led-off.png</file>
+        <file>platfrom-top-view-m1.png</file>
     </qresource>
 </RCC>

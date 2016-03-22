@@ -1,4 +1,12 @@
+//1,1,1,1,1,1,1,1,1,1,1,1
+//0,0,0,0,0,0,0,0,0,0,0,0
 IRSensorsReadTable:0,0,0,0,0,0,0,0,0,0,0,0
 IRSensorsADCReadingTable:1,1,1,1,1,1,1,1,1,1,1,1
 USSensorsReadTable:0,0,0,0,0,0,0,0,0,0,0,0
 USSensorsTicksReadingTable:1,1,1,1,1,1,1,1,1,1,1,1
+irSensorMetersThreshold:8.8
+usSensorMetersThreshold:8.6
+relativeUSSensorVoltage:0
+usSignalDuty:127
+usSignalBurst:250
+usSignalDelay:2500

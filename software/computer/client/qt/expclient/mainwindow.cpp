@@ -155,6 +155,30 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->ch9GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
     connect(ui->ch10GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
     connect(ui->ch11GreenLed, SIGNAL(clicked()), this, SLOT (platfromLocationP1LEDHandler()));
+
+    ui->USSignalDutyScroller->installEventFilter(new WheelEventFilter());
+    ui->USSignalBurstScroller->installEventFilter(new WheelEventFilter());
+    ui->USSignalDelayScroller->installEventFilter(new WheelEventFilter());
+
+    platformLocationP1GraphicsViewScene = new QGraphicsScene;
+    platformLocationP1GraphicsViewScene->setSceneRect(0, 0, 790, 400);
+    ui->platformLocationP1GraphicsView->setScene(platformLocationP1GraphicsViewScene);
+
+    QGraphicsLineItem *leftUSSonarVector = new QGraphicsLineItem;
+    leftUSSonarVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+    leftUSSonarVector->setLine(319, 300, 50, 50);
+    platformLocationP1GraphicsViewScene->addItem(leftUSSonarVector);
+
+    QGraphicsLineItem *rightUSSonarVector = new QGraphicsLineItem;
+    rightUSSonarVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+    rightUSSonarVector->setLine(471, 300, 740, 50);
+    platformLocationP1GraphicsViewScene->addItem(rightUSSonarVector);
+
+    QGraphicsEllipseItem *item = new QGraphicsEllipseItem;
+    item->setRect( 48, 48, 4, 4 );
+    platformLocationP1GraphicsViewScene->addItem(item);
+    //platformLocationP1GraphicsViewScene->removeItem(item);
+
 }
 
 MainWindow::~MainWindow()
@@ -1094,4 +1118,42 @@ void MainWindow::on_LEDStatesButton_toggled(bool checked)
 {
     PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
     platformLocationP1->setLedStatesSet(checked);
+}
+
+void MainWindow::on_USSignalDutyScroller_valueChanged(int value)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setUsSignalDuty(value);
+
+    ui->USSignalDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_USSignalBurstScroller_valueChanged(int value)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setUsSignalBurst(value);
+
+    ui->USSignalBurstLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_USSignalDelayScroller_valueChanged(int value)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setUsSignalDelay(value);
+
+    ui->USSignalDelayLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_USVoltageUpButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setRelativeUSSensorVoltageUp();
+    ui->USVoltageRegulatorLabel->setText(Valter::format_string("[%d] relative to initial", platformLocationP1->getRelativeUSSensorVoltage()).c_str());
+}
+
+void MainWindow::on_USVoltageDownButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setRelativeUSSensorVoltageDown();
+    ui->USVoltageRegulatorLabel->setText(Valter::format_string("[%d] relative to initial", platformLocationP1->getRelativeUSSensorVoltage()).c_str());
 }

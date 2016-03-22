@@ -104,6 +104,11 @@ void loadPlatformLocationP1Defaults(Ui::MainWindow *ui)
         ((QTableWidgetItem*)ui->usSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadUSSensor(i)) ? Qt::Checked : Qt::Unchecked);
         ((QTableWidgetItem*)ui->usSensorsPresetsTable->item(i, 2))->setCheckState((platformLocationP1->getReadUSSensorTicksPreset(i)) ? Qt::Checked : Qt::Unchecked);
     }
+
+    ui->USVoltageRegulatorLabel->setText(Valter::format_string("[%d] relative to initial", platformLocationP1->getRelativeUSSensorVoltage()).c_str());
+    ui->USSignalDutyLabel->setText(Valter::format_string("[%d]", platformLocationP1->getUsSignalDuty()).c_str());
+    ui->USSignalBurstLabel->setText(Valter::format_string("[%d]", platformLocationP1->getUsSignalBurst()).c_str());
+    ui->USSignalDelayLabel->setText(Valter::format_string("[%d]", platformLocationP1->getUsSignalDelay()).c_str());
 }
 
 void setPlatformLocationIRSensorPresets(QTableWidgetItem *item)

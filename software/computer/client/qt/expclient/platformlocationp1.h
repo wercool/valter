@@ -24,6 +24,7 @@ public:
     void setRedLedState(int index, bool value);
     bool getGreenLedState(int index);
     void setGreenLedState(int index, bool value);
+    void setRedLedsState();
 
     void setReadIRSensor(int index, bool value);
     bool getReadIRSensor(int index);
@@ -42,15 +43,25 @@ public:
     float getIRSensorMeters(int channel);
     float getUSSensorMeters(int channel);
 
-    static const float irSensorMetersThreshold;
-    static const float usSensorMetersThreshold;
-
     void readSensorsWorker();
 
     bool getLedStatesSet() const;
     void setLedStatesSet(bool value);
 
     void spawnLEDStatesWorker();
+
+    int getUsSignalDuty() const;
+    void setUsSignalDuty(int value);
+
+    int getUsSignalBurst() const;
+    void setUsSignalBurst(int value);
+
+    int getUsSignalDelay() const;
+    void setUsSignalDelay(int value);
+
+    int getRelativeUSSensorVoltage() const;
+    void setRelativeUSSensorVoltageUp();
+    void setRelativeUSSensorVoltageDown();
 
 private:
     PlatformLocationP1();
@@ -74,6 +85,14 @@ private:
 
     int irSensorADC[12];
     int usSensorADC[12];
+
+    float irSensorMetersThreshold;
+    float usSensorMetersThreshold;
+
+    int relativeUSSensorVoltage;
+    int usSignalDuty;
+    int usSignalBurst;
+    int usSignalDelay;
 };
 
 #endif // PLATFORMLOCATIONP1_H

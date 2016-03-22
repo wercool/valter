@@ -26,6 +26,12 @@
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QTabWidget" name="mainTabWidget">
+      <property name="font">
+       <font>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
       <property name="statusTip">
        <string extracomment="sss"/>
       </property>
@@ -47,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>791</width>
-             <height>1022</height>
+             <width>792</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2768,15 +2774,15 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-499</y>
-             <width>809</width>
-             <height>1024</height>
+             <y>-875</y>
+             <width>810</width>
+             <height>1400</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>1024</height>
+             <height>1400</height>
             </size>
            </property>
            <widget class="QFrame" name="frame">
@@ -3896,7 +3902,7 @@ font-weight: bold;</string>
              <rect>
               <x>50</x>
               <y>240</y>
-              <width>215</width>
+              <width>217</width>
               <height>28</height>
              </rect>
             </property>
@@ -3942,7 +3948,7 @@ font-weight: bold;</string>
              <rect>
               <x>50</x>
               <y>130</y>
-              <width>215</width>
+              <width>217</width>
               <height>28</height>
              </rect>
             </property>
@@ -4945,14 +4951,293 @@ font-weight: bold;</string>
            <widget class="Line" name="line_18">
             <property name="geometry">
              <rect>
-              <x>10</x>
+              <x>5</x>
               <y>930</y>
-              <width>780</width>
+              <width>792</width>
               <height>3</height>
              </rect>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="USVoltageUpButton">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>570</y>
+              <width>60</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>US V↑</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_24">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>530</y>
+              <width>148</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>US Voltage Regulator</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="USVoltageDownButton">
+            <property name="geometry">
+             <rect>
+              <x>730</x>
+              <y>570</y>
+              <width>60</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>US V↓</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="USVoltageRegulatorLabel">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>550</y>
+              <width>110</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+              <italic>true</italic>
+             </font>
+            </property>
+            <property name="text">
+             <string>[...] relative to initial</string>
+            </property>
+           </widget>
+           <widget class="Line" name="line_19">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>605</y>
+              <width>140</width>
+              <height>3</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_28">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>610</y>
+              <width>148</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>US Signal Duty 1~127</string>
+            </property>
+           </widget>
+           <widget class="QScrollBar" name="USSignalDutyScroller">
+            <property name="geometry">
+             <rect>
+              <x>655</x>
+              <y>650</y>
+              <width>150</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>127</number>
+            </property>
+            <property name="value">
+             <number>127</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QLabel" name="USSignalDutyLabel">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>630</y>
+              <width>110</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+              <italic>true</italic>
+             </font>
+            </property>
+            <property name="text">
+             <string>[...]</string>
+            </property>
+           </widget>
+           <widget class="Line" name="line_20">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>675</y>
+              <width>140</width>
+              <height>3</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="Line" name="line_21">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>745</y>
+              <width>140</width>
+              <height>3</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QLabel" name="USSignalBurstLabel">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>700</y>
+              <width>110</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+              <italic>true</italic>
+             </font>
+            </property>
+            <property name="text">
+             <string>[...]</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_31">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>680</y>
+              <width>148</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>US Signal Burst, us</string>
+            </property>
+           </widget>
+           <widget class="QScrollBar" name="USSignalBurstScroller">
+            <property name="geometry">
+             <rect>
+              <x>655</x>
+              <y>720</y>
+              <width>150</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="minimum">
+             <number>50</number>
+            </property>
+            <property name="maximum">
+             <number>500</number>
+            </property>
+            <property name="value">
+             <number>250</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QScrollBar" name="USSignalDelayScroller">
+            <property name="geometry">
+             <rect>
+              <x>655</x>
+              <y>790</y>
+              <width>150</width>
+              <height>16</height>
+             </rect>
+            </property>
+            <property name="minimum">
+             <number>250</number>
+            </property>
+            <property name="maximum">
+             <number>5000</number>
+            </property>
+            <property name="value">
+             <number>2500</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_32">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>750</y>
+              <width>148</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>US Signal Delay, us</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="USSignalDelayLabel">
+            <property name="geometry">
+             <rect>
+              <x>660</x>
+              <y>770</y>
+              <width>110</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+              <italic>true</italic>
+             </font>
+            </property>
+            <property name="text">
+             <string>[...]</string>
+            </property>
+           </widget>
+           <widget class="QGraphicsView" name="platformLocationP1GraphicsView">
+            <property name="geometry">
+             <rect>
+              <x>5</x>
+              <y>940</y>
+              <width>792</width>
+              <height>402</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-image: url(:/platfrom-top-view-m1.png);
+background-repeat: repeat-no;</string>
             </property>
            </widget>
           </widget>

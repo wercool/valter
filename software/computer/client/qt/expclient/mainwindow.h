@@ -7,6 +7,8 @@
 #include <QSlider>
 #include <QMessageBox>
 #include <QTableWidgetItem>
+#include <QGraphicsScene>
+#include <QGraphicsEllipseItem>
 
 #include <valter.h>
 #include <ivaltermodule.h>
@@ -222,6 +224,17 @@ private slots:
 
     void on_LEDStatesButton_toggled(bool checked);
 
+
+    void on_USSignalDutyScroller_valueChanged(int value);
+
+    void on_USSignalBurstScroller_valueChanged(int value);
+
+    void on_USSignalDelayScroller_valueChanged(int value);
+
+    void on_USVoltageUpButton_clicked();
+
+    void on_USVoltageDownButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -237,6 +250,7 @@ private:
 
     QTimer *platformControlP1TabRefreshTimer;
     QTimer *platformLocationP1TabRefreshTimer;
+    QGraphicsScene* platformLocationP1GraphicsViewScene;
 };
 
 #endif // MAINWINDOW_H

@@ -10,9 +10,6 @@ bool PlatformLocationP1::instanceFlag = false;
 const string PlatformLocationP1::controlDeviceId = "PLATFORM-LOCATION-P1";
 const string PlatformLocationP1::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-location-p1-defaults";
 
-const float PlatformLocationP1::irSensorMetersThreshold    = 0.1;
-const float PlatformLocationP1::usSensorMetersThreshold = 0.1;
-
 PlatformLocationP1::PlatformLocationP1()
 {
     Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
@@ -72,6 +69,14 @@ void PlatformLocationP1::resetToDefault()
     }
 
     ledStatesSet = false;
+
+    irSensorMetersThreshold = 0.1;
+    usSensorMetersThreshold = 0.1;
+
+    relativeUSSensorVoltage = 0;
+    usSignalDuty            = 127;
+    usSignalBurst           = 250;
+    usSignalDelay           = 2500;
 }
 
 void PlatformLocationP1::setModuleInitialState()
@@ -161,6 +166,30 @@ void PlatformLocationP1::loadDefaults()
         setReadUSSensorTicksPreset(idx, ((atoi(defaultValuePtr)) ? true : false));
         idx++;
     }
+
+    //irSensorMetersThreshold
+    defaultValue = getDefault("irSensorMetersThreshold");
+    irSensorMetersThreshold = stof(Valter::stringToCharPtr(defaultValue));
+
+    //usSensorMetersThreshold
+    defaultValue = getDefault("usSensorMetersThreshold");
+    usSensorMetersThreshold = stof(Valter::stringToCharPtr(defaultValue));
+
+    //relativeUSSensorVoltage
+    defaultValue = getDefault("relativeUSSensorVoltage");
+    relativeUSSensorVoltage = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //usSignalDuty
+    defaultValue = getDefault("usSignalDuty");
+    usSignalDuty = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //usSignalBurst
+    defaultValue = getDefault("usSignalBurst");
+    usSignalBurst = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //usSignalDelay
+    defaultValue = getDefault("usSignalDelay");
+    usSignalDelay = atoi(Valter::stringToCharPtr(defaultValue));
 }
 
 bool PlatformLocationP1::getRedLedState(int index)
@@ -171,13 +200,7 @@ bool PlatformLocationP1::getRedLedState(int index)
 void PlatformLocationP1::setRedLedState(int index, bool value)
 {
     redLedArray[index] = value;
-    string ledStates = "SETLEDS#";
-    for (int i = 0; i < 12; i++)
-    {
-        ledStates.append(getGreenLedState(i) ? "1" : "0");
-        ledStates.append(getRedLedState(i) ? "1" : "0");
-    }
-    sendCommand(ledStates);
+    setRedLedsState();
 }
 
 bool PlatformLocationP1::getGreenLedState(int index)
@@ -188,6 +211,11 @@ bool PlatformLocationP1::getGreenLedState(int index)
 void PlatformLocationP1::setGreenLedState(int index, bool value)
 {
     greenLedArray[index] = value;
+    setRedLedsState();
+}
+
+void PlatformLocationP1::setRedLedsState()
+{
     string ledStates = "SETLEDS#";
     for (int i = 0; i < 12; i++)
     {
@@ -260,28 +288,23 @@ void PlatformLocationP1::LEDStatesWorker()
                          ||
                         (getReadUSSensor(ch) && getUSSensorMeters(ch) < usSensorMetersThreshold))
                     {
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
-                        setRedLedState(ch, true);
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
-                        setGreenLedState(ch, false);
+                        redLedArray[ch] = true;
+                        greenLedArray[ch] = false;
                     }
                     else
                     {
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
-                        setRedLedState(ch, false);
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
-                        setGreenLedState(ch, true);
+                        redLedArray[ch] = false;
+                        greenLedArray[ch] = true;
                     }
                 }
                 else
                 {
-                    this_thread::sleep_for(std::chrono::milliseconds(50));
-                    setRedLedState(ch, false);
-                    this_thread::sleep_for(std::chrono::milliseconds(50));
-                    setGreenLedState(ch, false);
+                    redLedArray[ch] = false;
+                    greenLedArray[ch] = false;
                 }
             }
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            setRedLedsState();
+            this_thread::sleep_for(std::chrono::milliseconds(200));
         }
         else
         {
@@ -289,6 +312,55 @@ void PlatformLocationP1::LEDStatesWorker()
         }
     }
     Valter::log("LEDStatesWorker finished...");
+}
+int PlatformLocationP1::getRelativeUSSensorVoltage() const
+{
+    return relativeUSSensorVoltage;
+}
+
+void PlatformLocationP1::setRelativeUSSensorVoltageUp()
+{
+    relativeUSSensorVoltage += 25;
+    sendCommand("USSENSORSVOLTAGEUP#25");
+}
+
+void PlatformLocationP1::setRelativeUSSensorVoltageDown()
+{
+    relativeUSSensorVoltage -= 25;
+    sendCommand("USSENSORSVOLTAGEDOWN#25");
+}
+
+int PlatformLocationP1::getUsSignalDelay() const
+{
+    return usSignalDelay;
+}
+
+void PlatformLocationP1::setUsSignalDelay(int value)
+{
+    usSignalDelay = value;
+    sendCommand(Valter::format_string("USSENSORSDELAY#%d", usSignalDelay));
+}
+
+int PlatformLocationP1::getUsSignalBurst() const
+{
+    return usSignalBurst;
+}
+
+void PlatformLocationP1::setUsSignalBurst(int value)
+{
+    usSignalBurst = value;
+    sendCommand(Valter::format_string("USSENSORSBURST#%d", usSignalBurst));
+}
+
+int PlatformLocationP1::getUsSignalDuty() const
+{
+    return usSignalDuty;
+}
+
+void PlatformLocationP1::setUsSignalDuty(int value)
+{
+    usSignalDuty = value;
+    sendCommand(Valter::format_string("USSENSORSDUTY#%d", usSignalDuty));
 }
 
 void PlatformLocationP1::spawnLEDStatesWorker()
