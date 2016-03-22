@@ -159,25 +159,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->USSignalDutyScroller->installEventFilter(new WheelEventFilter());
     ui->USSignalBurstScroller->installEventFilter(new WheelEventFilter());
     ui->USSignalDelayScroller->installEventFilter(new WheelEventFilter());
+    ui->leftSonarAngleScroller->installEventFilter(new WheelEventFilter());
+    ui->rightSonarAngleScroller->installEventFilter(new WheelEventFilter());
 
     platformLocationP1GraphicsViewScene = new QGraphicsScene;
     platformLocationP1GraphicsViewScene->setSceneRect(0, 0, 790, 400);
     ui->platformLocationP1GraphicsView->setScene(platformLocationP1GraphicsViewScene);
 
-    QGraphicsLineItem *leftUSSonarVector = new QGraphicsLineItem;
+    leftUSSonarVector = new QGraphicsLineItem;
     leftUSSonarVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
-    leftUSSonarVector->setLine(319, 300, 50, 50);
+    leftUSSonarVector->setLine(345, 285, 345, 50);
     platformLocationP1GraphicsViewScene->addItem(leftUSSonarVector);
 
-    QGraphicsLineItem *rightUSSonarVector = new QGraphicsLineItem;
+    rightUSSonarVector = new QGraphicsLineItem;
     rightUSSonarVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
-    rightUSSonarVector->setLine(471, 300, 740, 50);
+    rightUSSonarVector->setLine(445, 285, 445, 50);
     platformLocationP1GraphicsViewScene->addItem(rightUSSonarVector);
-
-    QGraphicsEllipseItem *item = new QGraphicsEllipseItem;
-    item->setRect( 48, 48, 4, 4 );
-    platformLocationP1GraphicsViewScene->addItem(item);
-    //platformLocationP1GraphicsViewScene->removeItem(item);
 
 }
 
@@ -243,6 +240,7 @@ void MainWindow::addMsgToLog(string msg)
             logLength = 0;
         }
     }
+
 }
 
 void MainWindow::delayGUIAction(IValterModule *valterModule)
@@ -1156,4 +1154,86 @@ void MainWindow::on_USVoltageDownButton_clicked()
     PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
     platformLocationP1->setRelativeUSSensorVoltageDown();
     ui->USVoltageRegulatorLabel->setText(Valter::format_string("[%d] relative to initial", platformLocationP1->getRelativeUSSensorVoltage()).c_str());
+}
+
+void MainWindow::on_leftSonarScanButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setLeftSonarActivated(checked);
+    if (!platformLocationP1->getLeftSonarActivated())
+    {
+        typedef map<int, QGraphicsEllipseItem*>::iterator it_type;
+        for(it_type iterator = leftSonarDots.begin(); iterator != leftSonarDots.end(); iterator++)
+        {
+            QGraphicsEllipseItem* dot = leftSonarDots[iterator->first];
+            if (dot)
+            {
+                dot->setPen(QPen(Qt::lightGray));
+            }
+        }
+    }
+}
+
+void MainWindow::on_rightSonarScanButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setRightSonarActivated(checked);
+    if (!platformLocationP1->getRightSonarActivated())
+    {
+        typedef map<int, QGraphicsEllipseItem*>::iterator it_type;
+        for(it_type iterator = rightSonarDots.begin(); iterator != rightSonarDots.end(); iterator++)
+        {
+            QGraphicsEllipseItem* dot = rightSonarDots[iterator->first];
+            if (dot)
+            {
+                dot->setPen(QPen(Qt::lightGray));
+            }
+        }
+    }
+}
+
+void MainWindow::on_leftSonarAngleScroller_valueChanged(int value)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    if (!platformLocationP1->getLeftSonarActivated())
+    {
+        platformLocationP1->setLeftSonarAngle(value);
+    }
+
+    ui->leftSonarAngleLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_rightSonarAngleScroller_valueChanged(int value)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    if (!platformLocationP1->getRightSonarActivated())
+    {
+        platformLocationP1->setRightSonarAngle(value);
+    }
+
+    ui->rightSonarAngleLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_leftSonarAngleScroller_sliderPressed()
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setLeftSonarIntentionalAngleSet(true);
+}
+
+void MainWindow::on_rightSonarAngleScroller_sliderPressed()
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setRightSonarIntentionalAngleSet(true);
+}
+
+void MainWindow::on_leftSonarAngleScroller_sliderReleased()
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setLeftSonarIntentionalAngleSet(false);
+}
+
+void MainWindow::on_rightSonarAngleScroller_sliderReleased()
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setRightSonarIntentionalAngleSet(false);
 }

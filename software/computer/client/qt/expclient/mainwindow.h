@@ -41,6 +41,13 @@ public:
     QPixmap greenLedOnPix;
     QIcon greenLedOnIcon;
 
+    //platform locaiton p1
+    QGraphicsLineItem *leftUSSonarVector;
+    QGraphicsLineItem *rightUSSonarVector;
+    QGraphicsScene* platformLocationP1GraphicsViewScene;
+    map<int, QGraphicsEllipseItem*> leftSonarDots;
+    map<int, QGraphicsEllipseItem*> rightSonarDots;
+
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
 
@@ -224,7 +231,6 @@ private slots:
 
     void on_LEDStatesButton_toggled(bool checked);
 
-
     void on_USSignalDutyScroller_valueChanged(int value);
 
     void on_USSignalBurstScroller_valueChanged(int value);
@@ -234,6 +240,22 @@ private slots:
     void on_USVoltageUpButton_clicked();
 
     void on_USVoltageDownButton_clicked();
+
+    void on_leftSonarScanButton_toggled(bool checked);
+
+    void on_rightSonarScanButton_toggled(bool checked);
+
+    void on_leftSonarAngleScroller_valueChanged(int value);
+
+    void on_rightSonarAngleScroller_valueChanged(int value);
+
+    void on_leftSonarAngleScroller_sliderPressed();
+
+    void on_rightSonarAngleScroller_sliderPressed();
+
+    void on_leftSonarAngleScroller_sliderReleased();
+
+    void on_rightSonarAngleScroller_sliderReleased();
 
 private:
     Ui::MainWindow *ui;
@@ -250,7 +272,6 @@ private:
 
     QTimer *platformControlP1TabRefreshTimer;
     QTimer *platformLocationP1TabRefreshTimer;
-    QGraphicsScene* platformLocationP1GraphicsViewScene;
 };
 
 #endif // MAINWINDOW_H

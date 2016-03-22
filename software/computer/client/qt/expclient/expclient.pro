@@ -33,9 +33,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
             controldevice.h \
             valter.h \
-            include/serial/impl/unix.h \
-            include/serial/serial.h \
-            include/serial/v8stdint.h \
             serial/include/serial/impl/unix.h \
             serial/include/serial/serial.h \
             serial/include/serial/v8stdint.h \

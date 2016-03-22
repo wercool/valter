@@ -859,6 +859,50 @@ int main(void)
                 AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETLEFTSONAR") == 0)
+            {
+                leftUSSonarDelayCounter = 0;
+                leftUSSonarPongTrigger = 0;
+
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+                delay_us(20);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);
+
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+
+                while (leftUSSonarPongTrigger == 0)
+                {
+                    leftUSSonarDelayCounter++;
+                    if (leftUSSonarDelayCounter > 49999)
+                        break;
+                }
+                leftUSSonarReading = leftUSSonarDelayCounter;
+                sprintf((char *)msg,"LUSS:%u\n", leftUSSonarReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETRIGHTSONAR") == 0)
+            {
+                rightUSSonarDelayCounter = 0;
+                rightUSSonarPongTrigger = 0;
+
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+                delay_us(20);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);
+
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+
+                while (rightUSSonarPongTrigger == 0)
+                {
+                    rightUSSonarDelayCounter++;
+                    if (rightUSSonarDelayCounter > 49999)
+                        break;
+                }
+                rightUSSonarReading = rightUSSonarDelayCounter;
+                sprintf((char *)msg,"RUSS:%u\n", rightUSSonarReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "STARTINPUT1READINGS") == 0)
             {
                 input1Readings = 1;

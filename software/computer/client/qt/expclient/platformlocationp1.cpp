@@ -77,6 +77,27 @@ void PlatformLocationP1::resetToDefault()
     usSignalDuty            = 127;
     usSignalBurst           = 250;
     usSignalDelay           = 2500;
+
+    leftSonarActivated      = false;
+    rightSonarActivated     = false;
+
+    leftSonarAngle          = 0;
+    rightSonarAngle         = 0;
+
+    leftSonarDirection      = true;  //true - CCW, false - CW
+    rightSonarDirection     = true; //true - CW, false - CCW
+
+    leftSonarMinAngle           = -90;
+    leftSonarMaxAngle           = 30;
+    rightSonarMinAngle          = -90;
+    rightSonarMaxAngle          = 30;
+    leftSonarMinRotationDuty    = 5;
+    leftSonarMaxRotationDuty    = 40;
+    rightSonarMinRotationDuty   = 5;
+    rightSonarMaxRotationDuty   = 40;
+
+    leftSonarIntentionalAngleSet    = false;
+    rightSonarIntentionalAngleSet   = false;
 }
 
 void PlatformLocationP1::setModuleInitialState()
@@ -190,6 +211,38 @@ void PlatformLocationP1::loadDefaults()
     //usSignalDelay
     defaultValue = getDefault("usSignalDelay");
     usSignalDelay = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //leftSonarMinAngle
+    defaultValue = getDefault("leftSonarMinAngle");
+    leftSonarMinAngle = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //leftSonarMaxAngle
+    defaultValue = getDefault("leftSonarMaxAngle");
+    leftSonarMaxAngle = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightSonarMinAngle
+    defaultValue = getDefault("rightSonarMinAngle");
+    rightSonarMinAngle = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightSonarMaxAngle
+    defaultValue = getDefault("rightSonarMaxAngle");
+    rightSonarMaxAngle = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //leftSonarMinRotationDuty
+    defaultValue = getDefault("leftSonarMinRotationDuty");
+    leftSonarMinRotationDuty = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //leftSonarMaxRotationDuty
+    defaultValue = getDefault("leftSonarMaxRotationDuty");
+    leftSonarMaxRotationDuty = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightSonarMinRotationDuty
+    defaultValue = getDefault("rightSonarMinRotationDuty");
+    rightSonarMinRotationDuty = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightSonarMaxRotationDuty
+    defaultValue = getDefault("rightSonarMaxRotationDuty");
+    rightSonarMaxRotationDuty = atoi(Valter::stringToCharPtr(defaultValue));
 }
 
 bool PlatformLocationP1::getRedLedState(int index)
@@ -263,6 +316,20 @@ void PlatformLocationP1::processMessagesQueueWorker()
 
                     continue;
                 }
+                if (response.find("LUSS") !=std::string::npos) //left ultrasound sonar distance meter sensor readings
+                {
+                    int value_str_pos = response.find_first_of(":") + 1;
+                    string value_str = response.substr(value_str_pos);
+                    int  value = atoi(value_str.c_str());
+                    addLeftSonarScan(getLeftSonarAngle(), value);
+                }
+                if (response.find("RUSS") !=std::string::npos) //right ultrasound sonar distance meter sensor readings
+                {
+                    int value_str_pos = response.find_first_of(":") + 1;
+                    string value_str = response.substr(value_str_pos);
+                    int  value = atoi(value_str.c_str());
+                    addRightSonarScan(getRightSonarAngle(), value);
+                }
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }
@@ -311,7 +378,326 @@ void PlatformLocationP1::LEDStatesWorker()
             break;
         }
     }
-    Valter::log("LEDStatesWorker finished...");
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("LEDStatesWorker finished...");
+    }
+}
+
+void PlatformLocationP1::leftSonarWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (getLeftSonarActivated())
+        {
+            if (!getLeftSonarIntentionalAngleSet())
+            {
+                signed int curAngle = getLeftSonarAngle();
+                if (getLeftSonarDirection())
+                {
+                    if (curAngle > leftSonarMinAngle)
+                    {
+                        curAngle -= 2;
+                        setLeftSonarAngle(curAngle);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        sendCommand("GETLEFTSONAR");
+                        this_thread::sleep_for(std::chrono::milliseconds(50));
+                    }
+                    else
+                    {
+                        setLeftSonarDirection(false);
+                    }
+                }
+                else
+                {
+                    if (curAngle < leftSonarMaxAngle)
+                    {
+                        curAngle += 2;
+                        setLeftSonarAngle(curAngle);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        sendCommand("GETLEFTSONAR");
+                        this_thread::sleep_for(std::chrono::milliseconds(50));
+                    }
+                    else
+                    {
+                        setLeftSonarDirection(true);
+                    }
+                }
+            }
+        }
+        else
+        {
+            break;
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("leftSonarWorker finished...");
+    }
+}
+
+bool PlatformLocationP1::getLeftSonarActivated() const
+{
+    return leftSonarActivated;
+}
+
+void PlatformLocationP1::setLeftSonarActivated(bool value)
+{
+    leftSonarActivated = value;
+    if (leftSonarActivated)
+    {
+        this_thread::sleep_for(std::chrono::milliseconds(150));
+        spawnLeftSonarWorker();
+    }
+}
+
+void PlatformLocationP1::rightSonarWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (getRightSonarActivated())
+        {
+            if (!getRightSonarIntentionalAngleSet())
+            {
+                signed int curAngle = getRightSonarAngle();
+                if (getRightSonarDirection())
+                {
+                    if (curAngle < rightSonarMaxAngle)
+                    {
+                        curAngle += 2;
+                        setRightSonarAngle(curAngle);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        sendCommand("GETRIGHTSONAR");
+                        this_thread::sleep_for(std::chrono::milliseconds(50));
+                    }
+                    else
+                    {
+                        setRightSonarDirection(false);
+                    }
+                }
+                else
+                {
+                    if (curAngle > rightSonarMinAngle)
+                    {
+                        curAngle -= 2;
+                        setRightSonarAngle(curAngle);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        sendCommand("GETRIGHTSONAR");
+                        this_thread::sleep_for(std::chrono::milliseconds(50));
+                    }
+                    else
+                    {
+                        setRightSonarDirection(true);
+                    }
+                }
+            }
+        }
+        else
+        {
+            break;
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("rightSonarWorker finished...");
+    }
+}
+
+bool PlatformLocationP1::getRightSonarIntentionalAngleSet() const
+{
+    return rightSonarIntentionalAngleSet;
+}
+
+void PlatformLocationP1::setRightSonarIntentionalAngleSet(bool value)
+{
+    rightSonarIntentionalAngleSet = value;
+}
+
+void PlatformLocationP1::addLeftSonarScan(signed int angle, float distance)
+{
+    std::lock_guard<std::mutex> guard(leftSonarScans_mutex);
+    distance = distance / (200 - (rand() % 20));
+    leftSonarScans[angle] = distance;
+}
+
+void PlatformLocationP1::addRightSonarScan(signed int angle, float distance)
+{
+    std::lock_guard<std::mutex> guard(rightSonarScans_mutex);
+    distance = distance / (200 - (rand() % 20));
+    rightSonarScans[angle] = distance;
+}
+
+float PlatformLocationP1::getLeftSonarScan(signed int angle)
+{
+    return leftSonarScans[angle];
+}
+
+float PlatformLocationP1::getRightSonarScan(signed int angle)
+{
+    return rightSonarScans[angle];
+}
+
+void PlatformLocationP1::clearLeftSonarScans()
+{
+    std::lock_guard<std::mutex> guard(leftSonarScans_mutex);
+    leftSonarScans.clear();
+}
+
+void PlatformLocationP1::clearRightSonarScans()
+{
+    std::lock_guard<std::mutex> guard(rightSonarScans_mutex);
+    rightSonarScans.clear();
+}
+
+bool PlatformLocationP1::getLeftSonarIntentionalAngleSet() const
+{
+    return leftSonarIntentionalAngleSet;
+}
+
+void PlatformLocationP1::setLeftSonarIntentionalAngleSet(bool value)
+{
+    leftSonarIntentionalAngleSet = value;
+}
+
+int PlatformLocationP1::getRightSonarMaxRotationDuty() const
+{
+    return rightSonarMaxRotationDuty;
+}
+
+void PlatformLocationP1::setRightSonarMaxRotationDuty(int value)
+{
+    rightSonarMaxRotationDuty = value;
+}
+
+int PlatformLocationP1::getRightSonarMinRotationDuty() const
+{
+    return rightSonarMinRotationDuty;
+}
+
+void PlatformLocationP1::setRightSonarMinRotationDuty(int value)
+{
+    rightSonarMinRotationDuty = value;
+}
+
+int PlatformLocationP1::getLeftSonarMaxRotationDuty() const
+{
+    return leftSonarMaxRotationDuty;
+}
+
+void PlatformLocationP1::setLeftSonarMaxRotationDuty(int value)
+{
+    leftSonarMaxRotationDuty = value;
+}
+
+int PlatformLocationP1::getLeftSonarMinRotationDuty() const
+{
+    return leftSonarMinRotationDuty;
+}
+
+void PlatformLocationP1::setLeftSonarMinRotationDuty(int value)
+{
+    leftSonarMinRotationDuty = value;
+}
+
+int PlatformLocationP1::getRightSonarMaxAngle() const
+{
+    return rightSonarMaxAngle;
+}
+
+void PlatformLocationP1::setRightSonarMaxAngle(int value)
+{
+    rightSonarMaxAngle = value;
+}
+
+int PlatformLocationP1::getRightSonarMinAngle() const
+{
+    return rightSonarMinAngle;
+}
+
+void PlatformLocationP1::setRightSonarMinAngle(int value)
+{
+    rightSonarMinAngle = value;
+}
+
+int PlatformLocationP1::getLeftSonarMaxAngle() const
+{
+    return leftSonarMaxAngle;
+}
+
+void PlatformLocationP1::setLeftSonarMaxAngle(int value)
+{
+    leftSonarMaxAngle = value;
+}
+
+int PlatformLocationP1::getLeftSonarMinAngle() const
+{
+    return leftSonarMinAngle;
+}
+
+void PlatformLocationP1::setLeftSonarMinAngle(int value)
+{
+    leftSonarMinAngle = value;
+}
+
+bool PlatformLocationP1::getRightSonarDirection() const
+{
+    return rightSonarDirection;
+}
+
+void PlatformLocationP1::setRightSonarDirection(bool value)
+{
+    rightSonarDirection = value;
+}
+
+bool PlatformLocationP1::getLeftSonarDirection() const
+{
+    return leftSonarDirection;
+}
+
+void PlatformLocationP1::setLeftSonarDirection(bool value)
+{
+    leftSonarDirection = value;
+}
+
+signed int PlatformLocationP1::getRightSonarAngle() const
+{
+    return rightSonarAngle;
+}
+
+void PlatformLocationP1::setRightSonarAngle(signed int value)
+{
+    rightSonarAngle = value;
+    int dutyValue = round(27);
+    sendCommand(Valter::format_string("SETRIGHTUSSONARSERVODUTY#%d", dutyValue));
+}
+
+signed int PlatformLocationP1::getLeftSonarAngle() const
+{
+    return leftSonarAngle;
+}
+
+void PlatformLocationP1::setLeftSonarAngle(signed int value)
+{
+    leftSonarAngle = value;
+    int dutyValue = round(14);
+    sendCommand(Valter::format_string("SETLEFTUSSONARSERVODUTY#%d", dutyValue));
+}
+
+bool PlatformLocationP1::getRightSonarActivated() const
+{
+    return rightSonarActivated;
+}
+
+void PlatformLocationP1::setRightSonarActivated(bool value)
+{
+    rightSonarActivated = value;
+    if (rightSonarActivated)
+    {
+        this_thread::sleep_for(std::chrono::milliseconds(150));
+        spawnRightSonarWorker();
+    }
 }
 int PlatformLocationP1::getRelativeUSSensorVoltage() const
 {
@@ -328,6 +714,20 @@ void PlatformLocationP1::setRelativeUSSensorVoltageDown()
 {
     relativeUSSensorVoltage -= 25;
     sendCommand("USSENSORSVOLTAGEDOWN#25");
+}
+
+void PlatformLocationP1::spawnLeftSonarWorker()
+{
+    clearLeftSonarScans();
+    new std::thread(&PlatformLocationP1::leftSonarWorker, this);
+    Valter::log("leftSonarWorker spawned...");
+}
+
+void PlatformLocationP1::spawnRightSonarWorker()
+{
+    clearRightSonarScans();
+    new std::thread(&PlatformLocationP1::rightSonarWorker, this);
+    Valter::log("rightSonarWorker spawned...");
 }
 
 int PlatformLocationP1::getUsSignalDelay() const

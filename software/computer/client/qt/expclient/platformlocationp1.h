@@ -2,6 +2,7 @@
 #define PLATFORMLOCATIONP1_H
 
 #include <string>
+#include <map>
 
 #include "ivaltermodule.h"
 
@@ -43,8 +44,6 @@ public:
     float getIRSensorMeters(int channel);
     float getUSSensorMeters(int channel);
 
-    void readSensorsWorker();
-
     bool getLedStatesSet() const;
     void setLedStatesSet(bool value);
 
@@ -63,6 +62,64 @@ public:
     void setRelativeUSSensorVoltageUp();
     void setRelativeUSSensorVoltageDown();
 
+    void spawnLeftSonarWorker();
+    void spawnRightSonarWorker();
+
+    bool getLeftSonarActivated() const;
+    void setLeftSonarActivated(bool value);
+
+    bool getRightSonarActivated() const;
+    void setRightSonarActivated(bool value);
+
+    bool getLeftSonarDirection() const;
+    void setLeftSonarDirection(bool value);
+
+    bool getRightSonarDirection() const;
+    void setRightSonarDirection(bool value);
+
+    int getLeftSonarMinAngle() const;
+    void setLeftSonarMinAngle(int value);
+
+    int getLeftSonarMaxAngle() const;
+    void setLeftSonarMaxAngle(int value);
+
+    int getRightSonarMinAngle() const;
+    void setRightSonarMinAngle(int value);
+
+    int getRightSonarMaxAngle() const;
+    void setRightSonarMaxAngle(int value);
+
+    int getLeftSonarMinRotationDuty() const;
+    void setLeftSonarMinRotationDuty(int value);
+
+    int getLeftSonarMaxRotationDuty() const;
+    void setLeftSonarMaxRotationDuty(int value);
+
+    int getRightSonarMinRotationDuty() const;
+    void setRightSonarMinRotationDuty(int value);
+
+    int getRightSonarMaxRotationDuty() const;
+    void setRightSonarMaxRotationDuty(int value);
+
+    bool getLeftSonarIntentionalAngleSet() const;
+    void setLeftSonarIntentionalAngleSet(bool value);
+
+    bool getRightSonarIntentionalAngleSet() const;
+    void setRightSonarIntentionalAngleSet(bool value);
+
+    void addLeftSonarScan(signed int angle, float distance);
+    void addRightSonarScan(signed int angle, float distance);
+    float getLeftSonarScan(signed int angle);
+    float getRightSonarScan(signed int angle);
+    void clearLeftSonarScans();
+    void clearRightSonarScans();
+
+    signed int getLeftSonarAngle() const;
+    void setLeftSonarAngle(signed int value);
+
+    signed int getRightSonarAngle() const;
+    void setRightSonarAngle(signed int value);
+
 private:
     PlatformLocationP1();
     static PlatformLocationP1* pPlatformLocationP1;         // PLATFORM-LOCATION-P1's singleton instance
@@ -71,8 +128,10 @@ private:
     static const string defaultsFilePath;
 
     void processMessagesQueueWorker();
-    void LEDStatesWorker();
 
+    void readSensorsWorker();
+
+    void LEDStatesWorker();
     bool ledStatesSet;
 
     bool redLedArray[12];
@@ -93,6 +152,35 @@ private:
     int usSignalDuty;
     int usSignalBurst;
     int usSignalDelay;
+
+    void leftSonarWorker();
+    bool leftSonarActivated;
+    void rightSonarWorker();
+    bool rightSonarActivated;
+
+    signed int leftSonarAngle;
+    signed int rightSonarAngle;
+    bool leftSonarDirection;  //true - CCW, false - CW
+    bool rightSonarDirection; //true - CW, false - CCW
+
+    map<signed int, float>leftSonarScans;  //<angle, distance>
+    map<signed int, float>rightSonarScans; //<angle, distance>
+
+    std::mutex leftSonarScans_mutex;
+    std::mutex rightSonarScans_mutex;
+
+
+    bool leftSonarIntentionalAngleSet;
+    bool rightSonarIntentionalAngleSet;
+
+    int leftSonarMinAngle;
+    int leftSonarMaxAngle;
+    int rightSonarMinAngle;
+    int rightSonarMaxAngle;
+    int leftSonarMinRotationDuty;
+    int leftSonarMaxRotationDuty;
+    int rightSonarMinRotationDuty;
+    int rightSonarMaxRotationDuty;
 };
 
 #endif // PLATFORMLOCATIONP1_H

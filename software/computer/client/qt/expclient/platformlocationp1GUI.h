@@ -11,6 +11,8 @@
 
 #include <valter.h>
 
+#define PI 3.14159
+
 void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 {
     if (ui->platformLocationP1RedrawGUICheckBox->isChecked()) //PLATFROM-LOCATION-P1 Tab
@@ -89,6 +91,42 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 }
             }
         }
+
+        //sonar animation goes here
+        double endX;
+        double endY;
+
+        if (platformLocationP1->getLeftSonarActivated() || platformLocationP1->getLeftSonarIntentionalAngleSet())
+        {
+            if (platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) != 0.0)
+            {
+                endX = 345 + platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) * sin((180 - platformLocationP1->getLeftSonarAngle()) * PI / 180);
+                endY = 285 + platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) * cos((180 - platformLocationP1->getLeftSonarAngle()) * PI / 180);
+                MainWindow::getInstance()->leftUSSonarVector->setLine(345, 285, endX, endY);
+                ui->leftSonarAngleScroller->setValue(platformLocationP1->getLeftSonarAngle());
+
+                MainWindow::getInstance()->platformLocationP1GraphicsViewScene->removeItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()]));
+                MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()] = new QGraphicsEllipseItem;
+                ((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])->setRect( endX - 4, endY - 4, 8, 8 );
+                MainWindow::getInstance()->platformLocationP1GraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()]));
+            }
+        }
+
+        if (platformLocationP1->getRightSonarActivated() || platformLocationP1->getRightSonarIntentionalAngleSet())
+        {
+            if (platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) != 0.0)
+            {
+                endX = 445 + platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) * sin((180 - platformLocationP1->getRightSonarAngle()) * PI / 180);
+                endY = 285 + platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) * cos((180 - platformLocationP1->getRightSonarAngle()) * PI / 180);
+                MainWindow::getInstance()->rightUSSonarVector->setLine(445, 285, endX, endY);
+                ui->rightSonarAngleScroller->setValue(platformLocationP1->getRightSonarAngle());
+
+                MainWindow::getInstance()->platformLocationP1GraphicsViewScene->removeItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()]));
+                MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()] = new QGraphicsEllipseItem;
+                ((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])->setRect( endX - 4, endY - 4, 8, 8 );
+                MainWindow::getInstance()->platformLocationP1GraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()]));
+            }
+        }
     }
 }
 
@@ -109,6 +147,14 @@ void loadPlatformLocationP1Defaults(Ui::MainWindow *ui)
     ui->USSignalDutyLabel->setText(Valter::format_string("[%d]", platformLocationP1->getUsSignalDuty()).c_str());
     ui->USSignalBurstLabel->setText(Valter::format_string("[%d]", platformLocationP1->getUsSignalBurst()).c_str());
     ui->USSignalDelayLabel->setText(Valter::format_string("[%d]", platformLocationP1->getUsSignalDelay()).c_str());
+
+    ui->leftSonarAngleScroller->setMinimum(platformLocationP1->getLeftSonarMinAngle());
+    ui->leftSonarAngleScroller->setMaximum(platformLocationP1->getLeftSonarMaxAngle());
+    ui->rightSonarAngleScroller->setMinimum(platformLocationP1->getRightSonarMinAngle());
+    ui->rightSonarAngleScroller->setMaximum(platformLocationP1->getRightSonarMaxAngle());
+
+    ui->leftSonarAngleLabel->setText(Valter::format_string("[%d]", platformLocationP1->getLeftSonarAngle()).c_str());
+    ui->rightSonarAngleLabel->setText(Valter::format_string("[%d]", platformLocationP1->getRightSonarAngle()).c_str());
 }
 
 void setPlatformLocationIRSensorPresets(QTableWidgetItem *item)
