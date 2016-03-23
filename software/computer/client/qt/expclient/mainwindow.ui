@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>791</width>
-             <height>1022</height>
+             <width>792</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2775,7 +2775,7 @@ font-weight: bold;</string>
             <rect>
              <x>0</x>
              <y>-1305</y>
-             <width>809</width>
+             <width>810</width>
              <height>1830</height>
             </rect>
            </property>
@@ -5724,7 +5724,7 @@ background-repeat: repeat-no;</string>
                  <enum>Qt::Vertical</enum>
                 </property>
                </widget>
-               <widget class="AccelerometerRenderScene" name="openGLWidget">
+               <widget class="AccelerometerRenderScene" name="accelerometerOpenGLWidget" native="true">
                 <property name="geometry">
                  <rect>
                   <x>10</x>
@@ -5733,8 +5733,14 @@ background-repeat: repeat-no;</string>
                   <height>261</height>
                  </rect>
                 </property>
+                <property name="autoFillBackground">
+                 <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(0, 0, 0);</string>
+                </property>
                </widget>
-               <widget class="MagnetometerRenderScene" name="openGLWidget_2">
+               <widget class="MagnetometerRenderScene" name="magnetometerOpenGLWidget" native="true">
                 <property name="geometry">
                  <rect>
                   <x>400</x>
@@ -5742,6 +5748,9 @@ background-repeat: repeat-no;</string>
                   <width>371</width>
                   <height>261</height>
                  </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(0, 0, 0);</string>
                 </property>
                </widget>
               </widget>
@@ -6176,12 +6185,12 @@ background-repeat: repeat-no;</string>
  <customwidgets>
   <customwidget>
    <class>AccelerometerRenderScene</class>
-   <extends>QOpenGLWidget</extends>
+   <extends>QWidget</extends>
    <header>accelerometerrenderscene.h</header>
   </customwidget>
   <customwidget>
    <class>MagnetometerRenderScene</class>
-   <extends>QOpenGLWidget</extends>
+   <extends>QWidget</extends>
    <header>magnetometerrenderscene.h</header>
   </customwidget>
  </customwidgets>

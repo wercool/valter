@@ -143,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //platform location p1
     platformLocationP1TabRefreshTimer = new QTimer(this);
     connect(platformLocationP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1TabRefreshTimerUpdate()));
-    platformLocationP1TabRefreshTimer->start(10);
+    platformLocationP1TabRefreshTimer->start(25);
 
     redLedOffPix = QPixmap(":/red-led-off.png");
     redLedOffIcon = QIcon(redLedOffPix);

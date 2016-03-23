@@ -1,6 +1,6 @@
 #include "accelerometerrenderscene.h"
 
-AccelerometerRenderScene::AccelerometerRenderScene(QWidget *parent): QOpenGLWidget(parent)
+AccelerometerRenderScene::AccelerometerRenderScene(QWidget *parent): QGLWidget(parent)
 {
 
 }

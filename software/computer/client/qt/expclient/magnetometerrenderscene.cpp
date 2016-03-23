@@ -1,6 +1,6 @@
 #include "magnetometerrenderscene.h"
 
-MagnetometerRenderScene::MagnetometerRenderScene(QWidget *parent): QOpenGLWidget(parent)
+MagnetometerRenderScene::MagnetometerRenderScene(QWidget *parent): QGLWidget(parent)
 {
 
 }

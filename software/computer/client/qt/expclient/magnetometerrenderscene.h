@@ -1,9 +1,9 @@
 #ifndef MAGNETOMETERRENDERSCENE_H
 #define MAGNETOMETERRENDERSCENE_H
 
-#include <QOpenGLWidget>
+#include <QGLWidget>
 
-class MagnetometerRenderScene : public QOpenGLWidget
+class MagnetometerRenderScene : public QGLWidget
 {
 public:
     MagnetometerRenderScene(QWidget *parent = 0);

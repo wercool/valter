@@ -1,9 +1,9 @@
 #ifndef ACCELEROMETERRENDERSCENE_H
 #define ACCELEROMETERRENDERSCENE_H
 
-#include <QOpenGLWidget>
+#include <QGLWidget>
 
-class AccelerometerRenderScene : public QOpenGLWidget
+class AccelerometerRenderScene : public QGLWidget
 {
 public:
     AccelerometerRenderScene(QWidget *parent = 0);

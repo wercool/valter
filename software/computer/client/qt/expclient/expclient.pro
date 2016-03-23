@@ -28,7 +28,7 @@ SOURCES += main.cpp\
            platformmanipulatorandirbumper.cpp \
            bodycontrolp1.cpp \
            accelerometerrenderscene.cpp \
-    magnetometerrenderscene.cpp
+           magnetometerrenderscene.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -45,7 +45,7 @@ HEADERS  += mainwindow.h \
             platformcontrolp1GUI.h \
             platformlocationp1GUI.h \
             accelerometerrenderscene.h \
-    magnetometerrenderscene.h
+            magnetometerrenderscene.h
 
 FORMS    += mainwindow.ui
 
