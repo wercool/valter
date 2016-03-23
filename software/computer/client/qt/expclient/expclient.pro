@@ -7,9 +7,7 @@
 QT       += core
 QT       += gui
 QT       += serialport
-
-#unix: CONFIG += link_pkgconfig
-#unix: PKGCONFIG += gtk+-3.0
+QT       += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,7 +26,9 @@ SOURCES += main.cpp\
            platformlocationp1.cpp \
            platformcontrolp2.cpp \
            platformmanipulatorandirbumper.cpp \
-           bodycontrolp1.cpp
+           bodycontrolp1.cpp \
+           accelerometerrenderscene.cpp \
+    magnetometerrenderscene.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -42,8 +42,10 @@ HEADERS  += mainwindow.h \
             platformcontrolp2.h \
             platformmanipulatorandirbumper.h \
             bodycontrolp1.h \
-    platformcontrolp1GUI.h \
-    platformlocationp1GUI.h
+            platformcontrolp1GUI.h \
+            platformlocationp1GUI.h \
+            accelerometerrenderscene.h \
+    magnetometerrenderscene.h
 
 FORMS    += mainwindow.ui
 

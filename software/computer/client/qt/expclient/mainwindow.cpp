@@ -57,6 +57,31 @@ class GenericEventFilter: public QObject
   }
 };
 
+class FronSonarsFrameEventFilter: public QObject
+{
+  public:
+  Ui::MainWindow *ui;
+  FronSonarsFrameEventFilter(Ui::MainWindow *ui):QObject()
+  {
+      this->ui = ui;
+  }
+
+  ~FronSonarsFrameEventFilter(){}
+
+  bool eventFilter(QObject* widget, QEvent* event)
+  {
+      if(event->type() == QEvent::Close)
+      {
+          ui->platfromLocationP1FronSonarsFrameContainer->addWidget((QWidget*)widget);
+          return true;
+      }
+      else
+      {
+        return QObject::eventFilter(widget, event);
+      }
+  }
+};
+
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
 
@@ -175,7 +200,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     rightUSSonarVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
     rightUSSonarVector->setLine(445, 285, 445, 50);
     platformLocationP1GraphicsViewScene->addItem(rightUSSonarVector);
-
 }
 
 MainWindow::~MainWindow()
@@ -1236,4 +1260,13 @@ void MainWindow::on_rightSonarAngleScroller_sliderReleased()
 {
     PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
     platformLocationP1->setRightSonarIntentionalAngleSet(false);
+}
+
+void MainWindow::on_detatchSonarsFrameButton_clicked()
+{
+    QWidget* pWidget = ui->platfromLocationP1FronSonarsFrame;
+    pWidget->installEventFilter(new FronSonarsFrameEventFilter(ui));
+    pWidget->setWindowTitle("Fron Platform Sonars");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
 }

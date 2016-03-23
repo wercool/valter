@@ -397,11 +397,10 @@ void PlatformLocationP1::leftSonarWorker()
                 {
                     if (curAngle > leftSonarMinAngle)
                     {
-                        curAngle -= 2;
+                        curAngle -= 4;
                         setLeftSonarAngle(curAngle);
                         this_thread::sleep_for(std::chrono::milliseconds(100));
                         sendCommand("GETLEFTSONAR");
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
                     }
                     else
                     {
@@ -412,11 +411,10 @@ void PlatformLocationP1::leftSonarWorker()
                 {
                     if (curAngle < leftSonarMaxAngle)
                     {
-                        curAngle += 2;
+                        curAngle += 4;
                         setLeftSonarAngle(curAngle);
                         this_thread::sleep_for(std::chrono::milliseconds(100));
                         sendCommand("GETLEFTSONAR");
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
                     }
                     else
                     {
@@ -429,7 +427,7 @@ void PlatformLocationP1::leftSonarWorker()
         {
             break;
         }
-        this_thread::sleep_for(std::chrono::milliseconds(10));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     if (getControlDeviceIsSet())
     {
@@ -465,11 +463,10 @@ void PlatformLocationP1::rightSonarWorker()
                 {
                     if (curAngle < rightSonarMaxAngle)
                     {
-                        curAngle += 2;
+                        curAngle += 4;
                         setRightSonarAngle(curAngle);
                         this_thread::sleep_for(std::chrono::milliseconds(100));
                         sendCommand("GETRIGHTSONAR");
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
                     }
                     else
                     {
@@ -480,11 +477,10 @@ void PlatformLocationP1::rightSonarWorker()
                 {
                     if (curAngle > rightSonarMinAngle)
                     {
-                        curAngle -= 2;
+                        curAngle -= 4;
                         setRightSonarAngle(curAngle);
                         this_thread::sleep_for(std::chrono::milliseconds(100));
                         sendCommand("GETRIGHTSONAR");
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
                     }
                     else
                     {
@@ -497,7 +493,7 @@ void PlatformLocationP1::rightSonarWorker()
         {
             break;
         }
-        this_thread::sleep_for(std::chrono::milliseconds(10));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     if (getControlDeviceIsSet())
     {

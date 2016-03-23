@@ -257,6 +257,8 @@ private slots:
 
     void on_rightSonarAngleScroller_sliderReleased();
 
+    void on_detatchSonarsFrameButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

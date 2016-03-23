@@ -2754,7 +2754,7 @@ font-weight: bold;</string>
          <number>0</number>
         </property>
         <item>
-         <widget class="QScrollArea" name="scrollArea_2">
+         <widget class="QScrollArea" name="platfromLocationP1ScrollAreaContainer">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -2774,15 +2774,15 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-975</y>
+             <y>-1305</y>
              <width>809</width>
-             <height>1500</height>
+             <height>1830</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>1500</height>
+             <height>1830</height>
             </size>
            </property>
            <widget class="QFrame" name="frame">
@@ -4953,7 +4953,7 @@ font-weight: bold;</string>
              <rect>
               <x>5</x>
               <y>930</y>
-              <width>792</width>
+              <width>670</width>
               <height>3</height>
              </rect>
             </property>
@@ -5220,167 +5220,563 @@ font-weight: bold;</string>
              <string>[...]</string>
             </property>
            </widget>
-           <widget class="QGraphicsView" name="platformLocationP1GraphicsView">
+           <widget class="QPushButton" name="detatchSonarsFrameButton">
             <property name="geometry">
              <rect>
-              <x>5</x>
-              <y>940</y>
-              <width>792</width>
-              <height>402</height>
+              <x>680</x>
+              <y>920</y>
+              <width>121</width>
+              <height>21</height>
              </rect>
             </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>16777215</height>
-             </size>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
             </property>
-            <property name="styleSheet">
-             <string notr="true">background-image: url(:/platfrom-top-view-m1.png);
+            <property name="text">
+             <string>Detach Sonars Frame</string>
+            </property>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>950</y>
+              <width>791</width>
+              <height>481</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="platfromLocationP1FronSonarsFrameContainer">
+             <item>
+              <widget class="QFrame" name="platfromLocationP1FronSonarsFrame">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <widget class="QPushButton" name="rightSonarScanButton">
+                <property name="geometry">
+                 <rect>
+                  <x>660</x>
+                  <y>410</y>
+                  <width>125</width>
+                  <height>27</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>RIGHT SONAR</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <selectedoff>:/sonar-off.png</selectedoff>
+                  <selectedon>:/sonar.png</selectedon>
+                 </iconset>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_44">
+                <property name="geometry">
+                 <rect>
+                  <x>230</x>
+                  <y>410</y>
+                  <width>148</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Right Sonar Angle</string>
+                </property>
+               </widget>
+               <widget class="QScrollBar" name="rightSonarAngleScroller">
+                <property name="geometry">
+                 <rect>
+                  <x>230</x>
+                  <y>450</y>
+                  <width>200</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+               <widget class="QPushButton" name="leftSonarScanButton">
+                <property name="geometry">
+                 <rect>
+                  <x>530</x>
+                  <y>410</y>
+                  <width>125</width>
+                  <height>27</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>LEFT SONAR</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <activeoff>:/sonar-off.png</activeoff>
+                  <activeon>:/sonar.png</activeon>
+                  <selectedoff>:/sonar-off.png</selectedoff>
+                  <selectedon>:/sonar.png</selectedon>
+                 </iconset>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+               <widget class="QLabel" name="rightSonarAngleLabel">
+                <property name="geometry">
+                 <rect>
+                  <x>230</x>
+                  <y>430</y>
+                  <width>110</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>8</pointsize>
+                  <italic>true</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>[...]</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="leftSonarAngleLabel">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>430</y>
+                  <width>110</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>8</pointsize>
+                  <italic>true</italic>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>[...]</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_33">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>410</y>
+                  <width>148</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Left Sonar Angle</string>
+                </property>
+               </widget>
+               <widget class="QScrollBar" name="leftSonarAngleScroller">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>450</y>
+                  <width>200</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+               <widget class="QGraphicsView" name="platformLocationP1GraphicsView">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>792</width>
+                  <height>402</height>
+                 </rect>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="toolTip">
+                 <string>Doubleclick to detach</string>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-image: url(:/platfrom-top-view-m1.png);
 background-color: rgb(227, 227, 227);
 background-repeat: repeat-no;</string>
-            </property>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::NoFrame</enum>
+                </property>
+               </widget>
+              </widget>
+             </item>
+            </layout>
            </widget>
-           <widget class="QPushButton" name="leftSonarScanButton">
+           <widget class="QWidget" name="verticalLayoutWidget_2">
             <property name="geometry">
              <rect>
-              <x>540</x>
-              <y>1350</y>
-              <width>125</width>
-              <height>27</height>
+              <x>10</x>
+              <y>1470</y>
+              <width>791</width>
+              <height>351</height>
              </rect>
             </property>
-            <property name="text">
-             <string>LEFT SONAR</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <activeoff>:/sonar-off.png</activeoff>
-              <activeon>:/sonar.png</activeon>
-              <selectedoff>:/sonar-off.png</selectedoff>
-              <selectedon>:/sonar.png</selectedon>
-             </iconset>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
+            <layout class="QVBoxLayout" name="accAndMagFrameContainer">
+             <item>
+              <widget class="QFrame" name="accAndMagFrame">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <widget class="QLCDNumber" name="accelerometerXLcdNumber">
+                <property name="geometry">
+                 <rect>
+                  <x>30</x>
+                  <y>35</y>
+                  <width>81</width>
+                  <height>26</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_25">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>10</y>
+                  <width>171</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Accelerometer Readings</string>
+                </property>
+               </widget>
+               <widget class="QCheckBox" name="accelerometerTrackCheckBox">
+                <property name="geometry">
+                 <rect>
+                  <x>180</x>
+                  <y>8</y>
+                  <width>97</width>
+                  <height>22</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>track</string>
+                </property>
+               </widget>
+               <widget class="QCheckBox" name="accelerometerRawCheckBox">
+                <property name="geometry">
+                 <rect>
+                  <x>250</x>
+                  <y>8</y>
+                  <width>121</width>
+                  <height>22</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>raw readings</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_29">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>40</y>
+                  <width>21</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>X:</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_30">
+                <property name="geometry">
+                 <rect>
+                  <x>120</x>
+                  <y>40</y>
+                  <width>21</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_45">
+                <property name="geometry">
+                 <rect>
+                  <x>230</x>
+                  <y>40</y>
+                  <width>21</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Z:</string>
+                </property>
+               </widget>
+               <widget class="QLCDNumber" name="accelerometerYLcdNumber">
+                <property name="geometry">
+                 <rect>
+                  <x>140</x>
+                  <y>35</y>
+                  <width>81</width>
+                  <height>26</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+               <widget class="QLCDNumber" name="accelerometerZLcdNumber">
+                <property name="geometry">
+                 <rect>
+                  <x>250</x>
+                  <y>35</y>
+                  <width>81</width>
+                  <height>26</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_54">
+                <property name="geometry">
+                 <rect>
+                  <x>420</x>
+                  <y>40</y>
+                  <width>21</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>X:</string>
+                </property>
+               </widget>
+               <widget class="QCheckBox" name="magnetometerTrackCheckBox">
+                <property name="geometry">
+                 <rect>
+                  <x>590</x>
+                  <y>8</y>
+                  <width>97</width>
+                  <height>22</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>track</string>
+                </property>
+               </widget>
+               <widget class="QLCDNumber" name="magnetometerYLcdNumber">
+                <property name="geometry">
+                 <rect>
+                  <x>550</x>
+                  <y>35</y>
+                  <width>81</width>
+                  <height>26</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_55">
+                <property name="geometry">
+                 <rect>
+                  <x>640</x>
+                  <y>40</y>
+                  <width>21</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Z:</string>
+                </property>
+               </widget>
+               <widget class="QCheckBox" name="magnetometerRawCheckBox">
+                <property name="geometry">
+                 <rect>
+                  <x>660</x>
+                  <y>8</y>
+                  <width>121</width>
+                  <height>22</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>raw readings</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_56">
+                <property name="geometry">
+                 <rect>
+                  <x>410</x>
+                  <y>10</y>
+                  <width>171</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="text">
+                 <string>Magnetometer Readings</string>
+                </property>
+               </widget>
+               <widget class="QLCDNumber" name="magnetometerZLcdNumber">
+                <property name="geometry">
+                 <rect>
+                  <x>660</x>
+                  <y>35</y>
+                  <width>81</width>
+                  <height>26</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+               <widget class="QLCDNumber" name="magnetometerXLcdNumber">
+                <property name="geometry">
+                 <rect>
+                  <x>440</x>
+                  <y>35</y>
+                  <width>81</width>
+                  <height>26</height>
+                 </rect>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="label_57">
+                <property name="geometry">
+                 <rect>
+                  <x>530</x>
+                  <y>40</y>
+                  <width>21</width>
+                  <height>17</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>14</pointsize>
+                 </font>
+                </property>
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+               <widget class="Line" name="line_23">
+                <property name="geometry">
+                 <rect>
+                  <x>382</x>
+                  <y>10</y>
+                  <width>16</width>
+                  <height>321</height>
+                 </rect>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+               <widget class="AccelerometerRenderScene" name="openGLWidget">
+                <property name="geometry">
+                 <rect>
+                  <x>10</x>
+                  <y>70</y>
+                  <width>371</width>
+                  <height>261</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="MagnetometerRenderScene" name="openGLWidget_2">
+                <property name="geometry">
+                 <rect>
+                  <x>400</x>
+                  <y>70</y>
+                  <width>371</width>
+                  <height>261</height>
+                 </rect>
+                </property>
+               </widget>
+              </widget>
+             </item>
+            </layout>
            </widget>
-           <widget class="QPushButton" name="rightSonarScanButton">
+           <widget class="Line" name="line_22">
             <property name="geometry">
              <rect>
-              <x>670</x>
-              <y>1350</y>
-              <width>125</width>
-              <height>27</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>RIGHT SONAR</string>
-            </property>
-            <property name="icon">
-             <iconset>
-              <selectedoff>:/sonar-off.png</selectedoff>
-              <selectedon>:/sonar.png</selectedon>
-             </iconset>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-           <widget class="QScrollBar" name="leftSonarAngleScroller">
-            <property name="geometry">
-             <rect>
-              <x>5</x>
-              <y>1390</y>
-              <width>200</width>
-              <height>16</height>
+              <x>10</x>
+              <y>1450</y>
+              <width>635</width>
+              <height>3</height>
              </rect>
             </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
-           <widget class="QLabel" name="label_33">
+           <widget class="QPushButton" name="detatchSonarsFrameButton_2">
             <property name="geometry">
              <rect>
-              <x>10</x>
-              <y>1350</y>
-              <width>148</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Left Sonar Angle</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="leftSonarAngleLabel">
-            <property name="geometry">
-             <rect>
-              <x>10</x>
-              <y>1370</y>
-              <width>110</width>
-              <height>17</height>
+              <x>650</x>
+              <y>1440</y>
+              <width>151</width>
+              <height>21</height>
              </rect>
             </property>
             <property name="font">
              <font>
               <pointsize>8</pointsize>
-              <italic>true</italic>
              </font>
             </property>
             <property name="text">
-             <string>[...]</string>
-            </property>
-           </widget>
-           <widget class="QScrollBar" name="rightSonarAngleScroller">
-            <property name="geometry">
-             <rect>
-              <x>220</x>
-              <y>1390</y>
-              <width>200</width>
-              <height>16</height>
-             </rect>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-           <widget class="QLabel" name="label_44">
-            <property name="geometry">
-             <rect>
-              <x>225</x>
-              <y>1350</y>
-              <width>148</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="text">
-             <string>Right Sonar Angle</string>
-            </property>
-           </widget>
-           <widget class="QLabel" name="rightSonarAngleLabel">
-            <property name="geometry">
-             <rect>
-              <x>225</x>
-              <y>1370</y>
-              <width>110</width>
-              <height>17</height>
-             </rect>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>8</pointsize>
-              <italic>true</italic>
-             </font>
-            </property>
-            <property name="text">
-             <string>[...]</string>
+             <string>Detach Acc and Mag Frame</string>
             </property>
            </widget>
           </widget>
@@ -5777,6 +6173,18 @@ background-repeat: repeat-no;</string>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>AccelerometerRenderScene</class>
+   <extends>QOpenGLWidget</extends>
+   <header>accelerometerrenderscene.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MagnetometerRenderScene</class>
+   <extends>QOpenGLWidget</extends>
+   <header>magnetometerrenderscene.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>scrollArea</tabstop>
   <tabstop>stopAllPlatformControlP1Button</tabstop>
