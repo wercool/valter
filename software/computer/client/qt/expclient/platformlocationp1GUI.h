@@ -15,20 +15,6 @@
 
 void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 {
-    //TEMP
-    timeval curTime;
-    gettimeofday(&curTime, NULL);
-    int milli = curTime.tv_usec / 1000;
-
-    char buffer [80];
-    strftime(buffer, 80, "%H:%M:%S", localtime(&curTime.tv_sec));
-
-    char currentTime[84] = "";
-    sprintf(currentTime, "%s:%03d", buffer, milli);
-
-    qDebug("%s", currentTime);
-
-
     if (ui->platformLocationP1RedrawGUICheckBox->isChecked()) //PLATFROM-LOCATION-P1 Tab
     {
         PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
