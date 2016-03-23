@@ -133,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     platformControlP1TabRefreshTimer = new QTimer(this);
     connect(platformControlP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP1TabRefreshTimerUpdate()));
-    platformControlP1TabRefreshTimer->start(10);
+    platformControlP1TabRefreshTimer->start(100);
 
     delayedGUIActionsProcessingTimer = new QTimer(this);
     connect(delayedGUIActionsProcessingTimer, SIGNAL(timeout()), this, SLOT(delayedGUIActionsProcessingTimerUpdate()));
@@ -143,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     //platform location p1
     platformLocationP1TabRefreshTimer = new QTimer(this);
     connect(platformLocationP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1TabRefreshTimerUpdate()));
-    platformLocationP1TabRefreshTimer->start(25);
+    platformLocationP1TabRefreshTimer->start(100);
 
     redLedOffPix = QPixmap(":/red-led-off.png");
     redLedOffIcon = QIcon(redLedOffPix);
