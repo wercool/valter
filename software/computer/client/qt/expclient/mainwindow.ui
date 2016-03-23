@@ -53,7 +53,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>792</width>
+             <width>781</width>
              <height>1016</height>
             </rect>
            </property>
@@ -5724,35 +5724,6 @@ background-repeat: repeat-no;</string>
                  <enum>Qt::Vertical</enum>
                 </property>
                </widget>
-               <widget class="AccelerometerRenderScene" name="accelerometerOpenGLWidget" native="true">
-                <property name="geometry">
-                 <rect>
-                  <x>10</x>
-                  <y>70</y>
-                  <width>371</width>
-                  <height>261</height>
-                 </rect>
-                </property>
-                <property name="autoFillBackground">
-                 <bool>false</bool>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(0, 0, 0);</string>
-                </property>
-               </widget>
-               <widget class="MagnetometerRenderScene" name="magnetometerOpenGLWidget" native="true">
-                <property name="geometry">
-                 <rect>
-                  <x>400</x>
-                  <y>70</y>
-                  <width>371</width>
-                  <height>261</height>
-                 </rect>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(0, 0, 0);</string>
-                </property>
-               </widget>
               </widget>
              </item>
             </layout>
@@ -6182,18 +6153,6 @@ background-repeat: repeat-no;</string>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>AccelerometerRenderScene</class>
-   <extends>QWidget</extends>
-   <header>accelerometerrenderscene.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MagnetometerRenderScene</class>
-   <extends>QWidget</extends>
-   <header>magnetometerrenderscene.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>scrollArea</tabstop>
   <tabstop>stopAllPlatformControlP1Button</tabstop>

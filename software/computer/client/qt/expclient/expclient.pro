@@ -6,7 +6,7 @@
 
 QT       += core
 QT       += gui
-QT       += opengl
+#QT       += opengl
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,9 +25,7 @@ SOURCES += main.cpp\
            platformlocationp1.cpp \
            platformcontrolp2.cpp \
            platformmanipulatorandirbumper.cpp \
-           bodycontrolp1.cpp \
-           accelerometerrenderscene.cpp \
-           magnetometerrenderscene.cpp
+           bodycontrolp1.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -42,9 +40,7 @@ HEADERS  += mainwindow.h \
             platformmanipulatorandirbumper.h \
             bodycontrolp1.h \
             platformcontrolp1GUI.h \
-            platformlocationp1GUI.h \
-            accelerometerrenderscene.h \
-            magnetometerrenderscene.h
+            platformlocationp1GUI.h
 
 FORMS    += mainwindow.ui
 
