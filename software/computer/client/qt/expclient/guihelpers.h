@@ -94,11 +94,15 @@ class ACCAndMAGFrameEventFilter: public QObject
       if(event->type() == QEvent::Close)
       {
           ui->accAndMagFrameContainer->addWidget((QWidget*)widget);
+          MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->clear();
           return true;
       }
       else if(event->type() == QEvent::Resize)
       {
           MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->setSceneRect(0, 0, ui->accelerometerGraphicsView->width() - 5, ui->accelerometerGraphicsView->height() - 5);
+          MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->clear();
+          MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->setSceneRect(0, 0, ui->magnetometerGraphicsView->width() - 5, ui->magnetometerGraphicsView->height() - 5);
+          MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->clear();
           return true;
       }
       else

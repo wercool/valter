@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>792</width>
-             <height>1016</height>
+             <width>791</width>
+             <height>1022</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2774,15 +2774,15 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1375</y>
-             <width>810</width>
-             <height>1900</height>
+             <y>-1835</y>
+             <width>809</width>
+             <height>2500</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>1900</height>
+             <height>2500</height>
             </size>
            </property>
            <widget class="QFrame" name="frame">
@@ -5483,6 +5483,9 @@ background-repeat: repeat-no;</string>
                      <pointsize>14</pointsize>
                     </font>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(0, 255, 0);</string>
+                   </property>
                    <property name="text">
                     <string>Z:</string>
                    </property>
@@ -5500,6 +5503,9 @@ background-repeat: repeat-no;</string>
                     <font>
                      <pointsize>14</pointsize>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 0, 0);</string>
                    </property>
                    <property name="text">
                     <string>X:</string>
@@ -5558,6 +5564,9 @@ background-repeat: repeat-no;</string>
                      <pointsize>14</pointsize>
                     </font>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(0, 0, 255);</string>
+                   </property>
                    <property name="text">
                     <string>Y:</string>
                    </property>
@@ -5575,6 +5584,9 @@ background-repeat: repeat-no;</string>
                     <font>
                      <pointsize>14</pointsize>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(0, 255, 0);</string>
                    </property>
                    <property name="text">
                     <string>Z:</string>
@@ -5606,6 +5618,9 @@ background-repeat: repeat-no;</string>
                     <font>
                      <pointsize>14</pointsize>
                     </font>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(255, 0, 0);</string>
                    </property>
                    <property name="text">
                     <string>X:</string>
@@ -5690,6 +5705,9 @@ background-repeat: repeat-no;</string>
                      <pointsize>14</pointsize>
                     </font>
                    </property>
+                   <property name="styleSheet">
+                    <string notr="true">color: rgb(0, 0, 255);</string>
+                   </property>
                    <property name="text">
                     <string>Y:</string>
                    </property>
@@ -5720,43 +5738,6 @@ background-repeat: repeat-no;</string>
                     <string notr="true">background-color: rgb(255, 255, 255);</string>
                    </property>
                   </widget>
-                  <zorder>label_45</zorder>
-                  <zorder>label_54</zorder>
-                  <zorder>label_25</zorder>
-                  <zorder>accelerometerTrackCheckBox</zorder>
-                  <zorder>accelerometerXLcdNumber</zorder>
-                  <zorder>label_56</zorder>
-                  <zorder>label_57</zorder>
-                  <zorder>label_55</zorder>
-                  <zorder>accelerometerRawCheckBox</zorder>
-                  <zorder>label_29</zorder>
-                  <zorder>magnetometerRawCheckBox</zorder>
-                  <zorder>accelerometerYLcdNumber</zorder>
-                  <zorder>magnetometerYLcdNumber</zorder>
-                  <zorder>magnetometerTrackCheckBox</zorder>
-                  <zorder>accelerometerZLcdNumber</zorder>
-                  <zorder>label_30</zorder>
-                  <zorder>magnetometerXLcdNumber</zorder>
-                  <zorder>magnetometerZLcdNumber</zorder>
-                  <zorder>accelerometerTrackCheckBox</zorder>
-                  <zorder>label_45</zorder>
-                  <zorder>label_54</zorder>
-                  <zorder>label_25</zorder>
-                  <zorder>accelerometerXLcdNumber</zorder>
-                  <zorder>label_56</zorder>
-                  <zorder>label_57</zorder>
-                  <zorder>label_55</zorder>
-                  <zorder>accelerometerRawCheckBox</zorder>
-                  <zorder>label_29</zorder>
-                  <zorder>magnetometerRawCheckBox</zorder>
-                  <zorder>accelerometerYLcdNumber</zorder>
-                  <zorder>magnetometerYLcdNumber</zorder>
-                  <zorder>magnetometerTrackCheckBox</zorder>
-                  <zorder>accelerometerZLcdNumber</zorder>
-                  <zorder>label_30</zorder>
-                  <zorder>magnetometerXLcdNumber</zorder>
-                  <zorder>magnetometerZLcdNumber</zorder>
-                  <zorder>accelerometerGraphicsViewRedrawCheckbox</zorder>
                  </widget>
                 </item>
                 <item row="1" column="0">
@@ -5808,9 +5789,9 @@ background-repeat: repeat-no;</string>
                <zorder>line_23</zorder>
                <zorder>accelerometerGraphicsView</zorder>
                <zorder>magnetometerGraphicsView</zorder>
+               <zorder>widget</zorder>
                <zorder>magnetometerGraphicsViewRedrawCheckbox</zorder>
                <zorder>accelerometerGraphicsViewRedrawCheckbox</zorder>
-               <zorder>widget</zorder>
               </widget>
              </item>
             </layout>
@@ -5828,7 +5809,7 @@ background-repeat: repeat-no;</string>
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
-           <widget class="QPushButton" name="detatchSonarsFrameButton_2">
+           <widget class="QPushButton" name="detatchAccAndMagFrameButton">
             <property name="geometry">
              <rect>
               <x>650</x>
@@ -5845,6 +5826,145 @@ background-repeat: repeat-no;</string>
             <property name="text">
              <string>Detach Acc and Mag Frame</string>
             </property>
+           </widget>
+           <widget class="QPushButton" name="detatchAccAndMagFrameButton_2">
+            <property name="geometry">
+             <rect>
+              <x>250</x>
+              <y>1900</y>
+              <width>151</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Detach Compass Frame</string>
+            </property>
+           </widget>
+           <widget class="Line" name="line_24">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>1910</y>
+              <width>230</width>
+              <height>3</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget_3">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>1930</y>
+              <width>391</width>
+              <height>381</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="compassFrameContainer">
+             <item>
+              <widget class="QFrame" name="compassFrame">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_18">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_42">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QWidget" name="widget_2" native="true">
+                    <property name="minimumSize">
+                     <size>
+                      <width>225</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                    <widget class="QLCDNumber" name="compassHeadingLcdNumber">
+                     <property name="geometry">
+                      <rect>
+                       <x>130</x>
+                       <y>6</y>
+                       <width>81</width>
+                       <height>26</height>
+                      </rect>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">background-color: rgb(255, 255, 255);</string>
+                     </property>
+                     <property name="smallDecimalPoint">
+                      <bool>true</bool>
+                     </property>
+                     <property name="digitCount">
+                      <number>5</number>
+                     </property>
+                    </widget>
+                    <widget class="QLabel" name="label_58">
+                     <property name="geometry">
+                      <rect>
+                       <x>0</x>
+                       <y>10</y>
+                       <width>121</width>
+                       <height>20</height>
+                      </rect>
+                     </property>
+                     <property name="text">
+                      <string>Compass Heading</string>
+                     </property>
+                    </widget>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_2">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="compassHeadingTrackCheckBox">
+                    <property name="text">
+                     <string>track</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QGraphicsView" name="graphicsView"/>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="magnetometerGraphicsViewRedrawCheckbox_2">
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>update</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </widget>
          </widget>

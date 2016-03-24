@@ -45,6 +45,20 @@ volatile unsigned int rightUSSonarPongTrigger = 0;
 #define LSM303DLM_CRA_REG_M            0x00
 #define LSM303DLM_MR_REG_M             0x02
 
+#define OUT_X_L_A   0x28
+#define OUT_X_H_A   0x29
+#define OUT_Y_L_A   0x2A
+#define OUT_Y_H_A   0x2B
+#define OUT_Z_L_A   0x2C
+#define OUT_Z_H_A   0x2D
+
+#define OUT_X_H_M   0x03
+#define OUT_X_L_M   0x04
+#define OUT_Y_H_M   0x05
+#define OUT_Y_L_M   0x06
+#define OUT_Z_H_M   0x07
+#define OUT_Z_L_M   0x08
+
 /// TWI peripheral redefinition if needed
 #if !defined(AT91C_BASE_TWI) && defined(AT91C_BASE_TWI0)
     #define AT91C_BASE_TWI      AT91C_BASE_TWI0
@@ -375,6 +389,28 @@ void setShRegU13U14(char * regState)
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
 }
 
+void initAccelerometer()
+{
+    unsigned char LSM303DLM_CTRL_REG4_A_VALUE = 0x40;
+    unsigned char LSM303DLM_CTRL_REG1_A_VALUE = 0x27;
+
+    TWID_Write(&twid, LSM303DLM_ACCELEROMETER_ADDR, LSM303DLM_CTRL_REG4_A, 1, &LSM303DLM_CTRL_REG4_A_VALUE, 1, 0);
+    TWID_Write(&twid, LSM303DLM_ACCELEROMETER_ADDR, LSM303DLM_CTRL_REG1_A, 1, &LSM303DLM_CTRL_REG1_A_VALUE, 1, 0);
+
+    delay_us(50);
+}
+
+void initMagnetometer()
+{
+    unsigned char LSM303DLM_CRA_REG_M_VALUE = 0x14;
+    unsigned char LSM303DLM_MR_REG_M_VALUE  = 0x00;
+
+    TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_CRA_REG_M, 1, &LSM303DLM_CRA_REG_M_VALUE, 1, 0);
+    TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_MR_REG_M, 1, &LSM303DLM_MR_REG_M_VALUE, 1, 0);
+
+    delay_us(50);
+}
+
 /*
  * Main Entry Point and Main Loop
  */
@@ -414,6 +450,9 @@ int main(void)
     int Mx, My, Mz;
 
     DeviceInit();
+
+    initAccelerometer();
+    initMagnetometer();
 
     watchdogReset();
 
@@ -1082,10 +1121,6 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "STARTACCELEROMETERREADINGS") == 0)
             {
-                unsigned char LSM303DLM_CTRL_REG1_A_VALUE = 0x27;
-                unsigned char LSM303DLM_CTRL_REG4_A_VALUE = 0x40;
-                TWID_Write(&twid, LSM303DLM_ACCELEROMETER_ADDR, LSM303DLM_CTRL_REG1_A, 1, &LSM303DLM_CTRL_REG1_A_VALUE, 1, 0);
-                TWID_Write(&twid, LSM303DLM_ACCELEROMETER_ADDR, LSM303DLM_CTRL_REG4_A, 1, &LSM303DLM_CTRL_REG4_A_VALUE, 1, 0);
                 accelerometerReadings = 1;
                 continue;
             }
@@ -1096,10 +1131,6 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "STARTMAGNETOMETERREADINGS") == 0)
             {
-                unsigned char LSM303DLM_CRA_REG_M_VALUE = 0x14;
-                unsigned char LSM303DLM_MR_REG_M_VALUE  = 0x00;
-                TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_CRA_REG_M, 1, &LSM303DLM_CRA_REG_M_VALUE, 1, 0);
-                TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_MR_REG_M, 1, &LSM303DLM_MR_REG_M_VALUE, 1, 0);
                 magnetometerReadings = 1;
                 continue;
             }
@@ -1110,29 +1141,22 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "ACC") == 0)
             {
-                unsigned char LSM303DLM_CTRL_REG1_A_VALUE = 0x27;
-                unsigned char LSM303DLM_CTRL_REG4_A_VALUE = 0x40;
-                TWID_Write(&twid, LSM303DLM_ACCELEROMETER_ADDR, LSM303DLM_CTRL_REG1_A, 1, &LSM303DLM_CTRL_REG1_A_VALUE, 1, 0);
-                TWID_Write(&twid, LSM303DLM_ACCELEROMETER_ADDR, LSM303DLM_CTRL_REG4_A, 1, &LSM303DLM_CTRL_REG4_A_VALUE, 1, 0);
-                delay_us(50);
-
-
                 unsigned char ACC_Data[6];
                 for(int r = 0; r < 6; r++)
                 {
                     ACC_Data[r] = '\0';
                 }
 
-                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x28, 1, &ACC_Data[0], 1, 0); //read OUT_X_L_A (MSB)
-                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x29, 1, &ACC_Data[1], 1, 0); //read OUT_X_H_A (LSB)
-                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2A, 1, &ACC_Data[2], 1, 0); //read OUT_Y_L_A (MSB)
-                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2B, 1, &ACC_Data[3], 1, 0); //read OUT_Y_H_A (LSB)
-                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2C, 1, &ACC_Data[4], 1, 0); //read OUT_Z_L_A (MSB)
-                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2D, 1, &ACC_Data[5], 1, 0); //read OUT_Z_H_A (LSB)
+                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_X_L_A, 1, &ACC_Data[0], 1, 0);  //(MSB)
+                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_X_H_A, 1, &ACC_Data[1], 1, 0);  //(LSB)
+                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Y_L_A, 1, &ACC_Data[2], 1, 0);  //(MSB)
+                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Y_H_A, 1, &ACC_Data[3], 1, 0);  //(LSB)
+                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Z_L_A, 1, &ACC_Data[4], 1, 0);  //(MSB)
+                TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Z_H_A, 1, &ACC_Data[5], 1, 0);  //(LSB)
 
-                Ax = (int) (ACC_Data[0] << 8) + ACC_Data[1];
-                Ay = (int) (ACC_Data[2] << 8) + ACC_Data[3];
-                Az = (int) (ACC_Data[4] << 8) + ACC_Data[5];
+                Ax = (int) (ACC_Data[0] << 8 | ACC_Data[1]);
+                Ay = (int) (ACC_Data[2] << 8 | ACC_Data[3]);
+                Az = (int) (ACC_Data[4] << 8 | ACC_Data[5]);
 
                 sprintf((char *)msg,"ACC:%d,%d,%d\n", Ax, Ay, Az);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
@@ -1140,28 +1164,25 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "MAG") == 0)
             {
-                unsigned char LSM303DLM_CRA_REG_M_VALUE = 0x14;
-                unsigned char LSM303DLM_MR_REG_M_VALUE  = 0x00;
-                TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_CRA_REG_M, 1, &LSM303DLM_CRA_REG_M_VALUE, 1, 0);
-                TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_MR_REG_M, 1, &LSM303DLM_MR_REG_M_VALUE, 1, 0);
-
-
-                unsigned char MR_REG_M = 0;
                 unsigned char MR_Data[6];
+                unsigned char MR_REG_M_VALUE;
+
                 for(int r = 0; r < 6; r++)
                 {
                     MR_Data[r] = '\0';
                 }
-                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x02, 1, &MR_REG_M, 1, 0);    //read MR_REG_M
-                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x03, 1, &MR_Data[0], 1, 0);  //read OUT_X_H_M (MSB)
-                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x04, 1, &MR_Data[1], 1, 0);  //read OUT_X_L_M (LSB)
-                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x05, 1, &MR_Data[2], 1, 0);  //read OUT_Y_H_M (MSB)
-                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x06, 1, &MR_Data[3], 1, 0);  //read OUT_Y_L_M (LSB)
-                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x07, 1, &MR_Data[4], 1, 0);  //read OUT_Z_H_M (MSB)
-                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x08, 1, &MR_Data[5], 1, 0);  //read OUT_Z_L_M (LSB)
-                Mx = (int) (MR_Data[0] << 8) + MR_Data[1];
-                My = (int) (MR_Data[2] << 8) + MR_Data[3];
-                Mz = (int) (MR_Data[4] << 8) + MR_Data[5];
+
+                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_MR_REG_M, 1, &MR_REG_M_VALUE, 1, 0);
+                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_X_H_M, 1, &MR_Data[0], 1, 0);  //(MSB)
+                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_X_L_M, 1, &MR_Data[1], 1, 0);  //(LSB)
+                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Y_H_M, 1, &MR_Data[2], 1, 0);  //(MSB)
+                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Y_L_M, 1, &MR_Data[3], 1, 0);  //(LSB)
+                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Z_H_M, 1, &MR_Data[4], 1, 0);  //(MSB)
+                TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Z_L_M, 1, &MR_Data[5], 1, 0);  //(LSB)
+
+                Mx = (int) (MR_Data[0] << 8 | MR_Data[1]);
+                My = (int) (MR_Data[2] << 8 | MR_Data[3]);
+                Mz = (int) (MR_Data[4] << 8 | MR_Data[5]);
 
                 sprintf((char *)msg,"MAG:%d,%d,%d\n", Mx, My, Mz);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
@@ -1257,43 +1278,46 @@ int main(void)
                 ACC_Data[r] = '\0';
             }
 
-            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x28, 1, &ACC_Data[0], 1, 0); //read OUT_X_L_A (MSB)
-            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x29, 1, &ACC_Data[1], 1, 0); //read OUT_X_H_A (LSB)
-            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2A, 1, &ACC_Data[2], 1, 0); //read OUT_Y_L_A (MSB)
-            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2B, 1, &ACC_Data[3], 1, 0); //read OUT_Y_H_A (LSB)
-            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2C, 1, &ACC_Data[4], 1, 0); //read OUT_Z_L_A (MSB)
-            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, 0x2D, 1, &ACC_Data[5], 1, 0); //read OUT_Z_H_A (LSB)
+            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_X_L_A, 1, &ACC_Data[0], 1, 0);
+            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_X_H_A, 1, &ACC_Data[1], 1, 0);
+            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Y_L_A, 1, &ACC_Data[2], 1, 0);
+            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Y_H_A, 1, &ACC_Data[3], 1, 0);
+            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Z_L_A, 1, &ACC_Data[4], 1, 0);
+            TWID_Read(&twid, LSM303DLM_ACCELEROMETER_ADDR, OUT_Z_H_A, 1, &ACC_Data[5], 1, 0);
 
-            Ax = (int) (ACC_Data[0] << 8) + ACC_Data[1];
-            Ay = (int) (ACC_Data[2] << 8) + ACC_Data[3];
-            Az = (int) (ACC_Data[4] << 8) + ACC_Data[5];
+            Ax = (int) (ACC_Data[0] << 8 | ACC_Data[1]);
+            Ay = (int) (ACC_Data[2] << 8 | ACC_Data[3]);
+            Az = (int) (ACC_Data[4] << 8 | ACC_Data[5]);
 
-            sprintf((char *)msg,"ACCELEROMETER [X,Y,Z]: %d, %d, %d\n", Ax, Ay, Az);
+            sprintf((char *)msg,"ACC:%d,%d,%d\n", Ax, Ay, Az);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(10);
+            delay_ms(50);
         }
         if (magnetometerReadings)
         {
-            unsigned char MR_REG_M = 0;
             unsigned char MR_Data[6];
+            unsigned char MR_REG_M_VALUE;
+
             for(int r = 0; r < 6; r++)
             {
                 MR_Data[r] = '\0';
             }
-            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x02, 1, &MR_REG_M, 1, 0);    //read MR_REG_M
-            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x03, 1, &MR_Data[0], 1, 0);  //read OUT_X_H_M (MSB)
-            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x04, 1, &MR_Data[1], 1, 0);  //read OUT_X_L_M (LSB)
-            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x05, 1, &MR_Data[2], 1, 0);  //read OUT_Y_H_M (MSB)
-            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x06, 1, &MR_Data[3], 1, 0);  //read OUT_Y_L_M (LSB)
-            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x07, 1, &MR_Data[4], 1, 0);  //read OUT_Z_H_M (MSB)
-            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, 0x08, 1, &MR_Data[5], 1, 0);  //read OUT_Z_L_M (LSB)
-            Mx = (int) (MR_Data[0] << 8) + MR_Data[1];
-            My = (int) (MR_Data[2] << 8) + MR_Data[3];
-            Mz = (int) (MR_Data[4] << 8) + MR_Data[5];
 
-            sprintf((char *)msg,"MAGNETOMETER [X,Y,Z]: %d, %d, %d\n", Mx, My, Mz);
+            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_MR_REG_M, 1, &MR_REG_M_VALUE, 1, 0);
+            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_X_H_M, 1, &MR_Data[0], 1, 0);
+            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_X_L_M, 1, &MR_Data[1], 1, 0);
+            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Y_H_M, 1, &MR_Data[2], 1, 0);
+            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Y_L_M, 1, &MR_Data[3], 1, 0);
+            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Z_H_M, 1, &MR_Data[4], 1, 0);
+            TWID_Read(&twid, LSM303DLM_MAGNETOMETER_ADDR, OUT_Z_L_M, 1, &MR_Data[5], 1, 0);
+
+            Mx = (int) (MR_Data[0] << 8 | MR_Data[1]);
+            My = (int) (MR_Data[2] << 8 | MR_Data[3]);
+            Mz = (int) (MR_Data[4] << 8 | MR_Data[5]);
+
+            sprintf((char *)msg,"MAG:%d,%d,%d\n", Mx, My, Mz);
             pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(10);
+            delay_ms(50);
         }
     }
 

@@ -268,8 +268,17 @@ private slots:
     void on_accelerometerGraphicsViewRedrawCheckbox_toggled(bool checked);
 
     void platformLocationP1AccelerometerRefreshTimerTimerUpdate();
+    void platformLocationP1MagnetometerRefreshTimerTimerUpdate();
 
-    void on_detatchSonarsFrameButton_2_clicked();
+    void on_detatchAccAndMagFrameButton_clicked();
+
+    void on_magnetometerGraphicsViewRedrawCheckbox_toggled(bool checked);
+
+    void on_compassHeadingTrackCheckBox_toggled(bool checked);
+
+    void platformLocationP1CompassHeadingRefreshTimerUpdate();
+
+    void on_magnetometerGraphicsViewRedrawCheckbox_2_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;
@@ -292,6 +301,7 @@ private:
     QTimer *platformLocationP1TabRefreshTimer;
     QTimer *platformLocationP1AccelerometerRefreshTimer;
     QTimer *platformLocationP1MagnetometerRefreshTimer;
+    QTimer *platformLocationP1CompassHeadingRefreshTimer;
 };
 
 #endif // MAINWINDOW_H

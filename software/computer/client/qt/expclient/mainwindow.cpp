@@ -136,6 +136,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     platformLocationP1AccelerometerRefreshTimer = new QTimer(this);
     connect(platformLocationP1AccelerometerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1AccelerometerRefreshTimerTimerUpdate()));
 
+    //magnetometer
+    platformLocationP1MagnetometerGraphicsViewScene = new QGraphicsScene;
+    platformLocationP1MagnetometerGraphicsViewScene->setSceneRect(0, 0, 370, 290);
+    ui->magnetometerGraphicsView->setScene(platformLocationP1MagnetometerGraphicsViewScene);
+
+    platformLocationP1MagnetometerRefreshTimer = new QTimer(this);
+    connect(platformLocationP1MagnetometerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1MagnetometerRefreshTimerTimerUpdate()));
+
+    platformLocationP1CompassHeadingRefreshTimer = new QTimer(this);
+    connect(platformLocationP1CompassHeadingRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1CompassHeadingRefreshTimerUpdate()));
+
 }
 
 MainWindow::~MainWindow()
@@ -1224,7 +1235,7 @@ void MainWindow::on_accelerometerGraphicsViewRedrawCheckbox_toggled(bool checked
     if (checked)
     {
         MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->clear();
-        platformLocationP1AccelerometerRefreshTimer->start(5);
+        platformLocationP1AccelerometerRefreshTimer->start(20);
     }
     else
     {
@@ -1237,11 +1248,53 @@ void MainWindow::platformLocationP1AccelerometerRefreshTimerTimerUpdate()
     accelerometerRefreshGraphicsView();
 }
 
-void MainWindow::on_detatchSonarsFrameButton_2_clicked()
+void MainWindow::platformLocationP1MagnetometerRefreshTimerTimerUpdate()
+{
+    magnetometerRefreshGraphicsView();
+}
+
+void MainWindow::on_detatchAccAndMagFrameButton_clicked()
 {
     QWidget* pWidget = ui->accAndMagFrame;
     pWidget->installEventFilter(new ACCAndMAGFrameEventFilter(ui));
     pWidget->setWindowTitle("Platform Accelerometer and Magnetometer");
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
+    MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->clear();
+}
+
+void MainWindow::on_magnetometerGraphicsViewRedrawCheckbox_toggled(bool checked)
+{
+    if (checked)
+    {
+        MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->clear();
+        platformLocationP1MagnetometerRefreshTimer->start(20);
+    }
+    else
+    {
+        platformLocationP1MagnetometerRefreshTimer->stop();
+    }
+}
+
+void MainWindow::on_compassHeadingTrackCheckBox_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setCompassHeadingWorkerActivated(checked);
+}
+
+void MainWindow::platformLocationP1CompassHeadingRefreshTimerUpdate()
+{
+    compassHeadingRefreshView();
+}
+
+void MainWindow::on_magnetometerGraphicsViewRedrawCheckbox_2_toggled(bool checked)
+{
+    if (checked)
+    {
+        platformLocationP1CompassHeadingRefreshTimer->start(20);
+    }
+    else
+    {
+        platformLocationP1CompassHeadingRefreshTimer->stop();
+    }
 }

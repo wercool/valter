@@ -108,6 +108,9 @@ void PlatformLocationP1::resetToDefault()
     magnetometerReading[0]   = 0;
     magnetometerReading[1]   = 0;
     magnetometerReading[2]   = 0;
+
+    compassHeading = 0.0;
+    compassHeadingWorkerActivated = false;
 }
 
 void PlatformLocationP1::setModuleInitialState()
@@ -551,7 +554,7 @@ void PlatformLocationP1::accelerometerWorker()
         {
             break;
         }
-        this_thread::sleep_for(std::chrono::milliseconds(500));
+        this_thread::sleep_for(std::chrono::milliseconds(20));
     }
     if (getControlDeviceIsSet())
     {
@@ -571,12 +574,91 @@ void PlatformLocationP1::magnetometerWorker()
         {
             break;
         }
-        this_thread::sleep_for(std::chrono::milliseconds(500));
+        this_thread::sleep_for(std::chrono::milliseconds(20));
     }
     if (getControlDeviceIsSet())
     {
         getControlDevice()->addMsgToDataExchangeLog("magnetometerWorker finished...");
     }
+}
+
+void PlatformLocationP1::compassHeadingWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (getCompassHeadingWorkerActivated())
+        {
+            compassAcquireHeading();
+        }
+        else
+        {
+            break;
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("compassHeadingWorker finished...");
+    }
+}
+
+bool PlatformLocationP1::getCompassHeadingWorkerActivated() const
+{
+    return compassHeadingWorkerActivated;
+}
+
+void PlatformLocationP1::setCompassHeadingWorkerActivated(bool value)
+{
+    compassHeadingWorkerActivated = value;
+    if (compassHeadingWorkerActivated)
+    {
+        spawnCompassHeadingWorker();
+    }
+}
+
+float PlatformLocationP1::getCompassHeading() const
+{
+    return compassHeading;
+}
+
+void PlatformLocationP1::setCompassHeading(float value)
+{
+    compassHeading = value;
+}
+
+void PlatformLocationP1::compassAcquireHeading()
+{
+    if (getMagnetometerReadings()[0] && getAccelerometerReadings()[0])
+    {
+        vector_structure<int> mag  = {getMagnetometerReadings()[0],  getMagnetometerReadings()[1],  getMagnetometerReadings()[2]};
+        vector_structure<int> acc  = {getAccelerometerReadings()[0], getAccelerometerReadings()[1], getAccelerometerReadings()[2]};
+        vector_structure<int> from = {0, -1, 0};
+
+        // subtract offset (average of min and max) from magnetometer readings
+        mag.x -= 0;
+        mag.y -= 0;
+        mag.z -= 0;
+
+        // compute E and N
+        vector_structure<float> E;
+        vector_structure<float> N;
+
+        vector_cross(&mag, &acc, &E);
+        vector_normalize(&E);
+        vector_cross(&acc, &E, &N);
+        vector_normalize(&N);
+
+        // compute heading
+        float heading = atan2(vector_dot(&E, &from), vector_dot(&N, &from)) * 180 / M_PI;
+
+        setCompassHeading(round(heading));
+    }
+}
+
+void PlatformLocationP1::spawnCompassHeadingWorker()
+{
+    new std::thread(&PlatformLocationP1::compassHeadingWorker, this);
+    Valter::log("compassHeadingWorker spawned...");
 }
 bool PlatformLocationP1::getMagnetometerWorkerActivated() const
 {
