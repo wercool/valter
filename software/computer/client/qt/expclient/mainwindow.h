@@ -44,9 +44,11 @@ public:
     //platform locaiton p1
     QGraphicsLineItem *leftUSSonarVector;
     QGraphicsLineItem *rightUSSonarVector;
-    QGraphicsScene* platformLocationP1GraphicsViewScene;
+    QGraphicsScene* platformLocationP1SonarsGraphicsViewScene;
     map<int, QGraphicsEllipseItem*> leftSonarDots;
     map<int, QGraphicsEllipseItem*> rightSonarDots;
+    QGraphicsScene* platformLocationP1AccelerometerGraphicsViewScene;
+    QGraphicsScene* platformLocationP1MagnetometerGraphicsViewScene;
 
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
@@ -259,6 +261,16 @@ private slots:
 
     void on_detatchSonarsFrameButton_clicked();
 
+    void on_accelerometerTrackCheckBox_toggled(bool checked);
+
+    void on_magnetometerTrackCheckBox_toggled(bool checked);
+
+    void on_accelerometerGraphicsViewRedrawCheckbox_toggled(bool checked);
+
+    void platformLocationP1AccelerometerRefreshTimerTimerUpdate();
+
+    void on_detatchSonarsFrameButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -267,13 +279,19 @@ private:
     static const int logMaxLength = 5000;
     int logLength;
     QTimer *controlDevicesDataExchangeLogTimer;
-    QTimer *controlDevicesTableRefreshTimer;
     QTimer *delayedGUIActionsProcessingTimer;
     string selectedControlDeviceId;
     bool allConnect;
 
+    QTimer *controlDevicesTableRefreshTimer;
+
+    //platform-control-p1
     QTimer *platformControlP1TabRefreshTimer;
+
+    //platform-location-p1
     QTimer *platformLocationP1TabRefreshTimer;
+    QTimer *platformLocationP1AccelerometerRefreshTimer;
+    QTimer *platformLocationP1MagnetometerRefreshTimer;
 };
 
 #endif // MAINWINDOW_H

@@ -403,7 +403,7 @@ void PlatformControlP1::processMessagesQueueWorker()
                             setRightWheelEncoder(rightWheelEncoder);
                         }
 
-                        if (getTurretPositionRead())
+                        if (getTurretPositionRead() && !getTurretMotorStop())
                         {
                             setTurretPositionADC(turretPosition);
                         }

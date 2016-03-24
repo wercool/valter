@@ -98,6 +98,16 @@ void PlatformLocationP1::resetToDefault()
 
     leftSonarIntentionalAngleSet    = false;
     rightSonarIntentionalAngleSet   = false;
+
+    accelerometerWorkerActivated    = false;
+    magnetometerWorkerActivated     = false;
+
+    accelerometerReading[0]  = 0;
+    accelerometerReading[1]  = 0;
+    accelerometerReading[2]  = 0;
+    magnetometerReading[0]   = 0;
+    magnetometerReading[1]   = 0;
+    magnetometerReading[2]   = 0;
 }
 
 void PlatformLocationP1::setModuleInitialState()
@@ -316,19 +326,47 @@ void PlatformLocationP1::processMessagesQueueWorker()
 
                     continue;
                 }
-                if (response.find("LUSS") !=std::string::npos) //left ultrasound sonar distance meter sensor readings
+                if (getLeftSonarActivated())
                 {
-                    int value_str_pos = response.find_first_of(":") + 1;
-                    string value_str = response.substr(value_str_pos);
-                    int  value = atoi(value_str.c_str());
-                    addLeftSonarScan(getLeftSonarAngle(), value);
+                    if (response.find("LUSS") !=std::string::npos) //left ultrasound sonar distance meter sensor readings
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int  value = atoi(value_str.c_str());
+                        addLeftSonarScan(getLeftSonarAngle(), value);
+                    }
                 }
-                if (response.find("RUSS") !=std::string::npos) //right ultrasound sonar distance meter sensor readings
+                if (getRightSonarActivated())
                 {
-                    int value_str_pos = response.find_first_of(":") + 1;
-                    string value_str = response.substr(value_str_pos);
-                    int  value = atoi(value_str.c_str());
-                    addRightSonarScan(getRightSonarAngle(), value);
+                    if (response.find("RUSS") !=std::string::npos) //right ultrasound sonar distance meter sensor readings
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int  value = atoi(value_str.c_str());
+                        addRightSonarScan(getRightSonarAngle(), value);
+                    }
+                }
+
+                if (getAccelerometerWorkerActivated())
+                {
+                    if (response.find("ACC:") !=std::string::npos) //accelerometer sensor readings
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setAccelerometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()), atoi(value_str_values[2].c_str()));
+                    }
+                }
+
+                if (getMagnetometerWorkerActivated())
+                {
+                    if (response.find("MAG:") !=std::string::npos) //magnetometer sensor readings
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setMagnetometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()), atoi(value_str_values[2].c_str()));
+                    }
                 }
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -500,6 +538,112 @@ void PlatformLocationP1::rightSonarWorker()
         getControlDevice()->addMsgToDataExchangeLog("rightSonarWorker finished...");
     }
 }
+
+void PlatformLocationP1::accelerometerWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (getAccelerometerWorkerActivated())
+        {
+            sendCommand("ACC");
+        }
+        else
+        {
+            break;
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("accelerometerWorker finished...");
+    }
+}
+
+void PlatformLocationP1::magnetometerWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (getMagnetometerWorkerActivated())
+        {
+            sendCommand("MAG");
+        }
+        else
+        {
+            break;
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(500));
+    }
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("magnetometerWorker finished...");
+    }
+}
+bool PlatformLocationP1::getMagnetometerWorkerActivated() const
+{
+    return magnetometerWorkerActivated;
+}
+
+void PlatformLocationP1::setMagnetometerWorkerActivated(bool value)
+{
+    magnetometerWorkerActivated = value;
+    if (magnetometerWorkerActivated)
+    {
+        this_thread::sleep_for(std::chrono::milliseconds(250));
+        spawnMagnetometerWorker();
+    }
+}
+
+void PlatformLocationP1::setAccelerometerReadings(int x, int y, int z)
+{
+    accelerometerReading[0] = x;
+    accelerometerReading[1] = y;
+    accelerometerReading[2] = z;
+}
+
+void PlatformLocationP1::setMagnetometerReadings(int x, int y, int z)
+{
+    magnetometerReading[0] = x;
+    magnetometerReading[1] = y;
+    magnetometerReading[2] = z;
+}
+
+int *PlatformLocationP1::getAccelerometerReadings()
+{
+    return accelerometerReading;
+}
+
+int *PlatformLocationP1::getMagnetometerReadings()
+{
+    return magnetometerReading;
+}
+
+void PlatformLocationP1::spawnAccelerometerWorker()
+{
+    new std::thread(&PlatformLocationP1::accelerometerWorker, this);
+    Valter::log("accelerometerWorker spawned...");
+}
+
+void PlatformLocationP1::spawnMagnetometerWorker()
+{
+    new std::thread(&PlatformLocationP1::magnetometerWorker, this);
+    Valter::log("magnetometerWorker spawned...");
+}
+
+bool PlatformLocationP1::getAccelerometerWorkerActivated() const
+{
+    return accelerometerWorkerActivated;
+}
+
+void PlatformLocationP1::setAccelerometerWorkerActivated(bool value)
+{
+    accelerometerWorkerActivated = value;
+    if (accelerometerWorkerActivated)
+    {
+        this_thread::sleep_for(std::chrono::milliseconds(250));
+        spawnAccelerometerWorker();
+    }
+}
+
 
 bool PlatformLocationP1::getRightSonarIntentionalAngleSet() const
 {

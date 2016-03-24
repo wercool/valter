@@ -120,6 +120,21 @@ public:
     signed int getRightSonarAngle() const;
     void setRightSonarAngle(signed int value);
 
+    void spawnAccelerometerWorker();
+    void spawnMagnetometerWorker();
+
+    bool getAccelerometerWorkerActivated() const;
+    void setAccelerometerWorkerActivated(bool value);
+
+    bool getMagnetometerWorkerActivated() const;
+    void setMagnetometerWorkerActivated(bool value);
+
+    void setAccelerometerReadings(int x, int y, int z);
+    void setMagnetometerReadings(int x, int y, int z);
+
+    int *getAccelerometerReadings();
+    int *getMagnetometerReadings();
+
 private:
     PlatformLocationP1();
     static PlatformLocationP1* pPlatformLocationP1;         // PLATFORM-LOCATION-P1's singleton instance
@@ -181,6 +196,14 @@ private:
     int leftSonarMaxRotationDuty;
     int rightSonarMinRotationDuty;
     int rightSonarMaxRotationDuty;
+
+    void accelerometerWorker();
+    bool accelerometerWorkerActivated;
+    void magnetometerWorker();
+    bool magnetometerWorkerActivated;
+
+    int accelerometerReading[3];
+    int magnetometerReading[3];
 };
 
 #endif // PLATFORMLOCATIONP1_H

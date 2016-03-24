@@ -2,85 +2,12 @@
 #include "ui_mainwindow.h"
 #include <sys/time.h>
 
+#include<guihelpers.h>
+
 #include <valter.h>
 
 #include <platformcontrolp1GUI.h>
 #include <platformlocationp1GUI.h>
-
-
-class WheelEventFilter: public QObject
-{
-  public:
-  WheelEventFilter():QObject(){}
-
-  ~WheelEventFilter(){}
-
-  bool eventFilter(QObject* object,QEvent* event)
-  {
-      if(event->type() == QEvent::Wheel)
-      {
-        return true;
-      }
-      else
-      {
-        return QObject::eventFilter(object,event);
-      }
-  }
-};
-
-class GenericEventFilter: public QObject
-{
-  public:
-  Ui::MainWindow *ui;
-  QString title;
-  int index;
-  GenericEventFilter(Ui::MainWindow *ui, QString title, int index):QObject()
-  {
-      this->ui = ui;
-      this->title = title;
-      this->index = index;
-  }
-
-  ~GenericEventFilter(){}
-
-  bool eventFilter(QObject* widget,QEvent* event)
-  {
-      if(event->type() == QEvent::Close)
-      {
-          ui->mainTabWidget->insertTab(index, (QWidget*)widget, title);
-          return true;
-      }
-      else
-      {
-        return QObject::eventFilter(widget, event);
-      }
-  }
-};
-
-class FronSonarsFrameEventFilter: public QObject
-{
-  public:
-  Ui::MainWindow *ui;
-  FronSonarsFrameEventFilter(Ui::MainWindow *ui):QObject()
-  {
-      this->ui = ui;
-  }
-
-  ~FronSonarsFrameEventFilter(){}
-
-  bool eventFilter(QObject* widget, QEvent* event)
-  {
-      if(event->type() == QEvent::Close)
-      {
-          ui->platfromLocationP1FronSonarsFrameContainer->addWidget((QWidget*)widget);
-          return true;
-      }
-      else
-      {
-        return QObject::eventFilter(widget, event);
-      }
-  }
-};
 
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
@@ -187,19 +114,28 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->leftSonarAngleScroller->installEventFilter(new WheelEventFilter());
     ui->rightSonarAngleScroller->installEventFilter(new WheelEventFilter());
 
-    platformLocationP1GraphicsViewScene = new QGraphicsScene;
-    platformLocationP1GraphicsViewScene->setSceneRect(0, 0, 790, 400);
-    ui->platformLocationP1GraphicsView->setScene(platformLocationP1GraphicsViewScene);
+    platformLocationP1SonarsGraphicsViewScene = new QGraphicsScene;
+    platformLocationP1SonarsGraphicsViewScene->setSceneRect(0, 0, 790, 400);
+    ui->platformLocationP1GraphicsView->setScene(platformLocationP1SonarsGraphicsViewScene);
 
     leftUSSonarVector = new QGraphicsLineItem;
     leftUSSonarVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
     leftUSSonarVector->setLine(345, 285, 345, 50);
-    platformLocationP1GraphicsViewScene->addItem(leftUSSonarVector);
+    platformLocationP1SonarsGraphicsViewScene->addItem(leftUSSonarVector);
 
     rightUSSonarVector = new QGraphicsLineItem;
     rightUSSonarVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
     rightUSSonarVector->setLine(445, 285, 445, 50);
-    platformLocationP1GraphicsViewScene->addItem(rightUSSonarVector);
+    platformLocationP1SonarsGraphicsViewScene->addItem(rightUSSonarVector);
+
+    //accelerometer
+    platformLocationP1AccelerometerGraphicsViewScene = new QGraphicsScene;
+    platformLocationP1AccelerometerGraphicsViewScene->setSceneRect(0, 0, 370, 290);
+    ui->accelerometerGraphicsView->setScene(platformLocationP1AccelerometerGraphicsViewScene);
+
+    platformLocationP1AccelerometerRefreshTimer = new QTimer(this);
+    connect(platformLocationP1AccelerometerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1AccelerometerRefreshTimerTimerUpdate()));
+
 }
 
 MainWindow::~MainWindow()
@@ -1265,8 +1201,47 @@ void MainWindow::on_rightSonarAngleScroller_sliderReleased()
 void MainWindow::on_detatchSonarsFrameButton_clicked()
 {
     QWidget* pWidget = ui->platfromLocationP1FronSonarsFrame;
-    pWidget->installEventFilter(new FronSonarsFrameEventFilter(ui));
-    pWidget->setWindowTitle("Fron Platform Sonars");
+    pWidget->installEventFilter(new FrontSonarsFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Front Sonars");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
+}
+
+void MainWindow::on_accelerometerTrackCheckBox_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setAccelerometerWorkerActivated(checked);
+}
+
+void MainWindow::on_magnetometerTrackCheckBox_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setMagnetometerWorkerActivated(checked);
+}
+
+void MainWindow::on_accelerometerGraphicsViewRedrawCheckbox_toggled(bool checked)
+{
+    if (checked)
+    {
+        MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->clear();
+        platformLocationP1AccelerometerRefreshTimer->start(5);
+    }
+    else
+    {
+        platformLocationP1AccelerometerRefreshTimer->stop();
+    }
+}
+
+void MainWindow::platformLocationP1AccelerometerRefreshTimerTimerUpdate()
+{
+    accelerometerRefreshGraphicsView();
+}
+
+void MainWindow::on_detatchSonarsFrameButton_2_clicked()
+{
+    QWidget* pWidget = ui->accAndMagFrame;
+    pWidget->installEventFilter(new ACCAndMAGFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Accelerometer and Magnetometer");
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
 }

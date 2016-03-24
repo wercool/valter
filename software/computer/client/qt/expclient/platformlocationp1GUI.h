@@ -110,7 +110,7 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                     if (!MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])
                     {
                         MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()] = new QGraphicsEllipseItem;
-                        MainWindow::getInstance()->platformLocationP1GraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()]));
+                        MainWindow::getInstance()->platformLocationP1SonarsGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()]));
                     }
                     else
                     {
@@ -135,7 +135,7 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                     if (!MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])
                     {
                         MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()] = new QGraphicsEllipseItem;
-                        MainWindow::getInstance()->platformLocationP1GraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()]));
+                        MainWindow::getInstance()->platformLocationP1SonarsGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()]));
                     }
                     else
                     {
@@ -144,6 +144,50 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                     }
                 }
             }
+        }
+
+        if (platformLocationP1->getAccelerometerWorkerActivated())
+        {
+            ui->accelerometerXLcdNumber->display(platformLocationP1->getAccelerometerReadings()[0]);
+            ui->accelerometerYLcdNumber->display(platformLocationP1->getAccelerometerReadings()[1]);
+            ui->accelerometerZLcdNumber->display(platformLocationP1->getAccelerometerReadings()[2]);
+        }
+
+        if (platformLocationP1->getMagnetometerWorkerActivated())
+        {
+            ui->magnetometerXLcdNumber->display(platformLocationP1->getMagnetometerReadings()[0]);
+            ui->magnetometerYLcdNumber->display(platformLocationP1->getMagnetometerReadings()[1]);
+            ui->magnetometerZLcdNumber->display(platformLocationP1->getMagnetometerReadings()[2]);
+        }
+    }
+}
+
+void accelerometerRefreshGraphicsView()
+{
+    if (PlatformLocationP1::getInstance()->getAccelerometerWorkerActivated())
+    {
+        static qreal x = 0.0;
+        static qreal y = MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 3;
+        static qreal x1 = 0.0;
+        static qreal y1 = 0.0;
+
+        x1 = x + 1;
+        if (rand() % 1)
+        {
+            y1 = 25 - rand() % 100;
+        }
+        else
+        {
+            y1 = 25 + rand() % 100;
+        }
+        MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->addLine(x, y, x1, y1, QPen(Qt::red));
+        x = x1;
+        y = y1;
+
+        if (x > MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->width())
+        {
+            MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->clear();
+            x = 0.0;
         }
     }
 }
