@@ -109,6 +109,14 @@ void PlatformLocationP1::resetToDefault()
     magnetometerReading[1]   = 0;
     magnetometerReading[2]   = 0;
 
+    accelerometerNaturalReading[0] = 0.0;
+    accelerometerNaturalReading[1] = 0.0;
+    accelerometerNaturalReading[2] = 0.0;
+    magnetometerNaturalReading[0] = 0.0;
+    magnetometerNaturalReading[1] = 0.0;
+    magnetometerNaturalReading[2] = 0.0;
+
+
     compassHeading = 0.0;
     compassHeadingWorkerActivated = false;
 }
@@ -368,7 +376,7 @@ void PlatformLocationP1::processMessagesQueueWorker()
                         int value_str_pos = response.find_first_of(":") + 1;
                         string value_str = response.substr(value_str_pos);
                         vector<string>value_str_values = Valter::split(value_str, ',');
-                        setMagnetometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()), atoi(value_str_values[2].c_str()));
+                        setMagnetometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[2].c_str()), atoi(value_str_values[1].c_str()));
                     }
                 }
 
@@ -616,6 +624,30 @@ void PlatformLocationP1::setCompassHeadingWorkerActivated(bool value)
     }
 }
 
+float PlatformLocationP1::getHeading()
+{
+    xyzvector<int> acc = {accelerometerReading[0], accelerometerReading[1], accelerometerReading[2]};
+    xyzvector<int> mag = {magnetometerReading[0], magnetometerReading[1], magnetometerReading[2]};
+
+    xyzvector<int> from = {0, -1, 0};
+
+    //subtract offset (average of min and max) from magnetometer readings
+    //TODO
+
+   // compute E and N
+   xyzvector<float> E;
+   xyzvector<float> N;
+   vector_cross(&mag, &acc, &E);
+   vector_normalize(&E);
+   vector_cross(&acc, &E, &N);
+   vector_normalize(&N);
+   // compute heading
+   float heading = atan2(vector_dot(&E, &from), vector_dot(&N, &from)) * 180 / M_PI;
+   if (heading < 0) heading += 360;
+
+   return heading;
+}
+
 float PlatformLocationP1::getCompassHeading() const
 {
     return compassHeading;
@@ -628,30 +660,14 @@ void PlatformLocationP1::setCompassHeading(float value)
 
 void PlatformLocationP1::compassAcquireHeading()
 {
+    float heading;
     if (getMagnetometerReadings()[0] && getAccelerometerReadings()[0])
     {
-        vector_structure<int> mag  = {getMagnetometerReadings()[0],  getMagnetometerReadings()[1],  getMagnetometerReadings()[2]};
-        vector_structure<int> acc  = {getAccelerometerReadings()[0], getAccelerometerReadings()[1], getAccelerometerReadings()[2]};
-        vector_structure<int> from = {0, -1, 0};
-
-        // subtract offset (average of min and max) from magnetometer readings
-        mag.x -= 0;
-        mag.y -= 0;
-        mag.z -= 0;
-
-        // compute E and N
-        vector_structure<float> E;
-        vector_structure<float> N;
-
-        vector_cross(&mag, &acc, &E);
-        vector_normalize(&E);
-        vector_cross(&acc, &E, &N);
-        vector_normalize(&N);
-
         // compute heading
-        float heading = atan2(vector_dot(&E, &from), vector_dot(&N, &from)) * 180 / M_PI;
 
-        setCompassHeading(round(heading));
+        heading = getHeading();
+
+        setCompassHeading(heading);
     }
 }
 
@@ -677,16 +693,34 @@ void PlatformLocationP1::setMagnetometerWorkerActivated(bool value)
 
 void PlatformLocationP1::setAccelerometerReadings(int x, int y, int z)
 {
-    accelerometerReading[0] = x;
-    accelerometerReading[1] = y;
-    accelerometerReading[2] = z;
+    accelerometerReading[0] = Valter::convert_twos_complement(x);
+    accelerometerReading[1] = Valter::convert_twos_complement(y);
+    accelerometerReading[2] = Valter::convert_twos_complement(z);
+
+    setAccelerometerNaturalReadings();
 }
 
 void PlatformLocationP1::setMagnetometerReadings(int x, int y, int z)
 {
-    magnetometerReading[0] = x;
-    magnetometerReading[1] = y;
-    magnetometerReading[2] = z;
+    magnetometerReading[0] = Valter::convert_twos_complement(x);
+    magnetometerReading[1] = Valter::convert_twos_complement(y);
+    magnetometerReading[2] = Valter::convert_twos_complement(z);
+
+    setMagnetometerNaturalReadings();
+}
+
+void PlatformLocationP1::setAccelerometerNaturalReadings()
+{
+    accelerometerNaturalReading[0] = getAccelerometerReadings()[0] / pow(2, 15) * 2;
+    accelerometerNaturalReading[1] = getAccelerometerReadings()[1] / pow(2, 15) * 2;
+    accelerometerNaturalReading[2] = getAccelerometerReadings()[2] / pow(2, 15) * 2;
+}
+
+void PlatformLocationP1::setMagnetometerNaturalReadings()
+{
+    magnetometerNaturalReading[0] = getMagnetometerReadings()[0] * 0.318;
+    magnetometerNaturalReading[1] = getMagnetometerReadings()[1] * 0.318;
+    magnetometerNaturalReading[2] = getMagnetometerReadings()[2] * 0.318;
 }
 
 int *PlatformLocationP1::getAccelerometerReadings()
@@ -697,6 +731,16 @@ int *PlatformLocationP1::getAccelerometerReadings()
 int *PlatformLocationP1::getMagnetometerReadings()
 {
     return magnetometerReading;
+}
+
+float *PlatformLocationP1::getAccelerometerNaturalReadings()
+{
+    return accelerometerNaturalReading;
+}
+
+float *PlatformLocationP1::getMagnetometerNaturalReadings()
+{
+    return magnetometerNaturalReading;
 }
 
 void PlatformLocationP1::spawnAccelerometerWorker()

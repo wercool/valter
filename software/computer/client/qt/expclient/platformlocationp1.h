@@ -132,43 +132,52 @@ public:
     void setAccelerometerReadings(int x, int y, int z);
     void setMagnetometerReadings(int x, int y, int z);
 
+    void setAccelerometerNaturalReadings();
+    void setMagnetometerNaturalReadings();
+
     int *getAccelerometerReadings();
     int *getMagnetometerReadings();
+
+    float *getAccelerometerNaturalReadings();
+    float *getMagnetometerNaturalReadings();
 
     float getCompassHeading() const;
     void setCompassHeading(float value);
 
     void compassAcquireHeading();
 
-    template <typename T> struct vector_structure
+    void spawnCompassHeadingWorker();
+
+    bool getCompassHeadingWorkerActivated() const;
+    void setCompassHeadingWorkerActivated(bool value);
+
+    //compass
+    float getHeading();
+
+    template <typename T> struct xyzvector
     {
         T x, y, z;
     };
 
-    template <typename Ta, typename Tb, typename To> void vector_cross(const vector_structure<Ta> *a, const vector_structure<Tb> *b, vector_structure<To> *out)
+    template <typename Ta, typename Tb> float vector_dot(const xyzvector<Ta> *a, const xyzvector<Tb> *b)
+    {
+        return (a->x * b->x) + (a->y * b->y) + (a->z * b->z);
+    }
+
+    template <typename Ta, typename Tb, typename To> void vector_cross(const xyzvector<Ta> *a, const xyzvector<Tb> *b, xyzvector<To> *out)
     {
         out->x = (a->y * b->z) - (a->z * b->y);
         out->y = (a->z * b->x) - (a->x * b->z);
         out->z = (a->x * b->y) - (a->y * b->x);
     }
 
-    template <typename Ta, typename Tb> float vector_dot(const vector_structure<Ta> *a, const vector_structure<Tb> *b)
-    {
-        return (a->x * b->x) + (a->y * b->y) + (a->z * b->z);
-    }
-
-    void vector_normalize(vector_structure<float> *a)
+    void vector_normalize(xyzvector<float> *a)
     {
         float mag = sqrt(vector_dot(a, a));
         a->x /= mag;
         a->y /= mag;
         a->z /= mag;
     }
-
-    void spawnCompassHeadingWorker();
-
-    bool getCompassHeadingWorkerActivated() const;
-    void setCompassHeadingWorkerActivated(bool value);
 
 private:
     PlatformLocationP1();
@@ -240,10 +249,14 @@ private:
     int accelerometerReading[3];
     int magnetometerReading[3];
 
+    float accelerometerNaturalReading[3];
+    float magnetometerNaturalReading[3];
+
     float compassHeading;
 
     void compassHeadingWorker();
     bool compassHeadingWorkerActivated;
+
 };
 
 #endif // PLATFORMLOCATIONP1_H

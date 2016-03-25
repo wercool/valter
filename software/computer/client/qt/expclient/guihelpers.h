@@ -112,4 +112,29 @@ class ACCAndMAGFrameEventFilter: public QObject
   }
 };
 
+class CompassFrameEventFilter: public QObject
+{
+  public:
+  Ui::MainWindow *ui;
+  CompassFrameEventFilter(Ui::MainWindow *ui):QObject()
+  {
+      this->ui = ui;
+  }
+
+  ~CompassFrameEventFilter(){}
+
+  bool eventFilter(QObject* widget, QEvent* event)
+  {
+      if(event->type() == QEvent::Close)
+      {
+          ui->compassFrameContainer->addWidget((QWidget*)widget);
+          return true;
+      }
+      else
+      {
+        return QObject::eventFilter(widget, event);
+      }
+  }
+};
+
 #endif // GUIHELPERS_H

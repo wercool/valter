@@ -11,8 +11,6 @@
 
 #include <valter.h>
 
-#define PI 3.14159
-
 void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 {
     if (ui->platformLocationP1RedrawGUICheckBox->isChecked()) //PLATFROM-LOCATION-P1 Tab
@@ -100,8 +98,8 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         {
             if (platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) != 0.0)
             {
-                endX = 345 + platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) * sin((180 - platformLocationP1->getLeftSonarAngle()) * PI / 180);
-                endY = 285 + platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) * cos((180 - platformLocationP1->getLeftSonarAngle()) * PI / 180);
+                endX = 345 + platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) * sin((180 - platformLocationP1->getLeftSonarAngle()) * M_PI / 180);
+                endY = 285 + platformLocationP1->getLeftSonarScan(platformLocationP1->getLeftSonarAngle()) * cos((180 - platformLocationP1->getLeftSonarAngle()) * M_PI / 180);
                 MainWindow::getInstance()->leftUSSonarVector->setLine(345, 285, endX, endY);
                 ui->leftSonarAngleScroller->setValue(platformLocationP1->getLeftSonarAngle());
 
@@ -125,8 +123,8 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         {
             if (platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) != 0.0)
             {
-                endX = 445 + platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) * sin((180 - platformLocationP1->getRightSonarAngle()) * PI / 180);
-                endY = 285 + platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) * cos((180 - platformLocationP1->getRightSonarAngle()) * PI / 180);
+                endX = 445 + platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) * sin((180 - platformLocationP1->getRightSonarAngle()) * M_PI / 180);
+                endY = 285 + platformLocationP1->getRightSonarScan(platformLocationP1->getRightSonarAngle()) * cos((180 - platformLocationP1->getRightSonarAngle()) * M_PI / 180);
                 MainWindow::getInstance()->rightUSSonarVector->setLine(445, 285, endX, endY);
                 ui->rightSonarAngleScroller->setValue(platformLocationP1->getRightSonarAngle());
 
@@ -148,31 +146,46 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 
         if (platformLocationP1->getAccelerometerWorkerActivated())
         {
-            /*
-            ui->accelerometerXLcdNumber->display(platformLocationP1->getAccelerometerReadings()[0]);
-            ui->accelerometerYLcdNumber->display(platformLocationP1->getAccelerometerReadings()[1]);
-            ui->accelerometerZLcdNumber->display(platformLocationP1->getAccelerometerReadings()[2]);
-            */
-            float realAccel[3];
-            realAccel[0] = platformLocationP1->getAccelerometerReadings()[0] / pow(2, 15) * 2;
-            realAccel[1] = platformLocationP1->getAccelerometerReadings()[1] / pow(2, 15) * 2;
-            realAccel[2] = platformLocationP1->getAccelerometerReadings()[2] / pow(2, 15) * 2;
-
-            ui->accelerometerXLcdNumber->display(realAccel[0]);
-            ui->accelerometerYLcdNumber->display(realAccel[1]);
-            ui->accelerometerZLcdNumber->display(realAccel[2]);
+            if (ui->accelerometerRawCheckBox->isChecked())
+            {
+                ui->accelerometerXLcdNumber->display(platformLocationP1->getAccelerometerReadings()[0]);
+                ui->accelerometerYLcdNumber->display(platformLocationP1->getAccelerometerReadings()[1]);
+                ui->accelerometerZLcdNumber->display(platformLocationP1->getAccelerometerReadings()[2]);
+            }
+            else
+            {
+                ui->accelerometerXLcdNumber->display(platformLocationP1->getAccelerometerNaturalReadings()[0]);
+                ui->accelerometerYLcdNumber->display(platformLocationP1->getAccelerometerNaturalReadings()[1]);
+                ui->accelerometerZLcdNumber->display(platformLocationP1->getAccelerometerNaturalReadings()[2]);
+            }
         }
 
         if (platformLocationP1->getMagnetometerWorkerActivated())
         {
-            ui->magnetometerXLcdNumber->display(platformLocationP1->getMagnetometerReadings()[0]);
-            ui->magnetometerYLcdNumber->display(platformLocationP1->getMagnetometerReadings()[1]);
-            ui->magnetometerZLcdNumber->display(platformLocationP1->getMagnetometerReadings()[2]);
+            if (ui->magnetometerRawCheckBox->isChecked())
+            {
+                ui->magnetometerXLcdNumber->display(platformLocationP1->getMagnetometerReadings()[0]);
+                ui->magnetometerYLcdNumber->display(platformLocationP1->getMagnetometerReadings()[1]);
+                ui->magnetometerZLcdNumber->display(platformLocationP1->getMagnetometerReadings()[2]);
+            }
+            else
+            {
+                ui->magnetometerXLcdNumber->display(platformLocationP1->getMagnetometerNaturalReadings()[0]);
+                ui->magnetometerYLcdNumber->display(platformLocationP1->getMagnetometerNaturalReadings()[1]);
+                ui->magnetometerZLcdNumber->display(platformLocationP1->getMagnetometerNaturalReadings()[2]);
+            }
         }
 
         if (platformLocationP1->getCompassHeadingWorkerActivated())
         {
-            ui->compassHeadingLcdNumber->display(platformLocationP1->getCompassHeading());
+            if (platformLocationP1->getCompassHeading())
+            {
+                ui->compassHeadingLcdNumber->display(platformLocationP1->getCompassHeading());
+            }
+            else
+            {
+                ui->compassHeadingLcdNumber->display("");
+            }
         }
     }
 }
@@ -189,19 +202,19 @@ void accelerometerRefreshGraphicsView()
             static qreal x = 0.0;
             static qreal x1 = 0.0;
 
-            static qreal yX = MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.3;
+            static qreal yX = MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.2;
             static qreal y1X = 0.0;
 
-            static qreal yY = MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.6;
+            static qreal yY = MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.4;
             static qreal y1Y = 0.0;
 
-            static qreal yZ = MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.9;
+            static qreal yZ = MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.6;
             static qreal y1Z = 0.0;
 
             x1 = x + 0.5;
-            y1X = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.3) - (double)(platformLocationP1->getAccelerometerReadings()[0]) / MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height();
-            y1Y = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.6) - (double)(platformLocationP1->getAccelerometerReadings()[1]) / MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height();
-            y1Z = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.9) - (double)(platformLocationP1->getAccelerometerReadings()[2]) / MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height();
+            y1X = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.2) + (double)(platformLocationP1->getAccelerometerNaturalReadings()[0]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 7);
+            y1Y = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.4) + (double)(platformLocationP1->getAccelerometerNaturalReadings()[1]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 7);
+            y1Z = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.6) + (double)(platformLocationP1->getAccelerometerNaturalReadings()[2]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 7);
 
             MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->addLine(x, yX, x1, y1X, QPen(Qt::red));
             MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->addLine(x, yY, x1, y1Y, QPen(Qt::blue));
@@ -233,19 +246,19 @@ void magnetometerRefreshGraphicsView()
             static qreal x = 0.0;
             static qreal x1 = 0.0;
 
-            static qreal yX = MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.3;
+            static qreal yX = MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.2;
             static qreal y1X = 0.0;
 
-            static qreal yY = MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.6;
+            static qreal yY = MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.4;
             static qreal y1Y = 0.0;
 
-            static qreal yZ = MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.9;
+            static qreal yZ = MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.6;
             static qreal y1Z = 0.0;
 
             x1 = x + 0.5;
-            y1X = (MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.3) - (double)(platformLocationP1->getMagnetometerReadings()[0]) / MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height();
-            y1Y = (MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.6) - (double)(platformLocationP1->getMagnetometerReadings()[1]) / MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height();
-            y1Z = (MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height() * 0.9) - (double)(platformLocationP1->getMagnetometerReadings()[2]) / MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->height();
+            y1X = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.2) + (double)(platformLocationP1->getMagnetometerReadings()[0]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 800);
+            y1Y = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.4) + (double)(platformLocationP1->getMagnetometerReadings()[1]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 800);
+            y1Z = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.6) + (double)(platformLocationP1->getMagnetometerReadings()[2]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 800);
 
             MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->addLine(x, yX, x1, y1X, QPen(Qt::red));
             MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->addLine(x, yY, x1, y1Y, QPen(Qt::blue));
@@ -267,7 +280,30 @@ void magnetometerRefreshGraphicsView()
 
 void compassHeadingRefreshView()
 {
-    qDebug("compassHeadingRefreshView");
+    static int cnt = 0;
+    static double x = 0;
+    static double y = 0;
+
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+
+    if (cnt > 5)
+    {
+        x = x / 5;
+        y = y / 5;
+        MainWindow::getInstance()->northDirection->setLine(180, 140, x, y);
+        cnt = 0;
+        x = 0;
+        y = 0;
+    }
+    else
+    {
+        double endX = 180 + 140 * sin((180 - platformLocationP1->getHeading()) * M_PI / 180);
+        double endY = 140 + 140 * cos((180 - platformLocationP1->getHeading()) * M_PI / 180);
+
+        x += endX;
+        y += endY;
+    }
+    cnt++;
 }
 
 void loadPlatformLocationP1Defaults(Ui::MainWindow *ui)

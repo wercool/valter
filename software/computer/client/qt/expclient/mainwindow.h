@@ -47,8 +47,12 @@ public:
     QGraphicsScene* platformLocationP1SonarsGraphicsViewScene;
     map<int, QGraphicsEllipseItem*> leftSonarDots;
     map<int, QGraphicsEllipseItem*> rightSonarDots;
+
     QGraphicsScene* platformLocationP1AccelerometerGraphicsViewScene;
     QGraphicsScene* platformLocationP1MagnetometerGraphicsViewScene;
+
+    QGraphicsScene* platformLocationP1CompassGraphicsViewScene;
+    QGraphicsLineItem *northDirection;
 
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
@@ -279,6 +283,8 @@ private slots:
     void platformLocationP1CompassHeadingRefreshTimerUpdate();
 
     void on_magnetometerGraphicsViewRedrawCheckbox_2_toggled(bool checked);
+
+    void on_detatchAccAndMagFrameButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;

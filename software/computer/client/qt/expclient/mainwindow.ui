@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>791</width>
-             <height>1022</height>
+             <width>792</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2774,8 +2774,8 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1835</y>
-             <width>809</width>
+             <y>-1761</y>
+             <width>810</width>
              <height>2500</height>
             </rect>
            </property>
@@ -5536,6 +5536,9 @@ background-repeat: repeat-no;</string>
                    <property name="styleSheet">
                     <string notr="true">background-color: rgb(255, 255, 255);</string>
                    </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
                   </widget>
                   <widget class="QLabel" name="label_56">
                    <property name="geometry">
@@ -5651,6 +5654,9 @@ background-repeat: repeat-no;</string>
                    <property name="styleSheet">
                     <string notr="true">background-color: rgb(255, 255, 255);</string>
                    </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
                   </widget>
                   <widget class="QLCDNumber" name="magnetometerYLcdNumber">
                    <property name="geometry">
@@ -5663,6 +5669,9 @@ background-repeat: repeat-no;</string>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
                    </property>
                   </widget>
                   <widget class="QCheckBox" name="magnetometerTrackCheckBox">
@@ -5689,6 +5698,9 @@ background-repeat: repeat-no;</string>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
                    </property>
                   </widget>
                   <widget class="QLabel" name="label_30">
@@ -5724,6 +5736,9 @@ background-repeat: repeat-no;</string>
                    <property name="styleSheet">
                     <string notr="true">background-color: rgb(255, 255, 255);</string>
                    </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
                   </widget>
                   <widget class="QLCDNumber" name="magnetometerZLcdNumber">
                    <property name="geometry">
@@ -5736,6 +5751,47 @@ background-repeat: repeat-no;</string>
                    </property>
                    <property name="styleSheet">
                     <string notr="true">background-color: rgb(255, 255, 255);</string>
+                   </property>
+                   <property name="digitCount">
+                    <number>6</number>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="label_59">
+                   <property name="geometry">
+                    <rect>
+                     <x>690</x>
+                     <y>0</y>
+                     <width>51</width>
+                     <height>17</height>
+                    </rect>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>8</pointsize>
+                     <italic>true</italic>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>or mgauss</string>
+                   </property>
+                  </widget>
+                  <widget class="QLabel" name="label_60">
+                   <property name="geometry">
+                    <rect>
+                     <x>270</x>
+                     <y>0</y>
+                     <width>51</width>
+                     <height>17</height>
+                    </rect>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>8</pointsize>
+                     <italic>true</italic>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>or +/- 2g</string>
                    </property>
                   </widget>
                  </widget>
@@ -5769,7 +5825,7 @@ background-repeat: repeat-no;</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>update</string>
+                   <string>update graph</string>
                   </property>
                  </widget>
                 </item>
@@ -5781,7 +5837,7 @@ background-repeat: repeat-no;</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>update</string>
+                   <string>update graph</string>
                   </property>
                  </widget>
                 </item>
@@ -5947,7 +6003,7 @@ background-repeat: repeat-no;</string>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QGraphicsView" name="graphicsView"/>
+                 <widget class="QGraphicsView" name="compassGraphicsView"/>
                 </item>
                 <item>
                  <widget class="QCheckBox" name="magnetometerGraphicsViewRedrawCheckbox_2">
@@ -5957,7 +6013,7 @@ background-repeat: repeat-no;</string>
                    </font>
                   </property>
                   <property name="text">
-                   <string>update</string>
+                   <string>update compass</string>
                   </property>
                  </widget>
                 </item>

@@ -111,6 +111,17 @@ public:
      return tokens;
    }
 
+   static int convert_twos_complement(int input)
+   {
+        if (input >= 0x8000)
+        {
+            input ^= 0xFFFF;
+            input += 1;
+            input *= -1;
+        }
+        return input;
+   }
+
 private:
    Valter();
    static Valter *pValter;      // Valter's singleton instance

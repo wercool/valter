@@ -43,6 +43,7 @@ volatile unsigned int rightUSSonarPongTrigger = 0;
 
 #define LSM303DLM_MAGNETOMETER_ADDR    0x1E
 #define LSM303DLM_CRA_REG_M            0x00
+#define LSM303DLM_CRB_REG_M            0x01
 #define LSM303DLM_MR_REG_M             0x02
 
 #define OUT_X_L_A   0x28
@@ -403,9 +404,11 @@ void initAccelerometer()
 void initMagnetometer()
 {
     unsigned char LSM303DLM_CRA_REG_M_VALUE = 0x14;
+    unsigned char LSM303DLM_CRB_REG_M_VALUE = 0x20;
     unsigned char LSM303DLM_MR_REG_M_VALUE  = 0x00;
 
     TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_CRA_REG_M, 1, &LSM303DLM_CRA_REG_M_VALUE, 1, 0);
+    TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_CRB_REG_M, 1, &LSM303DLM_CRB_REG_M_VALUE, 1, 0);
     TWID_Write(&twid, LSM303DLM_MAGNETOMETER_ADDR, LSM303DLM_MR_REG_M, 1, &LSM303DLM_MR_REG_M_VALUE, 1, 0);
 
     delay_us(50);

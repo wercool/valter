@@ -147,6 +147,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     platformLocationP1CompassHeadingRefreshTimer = new QTimer(this);
     connect(platformLocationP1CompassHeadingRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1CompassHeadingRefreshTimerUpdate()));
 
+
+    //compass
+    platformLocationP1CompassGraphicsViewScene = new QGraphicsScene;
+    platformLocationP1CompassGraphicsViewScene->setSceneRect(0, 0, 360, 280);
+    ui->compassGraphicsView->setScene(platformLocationP1CompassGraphicsViewScene);
+
+    QGraphicsLineItem *northDirectionPointer = new QGraphicsLineItem;
+    northDirectionPointer->setPen(QPen(Qt::blue, 3.0, Qt::SolidLine));
+    northDirectionPointer->setLine(180, 140, 180, 5);
+    platformLocationP1CompassGraphicsViewScene->addItem(northDirectionPointer);
+
+    northDirection = new QGraphicsLineItem;
+    northDirection->setPen(QPen(Qt::blue, 2.0, Qt::DotLine));
+    northDirection->setLine(180, 140, 180, 20);
+    platformLocationP1CompassGraphicsViewScene->addItem(northDirection);
 }
 
 MainWindow::~MainWindow()
@@ -1297,4 +1312,13 @@ void MainWindow::on_magnetometerGraphicsViewRedrawCheckbox_2_toggled(bool checke
     {
         platformLocationP1CompassHeadingRefreshTimer->stop();
     }
+}
+
+void MainWindow::on_detatchAccAndMagFrameButton_2_clicked()
+{
+    QWidget* pWidget = ui->compassFrame;
+    pWidget->installEventFilter(new CompassFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Compass");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
 }
