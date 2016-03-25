@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>792</width>
-             <height>1016</height>
+             <width>791</width>
+             <height>1022</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2774,15 +2774,15 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1761</y>
-             <width>810</width>
-             <height>2500</height>
+             <y>-1875</y>
+             <width>809</width>
+             <height>2400</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>0</width>
-             <height>2500</height>
+             <height>2400</height>
             </size>
            </property>
            <widget class="QFrame" name="frame">
@@ -5883,7 +5883,7 @@ background-repeat: repeat-no;</string>
              <string>Detach Acc and Mag Frame</string>
             </property>
            </widget>
-           <widget class="QPushButton" name="detatchAccAndMagFrameButton_2">
+           <widget class="QPushButton" name="detatchAccAndMagFrameButton_">
             <property name="geometry">
              <rect>
               <x>250</x>
@@ -6006,7 +6006,7 @@ background-repeat: repeat-no;</string>
                  <widget class="QGraphicsView" name="compassGraphicsView"/>
                 </item>
                 <item>
-                 <widget class="QCheckBox" name="magnetometerGraphicsViewRedrawCheckbox_2">
+                 <widget class="QCheckBox" name="compassGraphicsViewRedrawCheckbox">
                   <property name="font">
                    <font>
                     <pointsize>8</pointsize>
@@ -6021,6 +6021,381 @@ background-repeat: repeat-no;</string>
               </widget>
              </item>
             </layout>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget_4">
+            <property name="geometry">
+             <rect>
+              <x>410</x>
+              <y>1930</y>
+              <width>391</width>
+              <height>381</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="inclinometerFrameContainer">
+             <item>
+              <widget class="QFrame" name="inclinometerFrame">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_19">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_45">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="label_61">
+                    <property name="text">
+                     <string>Inclinometer</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="inclinometerXCheckbox">
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>x</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="inclinometerYCheckbox">
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>y</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="inclinometerZCheckbox">
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>z</string>
+                    </property>
+                    <property name="checked">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_3">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QGraphicsView" name="inclinometerGraphicsView"/>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="inclinometerGraphicsViewRedrawCheckbox">
+                  <property name="font">
+                   <font>
+                    <pointsize>8</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>update inclinometer</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="Line" name="line_25">
+            <property name="geometry">
+             <rect>
+              <x>410</x>
+              <y>1910</y>
+              <width>230</width>
+              <height>3</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="detatchAccAndMagFrameButton_3">
+            <property name="geometry">
+             <rect>
+              <x>650</x>
+              <y>1900</y>
+              <width>151</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Detach Inclinometer Frame</string>
+            </property>
+           </widget>
+           <widget class="Line" name="line_26">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>2320</y>
+              <width>790</width>
+              <height>3</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_62">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>2330</y>
+              <width>111</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>LEDs on sonars</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="llLedToggleButton">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>2350</y>
+              <width>41</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>LL</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <selectedoff>:/lights-off.png</selectedoff>
+              <selectedon>:/lights-on.png</selectedon>
+             </iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="lrLedToggleButton">
+            <property name="geometry">
+             <rect>
+              <x>60</x>
+              <y>2350</y>
+              <width>41</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>LR</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <selectedoff>:/lights-off.png</selectedoff>
+              <selectedon>:/lights-on.png</selectedon>
+             </iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="rlLedToggleButton">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>2350</y>
+              <width>41</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>RL</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <selectedoff>:/lights-off.png</selectedoff>
+              <selectedon>:/lights-on.png</selectedon>
+             </iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="rrLedToggleButton">
+            <property name="geometry">
+             <rect>
+              <x>160</x>
+              <y>2350</y>
+              <width>41</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>RR</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <selectedoff>:/lights-off.png</selectedoff>
+              <selectedon>:/lights-on.png</selectedon>
+             </iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_63">
+            <property name="geometry">
+             <rect>
+              <x>280</x>
+              <y>2330</y>
+              <width>121</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Manipulator LED</string>
+            </property>
+           </widget>
+           <widget class="Line" name="line_27">
+            <property name="geometry">
+             <rect>
+              <x>270</x>
+              <y>2330</y>
+              <width>3</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="manLedToggleButton">
+            <property name="geometry">
+             <rect>
+              <x>280</x>
+              <y>2350</y>
+              <width>51</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>LED</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <selectedoff>:/lights-off.png</selectedoff>
+              <selectedon>:/lights-on.png</selectedon>
+             </iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="allSonarsLedsToggleButton">
+            <property name="geometry">
+             <rect>
+              <x>210</x>
+              <y>2350</y>
+              <width>51</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>ALL</string>
+            </property>
+            <property name="icon">
+             <iconset>
+              <selectedoff>:/lights-off.png</selectedoff>
+              <selectedon>:/lights-on.png</selectedon>
+             </iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="default">
+             <bool>false</bool>
+            </property>
+            <property name="flat">
+             <bool>false</bool>
+            </property>
+           </widget>
+           <widget class="Line" name="line_28">
+            <property name="geometry">
+             <rect>
+              <x>400</x>
+              <y>2330</y>
+              <width>3</width>
+              <height>61</height>
+             </rect>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
            </widget>
           </widget>
          </widget>

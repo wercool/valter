@@ -8,5 +8,7 @@
         <file>platfrom-top-view-m1.png</file>
         <file>sonar.png</file>
         <file>sonar-off.png</file>
+        <file>lights-on.png</file>
+        <file>lights-off.png</file>
     </qresource>
 </RCC>

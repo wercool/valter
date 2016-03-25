@@ -54,6 +54,11 @@ public:
     QGraphicsScene* platformLocationP1CompassGraphicsViewScene;
     QGraphicsLineItem *northDirection;
 
+    QGraphicsScene* platformLocationP1InclinometerGraphicsViewScene;
+    QGraphicsLineItem *xInclination;
+    QGraphicsLineItem *yInclination;
+    QGraphicsLineItem *zInclination;
+
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
 
@@ -282,9 +287,29 @@ private slots:
 
     void platformLocationP1CompassHeadingRefreshTimerUpdate();
 
-    void on_magnetometerGraphicsViewRedrawCheckbox_2_toggled(bool checked);
+    void on_compassGraphicsViewRedrawCheckbox_toggled(bool checked);
 
-    void on_detatchAccAndMagFrameButton_2_clicked();
+    void on_detatchCompassFrameButton_clicked();
+
+    void on_inclinometerXCheckbox_toggled(bool checked);
+
+    void on_inclinometerYCheckbox_toggled(bool checked);
+
+    void on_inclinometerZCheckbox_toggled(bool checked);
+
+    void on_detatchAccAndMagFrameButton_3_clicked();
+
+    void on_llLedToggleButton_toggled(bool checked);
+
+    void on_lrLedToggleButton_toggled(bool checked);
+
+    void on_rlLedToggleButton_toggled(bool checked);
+
+    void on_rrLedToggleButton_toggled(bool checked);
+
+    void on_allSonarsLedsToggleButton_toggled(bool checked);
+
+    void on_manLedToggleButton_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;

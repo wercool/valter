@@ -179,6 +179,17 @@ public:
         a->z /= mag;
     }
 
+    //platform location p1 Shift Register U13, U14
+    bool getShiftRegBit(int index);
+    void setShiftRegBit(int index, bool state);
+
+    void setLLLedState(bool state);
+    void setLRLedState(bool state);
+    void setRLLedState(bool state);
+    void setRRLedState(bool state);
+    void setAllSonarsLedsState(bool state);
+    void setManLedState(bool state);
+
 private:
     PlatformLocationP1();
     static PlatformLocationP1* pPlatformLocationP1;         // PLATFORM-LOCATION-P1's singleton instance
@@ -256,6 +267,8 @@ private:
 
     void compassHeadingWorker();
     bool compassHeadingWorkerActivated;
+
+    bool shiftRegArray[16];
 
 };
 

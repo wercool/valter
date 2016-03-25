@@ -137,4 +137,29 @@ class CompassFrameEventFilter: public QObject
   }
 };
 
+class InclinometerFrameEventFilter: public QObject
+{
+  public:
+  Ui::MainWindow *ui;
+  InclinometerFrameEventFilter(Ui::MainWindow *ui):QObject()
+  {
+      this->ui = ui;
+  }
+
+  ~InclinometerFrameEventFilter(){}
+
+  bool eventFilter(QObject* widget, QEvent* event)
+  {
+      if(event->type() == QEvent::Close)
+      {
+          ui->inclinometerFrameContainer->addWidget((QWidget*)widget);
+          return true;
+      }
+      else
+      {
+        return QObject::eventFilter(widget, event);
+      }
+  }
+};
+
 #endif // GUIHELPERS_H

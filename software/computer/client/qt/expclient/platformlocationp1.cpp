@@ -119,6 +119,11 @@ void PlatformLocationP1::resetToDefault()
 
     compassHeading = 0.0;
     compassHeadingWorkerActivated = false;
+
+    for (int i = 0; i < 16; i++)
+    {
+        shiftRegArray[i] = 0;
+    }
 }
 
 void PlatformLocationP1::setModuleInitialState()
@@ -646,6 +651,56 @@ float PlatformLocationP1::getHeading()
    if (heading < 0) heading += 360;
 
    return heading;
+}
+
+void PlatformLocationP1::setLLLedState(bool state)
+{
+    setShiftRegBit(0, state);
+}
+
+void PlatformLocationP1::setLRLedState(bool state)
+{
+    setShiftRegBit(1, state);
+}
+
+void PlatformLocationP1::setRLLedState(bool state)
+{
+    setShiftRegBit(2, state);
+}
+
+void PlatformLocationP1::setRRLedState(bool state)
+{
+    setShiftRegBit(3, state);
+}
+
+void PlatformLocationP1::setAllSonarsLedsState(bool state)
+{
+    setShiftRegBit(0, state);
+    setShiftRegBit(1, state);
+    setShiftRegBit(2, state);
+    setShiftRegBit(3, state);
+}
+
+void PlatformLocationP1::setManLedState(bool state)
+{
+    setShiftRegBit(7, state);
+}
+
+bool PlatformLocationP1::getShiftRegBit(int index)
+{
+    return shiftRegArray[index];
+}
+
+void PlatformLocationP1::setShiftRegBit(int index, bool state)
+{
+    shiftRegArray[index] = state;
+
+    string shiftRegStates = "SETSHREG#";
+    for (int i = 0; i < 16; i++)
+    {
+        shiftRegStates.append(getShiftRegBit(i) ? "1" : "0");
+    }
+    sendCommand(shiftRegStates);
 }
 
 float PlatformLocationP1::getCompassHeading() const

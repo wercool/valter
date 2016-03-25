@@ -162,6 +162,45 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     northDirection->setPen(QPen(Qt::blue, 2.0, Qt::DotLine));
     northDirection->setLine(180, 140, 180, 20);
     platformLocationP1CompassGraphicsViewScene->addItem(northDirection);
+
+    //inclinometer
+    platformLocationP1InclinometerGraphicsViewScene = new QGraphicsScene;
+    platformLocationP1InclinometerGraphicsViewScene->setSceneRect(0, 0, 360, 300);
+    ui->inclinometerGraphicsView->setScene(platformLocationP1InclinometerGraphicsViewScene);
+
+    xInclination = new QGraphicsLineItem;
+    xInclination->setPen(QPen(Qt::red, 5.0, Qt::SolidLine));
+    xInclination->setLine(100, 72, 260, 72);
+    platformLocationP1InclinometerGraphicsViewScene->addItem(xInclination);
+    xInclination->setTransformOriginPoint(180, 72);
+    xInclination->setRotation(0);
+
+    QGraphicsEllipseItem *xInclinationCenter = new QGraphicsEllipseItem;
+    xInclinationCenter->setRect(175, 67, 10, 10);
+    platformLocationP1InclinometerGraphicsViewScene->addItem(xInclinationCenter);
+
+    yInclination = new QGraphicsLineItem;
+    yInclination->setPen(QPen(Qt::blue, 5.0, Qt::SolidLine));
+    yInclination->setLine(100, 144, 260, 144);
+    platformLocationP1InclinometerGraphicsViewScene->addItem(yInclination);
+    yInclination->setTransformOriginPoint(180, 144);
+    yInclination->setRotation(0);
+
+    QGraphicsEllipseItem *yInclinationCenter = new QGraphicsEllipseItem;
+    yInclinationCenter->setRect(175, 139, 10, 10);
+    platformLocationP1InclinometerGraphicsViewScene->addItem(yInclinationCenter);
+
+    zInclination = new QGraphicsLineItem;;
+    zInclination->setPen(QPen(Qt::green, 5.0, Qt::SolidLine));
+    zInclination->setLine(100, 216, 260, 216);
+    platformLocationP1InclinometerGraphicsViewScene->addItem(zInclination);
+    zInclination->setTransformOriginPoint(180, 216);
+    zInclination->setRotation(0);
+
+    QGraphicsEllipseItem *zInclinationCenter = new QGraphicsEllipseItem;
+    zInclinationCenter->setRect(175, 211, 10, 10);
+    platformLocationP1InclinometerGraphicsViewScene->addItem(zInclinationCenter);
+
 }
 
 MainWindow::~MainWindow()
@@ -1302,7 +1341,7 @@ void MainWindow::platformLocationP1CompassHeadingRefreshTimerUpdate()
     compassHeadingRefreshView();
 }
 
-void MainWindow::on_magnetometerGraphicsViewRedrawCheckbox_2_toggled(bool checked)
+void MainWindow::on_compassGraphicsViewRedrawCheckbox_toggled(bool checked)
 {
     if (checked)
     {
@@ -1314,11 +1353,96 @@ void MainWindow::on_magnetometerGraphicsViewRedrawCheckbox_2_toggled(bool checke
     }
 }
 
-void MainWindow::on_detatchAccAndMagFrameButton_2_clicked()
+void MainWindow::on_detatchCompassFrameButton_clicked()
 {
     QWidget* pWidget = ui->compassFrame;
     pWidget->installEventFilter(new CompassFrameEventFilter(ui));
     pWidget->setWindowTitle("Platform Compass");
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
+}
+
+void MainWindow::on_inclinometerXCheckbox_toggled(bool checked)
+{
+    if (!checked)
+    {
+        xInclination->setOpacity(0.05);
+    }
+    else
+    {
+        xInclination->setOpacity(1.0);
+    }
+}
+
+void MainWindow::on_inclinometerYCheckbox_toggled(bool checked)
+{
+    if (!checked)
+    {
+        yInclination->setOpacity(0.05);
+    }
+    else
+    {
+        yInclination->setOpacity(1.0);
+    }
+}
+
+void MainWindow::on_inclinometerZCheckbox_toggled(bool checked)
+{
+    if (!checked)
+    {
+        zInclination->setOpacity(0.05);
+    }
+    else
+    {
+        zInclination->setOpacity(1.0);
+    }
+}
+
+void MainWindow::on_detatchAccAndMagFrameButton_3_clicked()
+{
+    QWidget* pWidget = ui->inclinometerFrame;
+    pWidget->installEventFilter(new InclinometerFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Inclinomter");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
+}
+
+void MainWindow::on_llLedToggleButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setLLLedState(checked);
+}
+
+void MainWindow::on_lrLedToggleButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setLRLedState(checked);
+}
+
+void MainWindow::on_rlLedToggleButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setRLLedState(checked);
+}
+
+void MainWindow::on_rrLedToggleButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setRRLedState(checked);
+}
+
+void MainWindow::on_allSonarsLedsToggleButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setAllSonarsLedsState(checked);
+    ui->llLedToggleButton->setChecked(checked);
+    ui->lrLedToggleButton->setChecked(checked);
+    ui->rlLedToggleButton->setChecked(checked);
+    ui->rrLedToggleButton->setChecked(checked);
+}
+
+void MainWindow::on_manLedToggleButton_toggled(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    platformLocationP1->setManLedState(checked);
 }

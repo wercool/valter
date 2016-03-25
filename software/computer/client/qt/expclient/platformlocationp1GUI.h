@@ -158,6 +158,12 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 ui->accelerometerYLcdNumber->display(platformLocationP1->getAccelerometerNaturalReadings()[1]);
                 ui->accelerometerZLcdNumber->display(platformLocationP1->getAccelerometerNaturalReadings()[2]);
             }
+            if (ui->inclinometerGraphicsViewRedrawCheckbox->isChecked())
+            {
+                MainWindow::getInstance()->xInclination->setRotation(180 * platformLocationP1->getAccelerometerNaturalReadings()[0]);
+                MainWindow::getInstance()->yInclination->setRotation(180 * platformLocationP1->getAccelerometerNaturalReadings()[1]);
+                MainWindow::getInstance()->zInclination->setRotation(180 * platformLocationP1->getAccelerometerNaturalReadings()[2]);
+            }
         }
 
         if (platformLocationP1->getMagnetometerWorkerActivated())
@@ -256,9 +262,9 @@ void magnetometerRefreshGraphicsView()
             static qreal y1Z = 0.0;
 
             x1 = x + 0.5;
-            y1X = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.2) + (double)(platformLocationP1->getMagnetometerReadings()[0]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 800);
-            y1Y = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.4) + (double)(platformLocationP1->getMagnetometerReadings()[1]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 800);
-            y1Z = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.6) + (double)(platformLocationP1->getMagnetometerReadings()[2]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 800);
+            y1X = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.2) + (double)(platformLocationP1->getMagnetometerReadings()[0]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 1000);
+            y1Y = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.4) + (double)(platformLocationP1->getMagnetometerReadings()[1]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 1000);
+            y1Z = (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() * 0.6) + (double)(platformLocationP1->getMagnetometerReadings()[2]) * (MainWindow::getInstance()->platformLocationP1AccelerometerGraphicsViewScene->height() / 1000);
 
             MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->addLine(x, yX, x1, y1X, QPen(Qt::red));
             MainWindow::getInstance()->platformLocationP1MagnetometerGraphicsViewScene->addLine(x, yY, x1, y1Y, QPen(Qt::blue));
