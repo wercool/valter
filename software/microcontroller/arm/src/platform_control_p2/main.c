@@ -6,6 +6,7 @@
 
 #include "Board.h"
 #include "cdc_enumerate.h"
+#include "watchdog.h"
 #include "adc.h"
 #include "pwm.h"
 #include "aic.h"
@@ -332,6 +333,10 @@ static void DeviceInit(void)
  */
 int main(void)
 {
+    watchdogReset();
+
+    unsigned char WDINTENTIONALRESET = 0;
+
     struct cdcMessage cdcMessageObj;
 
     unsigned int platformFrontSonarServoDuty = 1;
@@ -346,8 +351,15 @@ int main(void)
 
     DeviceInit();
 
+    watchdogReset();
+
     while (1)
     {
+        if (WDINTENTIONALRESET == 0)
+        {
+            watchdogReset();
+        }
+
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
@@ -361,6 +373,23 @@ int main(void)
             {
                 sprintf((char *)msg,"PLATFORM-CONTROL-P2\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDRESET") == 0)
+            {
+                watchdogReset();
+                sprintf((char *)msg,"WDRST\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETON") == 0)
+            {
+                WDINTENTIONALRESET = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
+            {
+                WDINTENTIONALRESET = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTWHEELENCODERSTARTREADINGS") == 0)
@@ -395,6 +424,48 @@ int main(void)
             if (strcmp((char*) cmdParts, "RIGHTWHEELENCODERRESET") == 0)
             {
                 rightWheelEncoderTicks = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LWENSTART") == 0)
+            {
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LWENSTOP") == 0)
+            {
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ0);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RWENSTART") == 0)
+            {
+                AT91F_AIC_EnableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RWENSTOP") == 0)
+            {
+                AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_IRQ1);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LWENRESET") == 0)
+            {
+                leftWheelEncoderTicks = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RWENRESET") == 0)
+            {
+                rightWheelEncoderTicks = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LWENGET") == 0)
+            {
+                sprintf((char *)msg,"LWEN:%u\n", leftWheelEncoderTicks);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "RWENGET") == 0)
+            {
+                sprintf((char *)msg,"RWEN:%u\n", rightWheelEncoderTicks);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             //SETSONARSERVODUTY#8
@@ -471,7 +542,7 @@ int main(void)
             {
                 chargerDriveDirection = atoi(strtok( NULL, "#" ));
                 pwmDutySetPercent(1, 1);
-                delay_ms(500);
+                delay_ms(50);
                 if (chargerDriveDirection == 1)
                 {
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //CHARGER MOTOR IN1

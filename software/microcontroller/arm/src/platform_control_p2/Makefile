@@ -68,7 +68,8 @@ SRC =
 # use file-extension c for "c-only"-files
 SRCARM = $(TARGET).c
 SRCARM += Cstartup_SAM7.c
-SRCARM += syscalls.c 
+SRCARM += syscalls.c
+SRCARM += watchdog.c
 SRCARM += cdc_enumerate.c
 SRCARM  += adc.c
 SRCARM  += pwm.c

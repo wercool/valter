@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -2732,6 +2732,14 @@ font-weight: bold;</string>
        <attribute name="title">
         <string>PLATFORM-CONTROL-P2</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_20"/>
+        </item>
+        <item row="0" column="1">
+         <layout class="QVBoxLayout" name="verticalLayout_21"/>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="platformLocationP1Tab">
        <attribute name="title">
@@ -2774,7 +2782,7 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1865</y>
+             <y>0</y>
              <width>810</width>
              <height>2400</height>
             </rect>

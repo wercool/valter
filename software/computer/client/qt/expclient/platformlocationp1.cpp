@@ -502,6 +502,10 @@ void PlatformLocationP1::setLeftSonarActivated(bool value)
         this_thread::sleep_for(std::chrono::milliseconds(150));
         spawnLeftSonarWorker();
     }
+    else
+    {
+        sendCommand("DISABLELEFTUSSONARSERVO");
+    }
 }
 
 void PlatformLocationP1::rightSonarWorker()
@@ -1018,6 +1022,10 @@ void PlatformLocationP1::setRightSonarActivated(bool value)
     {
         this_thread::sleep_for(std::chrono::milliseconds(150));
         spawnRightSonarWorker();
+    }
+    else
+    {
+        sendCommand("DISABLERIGHTUSSONARSERVO");
     }
 }
 int PlatformLocationP1::getRelativeUSSensorVoltage() const
