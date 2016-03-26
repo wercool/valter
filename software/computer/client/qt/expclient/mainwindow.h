@@ -297,8 +297,6 @@ private slots:
 
     void on_inclinometerZCheckbox_toggled(bool checked);
 
-    void on_detatchAccAndMagFrameButton_3_clicked();
-
     void on_llLedToggleButton_toggled(bool checked);
 
     void on_lrLedToggleButton_toggled(bool checked);
@@ -310,6 +308,8 @@ private slots:
     void on_allSonarsLedsToggleButton_toggled(bool checked);
 
     void on_manLedToggleButton_toggled(bool checked);
+
+    void on_inclinometerFrameDetatchButton_clicked();
 
 private:
     Ui::MainWindow *ui;

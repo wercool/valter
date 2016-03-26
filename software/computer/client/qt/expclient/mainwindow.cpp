@@ -1353,15 +1353,6 @@ void MainWindow::on_compassGraphicsViewRedrawCheckbox_toggled(bool checked)
     }
 }
 
-void MainWindow::on_detatchCompassFrameButton_clicked()
-{
-    QWidget* pWidget = ui->compassFrame;
-    pWidget->installEventFilter(new CompassFrameEventFilter(ui));
-    pWidget->setWindowTitle("Platform Compass");
-    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
-    pWidget->show();
-}
-
 void MainWindow::on_inclinometerXCheckbox_toggled(bool checked)
 {
     if (!checked)
@@ -1396,15 +1387,6 @@ void MainWindow::on_inclinometerZCheckbox_toggled(bool checked)
     {
         zInclination->setOpacity(1.0);
     }
-}
-
-void MainWindow::on_detatchAccAndMagFrameButton_3_clicked()
-{
-    QWidget* pWidget = ui->inclinometerFrame;
-    pWidget->installEventFilter(new InclinometerFrameEventFilter(ui));
-    pWidget->setWindowTitle("Platform Inclinomter");
-    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
-    pWidget->show();
 }
 
 void MainWindow::on_llLedToggleButton_toggled(bool checked)
@@ -1445,4 +1427,22 @@ void MainWindow::on_manLedToggleButton_toggled(bool checked)
 {
     PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
     platformLocationP1->setManLedState(checked);
+}
+
+void MainWindow::on_detatchCompassFrameButton_clicked()
+{
+    QWidget* pWidget = ui->compassFrame;
+    pWidget->installEventFilter(new CompassFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Compass");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
+}
+
+void MainWindow::on_inclinometerFrameDetatchButton_clicked()
+{
+    QWidget* pWidget = ui->inclinometerFrame;
+    pWidget->installEventFilter(new InclinometerFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Inclinomter");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
 }

@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>791</width>
-             <height>1022</height>
+             <width>792</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2774,8 +2774,8 @@ font-weight: bold;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>809</width>
+             <y>-1865</y>
+             <width>810</width>
              <height>2400</height>
             </rect>
            </property>
@@ -5883,7 +5883,7 @@ background-repeat: repeat-no;</string>
              <string>Detach Acc and Mag Frame</string>
             </property>
            </widget>
-           <widget class="QPushButton" name="detatchAccAndMagFrameButton_">
+           <widget class="QPushButton" name="detatchCompassFrameButton">
             <property name="geometry">
              <rect>
               <x>250</x>
@@ -6146,7 +6146,7 @@ background-repeat: repeat-no;</string>
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
-           <widget class="QPushButton" name="detatchAccAndMagFrameButton_3">
+           <widget class="QPushButton" name="inclinometerFrameDetatchButton">
             <property name="geometry">
              <rect>
               <x>650</x>
