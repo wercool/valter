@@ -10,5 +10,8 @@
         <file>sonar-off.png</file>
         <file>lights-on.png</file>
         <file>lights-off.png</file>
+        <file>alarm_off.png</file>
+        <file>alarm_on.png</file>
+        <file>alarm_beep.png</file>
     </qresource>
 </RCC>
