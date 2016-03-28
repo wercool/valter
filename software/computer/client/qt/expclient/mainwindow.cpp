@@ -2,12 +2,13 @@
 #include "ui_mainwindow.h"
 #include <sys/time.h>
 
-#include<guihelpers.h>
+#include<gui/guihelpers.h>
 
 #include <valter.h>
 
-#include <platformcontrolp1GUI.h>
-#include <platformlocationp1GUI.h>
+#include <gui/platformcontrolp1GUI.h>
+#include <gui/platformcontrolp2GUI.h>
+#include <gui/platformlocationp1GUI.h>
 
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
@@ -280,6 +281,17 @@ void MainWindow::delayGUIAction(IValterModule *valterModule)
             case IValterModule::RELOAD_DEFAULTS:
                 valterModule->loadDefaults();
                 loadPlatformControlP1Defaults(ui);
+            break;
+        }
+    }
+    //from PlatformControlP2
+    if (valterModule->getControlDevice()->getControlDeviceId().compare(PlatformControlP2::getControlDeviceId()) == 0)
+    {
+        switch (action)
+        {
+            case IValterModule::RELOAD_DEFAULTS:
+                valterModule->loadDefaults();
+                loadPlatformControlP2Defaults(ui);
             break;
         }
     }
@@ -1445,4 +1457,41 @@ void MainWindow::on_inclinometerFrameDetatchButton_clicked()
     pWidget->setWindowTitle("Platform Inclinomter");
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
+}
+
+//PLATFROM-CONTROL-P2
+void MainWindow::on_chargerMotorDutyScrollBar_valueChanged(int value)
+{
+    ui->chargerMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_chargerMotorPushDurationScrollBar_valueChanged(int value)
+{
+    ui->chargerMotorPushDurationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_horizontalScrollBar_4_valueChanged(int value)
+{
+    ui->beepDurationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_detachIRScanningFrameButton_clicked()
+{
+    QWidget* pWidget = ui->irScanningFrame;
+    pWidget->installEventFilter(new IRScanningFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Bottom IR Scanner");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
+}
+
+void MainWindow::on_chargerLedsButton_toggled(bool checked)
+{
+
+}
+
+void MainWindow::on_loadDefaultsPlatfromControlP2Button_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->loadDefaults();
+    loadPlatformControlP2Defaults(ui);
 }

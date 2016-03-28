@@ -311,6 +311,19 @@ private slots:
 
     void on_inclinometerFrameDetatchButton_clicked();
 
+    //platfrom-control-p2
+    void on_chargerMotorDutyScrollBar_valueChanged(int value);
+
+    void on_chargerMotorPushDurationScrollBar_valueChanged(int value);
+
+    void on_horizontalScrollBar_4_valueChanged(int value);
+
+    void on_detachIRScanningFrameButton_clicked();
+
+    void on_chargerLedsButton_toggled(bool checked);
+
+    void on_loadDefaultsPlatfromControlP2Button_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -333,6 +346,8 @@ private:
     QTimer *platformLocationP1AccelerometerRefreshTimer;
     QTimer *platformLocationP1MagnetometerRefreshTimer;
     QTimer *platformLocationP1CompassHeadingRefreshTimer;
+
+    //platfrom-control-p2
 };
 
 #endif // MAINWINDOW_H

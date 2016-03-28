@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>850</width>
-    <height>600</height>
+    <width>873</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>792</width>
-             <height>1016</height>
+             <width>814</width>
+             <height>1022</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2721,14 +2721,14 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="checkBox">
+             <widget class="QCheckBox" name="platformControlP2LeftWheelEncoderCheckBox">
               <property name="text">
                <string>Right</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_2">
+             <widget class="QCheckBox" name="platformControlP2RightWheelEncoderCheckBox">
               <property name="text">
                <string>Left</string>
               </property>
@@ -2742,14 +2742,14 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_2">
+             <widget class="QPushButton" name="platformControlP2LeftWheelEncoderGetButton">
               <property name="text">
                <string>get</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="platformControlP2RightWheelEncoderGetButton">
               <property name="text">
                <string>get</string>
               </property>
@@ -2763,7 +2763,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLCDNumber" name="leftMotorCurrentLcdNumber_2">
+             <widget class="QLCDNumber" name="platformControlP2LeftWheelEncoderLcdNumber">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -2794,7 +2794,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLCDNumber" name="leftMotorCurrentLcdNumber_3">
+             <widget class="QLCDNumber" name="platformControlP2RightWheelEncoderLcdNumber">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
@@ -2832,14 +2832,14 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_4">
+             <widget class="QPushButton" name="platformControlP2LeftWheelEncoderResetButton">
               <property name="text">
                <string>reset to 0</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_5">
+             <widget class="QPushButton" name="platformControlP2RightWheelEncoderResetButton">
               <property name="text">
                <string>reset to 0</string>
               </property>
@@ -2853,14 +2853,14 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="checkBox_3">
+             <widget class="QCheckBox" name="platformControlP2LeftWheelEncoderAutoresetCheckBox">
               <property name="text">
                <string>autoreset</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_4">
+             <widget class="QCheckBox" name="platformControlP2RightWheelEncoderAutoresetCheckBox">
               <property name="text">
                <string>autoreset</string>
               </property>
@@ -2902,7 +2902,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_69">
+             <widget class="QLabel" name="chargerMotorDutyLabel">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -2917,7 +2917,16 @@
            </layout>
           </item>
           <item>
-           <widget class="QScrollBar" name="horizontalScrollBar">
+           <widget class="QScrollBar" name="chargerMotorDutyScrollBar">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>100</number>
+            </property>
+            <property name="value">
+             <number>50</number>
+            </property>
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -2929,7 +2938,20 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_9">
+             <spacer name="horizontalSpacer_9">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="chargerMotorRotateCCWButton">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -2955,7 +2977,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_10">
+             <widget class="QPushButton" name="chargerMotorRotateCWButton">
               <property name="minimumSize">
                <size>
                 <width>0</width>
@@ -2979,6 +3001,19 @@
                <string>↻</string>
               </property>
              </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -3015,7 +3050,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_71">
+               <widget class="QLabel" name="chargerMotorPushDurationLabel">
                 <property name="font">
                  <font>
                   <pointsize>10</pointsize>
@@ -3030,12 +3065,21 @@
              </layout>
             </item>
             <item>
-             <widget class="QScrollBar" name="horizontalScrollBar_2">
+             <widget class="QScrollBar" name="chargerMotorPushDurationScrollBar">
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
                 <height>12</height>
                </size>
+              </property>
+              <property name="minimum">
+               <number>50</number>
+              </property>
+              <property name="maximum">
+               <number>500</number>
+              </property>
+              <property name="value">
+               <number>250</number>
               </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -3048,7 +3092,20 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="QPushButton" name="pushButton_11">
+               <spacer name="horizontalSpacer_10">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="chargerMotorPushCCWButton">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -3074,7 +3131,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_12">
+               <widget class="QPushButton" name="chargerMotorPushCWButton">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -3099,6 +3156,19 @@
                 </property>
                </widget>
               </item>
+              <item>
+               <spacer name="horizontalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
             </item>
            </layout>
@@ -3107,6 +3177,23 @@
            <widget class="Line" name="line_31">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="platfromControlP2RedrawGUICheckBox">
+            <property name="text">
+             <string>redraw GUI</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="loadDefaultsPlatfromControlP2Button">
+            <property name="text">
+             <string>Load Defaults</string>
             </property>
            </widget>
           </item>
@@ -3135,70 +3222,122 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_21">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_46">
+           <layout class="QVBoxLayout" name="irScanningFrameContainer">
             <property name="topMargin">
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="label_66">
-              <property name="font">
-               <font>
-                <pointsize>10</pointsize>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Botton IR scanning distance meter</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton_6">
-              <property name="text">
-               <string>IR Scanning</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <selectedoff>:/sonar-off.png</selectedoff>
-                <selectedon>:/sonar.png</selectedon>
-               </iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="horizontalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
+             <widget class="QFrame" name="irScanningFrame">
+              <property name="minimumSize">
                <size>
-                <width>40</width>
-                <height>20</height>
+                <width>0</width>
+                <height>0</height>
                </size>
               </property>
-             </spacer>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>350</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_23">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_46">
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QLabel" name="label_66">
+                   <property name="font">
+                    <font>
+                     <pointsize>10</pointsize>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Botton IR scanning distance meter</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="irScanningButton">
+                   <property name="text">
+                    <string>IR Scanning</string>
+                   </property>
+                   <property name="icon">
+                    <iconset>
+                     <selectedoff>:/sonar-off.png</selectedoff>
+                     <selectedon>:/sonar.png</selectedon>
+                    </iconset>
+                   </property>
+                   <property name="checkable">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_33">
+                   <property name="minimumSize">
+                    <size>
+                     <width>50</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="detachIRScanningFrameButton">
+                   <property name="maximumSize">
+                    <size>
+                     <width>16777215</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <pointsize>8</pointsize>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>detach IR Scanning</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QGraphicsView" name="irScanningGraphicsView">
+                 <property name="minimumSize">
+                  <size>
+                   <width>590</width>
+                   <height>300</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>590</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(227, 227, 227);</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
            </layout>
-          </item>
-          <item>
-           <widget class="QGraphicsView" name="graphicsView">
-            <property name="minimumSize">
-             <size>
-              <width>590</width>
-              <height>300</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>590</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(227, 227, 227);</string>
-            </property>
-           </widget>
           </item>
           <item>
            <widget class="Line" name="line_30">
@@ -3227,7 +3366,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_7">
+             <widget class="QPushButton" name="alarmButton">
               <property name="text">
                <string>ALARM</string>
               </property>
@@ -3275,7 +3414,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_74">
+             <widget class="QLabel" name="beepDurationLabel">
               <property name="font">
                <font>
                 <pointsize>10</pointsize>
@@ -3288,7 +3427,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QScrollBar" name="horizontalScrollBar_4">
+             <widget class="QScrollBar" name="beepDurationScrollBar">
               <property name="minimumSize">
                <size>
                 <width>200</width>
@@ -3301,13 +3440,25 @@
                 <height>12</height>
                </size>
               </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>200</number>
+              </property>
+              <property name="singleStep">
+               <number>1</number>
+              </property>
+              <property name="value">
+               <number>5</number>
+              </property>
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_8">
+             <widget class="QPushButton" name="beepButton">
               <property name="text">
                <string>BEEP</string>
               </property>
@@ -3346,7 +3497,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_13">
+             <widget class="QPushButton" name="chargerLedsButton">
               <property name="text">
                <string>Charger LEDs</string>
               </property>
@@ -3362,7 +3513,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_14">
+             <widget class="QPushButton" name="bottomFronLedsButton">
               <property name="text">
                <string>Bottom Front LED stripe</string>
               </property>
@@ -3378,7 +3529,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_17">
+             <widget class="QPushButton" name="bottomRearLedsButton">
               <property name="text">
                <string>Bottom Rear LED stripe</string>
               </property>
@@ -3466,8 +3617,8 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1129</y>
-             <width>810</width>
+             <y>0</y>
+             <width>832</width>
              <height>2400</height>
             </rect>
            </property>

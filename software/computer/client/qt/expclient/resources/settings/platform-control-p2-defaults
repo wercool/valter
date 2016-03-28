@@ -1,0 +1,12 @@
+//comments
+trackLeftWheelEncoder:1
+trackRightWheelEncoder:1
+autoresetLeftWheelEncoder:1
+autoresetRightWheelEncoder:1
+chargerMotorDuty:1,100,40
+chargerMotorPushDuration:50,500,250
+irScanning:0
+beepDuration:1,200,5
+chargerLeds:0
+bottomFrontLeds:0
+bottomRearLeds:0

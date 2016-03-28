@@ -162,4 +162,30 @@ class InclinometerFrameEventFilter: public QObject
   }
 };
 
+
+class IRScanningFrameEventFilter: public QObject
+{
+  public:
+  Ui::MainWindow *ui;
+  IRScanningFrameEventFilter(Ui::MainWindow *ui):QObject()
+  {
+      this->ui = ui;
+  }
+
+  ~IRScanningFrameEventFilter(){}
+
+  bool eventFilter(QObject* widget, QEvent* event)
+  {
+      if(event->type() == QEvent::Close)
+      {
+          ui->irScanningFrameContainer->addWidget((QWidget*)widget);
+          return true;
+      }
+      else
+      {
+        return QObject::eventFilter(widget, event);
+      }
+  }
+};
+
 #endif // GUIHELPERS_H
