@@ -657,7 +657,29 @@ bool PlatformControlP1::preparePlatformMovement()
         resetRightWheelEncoder();
     }
 
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    if (platformControlP2->getLeftEncoderAutoreset())
+    {
+        platformControlP2->resetLeftEncoder();
+    }
+    if (platformControlP2->getRightEncoderAutoreset())
+    {
+        platformControlP2->resetRightEncoder();
+    }
+
     return canMove;
+}
+
+void PlatformControlP1::toggle5VSource(bool state)
+{
+    if (state)
+    {
+        sendCommand("DCDC5VENABLEON");
+    }
+    else
+    {
+        sendCommand("DCDC5VENABLEOFF");
+    }
 }
 
 void PlatformControlP1::platformMovementWorker()
@@ -1341,6 +1363,10 @@ bool PlatformControlP1::getTurretPositionGetOnce() const
 void PlatformControlP1::setTurretPositionGetOnce(bool value)
 {
     turretPositionGetOnce = value;
+    if (turretPositionGetOnce)
+    {
+        sendCommand("GETTURRETPOSITION");
+    }
 }
 
 bool PlatformControlP1::getRightWheelEncoderGetOnce() const
@@ -1351,6 +1377,10 @@ bool PlatformControlP1::getRightWheelEncoderGetOnce() const
 void PlatformControlP1::setRightWheelEncoderGetOnce(bool value)
 {
     rightWheelEncoderGetOnce = value;
+    if (rightWheelEncoderGetOnce)
+    {
+        sendCommand("GETRIGHTMOTORCOUNTER");
+    }
 }
 
 bool PlatformControlP1::getLeftWheelEncoderGetOnce() const
@@ -1361,6 +1391,10 @@ bool PlatformControlP1::getLeftWheelEncoderGetOnce() const
 void PlatformControlP1::setLeftWheelEncoderGetOnce(bool value)
 {
     leftWheelEncoderGetOnce = value;
+    if (leftWheelEncoderGetOnce)
+    {
+        sendCommand("GETLEFTMOTORCOUNTER");
+    }
 }
 
 float PlatformControlP1::getTurretPositionRad() const
@@ -1419,11 +1453,13 @@ void PlatformControlP1::setRightWheelEncoderAutoreset(bool value)
 void PlatformControlP1::resetLeftWheelEncoder()
 {
     sendCommand("RESETLEFTMOTORCOUNTER");
+    setLeftWheelEncoder(0);
 }
 
 void PlatformControlP1::resetRightWheelEncoder()
 {
     sendCommand("RESETRIGHTMOTORCOUNTER");
+    setRightWheelEncoder(0);
 }
 
 bool PlatformControlP1::getLeftWheelEncoderAutoreset() const
@@ -2168,7 +2204,7 @@ bool PlatformControlP1::mainAccumulatorON()
 {
     if (getPower220VACAvailable())
     {
-        sendCommand("MAINACCUMULATORRELAYON");
+        toggleMainAccumulatorRelayState(true);
         return true;
     }
     else
@@ -2319,6 +2355,18 @@ void PlatformControlP1::setLeftAccumulatorConnected(bool value)
     leftAccumulatorConnected = value;
 }
 
+void PlatformControlP1::toggleRightAccumulator(bool state)
+{
+    if (state)
+    {
+        sendCommand("RIGHTACCUMULATORCONNECT");
+    }
+    else
+    {
+        sendCommand("RIGHTACCUMULATORDISCONNECT");
+    }
+}
+
 bool PlatformControlP1::getRightAccumulatorRelayOnState() const
 {
     return rightAccumulatorRelayOnState;
@@ -2339,6 +2387,18 @@ void PlatformControlP1::setLeftAccumulatorRelayOnState(bool value)
     leftAccumulatorRelayOnState = value;
 }
 
+void PlatformControlP1::toggleRightAccumulatorRelay(bool state)
+{
+    if (state)
+    {
+        sendCommand("RIGHTACCUMULATORRELAYON");
+    }
+    else
+    {
+        sendCommand("RIGHTACCUMULATORRELAYOFF");
+    }
+}
+
 bool PlatformControlP1::getPower5VOnState() const
 {
     return power5VOnState;
@@ -2347,6 +2407,18 @@ bool PlatformControlP1::getPower5VOnState() const
 void PlatformControlP1::setPower5VOnState(bool value)
 {
     power5VOnState = value;
+}
+
+void PlatformControlP1::toggleMainAccumulatorRelayState(bool state)
+{
+    if (state)
+    {
+        sendCommand("MAINACCUMULATORRELAYON");
+    }
+    else
+    {
+        sendCommand("MAINACCUMULATORRELAYOFF");
+    }
 }
 
 bool PlatformControlP1::getMainAccumulatorRelayOnState() const
@@ -2359,6 +2431,18 @@ void PlatformControlP1::setMainAccumulatorRelayOnState(bool value)
     mainAccumulatorRelayOnState = value;
 }
 
+void PlatformControlP1::toggleLeftAccumulatorRelay(bool state)
+{
+    if (state)
+    {
+        sendCommand("LEFTACCUMULATORRELAYON");
+    }
+    else
+    {
+        sendCommand("LEFTACCUMULATORRELAYOFF");
+    }
+}
+
 int PlatformControlP1::getRightMotorDuty() const
 {
     return rightMotorDuty;
@@ -2367,6 +2451,18 @@ int PlatformControlP1::getRightMotorDuty() const
 void PlatformControlP1::setRightMotorDuty(int value)
 {
     rightMotorDuty = value;
+}
+
+void PlatformControlP1::toggleLeftAccumulator(bool state)
+{
+    if (state)
+    {
+        sendCommand("LEFTACCUMULATORCONNECT");
+    }
+    else
+    {
+        sendCommand("LEFTACCUMULATORDISCONNECT");
+    }
 }
 
 int PlatformControlP1::getLeftMotorDuty() const

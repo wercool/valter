@@ -35,6 +35,43 @@ void loadPlatformControlP2Defaults(Ui::MainWindow *ui)
     ui->chargerLedsButton->setChecked(platformControlP2->getChargerLeds());
     ui->bottomFronLedsButton->setChecked(platformControlP2->getBottomFrontLeds());
     ui->bottomRearLedsButton->setChecked(platformControlP2->getBottomRearLeds());
+
+    ui->irScanningButton->setChecked(platformControlP2->getIrScanningWorkerActivated());
+}
+
+void platformControlP2TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    if (ui->platfromControlP2RedrawGUICheckBox->isChecked()) //PLATFROM-CONTROL-P2 Tab
+    {
+        if (platformControlP2->getReadLeftEncoder() || platformControlP2->leftEncoderGetOnce)
+        {
+            ui->platformControlP2LeftWheelEncoderLcdNumber->display(platformControlP2->getLeftEncoder());
+            if (platformControlP2->leftEncoderGetOnce)
+            {
+                platformControlP2->leftEncoderGetOnce = false;
+                MainWindow::getInstance()->platformControlP2EncodersRefreshTimer->stop();
+            }
+        }
+        if (platformControlP2->getReadRightEncoder() || platformControlP2->rightEncoderGetOnce)
+        {
+            ui->platformControlP2RightWheelEncoderLcdNumber->display(platformControlP2->getRightEncoder());
+            if (platformControlP2->rightEncoderGetOnce)
+            {
+                platformControlP2->rightEncoderGetOnce = false;
+                MainWindow::getInstance()->platformControlP2EncodersRefreshTimer->stop();
+            }
+        }
+    }
+}
+
+void platformControlP2IRScannerRefresh(Ui::MainWindow *ui)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    if (ui->platfromControlP2RedrawGUICheckBox->isChecked()) //PLATFROM-CONTROL-P2 Tab
+    {
+        qDebug("!!!!!");
+    }
 }
 
 #endif // PLATFORMCONTROLP2GUI_H

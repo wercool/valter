@@ -135,7 +135,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->accelerometerGraphicsView->setScene(platformLocationP1AccelerometerGraphicsViewScene);
 
     platformLocationP1AccelerometerRefreshTimer = new QTimer(this);
-    connect(platformLocationP1AccelerometerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1AccelerometerRefreshTimerTimerUpdate()));
+    connect(platformLocationP1AccelerometerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1AccelerometerRefreshTimerUpdate()));
 
     //magnetometer
     platformLocationP1MagnetometerGraphicsViewScene = new QGraphicsScene;
@@ -143,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->magnetometerGraphicsView->setScene(platformLocationP1MagnetometerGraphicsViewScene);
 
     platformLocationP1MagnetometerRefreshTimer = new QTimer(this);
-    connect(platformLocationP1MagnetometerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1MagnetometerRefreshTimerTimerUpdate()));
+    connect(platformLocationP1MagnetometerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1MagnetometerRefreshTimerUpdate()));
 
     platformLocationP1CompassHeadingRefreshTimer = new QTimer(this);
     connect(platformLocationP1CompassHeadingRefreshTimer, SIGNAL(timeout()), this, SLOT(platformLocationP1CompassHeadingRefreshTimerUpdate()));
@@ -202,6 +202,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     zInclinationCenter->setRect(175, 211, 10, 10);
     platformLocationP1InclinometerGraphicsViewScene->addItem(zInclinationCenter);
 
+
+    //PLATFROM-CONTROL-P2
+    platformControlP2EncodersRefreshTimer = new QTimer(this);
+    connect(platformControlP2EncodersRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP2EncodersRefreshTimerUpdate()));
+
+    irScanningGraphicsViewScene = new QGraphicsScene;
+    irScanningGraphicsViewScene->setSceneRect(0, 0, 586, 296);
+    ui->irScanningGraphicsView->setScene(irScanningGraphicsViewScene);
+
+    platformControlP2IRScannerRefreshTimer = new QTimer(this);
+    connect(platformControlP2IRScannerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP2IRScannerRefreshTimerUpdate()));
 }
 
 MainWindow::~MainWindow()
@@ -610,38 +621,38 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
 
 void MainWindow::on_on5VPlatformControlP1pushButton_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("DCDC5VENABLEON");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggle5VSource(true);
 }
 
 void MainWindow::on_off5VPlatformControlP1pushButton_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("DCDC5VENABLEOFF");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggle5VSource(false);
 }
 
 void MainWindow::on_onLeftAccumulatorPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("LEFTACCUMULATORCONNECT");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleLeftAccumulator(true);
 }
 
 void MainWindow::on_offLeftAccumulatorPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("LEFTACCUMULATORDISCONNECT");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleLeftAccumulator(false);
 }
 
 void MainWindow::on_onRightAccumulatorPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("RIGHTACCUMULATORCONNECT");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleRightAccumulator(true);
 }
 
 void MainWindow::on_offRightAccumulatorPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("RIGHTACCUMULATORDISCONNECT");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleRightAccumulator(false);
 }
 
 void MainWindow::on_scan220VAOnCButton_clicked()
@@ -669,32 +680,32 @@ void MainWindow::on_onMainAccumulatorRelayPlatformControlP1Button_clicked()
 
 void MainWindow::on_offMainAccumulatorRelayPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("MAINACCUMULATORRELAYOFF");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleMainAccumulatorRelayState(false);
 }
 
 void MainWindow::on_onLeftAccumulatorRelayPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("LEFTACCUMULATORRELAYON");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleLeftAccumulatorRelay(true);
 }
 
 void MainWindow::on_offLeftAccumulatorRelayPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("LEFTACCUMULATORRELAYOFF");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleLeftAccumulatorRelay(false);
 }
 
 void MainWindow::on_onRightAccumulatorRelayPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("RIGHTACCUMULATORRELAYON");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleRightAccumulatorRelay(true);
 }
 
 void MainWindow::on_offRightAccumulatorRelayPlatformControlP1Button_clicked()
 {
-    IValterModule *valterModule = Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    valterModule->sendCommand("RIGHTACCUMULATORRELAYOFF");
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->toggleRightAccumulatorRelay(false);
 }
 
 void MainWindow::on_chargerButton_clicked()
@@ -960,14 +971,12 @@ void MainWindow::on_platformControlP1LeftWheelEncoderResetButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->resetLeftWheelEncoder();
-    platformControlP1->setLeftWheelEncoder(0);
 }
 
 void MainWindow::on_platformControlP1RightWheelEncoderResetButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     platformControlP1->resetRightWheelEncoder();
-    platformControlP1->setRightWheelEncoder(0);
 }
 
 void MainWindow::on_platformControlP1LeftWheelEncoderGetButton_clicked()
@@ -975,7 +984,6 @@ void MainWindow::on_platformControlP1LeftWheelEncoderGetButton_clicked()
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     ui->platformControlP1LeftWheelEncoderLcdNumber->display("");
     platformControlP1->setLeftWheelEncoderGetOnce(true);
-    platformControlP1->sendCommand("GETLEFTMOTORCOUNTER");
 }
 
 void MainWindow::on_platformControlP1RightWheelEncoderGetButton_clicked()
@@ -983,7 +991,6 @@ void MainWindow::on_platformControlP1RightWheelEncoderGetButton_clicked()
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     ui->platformControlP1RightWheelEncoderLcdNumber->display("");
     platformControlP1->setRightWheelEncoderGetOnce(true);
-    platformControlP1->sendCommand("GETRIGHTMOTORCOUNTER");
 }
 
 void MainWindow::on_platformControlP1LeftWheelEncoderAutoresetCheckBox_clicked(bool checked)
@@ -1003,7 +1010,6 @@ void MainWindow::on_pushButton_clicked()
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
     ui->turretPositionLcdNumber->display("");
     platformControlP1->setTurretPositionGetOnce(true);
-    platformControlP1->sendCommand("GETTURRETPOSITION");
 }
 
 void MainWindow::on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem *item)
@@ -1309,12 +1315,12 @@ void MainWindow::on_accelerometerGraphicsViewRedrawCheckbox_toggled(bool checked
     }
 }
 
-void MainWindow::platformLocationP1AccelerometerRefreshTimerTimerUpdate()
+void MainWindow::platformLocationP1AccelerometerRefreshTimerUpdate()
 {
     accelerometerRefreshGraphicsView();
 }
 
-void MainWindow::platformLocationP1MagnetometerRefreshTimerTimerUpdate()
+void MainWindow::platformLocationP1MagnetometerRefreshTimerUpdate()
 {
     magnetometerRefreshGraphicsView();
 }
@@ -1462,17 +1468,16 @@ void MainWindow::on_inclinometerFrameDetatchButton_clicked()
 //PLATFROM-CONTROL-P2
 void MainWindow::on_chargerMotorDutyScrollBar_valueChanged(int value)
 {
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorDutyPresetCur(value);
     ui->chargerMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_chargerMotorPushDurationScrollBar_valueChanged(int value)
 {
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorPushDurationPresetCur(value);
     ui->chargerMotorPushDurationLabel->setText(Valter::format_string("[%d]", value).c_str());
-}
-
-void MainWindow::on_horizontalScrollBar_4_valueChanged(int value)
-{
-    ui->beepDurationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_detachIRScanningFrameButton_clicked()
@@ -1494,4 +1499,91 @@ void MainWindow::on_loadDefaultsPlatfromControlP2Button_clicked()
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
     platformControlP2->loadDefaults();
     loadPlatformControlP2Defaults(ui);
+}
+
+void MainWindow::on_platformControlP2LeftWheelEncoderCheckBox_toggled(bool checked)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setReadLeftEncoder(checked);
+    platformControlP2->setEncodersWorkerActivated(checked);
+    if (platformControlP2->getReadLeftEncoder() || platformControlP2->getReadRightEncoder())
+    {
+        platformControlP2EncodersRefreshTimer->start(200);
+    }
+    else
+    {
+        platformControlP2EncodersRefreshTimer->stop();
+    }
+}
+
+void MainWindow::on_platformControlP2RightWheelEncoderCheckBox_toggled(bool checked)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setReadRightEncoder(checked);
+    platformControlP2->setEncodersWorkerActivated(checked);
+    if (platformControlP2->getReadLeftEncoder() || platformControlP2->getReadRightEncoder())
+    {
+        platformControlP2EncodersRefreshTimer->start(200);
+    }
+    else
+    {
+        platformControlP2EncodersRefreshTimer->stop();
+    }
+}
+
+void MainWindow::on_platformControlP2LeftWheelEncoderResetButton_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->resetLeftEncoder();
+}
+
+void MainWindow::on_platformControlP2RightWheelEncoderResetButton_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->resetRightEncoder();
+}
+
+void MainWindow::on_beepDurationScrollBar_valueChanged(int value)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setBeepDuration(value);
+    ui->beepDurationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::platformControlP2EncodersRefreshTimerUpdate()
+{
+    platformControlP2TabRefreshTimerUpdateWorker(ui);
+}
+
+void MainWindow::on_platformControlP2LeftWheelEncoderGetButton_clicked()
+{
+    platformControlP2EncodersRefreshTimer->start(200);
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->getLeftEncoderOnce(true);
+}
+
+void MainWindow::on_platformControlP2RightWheelEncoderGetButton_clicked()
+{
+    platformControlP2EncodersRefreshTimer->start(200);
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->getRightEncoderOnce(true);
+}
+
+void MainWindow::on_irScanningButton_toggled(bool checked)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setIrScanningWorkerActivated(checked);
+    if (checked)
+    {
+        platformControlP2IRScannerRefreshTimer->start(10);
+    }
+    else
+    {
+        platformControlP2IRScannerRefreshTimer->stop();
+    }
+}
+
+void MainWindow::platformControlP2IRScannerRefreshTimerUpdate()
+{
+    platformControlP2IRScannerRefresh(ui);
 }

@@ -59,6 +59,11 @@ public:
     QGraphicsLineItem *yInclination;
     QGraphicsLineItem *zInclination;
 
+    //platfrom-control-p2
+    QTimer *platformControlP2EncodersRefreshTimer;
+    QGraphicsScene* irScanningGraphicsViewScene;
+    QTimer *platformControlP2IRScannerRefreshTimer;
+
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
 
@@ -276,8 +281,8 @@ private slots:
 
     void on_accelerometerGraphicsViewRedrawCheckbox_toggled(bool checked);
 
-    void platformLocationP1AccelerometerRefreshTimerTimerUpdate();
-    void platformLocationP1MagnetometerRefreshTimerTimerUpdate();
+    void platformLocationP1AccelerometerRefreshTimerUpdate();
+    void platformLocationP1MagnetometerRefreshTimerUpdate();
 
     void on_detatchAccAndMagFrameButton_clicked();
 
@@ -316,13 +321,32 @@ private slots:
 
     void on_chargerMotorPushDurationScrollBar_valueChanged(int value);
 
-    void on_horizontalScrollBar_4_valueChanged(int value);
-
     void on_detachIRScanningFrameButton_clicked();
 
     void on_chargerLedsButton_toggled(bool checked);
 
     void on_loadDefaultsPlatfromControlP2Button_clicked();
+
+    void on_platformControlP2LeftWheelEncoderCheckBox_toggled(bool checked);
+
+    void on_platformControlP2RightWheelEncoderCheckBox_toggled(bool checked);
+
+    void on_platformControlP2LeftWheelEncoderResetButton_clicked();
+
+    void on_platformControlP2RightWheelEncoderResetButton_clicked();
+
+    void on_beepDurationScrollBar_valueChanged(int value);
+
+    //platfrom control p2
+    void platformControlP2EncodersRefreshTimerUpdate();
+
+    void on_platformControlP2LeftWheelEncoderGetButton_clicked();
+
+    void on_platformControlP2RightWheelEncoderGetButton_clicked();
+
+    void on_irScanningButton_toggled(bool checked);
+
+    void platformControlP2IRScannerRefreshTimerUpdate();
 
 private:
     Ui::MainWindow *ui;
@@ -346,8 +370,6 @@ private:
     QTimer *platformLocationP1AccelerometerRefreshTimer;
     QTimer *platformLocationP1MagnetometerRefreshTimer;
     QTimer *platformLocationP1CompassHeadingRefreshTimer;
-
-    //platfrom-control-p2
 };
 
 #endif // MAINWINDOW_H

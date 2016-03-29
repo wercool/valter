@@ -22,15 +22,19 @@ public:
 
     bool preparePlatformMovement();
 
+    void toggle5VSource(bool state);
     bool getPower5VOnState() const;
     void setPower5VOnState(bool value);
 
+    void toggleMainAccumulatorRelayState(bool state);
     bool getMainAccumulatorRelayOnState() const;
     void setMainAccumulatorRelayOnState(bool value);
 
+    void toggleLeftAccumulatorRelay(bool state);
     bool getLeftAccumulatorRelayOnState() const;
     void setLeftAccumulatorRelayOnState(bool value);
 
+    void toggleRightAccumulatorRelay(bool state);
     bool getRightAccumulatorRelayOnState() const;
     void setRightAccumulatorRelayOnState(bool value);
 
@@ -40,9 +44,11 @@ public:
     int getRightMotorDuty() const;
     void setRightMotorDuty(int value);
 
+    void toggleLeftAccumulator(bool state);
     bool getLeftAccumulatorConnected() const;
     void setLeftAccumulatorConnected(bool value);
 
+    void toggleRightAccumulator(bool state);
     bool getRightAccumulatorConnected() const;
     void setRightAccumulatorConnected(bool value);
 

@@ -286,30 +286,34 @@ void magnetometerRefreshGraphicsView()
 
 void compassHeadingRefreshView()
 {
-    static int cnt = 0;
-    static double x = 0;
-    static double y = 0;
-
-    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
-
-    if (cnt > 5)
+    Ui::MainWindow *ui = MainWindow::getInstance()->getUi();
+    if (ui->platformLocationP1RedrawGUICheckBox->isChecked()) //PLATFROM-LOCATION-P1 Tab
     {
-        x = x / 5;
-        y = y / 5;
-        MainWindow::getInstance()->northDirection->setLine(180, 140, x, y);
-        cnt = 0;
-        x = 0;
-        y = 0;
-    }
-    else
-    {
-        double endX = 180 + 140 * sin((180 - platformLocationP1->getHeading()) * M_PI / 180);
-        double endY = 140 + 140 * cos((180 - platformLocationP1->getHeading()) * M_PI / 180);
+        static int cnt = 0;
+        static double x = 0;
+        static double y = 0;
 
-        x += endX;
-        y += endY;
+        PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+
+        if (cnt > 5)
+        {
+            x = x / 5;
+            y = y / 5;
+            MainWindow::getInstance()->northDirection->setLine(180, 140, x, y);
+            cnt = 0;
+            x = 0;
+            y = 0;
+        }
+        else
+        {
+            double endX = 180 + 140 * sin((180 - platformLocationP1->getHeading()) * M_PI / 180);
+            double endY = 140 + 140 * cos((180 - platformLocationP1->getHeading()) * M_PI / 180);
+
+            x += endX;
+            y += endY;
+        }
+        cnt++;
     }
-    cnt++;
 }
 
 void loadPlatformLocationP1Defaults(Ui::MainWindow *ui)

@@ -16,6 +16,71 @@ PlatformControlP2::PlatformControlP2()
     this->controlDeviceIsSet = false;
 }
 
+void PlatformControlP2::processMessagesQueueWorker()
+{
+    if (getControlDeviceIsSet())
+    {
+        while (getControlDevice()->getStatus() == ControlDevice::StatusActive)
+        {
+            if (getControlDevice()->responsesAvailable())
+            {
+                string response = getControlDevice()->pullResponse();
+
+                if (leftEncoderGetOnce)
+                {
+                    if (response.find("LWEN:") !=std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int  value = atoi(value_str.c_str());
+                        setLeftEncoder(value);
+                    }
+                }
+                if (rightEncoderGetOnce)
+                {
+                    if (response.find("RWEN:") !=std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int  value = atoi(value_str.c_str());
+                        setRightEncoder(value);
+                    }
+                }
+
+                if (getEncodersWorkerActivated())
+                {
+                    if (getReadLeftEncoder())
+                    {
+                        if (response.find("LWEN:") !=std::string::npos)
+                        {
+                            int value_str_pos = response.find_first_of(":") + 1;
+                            string value_str = response.substr(value_str_pos);
+                            int  value = atoi(value_str.c_str());
+                            setLeftEncoder(value);
+                        }
+                    }
+                    if (getReadRightEncoder())
+                    {
+                        if (response.find("RWEN:") !=std::string::npos)
+                        {
+                            int value_str_pos = response.find_first_of(":") + 1;
+                            string value_str = response.substr(value_str_pos);
+                            int  value = atoi(value_str.c_str());
+                            setRightEncoder(value);
+                        }
+                    }
+                }
+
+                this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+        }
+    }
+}
+
 int PlatformControlP2::getChargerMotorDuty() const
 {
     return chargerMotorDuty;
@@ -28,12 +93,50 @@ void PlatformControlP2::setChargerMotorDuty(int value)
 
 void PlatformControlP2::encodersWorker()
 {
-
+    while (!stopAllProcesses)
+    {
+        if (getEncodersWorkerActivated())
+        {
+            if (getReadLeftEncoder())
+            {
+                sendCommand("LWENGET");
+                this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
+            if (getReadRightEncoder())
+            {
+                sendCommand("RWENGET");
+            }
+            this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
+        else
+        {
+            break;
+        }
+    }
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("encodersWorker finished...");
+    }
 }
 
 void PlatformControlP2::irScanningWorker()
 {
-
+    while (!stopAllProcesses)
+    {
+        if (getIrScanningWorkerActivated())
+        {
+            qDebug("!!!!!");
+            this_thread::sleep_for(std::chrono::milliseconds(250));
+        }
+        else
+        {
+            break;
+        }
+    }
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("irScanningWorker finished...");
+    }
 }
 
 bool PlatformControlP2::getBottomRearLeds() const
@@ -44,6 +147,34 @@ bool PlatformControlP2::getBottomRearLeds() const
 void PlatformControlP2::setBottomRearLeds(bool value)
 {
     bottomRearLeds = value;
+}
+
+void PlatformControlP2::resetLeftEncoder()
+{
+    sendCommand("LWENRESET");
+}
+
+void PlatformControlP2::resetRightEncoder()
+{
+    sendCommand("RWENRESET");
+}
+
+void PlatformControlP2::getLeftEncoderOnce(bool value)
+{
+    if (value)
+    {
+        sendCommand("LWENGET");
+    }
+    leftEncoderGetOnce = value;
+}
+
+void PlatformControlP2::getRightEncoderOnce(bool value)
+{
+    if (value)
+    {
+        sendCommand("RWENGET");
+    }
+    rightEncoderGetOnce = value;
 }
 
 bool PlatformControlP2::getBottomFrontLeds() const
@@ -104,16 +235,22 @@ bool PlatformControlP2::getIrScanningWorkerActivated() const
 void PlatformControlP2::setIrScanningWorkerActivated(bool value)
 {
     irScanningWorkerActivated = value;
+    if (irScanningWorkerActivated)
+    {
+        spawnIRScanningWorker();
+    }
 }
 
 void PlatformControlP2::spawnEncodersWorker()
 {
-
+    new std::thread(&PlatformControlP2::encodersWorker, this);
+    Valter::log("encodersWorker spawned...");
 }
 
 void PlatformControlP2::spawnIRScanningWorker()
 {
-
+    new std::thread(&PlatformControlP2::irScanningWorker, this);
+    Valter::log("irScanningWorker spawned...");
 }
 
 bool PlatformControlP2::getEncodersWorkerActivated() const
@@ -123,7 +260,22 @@ bool PlatformControlP2::getEncodersWorkerActivated() const
 
 void PlatformControlP2::setEncodersWorkerActivated(bool value)
 {
-    encodersWorkerActivated = value;
+    bool curValue = encodersWorkerActivated;
+    if (value)
+    {
+        encodersWorkerActivated = value;
+        if (!curValue)
+        {
+            spawnEncodersWorker();
+        }
+    }
+    else
+    {
+        if (!getReadLeftEncoder() && !getReadRightEncoder())
+        {
+            encodersWorkerActivated = value;
+        }
+    }
 }
 
 int PlatformControlP2::getChargerMotorPushDuration() const
@@ -144,6 +296,16 @@ int PlatformControlP2::getChargerMotorPushDurationPresetMax() const
 void PlatformControlP2::setChargerMotorPushDurationPresetMax(int value)
 {
     chargerMotorPushDurationPresetMax = value;
+}
+
+int PlatformControlP2::getChargerMotorPushDurationPresetCur() const
+{
+    return chargerMotorPushDuration;
+}
+
+void PlatformControlP2::setChargerMotorPushDurationPresetCur(int value)
+{
+    chargerMotorPushDuration = value;
 }
 
 int PlatformControlP2::getChargerMotorPushDurationPresetMin() const
@@ -234,6 +396,14 @@ bool PlatformControlP2::getReadRightEncoder() const
 void PlatformControlP2::setReadRightEncoder(bool value)
 {
     readRightEncoder = value;
+    if (readRightEncoder)
+    {
+        sendCommand("RWENSTART");
+    }
+    else
+    {
+        sendCommand("RWENSTOP");
+    }
 }
 
 bool PlatformControlP2::getReadLeftEncoder() const
@@ -244,6 +414,14 @@ bool PlatformControlP2::getReadLeftEncoder() const
 void PlatformControlP2::setReadLeftEncoder(bool value)
 {
     readLeftEncoder = value;
+    if (readLeftEncoder)
+    {
+        sendCommand("LWENSTART");
+    }
+    else
+    {
+        sendCommand("LWENSTOP");
+    }
 }
 
 string PlatformControlP2::getControlDeviceId()
@@ -310,11 +488,14 @@ void PlatformControlP2::resetToDefault()
     chargerLeds         = false;
     bottomFrontLeds     = false;
     bottomRearLeds      = false;
+
+    leftEncoderGetOnce  = false;
+    rightEncoderGetOnce = false;
 }
 
 void PlatformControlP2::spawnProcessMessagesQueueWorkerThread()
 {
-    //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));
+    setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));
 }
 
 void PlatformControlP2::loadDefaults()
@@ -376,7 +557,7 @@ void PlatformControlP2::loadDefaults()
     setChargerMotorPushDuration(curValue);
 
     //irScanning
-    defaultValue = getDefault("autoresetRightWheelEncoder");
+    defaultValue = getDefault("irScanning");
     setIrScanningWorkerActivated((defaultValue.compare("1") == 0) ? true : false);
 
     //beepDuration

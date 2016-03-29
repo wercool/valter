@@ -89,12 +89,23 @@ public:
     bool getBottomRearLeds() const;
     void setBottomRearLeds(bool value);
 
+    void resetLeftEncoder();
+    void resetRightEncoder();
+
+    void getLeftEncoderOnce(bool value);
+    void getRightEncoderOnce(bool value);
+
+    bool leftEncoderGetOnce;
+    bool rightEncoderGetOnce;
+
 private:
     PlatformControlP2();
     static PlatformControlP2* pPlatformControlP2;       // PLATFORM-CONTROL-P2's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
     static const string defaultsFilePath;
+
+    void processMessagesQueueWorker();
 
     bool readLeftEncoder;
     bool readRightEncoder;

@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -2723,14 +2723,14 @@
             <item>
              <widget class="QCheckBox" name="platformControlP2LeftWheelEncoderCheckBox">
               <property name="text">
-               <string>Right</string>
+               <string>Left</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QCheckBox" name="platformControlP2RightWheelEncoderCheckBox">
               <property name="text">
-               <string>Left</string>
+               <string>Right</string>
               </property>
              </widget>
             </item>
@@ -2869,6 +2869,54 @@
            </layout>
           </item>
           <item>
+           <widget class="QLabel" name="label_71">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>9</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>referenced to PLATFROM-CONTROL-P1</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_74">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>10</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>8</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>preparePlatformMovement()</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="Line" name="line_29">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -2877,6 +2925,12 @@
           </item>
           <item>
            <widget class="QLabel" name="label_67">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>12</height>
+             </size>
+            </property>
             <property name="font">
              <font>
               <pointsize>10</pointsize>
@@ -2896,6 +2950,12 @@
             </property>
             <item>
              <widget class="QLabel" name="label_68">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>12</height>
+               </size>
+              </property>
               <property name="text">
                <string>Charger Motor Duty</string>
               </property>
@@ -2918,6 +2978,12 @@
           </item>
           <item>
            <widget class="QScrollBar" name="chargerMotorDutyScrollBar">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>12</height>
+             </size>
+            </property>
             <property name="minimum">
              <number>1</number>
             </property>
@@ -2960,8 +3026,8 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>50</width>
-                <height>50</height>
+                <width>40</width>
+                <height>40</height>
                </size>
               </property>
               <property name="font">
@@ -2986,8 +3052,8 @@
               </property>
               <property name="maximumSize">
                <size>
-                <width>50</width>
-                <height>50</height>
+                <width>40</width>
+                <height>40</height>
                </size>
               </property>
               <property name="font">
@@ -3114,8 +3180,8 @@
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
-                  <height>50</height>
+                  <width>40</width>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="font">
@@ -3140,8 +3206,8 @@
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>50</width>
-                  <height>50</height>
+                  <width>40</width>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="font">
@@ -3574,6 +3640,19 @@
           </item>
          </layout>
         </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="platformLocationP1Tab">
@@ -3617,7 +3696,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-781</y>
              <width>832</width>
              <height>2400</height>
             </rect>
