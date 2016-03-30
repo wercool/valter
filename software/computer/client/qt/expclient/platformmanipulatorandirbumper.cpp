@@ -8,6 +8,7 @@
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::pPlatformManipulatorAndIRBumper = NULL;
 bool PlatformManipulatorAndIRBumper::instanceFlag = false;
 const string PlatformManipulatorAndIRBumper::controlDeviceId = "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
+const string PlatformManipulatorAndIRBumper::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-manipulator-and-ir-bumper";
 
 PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
 {
@@ -45,7 +46,12 @@ void PlatformManipulatorAndIRBumper::stopAll()
 
 void PlatformManipulatorAndIRBumper::resetToDefault()
 {
-    getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformManipulatorAndIRBumper::controlDeviceId.c_str()));
+    if (this->controlDeviceIsSet)
+    {
+        getControlDevice()->setAutoReActivation(true);
+        getControlDevice()->clearMessageQueue();
+        getControlDevice()->clearDataExchangeLog();
+    }
 }
 
 void PlatformManipulatorAndIRBumper::setModuleInitialState()

@@ -6,6 +6,7 @@
 
 #include "Board.h"
 #include "cdc_enumerate.h"
+#include "watchdog.h"
 #include "adc.h"
 #include "pwm.h"
 #include "aic.h"
@@ -664,6 +665,10 @@ unsigned int inspectGraspDriveCurrent()
  */
 int main(void)
 {
+    unsigned char WDINTENTIONALRESET = 0;
+
+    watchdogReset();
+
     struct cdcMessage cdcMessageObj;
 
     unsigned char input1Readings = 0;
@@ -672,13 +677,10 @@ int main(void)
     unsigned int link1DriveDuty = 1;
     unsigned int link2DriveDuty = 1;
     unsigned int gripperRotateDriveDuty = 1;
-    unsigned char serialDemo = 0;
     unsigned char link1Readings = 0;
     unsigned char link2Readings = 0;
     unsigned int link1Reading = 0;
     unsigned int link2Reading = 0;
-    unsigned int link3Reading = 0;
-    unsigned int gripperRotation = 0;
 
     unsigned int link1StaticVal = 0;
     unsigned int link2StaticVal = 0;
@@ -695,10 +697,6 @@ int main(void)
     unsigned char isObjectDetectedFlag = 0;
     unsigned char isObjectGraspedFlag = 0;
 
-    unsigned int gripperGraspPosition = 0;
-
-    unsigned int serialDemoVec = 0;
-
     unsigned int irBumperEnabled = 0;
     unsigned int irBumperInitialized = 0;
     unsigned int irBumperDutyPercent = 1;
@@ -707,8 +705,15 @@ int main(void)
 
     DeviceInit();
 
+    watchdogReset();
+
     while (1)
     {
+        if (WDINTENTIONALRESET == 0)
+        {
+            watchdogReset();
+        }
+
         //Set links state
         if (link1StaticMode)
         {
@@ -764,8 +769,8 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
-            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
-            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+//            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
+//            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
@@ -774,6 +779,23 @@ int main(void)
             {
                 sprintf((char *)msg,"PLATFORM-MANIPULATOR-AND-IR-BUMPER\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDRESET") == 0)
+            {
+                watchdogReset();
+                sprintf((char *)msg,"WDRST\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETON") == 0)
+            {
+                WDINTENTIONALRESET = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
+            {
+                WDINTENTIONALRESET = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "DCDC24VENABLEON") == 0)
@@ -790,7 +812,8 @@ int main(void)
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL0") == 0)
+            //manipulator gripper tilt
+            if (strcmp((char*) cmdParts, "CH0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -799,7 +822,8 @@ int main(void)
                 input1Channel = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL1") == 0)
+            //manipulator gripper rotation
+            if (strcmp((char*) cmdParts, "CH1") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -808,7 +832,8 @@ int main(void)
                 input1Channel = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL2") == 0)
+            //manipulator gripper position
+            if (strcmp((char*) cmdParts, "CH2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -817,7 +842,8 @@ int main(void)
                 input1Channel = 2;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL3") == 0)
+            //manipulator gripper force sensor 1
+            if (strcmp((char*) cmdParts, "CH3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -826,7 +852,8 @@ int main(void)
                 input1Channel = 3;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL4") == 0)
+            //manipulator gripper force sensor 2
+            if (strcmp((char*) cmdParts, "CH4") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -835,7 +862,8 @@ int main(void)
                 input1Channel = 4;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL5") == 0)
+            //manipulator gripper force sensor 3
+            if (strcmp((char*) cmdParts, "CH5") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -844,7 +872,8 @@ int main(void)
                 input1Channel = 5;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL6") == 0)
+            //manipulator gripper object detector
+            if (strcmp((char*) cmdParts, "CH6") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -853,7 +882,8 @@ int main(void)
                 input1Channel = 6;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL7") == 0)
+            //manipulator gripper tilt motor current
+            if (strcmp((char*) cmdParts, "CH7") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -862,7 +892,8 @@ int main(void)
                 input1Channel = 7;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL8") == 0)
+            //manipulator gripper position (open/close) motor current
+            if (strcmp((char*) cmdParts, "CH8") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -871,7 +902,8 @@ int main(void)
                 input1Channel = 8;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL9") == 0)
+            //manipulator gripper rotation motor current
+            if (strcmp((char*) cmdParts, "CH9") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -880,7 +912,8 @@ int main(void)
                 input1Channel = 9;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL10") == 0)
+            //reserved
+            if (strcmp((char*) cmdParts, "CH10") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -889,7 +922,8 @@ int main(void)
                 input1Channel = 10;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL11") == 0)
+            //reserved
+            if (strcmp((char*) cmdParts, "CH11") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -898,7 +932,8 @@ int main(void)
                 input1Channel = 11;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL12") == 0)
+            //reserved
+            if (strcmp((char*) cmdParts, "CH12") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -907,7 +942,8 @@ int main(void)
                 input1Channel = 12;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL13") == 0)
+            //reserved
+            if (strcmp((char*) cmdParts, "CH13") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);  //U4   B
@@ -916,7 +952,8 @@ int main(void)
                 input1Channel = 13;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL14") == 0)
+            //reserved
+            if (strcmp((char*) cmdParts, "CH14") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);  //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -925,7 +962,8 @@ int main(void)
                 input1Channel = 14;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "SETINPUT1CHANNEL15") == 0)
+            //reserved
+            if (strcmp((char*) cmdParts, "CH15") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);    //U4   A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);    //U4   B
@@ -944,6 +982,13 @@ int main(void)
                 input1Readings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETIN1") == 0)
+            {
+                input1Reading = getValueChannel6();
+                sprintf((char *)msg,"IN1:%u,%u\n", input1Channel, input1Reading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "READLINK1START") == 0)
             {
                 link1Readings = 1;
@@ -954,6 +999,13 @@ int main(void)
                 link1Readings = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "LINK1POS") == 0)
+            {
+                link1Reading = getValueChannel4();
+                sprintf((char *)msg,"LINK1:%u\n", link1Reading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "READLINK2START") == 0)
             {
                 link2Readings = 1;
@@ -962,6 +1014,13 @@ int main(void)
             if (strcmp((char*) cmdParts, "READLINK2STOP") == 0)
             {
                 link2Readings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LINK2POS") == 0)
+            {
+                link2Reading = getValueChannel5();
+                sprintf((char *)msg,"LINK2:%u\n", link2Reading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             //SETCAMERASERVODUTY#5
@@ -1231,26 +1290,8 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA8);  //gripperPosition ENB
                 continue;
             }
-            if (strcmp((char*) cmdParts, "DEMOSSTART") == 0)
-            {
-                serialDemo = 1;
-                thresholdSigma = 10;
-                sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STARTED\n");
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                continue;
-            }
-            if (strcmp((char*) cmdParts, "DEMOSSTOP") == 0)
-            {
-                serialDemo = 0;
-                stopAllManipulatorDrives();
-                thresholdSigma = 2;
-                sprintf((char *)msg,"SERIAL EXECUTION MANIPULATOR DEMO STOPPED\n");
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                continue;
-            }
             if (strcmp((char*) cmdParts, "MANSTOP") == 0)
             {
-                serialDemo = 0;
                 link1StaticMode = 0;
                 link2StaticMode = 0;
                 link3StaticMode = 0;
@@ -1294,7 +1335,8 @@ int main(void)
                 isObjectGraspedFlag = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL0") == 0)
+            //IR BUMPER CHANNEL
+            if (strcmp((char*) cmdParts, "IRB0") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1303,7 +1345,7 @@ int main(void)
                 irBumperChannel = 0;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL1") == 0)
+            if (strcmp((char*) cmdParts, "IRB1") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1312,7 +1354,7 @@ int main(void)
                 irBumperChannel = 1;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL2") == 0)
+            if (strcmp((char*) cmdParts, "IRB2") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1321,7 +1363,7 @@ int main(void)
                 irBumperChannel = 2;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL3") == 0)
+            if (strcmp((char*) cmdParts, "IRB3") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1330,7 +1372,7 @@ int main(void)
                 irBumperChannel = 3;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL4") == 0)
+            if (strcmp((char*) cmdParts, "IRB4") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1339,7 +1381,7 @@ int main(void)
                 irBumperChannel = 4;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL5") == 0)
+            if (strcmp((char*) cmdParts, "IRB5") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1348,7 +1390,7 @@ int main(void)
                 irBumperChannel = 5;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL6") == 0)
+            if (strcmp((char*) cmdParts, "IRB6") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1357,7 +1399,7 @@ int main(void)
                 irBumperChannel = 6;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL7") == 0)
+            if (strcmp((char*) cmdParts, "IRB7") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1366,7 +1408,7 @@ int main(void)
                 irBumperChannel = 7;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL8") == 0)
+            if (strcmp((char*) cmdParts, "IRB8") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1375,7 +1417,7 @@ int main(void)
                 irBumperChannel = 8;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL9") == 0)
+            if (strcmp((char*) cmdParts, "IRB9") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1384,7 +1426,7 @@ int main(void)
                 irBumperChannel = 9;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL10") == 0)
+            if (strcmp((char*) cmdParts, "IRB10") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1393,7 +1435,7 @@ int main(void)
                 irBumperChannel = 10;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL11") == 0)
+            if (strcmp((char*) cmdParts, "IRB11") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1402,7 +1444,7 @@ int main(void)
                 irBumperChannel = 11;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL12") == 0)
+            if (strcmp((char*) cmdParts, "IRB12") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1411,7 +1453,7 @@ int main(void)
                 irBumperChannel = 12;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL13") == 0)
+            if (strcmp((char*) cmdParts, "IRB13") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);   //U5, U6 B
@@ -1420,7 +1462,7 @@ int main(void)
                 irBumperChannel = 13;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL14") == 0)
+            if (strcmp((char*) cmdParts, "IRB14") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);   //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1429,7 +1471,7 @@ int main(void)
                 irBumperChannel = 14;
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERCHANNEL15") == 0)
+            if (strcmp((char*) cmdParts, "IRB15") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA15);     //U5, U6 A
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA16);     //U5, U6 B
@@ -1518,7 +1560,7 @@ int main(void)
                 }
                 continue;
             }
-            if (strcmp((char*) cmdParts, "IRBUMPERREADING") == 0)
+            if (strcmp((char*) cmdParts, "IRBGET") == 0)
             {
                 if (irBumperEnabled)
                 {
@@ -1536,17 +1578,17 @@ int main(void)
                         for (unsigned int i = 0; i < 256; i++)
                         {
                             AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-                            delay_us(600);
+                            delay_us(500);
                             AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
-                            delay_us(600);
+                            delay_us(500);
                         }
                         AT91F_AIC_DisableIt(AT91C_BASE_AIC, AT91C_ID_FIQ);
 
                         AT91F_PWMC_StopChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID2);
                         AT91F_PIO_CfgOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
                         AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
-
-                        sprintf((char *)msg,"IR BUMPER CH[%u] FREQ[%u] DUTY[%u]: %u\n", irBumperChannel, irBumperFreq, irBumperDutyPercent, irBumperCnt);
+                        //IRB:CH,FREG,DUTY,VALUE
+                        sprintf((char *)msg,"IRB:%u,%u,%u,%u\n", irBumperChannel, irBumperFreq, irBumperDutyPercent, irBumperCnt);
                         pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                     }
                     else
@@ -1569,7 +1611,6 @@ int main(void)
         {
             stopGripperGraspDrive();
             gripperGraspStaticMode = 0;
-            serialDemo = 0;
         }
 
         if (input1Readings)
@@ -1594,108 +1635,6 @@ int main(void)
             delay_ms(100);
         }
 
-        if (serialDemo)
-        {
-            link1Reading = getLink1Position();
-            link2Reading = getLink2Position();
-            link3Reading = getLink3Position();
-            gripperRotation = getGripperRotation();
-            gripperGraspPosition = getGripperGraspPosition();
-
-            if (serialDemoVec == 0)
-            {
-                if (absv((signed int) (link2Reading - link2lowerThreshold)) > thresholdSigma)
-                {
-                    setLink2Position(link2lowerThreshold);
-                }
-                else
-                {
-                    if (absv((signed int) (link1Reading - link1upperThreshold)) > thresholdSigma)
-                    {
-                        setLink1Position(link1upperThreshold);
-                    }
-                    else
-                    {
-                        if (absv((signed int) (link3Reading - link3lowerThreshold)) > thresholdSigma)
-                        {
-                            setLink3Position(link3lowerThreshold);
-                        }
-                        else
-                        {
-                            if (absv((signed int) (gripperRotation - gripperRotateCWThreshold)) > thresholdSigma)
-                            {
-                                setGripperRotation(gripperRotateCWThreshold);
-                            }
-                            else
-                            {
-                                if (absv((signed int) (gripperGraspPosition - gripperOpenedThreshold)) > thresholdSigma)
-                                {
-                                    setGripperGrasp(gripperOpenedThreshold);
-                                }
-                                else
-                                {
-                                    stopGripperGraspDrive();
-                                    serialDemoVec = 1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (isObjectDetected())
-                {
-                    unsigned char objectIsGrasped = isObjectGrasped(875);
-                    if (objectIsGrasped == 0)
-                    {
-                        setGripperGrasp(gripperClosedThreshold);
-                    }
-                    else
-                    {
-                        stopGripperGraspDrive();
-                        if (absv((signed int) (gripperRotation - gripperRotateCWWThreshold)) > thresholdSigma)
-                        {
-                            setGripperRotation(gripperRotateCWWThreshold);
-                        }
-                        else
-                        {
-                            stopGripperRotationDrive();
-                            if (absv((signed int) (link3Reading - link3Initial)) > thresholdSigma)
-                            {
-                                setLink3Position(link3Initial);
-                            }
-                            else
-                            {
-                                stopLink3Drive();
-                                if (absv((signed int) (link1Reading - link1lowerThreshold)) > thresholdSigma)
-                                {
-                                    setLink1Position(link1lowerThreshold);
-                                }
-                                else
-                                {
-                                    stopLink1Drive();
-                                    if (absv((signed int) (link2Reading - link2upperThreshold)) > thresholdSigma)
-                                    {
-                                        setLink2Position(link2upperThreshold);
-                                    }
-                                    else
-                                    {
-                                        stopAllManipulatorDrives();
-                                        serialDemo = 0;
-                                        serialDemoVec = 0;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    stopGripperGraspDrive();
-                }
-            }
-        }
     }
 
     return 0; /* never reached */

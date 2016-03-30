@@ -25,6 +25,7 @@ private:
     static PlatformManipulatorAndIRBumper* pPlatformManipulatorAndIRBumper;         // PLATFORM-MANIPULATOR-AND-IR-BUMPER's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
+    static const string defaultsFilePath;
 };
 
 #endif // PLATFORMMANIPULATORANDIRBUMPER_H

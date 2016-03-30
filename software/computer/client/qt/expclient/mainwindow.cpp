@@ -218,6 +218,19 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     IRScannerVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
     IRScannerVector->setLine(293, 285, 293, 50);
     irScanningGraphicsViewScene->addItem(IRScannerVector);
+
+    //PlatformManipulatorAndIRBumper
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene = new QGraphicsScene;
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->setSceneRect(0, 0, 246, 246);
+    ui->platformManipulatorAndIRBumperLink1Link2PositionGraphicsView->setScene(platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene);
+
+    QGraphicsEllipseItem *link1link2RootPoint = new QGraphicsEllipseItem;
+    link1link2RootPoint->setRect(210, 100, 20, 20);
+    QBrush brush = link1link2RootPoint->brush();
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::gray);
+    link1link2RootPoint->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1link2RootPoint);
 }
 
 MainWindow::~MainWindow()

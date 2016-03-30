@@ -66,6 +66,9 @@ public:
     QGraphicsLineItem *IRScannerVector;
     map<int, QGraphicsEllipseItem*> IRScannerDots;
 
+    //platformmanipulatorandirbumper
+    QGraphicsScene* platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene;
+
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
 
