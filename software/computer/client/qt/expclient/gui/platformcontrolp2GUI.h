@@ -77,35 +77,35 @@ void platformControlP2IRScannerRefresh(Ui::MainWindow *ui)
     {
         if (platformControlP2->getIrScanningWorkerActivated() || platformControlP2->getIRScannerIntentionalAngleSet())
         {
-            if (platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) != 0.0 || platformControlP2->getIRScannerIntentionalAngleSet())
+            double endX;
+            double endY;
+            if (!platformControlP2->getIRScannerIntentionalAngleSet() && platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) != 0.0)
             {
-                double endX;
-                double endY;
-                if (!platformControlP2->getIRScannerIntentionalAngleSet())
+                endX = 293 + 0.7 * platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) * sin((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                endY = 296 + 0.7 * platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) * cos((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                MainWindow::getInstance()->IRScannerVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+            }
+            else
+            {
+                endX = 293 + 250 * sin((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                endY = 296 + 250 * cos((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                MainWindow::getInstance()->IRScannerVector->setPen(QPen(Qt::yellow, 1.0, Qt::DashLine));
+            }
+
+            MainWindow::getInstance()->IRScannerVector->setLine(293, 296, endX, endY);
+            ui->irScannerAngleScrollBar->setValue(platformControlP2->getIRScannerAngle());
+
+            if (platformControlP2->getIrScanningWorkerActivated() && platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) != 0.0)
+            {
+                if (!MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])
                 {
-                    endX = 293 + 0.7 * platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) * sin((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
-                    endY = 296 + 0.7 * platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) * cos((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
-                    ui->irScannerAngleScrollBar->setValue(platformControlP2->getIRScannerAngle());
+                    MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()] = new QGraphicsEllipseItem;
+                    MainWindow::getInstance()->irScanningGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()]));
                 }
                 else
                 {
-                    endX = 293 + 250 * sin((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
-                    endY = 296 + 250 * cos((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
-                }
-                MainWindow::getInstance()->IRScannerVector->setLine(293, 296, endX, endY);
-
-                if (platformControlP2->getIrScanningWorkerActivated())
-                {
-                    if (!MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])
-                    {
-                        MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()] = new QGraphicsEllipseItem;
-                        MainWindow::getInstance()->irScanningGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()]));
-                    }
-                    else
-                    {
-                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
-                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setPen(QPen(Qt::black));
-                    }
+                    ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                    ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setPen(QPen(Qt::black));
                 }
             }
         }
