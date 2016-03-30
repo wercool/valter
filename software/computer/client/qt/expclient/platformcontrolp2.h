@@ -2,6 +2,7 @@
 #define PLATFORMCONTROLP2_H
 
 #include <string>
+#include <map>
 
 #include "ivaltermodule.h"
 
@@ -98,6 +99,40 @@ public:
     bool leftEncoderGetOnce;
     bool rightEncoderGetOnce;
 
+    void addIRScannerScan(signed int angle, float distance);
+    float getIRScannerScan(signed int angle);
+    void clearIRScannerScans();
+
+    signed int getIRScannerAngle() const;
+    void setIRScannerAngle(signed int value);
+
+    bool getIRScannerDirection() const;
+    void setIRScannerDirection(bool value);
+
+    int getIRScannerMinAngle() const;
+    void setIRScannerMinAngle(int value);
+
+    int getIRScannerMaxAngle() const;
+    void setIRScannerMaxAngle(int value);
+
+    bool getIRScannerIntentionalAngleSet() const;
+    void setIRScannerIntentionalAngleSet(bool value);
+
+    void pushChargerMotor();
+
+    bool getChargerMotorDirection() const;
+    void setChargerMotorDirection(bool value);
+
+    void spawnChargerMotorRotateWorker();
+
+    bool getChargerMotorRotateWorkerActivated() const;
+    void setChargerMotorRotateWorkerActivated(bool value);
+
+    void stopChargerMotor();
+
+    void alarmBeep();
+    void ALARMOnOff(bool state);
+
 private:
     PlatformControlP2();
     static PlatformControlP2* pPlatformControlP2;       // PLATFORM-CONTROL-P2's singleton instance
@@ -123,11 +158,15 @@ private:
     int chargerMotorPushDurationPresetMin;
     int chargerMotorPushDurationPresetMax;
 
+    bool chargerMotorDirection;
+
     bool encodersWorkerActivated;
     bool irScanningWorkerActivated;
+    bool chargerMotorRotateWorkerActivated;
 
     void encodersWorker();
     void irScanningWorker();
+    void chargerMotorRotateWorker();
 
     int beepDuration;
     int beepDurationPresetMin;
@@ -136,6 +175,19 @@ private:
     bool chargerLeds;
     bool bottomFrontLeds;
     bool bottomRearLeds;
+
+    int iRScannerAngle;
+
+    map<signed int, float>IRScannerScans;  //<angle, distance>
+    std::mutex IRScannerScans_mutex;
+
+    bool iRScannerDirection;  //true - CCW, false - CW
+
+    int iRScannerMinAngle;
+    int iRScannerMaxAngle;
+    bool iRScannerIntentionalAngleSet;
+
+    bool ALARM;
 };
 
 #endif // PLATFORMCONTROLP2_H

@@ -363,8 +363,8 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
-            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
-            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+//            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
+//            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
@@ -492,8 +492,8 @@ int main(void)
                 pwmFreqSet(0, 60);
                 pwmDutySet_u8(0, platformFrontSonarServoDuty);
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID0);
-                sprintf((char *)msg,"PLATFORM FRONT SONAR SERVO ENABLED [%u]\n", platformFrontSonarServoDuty);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                //sprintf((char *)msg,"PLATFORM FRONT SONAR SERVO ENABLED [%u]\n", platformFrontSonarServoDuty);
+                //pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "DISABLESONARSERVO") == 0)
@@ -513,6 +513,13 @@ int main(void)
             if (strcmp((char*) cmdParts, "STOPFRONTSONARREADINGS") == 0)
             {
                 platformFrontSonarReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETIRSCAN") == 0)
+            {
+                platformFrontSonarReading = getValueChannel6();
+                sprintf((char *)msg,"IRSCAN:%u\n", platformFrontSonarReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             //SETCHARGERDRIVEDUTY#1
@@ -590,6 +597,8 @@ int main(void)
                 AT91F_PWMC_StartChannel(AT91C_BASE_PWMC, AT91C_PWMC_CHID1);
                 delay_ms(chargerDrivePushDuration);
                 pwmDutySetPercent(1, 1);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);   //CHARGER MOTOR IN1
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);   //CHARGER MOTOR IN2
                 continue;
             }
             if (strcmp((char*) cmdParts, "ALARMON") == 0)

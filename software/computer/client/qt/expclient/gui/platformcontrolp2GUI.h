@@ -37,6 +37,11 @@ void loadPlatformControlP2Defaults(Ui::MainWindow *ui)
     ui->bottomRearLedsButton->setChecked(platformControlP2->getBottomRearLeds());
 
     ui->irScanningButton->setChecked(platformControlP2->getIrScanningWorkerActivated());
+
+    ui->irScannerAngleScrollBar->setMinimum(platformControlP2->getIRScannerMinAngle());
+    ui->irScannerAngleScrollBar->setMaximum(platformControlP2->getIRScannerMaxAngle());
+
+    ui->irScannerAngleLabel->setText(Valter::format_string("[%d]", platformControlP2->getIRScannerAngle()).c_str());
 }
 
 void platformControlP2TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
@@ -70,7 +75,40 @@ void platformControlP2IRScannerRefresh(Ui::MainWindow *ui)
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
     if (ui->platfromControlP2RedrawGUICheckBox->isChecked()) //PLATFROM-CONTROL-P2 Tab
     {
-        qDebug("!!!!!");
+        if (platformControlP2->getIrScanningWorkerActivated() || platformControlP2->getIRScannerIntentionalAngleSet())
+        {
+            if (platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) != 0.0 || platformControlP2->getIRScannerIntentionalAngleSet())
+            {
+                double endX;
+                double endY;
+                if (!platformControlP2->getIRScannerIntentionalAngleSet())
+                {
+                    endX = 293 + 0.7 * platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) * sin((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                    endY = 296 + 0.7 * platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) * cos((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                    ui->irScannerAngleScrollBar->setValue(platformControlP2->getIRScannerAngle());
+                }
+                else
+                {
+                    endX = 293 + 250 * sin((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                    endY = 296 + 250 * cos((180 - platformControlP2->getIRScannerAngle()) * M_PI / 180);
+                }
+                MainWindow::getInstance()->IRScannerVector->setLine(293, 296, endX, endY);
+
+                if (platformControlP2->getIrScanningWorkerActivated())
+                {
+                    if (!MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])
+                    {
+                        MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()] = new QGraphicsEllipseItem;
+                        MainWindow::getInstance()->irScanningGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()]));
+                    }
+                    else
+                    {
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setPen(QPen(Qt::black));
+                    }
+                }
+            }
+        }
     }
 }
 

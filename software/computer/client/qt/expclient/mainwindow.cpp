@@ -213,6 +213,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     platformControlP2IRScannerRefreshTimer = new QTimer(this);
     connect(platformControlP2IRScannerRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP2IRScannerRefreshTimerUpdate()));
+
+    IRScannerVector = new QGraphicsLineItem;
+    IRScannerVector->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+    IRScannerVector->setLine(293, 285, 293, 50);
+    irScanningGraphicsViewScene->addItem(IRScannerVector);
 }
 
 MainWindow::~MainWindow()
@@ -1491,7 +1496,8 @@ void MainWindow::on_detachIRScanningFrameButton_clicked()
 
 void MainWindow::on_chargerLedsButton_toggled(bool checked)
 {
-
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerLeds(checked);
 }
 
 void MainWindow::on_loadDefaultsPlatfromControlP2Button_clicked()
@@ -1575,15 +1581,115 @@ void MainWindow::on_irScanningButton_toggled(bool checked)
     platformControlP2->setIrScanningWorkerActivated(checked);
     if (checked)
     {
-        platformControlP2IRScannerRefreshTimer->start(10);
+        platformControlP2IRScannerRefreshTimer->start(50);
     }
     else
     {
         platformControlP2IRScannerRefreshTimer->stop();
+        typedef map<int, QGraphicsEllipseItem*>::iterator it_type;
+        for(it_type iterator = IRScannerDots.begin(); iterator != IRScannerDots.end(); iterator++)
+        {
+            QGraphicsEllipseItem* dot = IRScannerDots[iterator->first];
+            if (dot)
+            {
+                dot->setPen(QPen(Qt::lightGray));
+            }
+        }
     }
 }
 
 void MainWindow::platformControlP2IRScannerRefreshTimerUpdate()
 {
     platformControlP2IRScannerRefresh(ui);
+}
+
+void MainWindow::on_irScannerAngleScrollBar_valueChanged(int value)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setIRScannerAngle(value);
+    ui->irScannerAngleLabel->setText(Valter::format_string("[%d]", platformControlP2->getIRScannerAngle()).c_str());
+}
+
+void MainWindow::on_irScannerAngleScrollBar_sliderPressed()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    if (!platformControlP2->getIrScanningWorkerActivated())
+    {
+        platformControlP2->setIRScannerIntentionalAngleSet(true);
+        platformControlP2IRScannerRefreshTimer->start(50);
+    }
+}
+
+void MainWindow::on_irScannerAngleScrollBar_sliderReleased()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    if (!platformControlP2->getIrScanningWorkerActivated())
+    {
+        platformControlP2->setIRScannerIntentionalAngleSet(false);
+        platformControlP2IRScannerRefreshTimer->stop();
+    }
+}
+
+void MainWindow::on_chargerMotorPushCCWButton_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorDirection(false);
+    platformControlP2->pushChargerMotor();
+}
+
+void MainWindow::on_chargerMotorPushCWButton_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorDirection(true);
+    platformControlP2->pushChargerMotor();
+}
+
+void MainWindow::on_chargerMotorRotateCCWButton_pressed()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorDirection(false);
+    platformControlP2->setChargerMotorRotateWorkerActivated(true);
+}
+
+void MainWindow::on_chargerMotorRotateCWButton_pressed()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorDirection(true);
+    platformControlP2->setChargerMotorRotateWorkerActivated(true);
+}
+
+void MainWindow::on_chargerMotorRotateCCWButton_released()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorRotateWorkerActivated(false);
+}
+
+void MainWindow::on_chargerMotorRotateCWButton_released()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setChargerMotorRotateWorkerActivated(false);
+}
+
+void MainWindow::on_beepButton_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->alarmBeep();
+}
+
+void MainWindow::on_alarmButton_toggled(bool checked)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->ALARMOnOff(checked);
+}
+
+void MainWindow::on_bottomFronLedsButton_toggled(bool checked)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setBottomFrontLeds(checked);
+}
+
+void MainWindow::on_bottomRearLedsButton_toggled(bool checked)
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->setBottomRearLeds(checked);
 }

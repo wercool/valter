@@ -63,6 +63,8 @@ public:
     QTimer *platformControlP2EncodersRefreshTimer;
     QGraphicsScene* irScanningGraphicsViewScene;
     QTimer *platformControlP2IRScannerRefreshTimer;
+    QGraphicsLineItem *IRScannerVector;
+    map<int, QGraphicsEllipseItem*> IRScannerDots;
 
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
@@ -347,6 +349,32 @@ private slots:
     void on_irScanningButton_toggled(bool checked);
 
     void platformControlP2IRScannerRefreshTimerUpdate();
+
+    void on_irScannerAngleScrollBar_valueChanged(int value);
+
+    void on_irScannerAngleScrollBar_sliderPressed();
+
+    void on_irScannerAngleScrollBar_sliderReleased();
+
+    void on_chargerMotorPushCCWButton_clicked();
+
+    void on_chargerMotorPushCWButton_clicked();
+
+    void on_chargerMotorRotateCCWButton_pressed();
+
+    void on_chargerMotorRotateCWButton_pressed();
+
+    void on_chargerMotorRotateCCWButton_released();
+
+    void on_chargerMotorRotateCWButton_released();
+
+    void on_beepButton_clicked();
+
+    void on_alarmButton_toggled(bool checked);
+
+    void on_bottomFronLedsButton_toggled(bool checked);
+
+    void on_bottomRearLedsButton_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;

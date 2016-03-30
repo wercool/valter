@@ -10,3 +10,5 @@ beepDuration:1,200,5
 chargerLeds:0
 bottomFrontLeds:0
 bottomRearLeds:0
+iRScannerMinAngle:-80
+iRScannerMaxAngle:80

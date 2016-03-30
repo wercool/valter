@@ -71,6 +71,17 @@ void PlatformControlP2::processMessagesQueueWorker()
                     }
                 }
 
+                if (getIrScanningWorkerActivated())
+                {
+                    if (response.find("IRSCAN:") !=std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int  value = atoi(value_str.c_str());
+                        addIRScannerScan(getIRScannerAngle(), value);
+                    }
+                }
+
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }
             else
@@ -80,6 +91,73 @@ void PlatformControlP2::processMessagesQueueWorker()
         }
     }
 }
+bool PlatformControlP2::getChargerMotorRotateWorkerActivated() const
+{
+    return chargerMotorRotateWorkerActivated;
+}
+
+void PlatformControlP2::setChargerMotorRotateWorkerActivated(bool value)
+{
+    if (value)
+    {
+        spawnChargerMotorRotateWorker();
+    }
+    else
+    {
+        stopChargerMotor();
+    }
+    chargerMotorRotateWorkerActivated = value;
+}
+
+void PlatformControlP2::stopChargerMotor()
+{
+    setChargerMotorDuty(1);
+    sendCommand("CHARGERDRIVESTOP");
+}
+
+void PlatformControlP2::alarmBeep()
+{
+    sendCommand(Valter::format_string("ALARMBEEP#%d", getBeepDuration()));
+}
+
+void PlatformControlP2::ALARMOnOff(bool state)
+{
+    ALARM = state;
+
+    if (ALARM)
+    {
+        sendCommand("ALARMON");
+    }
+    else
+    {
+        sendCommand("ALARMOFF");
+    }
+}
+
+bool PlatformControlP2::getChargerMotorDirection() const
+{
+    return chargerMotorDirection;
+}
+
+void PlatformControlP2::setChargerMotorDirection(bool value)
+{
+    chargerMotorDirection = value;
+    sendCommand(Valter::format_string("CHARGERDRIVEDIRECTION#%d", (chargerMotorDirection ? 1 : 2)));
+}
+
+void PlatformControlP2::spawnChargerMotorRotateWorker()
+{
+    if (!getChargerMotorRotateWorkerActivated())
+    {
+        new std::thread(&PlatformControlP2::chargerMotorRotateWorker, this);
+        Valter::log("chargerMotorRotateWorker spawned...");
+    }
+    else
+    {
+        Valter::log("chargerMotorRotateWorker ALREADY activated!");
+    }
+}
+
 
 int PlatformControlP2::getChargerMotorDuty() const
 {
@@ -89,6 +167,7 @@ int PlatformControlP2::getChargerMotorDuty() const
 void PlatformControlP2::setChargerMotorDuty(int value)
 {
     chargerMotorDuty = value;
+    sendCommand(Valter::format_string("SETCHARGERDRIVEDUTY#%d", getChargerMotorDuty()));
 }
 
 void PlatformControlP2::encodersWorker()
@@ -125,19 +204,122 @@ void PlatformControlP2::irScanningWorker()
     {
         if (getIrScanningWorkerActivated())
         {
-            qDebug("!!!!!");
-            this_thread::sleep_for(std::chrono::milliseconds(250));
+            if (!getIRScannerIntentionalAngleSet())
+            {
+                signed int curAngle = getIRScannerAngle();
+                if (getIRScannerDirection())
+                {
+                    if (curAngle > iRScannerMinAngle)
+                    {
+                        curAngle -= 4;
+                        setIRScannerAngle(curAngle);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        sendCommand("GETIRSCAN");
+                    }
+                    else
+                    {
+                        setIRScannerDirection(false);
+                    }
+                }
+                else
+                {
+                    if (curAngle < iRScannerMaxAngle)
+                    {
+                        curAngle += 4;
+                        setIRScannerAngle(curAngle);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        sendCommand("GETIRSCAN");
+                    }
+                    else
+                    {
+                        setIRScannerDirection(true);
+                    }
+                }
+            }
         }
         else
         {
             break;
         }
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     if (getControlDeviceIsSet())
     {
         getControlDevice()->addMsgToDataExchangeLog("irScanningWorker finished...");
     }
 }
+
+void PlatformControlP2::chargerMotorRotateWorker()
+{
+    this_thread::sleep_for(std::chrono::milliseconds(5));
+    while (getChargerMotorDuty() < getChargerMotorDutyPresetCur())
+    {
+        if (stopAllProcesses || !getChargerMotorRotateWorkerActivated())
+        {
+            stopChargerMotor();
+            break;
+        }
+        if (getChargerMotorDuty() + 5 > 100)
+        {
+            setChargerMotorDuty(100);
+        }
+        else
+        {
+            setChargerMotorDuty(getChargerMotorDuty() + 5);
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+    setChargerMotorRotateWorkerActivated(false);
+    if (getControlDeviceIsSet())
+    {
+        getControlDevice()->addMsgToDataExchangeLog("chargerMotorRotateWorker finished...");
+    }
+}
+bool PlatformControlP2::getIRScannerIntentionalAngleSet() const
+{
+    return iRScannerIntentionalAngleSet;
+}
+
+void PlatformControlP2::setIRScannerIntentionalAngleSet(bool value)
+{
+    iRScannerIntentionalAngleSet = value;
+}
+
+void PlatformControlP2::pushChargerMotor()
+{
+    sendCommand(Valter::format_string("CHARGERDRIVEPUSH#%d#%d#%d", (getChargerMotorDirection() ? 1 : 2), getChargerMotorDutyPresetCur(), getChargerMotorPushDuration()));
+}
+
+int PlatformControlP2::getIRScannerMaxAngle() const
+{
+    return iRScannerMaxAngle;
+}
+
+void PlatformControlP2::setIRScannerMaxAngle(int value)
+{
+    iRScannerMaxAngle = value;
+}
+
+int PlatformControlP2::getIRScannerMinAngle() const
+{
+    return iRScannerMinAngle;
+}
+
+void PlatformControlP2::setIRScannerMinAngle(int value)
+{
+    iRScannerMinAngle = value;
+}
+
+bool PlatformControlP2::getIRScannerDirection() const
+{
+    return iRScannerDirection;
+}
+
+void PlatformControlP2::setIRScannerDirection(bool value)
+{
+    iRScannerDirection = value;
+}
+
 
 bool PlatformControlP2::getBottomRearLeds() const
 {
@@ -147,6 +329,14 @@ bool PlatformControlP2::getBottomRearLeds() const
 void PlatformControlP2::setBottomRearLeds(bool value)
 {
     bottomRearLeds = value;
+    if (bottomRearLeds)
+    {
+        sendCommand("PLATFORMREARLEDSON");
+    }
+    else
+    {
+        sendCommand("PLATFORMREARLEDSOFF");
+    }
 }
 
 void PlatformControlP2::resetLeftEncoder()
@@ -177,6 +367,36 @@ void PlatformControlP2::getRightEncoderOnce(bool value)
     rightEncoderGetOnce = value;
 }
 
+void PlatformControlP2::addIRScannerScan(signed int angle, float distance)
+{
+    std::lock_guard<std::mutex> guard(IRScannerScans_mutex);
+    distance = distance;
+    IRScannerScans[angle] = distance;
+}
+
+float PlatformControlP2::getIRScannerScan(signed int angle)
+{
+    return IRScannerScans[angle];
+}
+
+void PlatformControlP2::clearIRScannerScans()
+{
+    std::lock_guard<std::mutex> guard(IRScannerScans_mutex);
+    IRScannerScans.clear();
+}
+
+signed int PlatformControlP2::getIRScannerAngle() const
+{
+    return iRScannerAngle;
+}
+
+void PlatformControlP2::setIRScannerAngle(signed int value)
+{
+    iRScannerAngle = value;
+    int dutyValue = round(18);
+    sendCommand(Valter::format_string("SETSONARSERVODUTY#%d", dutyValue));
+}
+
 bool PlatformControlP2::getBottomFrontLeds() const
 {
     return bottomFrontLeds;
@@ -185,6 +405,14 @@ bool PlatformControlP2::getBottomFrontLeds() const
 void PlatformControlP2::setBottomFrontLeds(bool value)
 {
     bottomFrontLeds = value;
+    if (bottomFrontLeds)
+    {
+        sendCommand("PLATFORMFRONTLEDSON");
+    }
+    else
+    {
+        sendCommand("PLATFORMFRONTLEDSON");
+    }
 }
 
 bool PlatformControlP2::getChargerLeds() const
@@ -195,6 +423,14 @@ bool PlatformControlP2::getChargerLeds() const
 void PlatformControlP2::setChargerLeds(bool value)
 {
     chargerLeds = value;
+    if (chargerLeds)
+    {
+        sendCommand("CHARGERLEDSON");
+    }
+    else
+    {
+        sendCommand("CHARGERLEDSOFF");
+    }
 }
 
 int PlatformControlP2::getBeepDurationPresetMax() const
@@ -239,6 +475,10 @@ void PlatformControlP2::setIrScanningWorkerActivated(bool value)
     {
         spawnIRScanningWorker();
     }
+    else
+    {
+        sendCommand("DISABLESONARSERVO");
+    }
 }
 
 void PlatformControlP2::spawnEncodersWorker()
@@ -249,6 +489,7 @@ void PlatformControlP2::spawnEncodersWorker()
 
 void PlatformControlP2::spawnIRScanningWorker()
 {
+    clearIRScannerScans();
     new std::thread(&PlatformControlP2::irScanningWorker, this);
     Valter::log("irScanningWorker spawned...");
 }
@@ -491,6 +732,21 @@ void PlatformControlP2::resetToDefault()
 
     leftEncoderGetOnce  = false;
     rightEncoderGetOnce = false;
+
+    iRScannerAngle  = 0;
+
+    iRScannerDirection = true;
+
+    iRScannerMinAngle   = -90;
+    iRScannerMaxAngle   = 30;
+
+    iRScannerIntentionalAngleSet = false;
+
+    chargerMotorDirection = false; //ccw
+
+    chargerMotorRotateWorkerActivated = false;
+
+    ALARM = false;
 }
 
 void PlatformControlP2::spawnProcessMessagesQueueWorkerThread()
@@ -581,6 +837,14 @@ void PlatformControlP2::loadDefaults()
     //bottomRearLeds
     defaultValue = getDefault("bottomRearLeds");
     setBottomRearLeds((defaultValue.compare("1") == 0) ? true : false);
+
+    //iRScannerMinAngle
+    defaultValue = getDefault("iRScannerMinAngle");
+    iRScannerMinAngle = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //iRScannerMaxAngle
+    defaultValue = getDefault("iRScannerMaxAngle");
+    iRScannerMaxAngle = atoi(Valter::stringToCharPtr(defaultValue));
 }
 
 void PlatformControlP2::setModuleInitialState()
