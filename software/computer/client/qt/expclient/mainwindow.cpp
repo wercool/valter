@@ -9,6 +9,9 @@
 #include <gui/platformcontrolp1GUI.h>
 #include <gui/platformcontrolp2GUI.h>
 #include <gui/platformlocationp1GUI.h>
+#include <gui/platformmanipulatorandirbumperGUI.h>
+
+#include <gui/link2endpointviewitem.h>
 
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
@@ -223,14 +226,52 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene = new QGraphicsScene;
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->setSceneRect(0, 0, 246, 246);
     ui->platformManipulatorAndIRBumperLink1Link2PositionGraphicsView->setScene(platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene);
+    ui->platformManipulatorAndIRBumperLink1Link2PositionGraphicsView->setRenderHint(QPainter::Antialiasing);
 
-    QGraphicsEllipseItem *link1link2RootPoint = new QGraphicsEllipseItem;
-    link1link2RootPoint->setRect(210, 100, 20, 20);
-    QBrush brush = link1link2RootPoint->brush();
+
+    platfromManipulatorLink1 = new QGraphicsLineItem;
+    platfromManipulatorLink1->setPen(QPen(Qt::darkGray, 8.0, Qt::SolidLine));
+    platfromManipulatorLink1->setLine(220, 110, 220, 230);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1);
+
+    platfromManipulatorLink1Link2Console = new QGraphicsLineItem;
+    platfromManipulatorLink1Link2Console->setPen(QPen(Qt::darkGray, 8.0, Qt::SolidLine));
+    platfromManipulatorLink1Link2Console->setLine(220, 230, 190, 230);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1Link2Console);
+
+    platfromManipulatorLink2 = new QGraphicsLineItem;
+    platfromManipulatorLink2->setPen(QPen(Qt::gray, 8.0, Qt::SolidLine));
+    platfromManipulatorLink2->setLine(190, 230, 190, 110);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink2);
+
+    QBrush brush;
+
+    link1RootPoint = new QGraphicsEllipseItem;
+    link1RootPoint->setRect(210, 100, 20, 20);
+    brush = link1RootPoint->brush();
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::gray);
-    link1link2RootPoint->setBrush(brush);
-    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1link2RootPoint);
+    link1RootPoint->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1RootPoint);
+
+    link1link2Point = new QGraphicsEllipseItem;
+    link1link2Point->setRect(184, 224, 12, 12);
+    brush = link1link2Point->brush();
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::gray);
+    link1link2Point->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1link2Point);
+
+    link2EndPoint = new Link2EndPointViewItem;
+    link2EndPoint->setPos(QPointF(184, 104));
+    link2EndPoint->setRect(0, 0, 12, 12);
+    brush = link2EndPoint->brush();
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::darkGreen);
+    link2EndPoint->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link2EndPoint);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -1706,3 +1747,6 @@ void MainWindow::on_bottomRearLedsButton_toggled(bool checked)
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
     platformControlP2->setBottomRearLeds(checked);
 }
+
+//PLATFORM-MANIPULATOR-AND-IR-BUMPER
+

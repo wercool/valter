@@ -68,6 +68,12 @@ public:
 
     //platformmanipulatorandirbumper
     QGraphicsScene* platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene;
+    QGraphicsLineItem *platfromManipulatorLink1;
+    QGraphicsLineItem *platfromManipulatorLink2;
+    QGraphicsLineItem *platfromManipulatorLink1Link2Console;
+    QGraphicsEllipseItem *link1RootPoint;
+    QGraphicsEllipseItem *link1link2Point;
+    QGraphicsEllipseItem *link2EndPoint;
 
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);

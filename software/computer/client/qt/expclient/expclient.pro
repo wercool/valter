@@ -25,7 +25,7 @@ SOURCES += main.cpp\
            platformlocationp1.cpp \
            platformcontrolp2.cpp \
            platformmanipulatorandirbumper.cpp \
-           bodycontrolp1.cpp \
+           bodycontrolp1.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -39,13 +39,12 @@ HEADERS  += mainwindow.h \
             platformcontrolp2.h \
             platformmanipulatorandirbumper.h \
             bodycontrolp1.h \
-            platformcontrolp1GUI.h \
-            guihelpers.h \
-            platformcontrolp2GUI.h \
             gui/guihelpers.h \
             gui/platformcontrolp1GUI.h \
             gui/platformcontrolp2GUI.h \
             gui/platformlocationp1GUI.h \
+            gui/platformmanipulatorandirbumperGUI.h \
+            gui/link2endpointviewitem.h
 
 FORMS    += mainwindow.ui
 

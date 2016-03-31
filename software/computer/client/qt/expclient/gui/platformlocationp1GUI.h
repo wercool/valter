@@ -108,11 +108,14 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                     if (!MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])
                     {
                         MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()] = new QGraphicsEllipseItem;
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])->setPos(QPointF(endX - 8, endY - 8));
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])->setRect( 0, 0, 16, 16 );
                         MainWindow::getInstance()->platformLocationP1SonarsGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()]));
                     }
                     else
                     {
-                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                        //((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])->setPos(QPointF(endX - 8, endY - 8));
                         ((QGraphicsEllipseItem*)MainWindow::getInstance()->leftSonarDots[platformLocationP1->getLeftSonarAngle()])->setPen(QPen(Qt::black));
                     }
                 }
@@ -133,11 +136,14 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                     if (!MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])
                     {
                         MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()] = new QGraphicsEllipseItem;
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])->setPos(QPointF(endX - 8, endY - 8));
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])->setRect( 0, 0, 16, 16 );
                         MainWindow::getInstance()->platformLocationP1SonarsGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()]));
                     }
                     else
                     {
-                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                        //((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                        ((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])->setPos(QPointF(endX - 8, endY - 8));
                         ((QGraphicsEllipseItem*)MainWindow::getInstance()->rightSonarDots[platformLocationP1->getRightSonarAngle()])->setPen(QPen(Qt::black));
                     }
                 }

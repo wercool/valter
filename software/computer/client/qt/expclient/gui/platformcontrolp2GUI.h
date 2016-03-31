@@ -100,11 +100,14 @@ void platformControlP2IRScannerRefresh(Ui::MainWindow *ui)
                 if (!MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])
                 {
                     MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()] = new QGraphicsEllipseItem;
+                    ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setPos(QPointF(endX - 8, endY - 8));
+                    ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setRect( 0, 0, 16, 16 );
                     MainWindow::getInstance()->irScanningGraphicsViewScene->addItem(((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()]));
                 }
                 else
                 {
-                    ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                    //((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setRect( endX - 8, endY - 8, 16, 16 );
+                    ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setPos(QPointF(endX - 8, endY - 8));
                     ((QGraphicsEllipseItem*)MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])->setPen(QPen(Qt::black));
                 }
             }
