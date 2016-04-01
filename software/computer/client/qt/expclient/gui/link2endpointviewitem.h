@@ -31,13 +31,14 @@ void Link2EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     this->setPos(QPointF(event->scenePos().x() - 6, event->scenePos().y() - 6));
 
-    QPointF root(220, 110);
+    float rootX = 220;
+    float rootY = 110;
 
     float endEffectorX = this->scenePos().x() + 6;
     float endEffectorY = this->scenePos().y() + 6;
 
-    float dirx = endEffectorX - root.x();
-    float diry = endEffectorY - root.y();
+    float dirx = endEffectorX - rootX;
+    float diry = endEffectorY - rootY;
 
     float len = sqrt(dirx * dirx + diry * diry);
     dirx = dirx / len;
@@ -47,27 +48,30 @@ void Link2EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     float poleVectorX, poleVectorY;
     float disc = segmentlength * segmentlength - len * len / 4;
 
-    if(disc < 0)
-    {
-        poleVectorX = root.x() + dirx * segmentlength;
-        poleVectorY = root.y() + diry * segmentlength;
-        endEffectorX = root.x() + dirx * segmentlength * 2;
-        endEffectorY = root.y() + diry * segmentlength * 2;
-    }
-    else
-    {
-        poleVectorX = root.x() + dirx * len / 2;
-        poleVectorY = root.y() + diry * len / 2;
-        disc = sqrt(disc);
-        disc =- disc; // Make it a negative number
-        poleVectorX -= diry * disc;
-        poleVectorY += dirx * disc;
-    }
+    poleVectorX = rootX + dirx * len / 2;
+    poleVectorY = rootY + diry * len / 2;
 
-    MainWindow::getInstance()->platfromManipulatorLink1->setLine(root.x(), root.y(), poleVectorX, poleVectorY);
-    MainWindow::getInstance()->platfromManipulatorLink1Link2Console->setLine(poleVectorX, poleVectorY, poleVectorX - 30, poleVectorY);
-    MainWindow::getInstance()->platfromManipulatorLink2->setLine(poleVectorX - 30, poleVectorY, endEffectorX, endEffectorY);
-    MainWindow::getInstance()->link1link2Point->setRect(poleVectorX - 36, poleVectorY - 6, 12, 12);
+    disc = sqrt(disc);
+    disc =- disc; // Make it a negative number
+    poleVectorX -= diry * disc;
+    poleVectorY += dirx * disc;
+
+    float dx = poleVectorX - rootX;
+    float dy = rootY - poleVectorY;
+    float norm = sqrt(dx * dx + dy * dy);
+    dx = dx / norm;
+    dy = dy / norm;
+    float link2PoleX = poleVectorX + dy * 30;
+    float link2PoleY = poleVectorY + dx * 30;
+
+    MainWindow::getInstance()->platfromManipulatorLink1->setLine(rootX, rootY, poleVectorX, poleVectorY);
+
+    MainWindow::getInstance()->platfromManipulatorLink1Link2Console->setLine(poleVectorX, poleVectorY, link2PoleX, link2PoleY);
+    MainWindow::getInstance()->link1link2Point->setRect(link2PoleX - 6, link2PoleY - 6, 12, 12);
+
+    MainWindow::getInstance()->platfromManipulatorHelper->setLine(poleVectorX, poleVectorY, endEffectorX, endEffectorY);
+
+    MainWindow::getInstance()->platfromManipulatorLink2->setLine(link2PoleX, link2PoleY, endEffectorX, endEffectorY);
 }
 
 void Link2EndPointViewItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

@@ -244,6 +244,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     platfromManipulatorLink2->setLine(190, 230, 190, 110);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink2);
 
+    platfromManipulatorHelper = new QGraphicsLineItem;
+    platfromManipulatorHelper->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+    platfromManipulatorHelper->setLine(220, 230, 190, 110);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorHelper);
+
     QBrush brush;
 
     link1RootPoint = new QGraphicsEllipseItem;
