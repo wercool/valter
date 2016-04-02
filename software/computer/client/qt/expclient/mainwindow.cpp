@@ -11,7 +11,7 @@
 #include <gui/platformlocationp1GUI.h>
 #include <gui/platformmanipulatorandirbumperGUI.h>
 
-#include <gui/link2endpointviewitem.h>
+#include <gui/link1endpointviewitem.h>
 
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
@@ -234,28 +234,33 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     platfromManipulatorLink1->setLine(220, 110, 220, 230);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1);
 
+    platfromManipulatorLink1Initial = new QGraphicsLineItem;
+    platfromManipulatorLink1Initial->setPen(QPen(Qt::darkGray, 1.0, Qt::SolidLine));
+    platfromManipulatorLink1Initial->setLine(220, 110, 220, 230);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1Initial);
+
     platfromManipulatorLink1Link2Console = new QGraphicsLineItem;
     platfromManipulatorLink1Link2Console->setPen(QPen(Qt::darkGray, 8.0, Qt::SolidLine));
     platfromManipulatorLink1Link2Console->setLine(220, 230, 190, 230);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1Link2Console);
-
+/*
     platfromManipulatorLink2 = new QGraphicsLineItem;
     platfromManipulatorLink2->setPen(QPen(Qt::gray, 8.0, Qt::SolidLine));
     platfromManipulatorLink2->setLine(190, 230, 190, 110);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink2);
-
+*/
     platfromManipulatorHelper = new QGraphicsLineItem;
     platfromManipulatorHelper->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
-    platfromManipulatorHelper->setLine(220, 230, 190, 110);
+    platfromManipulatorHelper->setLine(220, 110, 220, 230);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorHelper);
 
     QBrush brush;
 
     link1RootPoint = new QGraphicsEllipseItem;
-    link1RootPoint->setRect(210, 100, 20, 20);
+    link1RootPoint->setRect(214, 104, 12, 12);
     brush = link1RootPoint->brush();
     brush.setStyle(Qt::SolidPattern);
-    brush.setColor(Qt::gray);
+    brush.setColor(Qt::lightGray);
     link1RootPoint->setBrush(brush);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1RootPoint);
 
@@ -267,14 +272,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     link1link2Point->setBrush(brush);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1link2Point);
 
-    link2EndPoint = new Link2EndPointViewItem;
-    link2EndPoint->setPos(QPointF(184, 104));
-    link2EndPoint->setRect(0, 0, 12, 12);
-    brush = link2EndPoint->brush();
+    link1EndPoint = new Link1EndPointViewItem;
+    link1EndPoint->setPos(QPointF(214, 224));
+    link1EndPoint->setRect(0, 0, 12, 12);
+    brush = link1EndPoint->brush();
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::darkGreen);
-    link2EndPoint->setBrush(brush);
-    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link2EndPoint);
+    link1EndPoint->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1EndPoint);
 
 
 }
