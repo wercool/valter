@@ -9,6 +9,7 @@
 #include <QTableWidgetItem>
 #include <QGraphicsScene>
 #include <QGraphicsEllipseItem>
+#include <QGraphicsTextItem>
 
 #include <valter.h>
 #include <ivaltermodule.h>
@@ -68,14 +69,26 @@ public:
 
     //platformmanipulatorandirbumper
     QGraphicsScene* platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene;
-    QGraphicsLineItem *platfromManipulatorLink1Initial;
     QGraphicsLineItem *platfromManipulatorLink1;
+    QGraphicsLineItem *platfromManipulatorLink1Initial;
+    QGraphicsLineItem *platfromManipulatorLink1Helper;
     QGraphicsLineItem *platfromManipulatorLink2;
-    QGraphicsLineItem *platfromManipulatorHelper;
+    QGraphicsLineItem *platfromManipulatorLink2Initial;
+    QGraphicsLineItem *platfromManipulatorLink2Helper;
+    QGraphicsLineItem *platfromManipulatorLink3;
+    QGraphicsLineItem *platfromManipulatorLink3Initial;
+    QGraphicsLineItem *platfromManipulatorLink3Helper;
     QGraphicsLineItem *platfromManipulatorLink1Link2Console;
+    QGraphicsLineItem *platfromManipulatorLink2Link3Console;
     QGraphicsEllipseItem *link1RootPoint;
     QGraphicsEllipseItem *link1link2Point;
+    QGraphicsEllipseItem *link2link3Point;
     QGraphicsEllipseItem *link1EndPoint;
+    QGraphicsEllipseItem *link2EndPoint;
+    QGraphicsEllipseItem *link3EndPoint;
+    QGraphicsTextItem * alpha;
+    QGraphicsTextItem * beta;
+    QGraphicsTextItem * gamma;
 
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
@@ -387,6 +400,11 @@ private slots:
 
     void on_bottomRearLedsButton_toggled(bool checked);
 
+    //platform-manipulator-and-ir-bumper
+    void platformManipulatorAndIRBumperRefreshTimerUpdate();
+
+    void on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -409,6 +427,9 @@ private:
     QTimer *platformLocationP1AccelerometerRefreshTimer;
     QTimer *platformLocationP1MagnetometerRefreshTimer;
     QTimer *platformLocationP1CompassHeadingRefreshTimer;
+
+    //platform-manipulator-and-ir-bumper
+    QTimer *platformManipulatorAndIRBumperRefreshTimer;
 };
 
 #endif // MAINWINDOW_H

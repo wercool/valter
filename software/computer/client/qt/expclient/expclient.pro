@@ -44,7 +44,9 @@ HEADERS  += mainwindow.h \
             gui/platformcontrolp2GUI.h \
             gui/platformlocationp1GUI.h \
             gui/platformmanipulatorandirbumperGUI.h \
-    gui/link1endpointviewitem.h
+            gui/link1endpointviewitem.h \
+            gui/link2endpointviewitem.h \
+    gui/link3endpointviewitem.h
 
 FORMS    += mainwindow.ui
 

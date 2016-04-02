@@ -10,8 +10,10 @@
 #include <gui/platformcontrolp2GUI.h>
 #include <gui/platformlocationp1GUI.h>
 #include <gui/platformmanipulatorandirbumperGUI.h>
-
 #include <gui/link1endpointviewitem.h>
+#include <gui/link2endpointviewitem.h>
+#include <gui/link3endpointviewitem.h>
+
 
 MainWindow* MainWindow::pMainWindow = NULL;
 bool MainWindow::instanceFlag = false;
@@ -222,42 +224,86 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     IRScannerVector->setLine(293, 285, 293, 50);
     irScanningGraphicsViewScene->addItem(IRScannerVector);
 
-    //PlatformManipulatorAndIRBumper
+    //PLATFORM-MANIPULATOR-AND-IR-BUMPER
+    platformManipulatorAndIRBumperRefreshTimer = new QTimer(this);
+    connect(platformManipulatorAndIRBumperRefreshTimer, SIGNAL(timeout()), this, SLOT(platformManipulatorAndIRBumperRefreshTimerUpdate()));
+
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene = new QGraphicsScene;
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->setSceneRect(0, 0, 246, 246);
     ui->platformManipulatorAndIRBumperLink1Link2PositionGraphicsView->setScene(platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene);
     ui->platformManipulatorAndIRBumperLink1Link2PositionGraphicsView->setRenderHint(QPainter::Antialiasing);
 
+    double man_l1 = PlatformManipulatorAndIRBumper::man_l1;
+    double man_l2 = PlatformManipulatorAndIRBumper::man_l2;
+    double man_l1_l2 = PlatformManipulatorAndIRBumper::man_l1_l2;
+    double man_l2_l3 = PlatformManipulatorAndIRBumper::man_l2_l3;
+    double man_l3 = PlatformManipulatorAndIRBumper::man_l3;
+    double rootX = PlatformManipulatorAndIRBumper::rootX;
+    double rootY = PlatformManipulatorAndIRBumper::rootY;
 
+    //link1
     platfromManipulatorLink1 = new QGraphicsLineItem;
-    platfromManipulatorLink1->setPen(QPen(Qt::darkGray, 8.0, Qt::SolidLine));
-    platfromManipulatorLink1->setLine(220, 110, 220, 230);
+    platfromManipulatorLink1->setPen(QPen(Qt::gray, 6.0, Qt::SolidLine));
+    platfromManipulatorLink1->setLine(rootX, rootY, rootX, rootY + man_l1);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1);
 
     platfromManipulatorLink1Initial = new QGraphicsLineItem;
-    platfromManipulatorLink1Initial->setPen(QPen(Qt::darkGray, 1.0, Qt::SolidLine));
-    platfromManipulatorLink1Initial->setLine(220, 110, 220, 230);
+    platfromManipulatorLink1Initial->setPen(QPen(Qt::gray, 0.5, Qt::SolidLine));
+    platfromManipulatorLink1Initial->setLine(platfromManipulatorLink1->line());
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1Initial);
 
     platfromManipulatorLink1Link2Console = new QGraphicsLineItem;
-    platfromManipulatorLink1Link2Console->setPen(QPen(Qt::darkGray, 8.0, Qt::SolidLine));
-    platfromManipulatorLink1Link2Console->setLine(220, 230, 190, 230);
+    platfromManipulatorLink1Link2Console->setPen(QPen(Qt::gray, 6.0, Qt::SolidLine));
+    platfromManipulatorLink1Link2Console->setLine(rootX, rootY + man_l1, rootX - man_l1_l2, rootY + man_l1);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1Link2Console);
-/*
+
+    platfromManipulatorLink1Helper = new QGraphicsLineItem;
+    platfromManipulatorLink1Helper->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+    platfromManipulatorLink1Helper->setLine(platfromManipulatorLink1->line());
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink1Helper);
+
+
+    //link2
     platfromManipulatorLink2 = new QGraphicsLineItem;
-    platfromManipulatorLink2->setPen(QPen(Qt::gray, 8.0, Qt::SolidLine));
-    platfromManipulatorLink2->setLine(190, 230, 190, 110);
+    platfromManipulatorLink2->setPen(QPen(Qt::gray, 6.0, Qt::SolidLine));
+    platfromManipulatorLink2->setLine(rootX - man_l1_l2, rootY + man_l1, rootX - man_l1_l2, rootY + man_l1 - man_l2);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink2);
-*/
-    platfromManipulatorHelper = new QGraphicsLineItem;
-    platfromManipulatorHelper->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
-    platfromManipulatorHelper->setLine(220, 110, 220, 230);
-    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorHelper);
+
+    platfromManipulatorLink2Initial = new QGraphicsLineItem;
+    platfromManipulatorLink2Initial->setPen(QPen(Qt::gray, 0.5, Qt::SolidLine));
+    platfromManipulatorLink2Initial->setLine(platfromManipulatorLink2->line());
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink2Initial);
+
+    platfromManipulatorLink2Link3Console = new QGraphicsLineItem;
+    platfromManipulatorLink2Link3Console->setPen(QPen(Qt::gray, 6.0, Qt::SolidLine));
+    platfromManipulatorLink2Link3Console->setLine(rootX - man_l1_l2, rootY + man_l1 - man_l2, rootX - man_l1_l2 + man_l2_l3, rootY + man_l1 - man_l2);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink2Link3Console);
+
+    platfromManipulatorLink2Helper = new QGraphicsLineItem;
+    platfromManipulatorLink2Helper->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+    platfromManipulatorLink2Helper->setLine(platfromManipulatorLink2->line());
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink2Helper);
+
+    //link3
+    platfromManipulatorLink3 = new QGraphicsLineItem;
+    platfromManipulatorLink3->setPen(QPen(Qt::gray, 6.0, Qt::SolidLine));
+    platfromManipulatorLink3->setLine(rootX - man_l1_l2 + man_l2_l3, rootY + man_l1 - man_l2, rootX - man_l1_l2 + man_l2_l3, rootY + man_l1 - man_l2 - man_l3);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink3);
+
+    platfromManipulatorLink3Initial = new QGraphicsLineItem;
+    platfromManipulatorLink3Initial->setPen(QPen(Qt::gray, 0.5, Qt::SolidLine));
+    platfromManipulatorLink3Initial->setLine(platfromManipulatorLink3->line());
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink3Initial);
+
+    platfromManipulatorLink3Helper = new QGraphicsLineItem;
+    platfromManipulatorLink3Helper->setPen(QPen(Qt::black, 1.0, Qt::DashLine));
+    platfromManipulatorLink3Helper->setLine(platfromManipulatorLink3->line());
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(platfromManipulatorLink3Helper);
 
     QBrush brush;
 
     link1RootPoint = new QGraphicsEllipseItem;
-    link1RootPoint->setRect(214, 104, 12, 12);
+    link1RootPoint->setRect(rootX - 6, rootY - 6, 12, 12);
     brush = link1RootPoint->brush();
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::lightGray);
@@ -265,15 +311,25 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1RootPoint);
 
     link1link2Point = new QGraphicsEllipseItem;
-    link1link2Point->setRect(184, 224, 12, 12);
+    link1link2Point->setPos(rootX - man_l1_l2 - 6, rootY + man_l1 - 6);
+    link1link2Point->setRect(0, 0, 12, 12);
     brush = link1link2Point->brush();
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(Qt::gray);
     link1link2Point->setBrush(brush);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1link2Point);
 
+    link2link3Point = new QGraphicsEllipseItem;
+    link2link3Point->setPos(rootX - man_l1_l2 + man_l2_l3 - 6, rootY + man_l1 - man_l2 - 6);
+    link2link3Point->setRect(0, 0, 12, 12);
+    brush = link2link3Point->brush();
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::lightGray);
+    link2link3Point->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link2link3Point);
+
     link1EndPoint = new Link1EndPointViewItem;
-    link1EndPoint->setPos(QPointF(214, 224));
+    link1EndPoint->setPos(rootX - 6, rootY + man_l1 - 6);
     link1EndPoint->setRect(0, 0, 12, 12);
     brush = link1EndPoint->brush();
     brush.setStyle(Qt::SolidPattern);
@@ -281,7 +337,43 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     link1EndPoint->setBrush(brush);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link1EndPoint);
 
+    link2EndPoint = new Link2EndPointViewItem;
+    link2EndPoint->setPos(rootX - man_l1_l2 - 6, rootY + man_l1 - man_l2 - 6);
+    link2EndPoint->setRect(0, 0, 12, 12);
+    brush = link2EndPoint->brush();
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::darkGreen);
+    link2EndPoint->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link2EndPoint);
 
+    link3EndPoint = new Link3EndPointViewItem;
+    link3EndPoint->setPos(rootX - man_l1_l2 + man_l2_l3 - 6, rootY + man_l1 - man_l2 - man_l3 - 6);
+    link3EndPoint->setRect(0, 0, 12, 12);
+    brush = link3EndPoint->brush();
+    brush.setStyle(Qt::SolidPattern);
+    brush.setColor(Qt::darkGreen);
+    link3EndPoint->setBrush(brush);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(link3EndPoint);
+
+    QFont font = QFont();
+    font.setPixelSize(10);
+    alpha = new QGraphicsTextItem;
+    alpha->setPos(rootX + 5, rootY - 5);
+    alpha->setPlainText("α:0.00");
+    alpha->setFont(font);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(alpha);
+
+    beta = new QGraphicsTextItem;
+    beta->setPos(rootX - man_l1_l2 - 20, rootY + man_l1);
+    beta->setPlainText("β:0.00");
+    beta->setFont(font);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(beta);
+
+    gamma = new QGraphicsTextItem;
+    gamma->setPos(rootX - man_l1_l2 + man_l2_l3 + 5, rootY + man_l1 - man_l2 - 15);
+    gamma->setPlainText("γ:0.00");
+    gamma->setFont(font);
+    platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(gamma);
 }
 
 MainWindow::~MainWindow()
@@ -1758,5 +1850,22 @@ void MainWindow::on_bottomRearLedsButton_toggled(bool checked)
     platformControlP2->setBottomRearLeds(checked);
 }
 
+void MainWindow::platformManipulatorAndIRBumperRefreshTimerUpdate()
+{
+    platformManipulatorAndIRBumperRefreshTimerUpdateWorker(ui);
+}
+
 //PLATFORM-MANIPULATOR-AND-IR-BUMPER
 
+
+void MainWindow::on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool checked)
+{
+    if (checked)
+    {
+        platformManipulatorAndIRBumperRefreshTimer->start(50);
+    }
+    else
+    {
+        platformManipulatorAndIRBumperRefreshTimer->stop();
+    }
+}

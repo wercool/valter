@@ -10,6 +10,17 @@ bool PlatformManipulatorAndIRBumper::instanceFlag = false;
 const string PlatformManipulatorAndIRBumper::controlDeviceId = "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
 const string PlatformManipulatorAndIRBumper::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-manipulator-and-ir-bumper";
 
+const double PlatformManipulatorAndIRBumper::rootX = 220;
+const double PlatformManipulatorAndIRBumper::rootY = 130;
+const double PlatformManipulatorAndIRBumper::man_l1      = 120;
+const double PlatformManipulatorAndIRBumper::man_l2      = 128;
+const double PlatformManipulatorAndIRBumper::man_l1_l2   = 30;
+const double PlatformManipulatorAndIRBumper::man_l2_l3   = 10;
+const double PlatformManipulatorAndIRBumper::man_l3      = 40;
+double PlatformManipulatorAndIRBumper::man_a    = 0.0;
+double PlatformManipulatorAndIRBumper::man_b    = 0.0;
+double PlatformManipulatorAndIRBumper::man_g    = 0.0;
+
 PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
 {
     Valter::log(PlatformManipulatorAndIRBumper::controlDeviceId + " singleton started");

@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>1022</height>
+             <width>781</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3741,7 +3741,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>838</width>
+             <width>98</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7482,8 +7482,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>670</height>
+             <width>821</width>
+             <height>740</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -7500,7 +7500,7 @@ background-repeat: repeat-no;</string>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>650</height>
+                  <height>720</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -7603,127 +7603,114 @@ background-repeat: repeat-no;</string>
                          </property>
                         </widget>
                        </item>
-                       <item>
-                        <layout class="QGridLayout" name="gridLayout_7">
-                         <property name="leftMargin">
-                          <number>0</number>
-                         </property>
-                         <item row="1" column="1">
-                          <widget class="QLCDNumber" name="lcdNumber_6">
-                           <property name="minimumSize">
-                            <size>
-                             <width>70</width>
-                             <height>24</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>16777215</width>
-                             <height>25</height>
-                            </size>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">background-color: rgb(255, 255, 255);</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="1" column="0">
-                          <widget class="QLCDNumber" name="lcdNumber_4">
-                           <property name="minimumSize">
-                            <size>
-                             <width>70</width>
-                             <height>24</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>16777215</width>
-                             <height>25</height>
-                            </size>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">background-color: rgb(255, 255, 255);</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="0" column="1">
-                          <widget class="QLabel" name="label_89">
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>50</weight>
-                             <bold>false</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Current</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="0" column="0">
-                          <widget class="QLabel" name="label_88">
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>50</weight>
-                             <bold>false</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Position</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="2" column="0">
-                          <widget class="QCheckBox" name="checkBox">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>15</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <pointsize>8</pointsize>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>ADC</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="2" column="1">
-                          <widget class="QCheckBox" name="checkBox_2">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>15</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <pointsize>8</pointsize>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>ADC</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                       <item>
-                        <spacer name="horizontalSpacer_14">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QGridLayout" name="gridLayout_7">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <item row="1" column="1">
+                        <widget class="QLCDNumber" name="lcdNumber_6">
+                         <property name="minimumSize">
                           <size>
-                           <width>40</width>
-                           <height>20</height>
+                           <width>70</width>
+                           <height>24</height>
                           </size>
                          </property>
-                        </spacer>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 255, 255);</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="0">
+                        <widget class="QLCDNumber" name="lcdNumber_4">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>24</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 255, 255);</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QLabel" name="label_89">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Current</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="0">
+                        <widget class="QCheckBox" name="checkBox">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>15</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>8</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>ADC</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="1">
+                        <widget class="QCheckBox" name="checkBox_2">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>15</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>8</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>ADC</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QLabel" name="label_92">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Position</string>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </item>
@@ -7996,127 +7983,114 @@ background-repeat: repeat-no;</string>
                          </property>
                         </widget>
                        </item>
-                       <item>
-                        <layout class="QGridLayout" name="gridLayout_8">
-                         <property name="leftMargin">
-                          <number>0</number>
-                         </property>
-                         <item row="1" column="1">
-                          <widget class="QLCDNumber" name="lcdNumber_7">
-                           <property name="minimumSize">
-                            <size>
-                             <width>70</width>
-                             <height>24</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>16777215</width>
-                             <height>25</height>
-                            </size>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">background-color: rgb(255, 255, 255);</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="1" column="0">
-                          <widget class="QLCDNumber" name="lcdNumber_5">
-                           <property name="minimumSize">
-                            <size>
-                             <width>70</width>
-                             <height>24</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>16777215</width>
-                             <height>25</height>
-                            </size>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">background-color: rgb(255, 255, 255);</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="0" column="1">
-                          <widget class="QLabel" name="label_90">
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>50</weight>
-                             <bold>false</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Current</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="0" column="0">
-                          <widget class="QLabel" name="label_91">
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>50</weight>
-                             <bold>false</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Position</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="2" column="0">
-                          <widget class="QCheckBox" name="checkBox_3">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>15</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <pointsize>8</pointsize>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>ADC</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="2" column="1">
-                          <widget class="QCheckBox" name="checkBox_4">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>15</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <pointsize>8</pointsize>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>ADC</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                       <item>
-                        <spacer name="horizontalSpacer_17">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QGridLayout" name="gridLayout_8">
+                       <property name="leftMargin">
+                        <number>0</number>
+                       </property>
+                       <item row="1" column="1">
+                        <widget class="QLCDNumber" name="lcdNumber_7">
+                         <property name="minimumSize">
                           <size>
-                           <width>40</width>
-                           <height>20</height>
+                           <width>70</width>
+                           <height>24</height>
                           </size>
                          </property>
-                        </spacer>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 255, 255);</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="1" column="0">
+                        <widget class="QLCDNumber" name="lcdNumber_5">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>24</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>16777215</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 255, 255);</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="1">
+                        <widget class="QLabel" name="label_90">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Current</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="0" column="0">
+                        <widget class="QLabel" name="label_91">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>Position</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="0">
+                        <widget class="QCheckBox" name="checkBox_3">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>15</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>8</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>ADC</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item row="2" column="1">
+                        <widget class="QCheckBox" name="checkBox_4">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>15</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>8</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>ADC</string>
+                         </property>
+                        </widget>
                        </item>
                       </layout>
                      </item>
@@ -8304,35 +8278,12 @@ background-repeat: repeat-no;</string>
                     </layout>
                    </item>
                    <item>
-                    <widget class="QGraphicsView" name="platformManipulatorAndIRBumperLink1Link2PositionGraphicsView">
-                     <property name="minimumSize">
-                      <size>
-                       <width>250</width>
-                       <height>250</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>250</width>
-                       <height>250</height>
-                      </size>
+                    <widget class="Line" name="line_39">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
                      </property>
                     </widget>
                    </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="Line" name="line_37">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_75">
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_26">
                      <item>
@@ -8795,6 +8746,187 @@ background-repeat: repeat-no;</string>
                     </layout>
                    </item>
                    <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_27">
+                     <property name="leftMargin">
+                      <number>0</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>0</number>
+                     </property>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_82">
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QLabel" name="label_93">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>α</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLCDNumber" name="platformManipulatorAngleALcdNumber">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>24</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>70</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="digitCount">
+                          <number>5</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_94">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>β</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLCDNumber" name="platformManipulatorAngleBLcdNumber">
+                         <property name="minimumSize">
+                          <size>
+                           <width>70</width>
+                           <height>24</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>70</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="digitCount">
+                          <number>5</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLabel" name="label_95">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>γ</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QLCDNumber" name="platformManipulatorAngleGLcdNumber">
+                         <property name="minimumSize">
+                          <size>
+                           <width>75</width>
+                           <height>24</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>70</width>
+                           <height>25</height>
+                          </size>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 255, 255);</string>
+                         </property>
+                         <property name="digitCount">
+                          <number>6</number>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <spacer name="horizontalSpacer_13">
+                         <property name="orientation">
+                          <enum>Qt::Horizontal</enum>
+                         </property>
+                         <property name="sizeHint" stdset="0">
+                          <size>
+                           <width>40</width>
+                           <height>20</height>
+                          </size>
+                         </property>
+                        </spacer>
+                       </item>
+                      </layout>
+                     </item>
+                     <item alignment="Qt::AlignHCenter">
+                      <widget class="QGraphicsView" name="platformManipulatorAndIRBumperLink1Link2PositionGraphicsView">
+                       <property name="minimumSize">
+                        <size>
+                         <width>300</width>
+                         <height>300</height>
+                        </size>
+                       </property>
+                       <property name="maximumSize">
+                        <size>
+                         <width>300</width>
+                         <height>300</height>
+                        </size>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer_12">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>40</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_37">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_75">
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
                     <widget class="QTableWidget" name="tableWidget">
                      <property name="minimumSize">
                       <size>
@@ -8899,7 +9031,7 @@ background-repeat: repeat-no;</string>
                        <string/>
                       </property>
                       <property name="textAlignment">
-                       <set>AlignCenter</set>
+                       <set>AlignHCenter|AlignVCenter|AlignCenter</set>
                       </property>
                       <property name="checkState">
                        <enum>Checked</enum>
@@ -9198,6 +9330,19 @@ background-repeat: repeat-no;</string>
                       </property>
                      </item>
                     </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_14">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
                    </item>
                   </layout>
                  </item>
