@@ -130,8 +130,6 @@ private slots:
 
     void on_wdResetOnButton_clicked();
 
-    void on_stopAllPlatformControlP1Button_clicked();
-
     void platformControlP1TabRefreshTimerUpdate();
 
     void delayedGUIActionsProcessingTimerUpdate();

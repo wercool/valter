@@ -754,12 +754,6 @@ void MainWindow::on_wdResetOnButton_clicked()
     }
 }
 
-void MainWindow::on_stopAllPlatformControlP1Button_clicked()
-{
-    qDebug("STOP ALL at PlatformControlP1");
-    Valter::getInstance()->stopAllModules();
-}
-
 void MainWindow::delayedGUIActionsProcessingTimerUpdate()
 {
     map<string, IValterModule*> valterModulesMap = Valter::getInstance()->getValterModulesMap();

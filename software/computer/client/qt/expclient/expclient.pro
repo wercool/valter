@@ -46,7 +46,7 @@ HEADERS  += mainwindow.h \
             gui/platformmanipulatorandirbumperGUI.h \
             gui/link1endpointviewitem.h \
             gui/link2endpointviewitem.h \
-    gui/link3endpointviewitem.h
+            gui/link3endpointviewitem.h
 
 FORMS    += mainwindow.ui
 
