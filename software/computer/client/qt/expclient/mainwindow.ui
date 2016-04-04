@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -9801,6 +9801,24 @@ background-repeat: repeat-no;</string>
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="utilitiesTab">
+       <attribute name="title">
+        <string>Utilities</string>
+       </attribute>
+       <widget class="QPushButton" name="valter3dOpenButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>99</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Valter 3D</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>

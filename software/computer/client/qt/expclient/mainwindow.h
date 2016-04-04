@@ -14,6 +14,8 @@
 #include <valter.h>
 #include <ivaltermodule.h>
 
+#include <valter3d.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -31,6 +33,8 @@ public:
     void refreshControlDeviceTableWidget();
     void addMsgToLog(string msg);
     void delayGUIAction(IValterModule *valterModule);
+
+    Valter3d* valter3d;
 
     //helpers
     QPixmap redLedOffPix;
@@ -407,11 +411,15 @@ private slots:
 
     void on_detachManipulatorFrameButton_clicked();
 
+    void on_valter3dOpenButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
     QLabel *statusBarText;
     static bool instanceFlag;
+
+    //control devices
     static const int logMaxLength = 5000;
     int logLength;
     QTimer *controlDevicesDataExchangeLogTimer;
@@ -432,6 +440,16 @@ private:
 
     //platform-manipulator-and-ir-bumper
     QTimer *platformManipulatorAndIRBumperRefreshTimer;
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *)
+    {
+        if (valter3d != 0)
+        {
+            valter3d->close();
+        }
+    }
 };
 
 #endif // MAINWINDOW_H

@@ -2,6 +2,8 @@
 #include "ui_mainwindow.h"
 #include <sys/time.h>
 
+#include <QtQuick/QQuickView>
+
 #include<gui/guihelpers.h>
 
 #include <valter.h>
@@ -24,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     statusBarText = new QLabel();
     statusBar()->addWidget(statusBarText, 1);
+
+    valter3d = 0;
 
     setWindowIcon(QIcon(":/valter_head_icon.png"));
 
@@ -1882,4 +1886,16 @@ void MainWindow::on_detachManipulatorFrameButton_clicked()
     pWidget->setWindowTitle("Platform Manipulator");
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
+}
+
+void MainWindow::on_valter3dOpenButton_clicked()
+{
+    if (!valter3d)
+    {
+        QQuickView *view = new QQuickView();
+        view->setSource(QUrl("qrc:/valter3d/valter3dView.qml"));
+        valter3d = (Valter3d*) Valter3d::createWindowContainer(view);
+        valter3d->setWindowTitle("Valter 3D");
+    }
+    valter3d->show();
 }

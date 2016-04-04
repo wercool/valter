@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/valter3d">
+        <file>valter3dView.qml</file>
+    </qresource>
+</RCC>

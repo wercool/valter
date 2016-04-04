@@ -6,7 +6,8 @@
 
 QT       += core
 QT       += gui
-#QT       += opengl
+QT       += quick
+QT       += qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,7 +26,8 @@ SOURCES += main.cpp\
            platformlocationp1.cpp \
            platformcontrolp2.cpp \
            platformmanipulatorandirbumper.cpp \
-           bodycontrolp1.cpp
+           bodycontrolp1.cpp \
+           valter3d.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -46,7 +48,8 @@ HEADERS  += mainwindow.h \
             gui/platformmanipulatorandirbumperGUI.h \
             gui/link1endpointviewitem.h \
             gui/link2endpointviewitem.h \
-            gui/link3endpointviewitem.h
+            gui/link3endpointviewitem.h \
+            valter3d.h
 
 FORMS    += mainwindow.ui
 
@@ -55,4 +58,5 @@ DISTFILES +=
 CONFIG += c++11
 
 RESOURCES += \
-    resources/platform-location.qrc
+            resources/platform-location.qrc \
+    valter3d.qrc
