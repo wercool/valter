@@ -188,4 +188,29 @@ class IRScanningFrameEventFilter: public QObject
   }
 };
 
+class PlatfromManipulatorFrameEventFilter: public QObject
+{
+  public:
+  Ui::MainWindow *ui;
+  PlatfromManipulatorFrameEventFilter(Ui::MainWindow *ui):QObject()
+  {
+      this->ui = ui;
+  }
+
+  ~PlatfromManipulatorFrameEventFilter(){}
+
+  bool eventFilter(QObject* widget, QEvent* event)
+  {
+      if(event->type() == QEvent::Close)
+      {
+          ui->manipualtorFrameContainer->addWidget((QWidget*)widget);
+          return true;
+      }
+      else
+      {
+        return QObject::eventFilter(widget, event);
+      }
+  }
+};
+
 #endif // GUIHELPERS_H

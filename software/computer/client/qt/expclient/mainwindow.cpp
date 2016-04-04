@@ -1863,3 +1863,23 @@ void MainWindow::on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool
         platformManipulatorAndIRBumperRefreshTimer->stop();
     }
 }
+
+void MainWindow::on_platformManipulatorExecuteAngleSettingsButton_clicked()
+{
+    Link1EndPointViewItem* plink1EndPoint = (Link1EndPointViewItem*)link1EndPoint;
+    Link2EndPointViewItem* plink2EndPoint = (Link2EndPointViewItem*)link2EndPoint;
+    Link3EndPointViewItem* plink3EndPoint = (Link3EndPointViewItem*)link3EndPoint;
+
+    plink1EndPoint->setAngle(ui->platformManipulatorAngleASpinBox->value() * M_PI / 180, false);
+    plink2EndPoint->setAngle(ui->platformManipulatorAngleBSpinBox->value() * M_PI / 180, false);
+    plink3EndPoint->setAngle(ui->platformManipulatorAngleGSpinBox->value() * M_PI / 180, false);
+}
+
+void MainWindow::on_detachManipulatorFrameButton_clicked()
+{
+    QWidget* pWidget = ui->manipualtorFrame;
+    pWidget->installEventFilter(new PlatfromManipulatorFrameEventFilter(ui));
+    pWidget->setWindowTitle("Platform Manipulator");
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
+}

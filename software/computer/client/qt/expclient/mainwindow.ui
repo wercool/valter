@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>781</width>
-             <height>1016</height>
+             <width>820</width>
+             <height>1022</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3741,7 +3741,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
+             <width>838</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7444,7 +7444,7 @@ background-repeat: repeat-no;</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="detachManipulatorFrameButton">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -7482,8 +7482,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>740</height>
+             <width>820</width>
+             <height>885</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -7500,7 +7500,7 @@ background-repeat: repeat-no;</string>
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>720</height>
+                  <height>530</height>
                  </size>
                 </property>
                 <property name="maximumSize">
@@ -7883,7 +7883,272 @@ background-repeat: repeat-no;</string>
                       </widget>
                      </item>
                      <item>
-                      <spacer name="verticalSpacer_10">
+                      <widget class="Line" name="line_40">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="label_69">
+                       <property name="font">
+                        <font>
+                         <pointsize>10</pointsize>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Gripper Tilt</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_71">
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_4">
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>22</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>↑</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_3">
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>22</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>↓</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QVBoxLayout" name="verticalLayout_33">
+                         <property name="spacing">
+                          <number>2</number>
+                         </property>
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="label_104">
+                           <property name="font">
+                            <font>
+                             <pointsize>10</pointsize>
+                             <weight>50</weight>
+                             <bold>false</bold>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Position</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="lcdNumber">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>24</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>25</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">background-color: rgb(255, 255, 255);</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QCheckBox" name="checkBox_5">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>15</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <pointsize>8</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>ADC</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <widget class="Line" name="line_35">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLabel" name="label_79">
+                       <property name="font">
+                        <font>
+                         <pointsize>10</pointsize>
+                         <weight>75</weight>
+                         <bold>true</bold>
+                        </font>
+                       </property>
+                       <property name="text">
+                        <string>Gripper Open/Close</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_74">
+                       <property name="spacing">
+                        <number>2</number>
+                       </property>
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_7">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>45</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>16</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>↤↦</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPushButton" name="pushButton_8">
+                         <property name="minimumSize">
+                          <size>
+                           <width>0</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>45</width>
+                           <height>40</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>16</pointsize>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>↦↤</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <layout class="QVBoxLayout" name="verticalLayout_35">
+                         <property name="spacing">
+                          <number>2</number>
+                         </property>
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="label_106">
+                           <property name="font">
+                            <font>
+                             <pointsize>10</pointsize>
+                             <weight>50</weight>
+                             <bold>false</bold>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>Position</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QLCDNumber" name="lcdNumber_3">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>24</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>25</height>
+                            </size>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true">background-color: rgb(255, 255, 255);</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QCheckBox" name="checkBox_7">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>15</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <pointsize>8</pointsize>
+                            </font>
+                           </property>
+                           <property name="text">
+                            <string>ADC</string>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer_9">
                        <property name="orientation">
                         <enum>Qt::Vertical</enum>
                        </property>
@@ -8263,149 +8528,7 @@ background-repeat: repeat-no;</string>
                       </widget>
                      </item>
                      <item>
-                      <spacer name="verticalSpacer_11">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>20</width>
-                         <height>40</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="Line" name="line_39">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_26">
-                     <item>
-                      <widget class="QLabel" name="label_69">
-                       <property name="font">
-                        <font>
-                         <pointsize>10</pointsize>
-                         <weight>75</weight>
-                         <bold>true</bold>
-                        </font>
-                       </property>
-                       <property name="text">
-                        <string>Gripper Tilt</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_71">
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
-                       <item>
-                        <widget class="QPushButton" name="pushButton_4">
-                         <property name="maximumSize">
-                          <size>
-                           <width>40</width>
-                           <height>40</height>
-                          </size>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <pointsize>22</pointsize>
-                          </font>
-                         </property>
-                         <property name="text">
-                          <string>↑</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QPushButton" name="pushButton_3">
-                         <property name="maximumSize">
-                          <size>
-                           <width>40</width>
-                           <height>40</height>
-                          </size>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <pointsize>22</pointsize>
-                          </font>
-                         </property>
-                         <property name="text">
-                          <string>↓</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <layout class="QVBoxLayout" name="verticalLayout_33">
-                         <property name="spacing">
-                          <number>2</number>
-                         </property>
-                         <property name="leftMargin">
-                          <number>0</number>
-                         </property>
-                         <item>
-                          <widget class="QLabel" name="label_104">
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>50</weight>
-                             <bold>false</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Position</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLCDNumber" name="lcdNumber">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>24</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>16777215</width>
-                             <height>25</height>
-                            </size>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">background-color: rgb(255, 255, 255);</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QCheckBox" name="checkBox_5">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>15</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <pointsize>8</pointsize>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>ADC</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                      </layout>
-                     </item>
-                     <item>
-                      <widget class="Line" name="line_35">
+                      <widget class="Line" name="line_41">
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
@@ -8422,6 +8545,25 @@ background-repeat: repeat-no;</string>
                        </property>
                        <property name="text">
                         <string>Gripper Rotation</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QProgressBar" name="progressBar">
+                       <property name="maximumSize">
+                        <size>
+                         <width>16777215</width>
+                         <height>10</height>
+                        </size>
+                       </property>
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="value">
+                        <number>1</number>
+                       </property>
+                       <property name="textVisible">
+                        <bool>false</bool>
                        </property>
                       </widget>
                      </item>
@@ -8530,25 +8672,6 @@ background-repeat: repeat-no;</string>
                       </layout>
                      </item>
                      <item>
-                      <widget class="QProgressBar" name="progressBar">
-                       <property name="maximumSize">
-                        <size>
-                         <width>16777215</width>
-                         <height>10</height>
-                        </size>
-                       </property>
-                       <property name="minimum">
-                        <number>1</number>
-                       </property>
-                       <property name="value">
-                        <number>1</number>
-                       </property>
-                       <property name="textVisible">
-                        <bool>false</bool>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_73">
                        <property name="leftMargin">
                         <number>0</number>
@@ -8590,148 +8713,113 @@ background-repeat: repeat-no;</string>
                        </property>
                       </widget>
                      </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <widget class="Line" name="line_39">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_28">
+                     <property name="topMargin">
+                      <number>5</number>
+                     </property>
                      <item>
-                      <widget class="Line" name="line_36">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QLabel" name="label_79">
-                       <property name="font">
-                        <font>
-                         <pointsize>10</pointsize>
-                         <weight>75</weight>
-                         <bold>true</bold>
-                        </font>
-                       </property>
-                       <property name="text">
-                        <string>Gripper Open/Close</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <layout class="QHBoxLayout" name="horizontalLayout_74">
-                       <property name="spacing">
-                        <number>2</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>0</number>
-                       </property>
+                      <layout class="QHBoxLayout" name="horizontalLayout_85">
                        <item>
-                        <widget class="QPushButton" name="pushButton_7">
-                         <property name="minimumSize">
-                          <size>
-                           <width>0</width>
-                           <height>40</height>
-                          </size>
-                         </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>45</width>
-                           <height>40</height>
-                          </size>
-                         </property>
+                        <widget class="QLabel" name="label_96">
                          <property name="font">
                           <font>
-                           <pointsize>16</pointsize>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
                           </font>
                          </property>
                          <property name="text">
-                          <string>↤↦</string>
+                          <string>α</string>
                          </property>
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPushButton" name="pushButton_8">
-                         <property name="minimumSize">
-                          <size>
-                           <width>0</width>
-                           <height>40</height>
-                          </size>
+                        <widget class="QDoubleSpinBox" name="platformManipulatorAngleASpinBox">
+                         <property name="minimum">
+                          <double>-90.000000000000000</double>
                          </property>
-                         <property name="maximumSize">
-                          <size>
-                           <width>45</width>
-                           <height>40</height>
-                          </size>
-                         </property>
-                         <property name="font">
-                          <font>
-                           <pointsize>16</pointsize>
-                          </font>
-                         </property>
-                         <property name="text">
-                          <string>↦↤</string>
+                         <property name="maximum">
+                          <double>90.000000000000000</double>
                          </property>
                         </widget>
-                       </item>
-                       <item>
-                        <layout class="QVBoxLayout" name="verticalLayout_35">
-                         <property name="spacing">
-                          <number>2</number>
-                         </property>
-                         <property name="leftMargin">
-                          <number>0</number>
-                         </property>
-                         <item>
-                          <widget class="QLabel" name="label_106">
-                           <property name="font">
-                            <font>
-                             <pointsize>10</pointsize>
-                             <weight>50</weight>
-                             <bold>false</bold>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>Position</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLCDNumber" name="lcdNumber_3">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>24</height>
-                            </size>
-                           </property>
-                           <property name="maximumSize">
-                            <size>
-                             <width>16777215</width>
-                             <height>25</height>
-                            </size>
-                           </property>
-                           <property name="styleSheet">
-                            <string notr="true">background-color: rgb(255, 255, 255);</string>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QCheckBox" name="checkBox_7">
-                           <property name="minimumSize">
-                            <size>
-                             <width>0</width>
-                             <height>15</height>
-                            </size>
-                           </property>
-                           <property name="font">
-                            <font>
-                             <pointsize>8</pointsize>
-                            </font>
-                           </property>
-                           <property name="text">
-                            <string>ADC</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
                        </item>
                       </layout>
                      </item>
                      <item>
-                      <spacer name="verticalSpacer_8">
+                      <layout class="QHBoxLayout" name="horizontalLayout_84">
+                       <item>
+                        <widget class="QLabel" name="label_97">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>β</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QDoubleSpinBox" name="platformManipulatorAngleBSpinBox">
+                         <property name="minimum">
+                          <double>-90.000000000000000</double>
+                         </property>
+                         <property name="maximum">
+                          <double>90.000000000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_83">
+                       <item>
+                        <widget class="QLabel" name="label_107">
+                         <property name="font">
+                          <font>
+                           <pointsize>10</pointsize>
+                           <weight>50</weight>
+                           <bold>false</bold>
+                          </font>
+                         </property>
+                         <property name="text">
+                          <string>γ</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QDoubleSpinBox" name="platformManipulatorAngleGSpinBox">
+                         <property name="minimum">
+                          <double>-90.000000000000000</double>
+                         </property>
+                         <property name="maximum">
+                          <double>90.000000000000000</double>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="platformManipulatorExecuteAngleSettingsButton">
+                       <property name="text">
+                        <string>Execute</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer_12">
                        <property name="orientation">
                         <enum>Qt::Vertical</enum>
                        </property>
@@ -8762,7 +8850,7 @@ background-repeat: repeat-no;</string>
                         <widget class="QLabel" name="label_93">
                          <property name="font">
                           <font>
-                           <pointsize>10</pointsize>
+                           <pointsize>11</pointsize>
                            <weight>50</weight>
                            <bold>false</bold>
                           </font>
@@ -8798,7 +8886,7 @@ background-repeat: repeat-no;</string>
                         <widget class="QLabel" name="label_94">
                          <property name="font">
                           <font>
-                           <pointsize>10</pointsize>
+                           <pointsize>11</pointsize>
                            <weight>50</weight>
                            <bold>false</bold>
                           </font>
@@ -8834,7 +8922,7 @@ background-repeat: repeat-no;</string>
                         <widget class="QLabel" name="label_95">
                          <property name="font">
                           <font>
-                           <pointsize>10</pointsize>
+                           <pointsize>11</pointsize>
                            <weight>50</weight>
                            <bold>false</bold>
                           </font>
@@ -8866,19 +8954,6 @@ background-repeat: repeat-no;</string>
                          </property>
                         </widget>
                        </item>
-                       <item>
-                        <spacer name="horizontalSpacer_13">
-                         <property name="orientation">
-                          <enum>Qt::Horizontal</enum>
-                         </property>
-                         <property name="sizeHint" stdset="0">
-                          <size>
-                           <width>40</width>
-                           <height>20</height>
-                          </size>
-                         </property>
-                        </spacer>
-                       </item>
                       </layout>
                      </item>
                      <item alignment="Qt::AlignHCenter">
@@ -8898,7 +8973,7 @@ background-repeat: repeat-no;</string>
                       </widget>
                      </item>
                      <item>
-                      <spacer name="verticalSpacer_12">
+                      <spacer name="verticalSpacer_8">
                        <property name="orientation">
                         <enum>Qt::Vertical</enum>
                        </property>
@@ -8914,453 +8989,433 @@ background-repeat: repeat-no;</string>
                    </item>
                   </layout>
                  </item>
-                 <item>
-                  <widget class="Line" name="line_37">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QHBoxLayout" name="horizontalLayout_75">
-                   <property name="topMargin">
-                    <number>0</number>
-                   </property>
-                   <item>
-                    <widget class="QTableWidget" name="tableWidget">
-                     <property name="minimumSize">
-                      <size>
-                       <width>597</width>
-                       <height>327</height>
-                      </size>
-                     </property>
-                     <property name="maximumSize">
-                      <size>
-                       <width>600</width>
-                       <height>16777215</height>
-                      </size>
-                     </property>
-                     <property name="sizeAdjustPolicy">
-                      <enum>QAbstractScrollArea::AdjustIgnored</enum>
-                     </property>
-                     <property name="showGrid">
-                      <bool>true</bool>
-                     </property>
-                     <property name="cornerButtonEnabled">
-                      <bool>false</bool>
-                     </property>
-                     <attribute name="horizontalHeaderCascadingSectionResizes">
-                      <bool>false</bool>
-                     </attribute>
-                     <attribute name="horizontalHeaderMinimumSectionSize">
-                      <number>60</number>
-                     </attribute>
-                     <attribute name="horizontalHeaderStretchLastSection">
-                      <bool>true</bool>
-                     </attribute>
-                     <attribute name="verticalHeaderCascadingSectionResizes">
-                      <bool>false</bool>
-                     </attribute>
-                     <row>
-                      <property name="text">
-                       <string>CH0 Gripper Tilt</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH1 Gripper Rotation</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH2 Gripper Position</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH3 Gripper Force Sensor 1</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH4 Gripper Force Sensor 2</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH5 Gripper Force Sensor 3</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH6 Gripper Object Detector</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH7 Gripper Tilt Motor Current</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH8 Gripper Open/Close Motor Current</string>
-                      </property>
-                     </row>
-                     <row>
-                      <property name="text">
-                       <string>CH9 Gripper Rotation Motor Current</string>
-                      </property>
-                     </row>
-                     <column>
-                      <property name="text">
-                       <string>Track</string>
-                      </property>
-                     </column>
-                     <column>
-                      <property name="text">
-                       <string>ADC</string>
-                      </property>
-                     </column>
-                     <column>
-                      <property name="text">
-                       <string>Reading</string>
-                      </property>
-                     </column>
-                     <item row="0" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="textAlignment">
-                       <set>AlignHCenter|AlignVCenter|AlignCenter</set>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="0" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="0" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="1" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="1" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="1" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="2" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="2" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="2" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="3" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="3" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="3" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="4" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="4" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="4" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="5" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="5" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="5" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="6" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="6" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="6" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="7" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="7" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="7" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="8" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="8" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="8" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="9" column="0">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="9" column="1">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="checkState">
-                       <enum>Checked</enum>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                     <item row="9" column="2">
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="flags">
-                       <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                      </property>
-                     </item>
-                    </widget>
-                   </item>
-                   <item>
-                    <spacer name="horizontalSpacer_14">
-                     <property name="orientation">
-                      <enum>Qt::Horizontal</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>40</width>
-                       <height>20</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer_9">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
                </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_75">
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QTableWidget" name="tableWidget">
+                <property name="minimumSize">
+                 <size>
+                  <width>597</width>
+                  <height>327</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>600</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="sizeAdjustPolicy">
+                 <enum>QAbstractScrollArea::AdjustIgnored</enum>
+                </property>
+                <property name="showGrid">
+                 <bool>true</bool>
+                </property>
+                <property name="cornerButtonEnabled">
+                 <bool>false</bool>
+                </property>
+                <attribute name="horizontalHeaderCascadingSectionResizes">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="horizontalHeaderMinimumSectionSize">
+                 <number>60</number>
+                </attribute>
+                <attribute name="horizontalHeaderStretchLastSection">
+                 <bool>true</bool>
+                </attribute>
+                <attribute name="verticalHeaderCascadingSectionResizes">
+                 <bool>false</bool>
+                </attribute>
+                <row>
+                 <property name="text">
+                  <string>CH0 Gripper Tilt</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH1 Gripper Rotation</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH2 Gripper Position</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH3 Gripper Force Sensor 1</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH4 Gripper Force Sensor 2</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH5 Gripper Force Sensor 3</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH6 Gripper Object Detector</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH7 Gripper Tilt Motor Current</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH8 Gripper Open/Close Motor Current</string>
+                 </property>
+                </row>
+                <row>
+                 <property name="text">
+                  <string>CH9 Gripper Rotation Motor Current</string>
+                 </property>
+                </row>
+                <column>
+                 <property name="text">
+                  <string>Track</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>ADC</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Reading</string>
+                 </property>
+                </column>
+                <item row="0" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="textAlignment">
+                  <set>AlignCenter</set>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="0" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="0" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="1" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="1" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="1" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="2" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="2" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="2" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="3" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="3" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="3" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="4" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="4" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="4" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="5" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="5" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="5" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="6" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="6" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="6" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="7" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="7" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="7" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="8" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="8" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="8" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="9" column="0">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="9" column="1">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="checkState">
+                  <enum>Checked</enum>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+                <item row="9" column="2">
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="flags">
+                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_14">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
             </item>

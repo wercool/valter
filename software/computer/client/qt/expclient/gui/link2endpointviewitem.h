@@ -9,6 +9,8 @@
 
 #include <valter.h>
 
+#include <gui/platformmanipulatorandirbumperGUI.h>
+
 class Link2EndPointViewItem : public QGraphicsEllipseItem
 {
 private:
@@ -16,6 +18,7 @@ private:
 
 public:
     Link2EndPointViewItem();
+    void setAngle(float b, bool manual);
 
     // QGraphicsItem interface
 protected:
@@ -38,10 +41,6 @@ void Link2EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     this->setPos(event->scenePos().x() - 6, event->scenePos().y() - 6);
 
-    double man_l2 = PlatformManipulatorAndIRBumper::man_l2;
-    double man_l3 = PlatformManipulatorAndIRBumper::man_l3;
-    double man_l2_l3 = PlatformManipulatorAndIRBumper::man_l2_l3;
-
     double x1 = MainWindow::getInstance()->platfromManipulatorLink2Initial->line().x1();
     double y1 = MainWindow::getInstance()->platfromManipulatorLink2Initial->line().y1();
     double x2 = MainWindow::getInstance()->platfromManipulatorLink2Initial->line().x2();
@@ -61,6 +60,20 @@ void Link2EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     double l = (dx1*dx1+dy1*dy1)*(dx2*dx2+dy2*dy2); // product of the squared lengths
 
     double b = acos(d/sqrt(l));
+
+    MainWindow::getInstance()->platfromManipulatorLink2Helper->setLine(x1, y1, x4, y4);
+
+    setAngle(b, true);
+}
+
+void Link2EndPointViewItem::setAngle(float b, bool manual)
+{
+    double man_l2 = PlatformManipulatorAndIRBumper::man_l2;
+    double man_l3 = PlatformManipulatorAndIRBumper::man_l3;
+    double man_l2_l3 = PlatformManipulatorAndIRBumper::man_l2_l3;
+
+    double x1 = MainWindow::getInstance()->platfromManipulatorLink2Initial->line().x1();
+    double y1 = MainWindow::getInstance()->platfromManipulatorLink2Initial->line().y1();
 
     //joint1
     double j1x  = x1 - man_l2 * sin(b - PlatformManipulatorAndIRBumper::man_a);
@@ -88,8 +101,19 @@ void Link2EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     PlatformManipulatorAndIRBumper::man_b = b;
 
+    endX = j1x;
+    endY = j1y;
+    if (!manual)
+    {
+        MainWindow::getInstance()->platfromManipulatorLink2Helper->setLine(x1, y1, endX, endY);
+        this->setPos(endX - 6, endY - 6);
+    }
+    else
+    {
+        getAndSetCurrentABGangles();
+    }
+
     MainWindow::getInstance()->platfromManipulatorLink2->setLine(x1, y1, j1x, j1y);
-    MainWindow::getInstance()->platfromManipulatorLink2Helper->setLine(x1, y1, x4, y4);
     MainWindow::getInstance()->platfromManipulatorLink2Link3Console->setLine(j1x, j1y, j2x, j2y);
     MainWindow::getInstance()->platfromManipulatorLink3->setLine(j2x, j2y, j3x, j3y);
     MainWindow::getInstance()->platfromManipulatorLink3Initial->setLine(j2x, j2y, j3xi, j3yi);
@@ -105,10 +129,8 @@ void Link2EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 
     MainWindow::getInstance()->beta->setPlainText(Valter::format_string("β:%.2f", PlatformManipulatorAndIRBumper::man_b * 180 / M_PI).c_str());
-
-    endX = j1x;
-    endY = j1y;
 }
+
 
 void Link2EndPointViewItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {

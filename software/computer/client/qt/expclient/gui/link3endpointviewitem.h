@@ -9,6 +9,8 @@
 
 #include <valter.h>
 
+#include <gui/platformmanipulatorandirbumperGUI.h>
+
 class Link3EndPointViewItem : public QGraphicsEllipseItem
 {
 private:
@@ -16,6 +18,7 @@ private:
 
 public:
     Link3EndPointViewItem();
+    void setAngle(float g, bool manual);
 
     // QGraphicsItem interface
 protected:
@@ -37,8 +40,6 @@ void Link3EndPointViewItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void Link3EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     this->setPos(event->scenePos().x() - 6, event->scenePos().y() - 6);
-
-    double man_l3 = PlatformManipulatorAndIRBumper::man_l3;
 
     double x1 = MainWindow::getInstance()->platfromManipulatorLink3Initial->line().x1();
     double y1 = MainWindow::getInstance()->platfromManipulatorLink3Initial->line().y1();
@@ -70,6 +71,18 @@ void Link3EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     double cos_g = d/sqrt(l);
     double g = acos(cos_g) - M_PI / 2;
 
+    MainWindow::getInstance()->platfromManipulatorLink3Helper->setLine(x1, y1, x4, y4);
+
+    setAngle(g, true);
+}
+
+void Link3EndPointViewItem::setAngle(float g, bool manual)
+{
+    double man_l3 = PlatformManipulatorAndIRBumper::man_l3;
+
+    double x1 = MainWindow::getInstance()->platfromManipulatorLink3Initial->line().x1();
+    double y1 = MainWindow::getInstance()->platfromManipulatorLink3Initial->line().y1();
+
     PlatformManipulatorAndIRBumper::man_g = g;
 
     double a = PlatformManipulatorAndIRBumper::man_a;
@@ -79,13 +92,21 @@ void Link3EndPointViewItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     double j1x  = x1 - man_l3 * sin(g + b - a);
     double j1y  = y1 - man_l3 * cos(g + b - a);
 
-    MainWindow::getInstance()->platfromManipulatorLink3Helper->setLine(x1, y1, x4, y4);
+    endX = j1x;
+    endY = j1y;
+    if (!manual)
+    {
+        MainWindow::getInstance()->platfromManipulatorLink3Helper->setLine(x1, y1, endX, endY);
+        this->setPos(endX - 6, endY - 6);
+    }
+    else
+    {
+        getAndSetCurrentABGangles();
+    }
+
     MainWindow::getInstance()->platfromManipulatorLink3->setLine(x1, y1, j1x, j1y);
 
     MainWindow::getInstance()->gamma->setPlainText(Valter::format_string("γ:%.2f", PlatformManipulatorAndIRBumper::man_g * 180 / M_PI).c_str());
-
-    endX = j1x;
-    endY = j1y;
 }
 
 void Link3EndPointViewItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

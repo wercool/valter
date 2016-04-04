@@ -403,6 +403,10 @@ private slots:
 
     void on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool checked);
 
+    void on_platformManipulatorExecuteAngleSettingsButton_clicked();
+
+    void on_detachManipulatorFrameButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
