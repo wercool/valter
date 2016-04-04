@@ -8,6 +8,7 @@ class Valter3d : public QWidget
     Q_OBJECT
 public:
     explicit Valter3d(QWidget *parent = 0);
+    void setClearColor();
 
 signals:
 

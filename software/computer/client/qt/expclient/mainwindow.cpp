@@ -1892,10 +1892,18 @@ void MainWindow::on_valter3dOpenButton_clicked()
 {
     if (!valter3d)
     {
-        QQuickView *view = new QQuickView();
-        view->setSource(QUrl("qrc:/valter3d/valter3dView.qml"));
-        valter3d = (Valter3d*) Valter3d::createWindowContainer(view);
+        valter3dView = new QQuickView();
+        valter3dView->setSource(QUrl("qrc:/valter3d/valter3dView.qml"));
+        valter3d = (Valter3d*) Valter3d::createWindowContainer(valter3dView);
         valter3d->setWindowTitle("Valter 3D");
     }
     valter3d->show();
+}
+
+void MainWindow::on_horizontalScrollBar_8_valueChanged(int value)
+{
+    if (valter3d != 0)
+    {
+        QMetaObject::invokeMethod((QObject*)valter3dView->rootObject(), "setSpeed", Q_ARG(QVariant, QVariant::fromValue((double)value / 10)));
+    }
 }

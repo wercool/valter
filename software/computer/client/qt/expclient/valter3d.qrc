@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/valter3d">
         <file>valter3dView.qml</file>
+        <file>resources/3rdparty/three.js</file>
+        <file>valter3d.js</file>
+        <file>valterBaseModel.json</file>
     </qresource>
 </RCC>
