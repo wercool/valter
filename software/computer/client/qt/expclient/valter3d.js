@@ -1,71 +1,187 @@
 Qt.include("qrc:/valter3d/resources/3rdparty/three.js")
 
 var camera, scene, renderer;
-var cameraLight;
+var light1, light2, light3
 var zeroVector = new THREE.Vector3(0, 0, 0);
+var baseShiftY = 0.135; //wheel radius m
 
-var valterBaseMesh1;
-var valterBaseMesh2;
-var valterBaseMeshReady = false;
-var rotationSpeed = 0.0;
+var sceneInit = false;
 
-var group = new THREE.Object3D();
+var platformGroup = new THREE.Object3D();
+var leftWheelGroup = new THREE.Object3D();
+var rightWheelGroup = new THREE.Object3D();
+
+var meshesLoaded = false;
+
+var valterGroup = new THREE.Object3D();
+
+var rotationSpeed = 0;
 
 function initializeGL(canvas)
 {
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera( 75, canvas.width / canvas.height, 0.001, 1000 );
-    camera.position.y = 1;
-    camera.position.x = 5;
 
-    var light = new THREE.AmbientLight( 0x666666 );
-    scene.add( light );
+    var axisHelper = new THREE.AxisHelper(1);
+    scene.add(axisHelper);
 
-    cameraLight = new THREE.DirectionalLight( 0xffffff, 1 );
-    cameraLight.position.y = camera.position.y;
-    scene.add( cameraLight );
+
+    light1 = new THREE.DirectionalLight( 0xF5F9FA, 0.25 );
+    light1.position.y = 3;
+    light1.position.x = 3;
+    scene.add( light1 );
+
+    light2 = new THREE.HemisphereLight( 0xF5F9FA, 0xF5F9FA, 0.5 );
+    light2.position.y = 3;
+    scene.add( light2 );
+
+    light3 = new THREE.DirectionalLight( 0xF5F9FA, 1.0 );
+    light3.position.y = 3;
+    light3.position.x = -3;
+    scene.add( light3 );
 
     renderer = new THREE.Canvas3DRenderer({ canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
     renderer.setSize( canvas.width, canvas.height );
-    renderer.setClearColor( 0x000000 );
+    renderer.setClearColor( 0xE6EFFF );
 
     var loader = new THREE.JSONLoader();
 
-    loader.load( "qrc:/valter3d/valterBaseModel.json", function ( geometry, materials ) {
+    //leftWheelChamberMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.chamber.json", function ( geometry, materials ) {
         geometry.computeVertexNormals();
         var bufferGeometry = new THREE.BufferGeometry();
         bufferGeometry.fromGeometry(geometry);
-        var valterBaseMeshMaterialColor = 0xff0000;
-        var valterBaseMeshMaterial = new THREE.MeshPhongMaterial({color: "#919191", specular: "#555555", shininess: 5});
-        valterBaseMesh1 = new THREE.Mesh( bufferGeometry, valterBaseMeshMaterial );
-        valterBaseMeshReady = true;
-        valterBaseMesh1.position.y = 2;
-        group.add(valterBaseMesh1);
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#1D1E1F", specular: "#555555", shininess: 1});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.position.z = -0.194;
+        leftWheelGroup.add(mesh);
     } );
 
-    loader.load( "qrc:/valter3d/valterBaseModel.json", function ( geometry, materials ) {
+    //leftWheelMetalFrontMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.metal.front.json", function ( geometry, materials ) {
         geometry.computeVertexNormals();
         var bufferGeometry = new THREE.BufferGeometry();
         bufferGeometry.fromGeometry(geometry);
-        var valterBaseMeshMaterialColor = 0xff0000;
-        var valterBaseMeshMaterial = new THREE.MeshPhongMaterial({color: "#919191", specular: "#555555", shininess: 5});
-        valterBaseMesh2 = new THREE.Mesh( bufferGeometry, valterBaseMeshMaterial );
-        valterBaseMeshReady = true;
-        valterBaseMesh2.position.y = -2;
-        group.add(valterBaseMesh2);
-        scene.add( group );
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 0.5});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.position.z = -0.196;
+        leftWheelGroup.add(mesh);
+    } );
+
+    //leftWheelMetalInternalMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.metal.internal.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 0.5});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.position.z = -0.191;
+        mesh.rotation.y = degToRad(180);
+        leftWheelGroup.add(mesh);
+    } );
+
+    //rightWheelChamberMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.chamber.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#1D1E1F", specular: "#555555", shininess: 1});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.position.z = 0.194;
+        rightWheelGroup.add(mesh);
+    } );
+
+    //rightWheelMetalFrontMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.metal.front.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 0.5});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.rotation.y = degToRad(180);
+        mesh.position.z = 0.196;
+        rightWheelGroup.add(mesh);
+    } );
+
+    //rightWheelMetalInternalMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.metal.internal.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 0.5});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.position.z = 0.191;
+        rightWheelGroup.add(mesh);
+    } );
+
+    //wheelAxisMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.axis.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#9EA2A3", specular: "#555555", shininess: 0.5});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        platformGroup.add(mesh);
+    } );
+
+    //wheelAxisFramesMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/wheel.axis.frames.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#072904", specular: "#555555", shininess: 1.5});
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        platformGroup.add(mesh);
+    } );
+
+    //platformCaseMesh
+    loader.load( "qrc:/valter3d/resources/valter_model_json/platfrom.case.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var texture = THREE.ImageUtils.loadTexture("qrc:/resources/valter_model_json/textures/aluminum.jpg");
+        texture.minFilter = THREE.NearestFilter;
+        var meshMaterial = new THREE.MeshPhongMaterial({
+                                                         map: texture,
+                                                         bumpMap: texture,
+                                                         bumpScale: 0.001,
+                                                         shininess: 1.5
+                                                     });
+        meshMaterial.shading = THREE.FlatShading;
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.position.y = 0.0345;
+        platformGroup.add(mesh);
+
+
+        meshesLoaded = true;
     } );
 }
 
 function paintGL(canvas)
 {
+    var eyePosition = moveEye(canvas.xRot, canvas.yRot, canvas.distance);
+    camera.position.x = eyePosition[0];
+    camera.position.y = eyePosition[1];
+    camera.position.z = eyePosition[2];
+
     camera.lookAt(zeroVector);
 
-    if (valterBaseMeshReady)
+    if (meshesLoaded)
     {
-        valterBaseMesh1.rotation.y += rotationSpeed;
-        group.rotation.y += 0.1;
+        if (!sceneInit)
+        {
+            valterGroup.add(platformGroup);
+            valterGroup.add(leftWheelGroup);
+            valterGroup.add(rightWheelGroup);
+            scene.add(valterGroup);
+
+            valterGroup.position.y += baseShiftY;
+
+            sceneInit = true;
+        }
+
+        valterGroup.rotation.y += rotationSpeed;
     }
 
     renderer.render( scene, camera );
@@ -80,7 +196,29 @@ function resizeGL(canvas)
     renderer.setSize( canvas.width, canvas.height );
 }
 
+function moveEye(xRot, yRot, distance)
+{
+    var xAngle = degToRad(xRot);
+    var yAngle = degToRad(yRot);
+
+    var zPos = distance * Math.cos(xAngle) * Math.cos(yAngle);
+    var xPos = distance * Math.sin(xAngle) * Math.cos(yAngle);
+    var yPos = distance * Math.sin(yAngle);
+
+    return [-xPos, yPos, zPos];
+}
+
+function degToRad(degrees)
+{
+    return degrees * Math.PI / 180;
+}
+
 function setSpeed(speed)
 {
-    rotationSpeed = speed;
+    rotationSpeed = speed / 10;
+}
+
+function setGroupRotationX(angle)
+{
+    valterGroup.rotation.x = angle;
 }

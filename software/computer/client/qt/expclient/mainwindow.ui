@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>1016</height>
+             <width>820</width>
+             <height>1022</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3741,7 +3741,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>839</width>
+             <width>838</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7482,7 +7482,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
+             <width>820</width>
              <height>885</height>
             </rect>
            </property>
@@ -9823,8 +9823,8 @@ background-repeat: repeat-no;</string>
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>70</y>
-          <width>160</width>
+          <y>50</y>
+          <width>161</width>
           <height>16</height>
          </rect>
         </property>
@@ -9833,6 +9833,28 @@ background-repeat: repeat-no;</string>
         </property>
         <property name="maximum">
          <number>10</number>
+        </property>
+        <property name="singleStep">
+         <number>0</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QScrollBar" name="horizontalScrollBar_9">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>80</y>
+          <width>391</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>-180</number>
+        </property>
+        <property name="maximum">
+         <number>180</number>
         </property>
         <property name="singleStep">
          <number>0</number>

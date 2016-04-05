@@ -1907,3 +1907,11 @@ void MainWindow::on_horizontalScrollBar_8_valueChanged(int value)
         QMetaObject::invokeMethod((QObject*)valter3dView->rootObject(), "setSpeed", Q_ARG(QVariant, QVariant::fromValue((double)value / 10)));
     }
 }
+
+void MainWindow::on_horizontalScrollBar_9_valueChanged(int value)
+{
+    if (valter3d != 0)
+    {
+        QMetaObject::invokeMethod((QObject*)valter3dView->rootObject(), "setGroupRotationX", Q_ARG(QVariant, QVariant::fromValue(value * M_PI / 180)));
+    }
+}

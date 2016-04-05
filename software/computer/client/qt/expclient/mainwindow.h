@@ -419,6 +419,8 @@ private slots:
     //Utilities
     void on_horizontalScrollBar_8_valueChanged(int value);
 
+    void on_horizontalScrollBar_9_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
