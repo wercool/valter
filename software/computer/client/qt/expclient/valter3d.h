@@ -13,6 +13,10 @@ public:
 
     void setValterGroupRotationY(double angle);
 
+    void setLink1ZAngle(double angle);
+    void setLink2ZAngle(double angle);
+    void setManTiltZAngle(double angle);
+
 signals:
 
 public slots:

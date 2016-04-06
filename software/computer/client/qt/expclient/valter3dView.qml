@@ -9,6 +9,8 @@ Canvas3D
     id: valter3DCanvas
     anchors.fill: parent
     focus: true
+    width: 640
+    height: 480
 
     property double xRot: -90.0
     property double yRot: 30.0
@@ -29,6 +31,21 @@ Canvas3D
     function setValterGroupRotationY(angle)
     {
         GLCode.setValterGroupRotationY(angle)
+    }
+
+    function setLink1ZAngle(angle)
+    {
+        GLCode.setLink1ZAngle(angle)
+    }
+
+    function setLink2ZAngle(angle)
+    {
+        GLCode.setLink2ZAngle(angle)
+    }
+
+    function setManTiltZAngle(angle)
+    {
+        GLCode.setManTiltZAngle(angle)
     }
 
     function updateLabels()

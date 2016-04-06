@@ -104,6 +104,8 @@ void Link3EndPointViewItem::setAngle(float g, bool manual)
         getAndSetCurrentABGangles();
     }
 
+    MainWindow::getInstance()->valter3d->setManTiltZAngle(PlatformManipulatorAndIRBumper::man_g);
+
     MainWindow::getInstance()->platfromManipulatorLink3->setLine(x1, y1, j1x, j1y);
 
     MainWindow::getInstance()->gamma->setPlainText(Valter::format_string("γ:%.2f", PlatformManipulatorAndIRBumper::man_g * 180 / M_PI).c_str());

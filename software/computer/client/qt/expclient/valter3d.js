@@ -9,17 +9,26 @@ var baseShiftY = 0.135; //wheel radius m
 var sceneInit = false;
 
 var platformGroup = new THREE.Object3D();
+var frontLeftSupportWheelGroup = new THREE.Object3D();
+var frontRightSupportWheelGroup = new THREE.Object3D();
+var rearLeftSupportWheelGroup = new THREE.Object3D();
+var rearRightSupportWheelGroup = new THREE.Object3D();
 var leftWheelGroup = new THREE.Object3D();
 var rightWheelGroup = new THREE.Object3D();
 
-var meshesLoaded = false;
+var manLink1Group = new THREE.Object3D();
+var manLink2Group = new THREE.Object3D();
+var manGripperTiltGroup = new THREE.Object3D();
+var manGripperRotateGroup = new THREE.Object3D();
+var manEndEffectorGroup = new THREE.Object3D();
+var manEndEffectorMesh;
 
 var valterGroup = new THREE.Object3D();
 
-var rotationSpeed = 0;
+var meshesLoaded = false;
 
 function initializeGL(canvas)
-{
+{    
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera( 50, canvas.width / canvas.height, 0.001, 1000 );
@@ -47,6 +56,7 @@ function initializeGL(canvas)
     renderer = new THREE.Canvas3DRenderer({ canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });
     renderer.setSize( canvas.width, canvas.height );
     renderer.setClearColor( 0xE6EFFF );
+    renderer.setPixelRatio(canvas.devicePixelRatio);
 
     loadModels();
 }
@@ -87,11 +97,26 @@ function paintGL(canvas)
             valterGroup.add(platformGroup);
             valterGroup.add(leftWheelGroup);
             valterGroup.add(rightWheelGroup);
+            valterGroup.add(frontLeftSupportWheelGroup);
+            valterGroup.add(frontRightSupportWheelGroup);
+            valterGroup.add(rearLeftSupportWheelGroup);
+            valterGroup.add(rearRightSupportWheelGroup);
+
+            valterGroup.add(manLink1Group);
+
             scene.add(valterGroup);
 
             valterGroup.position.y += baseShiftY;
 
-            sceneInit = true;
+//            manLink1Group.rotation.z = 0.52;
+//            manLink2Group.rotation.z = 1.571;
+//            manGripperTiltGroup.rotation.z = 0.52;
+
+            sceneInit = true;            
+        }
+        else
+        {
+            console.log(manEndEffectorGroup.localToWorld( manEndEffectorMesh.position.clone() ).y);
         }
     }
 
@@ -129,4 +154,19 @@ function degToRad(degrees)
 function setValterGroupRotationY(angle)
 {
     valterGroup.rotation.y = angle;
+}
+
+function setLink1ZAngle(angle)
+{
+    manLink1Group.rotation.z = angle;
+}
+
+function setLink2ZAngle(angle)
+{
+    manLink2Group.rotation.z = angle;
+}
+
+function setManTiltZAngle(angle)
+{
+    manGripperTiltGroup.rotation.z = angle;
 }

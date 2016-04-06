@@ -7,6 +7,7 @@
     </qresource>
     <qresource prefix="/textures">
         <file>resources/valter_model_json/textures/aluminum.jpg</file>
+        <file>resources/valter_model_json/textures/mangripperrotator.jpg</file>
     </qresource>
     <qresource prefix="/json_models">
         <file>resources/valter_model_json/platfrom.case.json</file>
@@ -15,5 +16,18 @@
         <file>resources/valter_model_json/wheel.chamber.json</file>
         <file>resources/valter_model_json/wheel.metal.front.json</file>
         <file>resources/valter_model_json/wheel.metal.internal.json</file>
+        <file>resources/valter_model_json/support-wheel-p1.json</file>
+        <file>resources/valter_model_json/support-wheel-p2.json</file>
+        <file>resources/valter_model_json/wheel1.p1.json</file>
+        <file>resources/valter_model_json/wheel1.p2.json</file>
+        <file>resources/valter_model_json/man.p3.json</file>
+        <file>resources/valter_model_json/man.p2.json</file>
+        <file>resources/valter_model_json/man.p1.json</file>
+        <file>resources/valter_model_json/man.p5.json</file>
+        <file>resources/valter_model_json/man.p7_man.p8.json</file>
+        <file>resources/valter_model_json/man.p9.json</file>
+        <file>resources/valter_model_json/man.p11.json</file>
+        <file>resources/valter_model_json/man.end.effector.json</file>
+        <file>resources/valter_model_json/man.p12.json</file>
     </qresource>
 </RCC>
