@@ -83,7 +83,7 @@ Valter* Valter::getInstance()
 
 string Valter::getVersion()
 {
-    return "0.0.1";
+    return "0.0.4";
 }
 
 bool Valter::getLogControlDeviceMessages() const

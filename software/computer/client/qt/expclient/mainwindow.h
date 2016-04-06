@@ -37,7 +37,6 @@ public:
     void delayGUIAction(IValterModule *valterModule);
 
     Valter3d* valter3d;
-    QQuickView *valter3dView;
 
     //helpers
     QPixmap redLedOffPix;
@@ -417,8 +416,6 @@ private slots:
     void on_valter3dOpenButton_clicked();
 
     //Utilities
-    void on_horizontalScrollBar_8_valueChanged(int value);
-
     void on_horizontalScrollBar_9_valueChanged(int value);
 
 private:

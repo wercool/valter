@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>1022</height>
+             <width>821</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3741,7 +3741,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>838</width>
+             <width>839</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7482,7 +7482,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
+             <width>821</width>
              <height>885</height>
             </rect>
            </property>
@@ -8713,6 +8713,19 @@ background-repeat: repeat-no;</string>
                        </property>
                       </widget>
                      </item>
+                     <item>
+                      <spacer name="verticalSpacer_10">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>40</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
                     </layout>
                    </item>
                    <item>
@@ -9819,28 +9832,6 @@ background-repeat: repeat-no;</string>
          <string>Valter 3D</string>
         </property>
        </widget>
-       <widget class="QScrollBar" name="horizontalScrollBar_8">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>50</y>
-          <width>161</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <number>-10</number>
-        </property>
-        <property name="maximum">
-         <number>10</number>
-        </property>
-        <property name="singleStep">
-         <number>0</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
        <widget class="QScrollBar" name="horizontalScrollBar_9">
         <property name="geometry">
          <rect>
@@ -9851,10 +9842,10 @@ background-repeat: repeat-no;</string>
          </rect>
         </property>
         <property name="minimum">
-         <number>-180</number>
+         <number>-314</number>
         </property>
         <property name="maximum">
-         <number>180</number>
+         <number>314</number>
         </property>
         <property name="singleStep">
          <number>0</number>

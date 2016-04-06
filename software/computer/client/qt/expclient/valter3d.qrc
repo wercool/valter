@@ -3,14 +3,17 @@
         <file>valter3dView.qml</file>
         <file>resources/3rdparty/three.js</file>
         <file>valter3d.js</file>
+        <file>json_models_loader.js</file>
+    </qresource>
+    <qresource prefix="/textures">
+        <file>resources/valter_model_json/textures/aluminum.jpg</file>
+    </qresource>
+    <qresource prefix="/json_models">
+        <file>resources/valter_model_json/platfrom.case.json</file>
+        <file>resources/valter_model_json/wheel.axis.frames.json</file>
+        <file>resources/valter_model_json/wheel.axis.json</file>
         <file>resources/valter_model_json/wheel.chamber.json</file>
         <file>resources/valter_model_json/wheel.metal.front.json</file>
         <file>resources/valter_model_json/wheel.metal.internal.json</file>
-        <file>resources/valter_model_json/wheel.axis.json</file>
-        <file>resources/valter_model_json/wheel.axis.frames.json</file>
-        <file>resources/valter_model_json/platfrom.case.json</file>
-    </qresource>
-    <qresource prefix="/">
-        <file>resources/valter_model_json/textures/aluminum.jpg</file>
     </qresource>
 </RCC>

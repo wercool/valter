@@ -23,10 +23,6 @@ int main(int argc, char *argv[])
 
         Valter::getInstance()->closeAllControlDevicePorts();
 
-        delete(mainGUIWindow);
-        mainGUIWindow = NULL;
-        delete(Valter::getInstance());
-
         qDebug("Finished");
     }
     catch (const exception &ex)

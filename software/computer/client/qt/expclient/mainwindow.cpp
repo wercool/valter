@@ -2,8 +2,6 @@
 #include "ui_mainwindow.h"
 #include <sys/time.h>
 
-#include <QtQuick/QQuickView>
-
 #include<gui/guihelpers.h>
 
 #include <valter.h>
@@ -1892,26 +1890,20 @@ void MainWindow::on_valter3dOpenButton_clicked()
 {
     if (!valter3d)
     {
-        valter3dView = new QQuickView();
-        valter3dView->setSource(QUrl("qrc:/valter3d/valter3dView.qml"));
-        valter3d = (Valter3d*) Valter3d::createWindowContainer(valter3dView);
+        QQuickView *pValter3dView = new QQuickView();
+        pValter3dView->setSource(QUrl("qrc:/valter3d/valter3dView.qml"));
+        valter3d = (Valter3d*) Valter3d::createWindowContainer(pValter3dView);
+        valter3d->installEventFilter(new Valter3DEventFilter(this));
+        valter3d->valter3dView = pValter3dView;
         valter3d->setWindowTitle("Valter 3D");
     }
     valter3d->show();
-}
-
-void MainWindow::on_horizontalScrollBar_8_valueChanged(int value)
-{
-    if (valter3d != 0)
-    {
-        QMetaObject::invokeMethod((QObject*)valter3dView->rootObject(), "setSpeed", Q_ARG(QVariant, QVariant::fromValue((double)value / 10)));
-    }
 }
 
 void MainWindow::on_horizontalScrollBar_9_valueChanged(int value)
 {
     if (valter3d != 0)
     {
-        QMetaObject::invokeMethod((QObject*)valter3dView->rootObject(), "setGroupRotationX", Q_ARG(QVariant, QVariant::fromValue(value * M_PI / 180)));
+        valter3d->setValterGroupRotationY((double)value / 100);
     }
 }

@@ -5,7 +5,7 @@ Valter3d::Valter3d(QWidget *parent) : QWidget(parent)
 
 }
 
-void Valter3d::setClearColor()
+void Valter3d::setValterGroupRotationY(double angle)
 {
-    qDebug("!!!!");
+    QMetaObject::invokeMethod((QObject*)this->valter3dView->rootObject(), "setValterGroupRotationY", Q_ARG(QVariant, QVariant::fromValue(angle)));
 }

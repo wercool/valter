@@ -2,13 +2,16 @@
 #define VALTER3D_H
 
 #include <QWidget>
+#include <QtQuick/QQuickView>
 
 class Valter3d : public QWidget
 {
     Q_OBJECT
 public:
+    QQuickView *valter3dView;
     explicit Valter3d(QWidget *parent = 0);
-    void setClearColor();
+
+    void setValterGroupRotationY(double angle);
 
 signals:
 
