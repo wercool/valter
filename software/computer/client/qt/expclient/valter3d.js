@@ -3,10 +3,12 @@ Qt.include("qrc:/valter3d/resources/3rdparty/three.js")
 
 var camera, scene, renderer;
 var light1, light2, light3
-var zeroVector = new THREE.Vector3(0, 1.0, 0);
-var baseShiftY = 0.135; //wheel radius m
+var zeroVector = new THREE.Vector3(0, 1.2, 0);
 
 var sceneInit = false;
+var meshesLoaded = false;
+
+var baseShiftY = 0.135; //wheel radius m
 
 var platformGroup = new THREE.Object3D();
 var frontLeftSupportWheelGroup = new THREE.Object3D();
@@ -25,15 +27,14 @@ var manEndEffectorMesh;
 
 var valterGroup = new THREE.Object3D();
 
-var meshesLoaded = false;
-
 function initializeGL(canvas)
 {    
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera( 50, canvas.width / canvas.height, 0.001, 1000 );
-
-    camera.rotation.y = degToRad(90);
+    camera = new THREE.PerspectiveCamera( 30, canvas.width / canvas.height, 0.001, 1000 );
+    camera.position.x = 4.0;
+    camera.position.y = zeroVector.y;
+    camera.lookAt(zeroVector);
 
     var axisHelper = new THREE.AxisHelper(2.5);
     scene.add(axisHelper);
@@ -68,26 +69,20 @@ function paintGL(canvas)
     if (canvas.mousePrevY === 0)
         canvas.mousePrevY = canvas.mouseY;
 
-    if (canvas.dragCamera)
+    if (canvas.panCamera)
     {
-        camera.position.y += (canvas.mouseY - canvas.mousePrevY) / 100;
-
-        zeroVector.x += canvas.distance * Math.cos(camera.rotation.y) * (canvas.mouseX - canvas.mousePrevX) / 100;
-        zeroVector.y += (canvas.mouseY - canvas.mousePrevY) / 50;
-        zeroVector.z += canvas.distance * Math.sin(camera.rotation.y) * (canvas.mouseX - canvas.mousePrevX) / 100;
+        console.log("!!!!");
     }
 
-    var eyePosition = moveEye(canvas.xRot, canvas.yRot, canvas.distance);
-    camera.position.x = eyePosition[0];
-    camera.position.y = eyePosition[1];
-    camera.position.z = eyePosition[2];
+    var cameraPosition = moveCamera(canvas.xRot, canvas.yRot, canvas.distance);
+    camera.position.x = cameraPosition[0];
+    camera.position.y = cameraPosition[1];
+    camera.position.z = cameraPosition[2];
 
-
+    camera.lookAt(zeroVector);
 
     canvas.mousePrevX = canvas.mouseX;
     canvas.mousePrevY = canvas.mouseY;
-
-    camera.lookAt(zeroVector);
 
 
     if (meshesLoaded)
@@ -108,15 +103,11 @@ function paintGL(canvas)
 
             valterGroup.position.y += baseShiftY;
 
-//            manLink1Group.rotation.z = 0.52;
-//            manLink2Group.rotation.z = 1.571;
-//            manGripperTiltGroup.rotation.z = 0.52;
-
-            sceneInit = true;            
+            sceneInit = true;
         }
         else
         {
-            console.log(manEndEffectorGroup.localToWorld( manEndEffectorMesh.position.clone() ).y);
+            //console.log(manEndEffectorGroup.localToWorld( manEndEffectorMesh.position.clone() ).y);
         }
     }
 
@@ -134,7 +125,21 @@ function resizeGL(canvas)
     renderer.setSize( canvas.width, canvas.height );
 }
 
-function moveEye(xRot, yRot, distance)
+function mousePointerXYToSceneXZ(canvas)
+{
+    var pMouse = new THREE.Vector3((canvas.mouseX / canvas.width) * 2 - 1, -(canvas.mouseY / canvas.height) * 2 + 1, 0 );
+    pMouse.unproject(camera);
+
+    var m = pMouse.y / ( pMouse.y - camera.position.y );
+
+    var pos = new THREE.Vector3(0, 0, 0);
+    pos.x = pMouse.x + ( camera.position.x - pMouse.x ) * m;
+    pos.z = pMouse.z + ( camera.position.z - pMouse.z ) * m;
+
+    //console.log(pos.x, pos.z);
+}
+
+function moveCamera(xRot, yRot, distance)
 {
     var xAngle = degToRad(xRot);
     var yAngle = degToRad(yRot);

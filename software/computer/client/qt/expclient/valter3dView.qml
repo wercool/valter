@@ -14,10 +14,10 @@ Canvas3D
 
     property double xRot: -90.0
     property double yRot: 30.0
-    property double distance: 2.5
+    property double distance: 5.0
 
     property bool mousePressed: true
-    property bool dragCamera: false
+    property bool panCamera: false
 
     property double mouseX: 0.0;
     property double mouseY: 0.0;
@@ -97,9 +97,12 @@ Canvas3D
 
         onPressed:
         {
+            mousePressed = true;
+            valter3DCanvas.mouseX = mouseX;
+            valter3DCanvas.mouseY = mouseY;
             valter3DCanvas.mousePrevX = 0;
             valter3DCanvas.mousePrevY = 0;
-            mousePressed = true;
+            GLCode.mousePointerXYToSceneXZ(valter3DCanvas);
         }
 
         onReleased:
@@ -113,7 +116,7 @@ Canvas3D
         }
         onWheel:
         {
-            valter3DCanvas.distance -= wheel.angleDelta.y / 1000.0
+            valter3DCanvas.distance -= wheel.angleDelta.y / 500.0
             // Limit the distance to 0.5...10
             if (valter3DCanvas.distance < 0.5)
                 valter3DCanvas.distance = 0.5
@@ -195,14 +198,11 @@ Canvas3D
     {
         if (event.key === Qt.Key_Control)
         {
-            dragCamera = true;
+            panCamera = true;
         }
         if (event.key === Qt.Key_R)
         {
-            GLCode.zeroVector.x = 0;
-            GLCode.zeroVector.y = 1.0;
-            GLCode.zeroVector.z = 0;
-            distance = 2.5;
+            distance = 5.0;
         }
     }
 
@@ -210,7 +210,7 @@ Canvas3D
     {
         if (event.key === Qt.Key_Control)
         {
-            dragCamera = false;
+            panCamera = false;
         }
     }
 }
