@@ -4,6 +4,8 @@
         <file>resources/3rdparty/three.js</file>
         <file>valter3d.js</file>
         <file>json_models_loader.js</file>
+        <file>orbitControls.js</file>
+        <file>utils.js</file>
     </qresource>
     <qresource prefix="/textures">
         <file>resources/valter_model_json/textures/aluminum.jpg</file>

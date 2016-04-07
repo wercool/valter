@@ -12,17 +12,11 @@ Canvas3D
     width: 640
     height: 480
 
-    property double xRot: -90.0
-    property double yRot: 30.0
-    property double distance: 5.0
 
-    property bool mousePressed: true
-    property bool panCamera: false
+    property int orbitControlState: 0 //0 - no control, 1 - orbit camera, 2 - pan camera
 
     property double mouseX: 0.0;
     property double mouseY: 0.0;
-    property double mousePrevX: 0.0;
-    property double mousePrevY:  0.0;
 
     onInitializeGL: GLCode.initializeGL(valter3DCanvas)
     onPaintGL: GLCode.paintGL(valter3DCanvas)
@@ -60,39 +54,14 @@ Canvas3D
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons;
 
-        property int previousY: 0
-        property int previousX: 0
+        property double wheelDelta: 0
 
         onMouseXChanged:
         {
-            // Do not rotate if we don't have previous value
-            if (previousY !== 0)
-                valter3DCanvas.yRot += mouseY - previousY
-            previousY = mouseY
-            // Limit the rotation to -90...90 degrees
-            if (valter3DCanvas.yRot > 90)
-                valter3DCanvas.yRot = 90
-            if (valter3DCanvas.yRot < -90)
-                valter3DCanvas.yRot = -90
-
             valter3DCanvas.mouseX = mouseX;
         }
         onMouseYChanged:
         {
-            // Do not rotate if we don't have previous value
-            if (previousX !== 0)
-            {
-                valter3DCanvas.xRot += mouseX - previousX
-            }
-
-            previousX = mouseX
-
-            // Wrap the rotation around
-            if (valter3DCanvas.xRot > 180)
-                valter3DCanvas.xRot -= 360
-            if (valter3DCanvas.xRot < -180)
-                valter3DCanvas.xRot += 360
-
             valter3DCanvas.mouseY = mouseY;
         }
 
@@ -100,37 +69,31 @@ Canvas3D
         {
             if (mouse.button == Qt.RightButton)
             {
-                panCamera = true;
+                GLCode.handleMouseDownPan(mouseX, mouseY);
+                orbitControlState = 2;
             }
-
-            mousePressed = true;
-
-            valter3DCanvas.mouseX = mouseX;
-            valter3DCanvas.mouseY = mouseY;
-            valter3DCanvas.mousePrevX = 0;
-            valter3DCanvas.mousePrevY = 0;
-
-            GLCode.mousePointerXYToSceneXZ(valter3DCanvas);
+            if (mouse.button == Qt.MiddleButton)
+            {
+                GLCode.handleMouseDownRotate(mouseX, mouseY);
+                orbitControlState = 1;
+            }
         }
 
         onReleased:
         {
-            // Reset previous mouse positions to avoid rotation jumping
-            previousX = 0
-            previousY = 0
-            valter3DCanvas.mousePrevX = 0;
-            valter3DCanvas.mousePrevY = 0;
-            mousePressed = false;
-            panCamera = false;
+            orbitControlState = 0;
         }
         onWheel:
         {
-            valter3DCanvas.distance -= wheel.angleDelta.y / 500.0
-            // Limit the distance to 0.5...10
-            if (valter3DCanvas.distance < 0.5)
-                valter3DCanvas.distance = 0.5
-            if (valter3DCanvas.distance > 10)
-                valter3DCanvas.distance = 10
+            wheelDelta = wheel.angleDelta.y / 500.0;
+            if (wheelDelta > 0)
+            {
+                GLCode.dollyIn();
+            }
+            else
+            {
+                GLCode.dollyOut();
+            }
         }
 
         Text
@@ -176,7 +139,7 @@ Canvas3D
             id: axisYLabel
             x: 610
             y: 5
-            color: "#0000ff"
+            color: "#00ff00"
             text: qsTr("Y")
             anchors.right: parent.right
             anchors.rightMargin: 20
@@ -191,7 +154,7 @@ Canvas3D
             id: axisZLabel
             x: 620
             y: 5
-            color: "#00ff00"
+            color: "#0000ff"
             text: qsTr("Z")
             anchors.right: parent.right
             anchors.rightMargin: 10
@@ -205,16 +168,9 @@ Canvas3D
 
     Keys.onPressed:
     {
-        if (event.key === Qt.Key_Control)
-        {
-            //panCamera = true;
-        }
         if (event.key === Qt.Key_R)
         {
-            distance = 5.0;
-            GLCode.zeroVector.x = 0;
-            GLCode.zeroVector.y = 1.2;
-            GLCode.zeroVector.z = 0;
+            console.log("Reset");
         }
     }
 
@@ -222,7 +178,6 @@ Canvas3D
     {
         if (event.key === Qt.Key_Control)
         {
-            //panCamera = false;
         }
     }
 }
