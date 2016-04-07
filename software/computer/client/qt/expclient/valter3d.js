@@ -27,6 +27,7 @@ var manGripperTiltGroup = new THREE.Object3D();
 var manGripperRotateGroup = new THREE.Object3D();
 var manEndEffectorGroup = new THREE.Object3D();
 var manEndEffectorMesh;
+var prevManEndEffectorMeshPosition = new THREE.Vector3();
 
 var trunkGroup = new THREE.Object3D();
 var bodyGroup = new THREE.Object3D();
@@ -35,13 +36,16 @@ var valterGroup = new THREE.Object3D();
 
 function paintGL(canvas)
 {
-    switch (canvas.orbitControlState)
+    switch (canvas.mouseButtonPressed)
     {
         case 1:
-            handleMouseMoveRotate(canvas.mouseX, canvas.mouseY);
+            mousePointerXYToSceneXZ(canvas);
         break;
         case 2:
             handleMouseMovePan(canvas.mouseX, canvas.mouseY);
+        break;
+        case 3:
+            handleMouseMoveRotate(canvas.mouseX, canvas.mouseY);
         break;
     }
 
@@ -70,7 +74,11 @@ function paintGL(canvas)
         }
         else
         {
-            //console.log(manEndEffectorGroup.localToWorld( manEndEffectorMesh.position.clone() ).y);
+            if (!prevManEndEffectorMeshPosition.equals ( manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone()) ))
+            {
+                prevManEndEffectorMeshPosition = manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone());
+                drawPixel(prevManEndEffectorMeshPosition);
+            }
         }
     }
 

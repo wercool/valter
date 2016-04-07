@@ -30,7 +30,7 @@ function loadModels()
         geometry.computeVertexNormals();
         var bufferGeometry = new THREE.BufferGeometry();
         bufferGeometry.fromGeometry(geometry);
-        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 0.5});
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 30});
         var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
         mesh.position.z = -0.191;
         mesh.rotation.y = degToRad(180);
@@ -53,7 +53,7 @@ function loadModels()
         geometry.computeVertexNormals();
         var bufferGeometry = new THREE.BufferGeometry();
         bufferGeometry.fromGeometry(geometry);
-        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 0.5});
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 30});
         var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
         mesh.rotation.y = degToRad(180);
         mesh.position.z = 0.196;
@@ -65,7 +65,7 @@ function loadModels()
         geometry.computeVertexNormals();
         var bufferGeometry = new THREE.BufferGeometry();
         bufferGeometry.fromGeometry(geometry);
-        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 0.5});
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#E6E9EB", specular: "#555555", shininess: 30});
         var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
         mesh.position.z = 0.191;
         rightWheelGroup.add(mesh);
@@ -76,7 +76,7 @@ function loadModels()
         geometry.computeVertexNormals();
         var bufferGeometry = new THREE.BufferGeometry();
         bufferGeometry.fromGeometry(geometry);
-        var meshMaterial = new THREE.MeshPhongMaterial({color: "#9EA2A3", specular: "#555555", shininess: 0.5});
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#9EA2A3", specular: "#555555", shininess: 30});
         var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
         platformGroup.add(mesh);
     } );
@@ -101,8 +101,8 @@ function loadModels()
         var meshMaterial = new THREE.MeshPhongMaterial({
                                                          map: texture,
                                                          bumpMap: texture,
-                                                         bumpScale: 0.001,
-                                                         shininess: 1.5
+                                                         bumpScale: 0.005,
+                                                         shininess: 5
                                                      });
         meshMaterial.shading = THREE.FlatShading;
         var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );

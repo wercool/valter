@@ -28,7 +28,7 @@ var maxAzimuthAngle = Infinity; // radians
 
 var EPS = 0.000001;
 
-var zoomSpeed = 1.0;
+var zoomSpeed = 2.0;
 
 var rotateStart = new THREE.Vector2();
 var rotateEnd = new THREE.Vector2();

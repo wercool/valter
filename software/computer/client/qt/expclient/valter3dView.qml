@@ -13,7 +13,7 @@ Canvas3D
     height: 480
 
 
-    property int orbitControlState: 0 //0 - no control, 1 - orbit camera, 2 - pan camera
+    property int mouseButtonPressed: 0 //0 - no control, 1 - orbit camera, 2 - pan camera
 
     property double mouseX: 0.0;
     property double mouseY: 0.0;
@@ -67,21 +67,25 @@ Canvas3D
 
         onPressed:
         {
+            if (mouse.button == Qt.LeftButton)
+            {
+                mouseButtonPressed = 1;
+            }
             if (mouse.button == Qt.RightButton)
             {
                 GLCode.handleMouseDownPan(mouseX, mouseY);
-                orbitControlState = 2;
+                mouseButtonPressed = 2;
             }
             if (mouse.button == Qt.MiddleButton)
             {
                 GLCode.handleMouseDownRotate(mouseX, mouseY);
-                orbitControlState = 1;
+                mouseButtonPressed = 3;
             }
         }
 
         onReleased:
         {
-            orbitControlState = 0;
+            mouseButtonPressed = 0;
         }
         onWheel:
         {
