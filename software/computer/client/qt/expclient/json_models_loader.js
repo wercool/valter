@@ -110,6 +110,29 @@ function loadModels()
         platformGroup.add(mesh);
     } );
 
+    //computer.case.json
+    loader.load( "qrc:/json_models/resources/valter_model_json/computer.case.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/aluminum.jpg");
+        texture.minFilter = THREE.NearestFilter;
+        var meshMaterial = new THREE.MeshPhongMaterial({
+                                                         map: texture,
+                                                         bumpMap: texture,
+                                                         bumpScale: 0.001,
+                                                         shininess: 1.5
+                                                     });
+        meshMaterial.shading = THREE.FlatShading;
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        mesh.position.x = -0.27;
+        mesh.position.y = 0.148;
+        mesh.rotation.y = degToRad(180);
+        mesh.rotation.x = degToRad(-90);
+
+        platformGroup.add(mesh);
+    } );
+
     //support-wheel-p2.json ----------- front left
     loader.load( "qrc:/json_models/resources/valter_model_json/support-wheel-p2.json", function ( geometry, materials ) {
         geometry.computeVertexNormals();
@@ -673,6 +696,52 @@ function loadModels()
         manEndEffectorMesh = new THREE.Mesh( bufferGeometry, meshMaterial );
 
         manEndEffectorGroup.add(manEndEffectorMesh);
+    } );
+
+    //-------------------------------------------------trunkGroup
+    //trunk.json
+    loader.load( "qrc:/json_models/resources/valter_model_json/trunk.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/aluminum_light.jpg");
+        texture.minFilter = THREE.NearestFilter;
+        var meshMaterial = new THREE.MeshPhongMaterial({
+                                                         map: texture,
+                                                         bumpMap: texture,
+                                                         bumpScale: 0.01,
+                                                         shininess: 1.5
+                                                     });
+        meshMaterial.shading = THREE.FlatShading;
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+
+        valterGroup.add(trunkGroup);
+        trunkGroup.position.y = 0.735 - baseShiftY;
+
+        trunkGroup.add(mesh);
+    } );
+
+    //-------------------------------------------------bodyGroup
+    //body.json
+    loader.load( "qrc:/json_models/resources/valter_model_json/body.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/aluminum.jpg");
+        texture.minFilter = THREE.NearestFilter;
+        var meshMaterial = new THREE.MeshPhongMaterial({
+                                                         map: texture,
+                                                         bumpMap: texture,
+                                                         bumpScale: 0.002,
+                                                         shininess: 1.5
+                                                     });
+        meshMaterial.shading = THREE.FlatShading;
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+
+        trunkGroup.add(bodyGroup);
+        bodyGroup.position.y = 0.4;
+
+        bodyGroup.add(mesh);
 
         //!!!!!!!!!!!!!! SET TO LAST LOADED MESH
         meshesLoaded = true;

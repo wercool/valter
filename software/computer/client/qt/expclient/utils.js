@@ -8,7 +8,8 @@ function initializeGL(canvas)
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera( 30, canvas.width / canvas.height, 0.001, 1000 );
-    camera.position.x = 4.0;
+    camera.position.x = 3.0;
+    camera.position.z = 3.0;
     camera.position.y = zeroVector.y;
     camera.lookAt(zeroVector);
 
@@ -30,6 +31,7 @@ function initializeGL(canvas)
     light3 = new THREE.DirectionalLight( 0xF5F9FA, 1.0 );
     light3.position.y = 3;
     light3.position.x = -3;
+    light3.position.z = 3;
     scene.add( light3 );
 
     renderer = new THREE.Canvas3DRenderer({ canvas: canvas, antialias: true, devicePixelRatio: canvas.devicePixelRatio });

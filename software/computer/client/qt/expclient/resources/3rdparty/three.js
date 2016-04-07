@@ -7479,8 +7479,8 @@ THREE.Object3D = function () {
 
 	this.visible = true;
 
-	this.castShadow = false;
-	this.receiveShadow = false;
+    this.castShadow = false;
+    this.receiveShadow = false;
 
 	this.frustumCulled = true;
 	this.renderOrder = 0;

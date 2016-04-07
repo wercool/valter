@@ -10,6 +10,7 @@
     <qresource prefix="/textures">
         <file>resources/valter_model_json/textures/aluminum.jpg</file>
         <file>resources/valter_model_json/textures/mangripperrotator.jpg</file>
+        <file>resources/valter_model_json/textures/aluminum_light.jpg</file>
     </qresource>
     <qresource prefix="/json_models">
         <file>resources/valter_model_json/platfrom.case.json</file>
@@ -31,5 +32,8 @@
         <file>resources/valter_model_json/man.p11.json</file>
         <file>resources/valter_model_json/man.end.effector.json</file>
         <file>resources/valter_model_json/man.p12.json</file>
+        <file>resources/valter_model_json/computer.case.json</file>
+        <file>resources/valter_model_json/trunk.json</file>
+        <file>resources/valter_model_json/body.json</file>
     </qresource>
 </RCC>

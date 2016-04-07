@@ -28,6 +28,9 @@ var manGripperRotateGroup = new THREE.Object3D();
 var manEndEffectorGroup = new THREE.Object3D();
 var manEndEffectorMesh;
 
+var trunkGroup = new THREE.Object3D();
+var bodyGroup = new THREE.Object3D();
+
 var valterGroup = new THREE.Object3D();
 
 function paintGL(canvas)
@@ -59,6 +62,9 @@ function paintGL(canvas)
             scene.add(valterGroup);
 
             valterGroup.position.y += baseShiftY;
+
+//            trunkGroup.rotation.y = 0.5;
+//            bodyGroup.rotation.z = -0.5;
 
             sceneInit = true;
         }
