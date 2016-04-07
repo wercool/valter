@@ -71,7 +71,7 @@ function paintGL(canvas)
 
     if (canvas.panCamera)
     {
-        console.log("!!!!");
+        zeroVector.y += (canvas.mouseY - canvas.mousePrevY) / 50;
     }
 
     var cameraPosition = moveCamera(canvas.xRot, canvas.yRot, canvas.distance);

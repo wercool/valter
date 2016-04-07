@@ -58,6 +58,7 @@ Canvas3D
     {
         id: mouseArea1
         anchors.fill: parent
+        acceptedButtons: Qt.AllButtons;
 
         property int previousY: 0
         property int previousX: 0
@@ -97,11 +98,18 @@ Canvas3D
 
         onPressed:
         {
+            if (mouse.button == Qt.RightButton)
+            {
+                panCamera = true;
+            }
+
             mousePressed = true;
+
             valter3DCanvas.mouseX = mouseX;
             valter3DCanvas.mouseY = mouseY;
             valter3DCanvas.mousePrevX = 0;
             valter3DCanvas.mousePrevY = 0;
+
             GLCode.mousePointerXYToSceneXZ(valter3DCanvas);
         }
 
@@ -113,6 +121,7 @@ Canvas3D
             valter3DCanvas.mousePrevX = 0;
             valter3DCanvas.mousePrevY = 0;
             mousePressed = false;
+            panCamera = false;
         }
         onWheel:
         {
@@ -198,11 +207,14 @@ Canvas3D
     {
         if (event.key === Qt.Key_Control)
         {
-            panCamera = true;
+            //panCamera = true;
         }
         if (event.key === Qt.Key_R)
         {
             distance = 5.0;
+            GLCode.zeroVector.x = 0;
+            GLCode.zeroVector.y = 1.2;
+            GLCode.zeroVector.z = 0;
         }
     }
 
@@ -210,7 +222,7 @@ Canvas3D
     {
         if (event.key === Qt.Key_Control)
         {
-            panCamera = false;
+            //panCamera = false;
         }
     }
 }
