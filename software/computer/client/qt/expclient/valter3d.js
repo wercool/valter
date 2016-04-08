@@ -31,6 +31,38 @@ var prevManEndEffectorMeshPosition = new THREE.Vector3();
 
 var trunkGroup = new THREE.Object3D();
 var bodyGroup = new THREE.Object3D();
+var leftShoulderGroup = new THREE.Object3D();
+var rightShoulderGroup = new THREE.Object3D();
+var leftShoulderLinkGroup = new THREE.Object3D();
+var rightShoulderLinkGroup = new THREE.Object3D();
+var leftArmLinkGroup = new THREE.Object3D();
+var rightArmLinkGroup = new THREE.Object3D();
+var leftElbowGroup = new THREE.Object3D();
+var rightElbowGroup = new THREE.Object3D();
+var leftForearmYawGroup = new THREE.Object3D();
+var rightForearmYawGroup = new THREE.Object3D();
+var leftForearmRollGroup = new THREE.Object3D();
+var rightForearmRollGroup = new THREE.Object3D();
+var leftPalmTiltGroup = new THREE.Object3D();
+var rightPalmTiltGroup = new THREE.Object3D();
+var leftPalmGroup = new THREE.Object3D();
+var rightPalmGroup = new THREE.Object3D();
+
+var leftFinger0Group = new THREE.Object3D();
+var leftFinger1Group = new THREE.Object3D();
+var leftFinger2Group = new THREE.Object3D();
+var leftFinger3Group = new THREE.Object3D();
+var leftFinger4Group = new THREE.Object3D();
+var leftFinger5Group = new THREE.Object3D();
+
+var rightFinger0Group = new THREE.Object3D();
+var rightFinger1Group = new THREE.Object3D();
+var rightFinger2Group = new THREE.Object3D();
+var rightFinger3Group = new THREE.Object3D();
+var rightFinger4Group = new THREE.Object3D();
+var rightFinger5Group = new THREE.Object3D();
+
+var headYawGroup = new THREE.Object3D();
 
 var valterGroup = new THREE.Object3D();
 
@@ -69,6 +101,20 @@ function paintGL(canvas)
 
 //            trunkGroup.rotation.y = 0.5;
 //            bodyGroup.rotation.z = -0.5;
+//            leftShoulderGroup.rotation.y = -0.5;
+//            rightShoulderGroup.rotation.y = 0.5;
+//            leftShoulderLinkGroup.rotation.z = 0.5;
+//            rightShoulderLinkGroup.rotation.z = 0.5;
+//            leftArmLinkGroup.rotation.x = 0.5;
+//            rightArmLinkGroup.rotation.x = -0.5;
+//            leftElbowGroup.rotation.z = 0.5;
+//            rightElbowGroup.rotation.z = 0.5;
+//            leftForearmYawGroup.rotation.y = -0.5;
+//            rightForearmYawGroup.rotation.y = 0.5;
+//            leftPalmTiltGroup.rotation.z = 0.5;
+//            rightPalmTiltGroup.rotation.z = 0.5;
+//            leftPalmGroup.rotation.y = -0.5;
+//            rightPalmGroup.rotation.y = 0.5;
 
             sceneInit = true;
         }

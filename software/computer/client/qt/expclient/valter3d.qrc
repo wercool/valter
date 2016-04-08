@@ -11,6 +11,7 @@
         <file>resources/valter_model_json/textures/aluminum.jpg</file>
         <file>resources/valter_model_json/textures/mangripperrotator.jpg</file>
         <file>resources/valter_model_json/textures/aluminum_light.jpg</file>
+        <file>resources/valter_model_json/textures/texture.jpg</file>
     </qresource>
     <qresource prefix="/json_models">
         <file>resources/valter_model_json/platfrom.case.json</file>
@@ -35,5 +36,17 @@
         <file>resources/valter_model_json/computer.case.json</file>
         <file>resources/valter_model_json/trunk.json</file>
         <file>resources/valter_model_json/body.json</file>
+        <file>resources/valter_model_json/body.shoulder.left.json</file>
+        <file>resources/valter_model_json/body.shoulder.right.json</file>
+        <file>resources/valter_model_json/shoulder.link.json</file>
+        <file>resources/valter_model_json/arm.link.json</file>
+        <file>resources/valter_model_json/elbow.json</file>
+        <file>resources/valter_model_json/forearm.p1.json</file>
+        <file>resources/valter_model_json/forearm.json</file>
+        <file>resources/valter_model_json/palm.lift.fixture.p1.json</file>
+        <file>resources/valter_model_json/palm.json</file>
+        <file>resources/valter_model_json/finger.json</file>
+        <file>resources/valter_model_json/head.p1.json</file>
+        <file>resources/valter_model_json/head.json</file>
     </qresource>
 </RCC>
