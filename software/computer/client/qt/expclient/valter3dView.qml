@@ -44,8 +44,8 @@ Canvas3D
 
     function updateLabels()
     {
-        valterGroupPosition.text = "valterGroup.pos [x, y, x] = " + Valter3D.valterGroup.position.x + ", " + Valter3D.valterGroup.position.y + ", " + Valter3D.valterGroup.position.z;
-        valterGroupRotation.text = "valterGroup.rot [x, y, x] = " + Valter3D.valterGroup.rotation.x + ", " + Valter3D.valterGroup.rotation.y + ", " + Valter3D.valterGroup.rotation.z;
+        //valterGroupPosition.text = "valterGroup.pos [x, y, x] = " + Valter3D.valterGroup.position.x + ", " + Valter3D.valterGroup.position.y + ", " + Valter3D.valterGroup.position.z;
+        //valterGroupRotation.text = "valterGroup.rot [x, y, x] = " + Valter3D.valterGroup.rotation.x + ", " + Valter3D.valterGroup.rotation.y + ", " + Valter3D.valterGroup.rotation.z;
     }
 
     MouseArea
@@ -101,10 +101,11 @@ Canvas3D
             }
             if (Valter3D.resetHeadTilt || Valter3D.resetHeadYaw)
             {
-                console.log(Valter3D.headTarget.position.x, Valter3D.prevHeadTargetPosition.x);
-                Valter3D.headTarget.position.copy(Valter3D.prevHeadTargetPosition);
                 Valter3D.resetHeadTilt = false;
                 Valter3D.resetHeadYaw = false;
+                Valter3D.headTarget.position.copy(Valter3D.prevHeadTargetPosition);
+                Valter3D.tilitHead();
+                Valter3D.yawHead();
             }
         }
         onWheel:
@@ -192,9 +193,14 @@ Canvas3D
 
     Keys.onPressed:
     {
-        if (event.key === Qt.Key_R)
+        switch(event.key)
         {
-            console.log("Reset");
+            case Qt.Key_W:
+                Valter3D.setValterGroupPositionDxDz(0.01, 0);
+            break;
+            case Qt.Key_R:
+                console.log("Reset");
+            break;
         }
     }
 

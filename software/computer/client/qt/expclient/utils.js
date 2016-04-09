@@ -94,7 +94,7 @@ function renderValterGroupHelpers()
     scene.remove(valterGroupXLine);
 
     var geometry = new THREE.Geometry();
-    geometry.vertices.push( new THREE.Vector3(valterGroup.position.x, valterGroup.position.y - baseShiftY, valterGroup.position.z),  valterGroupXLineHelperMeshPosition);
+    geometry.vertices.push( new THREE.Vector3(valterGroup.position.x, 0, valterGroup.position.z),  valterGroupXLineHelperMeshPosition);
 
     valterGroupXLine = new THREE.Line( geometry, headGroupHeadTargetLineMaterial );
 
@@ -263,8 +263,9 @@ function setMouseCameraRaycaster(canvas, justPressed)
 
 function yawHeadXZProjection()
 {
-    var headYawToHeadTargetVectorXZProjected = new THREE.Vector3().addVectors(headYawGroupHelperMeshPosition, headTarget.position);
+    headYawToHeadTargetVectorXZProjected = new THREE.Vector3().copy(headTarget.position);
     headYawToHeadTargetVectorXZProjected.projectOnPlane(new THREE.Vector3(0,1,0));
-    drawHelperLine(new THREE.Vector3(0,0,0), headYawToHeadTargetVectorXZProjected);
-    return headYawToHeadTargetVectorXZProjected;
+    var start = new THREE.Vector3().copy(valterGroup.position);
+    start.y = 0;
+    drawHelperLine(start, headYawToHeadTargetVectorXZProjected);
 }

@@ -78,6 +78,7 @@ var headYawGroup = new THREE.Object3D();
 var headGroup = new THREE.Object3D();
 var headYawGroupHelperMesh = new THREE.Mesh();
 var headYawGroupHelperMeshPosition = new THREE.Vector3();
+var headYawToHeadTargetVectorXZProjected = new THREE.Vector3();
 
 var headEndEffectorGroup = new THREE.Object3D();
 var headGroupHeadTargetLine = new THREE.Line();
@@ -130,7 +131,9 @@ function paintGL(canvas)
             valterGroup.add(manLink1Group);
 
             scene.add(valterGroup);
+
             valterGroup.position.y += baseShiftY;
+
 
 //            trunkGroup.rotation.y = 0.5;
 //            bodyGroup.rotation.z = -0.5;
@@ -159,25 +162,29 @@ function paintGL(canvas)
             {
                 addValterGroupHelpers();
                 addHeadTarget();
-                updateEEFs();
 
-                prevHeadTargetPosition.copy(headTarget.position);
+                headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
 
                 sceneAfterInit = true;
             }
-
-            if (!manEndEffectorMeshPosition.equals ( manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone()) ))
+            else
             {
-                drawPixel(manEndEffectorMeshPosition);
+                if (!manEndEffectorMeshPosition.equals ( manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone()) ))
+                {
+                    drawPixel(manEndEffectorMeshPosition);
+                }
+
+                manEndEffectorMeshPosition = manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone());
+                headEndEffectorPosition = headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorMesh.position.clone());
+                headEndEffectorHelperPosition = headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone());
+                headYawGroupHelperMeshPosition = headYawGroup.localToWorld(headYawGroupHelperMesh.position.clone());
+                valterGroupXLineHelperMeshPosition = valterGroup.localToWorld(valterGroupXLineHelperMesh.position.clone());
+
+                drawHeadGroupHeadTargetLine();
+                renderValterGroupHelpers();
+
+                yawHeadXZProjection();
             }
-
-            manEndEffectorMeshPosition = manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone());
-            headEndEffectorPosition = headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorMesh.position.clone());
-            headEndEffectorHelperPosition = headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone());
-            headYawGroupHelperMeshPosition = headYawGroup.localToWorld(headYawGroupHelperMesh.position.clone());
-
-            drawHeadGroupHeadTargetLine();
-            renderValterGroupHelpers();
         }
     }
 
@@ -186,16 +193,17 @@ function paintGL(canvas)
     renderer.render( scene, camera );
 }
 
-function updateEEFs()
+function setValterGroupPositionDxDz(dx, dz)
 {
+    valterGroup.position.x += dx;
+    valterGroup.position.z += dz;
     headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
-    yawHeadXZProjection();
 }
 
 function setValterGroupRotationY(angle)
 {
     valterGroup.rotation.y = angle;
-    updateEEFs();
+    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
 }
 
 function setLink1ZAngle(angle)
@@ -229,18 +237,34 @@ function tilitHead()
         headGroup.rotation.z = alpha;
         resetHeadTilt = false;
         prevHeadTargetPosition.y = headTarget.position.y;
+        headEndEffectorGroupVectorHelperMesh.position.x = headGroupHeadTargetLine3.distance();
     }
 }
 
 function yawHead()
 {
-    var headYawToHeadTargetVectorXZProjected = yawHeadXZProjection();
+    var sign = new THREE.Vector3().crossVectors(valterGroupXLineHelperMeshPosition, headYawToHeadTargetVectorXZProjected).y;
 
-    var valterGroupXLineVector = valterGroupXLine.geometry.vertices[1];
+    var x1 = valterGroup.position.x;
+    var x2 = valterGroupXLineHelperMeshPosition.x;
+    var x3 = valterGroup.position.x;
+    var x4 = headYawToHeadTargetVectorXZProjected.x;
 
-    var sign = new THREE.Vector3().crossVectors(valterGroupXLineVector, headYawToHeadTargetVectorXZProjected).y;
+    var z1 = valterGroup.position.z;
+    var z2 = valterGroupXLineHelperMeshPosition.z;
+    var z3 = valterGroup.position.z;
+    var z4 = headYawToHeadTargetVectorXZProjected.z;
 
-    var alpha = valterGroupXLineVector.angleTo(headYawToHeadTargetVectorXZProjected) * (sign > 0 ? 1 : -1);
+    var dx1 = x2-x1;
+    var dy1 = z2-z1;
+    var dx2 = x4-x3;
+    var dy2 = z4-z3;
+
+    var d = dx1*dx2 + dy1*dy2;   // dot product of the 2 vectors
+    var l2 = (dx1*dx1+dy1*dy1)*(dx2*dx2+dy2*dy2) // product of the squared lengths
+
+    var alpha = Math.acos(d/Math.sqrt(l2)) * ((sign >= 0) ? 1 : -1);
+    console.log(alpha, valterGroup.rotation.y);
 
     if (alpha < -1.2 || alpha > 1.2)
     {
@@ -253,5 +277,6 @@ function yawHead()
         resetHeadYaw = false;
         prevHeadTargetPosition.x = headTarget.position.x;
         prevHeadTargetPosition.z = headTarget.position.z;
+        headEndEffectorGroupVectorHelperMesh.position.x = headGroupHeadTargetLine3.distance();
     }
 }
