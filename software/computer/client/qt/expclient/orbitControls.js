@@ -201,7 +201,10 @@ var updateView = function() {
 
         position.copy( target ).add( offset );
 
-        camera.lookAt( target );
+        if ( !selectedManipulationObject )
+        {
+            camera.lookAt( target );
+        }
 
         thetaDelta = 0;
         phiDelta = 0;

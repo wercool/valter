@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtCanvas3D 1.0
 
-import "valter3d.js" as GLCode
+import "valter3d.js" as Valter3D
 
 
 Canvas3D
@@ -13,39 +13,39 @@ Canvas3D
     height: 480
 
 
-    property int mouseButtonPressed: 0 //0 - no control, 1 - orbit camera, 2 - pan camera
+    property int mouseButtonPressed: 0 //1 - no control (left mouse button), 2 - orbit camera (middle mouse button), 3 - pan camera (right mouse button)
 
     property double mouseX: 0.0;
     property double mouseY: 0.0;
 
-    onInitializeGL: GLCode.initializeGL(valter3DCanvas)
-    onPaintGL: GLCode.paintGL(valter3DCanvas)
-    onResizeGL: GLCode.resizeGL(valter3DCanvas)
+    onInitializeGL: Valter3D.initializeGL(valter3DCanvas)
+    onPaintGL: Valter3D.paintGL(valter3DCanvas)
+    onResizeGL: Valter3D.resizeGL(valter3DCanvas)
 
     function setValterGroupRotationY(angle)
     {
-        GLCode.setValterGroupRotationY(angle)
+        Valter3D.setValterGroupRotationY(angle)
     }
 
     function setLink1ZAngle(angle)
     {
-        GLCode.setLink1ZAngle(angle)
+        Valter3D.setLink1ZAngle(angle)
     }
 
     function setLink2ZAngle(angle)
     {
-        GLCode.setLink2ZAngle(angle)
+        Valter3D.setLink2ZAngle(angle)
     }
 
     function setManTiltZAngle(angle)
     {
-        GLCode.setManTiltZAngle(angle)
+        Valter3D.setManTiltZAngle(angle)
     }
 
     function updateLabels()
     {
-        valterGroupPosition.text = "valterGroup.pos [x, y, x] = " + GLCode.valterGroup.position.x + ", " + GLCode.valterGroup.position.y + ", " + GLCode.valterGroup.position.z;
-        valterGroupRotation.text = "valterGroup.rot [x, y, x] = " + GLCode.valterGroup.rotation.x + ", " + GLCode.valterGroup.rotation.y + ", " + GLCode.valterGroup.rotation.z;
+        valterGroupPosition.text = "valterGroup.pos [x, y, x] = " + Valter3D.valterGroup.position.x + ", " + Valter3D.valterGroup.position.y + ", " + Valter3D.valterGroup.position.z;
+        valterGroupRotation.text = "valterGroup.rot [x, y, x] = " + Valter3D.valterGroup.rotation.x + ", " + Valter3D.valterGroup.rotation.y + ", " + Valter3D.valterGroup.rotation.z;
     }
 
     MouseArea
@@ -53,8 +53,15 @@ Canvas3D
         id: mouseArea1
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons;
+        hoverEnabled: true;
 
         property double wheelDelta: 0
+
+        onPositionChanged:
+        {
+            Valter3D.setMouse(valter3DCanvas, mouseX, mouseY);
+            Valter3D.setMouseCameraRaycaster(valter3DCanvas, false);
+        }
 
         onMouseXChanged:
         {
@@ -70,15 +77,16 @@ Canvas3D
             if (mouse.button == Qt.LeftButton)
             {
                 mouseButtonPressed = 1;
+                Valter3D.setMouseCameraRaycaster(valter3DCanvas, true);
             }
             if (mouse.button == Qt.RightButton)
             {
-                GLCode.handleMouseDownPan(mouseX, mouseY);
+                Valter3D.handleMouseDownPan(mouseX, mouseY);
                 mouseButtonPressed = 2;
             }
             if (mouse.button == Qt.MiddleButton)
             {
-                GLCode.handleMouseDownRotate(mouseX, mouseY);
+                Valter3D.handleMouseDownRotate(mouseX, mouseY);
                 mouseButtonPressed = 3;
             }
         }
@@ -86,17 +94,29 @@ Canvas3D
         onReleased:
         {
             mouseButtonPressed = 0;
+            if (Valter3D.selectedManipulationObject)
+            {
+                Valter3D.objectManipulationPlane.position.copy( Valter3D.interceptedObject.position );
+                Valter3D.selectedManipulationObject = null;
+            }
+            if (Valter3D.resetHeadTilt || Valter3D.resetHeadYaw)
+            {
+                console.log(Valter3D.headTarget.position.x, Valter3D.prevHeadTargetPosition.x);
+                Valter3D.headTarget.position.copy(Valter3D.prevHeadTargetPosition);
+                Valter3D.resetHeadTilt = false;
+                Valter3D.resetHeadYaw = false;
+            }
         }
         onWheel:
         {
             wheelDelta = wheel.angleDelta.y / 500.0;
             if (wheelDelta > 0)
             {
-                GLCode.dollyIn();
+                Valter3D.dollyIn();
             }
             else
             {
-                GLCode.dollyOut();
+                Valter3D.dollyOut();
             }
         }
 

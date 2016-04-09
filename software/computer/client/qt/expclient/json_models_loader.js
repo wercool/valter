@@ -1344,13 +1344,78 @@ function loadModels()
         meshMaterial.shading = THREE.FlatShading;
         var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
 
+        mesh.rotation.x = degToRad(90);
+        mesh.rotation.z = degToRad(90);
+
         bodyGroup.add(headYawGroup);
-        headYawGroup.position.y = 0.4;
+        headYawGroup.position.y = 0.42;
 
         headYawGroup.add(mesh);
 
+        headYawGroupHelperMesh = new THREE.Mesh();
 
-        //!!!!!!!!!!!!!! SET TO LAST LOADED MESH
+        headYawGroup.add(headYawGroupHelperMesh);
+    } );
+
+    //-------------------------------------------------headGroup
+    //head.json
+    loader.load( "qrc:/json_models/resources/valter_model_json/head.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.BufferGeometry();
+        bufferGeometry.fromGeometry(geometry);
+        var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/texture.jpg");
+        texture.minFilter = THREE.NearestFilter;
+        var meshMaterial = new THREE.MeshPhongMaterial({
+                                                         map: texture,
+                                                         bumpMap: texture,
+                                                         bumpScale: 0.1,
+                                                         shininess: 1.5
+                                                     });
+        meshMaterial.shading = THREE.FlatShading;
+        var mesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+
+        mesh.rotation.x = degToRad(90);
+        mesh.rotation.z = degToRad(90);
+
+        headYawGroup.add(headGroup);
+        headGroup.position.y = 0.05;
+        headGroup.position.x = 0.0085;
+
+        headGroup.add(mesh);
+    } );
+
+    //-------------------------------------------------headEndEffectorGroup
+    //man.end.effector.json
+    loader.load( "qrc:/json_models/resources/valter_model_json/man.end.effector.json", function ( geometry, materials ) {
+        geometry.computeVertexNormals();
+        var bufferGeometry = new THREE.SphereGeometry( 0.01, 32, 32 );
+
+        var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/texture.jpg");
+        texture.minFilter = THREE.NearestFilter;
+        var meshMaterial = new THREE.MeshPhongMaterial({
+                                                         map: texture,
+                                                         bumpMap: texture,
+                                                         bumpScale: 0.1,
+                                                         shininess: 1.5
+                                                     });
+        meshMaterial.shading = THREE.FlatShading;
+
+        headEndEffectorGroupVectorMesh = new THREE.Mesh( bufferGeometry, meshMaterial );
+        headEndEffectorGroupVectorHelperMesh = new THREE.Mesh();
+
+        headGroup.add(headEndEffectorGroup);
+
+        headEndEffectorGroup.position.y = 0.125;
+
+        headEndEffectorGroupVectorHelperMesh.position.x = 1.0;
+
+        headEndEffectorGroup.add(headEndEffectorGroupVectorMesh);
+
+
+
+        //!!!!!!!!!!!!!! SET TO THE LAST LOADED MESH
         meshesLoaded = true;
     } );
+
+
 }

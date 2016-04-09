@@ -4,6 +4,12 @@ var pointCloud1Geometry;
 var pointCloud1Material;
 var pointCloud1;
 
+function setMouse(canvas, mouseX, mouseY)
+{
+    mouse.x = ( mouseX / canvas.width ) * 2 - 1;
+    mouse.y = - ( mouseY / canvas.height ) * 2 + 1;
+}
+
 function initializeGL(canvas)
 {
     canvasWidth  = canvas.width;
@@ -53,6 +59,12 @@ function initializeGL(canvas)
     scene.add(pointCloud1);
 
     loadModels();
+
+    objectManipulationPlane = new THREE.Mesh(
+        new THREE.PlaneBufferGeometry( 2000, 2000, 8, 8 ),
+        new THREE.MeshBasicMaterial( { visible: false } )
+    );
+    scene.add( objectManipulationPlane );
 }
 
 function resizeGL(canvas)
@@ -65,6 +77,28 @@ function resizeGL(canvas)
 
     canvasWidth  = canvas.width;
     canvasHeight = canvas.height;
+}
+
+function addValterGroupHelpers()
+{
+    valterGroupXLineHelperMesh = new THREE.Mesh();
+    valterGroupXLineHelperMesh.position.x = 1.0;
+    valterGroupXLineHelperMesh.position.y -= baseShiftY;
+    valterGroup.add(valterGroupXLineHelperMesh);
+}
+
+function renderValterGroupHelpers()
+{
+    valterGroupXLineHelperMeshPosition = valterGroup.localToWorld(valterGroupXLineHelperMesh.position.clone());
+
+    scene.remove(valterGroupXLine);
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push( new THREE.Vector3(valterGroup.position.x, valterGroup.position.y - baseShiftY, valterGroup.position.z),  valterGroupXLineHelperMeshPosition);
+
+    valterGroupXLine = new THREE.Line( geometry, headGroupHeadTargetLineMaterial );
+
+    scene.add(valterGroupXLine);
 }
 
 function degToRad(degrees)
@@ -84,7 +118,7 @@ function mousePointerXYToSceneXZ(canvas)
     pos.z = pMouse.z + ( camera.position.z - pMouse.z ) * m;
 
     //console.log(pos.x, pos.z);
-    drawPixel(pos);
+    return pos;
 }
 
 function drawPixel(pos)
@@ -95,7 +129,7 @@ function drawPixel(pos)
     scene.remove(pointCloud1);
     pointCloud1 = new THREE.PointCloud( newGeometry, pointCloud1Material );
     scene.add(pointCloud1);
-    console.log(pointCloud1Geometry.vertices.length);
+    //console.log(pointCloud1Geometry.vertices.length);
 }
 
 function moveCamera(xRot, yRot, distance)
@@ -117,4 +151,120 @@ function moveCamera(xRot, yRot, distance)
         camera.position.y = cameraPosition[1];
         camera.position.z = cameraPosition[2];
     */
+}
+
+var headGroupHeadTargetLineMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
+var helperLineMaterial = new THREE.LineBasicMaterial({ color: 0xff00ff });
+
+function drawHeadGroupHeadTargetLine()
+{
+    //console.log("HeadEEF: ", headEndEffectorPosition.x, headEndEffectorPosition.y, headEndEffectorPosition.z);
+    //console.log("Target: ", headTarget.position.x, headTarget.position.y, headTarget.position.z);
+
+    scene.remove(headGroupHeadTargetLine);
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push( headEndEffectorPosition, headTarget.position );
+
+    headGroupHeadTargetLine = new THREE.Line( geometry, headGroupHeadTargetLineMaterial );
+
+    headGroupHeadTargetLine3 = new THREE.Line3(headEndEffectorPosition, headTarget.position);
+
+    scene.add(headGroupHeadTargetLine);
+}
+
+function drawHelperLine(start, end)
+{
+    scene.remove(helperLine);
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push( start, end );
+
+    helperLine = new THREE.Line( geometry, helperLineMaterial );
+
+    helperLine3 = new THREE.Line3(start, end);
+
+    scene.add(helperLine);
+}
+
+function addHeadTarget()
+{
+    var bufferGeometry = new THREE.SphereGeometry( 0.02, 32, 32 );
+    var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/texture.jpg");
+    texture.minFilter = THREE.NearestFilter;
+    var meshMaterial = new THREE.MeshPhongMaterial({
+                                                     map: texture,
+                                                     bumpMap: texture,
+                                                     bumpScale: 0.1,
+                                                     shininess: 1.5
+                                                 });
+    meshMaterial.shading = THREE.FlatShading;
+
+    headTarget = new THREE.Mesh( bufferGeometry, meshMaterial );
+
+    scene.add(headTarget);
+
+    interceptedObjects.push(headTarget);
+}
+
+function setMouseCameraRaycaster(canvas, justPressed)
+{
+    mouseCameraRaycaster.setFromCamera( mouse, camera );
+
+    if ( selectedManipulationObject )
+    {
+        var intersectsPlane = mouseCameraRaycaster.intersectObject( objectManipulationPlane );
+        if ( intersectsPlane.length > 0 )
+        {
+            selectedManipulationObject.position.copy( intersectsPlane[0].point.sub( objectManipulationOffset ) );
+        }
+
+        switch (interceptedObject)
+        {
+            case headTarget:
+                tilitHead();
+                yawHead();
+            break;
+        }
+
+        return;
+    }
+
+    var intersects = mouseCameraRaycaster.intersectObjects( interceptedObjects , false);
+
+    if ( intersects.length > 0 )
+    {
+        interceptedObject = intersects[ 0 ].object;
+
+        if (justPressed)
+        {
+            selectedManipulationObject = interceptedObject;
+            var intersectsSelected = mouseCameraRaycaster.intersectObject( objectManipulationPlane , false);
+            if ( intersectsSelected.length > 0 )
+            {
+                objectManipulationOffset.copy( intersectsSelected[0].point ).sub( objectManipulationPlane.position );
+            }
+            return;
+        }
+        else
+        {
+            objectManipulationPlane.position.copy( interceptedObject.position );
+            objectManipulationPlane.lookAt( camera.position );
+
+            switch (interceptedObject)
+            {
+                case headTarget:
+                    //console.log("HIT headTarget");
+                break;
+            }
+        }
+    }
+}
+
+function yawHeadXZProjection()
+{
+    var headYawToHeadTargetVectorXZProjected = new THREE.Vector3().addVectors(headYawGroupHelperMeshPosition, headTarget.position);
+    headYawToHeadTargetVectorXZProjected.projectOnPlane(new THREE.Vector3(0,1,0));
+    drawHelperLine(new THREE.Vector3(0,0,0), headYawToHeadTargetVectorXZProjected);
+    return headYawToHeadTargetVectorXZProjected;
 }
