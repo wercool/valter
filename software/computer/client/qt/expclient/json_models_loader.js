@@ -1368,7 +1368,7 @@ function loadModels()
         var meshMaterial = new THREE.MeshPhongMaterial({
                                                          map: texture,
                                                          bumpMap: texture,
-                                                         bumpScale: 0.1,
+                                                         bumpScale: 1.0,
                                                          shininess: 1.5
                                                      });
         meshMaterial.shading = THREE.FlatShading;
@@ -1388,20 +1388,11 @@ function loadModels()
     //man.end.effector.json
     loader.load( "qrc:/json_models/resources/valter_model_json/man.end.effector.json", function ( geometry, materials ) {
         geometry.computeVertexNormals();
-        var bufferGeometry = new THREE.SphereGeometry( 0.01, 32, 32 );
+        var bufferGeometry = new THREE.SphereGeometry( 0.01, 5, 5 );
 
-        var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/texture.jpg");
-        texture.minFilter = THREE.NearestFilter;
-        var meshMaterial = new THREE.MeshPhongMaterial({
-                                                         map: texture,
-                                                         bumpMap: texture,
-                                                         bumpScale: 0.1,
-                                                         shininess: 1.5
-                                                     });
-        meshMaterial.shading = THREE.FlatShading;
-
-        headEndEffectorGroupVectorMesh = new THREE.Mesh( bufferGeometry, meshMaterial );
-        headEndEffectorGroupVectorHelperMesh = new THREE.Mesh();
+        headEndEffectorGroupVectorMesh = new THREE.Mesh( );
+        var meshMaterial = new THREE.MeshPhongMaterial({color: "#FF0000", specular: "#555555", shininess: 25});
+        headEndEffectorGroupVectorHelperMesh = new THREE.Mesh(bufferGeometry , meshMaterial);
 
         headGroup.add(headEndEffectorGroup);
 
@@ -1410,6 +1401,7 @@ function loadModels()
         headEndEffectorGroupVectorHelperMesh.position.x = 1.0;
 
         headEndEffectorGroup.add(headEndEffectorGroupVectorMesh);
+        headEndEffectorGroup.add(headEndEffectorGroupVectorHelperMesh);
 
 
 

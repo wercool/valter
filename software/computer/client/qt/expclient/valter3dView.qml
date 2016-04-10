@@ -196,10 +196,22 @@ Canvas3D
         switch(event.key)
         {
             case Qt.Key_W:
-                Valter3D.setValterGroupPositionDxDz(0.01, 0);
+                Valter3D.setValterGroupPositionDxDz(0.01, 0.01);
+            break;
+            case Qt.Key_S:
+                Valter3D.setValterGroupPositionDxDz(-0.01, -0.01);
+            break;
+            case Qt.Key_A:
+                Valter3D.setValterGroupRotationDy(0.01);
+            break;
+            case Qt.Key_D:
+                Valter3D.setValterGroupRotationDy(- 0.01);
             break;
             case Qt.Key_R:
-                console.log("Reset");
+                Valter3D.initOrbitControl();
+            break;
+            case Qt.Key_Control:
+                Valter3D.ctrlPressed = true;
             break;
         }
     }
@@ -208,6 +220,7 @@ Canvas3D
     {
         if (event.key === Qt.Key_Control)
         {
+            Valter3D.ctrlPressed = false;
         }
     }
 }

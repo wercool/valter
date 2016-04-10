@@ -3,9 +3,12 @@ Qt.include("qrc:/valter3d/utils.js")
 Qt.include("qrc:/valter3d/json_models_loader.js")
 Qt.include("qrc:/valter3d/orbitControls.js")
 
+
+//helpers
 var zeroVector = new THREE.Vector3(0, 1.0, 0);
 var helperLine = new THREE.Line();
 var helperLine3 = new THREE.Line3();
+var helperSphere = new THREE.SphereGeometry( 0.01, 32, 32 );
 
 var mouse = new THREE.Vector2(0,0);
 var mouseCameraRaycaster = new THREE.Raycaster();
@@ -96,6 +99,11 @@ var valterGroupZLineHelperMesh = new THREE.Mesh();
 var valterGroupXLine = new THREE.Line();
 var valterGroupXLineHelperMeshPosition = new THREE.Vector3();
 var valterGroupZLine = new THREE.Line();
+
+/*
+  various current values
+*/
+var valterGroupRotation = 0.0;
 
 function paintGL(canvas)
 {
@@ -195,15 +203,52 @@ function paintGL(canvas)
 
 function setValterGroupPositionDxDz(dx, dz)
 {
-    valterGroup.position.x += dx;
-    valterGroup.position.z += dz;
+    valterGroup.position.x += dx * Math.cos(valterGroup.rotation.y);
+    valterGroup.position.z -= dz * Math.sin(valterGroup.rotation.y);
     headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
+
+    var supportWheelsRotDy = 0;
+    if (frontLeftSupportWheelGroup.rotation.y > 0)
+    {
+        supportWheelsRotDy = -0.07;
+    }
+    else
+    {
+        supportWheelsRotDy = 0.07;
+    }
+
+    if (Math.abs(frontLeftSupportWheelGroup.rotation.y) > 0.07)
+    {
+        frontLeftSupportWheelGroup.rotation.y   += supportWheelsRotDy;
+        frontRightSupportWheelGroup.rotation.y  += supportWheelsRotDy;
+        rearLeftSupportWheelGroup.rotation.y    += -supportWheelsRotDy;
+        rearRightSupportWheelGroup.rotation.y   += -supportWheelsRotDy;
+    }
+    else
+    {
+        frontLeftSupportWheelGroup.rotation.y   = 0;
+        frontRightSupportWheelGroup.rotation.y  = 0;
+        rearLeftSupportWheelGroup.rotation.y    = 0;
+        rearRightSupportWheelGroup.rotation.y   = 0;
+    }
 }
 
-function setValterGroupRotationY(angle)
+function setValterGroupRotationDy(da)
 {
-    valterGroup.rotation.y = angle;
+    valterGroup.rotation.y += da;
     headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
+
+    valterGroupRotation = valterGroup.rotation.y;
+
+    var supportWheelsRotY = frontLeftSupportWheelGroup.rotation.y + da * 4;
+
+    if ( (supportWheelsRotY < Math.PI / 2 && da > 0) || (supportWheelsRotY > -Math.PI / 2 && da < 0))
+    {
+        frontLeftSupportWheelGroup.rotation.y = supportWheelsRotY;
+        frontRightSupportWheelGroup.rotation.y = supportWheelsRotY;
+        rearLeftSupportWheelGroup.rotation.y = -supportWheelsRotY;
+        rearRightSupportWheelGroup.rotation.y = -supportWheelsRotY;
+    }
 }
 
 function setLink1ZAngle(angle)
@@ -260,10 +305,11 @@ function yawHead()
     var dx2 = x4-x3;
     var dy2 = z4-z3;
 
-    var d = dx1*dx2 + dy1*dy2;   // dot product of the 2 vectors
+    var d = dx1*dx2 + dy1*dy2;  1 // dot product of the 2 vectors
     var l2 = (dx1*dx1+dy1*dy1)*(dx2*dx2+dy2*dy2) // product of the squared lengths
 
-    var alpha = Math.acos(d/Math.sqrt(l2)) * ((sign >= 0) ? 1 : -1);
+    var alpha = Math.acos( d / Math.sqrt(l2)) * ((sign >= 0) ? 1 : -1);
+
     console.log(alpha, valterGroup.rotation.y);
 
     if (alpha < -1.2 || alpha > 1.2)

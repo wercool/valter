@@ -1,3 +1,6 @@
+//keys pressed
+var ctrlPressed = false;
+
 var canvasWidth, canvasHeight;
 
 var pointCloud1Geometry;
@@ -60,11 +63,20 @@ function initializeGL(canvas)
 
     loadModels();
 
+    //mouse manipulation scene
     objectManipulationPlane = new THREE.Mesh(
         new THREE.PlaneBufferGeometry( 2000, 2000, 8, 8 ),
         new THREE.MeshBasicMaterial( { visible: false } )
     );
     scene.add( objectManipulationPlane );
+
+    //helperSphere
+    var bufferGeometry = new THREE.SphereGeometry( 0.03, 32, 32 );
+    var meshMaterial = new THREE.MeshPhongMaterial({color: "#FF0000", specular: "#555555", shininess: 1.0});
+    meshMaterial.transparent = true;
+    meshMaterial.opacity = 0.2;
+    helperSphere = new THREE.Mesh( bufferGeometry, meshMaterial );
+    scene.add(helperSphere);
 }
 
 function resizeGL(canvas)
@@ -81,7 +93,9 @@ function resizeGL(canvas)
 
 function addValterGroupHelpers()
 {
-    valterGroupXLineHelperMesh = new THREE.Mesh();
+    var meshMaterial = new THREE.MeshPhongMaterial({color: "#FFFF00", specular: "#555555", shininess: 1.0});
+    var bufferGeometry = new THREE.SphereGeometry( 0.02, 32, 32 );
+    valterGroupXLineHelperMesh = new THREE.Mesh();//new THREE.Mesh(bufferGeometry, meshMaterial);
     valterGroupXLineHelperMesh.position.x = 1.0;
     valterGroupXLineHelperMesh.position.y -= baseShiftY;
     valterGroup.add(valterGroupXLineHelperMesh);
@@ -190,14 +204,9 @@ function drawHelperLine(start, end)
 function addHeadTarget()
 {
     var bufferGeometry = new THREE.SphereGeometry( 0.02, 32, 32 );
-    var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/texture.jpg");
+    var texture = THREE.ImageUtils.loadTexture("qrc:/textures/resources/valter_model_json/textures/robot_eye.jpg");
     texture.minFilter = THREE.NearestFilter;
-    var meshMaterial = new THREE.MeshPhongMaterial({
-                                                     map: texture,
-                                                     bumpMap: texture,
-                                                     bumpScale: 0.1,
-                                                     shininess: 1.5
-                                                 });
+    var meshMaterial = new THREE.MeshPhongMaterial({color: "#00FF00", specular: "#555555", shininess: 25});
     meshMaterial.shading = THREE.FlatShading;
 
     headTarget = new THREE.Mesh( bufferGeometry, meshMaterial );
@@ -211,12 +220,22 @@ function setMouseCameraRaycaster(canvas, justPressed)
 {
     mouseCameraRaycaster.setFromCamera( mouse, camera );
 
+    //object selected
     if ( selectedManipulationObject )
     {
         var intersectsPlane = mouseCameraRaycaster.intersectObject( objectManipulationPlane );
         if ( intersectsPlane.length > 0 )
         {
-            selectedManipulationObject.position.copy( intersectsPlane[0].point.sub( objectManipulationOffset ) );
+            var curObjectPosY = selectedManipulationObject.position.y;
+            if (ctrlPressed)
+            {
+                selectedManipulationObject.position.copy( intersectsPlane[0].point.sub( objectManipulationOffset ) );
+                selectedManipulationObject.position.y = curObjectPosY;
+            }
+            else
+            {
+                selectedManipulationObject.position.copy( intersectsPlane[0].point.sub( objectManipulationOffset ) );
+            }
         }
 
         switch (interceptedObject)

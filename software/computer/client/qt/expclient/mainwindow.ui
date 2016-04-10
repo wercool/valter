@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>1022</height>
+             <width>780</width>
+             <height>1016</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3741,7 +3741,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>838</width>
+             <width>82</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7482,7 +7482,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
+             <width>821</width>
              <height>885</height>
             </rect>
            </property>
@@ -9852,6 +9852,22 @@ background-repeat: repeat-no;</string>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_83">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>50</y>
+          <width>179</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="statusTip">
+         <string extracomment="sss"/>
+        </property>
+        <property name="text">
+         <string>valterGroup Y rotation</string>
         </property>
        </widget>
       </widget>

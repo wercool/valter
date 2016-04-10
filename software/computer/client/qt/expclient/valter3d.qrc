@@ -12,6 +12,7 @@
         <file>resources/valter_model_json/textures/mangripperrotator.jpg</file>
         <file>resources/valter_model_json/textures/aluminum_light.jpg</file>
         <file>resources/valter_model_json/textures/texture.jpg</file>
+        <file>resources/valter_model_json/textures/robot_eye.jpg</file>
     </qresource>
     <qresource prefix="/json_models">
         <file>resources/valter_model_json/platfrom.case.json</file>

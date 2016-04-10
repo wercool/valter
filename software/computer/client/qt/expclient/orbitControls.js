@@ -41,7 +41,8 @@ var thetaDelta = 0;
 
 function initOrbitControl()
 {
-    target.copy(zeroVector);
+    target.copy(valterGroup.position);
+    target.y = 1.0;
 }
 
 function handleMouseDownPan( mouseX, mouseY )
@@ -91,6 +92,12 @@ var pan = function() {
     return function( deltaX, deltaY ) {
 
         var position = camera.position;
+
+        if (ctrlPressed && selectedManipulationObject)
+        {
+            target.copy(selectedManipulationObject.position);
+        }
+
 
         offset.copy( position );
         offset.sub( target );
@@ -201,10 +208,8 @@ var updateView = function() {
 
         position.copy( target ).add( offset );
 
-        if ( !selectedManipulationObject )
-        {
-            camera.lookAt( target );
-        }
+        camera.lookAt( target );
+        helperSphere.position.copy(target);
 
         thetaDelta = 0;
         phiDelta = 0;
