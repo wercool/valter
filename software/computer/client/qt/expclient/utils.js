@@ -201,6 +201,18 @@ function drawHelperLine(start, end)
     scene.add(helperLine);
 }
 
+function drawHelperLine1(start, end)
+{
+    scene.remove(helperLine1);
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push( start, end );
+
+    helperLine1 = new THREE.Line( geometry, helperLineMaterial );
+
+    scene.add(helperLine1);
+}
+
 function addHeadTarget()
 {
     var bufferGeometry = new THREE.SphereGeometry( 0.02, 32, 32 );
@@ -284,7 +296,7 @@ function yawHeadXZProjection()
 {
     headYawToHeadTargetVectorXZProjected = new THREE.Vector3().copy(headTarget.position);
     headYawToHeadTargetVectorXZProjected.projectOnPlane(new THREE.Vector3(0,1,0));
-    var start = new THREE.Vector3().copy(valterGroup.position);
-    start.y = 0;
-    drawHelperLine(start, headYawToHeadTargetVectorXZProjected);
+    var initial = new THREE.Vector3().copy(headEndEffectorPosition);
+    initial.y = 0;
+    drawHelperLine(initial, headYawToHeadTargetVectorXZProjected);
 }

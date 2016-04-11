@@ -99,14 +99,7 @@ Canvas3D
                 Valter3D.objectManipulationPlane.position.copy( Valter3D.interceptedObject.position );
                 Valter3D.selectedManipulationObject = null;
             }
-            if (Valter3D.resetHeadTilt || Valter3D.resetHeadYaw)
-            {
-                Valter3D.resetHeadTilt = false;
-                Valter3D.resetHeadYaw = false;
-                Valter3D.headTarget.position.copy(Valter3D.prevHeadTargetPosition);
-                Valter3D.tilitHead();
-                Valter3D.yawHead();
-            }
+            Valter3D.headTarget.position.copy(Valter3D.headEndEffectorHelperPosition);
         }
         onWheel:
         {

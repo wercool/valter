@@ -1907,3 +1907,21 @@ void MainWindow::on_horizontalScrollBar_9_valueChanged(int value)
         valter3d->setValterGroupRotationY((double)value / 100);
     }
 }
+
+void MainWindow::on_manipulatorLiknk1AscentButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (platformManipulatorAndIRBumper->prepareManLink1Movement())
+    {
+        //ascent
+        if (platformManipulatorAndIRBumper->setLink1MovementDirection(true))
+        {
+            platformManipulatorAndIRBumper->setLink1MotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_manipulatorLiknk1DescentButton_clicked()
+{
+
+}

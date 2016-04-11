@@ -1353,8 +1353,12 @@ function loadModels()
         headYawGroup.add(mesh);
 
         headYawGroupHelperMesh = new THREE.Mesh();
-
         headYawGroup.add(headYawGroupHelperMesh);
+
+        headYawGroupNormalHelperMesh = new THREE.Mesh();
+        headYawGroupNormalHelperMesh.position.x = 1.0;
+        headYawGroup.add(headYawGroupNormalHelperMesh);
+
     } );
 
     //-------------------------------------------------headGroup
@@ -1388,7 +1392,7 @@ function loadModels()
     //man.end.effector.json
     loader.load( "qrc:/json_models/resources/valter_model_json/man.end.effector.json", function ( geometry, materials ) {
         geometry.computeVertexNormals();
-        var bufferGeometry = new THREE.SphereGeometry( 0.01, 5, 5 );
+        var bufferGeometry = new THREE.SphereGeometry( 0.01, 12, 12 );
 
         headEndEffectorGroupVectorMesh = new THREE.Mesh( );
         var meshMaterial = new THREE.MeshPhongMaterial({color: "#FF0000", specular: "#555555", shininess: 25});

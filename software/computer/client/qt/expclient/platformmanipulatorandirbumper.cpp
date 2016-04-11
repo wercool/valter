@@ -27,12 +27,6 @@ PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
     this->controlDeviceIsSet = false;
 }
 
-string PlatformManipulatorAndIRBumper::getControlDeviceId()
-{
-    return controlDeviceId;
-}
-
-
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::getInstance()
 {
     if(!instanceFlag)
@@ -63,6 +57,9 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
         getControlDevice()->clearMessageQueue();
         getControlDevice()->clearDataExchangeLog();
     }
+
+    link1MovementDirection = false;
+    link1MotorActivated = false;
 }
 
 void PlatformManipulatorAndIRBumper::setModuleInitialState()
@@ -70,12 +67,61 @@ void PlatformManipulatorAndIRBumper::setModuleInitialState()
 
 }
 
-void PlatformManipulatorAndIRBumper::spawnProcessMessagesQueueWorkerThread()
-{
-    //setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));
-}
-
 void PlatformManipulatorAndIRBumper::loadDefaults()
 {
 
+}
+
+void PlatformManipulatorAndIRBumper::spawnProcessMessagesQueueWorkerThread()
+{
+    setProcessMessagesQueueWorkerThread(new std::thread(&PlatformManipulatorAndIRBumper::processMessagesQueueWorker, this));
+    getControlDevice()->addMsgToDataExchangeLog("PlatformManipulatorAndIRBumper Module process messages queue worker started...");
+}
+
+void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
+{
+    if (getControlDeviceIsSet())
+    {
+        while (getControlDevice()->getStatus() == ControlDevice::StatusActive)
+        {
+            if (getControlDevice()->responsesAvailable())
+            {
+
+            }
+            this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        getControlDevice()->addMsgToDataExchangeLog("PlatformManipulatorAndIRBumper Module process messages queue worker stopped!");
+    }
+}
+
+bool PlatformManipulatorAndIRBumper::prepareManLink1Movement()
+{
+    return true;
+}
+
+//setters and getters
+bool PlatformManipulatorAndIRBumper::getLink1MotorActivated() const
+{
+    return link1MotorActivated;
+}
+
+void PlatformManipulatorAndIRBumper::setLink1MotorActivated(bool value)
+{
+    link1MotorActivated = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getLink1MovementDirection() const
+{
+    return link1MovementDirection;
+}
+
+bool PlatformManipulatorAndIRBumper::setLink1MovementDirection(bool value)
+{
+    link1MovementDirection = value;
+    return true;
+}
+
+string PlatformManipulatorAndIRBumper::getControlDeviceId()
+{
+    return controlDeviceId;
 }

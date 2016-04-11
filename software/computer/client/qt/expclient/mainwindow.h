@@ -418,6 +418,10 @@ private slots:
     //Utilities
     void on_horizontalScrollBar_9_valueChanged(int value);
 
+    void on_manipulatorLiknk1AscentButton_pressed();
+
+    void on_manipulatorLiknk1DescentButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

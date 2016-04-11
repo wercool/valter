@@ -20,6 +20,8 @@ public:
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
 
+    bool prepareManLink1Movement();
+
     //manipulator
     const static double rootX;
     const static double rootY;
@@ -32,12 +34,23 @@ public:
     static double man_b;
     static double man_g;
 
+    bool getLink1MovementDirection() const;
+    bool setLink1MovementDirection(bool value);
+
+    bool getLink1MotorActivated() const;
+    void setLink1MotorActivated(bool value);
+
 private:
     PlatformManipulatorAndIRBumper();
     static PlatformManipulatorAndIRBumper* pPlatformManipulatorAndIRBumper;         // PLATFORM-MANIPULATOR-AND-IR-BUMPER's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
     static const string defaultsFilePath;
+
+    void processMessagesQueueWorker();
+
+    bool link1MovementDirection;
+    bool link1MotorActivated;
 };
 
 #endif // PLATFORMMANIPULATORANDIRBUMPER_H
