@@ -741,6 +741,17 @@ function loadModels()
         trunkGroup.add(bodyGroup);
         bodyGroup.position.y = 0.4;
 
+        bodyGroupHelperMeshX = new THREE.Mesh();
+        bodyGroupHelperMeshX.position.x = 1.0;
+        bodyGroup.add(bodyGroupHelperMeshX);
+
+        bodyGroupHelperMeshZ = new THREE.Mesh();
+        bodyGroupHelperMeshZ.position.z = 1.0;
+        bodyGroup.add(bodyGroupHelperMeshZ);
+
+        bodyGroupHelperMeshCenter = new THREE.Mesh();
+        bodyGroup.add(bodyGroupHelperMeshCenter);
+
         bodyGroup.add(mesh);
     } );
 

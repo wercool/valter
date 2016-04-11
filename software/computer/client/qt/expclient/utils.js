@@ -187,20 +187,6 @@ function drawHeadGroupHeadTargetLine()
     scene.add(headGroupHeadTargetLine);
 }
 
-function drawHelperLine(start, end)
-{
-    scene.remove(helperLine);
-
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push( start, end );
-
-    helperLine = new THREE.Line( geometry, helperLineMaterial );
-
-    helperLine3 = new THREE.Line3(start, end);
-
-    scene.add(helperLine);
-}
-
 function drawHelperLine1(start, end)
 {
     scene.remove(helperLine1);
@@ -211,6 +197,42 @@ function drawHelperLine1(start, end)
     helperLine1 = new THREE.Line( geometry, helperLineMaterial );
 
     scene.add(helperLine1);
+}
+
+function drawHelperLine2(start, end)
+{
+    scene.remove(helperLine2);
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push( start, end );
+
+    helperLine2 = new THREE.Line( geometry, helperLineMaterial );
+
+    scene.add(helperLine2);
+}
+
+function drawHelperLine3(start, end)
+{
+    scene.remove(helperLine3);
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push( start, end );
+
+    helperLine3 = new THREE.Line( geometry, helperLineMaterial );
+
+    scene.add(helperLine3);
+}
+
+function drawHelperLine4(start, end)
+{
+    scene.remove(helperLine4);
+
+    var geometry = new THREE.Geometry();
+    geometry.vertices.push( start, end );
+
+    helperLine4 = new THREE.Line( geometry, helperLineMaterial );
+
+    scene.add(helperLine4);
 }
 
 function addHeadTarget()
@@ -292,11 +314,50 @@ function setMouseCameraRaycaster(canvas, justPressed)
     }
 }
 
-function yawHeadXZProjection()
+function headYawProjOnBodyGroupPlane()
 {
-    headYawToHeadTargetVectorXZProjected = new THREE.Vector3().copy(headTarget.position);
-    headYawToHeadTargetVectorXZProjected.projectOnPlane(new THREE.Vector3(0,1,0));
-    var initial = new THREE.Vector3().copy(headEndEffectorPosition);
-    initial.y = 0;
-    drawHelperLine(initial, headYawToHeadTargetVectorXZProjected);
+    var x1 = bodyGroupHelperMeshCenterPosition.x;
+    var x2 = bodyGroupHelperMeshXPosition.x;
+    var x3 = bodyGroupHelperMeshCenterPosition.x;
+    var x4 = bodyGroupHelperMeshZPosition.x;
+
+    var y1 = bodyGroupHelperMeshCenterPosition.y;
+    var y2 = bodyGroupHelperMeshXPosition.y;
+    var y3 = bodyGroupHelperMeshCenterPosition.y;
+    var y4 = bodyGroupHelperMeshZPosition.y;
+
+    var z1 = bodyGroupHelperMeshCenterPosition.z;
+    var z2 = bodyGroupHelperMeshXPosition.z;
+    var z3 = bodyGroupHelperMeshCenterPosition.z;
+    var z4 = bodyGroupHelperMeshZPosition.z;
+
+    var dx1 = x2-x1;
+    var dx2 = x4-x3;
+    var dy1 = y2-y1;
+    var dy2 = y4-y3;
+    var dz1 = z2-z1;
+    var dz2 = z4-z3;
+
+    var v1 = new THREE.Vector3(dx1, dy1, dz1);
+    var v2 = new THREE.Vector3(dx2, dy2, dz2);
+    //bodyGroup plane normal
+    var normal = v1.cross(v2).negate();
+
+    var tVx1 = headEndEffectorPosition.x;
+    var tVx2 = headTarget.position.x;
+
+    var tVy1 = headEndEffectorPosition.y;
+    var tVy2 = headTarget.position.y;
+
+    var tVz1 = headEndEffectorPosition.z;
+    var tVz2 = headTarget.position.z;
+
+    var dtVx = tVx2 - tVx1;
+    var dtVy = tVy2 - tVy1;
+    var dtVz = tVz2 - tVz1;
+
+    var proj = new THREE.Vector3(dtVx, dtVy, dtVz);
+    proj.projectOnPlane(new THREE.Vector3(0,1,0));
+
+    drawHelperLine4(new THREE.Vector3(0,0,0), proj);
 }
