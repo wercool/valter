@@ -422,6 +422,8 @@ private slots:
 
     void on_manipulatorLiknk1DescentButton_clicked();
 
+    void on_horizontalScrollBar_10_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

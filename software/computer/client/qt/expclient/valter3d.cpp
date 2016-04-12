@@ -5,9 +5,14 @@ Valter3d::Valter3d(QWidget *parent) : QWidget(parent)
 
 }
 
-void Valter3d::setValterGroupRotationY(double angle)
+void Valter3d::setValterTrunkRotationY(double angle)
 {
-    QMetaObject::invokeMethod((QObject*)this->valter3dView->rootObject(), "setValterGroupRotationY", Q_ARG(QVariant, QVariant::fromValue(angle)));
+    QMetaObject::invokeMethod((QObject*)this->valter3dView->rootObject(), "setValterTrunkRotationY", Q_ARG(QVariant, QVariant::fromValue(angle)));
+}
+
+void Valter3d::setValterBodyRotationZ(double angle)
+{
+    QMetaObject::invokeMethod((QObject*)this->valter3dView->rootObject(), "setValterBodyRotationZ", Q_ARG(QVariant, QVariant::fromValue(angle)));
 }
 
 void Valter3d::setLink1ZAngle(double angle)

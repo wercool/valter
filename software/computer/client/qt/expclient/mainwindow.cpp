@@ -1886,6 +1886,26 @@ void MainWindow::on_detachManipulatorFrameButton_clicked()
     pWidget->show();
 }
 
+void MainWindow::on_manipulatorLiknk1AscentButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (platformManipulatorAndIRBumper->prepareManLink1Movement())
+    {
+        //ascent
+        if (platformManipulatorAndIRBumper->setLink1MovementDirection(true))
+        {
+            platformManipulatorAndIRBumper->setLink1MotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_manipulatorLiknk1DescentButton_clicked()
+{
+
+}
+
+
+//Valter3D
 void MainWindow::on_valter3dOpenButton_clicked()
 {
     if (!valter3d)
@@ -1904,24 +1924,14 @@ void MainWindow::on_horizontalScrollBar_9_valueChanged(int value)
 {
     if (valter3d != 0)
     {
-        valter3d->setValterGroupRotationY((double)value / 100);
+        valter3d->setValterTrunkRotationY((double)value / 10);
     }
 }
 
-void MainWindow::on_manipulatorLiknk1AscentButton_pressed()
+void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
 {
-    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
-    if (platformManipulatorAndIRBumper->prepareManLink1Movement())
+    if (valter3d != 0)
     {
-        //ascent
-        if (platformManipulatorAndIRBumper->setLink1MovementDirection(true))
-        {
-            platformManipulatorAndIRBumper->setLink1MotorActivated(true);
-        }
+        valter3d->setValterBodyRotationZ(-1 * (double)value / 10);
     }
-}
-
-void MainWindow::on_manipulatorLiknk1DescentButton_clicked()
-{
-
 }

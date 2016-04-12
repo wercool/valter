@@ -85,8 +85,8 @@ var headYawGroup = new THREE.Object3D();
 var headGroup = new THREE.Object3D();
 var headYawGroupHelperMesh = new THREE.Mesh();
 var headYawGroupNormalHelperMesh = new THREE.Mesh();
-var headYawGroupHelperMeshPosition = new THREE.Vector3();
-var headYawGroupNormalHelperMeshPosition = new THREE.Vector3();
+var headYawGroupCenterMeshPosition = new THREE.Vector3();
+var headYawGroupXMeshPosition = new THREE.Vector3();
 var headYawToHeadTargetVectorXZProjected = new THREE.Vector3();
 
 var headEndEffectorGroup = new THREE.Object3D();
@@ -114,10 +114,7 @@ var bodyGroupHelperMeshCenterPosition = new THREE.Vector3();
 var bodyGroupHelperMeshXPosition = new THREE.Vector3();
 var bodyGroupHelperMeshZPosition = new THREE.Vector3();
 
-/*
-  various current values
-*/
-var valterGroupRotation = 0.0;
+var headYawProjOnBodyGroupPlaneVector3 = new THREE.Vector3();
 
 function paintGL(canvas)
 {
@@ -158,7 +155,7 @@ function paintGL(canvas)
 
 
 //            trunkGroup.rotation.y = 0.5;
-            bodyGroup.rotation.z = -0.5;
+//            bodyGroup.rotation.z = -0.5;
 //            leftShoulderGroup.rotation.y = -0.5;
 //            rightShoulderGroup.rotation.y = 0.5;
 //            leftShoulderLinkGroup.rotation.z = 0.5;
@@ -201,8 +198,8 @@ function paintGL(canvas)
                 headEndEffectorPosition = headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorMesh.position.clone());
                 headEndEffectorHelperPosition = headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone());
 
-                headYawGroupHelperMeshPosition = headYawGroup.localToWorld(headYawGroupHelperMesh.position.clone());
-                headYawGroupNormalHelperMeshPosition = headYawGroup.localToWorld(headYawGroupNormalHelperMesh.position.clone());
+                headYawGroupCenterMeshPosition = headYawGroup.localToWorld(headYawGroupHelperMesh.position.clone());
+                headYawGroupXMeshPosition = headYawGroup.localToWorld(headYawGroupNormalHelperMesh.position.clone());
 
                 valterGroupXLineHelperMeshPosition = valterGroup.localToWorld(valterGroupXLineHelperMesh.position.clone());
 
@@ -212,10 +209,10 @@ function paintGL(canvas)
 
                 drawHeadGroupHeadTargetLine();
                 renderValterGroupHelpers();
-                headYawProjOnBodyGroupPlane();
+                headYawProjOnBodyGroupPlaneVector3 = headYawProjOnBodyGroupPlane();
 
                 /* HELPERS */
-                drawHelperLine1(headYawGroupHelperMeshPosition, headYawGroupNormalHelperMeshPosition);
+                drawHelperLine1(headYawGroupCenterMeshPosition, headYawGroupXMeshPosition);
                 drawHelperLine2(bodyGroupHelperMeshCenterPosition, bodyGroupHelperMeshZPosition);
                 drawHelperLine3(bodyGroupHelperMeshCenterPosition, bodyGroupHelperMeshXPosition);
             }
@@ -264,8 +261,6 @@ function setValterGroupRotationDy(da)
     valterGroup.rotation.y += da;
     headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
 
-    valterGroupRotation = valterGroup.rotation.y;
-
     var supportWheelsRotY = frontLeftSupportWheelGroup.rotation.y + da * 4;
 
     if ( (supportWheelsRotY < Math.PI / 2 && da > 0) || (supportWheelsRotY > -Math.PI / 2 && da < 0))
@@ -275,6 +270,19 @@ function setValterGroupRotationDy(da)
         rearLeftSupportWheelGroup.rotation.y = -supportWheelsRotY;
         rearRightSupportWheelGroup.rotation.y = -supportWheelsRotY;
     }
+}
+
+function setValterTrunkRotationY(angle)
+{
+    trunkGroup.rotation.y = degToRad(angle);
+    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
+
+}
+
+function setValterBodyRotationZ(angle)
+{
+    bodyGroup.rotation.z = degToRad(angle);
+    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
 }
 
 function setLink1ZAngle(angle)
@@ -298,18 +306,18 @@ function tilitHead()
 //    var l = headGroupHeadTargetLine3.distance();
 //    var alpha = -Math.asin(dy / l) - bodyGroup.rotation.z;
 
-    var x1 = headYawGroupHelperMeshPosition.x;
-    var x2 = headYawGroupNormalHelperMeshPosition.x;
+    var x1 = headYawGroupCenterMeshPosition.x;
+    var x2 = headYawGroupXMeshPosition.x;
     var x3 = headEndEffectorPosition.x;
     var x4 = headTarget.position.x;
 
-    var y1 = headYawGroupHelperMeshPosition.y;
-    var y2 = headYawGroupNormalHelperMeshPosition.y;
+    var y1 = headYawGroupCenterMeshPosition.y;
+    var y2 = headYawGroupXMeshPosition.y;
     var y3 = headEndEffectorPosition.y;
     var y4 = headTarget.position.y;
 
-    var z1 = headYawGroupHelperMeshPosition.z;
-    var z2 = headYawGroupNormalHelperMeshPosition.z;
+    var z1 = headYawGroupCenterMeshPosition.z;
+    var z2 = headYawGroupXMeshPosition.z;
     var z3 = headEndEffectorPosition.z;
     var z4 = headTarget.position.z;
 
@@ -324,72 +332,67 @@ function tilitHead()
     var v2 = new THREE.Vector3(dx2, dy2, dz2);
     var alpha = v1.angleTo(v2);
     var sign = v1.cross(v2).z;
-    alpha *= ((sign > 0) ? 1 : -1);
+    alpha *= (sign > 0) ? 1 : -1;
+    alpha *= (Math.cos(valterGroup.rotation.y) > 0) ? 1 : -1;
+    //trunkGroup.rotation.y
 
-    //console.log(alpha);
+    console.log(alpha);
 
     if (alpha > 0 || alpha < -degToRad(60))
     {
         resetHeadTilt = true;
-        if (alpha > 0)
-        {
-            headGroup.rotation.z = 0;
-        }
-        else if (alpha < -degToRad(60))
-        {
-            headGroup.rotation.z = -degToRad(60);
-        }
         console.log("resetHeadTilt");
     }
     else
     {
         headGroup.rotation.z = alpha;
         resetHeadTilt = false;
+        headEndEffectorGroupVectorHelperMesh.position.x = headGroupHeadTargetLine3.distance();
     }
-    headEndEffectorGroupVectorHelperMesh.position.x = headGroupHeadTargetLine3.distance();
 }
 
 function yawHead()
 {
+    var x1 = bodyGroupHelperMeshCenterPosition.x;
+    var x2 = bodyGroupHelperMeshXPosition.x;
+    var x3 = bodyGroupHelperMeshCenterPosition.x;
+    var x4 = headYawProjOnBodyGroupPlaneVector3.x;
 
+    var y1 = bodyGroupHelperMeshCenterPosition.y;
+    var y2 = bodyGroupHelperMeshXPosition.y;
+    var y3 = bodyGroupHelperMeshCenterPosition.y;
+    var y4 = headYawProjOnBodyGroupPlaneVector3.y;
 
-    //console.log(alpha);
+    var z1 = bodyGroupHelperMeshCenterPosition.z;
+    var z2 = bodyGroupHelperMeshXPosition.z;
+    var z3 = bodyGroupHelperMeshCenterPosition.z;
+    var z4 = headYawProjOnBodyGroupPlaneVector3.z;
 
+    var dx1 = x2-x1;
+    var dx2 = x4-x3;
+    var dy1 = y2-y1;
+    var dy2 = y4-y3;
+    var dz1 = z2-z1;
+    var dz2 = z4-z3;
 
-//    var x1 = valterGroup.position.x;
-//    var x2 = valterGroupXLineHelperMeshPosition.x;
-//    var x3 = valterGroup.position.x;
-//    var x4 = headYawToHeadTargetVectorXZProjected.x;
+    var v1 = new THREE.Vector3(dx1, dy1, dz1);
+    var v2 = new THREE.Vector3(dx2, dy2, dz2);
 
-//    var z1 = valterGroup.position.z;
-//    var z2 = valterGroupXLineHelperMeshPosition.z;
-//    var z3 = valterGroup.position.z;
-//    var z4 = headYawToHeadTargetVectorXZProjected.z;
+    var alpha = v1.angleTo(v2);
+    var sign = v1.cross(v2).y;
+    alpha *= ((sign > 0) ? 1 : -1);
 
-//    var dx1 = x2-x1;
-//    var dz1 = z2-z1;
-//    var dx2 = x4-x3;
-//    var dz2 = z4-z3;
+//    console.log(alpha);
 
-//    var alpha = Math.atan2(dz2, dx2) - Math.atan2(dz1, dx1);
-
-//    var dir = new THREE.Vector3(dx1, 0, dz1);
-//    var prj = new THREE.Vector3(dx2, 0, dz2);
-//    var c = new THREE.Vector3();
-//    var sign = (c.crossVectors( dir, prj ).y > 0 ? 1 : -1);
-//    var alpha = sign * dir.angleTo(prj);
-
-    //console.log(alpha);
-
-//    if (alpha < -1.2 + trunkGroup.rotation.y || alpha > 1.2 + trunkGroup.rotation.y)
-//    {
-//        resetHeadYaw = true;
-//        console.log("resetHeadYaw");
-//    }
-//    else
-//    {
-//        headYawGroup.rotation.y = -alpha - trunkGroup.rotation.y;
-//        resetHeadYaw = false;
-//        headEndEffectorGroupVectorHelperMesh.position.x = headGroupHeadTargetLine3.distance();
-//    }
+    if (alpha < -1.2 || alpha > 1.2)
+    {
+        resetHeadYaw = true;
+        console.log("resetHeadYaw");
+    }
+    else
+    {
+        headYawGroup.rotation.y = alpha;
+        resetHeadYaw = false;
+        headEndEffectorGroupVectorHelperMesh.position.x = headGroupHeadTargetLine3.distance();
+    }
 }

@@ -357,7 +357,10 @@ function headYawProjOnBodyGroupPlane()
     var dtVz = tVz2 - tVz1;
 
     var proj = new THREE.Vector3(dtVx, dtVy, dtVz);
-    proj.projectOnPlane(new THREE.Vector3(0,1,0));
+    proj.projectOnPlane(normal);
+    proj.add(bodyGroupHelperMeshCenterPosition);
 
-    drawHelperLine4(new THREE.Vector3(0,0,0), proj);
+    drawHelperLine4(bodyGroupHelperMeshCenterPosition, proj);
+
+    return proj;
 }

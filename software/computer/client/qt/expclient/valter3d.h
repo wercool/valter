@@ -11,7 +11,8 @@ public:
     QQuickView *valter3dView;
     explicit Valter3d(QWidget *parent = 0);
 
-    void setValterGroupRotationY(double angle);
+    void setValterTrunkRotationY(double angle);
+    void setValterBodyRotationZ(double angle);
 
     void setLink1ZAngle(double angle);
     void setLink2ZAngle(double angle);

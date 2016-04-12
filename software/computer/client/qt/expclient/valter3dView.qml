@@ -22,9 +22,14 @@ Canvas3D
     onPaintGL: Valter3D.paintGL(valter3DCanvas)
     onResizeGL: Valter3D.resizeGL(valter3DCanvas)
 
-    function setValterGroupRotationY(angle)
+    function setValterTrunkRotationY(angle)
     {
-        Valter3D.setValterGroupRotationY(angle)
+        Valter3D.setValterTrunkRotationY(angle)
+    }
+
+    function setValterBodyRotationZ(angle)
+    {
+        Valter3D.setValterBodyRotationZ(angle)
     }
 
     function setLink1ZAngle(angle)

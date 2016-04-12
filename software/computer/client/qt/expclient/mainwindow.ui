@@ -53,7 +53,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
+             <width>821</width>
              <height>1016</height>
             </rect>
            </property>
@@ -3741,7 +3741,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>82</width>
+             <width>839</width>
              <height>2400</height>
             </rect>
            </property>
@@ -9842,10 +9842,10 @@ background-repeat: repeat-no;</string>
          </rect>
         </property>
         <property name="minimum">
-         <number>-314</number>
+         <number>-900</number>
         </property>
         <property name="maximum">
-         <number>314</number>
+         <number>900</number>
         </property>
         <property name="singleStep">
          <number>0</number>
@@ -9867,7 +9867,48 @@ background-repeat: repeat-no;</string>
          <string extracomment="sss"/>
         </property>
         <property name="text">
-         <string>valterGroup Y rotation</string>
+         <string>trunkGroup Y rotation</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_85">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>179</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="statusTip">
+         <string extracomment="sss"/>
+        </property>
+        <property name="text">
+         <string>bodyGroup Z rotation</string>
+        </property>
+       </widget>
+       <widget class="QScrollBar" name="horizontalScrollBar_10">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>391</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="minimum">
+         <number>0</number>
+        </property>
+        <property name="maximum">
+         <number>500</number>
+        </property>
+        <property name="singleStep">
+         <number>0</number>
+        </property>
+        <property name="pageStep">
+         <number>5</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </widget>
