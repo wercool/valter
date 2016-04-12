@@ -126,7 +126,7 @@ function paintGL(canvas)
             if ( !selectedManipulationObject )
             {
                 var pos = mousePointerXYToSceneXZ(canvas);
-                drawPixel(pos);
+                //drawPixel(pos);
             }
         break;
         case 2:
@@ -192,7 +192,7 @@ function paintGL(canvas)
             {
                 if (!manEndEffectorMeshPosition.equals ( manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone()) ))
                 {
-                    drawPixel(manEndEffectorMeshPosition);
+//                    drawPixel(manEndEffectorMeshPosition);
                 }
 
                 manEndEffectorMeshPosition = manEndEffectorGroup.localToWorld(manEndEffectorMesh.position.clone());
@@ -238,6 +238,10 @@ function setValterGroupPositionDxDz(dx, dz)
     valterGroup.position.x += dx * Math.cos(valterGroup.rotation.y);
     valterGroup.position.z -= dz * Math.sin(valterGroup.rotation.y);
     updateHandlers();
+
+    var bodyPositionPoint = new THREE.Vector3().copy(valterGroup.position);
+    bodyPositionPoint.y = 0.715;
+    drawPixel(bodyPositionPoint);
 
     var supportWheelsRotDy = 0;
     if (frontLeftSupportWheelGroup.rotation.y > 0)

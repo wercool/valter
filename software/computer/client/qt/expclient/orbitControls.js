@@ -14,7 +14,7 @@ var phi;
 
 // How far you can dolly in and out ( PerspectiveCamera only )
 var minDistance = 0.5;
-var maxDistance = 10;
+var maxDistance = 20;
 
 // How far you can orbit vertically, upper and lower limits.
 // Range is 0 to Math.PI radians.

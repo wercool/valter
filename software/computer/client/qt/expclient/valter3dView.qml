@@ -53,6 +53,40 @@ Canvas3D
         //valterGroupRotation.text = "valterGroup.rot [x, y, x] = " + Valter3D.valterGroup.rotation.x + ", " + Valter3D.valterGroup.rotation.y + ", " + Valter3D.valterGroup.rotation.z;
     }
 
+
+    Keys.onPressed:
+    {
+        switch(event.key)
+        {
+            case Qt.Key_W:
+                Valter3D.setValterGroupPositionDxDz(0.01, 0.01);
+            break;
+            case Qt.Key_S:
+                Valter3D.setValterGroupPositionDxDz(-0.01, -0.01);
+            break;
+            case Qt.Key_A:
+                Valter3D.setValterGroupRotationDy(0.01);
+            break;
+            case Qt.Key_D:
+                Valter3D.setValterGroupRotationDy(- 0.01);
+            break;
+            case Qt.Key_R:
+                Valter3D.initOrbitControl();
+            break;
+            case Qt.Key_Control:
+                Valter3D.ctrlPressed = true;
+            break;
+        }
+    }
+
+    Keys.onReleased:
+    {
+        if (event.key === Qt.Key_Control)
+        {
+            Valter3D.ctrlPressed = false;
+        }
+    }
+
     MouseArea
     {
         id: mouseArea1
@@ -119,6 +153,7 @@ Canvas3D
             }
         }
 
+        /*-----------------------------------------------GUI OBJECTS--------------------------------------------*/
         Text
         {
             id: valterGroupPosition
@@ -186,39 +221,6 @@ Canvas3D
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignTop
             font.bold: true
-        }
-    }
-
-    Keys.onPressed:
-    {
-        switch(event.key)
-        {
-            case Qt.Key_W:
-                Valter3D.setValterGroupPositionDxDz(0.01, 0.01);
-            break;
-            case Qt.Key_S:
-                Valter3D.setValterGroupPositionDxDz(-0.01, -0.01);
-            break;
-            case Qt.Key_A:
-                Valter3D.setValterGroupRotationDy(0.01);
-            break;
-            case Qt.Key_D:
-                Valter3D.setValterGroupRotationDy(- 0.01);
-            break;
-            case Qt.Key_R:
-                Valter3D.initOrbitControl();
-            break;
-            case Qt.Key_Control:
-                Valter3D.ctrlPressed = true;
-            break;
-        }
-    }
-
-    Keys.onReleased:
-    {
-        if (event.key === Qt.Key_Control)
-        {
-            Valter3D.ctrlPressed = false;
         }
     }
 }
