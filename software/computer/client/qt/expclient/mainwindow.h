@@ -405,6 +405,8 @@ private slots:
     void on_bottomRearLedsButton_toggled(bool checked);
 
     //platform-manipulator-and-ir-bumper
+    void initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui);
+
     void platformManipulatorAndIRBumperRefreshTimerUpdate();
 
     void on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool checked);
@@ -413,16 +415,38 @@ private slots:
 
     void on_detachManipulatorFrameButton_clicked();
 
-    void on_valter3dOpenButton_clicked();
-
-    //Utilities
-    void on_horizontalScrollBar_9_valueChanged(int value);
-
     void on_manipulatorLiknk1AscentButton_pressed();
 
-    void on_manipulatorLiknk1DescentButton_clicked();
+    void on_manipulatorLiknk1DescentButton_pressed();
+
+    //Utilities
+    //Valter 3D
+    void on_valter3dOpenButton_clicked();
+
+    void on_horizontalScrollBar_9_valueChanged(int value);
 
     void on_horizontalScrollBar_10_valueChanged(int value);
+
+
+    void on_platformManipulatorAndIRBumperLoadDefaultsButton_clicked();
+
+    void on_manipulatorLiknk1MotorDutyScroller_valueChanged(int value);
+
+    void on_manipulatorLiknk1DecelerationScroller_valueChanged(int value);
+
+    void on_manipulatorLiknk1AccelerationScroller_valueChanged(int value);
+
+    void on_manipulatorLiknk2MotorDutyScroller_valueChanged(int value);
+
+    void on_manipulatorLiknk2DecelerationScroller_valueChanged(int value);
+
+    void on_manipulatorLiknk2AccelerationScroller_valueChanged(int value);
+
+    void on_powerOnOff24VPlatfromManipulatorAndIRBumperButton_clicked();
+
+    void on_manipulatorLiknk1AscentButton_released();
+
+    void on_manipulatorLiknk1DescentButton_released();
 
 private:
     Ui::MainWindow *ui;

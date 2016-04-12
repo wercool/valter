@@ -1366,9 +1366,13 @@ function loadModels()
         headYawGroupHelperMesh = new THREE.Mesh();
         headYawGroup.add(headYawGroupHelperMesh);
 
-        headYawGroupNormalHelperMesh = new THREE.Mesh();
-        headYawGroupNormalHelperMesh.position.x = 1.0;
-        headYawGroup.add(headYawGroupNormalHelperMesh);
+        headYawGroupXMesh = new THREE.Mesh();
+        headYawGroupXMesh.position.x = 1.0;
+        headYawGroup.add(headYawGroupXMesh);
+
+        headYawGroupYMesh = new THREE.Mesh();
+        headYawGroupYMesh.position.y = 0.5;
+        headYawGroup.add(headYawGroupYMesh);
 
     } );
 

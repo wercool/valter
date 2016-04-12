@@ -275,8 +275,7 @@ function setMouseCameraRaycaster(canvas, justPressed)
         switch (interceptedObject)
         {
             case headTarget:
-                tilitHead();
-                yawHead();
+                headTrackingHeadHandler();
             break;
         }
 

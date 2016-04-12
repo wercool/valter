@@ -84,9 +84,11 @@ var rightFinger5Group = new THREE.Object3D();
 var headYawGroup = new THREE.Object3D();
 var headGroup = new THREE.Object3D();
 var headYawGroupHelperMesh = new THREE.Mesh();
-var headYawGroupNormalHelperMesh = new THREE.Mesh();
+var headYawGroupXMesh = new THREE.Mesh();
+var headYawGroupYMesh = new THREE.Mesh();
 var headYawGroupCenterMeshPosition = new THREE.Vector3();
 var headYawGroupXMeshPosition = new THREE.Vector3();
+var headYawGroupYMeshPosition = new THREE.Vector3();
 var headYawToHeadTargetVectorXZProjected = new THREE.Vector3();
 
 var headEndEffectorGroup = new THREE.Object3D();
@@ -182,7 +184,7 @@ function paintGL(canvas)
                 addValterGroupHelpers();
                 addHeadTarget();
 
-                headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
+                updateHandlers();
 
                 sceneAfterInit = true;
             }
@@ -199,7 +201,8 @@ function paintGL(canvas)
                 headEndEffectorHelperPosition = headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone());
 
                 headYawGroupCenterMeshPosition = headYawGroup.localToWorld(headYawGroupHelperMesh.position.clone());
-                headYawGroupXMeshPosition = headYawGroup.localToWorld(headYawGroupNormalHelperMesh.position.clone());
+                headYawGroupXMeshPosition = headYawGroup.localToWorld(headYawGroupXMesh.position.clone());
+                headYawGroupYMeshPosition = headYawGroup.localToWorld(headYawGroupYMesh.position.clone());
 
                 valterGroupXLineHelperMeshPosition = valterGroup.localToWorld(valterGroupXLineHelperMesh.position.clone());
 
@@ -212,7 +215,7 @@ function paintGL(canvas)
                 headYawProjOnBodyGroupPlaneVector3 = headYawProjOnBodyGroupPlane();
 
                 /* HELPERS */
-                drawHelperLine1(headYawGroupCenterMeshPosition, headYawGroupXMeshPosition);
+                drawHelperLine1(headYawGroupCenterMeshPosition, headYawGroupYMeshPosition);
                 drawHelperLine2(bodyGroupHelperMeshCenterPosition, bodyGroupHelperMeshZPosition);
                 drawHelperLine3(bodyGroupHelperMeshCenterPosition, bodyGroupHelperMeshXPosition);
             }
@@ -224,11 +227,17 @@ function paintGL(canvas)
     renderer.render( scene, camera );
 }
 
+function updateHandlers()
+{
+    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
+}
+
+
 function setValterGroupPositionDxDz(dx, dz)
 {
     valterGroup.position.x += dx * Math.cos(valterGroup.rotation.y);
     valterGroup.position.z -= dz * Math.sin(valterGroup.rotation.y);
-    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
+    updateHandlers();
 
     var supportWheelsRotDy = 0;
     if (frontLeftSupportWheelGroup.rotation.y > 0)
@@ -259,7 +268,6 @@ function setValterGroupPositionDxDz(dx, dz)
 function setValterGroupRotationDy(da)
 {
     valterGroup.rotation.y += da;
-    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
 
     var supportWheelsRotY = frontLeftSupportWheelGroup.rotation.y + da * 4;
 
@@ -270,54 +278,65 @@ function setValterGroupRotationDy(da)
         rearLeftSupportWheelGroup.rotation.y = -supportWheelsRotY;
         rearRightSupportWheelGroup.rotation.y = -supportWheelsRotY;
     }
+    updateHandlers();
 }
 
 function setValterTrunkRotationY(angle)
 {
     trunkGroup.rotation.y = degToRad(angle);
-    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
-
+    updateHandlers();
 }
 
 function setValterBodyRotationZ(angle)
 {
     bodyGroup.rotation.z = degToRad(angle);
-    headTarget.position.copy(headEndEffectorGroup.localToWorld(headEndEffectorGroupVectorHelperMesh.position.clone()));
+    updateHandlers();
 }
 
 function setLink1ZAngle(angle)
 {
     manLink1Group.rotation.z = angle;
+    /*TEMP*/
+    headTarget.position.copy(manEndEffectorMeshPosition);
+    headTrackingHeadHandler();
 }
 
 function setLink2ZAngle(angle)
 {
     manLink2Group.rotation.z = angle;
+    /*TEMP*/
+    headTarget.position.copy(manEndEffectorMeshPosition);
+    headTrackingHeadHandler();
 }
 
 function setManTiltZAngle(angle)
 {
     manGripperTiltGroup.rotation.z = angle;
+    /*TEMP*/
+    headTarget.position.copy(manEndEffectorMeshPosition);
+    headTrackingHeadHandler();
+}
+
+function headTrackingHeadHandler()
+{
+    tilitHead();
+    yawHead();
 }
 
 function tilitHead()
 {
-//    var dy = headEndEffectorPosition.y - headTarget.position.y;
-//    var l = headGroupHeadTargetLine3.distance();
-//    var alpha = -Math.asin(dy / l) - bodyGroup.rotation.z;
-
     var x1 = headYawGroupCenterMeshPosition.x;
-    var x2 = headYawGroupXMeshPosition.x;
+    var x2 = headYawGroupYMeshPosition.x;
     var x3 = headEndEffectorPosition.x;
     var x4 = headTarget.position.x;
 
     var y1 = headYawGroupCenterMeshPosition.y;
-    var y2 = headYawGroupXMeshPosition.y;
+    var y2 = headYawGroupYMeshPosition.y;
     var y3 = headEndEffectorPosition.y;
     var y4 = headTarget.position.y;
 
     var z1 = headYawGroupCenterMeshPosition.z;
-    var z2 = headYawGroupXMeshPosition.z;
+    var z2 = headYawGroupYMeshPosition.z;
     var z3 = headEndEffectorPosition.z;
     var z4 = headTarget.position.z;
 
@@ -331,10 +350,8 @@ function tilitHead()
     var v1 = new THREE.Vector3(dx1, dy1, dz1);
     var v2 = new THREE.Vector3(dx2, dy2, dz2);
     var alpha = v1.angleTo(v2);
-    var sign = v1.cross(v2).z;
-    alpha *= (sign > 0) ? 1 : -1;
-    alpha *= (Math.cos(valterGroup.rotation.y) > 0) ? 1 : -1;
-    //trunkGroup.rotation.y
+    alpha -= Math.PI / 2;
+    alpha *= -1;
 
     console.log(alpha);
 

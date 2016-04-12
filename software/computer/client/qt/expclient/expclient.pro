@@ -27,7 +27,11 @@ SOURCES += main.cpp\
            platformcontrolp2.cpp \
            platformmanipulatorandirbumper.cpp \
            bodycontrolp1.cpp \
-           valter3d.cpp
+           valter3d.cpp \
+#service code
+           platformcontrolp1.code.utils.cpp \
+           mainwindow.manipulatorandirbumper.cpp \
+           mainwindow.platformcontrolp1.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -59,4 +63,4 @@ CONFIG += c++11
 
 RESOURCES += \
             resources/platform-location.qrc \
-    valter3d.qrc
+            valter3d.qrc

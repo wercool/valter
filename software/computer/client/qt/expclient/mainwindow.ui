@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>1016</height>
+             <width>820</width>
+             <height>1022</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3741,7 +3741,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>839</width>
+             <width>838</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7391,7 +7391,7 @@ background-repeat: repeat-no;</string>
           <item>
            <widget class="QPushButton" name="powerOnOff24VPlatfromManipulatorAndIRBumperButton">
             <property name="text">
-             <string>24V Power Supply</string>
+             <string>24V Power Supply ON / OFF</string>
             </property>
             <property name="checkable">
              <bool>true</bool>
@@ -7422,6 +7422,9 @@ background-repeat: repeat-no;</string>
            <widget class="QCheckBox" name="platformManipulatorAndIRBumperRedrawGUICheckBox">
             <property name="text">
              <string>redraw GUI</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -7482,7 +7485,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
+             <width>820</width>
              <height>885</height>
             </rect>
            </property>
@@ -7765,6 +7768,12 @@ background-repeat: repeat-no;</string>
                      </item>
                      <item>
                       <widget class="QScrollBar" name="manipulatorLiknk1MotorDutyScroller">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>100</number>
+                       </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
@@ -7821,8 +7830,17 @@ background-repeat: repeat-no;</string>
                      </item>
                      <item>
                       <widget class="QScrollBar" name="manipulatorLiknk1DecelerationScroller">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10</number>
+                       </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="invertedAppearance">
+                        <bool>false</bool>
                        </property>
                       </widget>
                      </item>
@@ -7876,7 +7894,13 @@ background-repeat: repeat-no;</string>
                       </layout>
                      </item>
                      <item>
-                      <widget class="QScrollBar" name="manipulatorLiknk1Scroller">
+                      <widget class="QScrollBar" name="manipulatorLiknk1AccelerationScroller">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10</number>
+                       </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
@@ -8410,6 +8434,12 @@ background-repeat: repeat-no;</string>
                      </item>
                      <item>
                       <widget class="QScrollBar" name="manipulatorLiknk2MotorDutyScroller">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>100</number>
+                       </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
@@ -8466,6 +8496,12 @@ background-repeat: repeat-no;</string>
                      </item>
                      <item>
                       <widget class="QScrollBar" name="manipulatorLiknk2DecelerationScroller">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10</number>
+                       </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>
@@ -8521,7 +8557,13 @@ background-repeat: repeat-no;</string>
                       </layout>
                      </item>
                      <item>
-                      <widget class="QScrollBar" name="manipulatorLiknk2Scroller">
+                      <widget class="QScrollBar" name="manipulatorLiknk2AccelerationScroller">
+                       <property name="minimum">
+                        <number>1</number>
+                       </property>
+                       <property name="maximum">
+                        <number>10</number>
+                       </property>
                        <property name="orientation">
                         <enum>Qt::Horizontal</enum>
                        </property>

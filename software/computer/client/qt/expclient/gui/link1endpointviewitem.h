@@ -140,7 +140,10 @@ void Link1EndPointViewItem::setAngle(float a, bool manual)
         getAndSetCurrentABGangles();
     }
 
-    MainWindow::getInstance()->valter3d->setLink1ZAngle(PlatformManipulatorAndIRBumper::man_a);
+    if (MainWindow::getInstance()->valter3d != 0)
+    {
+        MainWindow::getInstance()->valter3d->setLink1ZAngle(PlatformManipulatorAndIRBumper::man_a);
+    }
 
     MainWindow::getInstance()->platfromManipulatorLink1->setLine(x1, y1, j1x, j1y);
     MainWindow::getInstance()->platfromManipulatorLink1Link2Console->setLine(j1x, j1y, j2x, j2y);
