@@ -22,6 +22,9 @@ unsigned int turretPositionRange = 1000;
 unsigned int turretRotationDirection = 0;
 unsigned int turretPositioning = 0;
 
+unsigned int dumperLeft = 0;
+unsigned int dumperRight = 0;
+
 //*----------------------------------------------------------------------------
 //* Function Name       : IRQ0Handler
 //* Object              : Interrupt Handler called by the IRQ0 interrupt with AT91
@@ -29,7 +32,11 @@ unsigned int turretPositioning = 0;
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ0Handler(void)
 {
-    leftMotorCounter++;
+    if (dumperLeft == 100)
+    {
+        leftMotorCounter++;
+        dumperLeft = 0;
+    }
 }
 
 
@@ -40,7 +47,11 @@ __ramfunc void IRQ0Handler(void)
 //*----------------------------------------------------------------------------
 __ramfunc void IRQ1Handler(void)
 {
-    rightMotorCounter++;
+    if (dumperRight == 100)
+    {
+        rightMotorCounter++;
+        dumperRight = 100;
+    }
 }
 
 /*
@@ -388,6 +399,15 @@ int main(void)
             watchdogReset();
         }
 
+        if (dumperLeft < 100)
+        {
+            dumperLeft++;
+        }
+        if (dumperRight < 100)
+        {
+            dumperRight++;
+        }
+
         if (turretStaticMode)
         {
             unsigned int curVal = setTurretPosition(turretStaticVal);
@@ -400,7 +420,6 @@ int main(void)
         }
 
         //IMPORTANT!!! Implement in a working firmware
-        /*
         unsigned int turret_pos = getTurretPosition(0);
         if ((turret_pos <= 25 || turret_pos >= 999) && turret_pos != 1023)
         {
@@ -409,7 +428,6 @@ int main(void)
             turretStaticMode = 0;
             stopTurretDrive();
         }
-        */
 
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)

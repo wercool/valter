@@ -13,9 +13,10 @@ const string PlatformControlP2::defaultsFilePath = "/home/maska/git/valter/softw
 PlatformControlP2::PlatformControlP2()
 {
     Valter::log(PlatformControlP2::controlDeviceId + " singleton started");
+    this->controlDeviceIsSet = false;
+
     resetToDefault();
     loadDefaults();
-    this->controlDeviceIsSet = false;
 }
 
 void PlatformControlP2::processMessagesQueueWorker()

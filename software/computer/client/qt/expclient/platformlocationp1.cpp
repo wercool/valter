@@ -13,9 +13,10 @@ const string PlatformLocationP1::defaultsFilePath = "/home/maska/git/valter/soft
 PlatformLocationP1::PlatformLocationP1()
 {
     Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
+    controlDeviceIsSet = false;
+
     resetToDefault();
     loadDefaults();
-    controlDeviceIsSet = false;
 
     new std::thread(&PlatformLocationP1::readSensorsWorker, this);
 }

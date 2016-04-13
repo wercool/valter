@@ -15,10 +15,11 @@ const string PlatformControlP1::defaultsFilePath = "/home/maska/git/valter/softw
 PlatformControlP1::PlatformControlP1()
 {    
     Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
-    resetToDefault();
-    loadDefaults();
 
     controlDeviceIsSet = false;
+
+    resetToDefault();
+    loadDefaults();
 
     chargerButtonPressStep = 0;
 
