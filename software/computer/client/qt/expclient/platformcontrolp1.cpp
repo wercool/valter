@@ -13,11 +13,15 @@ const string PlatformControlP1::controlDeviceId = "PLATFORM-CONTROL-P1";
 const string PlatformControlP1::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-control-p1-defaults";
 
 PlatformControlP1::PlatformControlP1()
-{
+{    
     Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
+    resetToDefault();
     loadDefaults();
+
     controlDeviceIsSet = false;
+
     chargerButtonPressStep = 0;
+
     new std::thread(&PlatformControlP1::platformMovementWorker, this);
     new std::thread(&PlatformControlP1::turretRotationWorker, this);
     new std::thread(&PlatformControlP1::scanFor220VACAvailable, this);

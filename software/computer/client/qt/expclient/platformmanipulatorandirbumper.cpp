@@ -24,6 +24,8 @@ double PlatformManipulatorAndIRBumper::man_g    = 0.0;
 PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
 {
     Valter::log(PlatformManipulatorAndIRBumper::controlDeviceId + " singleton started");
+    resetToDefault();
+    loadDefaults();
     this->controlDeviceIsSet = false;
 
     new std::thread(&PlatformManipulatorAndIRBumper::manLink1MovementWorker, this);

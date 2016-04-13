@@ -71,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     platformControlP1TabRefreshTimer = new QTimer(this);
     connect(platformControlP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP1TabRefreshTimerUpdate()));
-    platformControlP1TabRefreshTimer->start(100);
+    platformControlP1TabRefreshTimer->start(50);
 
     delayedGUIActionsProcessingTimer = new QTimer(this);
     connect(delayedGUIActionsProcessingTimer, SIGNAL(timeout()), this, SLOT(delayedGUIActionsProcessingTimerUpdate()));

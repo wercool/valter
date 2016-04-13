@@ -13,6 +13,7 @@ const string PlatformLocationP1::defaultsFilePath = "/home/maska/git/valter/soft
 PlatformLocationP1::PlatformLocationP1()
 {
     Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
+    resetToDefault();
     loadDefaults();
     controlDeviceIsSet = false;
 
@@ -55,7 +56,6 @@ void PlatformLocationP1::resetToDefault()
         getControlDevice()->clearMessageQueue();
         getControlDevice()->clearDataExchangeLog();
     }
-
     for (int i = 0; i < 12; i++)
     {
         redLedArray[i] = false;

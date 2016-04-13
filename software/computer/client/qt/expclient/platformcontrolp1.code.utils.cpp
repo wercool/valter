@@ -136,7 +136,11 @@ void PlatformControlP1::resetToDefault()
     {
         setChargerMode(false);
     }
-    getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformControlP1::controlDeviceId.c_str()));
+
+    if (this->controlDeviceIsSet)
+    {
+        getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformControlP1::controlDeviceId.c_str()));
+    }
 }
 
 int PlatformControlP1::getAdditionalReadingsDelayCur() const

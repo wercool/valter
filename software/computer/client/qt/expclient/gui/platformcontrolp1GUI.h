@@ -251,7 +251,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             ui->chargerConnectedRadioButton->setEnabled(true);
             ui->charger120Ah14v7RadioButton->setEnabled(true);
         }
-
+//qDebug("%d, %d", platformControlP1->getLeftMotorDuty(), platformControlP1->getRightMotorDuty());
         ui->leftMotorCurDutyBar->setValue(platformControlP1->getLeftMotorDuty());
         ui->rightMotorCurDutyBar->setValue(platformControlP1->getRightMotorDuty());
         ui->turretMotorCurDutyBar->setValue(platformControlP1->getTurretMotorDuty());

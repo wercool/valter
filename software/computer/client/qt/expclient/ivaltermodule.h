@@ -26,7 +26,7 @@ public:
         reloadDefaults = false;
     }
 
-    bool controlDeviceIsSet;
+    bool controlDeviceIsSet = false;
     bool stopAllProcesses;
 
     virtual void stopAll() = 0;
