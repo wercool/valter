@@ -21,6 +21,9 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         //ui->platformManipulatorAngleGLcdNumber->display(Valter::format_string("%.2f", PlatformManipulatorAndIRBumper::man_g * 180 / M_PI).c_str());
 
         ui->is24VOnRadioButton->setChecked(platformManipulatorAndIRBumper->getPower24VOnOff());
+
+        ui->manLink1DutyProgressBar->setValue(platformManipulatorAndIRBumper->getLink1MotorDuty());
+        ui->manLink2DutyProgressBar->setValue(platformManipulatorAndIRBumper->getLink2MotorDuty());
     }
 }
 
@@ -49,6 +52,17 @@ void loadPlatformManipulatorAndIRBumperDefaults(Ui::MainWindow *ui)
 
     ui->manipulatorLiknk2DecelerationScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorDeceleration());
     ui->manipulatorLiknk2AccelerationScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorAcceleration());
+
+    ui->manGripperRotationMotorDutyScroller->setValue(platformManipulatorAndIRBumper->getManGripperRotationMotorDuty());
+
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(0, 0))->setCheckState((platformManipulatorAndIRBumper->getLink1PositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(0, 1))->setCheckState((platformManipulatorAndIRBumper->getLink1PositionADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(1, 0))->setCheckState((platformManipulatorAndIRBumper->getLink2PositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(1, 1))->setCheckState((platformManipulatorAndIRBumper->getLink2PositionADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(2, 0))->setCheckState((platformManipulatorAndIRBumper->getLink1CurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(2, 1))->setCheckState((platformManipulatorAndIRBumper->getLink1CurrentADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(3, 0))->setCheckState((platformManipulatorAndIRBumper->getLink2CurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(3, 1))->setCheckState((platformManipulatorAndIRBumper->getLink2CurrentADC()) ? Qt::Checked : Qt::Unchecked);
 
     ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked(true);
 }

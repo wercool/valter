@@ -108,6 +108,9 @@ protected:
     }
 
 private slots:
+    //Control Devices
+    void initControlDevices(Ui::MainWindow *ui);
+
     void on_scanControlDevicesBtn_clicked();
 
     void on_connectDisconnectControlDeviceButton_clicked();
@@ -135,6 +138,9 @@ private slots:
     void on_reScanControlDevicesButton_clicked();
 
     void on_wdResetOnButton_clicked();
+
+    //platfrom control p1
+    void initPlatfromControlP1(Ui::MainWindow *ui);
 
     void platformControlP1TabRefreshTimerUpdate();
 
@@ -265,6 +271,8 @@ private slots:
     void on_mainTabWidget_tabBarDoubleClicked(int index);
 
     //PLATFORM-LOCATION-P1
+    void initPlatfromLocationP1(Ui::MainWindow *ui);
+
     void platformLocationP1TabRefreshTimerUpdate();
 
     void platfromLocationP1LEDHandler();
@@ -347,6 +355,8 @@ private slots:
     void on_inclinometerFrameDetatchButton_clicked();
 
     //platfrom-control-p2
+    void initPlatfromControlP2(Ui::MainWindow *ui);
+
     void on_chargerMotorDutyScrollBar_valueChanged(int value);
 
     void on_chargerMotorPushDurationScrollBar_valueChanged(int value);
@@ -447,6 +457,40 @@ private slots:
     void on_manipulatorLiknk1AscentButton_released();
 
     void on_manipulatorLiknk1DescentButton_released();
+
+    void on_manipulatorLiknk2AscentButton_pressed();
+
+    void on_manipulatorLiknk2AscentButton_released();
+
+    void on_manipulatorLiknk2DescentButton_pressed();
+
+    void on_manipulatorLiknk2DescentButton_released();
+
+    void on_gripperTiltAscentButton_pressed();
+
+    void on_gripperTiltDescentButton_released();
+
+    void on_gripperTiltDescentButton_pressed();
+
+    void on_gripperTiltAscentButton_released();
+
+    void on_manGripperOpenButton_pressed();
+
+    void on_manGripperOpenButton_released();
+
+    void on_manGripperCloseButton_pressed();
+
+    void on_manGripperCloseButton_released();
+
+    void on_manGripperRotationMotorDutyScroller_valueChanged(int value);
+
+    void on_manGripperRotateCCW_pressed();
+
+    void on_manGripperRotateCCW_released();
+
+    void on_manGripperRotateCW_pressed();
+
+    void on_manGripperRotateCW_released();
 
 private:
     Ui::MainWindow *ui;

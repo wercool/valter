@@ -30,8 +30,13 @@ SOURCES += main.cpp\
            valter3d.cpp \
 #service code
            platformcontrolp1.code.utils.cpp \
-           mainwindow.manipulatorandirbumper.cpp \
-           mainwindow.platformcontrolp1.cpp
+           platformmanipulatorandirbumper.code.utils.cpp \
+#mainwindow gui service code
+           mainwindow/mainwindow.control.devices.utils.cpp \
+           mainwindow/mainwindow.platformcontrolp1.cpp \
+           mainwindow/mainwindow.platformlocationp1.cpp \
+           mainwindow/mainwindow.platformcontrolp2.cpp \
+           mainwindow/mainwindow.manipulatorandirbumper.cpp \
 
 HEADERS  += mainwindow.h \
             controldevice.h \

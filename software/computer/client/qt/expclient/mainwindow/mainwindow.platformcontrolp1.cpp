@@ -8,6 +8,29 @@
 
 #include <gui/platformcontrolp1GUI.h>
 
+void MainWindow::initPlatfromControlP1(Ui::MainWindow *ui)
+{
+    ui->platformControlP1ReadingsTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->platformControlP1ReadingsTable->setSelectionBehavior(QAbstractItemView::SelectItems);
+    QHeaderView* platformControlP1ReadingsTableHeaderView = new QHeaderView(Qt::Horizontal);
+    platformControlP1ReadingsTableHeaderView->setStretchLastSection(true);
+    platformControlP1ReadingsTableHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->platformControlP1ReadingsTable->setHorizontalHeader(platformControlP1ReadingsTableHeaderView);
+
+    ui->platformControlP1WheelMotorsDutySlider->installEventFilter(new WheelEventFilter());
+    ui->platformMovementDecelerationSlider->installEventFilter(new WheelEventFilter());
+    ui->platformMovementAccelerationSlider->installEventFilter(new WheelEventFilter());
+    ui->leftMotorPlatformControlP1DutySlider->installEventFilter(new WheelEventFilter());
+    ui->rightMotorPlatformControlP1DutySlider->installEventFilter(new WheelEventFilter());
+    ui->turretRotationDutySlider->installEventFilter(new WheelEventFilter());
+    ui->decelerationTurretRotationSlider->installEventFilter(new WheelEventFilter());
+    ui->accelerationTurretRotationSlider->installEventFilter(new WheelEventFilter());
+    ui->platformControlP1MotorsPWMFrequencySpinBox->installEventFilter(new WheelEventFilter());
+
+    platformControlP1TabRefreshTimer = new QTimer(this);
+    connect(platformControlP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(platformControlP1TabRefreshTimerUpdate()));
+    platformControlP1TabRefreshTimer->start(50);
+}
 
 void MainWindow::platformControlP1TabRefreshTimerUpdate()
 {

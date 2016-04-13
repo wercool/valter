@@ -5,6 +5,8 @@
 #include "valter.h"
 #include "platformmanipulatorandirbumper.h"
 
+#include "platformmanipulatorandirbumper.code.utils.cpp"
+
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::pPlatformManipulatorAndIRBumper = NULL;
 bool PlatformManipulatorAndIRBumper::instanceFlag = false;
 const string PlatformManipulatorAndIRBumper::controlDeviceId = "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
@@ -29,6 +31,7 @@ PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
     this->controlDeviceIsSet = false;
 
     new std::thread(&PlatformManipulatorAndIRBumper::manLink1MovementWorker, this);
+    new std::thread(&PlatformManipulatorAndIRBumper::manLink2MovementWorker, this);
 }
 
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::getInstance()
@@ -91,9 +94,28 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
     link2MotorAcceleration  = 2;
     link2MotorDeceleration  = 2;
 
+    link2MotorAccelerating  = false;
+    link2MotorDecelerating  = false;
+
     link2MotorDutyPresetCur = false;
     link2MotorDutyPresetMin = false;
     link2MotorDutyPresetMax = false;
+
+    manGripperRotationMotorDuty         = 1;
+
+    link1PositionTrack      = true;
+    link1PositionADC        = true;
+    link2PositionTrack      = true;
+    link2PositionADC        = true;
+    link1CurrentTrack       = true;
+    link1CurrentADC         = true;
+    link2CurrentTrack       = true;
+    link2CurrentADC         = true;
+
+    link1Position   = 0;
+    link2Position   = 0;
+    link1Current    = 0;
+    link2Current    = 0;
 }
 
 void PlatformManipulatorAndIRBumper::setModuleInitialState()
@@ -101,66 +123,7 @@ void PlatformManipulatorAndIRBumper::setModuleInitialState()
 
 }
 
-void PlatformManipulatorAndIRBumper::loadDefaults()
-{
-    ifstream defaultsFile(PlatformManipulatorAndIRBumper::defaultsFilePath);
-    string line;
-    while (getline(defaultsFile, line, '\n'))
-    {
-        if (line.substr(0, 2).compare("//") != 0)
-        {
-            char *lineStrPtr = Valter::stringToCharPtr(line);
-            string defaultValueName(strtok(lineStrPtr, ":" ));
-            string defaultValue(strtok(NULL, ":" ));
-            addDefault(defaultValueName, defaultValue);
-        }
-    }
-    defaultsFile.close();
 
-    string defaultValue;
-    char *defaultValuePtr;
-    int curValue;
-    int minValue;
-    int maxValue;
-
-    //link1MotorDuty
-    defaultValue = getDefault("link1MotorDuty");
-    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
-    maxValue = atoi(strtok(NULL, "," ));
-    curValue = atoi(strtok(NULL, "," ));
-    setLink1MotorDutyPresetMin(minValue);
-    setLink1MotorDutyPresetMax(maxValue);
-    setLink1MotorDutyPresetCur(curValue);
-    setLink1MotorDutyMax(getLink1MotorDutyPresetMax());
-
-    //link1MotorAcceleration
-    defaultValue = getDefault("link1MotorAcceleration");
-    link1MotorAcceleration = stof(Valter::stringToCharPtr(defaultValue));
-
-    //link1MotorDeceleration
-    defaultValue = getDefault("link1MotorDeceleration");
-    link1MotorDeceleration = stof(Valter::stringToCharPtr(defaultValue));
-
-    //link2MotorDuty
-    defaultValue = getDefault("link2MotorDuty");
-    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
-    maxValue = atoi(strtok(NULL, "," ));
-    curValue = atoi(strtok(NULL, "," ));
-    setLink2MotorDutyPresetMin(minValue);
-    setLink2MotorDutyPresetMax(maxValue);
-    setLink2MotorDutyPresetCur(curValue);
-    setLink2MotorDutyMax(getLink2MotorDutyPresetMax());
-
-    //link2MotorAcceleration
-    defaultValue = getDefault("link2MotorAcceleration");
-    link2MotorAcceleration = stof(Valter::stringToCharPtr(defaultValue));
-
-    //link2MotorDeceleration
-    defaultValue = getDefault("link2MotorDeceleration");
-    link2MotorDeceleration = stof(Valter::stringToCharPtr(defaultValue));
-}
 
 void PlatformManipulatorAndIRBumper::spawnProcessMessagesQueueWorkerThread()
 {
@@ -258,29 +221,67 @@ void PlatformManipulatorAndIRBumper::manLink1MovementWorker()
     }
 }
 
-bool PlatformManipulatorAndIRBumper::getLink1MotorDecelerating() const
+void PlatformManipulatorAndIRBumper::manLink2MovementWorker()
 {
-    return link1MotorDecelerating;
-}
+    while (!stopAllProcesses)
+    {
+        if (!getLink2MotorStop())
+        {
+            int curLink2MotorDuty = getLink2MotorDuty();
+            bool acceleration, deceleration;
+            if (getLink2MotorActivated())
+            {
+                acceleration = getLink2MotorAccelerating();
+                if (curLink2MotorDuty + getLink2MotorAcceleration() < getLink2MotorDutyMax())
+                {
+                    curLink2MotorDuty += getLink2MotorAcceleration();
+                    acceleration = true;
+                }
+                else
+                {
+                    curLink2MotorDuty = getLink2MotorDutyMax();
+                    acceleration = false;
+                }
+                if (getLink2MotorAccelerating())
+                {
+                    setLink2MotorDuty(curLink2MotorDuty);
+                    sendCommand(Valter::format_string("SETLINK2DRIVEDUTY#%d", curLink2MotorDuty));
+                }
+                setLink2MotorAccelerating(acceleration);
+            }
+            else
+            {
+                deceleration = getLink2MotorDecelerating();
+                if (curLink2MotorDuty - getLink2MotorDeceleration() > 1)
+                {
+                    curLink2MotorDuty -= getLink2MotorDeceleration();
+                    deceleration = true;
+                }
+                else
+                {
+                    curLink2MotorDuty = 1;
+                    deceleration = false;
+                    setLink2MotorStop(true);
+                }
 
-void PlatformManipulatorAndIRBumper::setLink1MotorDecelerating(bool value)
-{
-    link1MotorDecelerating = value;
-}
-
-bool PlatformManipulatorAndIRBumper::getLink1MotorAccelerating() const
-{
-    return link1MotorAccelerating;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorAccelerating(bool value)
-{
-    link1MotorAccelerating = value;
-}
-
-bool PlatformManipulatorAndIRBumper::getPower24VOnOff() const
-{
-    return power24VOnOff;
+                if (getLink2MotorDecelerating())
+                {
+                    setLink2MotorDuty(curLink2MotorDuty);
+                    sendCommand(Valter::format_string("SETLINK2DRIVEDUTY#%d", curLink2MotorDuty));
+                }
+                setLink2MotorDecelerating(deceleration);
+                if (getLink2MotorStop())
+                {
+                    sendCommand("LINK2STOP");
+                }
+            }
+            this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        else
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+    }
 }
 
 void PlatformManipulatorAndIRBumper::setPower24VOnOff(bool value)
@@ -293,221 +294,6 @@ void PlatformManipulatorAndIRBumper::setPower24VOnOff(bool value)
     {
         sendCommand("DCDC24VENABLEOFF");
     }
-}
-
-void PlatformManipulatorAndIRBumper::setPower24VOn()
-{
-    power24VOnOff = true;
-}
-
-void PlatformManipulatorAndIRBumper::setPower24VOff()
-{
-    power24VOnOff = false;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2MotorDutyPresetMax() const
-{
-    return link2MotorDutyPresetMax;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorDutyPresetMax(int value)
-{
-    link2MotorDutyPresetMax = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2MotorDutyPresetMin() const
-{
-    return link2MotorDutyPresetMin;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorDutyPresetMin(int value)
-{
-    link2MotorDutyPresetMin = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2MotorDutyPresetCur() const
-{
-    return link2MotorDutyPresetCur;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorDutyPresetCur(int value)
-{
-    link2MotorDutyPresetCur = value;
-}
-
-bool PlatformManipulatorAndIRBumper::getLink2MotorStop() const
-{
-    return link2MotorStop;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorStop(bool value)
-{
-    link2MotorStop = value;
-}
-
-bool PlatformManipulatorAndIRBumper::getLink2MotorActivated() const
-{
-    return link2MotorActivated;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorActivated(bool value)
-{
-    link2MotorActivated = value;
-}
-
-bool PlatformManipulatorAndIRBumper::getLink2MovementDirection() const
-{
-    return link2MovementDirection;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MovementDirection(bool value)
-{
-    link2MovementDirection = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2MotorDeceleration() const
-{
-    return link2MotorDeceleration;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorDeceleration(int value)
-{
-    link2MotorDeceleration = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2MotorAcceleration() const
-{
-    return link2MotorAcceleration;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorAcceleration(int value)
-{
-    link2MotorAcceleration = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2MotorDutyMax() const
-{
-    return link2MotorDutyMax;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorDutyMax(int value)
-{
-    link2MotorDutyMax = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2MotorDuty() const
-{
-    return link2MotorDuty;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2MotorDuty(int value)
-{
-    link2MotorDuty = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1MotorDutyPresetMax() const
-{
-    return link1MotorDutyPresetMax;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorDutyPresetMax(int value)
-{
-    link1MotorDutyPresetMax = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1MotorDutyPresetMin() const
-{
-    return link1MotorDutyPresetMin;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorDutyPresetMin(int value)
-{
-    link1MotorDutyPresetMin = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1MotorDutyPresetCur() const
-{
-    return link1MotorDutyPresetCur;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorDutyPresetCur(int value)
-{
-    link1MotorDutyPresetCur = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1MotorDeceleration() const
-{
-    return link1MotorDeceleration;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorDeceleration(int value)
-{
-    link1MotorDeceleration = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1MotorAcceleration() const
-{
-    return link1MotorAcceleration;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorAcceleration(int value)
-{
-    link1MotorAcceleration = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1MotorDutyMax() const
-{
-    return link1MotorDutyMax;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorDutyMax(int value)
-{
-    link1MotorDutyMax = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1MotorDuty() const
-{
-    return link1MotorDuty;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorDuty(int value)
-{
-    link1MotorDuty = value;
-}
-
-bool PlatformManipulatorAndIRBumper::getLink1MotorStop() const
-{
-    return link1MotorStop;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorStop(bool value)
-{
-    link1MotorStop = value;
-}
-
-bool PlatformManipulatorAndIRBumper::prepareManLink1Movement()
-{
-    return true;
-}
-
-//setters and getters
-bool PlatformManipulatorAndIRBumper::getLink1MotorActivated() const
-{
-    return link1MotorActivated;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1MotorActivated(bool value)
-{
-    link1MotorActivated = value;
-    if (value)//if activated motor is not stopped
-    {
-        setLink1MotorStop(false);
-    }
-}
-
-bool PlatformManipulatorAndIRBumper::getLink1MovementDirection() const
-{
-    return link1MovementDirection;
 }
 
 bool PlatformManipulatorAndIRBumper::setLink1MovementDirection(bool value)
@@ -538,7 +324,77 @@ bool PlatformManipulatorAndIRBumper::setLink1MovementDirection(bool value)
     }
 }
 
-string PlatformManipulatorAndIRBumper::getControlDeviceId()
+bool PlatformManipulatorAndIRBumper::setLink2MovementDirection(bool value)
 {
-    return controlDeviceId;
+    if (getLink2MotorStop())
+    {
+        link2MovementDirection = value;
+        if (link2MovementDirection) //up
+        {
+            sendCommand("LINK2GETUP");
+        }
+        else
+        {
+            sendCommand("LINK2GETDOWN");
+        }
+        return true;
+    }
+    else
+    {
+        if (getLink2MovementDirection() == value)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
+
+void PlatformManipulatorAndIRBumper::manLink3TiltUp()
+{
+    sendCommand("GRIPPERTILTGETUP");
+}
+
+void PlatformManipulatorAndIRBumper::manLink3TiltDown()
+{
+    sendCommand("GRIPPERTILTGETDOWN");
+}
+
+void PlatformManipulatorAndIRBumper::manLink3Stop()
+{
+    sendCommand("GRIPPERTILTSTOP");
+}
+
+void PlatformManipulatorAndIRBumper::manGripperOpen()
+{
+    sendCommand("GRIPPERPOSITIONOPEN");
+}
+
+void PlatformManipulatorAndIRBumper::manGripperClose()
+{
+    sendCommand("GRIPPERPOSITIONCLOSE");
+}
+
+void PlatformManipulatorAndIRBumper::manGripperStop()
+{
+    sendCommand("GRIPPERPOSITIONSTOP");
+}
+
+void PlatformManipulatorAndIRBumper::manGripperRotateCW()
+{
+    sendCommand(Valter::format_string("SETGRIPPERROTATEDRIVEDUTY#%d", getManGripperRotationMotorDuty()));
+    sendCommand("GRIPPERROTATECW");
+}
+
+void PlatformManipulatorAndIRBumper::manGripperRotateCCW()
+{
+    sendCommand(Valter::format_string("SETGRIPPERROTATEDRIVEDUTY#%d", getManGripperRotationMotorDuty()));
+    sendCommand("GRIPPERROTATECCW");
+}
+
+void PlatformManipulatorAndIRBumper::manGripperRotateStop()
+{
+    sendCommand("GRIPPERROTATESTOP");
 }

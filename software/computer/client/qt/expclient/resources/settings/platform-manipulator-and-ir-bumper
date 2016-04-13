@@ -1,3 +1,11 @@
+//Link1 Rotation [1 - track],[2 - ADC]
+link1Rotation:0,0
+//Link2 Rotation
+link2Rotation:0,0
+//Link1 Motor Current
+link1MotorCurrent:0,0
+//Link2 Motor Current
+link2MotorCurrent:0,0
 //CH0 Gripper Tilt
 CH0:0,0
 //CH1 Gripper Rotation
@@ -26,3 +34,5 @@ link1MotorDeceleration:2
 link2MotorDuty:1,100,30
 link2MotorAcceleration:2
 link2MotorDeceleration:2
+//man gripper rotation
+manGripperRotationMotorDuty:40

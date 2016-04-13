@@ -33,62 +33,6 @@ void refreshControlDeviceTableWorker(Ui::MainWindow *ui)
     }
 }
 
-void controlDevicesTableRefreshTimerUpdateWorker(Ui::MainWindow *ui)
-{
-    int selectedControlDeviceRowIndex = ui->controlDeviceTableWidget->selectionModel()->currentIndex().row();
-
-    ui->controlDeviceTableWidget->clearContents();
-
-    map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
-    typedef map<string, ControlDevice*>::iterator it_type;
-
-    ui->controlDeviceTableWidget->setRowCount(controlDevicesMap.size());
-
-    char i = 0;
-    for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
-    {
-        ControlDevice *controlDevice = controlDevicesMap[iterator->first];
-        ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
-        ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
-        if (controlDevice->getRescanningAfterPossibleReset())
-        {
-            string rescanningMsg = Valter::format_string("rescanning... Attempt #%d", controlDevice->getRescanNum());
-            QTableWidgetItem *item = new QTableWidgetItem(rescanningMsg.c_str());
-            item->setBackground(Qt::yellow);
-            ui->controlDeviceTableWidget->setItem(i, 2, item);
-        }
-        else
-        {
-            if (controlDevice->getWdTimerNotResetCnt() > 0)
-            {
-                string noWDResetMsg = Valter::format_string("no WDRESET answer... Attempt #%d", controlDevice->getWdTimerNotResetCnt());
-                QTableWidgetItem *item = new QTableWidgetItem(noWDResetMsg.c_str());
-                item->setBackground(Qt::yellow);
-                ui->controlDeviceTableWidget->setItem(i, 2, item);
-            }
-            else if (controlDevice->getFailedAfterRescanning())
-            {
-                controlDevice->setWdTimerNotResetCnt(0);
-                QTableWidgetItem *item = new QTableWidgetItem("FAILED");
-                item->setBackground(Qt::red);
-                ui->controlDeviceTableWidget->setItem(i, 2, item);
-            }
-            else
-            {
-                ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "TRUE" :"FALSE")));
-            }
-        }
-        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
-        ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
-        i++;
-    }
-
-    if (selectedControlDeviceRowIndex >= 0)
-    {
-        ui->controlDeviceTableWidget->selectRow(selectedControlDeviceRowIndex);
-    }
-}
-
 void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());

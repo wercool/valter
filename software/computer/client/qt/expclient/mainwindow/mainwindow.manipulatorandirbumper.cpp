@@ -166,6 +166,11 @@ void MainWindow::initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui)
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(gamma);
 }
 
+void MainWindow::platformManipulatorAndIRBumperRefreshTimerUpdate()
+{
+    platformManipulatorAndIRBumperRefreshTimerUpdateWorker(ui);
+}
+
 void MainWindow::on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool checked)
 {
     if (checked)
@@ -289,4 +294,121 @@ void MainWindow::on_manipulatorLiknk2AccelerationScroller_valueChanged(int value
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
     platformManipulatorAndIRBumper->setLink2MotorAcceleration(value);
     ui->manipulatorLiknk2AccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_manipulatorLiknk2AscentButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (platformManipulatorAndIRBumper->prepareManLink2Movement())
+    {
+        //ascent
+        if (platformManipulatorAndIRBumper->setLink2MovementDirection(true))
+        {
+            platformManipulatorAndIRBumper->setLink2MotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_manipulatorLiknk2AscentButton_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setLink2MotorActivated(false);
+}
+
+void MainWindow::on_manipulatorLiknk2DescentButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (platformManipulatorAndIRBumper->prepareManLink2Movement())
+    {
+        //descent
+        if (platformManipulatorAndIRBumper->setLink2MovementDirection(false))
+        {
+            platformManipulatorAndIRBumper->setLink2MotorActivated(true);
+        }
+    }
+}
+
+void MainWindow::on_manipulatorLiknk2DescentButton_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setLink2MotorActivated(false);
+}
+
+void MainWindow::on_gripperTiltAscentButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manLink3TiltUp();
+}
+
+void MainWindow::on_gripperTiltAscentButton_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manLink3Stop();
+}
+
+void MainWindow::on_gripperTiltDescentButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manLink3TiltDown();
+}
+
+void MainWindow::on_gripperTiltDescentButton_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manLink3Stop();
+}
+
+void MainWindow::on_manGripperOpenButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperOpen();
+}
+
+void MainWindow::on_manGripperOpenButton_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperStop();
+}
+
+void MainWindow::on_manGripperCloseButton_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperClose();
+}
+
+void MainWindow::on_manGripperCloseButton_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperStop();
+}
+
+void MainWindow::on_manGripperRotationMotorDutyScroller_valueChanged(int value)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setManGripperRotationMotorDuty(value);
+    ui->manGripperRotationMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
+}
+
+void MainWindow::on_manGripperRotateCCW_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperRotateCCW();
+}
+
+void MainWindow::on_manGripperRotateCCW_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperRotateStop();
+}
+
+void MainWindow::on_manGripperRotateCW_pressed()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperRotateCW();
+}
+
+void MainWindow::on_manGripperRotateCW_released()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->manGripperRotateStop();
 }

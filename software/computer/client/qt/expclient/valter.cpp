@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <cstdio>
+#include <sys/time.h>
 
 #include "valter.h"
 #include "controldevice.h"
@@ -106,7 +107,17 @@ void Valter::log(string msg)
         }
         if (logToConsole)
         {
-            qDebug("%s", msg.c_str());
+            timeval curTime;
+            gettimeofday(&curTime, NULL);
+            int milli = curTime.tv_usec / 1000;
+
+            char buffer [80];
+            strftime(buffer, 80, "%H:%M:%S", localtime(&curTime.tv_sec));
+
+            char currentTime[84] = "";
+            sprintf(currentTime, "%s:%03d", buffer, milli);
+
+            qDebug("%s: %s", currentTime, msg.c_str());
         }
     }
 }
