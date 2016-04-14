@@ -18,6 +18,7 @@
 
 const unsigned int usSensors40kHzFrequency = 40000;
 const unsigned int usSensors40kHzDuty = 127;
+volatile unsigned int usSensorsCounter = 0;
 volatile unsigned int usSensorsDelayCounter = 0;
 volatile unsigned int usSensorsPongTrigger = 0;
 
@@ -107,9 +108,14 @@ __ramfunc void IRQ1Handler(void)
 //*----------------------------------------------------------------------------
 __ramfunc void FIQHandler(void)
 {
-    if (usSensorsDelayCounter > 25)
+    if (usSensorsDelayCounter > 100)
     {
         usSensorsPongTrigger = 1;
+    }
+    else
+    {
+        usSensorsDelayCounter = 0;
+        usSensorsPongTrigger = 0;
     }
 }
 
@@ -469,6 +475,7 @@ int main(void)
         // perform US Sensor measurement
         if (sensorsUSReadings)
         {
+            usSensorsCounter = 0;
             usSensorsDelayCounter = 0;
             usSensorsPongTrigger = 0;
 
@@ -483,10 +490,11 @@ int main(void)
             while (usSensorsPongTrigger == 0)
             {
                 usSensorsDelayCounter++;
-                if (usSensorsDelayCounter > 7000)
+                usSensorsCounter++;
+                if (usSensorsCounter > 5000)
                     break;
             }
-            sensorsUSReading = usSensorsDelayCounter;
+            sensorsUSReading = usSensorsCounter;
             delay_us(2500);
         }
 
@@ -817,6 +825,7 @@ int main(void)
             }
             if (strcmp((char*) cmdParts, "GETCURUSSENSOR") == 0)
             {
+                usSensorsCounter = 0;
                 usSensorsDelayCounter = 0;
                 usSensorsPongTrigger = 0;
 
@@ -831,10 +840,11 @@ int main(void)
                 while (usSensorsPongTrigger == 0)
                 {
                     usSensorsDelayCounter++;
-                    if (usSensorsDelayCounter > 4999)
+                    usSensorsCounter++;
+                    if (usSensorsCounter > 5000)
                         break;
                 }
-                sensorsUSReading = usSensorsDelayCounter;
+                sensorsUSReading = usSensorsCounter;
                 sprintf((char *)msg,"US[%u]:%u\n", sensorsChannel, sensorsUSReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
