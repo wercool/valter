@@ -33,6 +33,7 @@ PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
 
     new std::thread(&PlatformManipulatorAndIRBumper::manLink1MovementWorker, this);
     new std::thread(&PlatformManipulatorAndIRBumper::manLink2MovementWorker, this);
+    new std::thread(&PlatformManipulatorAndIRBumper::manipulatorReadingsWorker, this);
 }
 
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::getInstance()
@@ -117,6 +118,11 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
     link2Position   = 0;
     link1Current    = 0;
     link2Current    = 0;
+
+    link1ADCPosition    = 0;
+    link2ADCPosition    = 0;
+    link1ADCCurrent     = 0;
+    link2ADCCurrent     = 0;
 }
 
 void PlatformManipulatorAndIRBumper::setModuleInitialState()
@@ -151,6 +157,20 @@ void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
                 {
                     setPower24VOff();
                     continue;
+                }
+                if (response.find("LINK1:") != std::string::npos)//LINK1 position (rotation)
+                {
+                    int value_str_pos = response.find_first_of(":") + 1;
+                    string value_str = response.substr(value_str_pos);
+                    int  value = atoi(value_str.c_str());
+                    setLink1ADCPosition(value);
+                }
+                if (response.find("LINK2:") != std::string::npos)//LINK2 position (rotation)
+                {
+                    int value_str_pos = response.find_first_of(":") + 1;
+                    string value_str = response.substr(value_str_pos);
+                    int  value = atoi(value_str.c_str());
+                    setLink2ADCPosition(value);
                 }
             }
             this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -283,6 +303,76 @@ void PlatformManipulatorAndIRBumper::manLink2MovementWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+}
+
+void PlatformManipulatorAndIRBumper::manipulatorReadingsWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (controlDeviceIsSet)
+        {
+            if (getControlDevice()->getStatus() == ControlDevice::StatusActive)
+            {
+                if (getLink1PositionTrack())
+                {
+                    sendCommand("LINK1POS");
+                }
+                if (getLink2PositionTrack())
+                {
+                    sendCommand("LINK2POS");
+                }
+                this_thread::sleep_for(std::chrono::milliseconds(25));
+            }
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(500));
+            }
+        }
+        else
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+    }
+}
+
+int PlatformManipulatorAndIRBumper::getLink2ADCCurrent() const
+{
+    return link2ADCCurrent;
+}
+
+void PlatformManipulatorAndIRBumper::setLink2ADCCurrent(int value)
+{
+    link2ADCCurrent = value;
+}
+
+int PlatformManipulatorAndIRBumper::getLink1ADCCurrent() const
+{
+    return link1ADCCurrent;
+}
+
+void PlatformManipulatorAndIRBumper::setLink1ADCCurrent(int value)
+{
+    link1ADCCurrent = value;
+}
+
+int PlatformManipulatorAndIRBumper::getLink2ADCPosition() const
+{
+    return link2ADCPosition;
+}
+
+void PlatformManipulatorAndIRBumper::setLink2ADCPosition(int value)
+{
+    link2ADCPosition = value;
+}
+
+int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
+{
+    return link1ADCPosition;
+}
+
+void PlatformManipulatorAndIRBumper::setLink1ADCPosition(int value)
+{
+    link1ADCPosition = value;
 }
 
 void PlatformManipulatorAndIRBumper::setPower24VOnOff(bool value)

@@ -25,7 +25,7 @@ public:
     void setRedLedState(int index, bool value);
     bool getGreenLedState(int index);
     void setGreenLedState(int index, bool value);
-    void setRedLedsState();
+    void setLeds();
 
     void setReadIRSensor(int index, bool value);
     bool getReadIRSensor(int index);
@@ -189,6 +189,12 @@ public:
     void setRRLedState(bool state);
     void setAllSonarsLedsState(bool state);
     void setManLedState(bool state);
+
+    void setAllLEDsOn();
+    void setAllLEDsOff();
+
+    void enableSensors();
+    void disableSensors();
 
 private:
     PlatformLocationP1();

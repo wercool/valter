@@ -50,7 +50,7 @@ __ramfunc void IRQ1Handler(void)
     if (dumperRight == 100)
     {
         rightMotorCounter++;
-        dumperRight = 100;
+        dumperRight = 0;
     }
 }
 

@@ -280,7 +280,7 @@ bool PlatformLocationP1::getRedLedState(int index)
 void PlatformLocationP1::setRedLedState(int index, bool value)
 {
     redLedArray[index] = value;
-    setRedLedsState();
+    setLeds();
 }
 
 bool PlatformLocationP1::getGreenLedState(int index)
@@ -291,10 +291,10 @@ bool PlatformLocationP1::getGreenLedState(int index)
 void PlatformLocationP1::setGreenLedState(int index, bool value)
 {
     greenLedArray[index] = value;
-    setRedLedsState();
+    setLeds();
 }
 
-void PlatformLocationP1::setRedLedsState()
+void PlatformLocationP1::setLeds()
 {
     string ledStates = "SETLEDS#";
     for (int i = 0; i < 12; i++)
@@ -425,7 +425,7 @@ void PlatformLocationP1::LEDStatesWorker()
                     greenLedArray[ch] = false;
                 }
             }
-            setRedLedsState();
+            setLeds();
             this_thread::sleep_for(std::chrono::milliseconds(200));
         }
         else
@@ -689,6 +689,36 @@ void PlatformLocationP1::setAllSonarsLedsState(bool state)
 void PlatformLocationP1::setManLedState(bool state)
 {
     setShiftRegBit(7, state);
+}
+
+void PlatformLocationP1::setAllLEDsOn()
+{
+    for (int idx = 0; idx < 12; idx++)
+    {
+        setGreenLedState(idx, true);
+        setRedLedState(idx, true);
+    }
+    setLeds();
+}
+
+void PlatformLocationP1::setAllLEDsOff()
+{
+    for (int idx = 0; idx < 12; idx++)
+    {
+        setGreenLedState(idx, false);
+        setRedLedState(idx, false);
+    }
+    setLeds();
+}
+
+void PlatformLocationP1::enableSensors()
+{
+    sendCommand("ENABLESENSORS");
+}
+
+void PlatformLocationP1::disableSensors()
+{
+    sendCommand("DISABLESENSORS");
 }
 
 bool PlatformLocationP1::getShiftRegBit(int index)
@@ -995,7 +1025,15 @@ signed int PlatformLocationP1::getRightSonarAngle() const
 void PlatformLocationP1::setRightSonarAngle(signed int value)
 {
     rightSonarAngle = value;
-    int dutyValue = round(27);
+    int dutyValue = 27;
+    if (rightSonarAngle < 0)
+    {
+        dutyValue -= round(double (abs(value)) / 1.36);
+    }
+    else if (rightSonarAngle > 0)
+    {
+        dutyValue += round(double (abs(value)) / 6.92);
+    }
     sendCommand(Valter::format_string("SETRIGHTUSSONARSERVODUTY#%d", dutyValue));
 }
 
@@ -1007,7 +1045,15 @@ signed int PlatformLocationP1::getLeftSonarAngle() const
 void PlatformLocationP1::setLeftSonarAngle(signed int value)
 {
     leftSonarAngle = value;
-    int dutyValue = round(14);
+    int dutyValue = 14;
+    if (leftSonarAngle < 0)
+    {
+        dutyValue += round(double (abs(value)) / 3.46);
+    }
+    else if (leftSonarAngle > 0)
+    {
+        dutyValue -= round(double (abs(value)) / 3.3);
+    }
     sendCommand(Valter::format_string("SETLEFTUSSONARSERVODUTY#%d", dutyValue));
 }
 

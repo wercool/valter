@@ -137,6 +137,11 @@ void PlatformControlP2::ALARMOnOff(bool state)
     }
 }
 
+void PlatformControlP2::disableSonarServo()
+{
+    sendCommand("DISABLESONARSERVO");
+}
+
 bool PlatformControlP2::getChargerMotorDirection() const
 {
     return chargerMotorDirection;
@@ -270,9 +275,9 @@ void PlatformControlP2::chargerMotorRotateWorker()
         {
             setChargerMotorDuty(getChargerMotorDuty() + 5);
         }
-        this_thread::sleep_for(std::chrono::milliseconds(20));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    setChargerMotorRotateWorkerActivated(false);
+    //setChargerMotorRotateWorkerActivated(false);
     if (getControlDeviceIsSet())
     {
         getControlDevice()->addMsgToDataExchangeLog("chargerMotorRotateWorker finished...");
@@ -396,7 +401,11 @@ signed int PlatformControlP2::getIRScannerAngle() const
 void PlatformControlP2::setIRScannerAngle(signed int value)
 {
     iRScannerAngle = value;
-    int dutyValue = round(18);
+    int dutyValue = 18;
+    if (iRScannerAngle != 0)
+    {
+        dutyValue += double (value) * 0.125;
+    }
     sendCommand(Valter::format_string("SETSONARSERVODUTY#%d", dutyValue));
 }
 
@@ -480,7 +489,7 @@ void PlatformControlP2::setIrScanningWorkerActivated(bool value)
     }
     else
     {
-        sendCommand("DISABLESONARSERVO");
+        disableSonarServo();
     }
 }
 

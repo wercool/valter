@@ -93,7 +93,10 @@ void platformControlP2IRScannerRefresh(Ui::MainWindow *ui)
             }
 
             MainWindow::getInstance()->IRScannerVector->setLine(293, 296, endX, endY);
-            ui->irScannerAngleScrollBar->setValue(platformControlP2->getIRScannerAngle());
+            if (!platformControlP2->getIRScannerIntentionalAngleSet())
+            {
+                ui->irScannerAngleScrollBar->setValue(platformControlP2->getIRScannerAngle());
+            }
 
             if (platformControlP2->getIrScanningWorkerActivated() && platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) != 0.0)
             {

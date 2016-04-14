@@ -115,14 +115,6 @@ void PlatformControlP1::processMessagesQueueWorker()
                         int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
-                        if (value > 1000)
-                        {
-                            setPower220VACAvailable(true);
-                        }
-                        else
-                        {
-                            setPower220VACAvailable(false);
-                        }
                         setChargerVoltageADC(value);
                         continue;
                     }
@@ -164,10 +156,12 @@ void PlatformControlP1::processMessagesQueueWorker()
                         if (value > 1000)
                         {
                             setChargerConnected(true);
+                            setPower220VACAvailable(true);
                         }
                         else
                         {
                             setChargerConnected(false);
+                            setPower220VACAvailable(false);
                         }
                         continue;
                     }

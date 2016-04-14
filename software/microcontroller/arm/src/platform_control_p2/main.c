@@ -51,7 +51,7 @@ void AT91F_TC_Open ( AT91PS_TC TC_pt, unsigned int Mode, unsigned int TimerId)
     unsigned int dummy;
 
     // First, enable the clock of the TIMER
-    AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1<< TimerId ) ;
+    AT91F_PMC_EnablePeriphClock ( AT91C_BASE_PMC, 1 << TimerId ) ;
 
     // Disable the clock and the interrupts
     TC_pt->TC_CCR = AT91C_TC_CLKDIS ;
@@ -293,7 +293,7 @@ static void InitIRQ()
     //Open timer0
     AT91F_TC_Open(AT91C_BASE_TC0, TC_CLKS_MCK8, AT91C_ID_TC0);
     //Open Timer 0 interrupt
-    AT91F_AIC_ConfigureIt ( AT91C_BASE_AIC, AT91C_ID_TC0, TIMER0_INTERRUPT_LEVEL,AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandler);
+    AT91F_AIC_ConfigureIt ( AT91C_BASE_AIC, AT91C_ID_TC0, TIMER0_INTERRUPT_LEVEL, AT91C_AIC_SRCTYPE_INT_HIGH_LEVEL, SoftIQRHandler);
     AT91C_BASE_TC0->TC_IER = AT91C_TC_CPCS;             // IRQ enable CPC
     AT91F_AIC_EnableIt (AT91C_BASE_AIC, AT91C_ID_TC0);
     //Start timer0

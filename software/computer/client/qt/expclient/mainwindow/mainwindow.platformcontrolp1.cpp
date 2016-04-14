@@ -530,3 +530,8 @@ void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
 }
+
+void MainWindow::on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item)
+{
+    setPlatformManipulatorReadingsPresets(item);
+}

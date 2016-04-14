@@ -183,6 +183,7 @@ void MainWindow::on_irScannerAngleScrollBar_sliderReleased()
     if (!platformControlP2->getIrScanningWorkerActivated())
     {
         platformControlP2->setIRScannerIntentionalAngleSet(false);
+        platformControlP2->disableSonarServo();
         platformControlP2IRScannerRefreshTimer->stop();
     }
 }

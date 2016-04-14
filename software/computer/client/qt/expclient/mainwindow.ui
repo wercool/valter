@@ -3462,7 +3462,7 @@
                     <number>0</number>
                    </property>
                    <property name="tracking">
-                    <bool>false</bool>
+                    <bool>true</bool>
                    </property>
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
@@ -4372,6 +4372,32 @@
               <bool>true</bool>
              </property>
             </widget>
+            <widget class="QPushButton" name="platformLocationP1AllLEDsONButton">
+             <property name="geometry">
+              <rect>
+               <x>240</x>
+               <y>150</y>
+               <width>71</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>LEDs ON</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="platformLocationP1AllLEDsOFFButton">
+             <property name="geometry">
+              <rect>
+               <x>240</x>
+               <y>180</y>
+               <width>71</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>LEDs OFF</string>
+             </property>
+            </widget>
             <zorder>ch10RedLed</zorder>
             <zorder>ch5RedLed</zorder>
             <zorder>ch8RedLed</zorder>
@@ -4396,6 +4422,9 @@
             <zorder>ch8GreenLed</zorder>
             <zorder>ch11GreenLed</zorder>
             <zorder>ch7GreenLed</zorder>
+            <zorder>platformLocationP1AllLEDsONButton</zorder>
+            <zorder>platformLocationP1AllLEDsONButton</zorder>
+            <zorder>platformLocationP1AllLEDsOFFButton</zorder>
            </widget>
            <widget class="QWidget" name="horizontalLayoutWidget">
             <property name="geometry">
@@ -7363,6 +7392,32 @@ background-repeat: repeat-no;</string>
              <enum>Qt::Vertical</enum>
             </property>
            </widget>
+           <widget class="QPushButton" name="platformLocationP1EnableSensorsButton">
+            <property name="geometry">
+             <rect>
+              <x>705</x>
+              <y>5</y>
+              <width>121</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Enable Sensors</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="platformLocationP1DisableSensorsButton">
+            <property name="geometry">
+             <rect>
+              <x>705</x>
+              <y>35</y>
+              <width>121</width>
+              <height>27</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>Disable Sensors</string>
+            </property>
+           </widget>
           </widget>
          </widget>
         </item>
@@ -7484,7 +7539,7 @@ background-repeat: repeat-no;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-442</y>
+             <y>0</y>
              <width>820</width>
              <height>963</height>
             </rect>

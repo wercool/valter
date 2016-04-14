@@ -24,6 +24,25 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 
         ui->manLink1DutyProgressBar->setValue(platformManipulatorAndIRBumper->getLink1MotorDuty());
         ui->manLink2DutyProgressBar->setValue(platformManipulatorAndIRBumper->getLink2MotorDuty());
+
+        if (platformManipulatorAndIRBumper->getLink1PositionTrack())
+        {
+            QTableWidgetItem* link1PositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getLink1PositionADC()) // show ADC value
+            {
+                link1PositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink1ADCPosition()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(0, 2, link1PositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getLink2PositionTrack())
+        {
+            QTableWidgetItem* link2PositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getLink2PositionADC()) // show ADC value
+            {
+                link2PositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink2ADCPosition()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(1, 2, link2PositionQWidgetItem);
+        }
     }
 }
 
@@ -65,6 +84,58 @@ void loadPlatformManipulatorAndIRBumperDefaults(Ui::MainWindow *ui)
     ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(3, 1))->setCheckState((platformManipulatorAndIRBumper->getLink2CurrentADC()) ? Qt::Checked : Qt::Unchecked);
 
     ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked(true);
+}
+
+void setPlatformManipulatorReadingsPresets(QTableWidgetItem *item)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    switch (item->row())
+    {
+        case 0://Link1 Rotation
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setLink1PositionTrack((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setLink1PositionADC((item->checkState() == Qt::Checked) ? true : false);
+            }
+        break;
+        case 1://Link2 Rotation
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setLink2PositionTrack((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setLink2PositionADC((item->checkState() == Qt::Checked) ? true : false);
+            }
+        break;
+        case 2://Link1 Motor Current
+        break;
+        case 3://Link2 Motor Current
+        break;
+        case 4://CH0 Gripper Tilt
+        break;
+        case 5://CH0 Gripper Rotation
+        break;
+        case 6://CH2 Gripper Position
+        break;
+        case 7://CH3 Gripper Force Sensor 1
+        break;
+        case 8://CH4 Gripper Force Sensor 2
+        break;
+        case 9://CH5 Gripper Force Sensor 3
+        break;
+        case 10://CH6 Gripper Object Detector
+        break;
+        case 11://CH7 Gripper Tilt Motor Current
+        break;
+        case 12://CH8 Gripper Open/Close Current
+        break;
+        case 13://CH8 Gripper Rotation Motor Current
+        break;
+    }
 }
 
 #endif // PLATFORMMANIPULATORANDIRBUMPERGUI_H

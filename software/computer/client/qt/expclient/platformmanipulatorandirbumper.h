@@ -168,6 +168,18 @@ public:
     double getLink2Current() const;
     void setLink2Current(double value);
 
+    int getLink1ADCPosition() const;
+    void setLink1ADCPosition(int value);
+
+    int getLink2ADCPosition() const;
+    void setLink2ADCPosition(int value);
+
+    int getLink1ADCCurrent() const;
+    void setLink1ADCCurrent(int value);
+
+    int getLink2ADCCurrent() const;
+    void setLink2ADCCurrent(int value);
+
 private:
     PlatformManipulatorAndIRBumper();
     static PlatformManipulatorAndIRBumper* pPlatformManipulatorAndIRBumper;         // PLATFORM-MANIPULATOR-AND-IR-BUMPER's singleton instance
@@ -178,6 +190,7 @@ private:
     void processMessagesQueueWorker();
     void manLink1MovementWorker();
     void manLink2MovementWorker();
+    void manipulatorReadingsWorker();
 
     bool power24VOnOff;
 
@@ -230,6 +243,11 @@ private:
     bool link1CurrentADC;
     bool link2CurrentTrack;
     bool link2CurrentADC;
+
+    int link1ADCPosition;
+    int link2ADCPosition;
+    int link1ADCCurrent;
+    int link2ADCCurrent;
 
     double link1Position;
     double link2Position;

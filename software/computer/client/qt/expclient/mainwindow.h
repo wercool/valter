@@ -492,6 +492,16 @@ private slots:
 
     void on_manGripperRotateCW_released();
 
+    void on_platformLocationP1EnableSensorsButton_clicked();
+
+    void on_platformLocationP1DisableSensorsButton_clicked();
+
+    void on_platformLocationP1AllLEDsONButton_clicked();
+
+    void on_platformLocationP1AllLEDsOFFButton_clicked();
+
+    void on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item);
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

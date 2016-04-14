@@ -495,3 +495,27 @@ void MainWindow::on_inclinometerFrameDetatchButton_clicked()
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
 }
+
+void MainWindow::on_platformLocationP1EnableSensorsButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->enableSensors();
+}
+
+void MainWindow::on_platformLocationP1DisableSensorsButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->disableSensors();
+}
+
+void MainWindow::on_platformLocationP1AllLEDsONButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->setAllLEDsOn();
+}
+
+void MainWindow::on_platformLocationP1AllLEDsOFFButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->setAllLEDsOff();
+}

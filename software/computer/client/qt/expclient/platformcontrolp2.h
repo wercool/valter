@@ -133,6 +133,8 @@ public:
     void alarmBeep();
     void ALARMOnOff(bool state);
 
+    void disableSonarServo();
+
 private:
     PlatformControlP2();
     static PlatformControlP2* pPlatformControlP2;       // PLATFORM-CONTROL-P2's singleton instance

@@ -16,4 +16,4 @@ trackTurretPosition:1
 //platformControlP1ReadingsTable: first 9 separated keys- read channel yes/no; 9-18 keys - show raw ADC of natural reading
 //platformControlP1ReadingsTable:0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1
 platformControlP1ReadingsTable:1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-additionalReadingsScanDelay:5,1000,250
+additionalReadingsScanDelay:5,1000,500
