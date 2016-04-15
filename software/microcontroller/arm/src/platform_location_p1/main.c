@@ -576,6 +576,13 @@ int main(void)
                 WDINTENTIONALRESET = 0;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "INITTWI") == 0)
+            {
+                InitTWI();
+                initAccelerometer();
+                initMagnetometer();
+                continue;
+            }
             if (strcmp((char*) cmdParts, "ENABLESENSORS") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);
