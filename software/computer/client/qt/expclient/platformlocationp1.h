@@ -196,6 +196,16 @@ public:
     void enableSensors();
     void disableSensors();
 
+    bool getGetAccelerometerReadingOnce() const;
+    void setGetAccelerometerReadingOnce(bool value);
+
+    bool getGetMagnetometerReadingOnce() const;
+    void setGetMagnetometerReadingOnce(bool value);
+
+    void updateCompassHeading();
+    void updateAccelerometer();
+    void updateMagnetometer();
+
 private:
     PlatformLocationP1();
     static PlatformLocationP1* pPlatformLocationP1;         // PLATFORM-LOCATION-P1's singleton instance
@@ -275,6 +285,9 @@ private:
     bool compassHeadingWorkerActivated;
 
     bool shiftRegArray[16];
+
+    bool getAccelerometerReadingOnce;
+    bool getMagnetometerReadingOnce;
 
 };
 

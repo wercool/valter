@@ -180,6 +180,42 @@ public:
     int getLink2ADCCurrent() const;
     void setLink2ADCCurrent(int value);
 
+    bool getGripperTiltTrack() const;
+    void setGripperTiltTrack(bool value);
+
+    bool getGripperTiltADC() const;
+    void setGripperTiltADC(bool value);
+
+    int getGripperADCTilt() const;
+    void setGripperADCTilt(int value);
+
+    double getGripperTilt() const;
+    void setGripperTilt(double value);
+
+    bool getGripperRotationTrack() const;
+    void setGripperRotationTrack(bool value);
+
+    bool getGripperRotationADC() const;
+    void setGripperRotationADC(bool value);
+
+    bool getGripperPositionTrack() const;
+    void setGripperPositionTrack(bool value);
+
+    bool getGripperPositionADC() const;
+    void setGripperPositionADC(bool value);
+
+    int getGripperADCRotation() const;
+    void setGripperADCRotation(int value);
+
+    int getGripperADCPosition() const;
+    void setGripperADCPosition(int value);
+
+    double getGripperRotation() const;
+    void setGripperRotation(double value);
+
+    double getGripperPosition() const;
+    void setGripperPosition(double value);
+
 private:
     PlatformManipulatorAndIRBumper();
     static PlatformManipulatorAndIRBumper* pPlatformManipulatorAndIRBumper;         // PLATFORM-MANIPULATOR-AND-IR-BUMPER's singleton instance
@@ -243,16 +279,28 @@ private:
     bool link1CurrentADC;
     bool link2CurrentTrack;
     bool link2CurrentADC;
+    bool gripperTiltTrack;
+    bool gripperTiltADC;
+    bool gripperRotationTrack;
+    bool gripperRotationADC;
+    bool gripperPositionTrack;
+    bool gripperPositionADC;
 
     int link1ADCPosition;
     int link2ADCPosition;
     int link1ADCCurrent;
     int link2ADCCurrent;
+    int gripperADCTilt;
+    int gripperADCRotation;
+    int gripperADCPosition;
 
     double link1Position;
     double link2Position;
     double link1Current;
     double link2Current;
+    double gripperTilt;
+    double gripperRotation;
+    double gripperPosition;
 };
 
 #endif // PLATFORMMANIPULATORANDIRBUMPER_H

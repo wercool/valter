@@ -150,13 +150,30 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
         }
 
-        if (platformLocationP1->getAccelerometerWorkerActivated())
+        static double prevAccX, prevAccY, prevAccZ;
+
+        double AccX = platformLocationP1->getAccelerometerReadings()[0];
+        double AccY = platformLocationP1->getAccelerometerReadings()[1];
+        double AccZ = platformLocationP1->getAccelerometerReadings()[2];
+
+        bool updateAcc = false;
+
+        if (prevAccX != AccX || prevAccY != AccY || prevAccZ != AccZ)
+        {
+            updateAcc = true;
+        }
+
+        prevAccX = AccX;
+        prevAccY = AccY;
+        prevAccZ = AccZ;
+
+        if (platformLocationP1->getAccelerometerWorkerActivated() || updateAcc)
         {
             if (ui->accelerometerRawCheckBox->isChecked())
             {
-                ui->accelerometerXLcdNumber->display(platformLocationP1->getAccelerometerReadings()[0]);
-                ui->accelerometerYLcdNumber->display(platformLocationP1->getAccelerometerReadings()[1]);
-                ui->accelerometerZLcdNumber->display(platformLocationP1->getAccelerometerReadings()[2]);
+                ui->accelerometerXLcdNumber->display(AccX);
+                ui->accelerometerYLcdNumber->display(AccY);
+                ui->accelerometerZLcdNumber->display(AccZ);
             }
             else
             {
@@ -172,13 +189,30 @@ void platformLocationP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
         }
 
-        if (platformLocationP1->getMagnetometerWorkerActivated())
+        static double prevMagX, prevMagY, prevMagZ;
+
+        double MagX = platformLocationP1->getMagnetometerReadings()[0];
+        double MagY = platformLocationP1->getMagnetometerReadings()[1];
+        double MagZ = platformLocationP1->getMagnetometerReadings()[2];
+
+        bool updateMag = false;
+
+        if (prevMagX != MagX || prevMagY != MagY || prevMagZ != MagZ)
+        {
+            updateMag = true;
+        }
+
+        prevMagX = MagX;
+        prevMagY = MagY;
+        prevMagZ = MagZ;
+
+        if (platformLocationP1->getMagnetometerWorkerActivated() || updateMag)
         {
             if (ui->magnetometerRawCheckBox->isChecked())
             {
-                ui->magnetometerXLcdNumber->display(platformLocationP1->getMagnetometerReadings()[0]);
-                ui->magnetometerYLcdNumber->display(platformLocationP1->getMagnetometerReadings()[1]);
-                ui->magnetometerZLcdNumber->display(platformLocationP1->getMagnetometerReadings()[2]);
+                ui->magnetometerXLcdNumber->display(MagX);
+                ui->magnetometerYLcdNumber->display(MagY);
+                ui->magnetometerZLcdNumber->display(MagZ);
             }
             else
             {
@@ -379,7 +413,37 @@ void setPlatformLocationUSSensorPresets(QTableWidgetItem *item)
     }
 }
 
-void initLedButtons(MainWindow *mainWindow)
+
+void setAllLedsButtonsOn(MainWindow *mainWindow)
+{
+    mainWindow->getUi()->ch0RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch1RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch2RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch3RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch4RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch5RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch6RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch7RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch8RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch9RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch10RedLed->setIcon(mainWindow->redLedOnIcon);
+    mainWindow->getUi()->ch11RedLed->setIcon(mainWindow->redLedOnIcon);
+
+    mainWindow->getUi()->ch0GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch1GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch2GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch3GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch4GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch5GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch6GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch7GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch8GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch9GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch10GreenLed->setIcon(mainWindow->greenLedOnIcon);
+    mainWindow->getUi()->ch11GreenLed->setIcon(mainWindow->greenLedOnIcon);
+}
+
+void setAllLedsButtonsOff(MainWindow *mainWindow)
 {
     mainWindow->getUi()->ch0RedLed->setIcon(mainWindow->redLedOffIcon);
     mainWindow->getUi()->ch1RedLed->setIcon(mainWindow->redLedOffIcon);
@@ -406,6 +470,11 @@ void initLedButtons(MainWindow *mainWindow)
     mainWindow->getUi()->ch9GreenLed->setIcon(mainWindow->greenLedOffIcon);
     mainWindow->getUi()->ch10GreenLed->setIcon(mainWindow->greenLedOffIcon);
     mainWindow->getUi()->ch11GreenLed->setIcon(mainWindow->greenLedOffIcon);
+}
+
+void initLedButtons(MainWindow *mainWindow)
+{
+    setAllLedsButtonsOff(mainWindow);
 }
 
 void setRedLedButtonOn(MainWindow *mainWindow, QPushButton *btn, bool state)

@@ -125,6 +125,9 @@ void PlatformLocationP1::resetToDefault()
     {
         shiftRegArray[i] = 0;
     }
+
+    getAccelerometerReadingOnce = false;
+    getMagnetometerReadingOnce  = false;
 }
 
 void PlatformLocationP1::setModuleInitialState()
@@ -364,7 +367,7 @@ void PlatformLocationP1::processMessagesQueueWorker()
                     }
                 }
 
-                if (getAccelerometerWorkerActivated())
+                if (getAccelerometerWorkerActivated() || getGetAccelerometerReadingOnce())
                 {
                     if (response.find("ACC:") !=std::string::npos) //accelerometer sensor readings
                     {
@@ -372,10 +375,14 @@ void PlatformLocationP1::processMessagesQueueWorker()
                         string value_str = response.substr(value_str_pos);
                         vector<string>value_str_values = Valter::split(value_str, ',');
                         setAccelerometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()), atoi(value_str_values[2].c_str()));
+                        if (getGetAccelerometerReadingOnce())
+                        {
+                            setGetAccelerometerReadingOnce(false);
+                        }
                     }
                 }
 
-                if (getMagnetometerWorkerActivated())
+                if (getMagnetometerWorkerActivated() || getGetMagnetometerReadingOnce())
                 {
                     if (response.find("MAG:") !=std::string::npos) //magnetometer sensor readings
                     {
@@ -383,6 +390,10 @@ void PlatformLocationP1::processMessagesQueueWorker()
                         string value_str = response.substr(value_str_pos);
                         vector<string>value_str_values = Valter::split(value_str, ',');
                         setMagnetometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[2].c_str()), atoi(value_str_values[1].c_str()));
+                    }
+                    if (getGetMagnetometerReadingOnce())
+                    {
+                        setGetMagnetometerReadingOnce(false);
                     }
                 }
 
@@ -572,7 +583,7 @@ void PlatformLocationP1::accelerometerWorker()
         {
             break;
         }
-        this_thread::sleep_for(std::chrono::milliseconds(20));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     if (getControlDeviceIsSet())
     {
@@ -592,7 +603,7 @@ void PlatformLocationP1::magnetometerWorker()
         {
             break;
         }
-        this_thread::sleep_for(std::chrono::milliseconds(20));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     if (getControlDeviceIsSet())
     {
@@ -618,6 +629,46 @@ void PlatformLocationP1::compassHeadingWorker()
     {
         getControlDevice()->addMsgToDataExchangeLog("compassHeadingWorker finished...");
     }
+}
+
+bool PlatformLocationP1::getGetMagnetometerReadingOnce() const
+{
+    return getMagnetometerReadingOnce;
+}
+
+void PlatformLocationP1::setGetMagnetometerReadingOnce(bool value)
+{
+    getMagnetometerReadingOnce = value;
+}
+
+void PlatformLocationP1::updateCompassHeading()
+{
+    setGetAccelerometerReadingOnce(true);
+    setGetMagnetometerReadingOnce(true);
+    sendCommand("ACC");
+    sendCommand("MAG");
+}
+
+void PlatformLocationP1::updateAccelerometer()
+{
+    setGetAccelerometerReadingOnce(true);
+    sendCommand("ACC");
+}
+
+void PlatformLocationP1::updateMagnetometer()
+{
+    setGetMagnetometerReadingOnce(true);
+    sendCommand("MAG");
+}
+
+bool PlatformLocationP1::getGetAccelerometerReadingOnce() const
+{
+    return getAccelerometerReadingOnce;
+}
+
+void PlatformLocationP1::setGetAccelerometerReadingOnce(bool value)
+{
+    getAccelerometerReadingOnce = value;
 }
 
 bool PlatformLocationP1::getCompassHeadingWorkerActivated() const

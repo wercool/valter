@@ -139,6 +139,8 @@ private slots:
 
     void on_wdResetOnButton_clicked();
 
+    void on_resetControlDeviceButton_clicked();
+
     //platfrom control p1
     void initPlatfromControlP1(Ui::MainWindow *ui);
 
@@ -270,6 +272,8 @@ private slots:
 
     void on_mainTabWidget_tabBarDoubleClicked(int index);
 
+    void on_valterPlatformMovementControlsDetachButton_clicked();
+
     //PLATFORM-LOCATION-P1
     void initPlatfromLocationP1(Ui::MainWindow *ui);
 
@@ -354,6 +358,24 @@ private slots:
 
     void on_inclinometerFrameDetatchButton_clicked();
 
+    void on_platformLocationP1EnableSensorsButton_clicked();
+
+    void on_platformLocationP1DisableSensorsButton_clicked();
+
+    void on_platformLocationP1AllLEDsONButton_clicked();
+
+    void on_platformLocationP1AllLEDsOFFButton_clicked();
+
+    void on_leftSonarReleaseButton_clicked();
+
+    void on_rightSonarReleaseButton_clicked();
+
+    void on_updateCompassHeadingButton_clicked();
+
+    void on_updateAccelerometerButton_clicked();
+
+    void on_updateMagnetometerButton_clicked();
+
     //platfrom-control-p2
     void initPlatfromControlP2(Ui::MainWindow *ui);
 
@@ -376,6 +398,8 @@ private slots:
     void on_platformControlP2RightWheelEncoderResetButton_clicked();
 
     void on_beepDurationScrollBar_valueChanged(int value);
+
+    void on_platformControlP2ResetIRScannerServoButton_clicked();
 
     //platfrom control p2
     void platformControlP2EncodersRefreshTimerUpdate();
@@ -413,30 +437,6 @@ private slots:
     void on_bottomFronLedsButton_toggled(bool checked);
 
     void on_bottomRearLedsButton_toggled(bool checked);
-
-    //platform-manipulator-and-ir-bumper
-    void initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui);
-
-    void platformManipulatorAndIRBumperRefreshTimerUpdate();
-
-    void on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool checked);
-
-    void on_platformManipulatorExecuteAngleSettingsButton_clicked();
-
-    void on_detachManipulatorFrameButton_clicked();
-
-    void on_manipulatorLiknk1AscentButton_pressed();
-
-    void on_manipulatorLiknk1DescentButton_pressed();
-
-    //Utilities
-    //Valter 3D
-    void on_valter3dOpenButton_clicked();
-
-    void on_horizontalScrollBar_9_valueChanged(int value);
-
-    void on_horizontalScrollBar_10_valueChanged(int value);
-
 
     void on_platformManipulatorAndIRBumperLoadDefaultsButton_clicked();
 
@@ -492,15 +492,39 @@ private slots:
 
     void on_manGripperRotateCW_released();
 
-    void on_platformLocationP1EnableSensorsButton_clicked();
+    //platform-manipulator-and-ir-bumper
+    void initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui);
 
-    void on_platformLocationP1DisableSensorsButton_clicked();
+    void platformManipulatorAndIRBumperRefreshTimerUpdate();
 
-    void on_platformLocationP1AllLEDsONButton_clicked();
+    void on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool checked);
 
-    void on_platformLocationP1AllLEDsOFFButton_clicked();
+    void on_platformManipulatorExecuteAngleSettingsButton_clicked();
+
+    void on_detachManipulatorFrameButton_clicked();
+
+    void on_manipulatorLiknk1AscentButton_pressed();
+
+    void on_manipulatorLiknk1DescentButton_pressed();
 
     void on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item);
+
+    //Utilities
+
+    //Valter 3D
+    void on_valter3dOpenButton_clicked();
+
+    void on_horizontalScrollBar_9_valueChanged(int value);
+
+    void on_horizontalScrollBar_10_valueChanged(int value);
+
+
+
+
+
+
+
+
 
 private:
     Ui::MainWindow *ui;

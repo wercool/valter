@@ -369,3 +369,14 @@ void MainWindow::delayedGUIActionsProcessingTimerUpdate()
         }
     }
 }
+
+void MainWindow::on_resetControlDeviceButton_clicked()
+{
+    if (selectedControlDeviceId.length() > 0)
+    {
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
+        Valter::log(Valter::format_string("Reset the %s", controlDevice->getControlDeviceId().c_str()));
+        controlDevice->resetUSBSysDevice();
+    }
+}

@@ -172,6 +172,56 @@ void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
                     int  value = atoi(value_str.c_str());
                     setLink2ADCPosition(value);
                 }
+                if (getLink1CurrentTrack())
+                {
+                    if (response.find("LINK1CURRENT:") != std::string::npos)//LINK1 current
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int  value = atoi(value_str.c_str());
+                        setLink1ADCCurrent(value);
+                    }
+                }
+                if (getLink2CurrentTrack())
+                {
+                    if (response.find("LINK2CURRENT:") != std::string::npos)//LINK2 current
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int  value = atoi(value_str.c_str());
+                        setLink2ADCCurrent(value);
+                    }
+                }
+                if (getGripperTiltTrack())
+                {
+                    if (response.find("IN1:0") != std::string::npos)//gripper tilt CH0
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setGripperADCTilt(atoi(value_str_values[1].c_str()));
+                    }
+                }
+                if (getGripperRotationTrack())
+                {
+                    if (response.find("IN1:1") != std::string::npos)//gripper rotation CH1
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setGripperADCRotation(atoi(value_str_values[1].c_str()));
+                    }
+                }
+                if (getGripperPositionTrack())
+                {
+                    if (response.find("IN2:2") != std::string::npos)//gripper position CH2
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setGripperADCPosition(atoi(value_str_values[1].c_str()));
+                    }
+                }
             }
             this_thread::sleep_for(std::chrono::milliseconds(1));
         }
@@ -315,13 +365,46 @@ void PlatformManipulatorAndIRBumper::manipulatorReadingsWorker()
             {
                 if (getLink1PositionTrack())
                 {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
                     sendCommand("LINK1POS");
                 }
                 if (getLink2PositionTrack())
                 {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
                     sendCommand("LINK2POS");
                 }
-                this_thread::sleep_for(std::chrono::milliseconds(25));
+                if (getLink1CurrentTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("LINK1CURRENT");
+                }
+                if (getLink2CurrentTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("LINK2CURRENT");
+                }
+                if (getGripperTiltTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH0");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperRotationTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH1");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperPositionTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH2");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                this_thread::sleep_for(std::chrono::milliseconds(50));
             }
             else
             {
@@ -333,46 +416,6 @@ void PlatformManipulatorAndIRBumper::manipulatorReadingsWorker()
             this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
-}
-
-int PlatformManipulatorAndIRBumper::getLink2ADCCurrent() const
-{
-    return link2ADCCurrent;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2ADCCurrent(int value)
-{
-    link2ADCCurrent = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1ADCCurrent() const
-{
-    return link1ADCCurrent;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1ADCCurrent(int value)
-{
-    link1ADCCurrent = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink2ADCPosition() const
-{
-    return link2ADCPosition;
-}
-
-void PlatformManipulatorAndIRBumper::setLink2ADCPosition(int value)
-{
-    link2ADCPosition = value;
-}
-
-int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
-{
-    return link1ADCPosition;
-}
-
-void PlatformManipulatorAndIRBumper::setLink1ADCPosition(int value)
-{
-    link1ADCPosition = value;
 }
 
 void PlatformManipulatorAndIRBumper::setPower24VOnOff(bool value)

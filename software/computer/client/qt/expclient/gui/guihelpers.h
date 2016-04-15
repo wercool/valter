@@ -241,4 +241,30 @@ public:
   }
 };
 
+class ValterPlatformMovementControlsEventFilter: public QObject
+{
+  public:
+  Ui::MainWindow *ui;
+  ValterPlatformMovementControlsEventFilter(Ui::MainWindow *ui):QObject()
+  {
+      this->ui = ui;
+  }
+
+  ~ValterPlatformMovementControlsEventFilter(){}
+
+  bool eventFilter(QObject* widget, QEvent* event)
+  {
+      if(event->type() == QEvent::Close)
+      {
+          ((QWidget*) widget)->layout()->setMargin(0);
+          ui->valterPlatformMovementControlsContainer->addWidget((QWidget*)widget);
+          return true;
+      }
+      else
+      {
+        return QObject::eventFilter(widget, event);
+      }
+  }
+};
+
 #endif // GUIHELPERS_H

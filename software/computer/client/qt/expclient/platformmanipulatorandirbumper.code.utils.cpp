@@ -104,6 +104,30 @@ void PlatformManipulatorAndIRBumper::loadDefaults()
     val2 = atoi(strtok(NULL, "," ));
     setLink2CurrentTrack(val1);
     setLink2CurrentADC(val2);
+
+    //CH0 Gripper Tilt      CH0
+    defaultValue = getDefault("CH0");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperTiltTrack(val1);
+    setGripperTiltADC(val2);
+
+    //CH1 Gripper Rotation      CH1
+    defaultValue = getDefault("CH1");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperRotationTrack(val1);
+    setGripperRotationADC(val2);
+
+    //CH2 Gripper Position      CH2
+    defaultValue = getDefault("CH2");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperPositionTrack(val1);
+    setGripperPositionADC(val2);
 }
 
 bool PlatformManipulatorAndIRBumper::getLink1MotorDecelerating() const
@@ -502,4 +526,164 @@ double PlatformManipulatorAndIRBumper::getLink1Position() const
 void PlatformManipulatorAndIRBumper::setLink1Position(double value)
 {
     link1Position = value;
+}
+
+double PlatformManipulatorAndIRBumper::getGripperTilt() const
+{
+    return gripperTilt;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperTilt(double value)
+{
+    gripperTilt = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperADCTilt() const
+{
+    return gripperADCTilt;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperADCTilt(int value)
+{
+    gripperADCTilt = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperTiltADC() const
+{
+    return gripperTiltADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperTiltADC(bool value)
+{
+    gripperTiltADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperTiltTrack() const
+{
+    return gripperTiltTrack;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperTiltTrack(bool value)
+{
+    gripperTiltTrack = value;
+}
+
+int PlatformManipulatorAndIRBumper::getLink2ADCCurrent() const
+{
+    return link2ADCCurrent;
+}
+
+void PlatformManipulatorAndIRBumper::setLink2ADCCurrent(int value)
+{
+    link2ADCCurrent = value;
+}
+
+int PlatformManipulatorAndIRBumper::getLink1ADCCurrent() const
+{
+    return link1ADCCurrent;
+}
+
+void PlatformManipulatorAndIRBumper::setLink1ADCCurrent(int value)
+{
+    link1ADCCurrent = value;
+}
+
+int PlatformManipulatorAndIRBumper::getLink2ADCPosition() const
+{
+    return link2ADCPosition;
+}
+
+void PlatformManipulatorAndIRBumper::setLink2ADCPosition(int value)
+{
+    link2ADCPosition = value;
+}
+
+int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
+{
+    return link1ADCPosition;
+}
+
+void PlatformManipulatorAndIRBumper::setLink1ADCPosition(int value)
+{
+    link1ADCPosition = value;
+}
+
+double PlatformManipulatorAndIRBumper::getGripperPosition() const
+{
+    return gripperPosition;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperPosition(double value)
+{
+    gripperPosition = value;
+}
+
+double PlatformManipulatorAndIRBumper::getGripperRotation() const
+{
+    return gripperRotation;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperRotation(double value)
+{
+    gripperRotation = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperADCPosition() const
+{
+    return gripperADCPosition;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperADCPosition(int value)
+{
+    gripperADCPosition = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperADCRotation() const
+{
+    return gripperADCRotation;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperADCRotation(int value)
+{
+    gripperADCRotation = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperPositionADC() const
+{
+    return gripperPositionADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperPositionADC(bool value)
+{
+    gripperPositionADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperPositionTrack() const
+{
+    return gripperPositionTrack;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperPositionTrack(bool value)
+{
+    gripperPositionTrack = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperRotationADC() const
+{
+    return gripperRotationADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperRotationADC(bool value)
+{
+    gripperRotationADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperRotationTrack() const
+{
+    return gripperRotationTrack;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperRotationTrack(bool value)
+{
+    gripperRotationTrack = value;
 }

@@ -10,10 +10,10 @@ relativeUSSensorVoltage:0
 usSignalDuty:127
 usSignalBurst:250
 usSignalDelay:2500
-leftSonarMinAngle:-90
-leftSonarMaxAngle:30
-rightSonarMinAngle:-30
-rightSonarMaxAngle:90
+leftSonarMinAngle:-80
+leftSonarMaxAngle:20
+rightSonarMinAngle:-20
+rightSonarMaxAngle:80
 leftSonarMinRotationDuty:5
 leftSonarMaxRotationDuty:40
 rightSonarMinRotationDuty:5

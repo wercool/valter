@@ -183,7 +183,7 @@ void MainWindow::on_irScannerAngleScrollBar_sliderReleased()
     if (!platformControlP2->getIrScanningWorkerActivated())
     {
         platformControlP2->setIRScannerIntentionalAngleSet(false);
-        platformControlP2->disableSonarServo();
+        platformControlP2->disableIRScannerServo();
         platformControlP2IRScannerRefreshTimer->stop();
     }
 }
@@ -191,28 +191,28 @@ void MainWindow::on_irScannerAngleScrollBar_sliderReleased()
 void MainWindow::on_chargerMotorPushCCWButton_clicked()
 {
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
-    platformControlP2->setChargerMotorDirection(false);
+    platformControlP2->setChargerMotorDirection(true);
     platformControlP2->pushChargerMotor();
 }
 
 void MainWindow::on_chargerMotorPushCWButton_clicked()
 {
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
-    platformControlP2->setChargerMotorDirection(true);
+    platformControlP2->setChargerMotorDirection(false);
     platformControlP2->pushChargerMotor();
 }
 
 void MainWindow::on_chargerMotorRotateCCWButton_pressed()
 {
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
-    platformControlP2->setChargerMotorDirection(false);
+    platformControlP2->setChargerMotorDirection(true);
     platformControlP2->setChargerMotorRotateWorkerActivated(true);
 }
 
 void MainWindow::on_chargerMotorRotateCWButton_pressed()
 {
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
-    platformControlP2->setChargerMotorDirection(true);
+    platformControlP2->setChargerMotorDirection(false);
     platformControlP2->setChargerMotorRotateWorkerActivated(true);
 }
 
@@ -250,4 +250,10 @@ void MainWindow::on_bottomRearLedsButton_toggled(bool checked)
 {
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
     platformControlP2->setBottomRearLeds(checked);
+}
+
+void MainWindow::on_platformControlP2ResetIRScannerServoButton_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->resetIRScannerServo();
 }

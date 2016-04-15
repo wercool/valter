@@ -172,6 +172,16 @@ void MainWindow::delayGUIAction(IValterModule *valterModule)
 }
 
 
+void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
+{
+    QWidget* pWidget = ui->mainTabWidget->widget(index);
+    pWidget->installEventFilter(new GenericEventFilter(ui, ui->mainTabWidget->tabText(index), index));
+    pWidget = ui->mainTabWidget->widget(index);
+    pWidget->setWindowTitle(ui->mainTabWidget->tabText(index));
+    pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
+    pWidget->show();
+}
+
 //Valter3D
 void MainWindow::on_valter3dOpenButton_clicked()
 {

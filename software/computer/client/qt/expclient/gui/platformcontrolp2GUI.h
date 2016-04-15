@@ -98,6 +98,11 @@ void platformControlP2IRScannerRefresh(Ui::MainWindow *ui)
                 ui->irScannerAngleScrollBar->setValue(platformControlP2->getIRScannerAngle());
             }
 
+            if (ui->platfromControlP2IRScannerADCCheckBox->isChecked())
+            {
+                ui->platfromControlP2IRScannerReadingLCDNumber->display(platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()));
+            }
+
             if (platformControlP2->getIrScanningWorkerActivated() && platformControlP2->getIRScannerScan(platformControlP2->getIRScannerAngle()) != 0.0)
             {
                 if (!MainWindow::getInstance()->IRScannerDots[platformControlP2->getIRScannerAngle()])

@@ -412,3 +412,8 @@ void MainWindow::on_manGripperRotateCW_released()
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
     platformManipulatorAndIRBumper->manGripperRotateStop();
 }
+
+void MainWindow::on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item)
+{
+    setPlatformManipulatorReadingsPresets(item);
+}

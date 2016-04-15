@@ -512,10 +512,43 @@ void MainWindow::on_platformLocationP1AllLEDsONButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
     platformLocationP1->setAllLEDsOn();
+    setAllLedsButtonsOn(this);
 }
 
 void MainWindow::on_platformLocationP1AllLEDsOFFButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
     platformLocationP1->setAllLEDsOff();
+    setAllLedsButtonsOff(this);
+}
+
+void MainWindow::on_leftSonarReleaseButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->setLeftSonarActivated(false);
+}
+
+void MainWindow::on_rightSonarReleaseButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->setRightSonarActivated(false);
+}
+
+void MainWindow::on_updateCompassHeadingButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->updateCompassHeading();
+}
+
+
+void MainWindow::on_updateAccelerometerButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->updateAccelerometer();
+}
+
+void MainWindow::on_updateMagnetometerButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->updateMagnetometer();
 }

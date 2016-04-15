@@ -521,17 +521,13 @@ void MainWindow::on_platformControlP1additionalReadingsTrackingDelay_valueChange
     ui->platformControlP1additionalReadingsTrackingDelayLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
-void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
+void MainWindow::on_valterPlatformMovementControlsDetachButton_clicked()
 {
-    QWidget* pWidget = ui->mainTabWidget->widget(index);
-    pWidget->installEventFilter(new GenericEventFilter(ui, ui->mainTabWidget->tabText(index), index));
-    pWidget = ui->mainTabWidget->widget(index);
-    pWidget->setWindowTitle(ui->mainTabWidget->tabText(index));
+    QWidget* pWidget = ui->valterPlatformMovementControlsFrame;
+    pWidget->resize(pWidget->width() + 40, pWidget->height() + 40);
+    pWidget->layout()->setMargin(20);
+    pWidget->installEventFilter(new ValterPlatformMovementControlsEventFilter(ui));
+    pWidget->setWindowTitle("Platform Movement");
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
-}
-
-void MainWindow::on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item)
-{
-    setPlatformManipulatorReadingsPresets(item);
 }

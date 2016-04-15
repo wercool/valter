@@ -133,7 +133,8 @@ public:
     void alarmBeep();
     void ALARMOnOff(bool state);
 
-    void disableSonarServo();
+    void disableIRScannerServo();
+    void resetIRScannerServo();
 
 private:
     PlatformControlP2();

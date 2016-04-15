@@ -137,9 +137,15 @@ void PlatformControlP2::ALARMOnOff(bool state)
     }
 }
 
-void PlatformControlP2::disableSonarServo()
+void PlatformControlP2::disableIRScannerServo()
 {
     sendCommand("DISABLESONARSERVO");
+}
+
+void PlatformControlP2::resetIRScannerServo()
+{
+    sendCommand("SETSONARSERVODUTY#18");
+    disableIRScannerServo();
 }
 
 bool PlatformControlP2::getChargerMotorDirection() const
@@ -489,7 +495,7 @@ void PlatformControlP2::setIrScanningWorkerActivated(bool value)
     }
     else
     {
-        disableSonarServo();
+        disableIRScannerServo();
     }
 }
 

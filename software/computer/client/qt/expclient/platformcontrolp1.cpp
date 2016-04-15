@@ -116,6 +116,14 @@ void PlatformControlP1::processMessagesQueueWorker()
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setChargerVoltageADC(value);
+                        if (value > 500)
+                        {
+                            setPower220VACAvailable(true);
+                        }
+                        else
+                        {
+                            setPower220VACAvailable(false);
+                        }
                         continue;
                     }
                     if (response.compare("MAIN ACCUMULATOR RELAY SET ON") == 0)
@@ -200,7 +208,7 @@ void PlatformControlP1::processMessagesQueueWorker()
                         int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
-                        if (value > 600)
+                        if (value > 500)
                         {
                             setChargingInProgress(true);
                         }
@@ -215,7 +223,7 @@ void PlatformControlP1::processMessagesQueueWorker()
                         int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
-                        if (value > 700)
+                        if (value > 500)
                         {
                             setChargingComplete(true);
                         }

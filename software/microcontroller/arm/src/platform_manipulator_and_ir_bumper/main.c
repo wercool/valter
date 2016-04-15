@@ -1604,15 +1604,30 @@ int main(void)
                 }
                 continue;
             }
+            if (strcmp((char*) cmdParts, "LINK1CURRENT") == 0)
+            {
+                unsigned int link1Current = getValueChannel1();
+                sprintf((char *)msg,"LINK1CURRENT:%u\n", link1Current);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "LINK2CURRENT") == 0)
+            {
+                unsigned int link2Current = getValueChannel0();
+                sprintf((char *)msg,"LINK2CURRENT:%u\n", link2Current);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
         }
 
         //Inspecting grasp drive current
+/*
         if (!inspectGraspDriveCurrent())
         {
             stopGripperGraspDrive();
             gripperGraspStaticMode = 0;
         }
-
+*/
         if (input1Readings)
         {
             input1Reading = getValueChannel6();

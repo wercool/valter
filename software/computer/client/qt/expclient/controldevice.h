@@ -43,6 +43,8 @@ public:
     void activate();
     void deactivate();
 
+    void resetUSBSysDevice();
+
     std::thread *getControlDeviceThread() const;
     void setControlDeviceThread(std::thread *value);
     void spawnControlDeviceThreadWorker();
@@ -97,7 +99,6 @@ private:
     void controlDeviceThreadWorker();
     std::thread *controlDeviceThread;
 
-    void resetUSBSysDevice();
     bool resetWDTimer;
     bool intentionalWDTimerResetOnAT91SAM7s;
     unsigned char wdTimerNotResetCnt;
