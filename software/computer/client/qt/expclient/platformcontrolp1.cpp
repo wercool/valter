@@ -116,14 +116,7 @@ void PlatformControlP1::processMessagesQueueWorker()
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
                         setChargerVoltageADC(value);
-                        if (value > 500)
-                        {
-                            setPower220VACAvailable(true);
-                        }
-                        else
-                        {
-                            setPower220VACAvailable(false);
-                        }
+                        setPower220VACAvailable(true);
                         continue;
                     }
                     if (response.compare("MAIN ACCUMULATOR RELAY SET ON") == 0)
@@ -164,13 +157,12 @@ void PlatformControlP1::processMessagesQueueWorker()
                         if (value > 1000)
                         {
                             setChargerConnected(true);
-                            setPower220VACAvailable(true);
                         }
                         else
                         {
                             setChargerConnected(false);
-                            setPower220VACAvailable(false);
                         }
+                        setPower220VACAvailable(true);
                         continue;
                     }
                     if (response.find("INPUT2 CHANNEL [9]: ") != std::string::npos) //14.4V / 0.8A 1.2-35Ah
@@ -422,15 +414,8 @@ void PlatformControlP1::processMessagesQueueWorker()
                         int substr_pos = response.find(":") + 2;
                         string value_str = response.substr(substr_pos);
                         int value = atoi(value_str.c_str());
-                        if (value > 1000)
-                        {
-                            setPower220VACAvailable(true);
-                        }
-                        else
-                        {
-                            setPower220VACAvailable(false);
-                        }
                         setChargerVoltageADC(value);
+                        setPower220VACAvailable(true);
                         continue;
                     }
                 }

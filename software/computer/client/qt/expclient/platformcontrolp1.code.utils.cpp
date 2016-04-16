@@ -505,6 +505,15 @@ bool PlatformControlP1::getPower220VACAvailable() const
 
 void PlatformControlP1::setPower220VACAvailable(bool value)
 {
+    value = false;
+    if (getChargerVoltageADC() > 500)
+    {
+        value = true;
+    }
+    if (getChargerConnected())
+    {
+        value = true;
+    }
     power220VACAvailable = value;
 }
 
