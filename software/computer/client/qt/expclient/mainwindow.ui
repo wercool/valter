@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>1040</height>
+             <width>780</width>
+             <height>1034</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3898,7 +3898,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>838</width>
+             <width>98</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7780,8 +7780,8 @@ background-repeat: repeat-no;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-172</y>
-             <width>820</width>
+             <y>0</y>
+             <width>797</width>
              <height>963</height>
             </rect>
            </property>
@@ -9801,8 +9801,8 @@ background-repeat: repeat-no;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-327</y>
-             <width>820</width>
+             <y>0</y>
+             <width>821</width>
              <height>800</height>
             </rect>
            </property>
@@ -9823,6 +9823,9 @@ background-repeat: repeat-no;</string>
               </property>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_36">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
@@ -10630,6 +10633,9 @@ background-repeat: repeat-no;</string>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_38">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
@@ -11139,6 +11145,9 @@ background-repeat: repeat-no;</string>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_37">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
                 <property name="leftMargin">
                  <number>0</number>
                 </property>
