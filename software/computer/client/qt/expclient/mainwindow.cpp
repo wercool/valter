@@ -19,6 +19,7 @@
 #include "mainwindow/mainwindow.platformlocationp1.cpp"
 #include "mainwindow/mainwindow.platformcontrolp2.cpp"
 #include "mainwindow/mainwindow.manipulatorandirbumper.cpp"
+#include "mainwindow/mainwindow.bodycontrolp1.cpp"
 
 
 MainWindow* MainWindow::pMainWindow = NULL;

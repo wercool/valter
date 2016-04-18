@@ -526,6 +526,26 @@ private slots:
 
 
 
+    void on_headYawLeftDirectonCheckButton_toggled(bool checked);
+
+    void on_headYawRightDirectonCheckButton_toggled(bool checked);
+
+    void on_pitchHeadDownCheckButton_toggled(bool checked);
+
+    void on_pitchHeadUpCheckButton_toggled(bool checked);
+
+    void on_headYawLeftRotateButton_pressed();
+
+    void on_headYawLeftRotateButton_released();
+
+    void on_headYawStepDelaySpinBox_valueChanged(int value);
+
+    void on_headYawStepSwitchDelaySpinBox_valueChanged(int value);
+
+    void on_headYawRightRotateButton_pressed();
+
+    void on_headYawRightRotateButton_released();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

@@ -638,11 +638,15 @@ int main(void)
             if (strcmp((char*) cmdParts, "5V5SOURCEON") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
+                sprintf((char *) msg, "5V5 SOURCE ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "5V5SOURCEOFF") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA29);
+                sprintf((char *) msg, "5V5 SOURCE OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             //max 1000 (up)
@@ -802,51 +806,71 @@ int main(void)
             if (strcmp((char*) cmdParts, "LEFTARM12VENABLE") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
+                sprintf((char *) msg, "LEFT ARM 12V ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTARM12VDISABLE") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA28);
+                sprintf((char *) msg, "LEFT ARM 12V OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTARM12VENABLE") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+                sprintf((char *) msg, "RIGHT ARM 12V ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTARM12VDISABLE") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA31);
+                sprintf((char *) msg, "RIGHT ARM 12V OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEAD24VON") == 0)
             {
                 setShiftRegisterBit(head24VSwitchIndex, 1);
+                sprintf((char *) msg, "HEAD 24V ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEAD24VOFF") == 0)
             {
                 setShiftRegisterBit(head24VSwitchIndex, 0);
+                sprintf((char *) msg, "HEAD 24V OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTARM24VON") == 0)
             {
                 setShiftRegisterBit(rightArm24VSwitchIndex, 1);
+                sprintf((char *) msg, "RIGHT ARM 24V ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTARM24VOFF") == 0)
             {
                 setShiftRegisterBit(rightArm24VSwitchIndex, 0);
+                sprintf((char *) msg, "RIGHT ARM 24V OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTARM24VON") == 0)
             {
                 setShiftRegisterBit(leftArm24VSwitchIndex, 1);
+                sprintf((char *) msg, "LEFT ARM 24V ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTARM24VOFF") == 0)
             {
                 setShiftRegisterBit(leftArm24VSwitchIndex, 0);
+                sprintf((char *) msg, "LEFT ARM 24V OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "BODYLEDON") == 0)
@@ -862,21 +886,29 @@ int main(void)
             if (strcmp((char*) cmdParts, "LEFTACCUMULATORON") == 0)
             {
                 setShiftRegisterBit(leftAccumulatorSwitchIndex, 1);
+                sprintf((char *) msg, "LEFT ACCUMULATOR ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "LEFTACCUMULATOROFF") == 0)
             {
                 setShiftRegisterBit(leftAccumulatorSwitchIndex, 0);
+                sprintf((char *) msg, "LEFT ACCUMULATOR OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTACCUMULATORON") == 0)
             {
                 setShiftRegisterBit(rightAccumulatorSwitchIndex, 1);
+                sprintf((char *) msg, "RIGHT ACCUMULATOR ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "RIGHTACCUMULATOROFF") == 0)
             {
                 setShiftRegisterBit(rightAccumulatorSwitchIndex, 0);
+                sprintf((char *) msg, "RIGHT ACCUMULATOR OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADYAWHOLDSTEPON") == 0)
@@ -896,6 +928,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "HEADYAWENABLE") == 0)
             {
                 setShiftRegisterBit(headYawENIndex, 0);
+                setShiftRegisterBit(headYawREFIndex, 1);
                 if (headYawHoldStep)
                 {
                     setShiftRegisterBit(headYawREFIndex, 0);
@@ -966,6 +999,23 @@ int main(void)
                 }
                 continue;
             }
+            //HEADYAW#100
+            if (strcmp((char*) cmdParts, "HEADYAW") == 0)
+            {
+                unsigned int headYawStepSwitchDelay = atoi(strtok( NULL, "#" ));
+
+                //HEAD YAW POSITION 
+                headYawReading = getValueChannel1();
+                sprintf((char *) msg, "HYP:%u\n", headYawReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+
+                delay_us(headYawStepSwitchDelay);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+                delay_us(headYawStepSwitchDelay);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
+
+                continue;
+            }
             if (strcmp((char*) cmdParts, "HEADYAWREADING") == 0)
             {
                 headYawReading = getValueChannel1();
@@ -1003,6 +1053,7 @@ int main(void)
             if (strcmp((char*) cmdParts, "HEADPITCHENABLE") == 0)
             {
                 setShiftRegisterBit(headPitchENIndex, 0);
+                setShiftRegisterBit(headPitchREFIndex, 1);
                 if (headPitchHoldStep)
                 {
                     setShiftRegisterBit(headPitchREFIndex, 0);
@@ -1069,6 +1120,21 @@ int main(void)
                 }
                 continue;
             }
+            //HEADPITCH#100
+            if (strcmp((char*) cmdParts, "HEADPITCH") == 0)
+            {
+                unsigned int headPitchStepSwitchDelay = atoi(strtok( NULL, "#" ));
+
+                //HEAD PITCH POSITION
+                headPitchReading = getValueChannel2();
+                sprintf((char *) msg, "HPP:%u\n", headPitchReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+
+                delay_us(headPitchStepSwitchDelay);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                delay_us(headPitchStepSwitchDelay);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+            }
             //max 940 (up)
             //min 25 (down)
             if (strcmp((char*) cmdParts, "HEADPITCHREADING") == 0)
@@ -1122,26 +1188,44 @@ int main(void)
             if (strcmp((char*) cmdParts, "KINECT1POWER12VON") == 0)
             {
                 setShiftRegisterBit(kinect1Power12VIndex, 1);
+                sprintf((char *) msg, "KINECT1 ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
             }
             if (strcmp((char*) cmdParts, "KINECT1POWER12VOFF") == 0)
             {
                 setShiftRegisterBit(kinect1Power12VIndex, 0);
+                sprintf((char *) msg, "KINECT1 OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
             }
             if (strcmp((char*) cmdParts, "KINECT2POWER12VON") == 0)
             {
                 setShiftRegisterBit(kinect2Power12VIndex, 1);
+                sprintf((char *) msg, "KINECT2 ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
             }
             if (strcmp((char*) cmdParts, "KINECT2POWER12VOFF") == 0)
             {
                 setShiftRegisterBit(kinect2Power12VIndex, 0);
+                sprintf((char *) msg, "KINECT2 OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
             }
             if (strcmp((char*) cmdParts, "WIFIPOWER12VON") == 0)
             {
                 setShiftRegisterBit(wifi12VPowerIndex, 1);
+                sprintf((char *) msg, "WIFI ON\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
             }
             if (strcmp((char*) cmdParts, "WIFIPOWER12VOFF") == 0)
             {
                 setShiftRegisterBit(wifi12VPowerIndex, 0);
+                sprintf((char *) msg, "WIFI OFF\n");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
             }
             if (strcmp((char*) cmdParts, "HEADLEDON") == 0)
             {

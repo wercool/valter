@@ -37,6 +37,7 @@ SOURCES += main.cpp\
            mainwindow/mainwindow.platformlocationp1.cpp \
            mainwindow/mainwindow.platformcontrolp2.cpp \
            mainwindow/mainwindow.manipulatorandirbumper.cpp \
+           mainwindow/mainwindow.bodycontrolp1.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
