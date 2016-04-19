@@ -14,6 +14,7 @@ int main(int argc, char *argv[])
         application.setStyle("gtk+");
 
         mainGUIWindow = MainWindow::getInstance();
+        mainGUIWindow->setWindowFlags(Qt::WindowStaysOnTopHint);
         mainGUIWindow->show();
 
         Valter::getInstance();

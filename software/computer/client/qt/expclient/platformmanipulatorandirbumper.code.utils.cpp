@@ -40,7 +40,7 @@ void PlatformManipulatorAndIRBumper::loadDefaults()
     setLink1MotorDutyPresetMin(minValue);
     setLink1MotorDutyPresetMax(maxValue);
     setLink1MotorDutyPresetCur(curValue);
-    setLink1MotorDutyMax(getLink1MotorDutyPresetMax());
+    setLink1MotorDutyMax(getLink1MotorDutyPresetCur());
 
     //link1MotorAcceleration
     defaultValue = getDefault("link1MotorAcceleration");
@@ -59,7 +59,7 @@ void PlatformManipulatorAndIRBumper::loadDefaults()
     setLink2MotorDutyPresetMin(minValue);
     setLink2MotorDutyPresetMax(maxValue);
     setLink2MotorDutyPresetCur(curValue);
-    setLink2MotorDutyMax(getLink2MotorDutyPresetMax());
+    setLink2MotorDutyMax(getLink2MotorDutyPresetCur());
 
     //link2MotorAcceleration
     defaultValue = getDefault("link2MotorAcceleration");
@@ -262,6 +262,7 @@ int PlatformManipulatorAndIRBumper::getLink2MotorDuty() const
 void PlatformManipulatorAndIRBumper::setLink2MotorDuty(int value)
 {
     link2MotorDuty = value;
+    sendCommand(Valter::format_string("SETLINK2DRIVEDUTY#%d", link2MotorDuty));
 }
 
 int PlatformManipulatorAndIRBumper::getLink1MotorDutyPresetMax() const
@@ -332,6 +333,7 @@ int PlatformManipulatorAndIRBumper::getLink1MotorDuty() const
 void PlatformManipulatorAndIRBumper::setLink1MotorDuty(int value)
 {
     link1MotorDuty = value;
+    sendCommand(Valter::format_string("SETLINK1DRIVEDUTY#%d", link1MotorDuty));
 }
 
 bool PlatformManipulatorAndIRBumper::getLink1MotorStop() const
@@ -346,12 +348,28 @@ void PlatformManipulatorAndIRBumper::setLink1MotorStop(bool value)
 
 bool PlatformManipulatorAndIRBumper::prepareManLink1Movement()
 {
-    return true;
+    if (getLink1MotorAccelerating() || getLink1MotorDecelerating())
+    {
+        return false;
+    }
+    else
+    {
+        setLink1MotorDuty(getLink1MotorDutyPresetMin());
+        return true;
+    }
 }
 
 bool PlatformManipulatorAndIRBumper::prepareManLink2Movement()
 {
-    return true;
+    if (getLink2MotorAccelerating() || getLink2MotorDecelerating())
+    {
+        return false;
+    }
+    else
+    {
+        setLink2MotorDuty(getLink2MotorDutyPresetMin());
+        return true;
+    }
 }
 
 bool PlatformManipulatorAndIRBumper::getLink1MotorActivated() const

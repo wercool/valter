@@ -253,7 +253,6 @@ void PlatformManipulatorAndIRBumper::manLink1MovementWorker()
                 if (getLink1MotorAccelerating())
                 {
                     setLink1MotorDuty(curLink1MotorDuty);
-                    sendCommand(Valter::format_string("SETLINK1DRIVEDUTY#%d", curLink1MotorDuty));
                 }
                 setLink1MotorAccelerating(acceleration);
             }
@@ -275,12 +274,12 @@ void PlatformManipulatorAndIRBumper::manLink1MovementWorker()
                 if (getLink1MotorDecelerating())
                 {
                     setLink1MotorDuty(curLink1MotorDuty);
-                    sendCommand(Valter::format_string("SETLINK1DRIVEDUTY#%d", curLink1MotorDuty));
                 }
                 setLink1MotorDecelerating(deceleration);
                 if (getLink1MotorStop())
                 {
                     sendCommand("LINK1STOP");
+                    setLink1MotorAccelerating(false);
                 }
             }
             this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -316,7 +315,6 @@ void PlatformManipulatorAndIRBumper::manLink2MovementWorker()
                 if (getLink2MotorAccelerating())
                 {
                     setLink2MotorDuty(curLink2MotorDuty);
-                    sendCommand(Valter::format_string("SETLINK2DRIVEDUTY#%d", curLink2MotorDuty));
                 }
                 setLink2MotorAccelerating(acceleration);
             }
@@ -338,12 +336,12 @@ void PlatformManipulatorAndIRBumper::manLink2MovementWorker()
                 if (getLink2MotorDecelerating())
                 {
                     setLink2MotorDuty(curLink2MotorDuty);
-                    sendCommand(Valter::format_string("SETLINK2DRIVEDUTY#%d", curLink2MotorDuty));
                 }
                 setLink2MotorDecelerating(deceleration);
                 if (getLink2MotorStop())
                 {
                     sendCommand("LINK2STOP");
+                    setLink2MotorAccelerating(false);
                 }
             }
             this_thread::sleep_for(std::chrono::milliseconds(50));

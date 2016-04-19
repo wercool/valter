@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -53,7 +53,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>780</width>
+             <width>821</width>
              <height>1034</height>
             </rect>
            </property>
@@ -3898,7 +3898,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
+             <width>839</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7781,7 +7781,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>797</width>
+             <width>821</width>
              <height>963</height>
             </rect>
            </property>
