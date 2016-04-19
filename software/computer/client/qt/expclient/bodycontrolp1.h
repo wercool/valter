@@ -147,7 +147,7 @@ public:
     void setLeftArmYawMotorDecelerating(bool value);
 
     bool getLeftArmYawMovementDirection() const;
-    void setLeftArmYawMovementDirection(bool value);
+    bool setLeftArmYawMovementDirection(bool value);
 
     bool getLeftArmYawMotorActivated() const;
     void setLeftArmYawMotorActivated(bool value);
@@ -166,6 +166,7 @@ public:
 
     bool prepareBodyPitchMovement();
     bool prepareRightArmYawMovement();
+    bool prepareLeftArmYawMovement();
 
 private:
     BodyControlP1();

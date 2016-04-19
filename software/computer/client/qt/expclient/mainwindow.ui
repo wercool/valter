@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>1040</height>
+             <width>821</width>
+             <height>1034</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3898,7 +3898,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>838</width>
+             <width>839</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7781,7 +7781,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
+             <width>821</width>
              <height>963</height>
             </rect>
            </property>
@@ -9805,7 +9805,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
+             <width>821</width>
              <height>800</height>
             </rect>
            </property>
@@ -12361,28 +12361,6 @@ background-repeat: repeat-no;</string>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QPushButton" name="scanControlDevicesBtn">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <weight>50</weight>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="statusTip">
-             <string extracomment="sss"/>
-            </property>
-            <property name="text">
-             <string>Scan</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="reScanControlDevicesButton">
             <property name="enabled">
              <bool>true</bool>
@@ -12429,6 +12407,28 @@ background-repeat: repeat-no;</string>
            <widget class="QPushButton" name="wdResetOnButton">
             <property name="text">
              <string>WDR Start</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="scanControlDevicesBtn">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <weight>50</weight>
+              <bold>false</bold>
+             </font>
+            </property>
+            <property name="statusTip">
+             <string extracomment="sss"/>
+            </property>
+            <property name="text">
+             <string>Scan</string>
             </property>
            </widget>
           </item>
@@ -12847,7 +12847,6 @@ background-repeat: repeat-no;</string>
   <tabstop>platformControlP1RightWheelEncoderAutoresetCheckBox</tabstop>
   <tabstop>platformControlP1ReadingsTable</tabstop>
   <tabstop>controlDeviceTableWidget</tabstop>
-  <tabstop>scanControlDevicesBtn</tabstop>
   <tabstop>reScanControlDevicesButton</tabstop>
   <tabstop>connectDisconnectControlDeviceButton</tabstop>
   <tabstop>wdResetStopButton</tabstop>

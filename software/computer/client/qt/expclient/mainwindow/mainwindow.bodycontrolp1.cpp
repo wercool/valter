@@ -342,20 +342,38 @@ void MainWindow::on_rightArmYawCloseButton_released()
 
 void MainWindow::on_leftArmYawOpenButton_pressed()
 {
-
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->prepareLeftArmYawMovement())
+    {
+        //open
+        if (bodyControlP1->setLeftArmYawMovementDirection(true))
+        {
+            bodyControlP1->setLeftArmYawMotorActivated(true);
+        }
+    }
 }
 
 void MainWindow::on_leftArmYawOpenButton_released()
 {
-
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->setLeftArmYawMotorActivated(false);
 }
 
 void MainWindow::on_leftArmYawCloseButton_pressed()
 {
-
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->prepareLeftArmYawMovement())
+    {
+        //close
+        if (bodyControlP1->setLeftArmYawMovementDirection(false))
+        {
+            bodyControlP1->setLeftArmYawMotorActivated(true);
+        }
+    }
 }
 
 void MainWindow::on_leftArmYawCloseButton_released()
 {
-
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->setLeftArmYawMotorActivated(false);
 }

@@ -432,10 +432,55 @@ void BodyControlP1::leftArmYawWorker()
     {
         if (!getLeftArmYawMotorStop())
         {
+            int curLeftArmYawMotorDuty = getLeftArmYawMotorDuty();
+            bool acceleration, deceleration;
             if (getLeftArmYawMotorActivated())
             {
-
+                acceleration = getLeftArmYawMotorAccelerating();
+                if (curLeftArmYawMotorDuty + getLeftArmYawMotorAcceleration() < getLeftArmYawMotorDutyMax())
+                {
+                    curLeftArmYawMotorDuty += getLeftArmYawMotorAcceleration();
+                    acceleration = true;
+                }
+                else
+                {
+                    curLeftArmYawMotorDuty = getLeftArmYawMotorDutyMax();
+                    acceleration = false;
+                }
+                if (getLeftArmYawMotorAccelerating())
+                {
+                    setLeftArmYawMotorDuty(curLeftArmYawMotorDuty);
+                }
+                setLeftArmYawMotorAccelerating(acceleration);
             }
+            else
+            {
+                deceleration = getLeftArmYawMotorDecelerating();
+                if (curLeftArmYawMotorDuty - getLeftArmYawMotorDeceleration() > 1)
+                {
+                    curLeftArmYawMotorDuty -= getLeftArmYawMotorDeceleration();
+                    deceleration = true;
+                }
+                else
+                {
+                    curLeftArmYawMotorDuty = 1;
+                    deceleration = false;
+                    setLeftArmYawMotorStop(true);
+                }
+
+                if (getLeftArmYawMotorDecelerating())
+                {
+                    setLeftArmYawMotorDuty(curLeftArmYawMotorDuty);
+                }
+                setLeftArmYawMotorDecelerating(deceleration);
+                if (getLeftArmYawMotorStop())
+                {
+                    sendCommand("LEFTARMYAWSTOP");
+                    setLeftArmYawMotorAccelerating(false);
+                    setLeftArmYawMotorDecelerating(false);
+                }
+            }
+            this_thread::sleep_for(std::chrono::milliseconds(50));
         }
         else
         {
@@ -480,6 +525,19 @@ bool BodyControlP1::prepareRightArmYawMovement()
     }
 }
 
+bool BodyControlP1::prepareLeftArmYawMovement()
+{
+    if (getLeftArmYawMotorAccelerating() || getLeftArmYawMotorDecelerating())
+    {
+        return false;
+    }
+    else
+    {
+        setLeftArmYawMotorDuty(getLeftArmYawMotorDutyPresetMin());
+        return true;
+    }
+}
+
 int BodyControlP1::getLeftArmYawMotorDutyPresetMin() const
 {
     return leftArmYawMotorDutyPresetMin;
@@ -518,6 +576,10 @@ bool BodyControlP1::getLeftArmYawMotorActivated() const
 void BodyControlP1::setLeftArmYawMotorActivated(bool value)
 {
     leftArmYawMotorActivated = value;
+    if (value)//if activated motor is not stopped
+    {
+        setLeftArmYawMotorStop(false);
+    }
 }
 
 bool BodyControlP1::getLeftArmYawMovementDirection() const
@@ -525,9 +587,34 @@ bool BodyControlP1::getLeftArmYawMovementDirection() const
     return leftArmYawMovementDirection;
 }
 
-void BodyControlP1::setLeftArmYawMovementDirection(bool value)
+bool BodyControlP1::setLeftArmYawMovementDirection(bool value)
 {
-    leftArmYawMovementDirection = value;
+    if (getLeftArmYawMotorStop())
+    {
+        leftArmYawMovementDirection = value;
+        if (leftArmYawMovementDirection) //open
+        {
+            sendCommand("LEFTARMYAWOPEN");
+        }
+        else
+        {
+            sendCommand("LEFTARMYAWCLOSE");
+        }
+        return true;
+    }
+    else
+    {
+        if (getLeftArmYawMovementDirection() == value)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 bool BodyControlP1::getLeftArmYawMotorDecelerating() const
@@ -588,6 +675,7 @@ int BodyControlP1::getLeftArmYawMotorDuty() const
 void BodyControlP1::setLeftArmYawMotorDuty(int value)
 {
     leftArmYawMotorDuty = value;
+    sendCommand(Valter::format_string("SETLEFTARMYAWDRIVEDUTY#%d", leftArmYawMotorDuty));
 }
 
 int BodyControlP1::getRightArmYawMotorDutyPresetMax() const
