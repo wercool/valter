@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>1034</height>
+             <width>820</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3898,7 +3898,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>839</width>
+             <width>838</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7781,7 +7781,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
+             <width>820</width>
              <height>963</height>
             </rect>
            </property>
@@ -9777,14 +9777,17 @@ background-repeat: repeat-no;</string>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="bodyControlP1CheckBox">
             <property name="text">
              <string>redraw GUI</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_2">
+           <widget class="QPushButton" name="bodyControlP1LoadDefaultsButton">
             <property name="text">
              <string>Load Defaults</string>
             </property>
@@ -9802,7 +9805,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
+             <width>820</width>
              <height>800</height>
             </rect>
            </property>
@@ -9824,7 +9827,7 @@ background-repeat: repeat-no;</string>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_36">
                 <property name="spacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <property name="leftMargin">
                  <number>0</number>
@@ -9865,10 +9868,13 @@ background-repeat: repeat-no;</string>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_92">
                   <property name="topMargin">
-                   <number>0</number>
+                   <number>3</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>3</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_3">
+                   <widget class="QPushButton" name="bodyPitchUpButton">
                     <property name="maximumSize">
                      <size>
                       <width>40</width>
@@ -9886,7 +9892,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_4">
+                   <widget class="QPushButton" name="bodyPitchDownButton">
                     <property name="maximumSize">
                      <size>
                       <width>40</width>
@@ -9922,6 +9928,22 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
+                  <item row="1" column="1">
+                   <widget class="QLCDNumber" name="bodyPitchCurrentLcdNumber">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>24</height>
+                     </size>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 255, 255);</string>
+                    </property>
+                    <property name="value" stdset="0">
+                     <double>0.000000000000000</double>
+                    </property>
+                   </widget>
+                  </item>
                   <item row="0" column="1">
                    <widget class="QLabel" name="label_88">
                     <property name="font">
@@ -9935,7 +9957,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QLCDNumber" name="lcdNumber_4">
+                   <widget class="QLCDNumber" name="bodyPitchPositionLcdNumber">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -9947,19 +9969,6 @@ background-repeat: repeat-no;</string>
                     </property>
                     <property name="digitCount">
                      <number>5</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QLCDNumber" name="lcdNumber_5">
-                    <property name="minimumSize">
-                     <size>
-                      <width>0</width>
-                      <height>24</height>
-                     </size>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">background-color: rgb(255, 255, 255);</string>
                     </property>
                    </widget>
                   </item>
@@ -9983,7 +9992,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_101">
+                   <widget class="QLabel" name="bodyPitchMotorDutyLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -9995,23 +10004,10 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_17">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar">
+                 <widget class="QScrollBar" name="bodyPitchMotorDutyScroller">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -10035,7 +10031,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_108">
+                   <widget class="QLabel" name="bodyPitchMotorDecelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10047,23 +10043,19 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_18">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_2">
+                 <widget class="QScrollBar" name="bodyPitchMotorDecelerationScroller">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -10087,7 +10079,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_110">
+                   <widget class="QLabel" name="bodyPitchMotorAccelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10099,23 +10091,19 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_21">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_3">
+                 <widget class="QScrollBar" name="bodyPitchMotorAccelerationScroller">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -10129,6 +10117,19 @@ background-repeat: repeat-no;</string>
                   <property name="topMargin">
                    <number>0</number>
                   </property>
+                  <item>
+                   <spacer name="verticalSpacer_40">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
                   <item>
                    <widget class="Line" name="line_96">
                     <property name="orientation">
@@ -10151,7 +10152,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="radioButton_18">
+                   <widget class="QRadioButton" name="headYawMotorStateRadioButton">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10166,7 +10167,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_44">
+                   <widget class="QPushButton" name="headYawMotorEnableDisableButton">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10399,19 +10400,6 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <spacer name="verticalSpacer_36">
-                    <property name="orientation">
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>10</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
                    <widget class="QLabel" name="label_273">
                     <property name="font">
                      <font>
@@ -10504,7 +10492,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QSpinBox" name="spinBox_2">
+                   <widget class="QSpinBox" name="headYawStepDelayTestModeSpinBox">
                     <property name="minimum">
                      <number>2000</number>
                     </property>
@@ -10610,6 +10598,41 @@ background-repeat: repeat-no;</string>
                  </layout>
                 </item>
                 <item>
+                 <widget class="QLabel" name="label_281">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Move steps test mode</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="headYawStepDelayTestModeSpinBox_2">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>700</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>10</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="headYawTestModeExecuteButton">
+                  <property name="text">
+                   <string>Execute</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <spacer name="verticalSpacer_11">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -10634,7 +10657,7 @@ background-repeat: repeat-no;</string>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_38">
                 <property name="spacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <property name="leftMargin">
                  <number>0</number>
@@ -10675,10 +10698,13 @@ background-repeat: repeat-no;</string>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_100">
                   <property name="topMargin">
-                   <number>0</number>
+                   <number>3</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>3</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_7">
+                   <widget class="QPushButton" name="rightArmYawOpenButton">
                     <property name="maximumSize">
                      <size>
                       <width>40</width>
@@ -10696,7 +10722,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_8">
+                   <widget class="QPushButton" name="rightArmYawCloseButton">
                     <property name="maximumSize">
                      <size>
                       <width>40</width>
@@ -10745,7 +10771,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QLCDNumber" name="lcdNumber_8">
+                   <widget class="QLCDNumber" name="rightArmYawPositionLcdNumber">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -10761,7 +10787,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QLCDNumber" name="lcdNumber_9">
+                   <widget class="QLCDNumber" name="rightArmYawCurrentLcdNumber">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -10793,7 +10819,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_124">
+                   <widget class="QLabel" name="rightArmMotorDutyLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10805,23 +10831,10 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_28">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_7">
+                 <widget class="QScrollBar" name="rightArmMotorDutyScroller">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -10845,7 +10858,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_126">
+                   <widget class="QLabel" name="rightArmMotorDecelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10857,23 +10870,19 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_29">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_8">
+                 <widget class="QScrollBar" name="rightArmMotorDecelerationScroller">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -10897,7 +10906,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_128">
+                   <widget class="QLabel" name="rightArmMotorAccelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10909,23 +10918,19 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_30">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_11">
+                 <widget class="QScrollBar" name="rightArmMotorAccelerationScroller">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -10936,6 +10941,19 @@ background-repeat: repeat-no;</string>
                   <property name="spacing">
                    <number>0</number>
                   </property>
+                  <item>
+                   <spacer name="verticalSpacer_41">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
                   <item>
                    <widget class="Line" name="line_97">
                     <property name="orientation">
@@ -10958,7 +10976,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QRadioButton" name="radioButton_19">
+                   <widget class="QRadioButton" name="headPitchMotorStateRadioButton">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -10973,7 +10991,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_45">
+                   <widget class="QPushButton" name="headPitchMotorEnableDisableButton">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -11047,6 +11065,252 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
+                   <spacer name="verticalSpacer_39">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item alignment="Qt::AlignHCenter">
+                   <widget class="QLabel" name="label_276">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                      <weight>50</weight>
+                      <bold>false</bold>
+                      <underline>true</underline>
+                      <strikeout>false</strikeout>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Real Mode Ctrls</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_44">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_210">
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QPushButton" name="headPitchDownButton">
+                      <property name="minimumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>↓</string>
+                      </property>
+                      <property name="checkable">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="headPitchUpButton">
+                      <property name="minimumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <pointsize>20</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>↑</string>
+                      </property>
+                      <property name="checkable">
+                       <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_277">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Step delay</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="headPitchStepDelaySpinBox">
+                    <property name="minimum">
+                     <number>2000</number>
+                    </property>
+                    <property name="maximum">
+                     <number>50000</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>100</number>
+                    </property>
+                    <property name="value">
+                     <number>2500</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_278">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Step switch delay</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="headPitchStepSwitchDelaySpinBox">
+                    <property name="minimum">
+                     <number>100</number>
+                    </property>
+                    <property name="maximum">
+                     <number>1000</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>10</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_43">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="Line" name="line_107">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item alignment="Qt::AlignHCenter">
+                   <widget class="QLabel" name="label_279">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                      <weight>50</weight>
+                      <bold>false</bold>
+                      <underline>true</underline>
+                      <strikeout>false</strikeout>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Test Mode Ctrls</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_42">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="label_280">
+                    <property name="font">
+                     <font>
+                      <pointsize>10</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Step test mode delay</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="spinBox_3">
+                    <property name="minimum">
+                     <number>2000</number>
+                    </property>
+                    <property name="maximum">
+                     <number>50000</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>100</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QLabel" name="label_270">
                     <property name="font">
                      <font>
@@ -11064,7 +11328,7 @@ background-repeat: repeat-no;</string>
                      <number>0</number>
                     </property>
                     <item>
-                     <widget class="QPushButton" name="pitchHeadDownCheckButton">
+                     <widget class="QPushButton" name="pitchHeadDownDirectionCheckButton">
                       <property name="minimumSize">
                        <size>
                         <width>40</width>
@@ -11088,10 +11352,13 @@ background-repeat: repeat-no;</string>
                       <property name="checkable">
                        <bool>true</bool>
                       </property>
+                      <property name="checked">
+                       <bool>false</bool>
+                      </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="pitchHeadUpCheckButton">
+                     <widget class="QPushButton" name="pitchHeadUpDirectionCheckButton">
                       <property name="minimumSize">
                        <size>
                         <width>40</width>
@@ -11115,11 +11382,49 @@ background-repeat: repeat-no;</string>
                       <property name="checkable">
                        <bool>true</bool>
                       </property>
+                      <property name="checked">
+                       <bool>false</bool>
+                      </property>
                      </widget>
                     </item>
                    </layout>
                   </item>
                  </layout>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_282">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Move steps test mode</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="headPitchStepDelayTestModeSpinBox">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>700</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>10</number>
+                  </property>
+                  <property name="value">
+                   <number>100</number>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="headPitchTestModeExecuteButton">
+                  <property name="text">
+                   <string>Execute</string>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <spacer name="verticalSpacer_14">
@@ -11146,7 +11451,7 @@ background-repeat: repeat-no;</string>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_37">
                 <property name="spacing">
-                 <number>0</number>
+                 <number>2</number>
                 </property>
                 <property name="leftMargin">
                  <number>0</number>
@@ -11187,10 +11492,13 @@ background-repeat: repeat-no;</string>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_96">
                   <property name="topMargin">
-                   <number>0</number>
+                   <number>3</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>3</number>
                   </property>
                   <item>
-                   <widget class="QPushButton" name="pushButton_5">
+                   <widget class="QPushButton" name="leftArmYawOpenButton">
                     <property name="maximumSize">
                      <size>
                       <width>40</width>
@@ -11208,7 +11516,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_6">
+                   <widget class="QPushButton" name="leftArmYawCloseButton">
                     <property name="maximumSize">
                      <size>
                       <width>40</width>
@@ -11257,7 +11565,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QLCDNumber" name="lcdNumber_6">
+                   <widget class="QLCDNumber" name="leftArmYawPositionLcdNumber">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -11273,7 +11581,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item row="1" column="1">
-                   <widget class="QLCDNumber" name="lcdNumber_7">
+                   <widget class="QLCDNumber" name="leftArmYawCurrentLcdNumber">
                     <property name="minimumSize">
                      <size>
                       <width>0</width>
@@ -11305,7 +11613,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_115">
+                   <widget class="QLabel" name="leftArmMotorDutyLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -11317,23 +11625,10 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_22">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_4">
+                 <widget class="QScrollBar" name="leftArmMotorDutyScroller">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -11357,7 +11652,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_117">
+                   <widget class="QLabel" name="leftArmMotorDecelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -11369,23 +11664,19 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_23">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_5">
+                 <widget class="QScrollBar" name="leftArmMotorDecelerationScroller">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -11409,7 +11700,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="label_119">
+                   <widget class="QLabel" name="leftArmMotorAccelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -11421,29 +11712,41 @@ background-repeat: repeat-no;</string>
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer_27">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="horizontalScrollBar_6">
+                 <widget class="QScrollBar" name="leftArmMotorAccelerationScroller">
+                  <property name="minimum">
+                   <number>1</number>
+                  </property>
+                  <property name="maximum">
+                   <number>10</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>2</number>
+                  </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
                  </widget>
                 </item>
                 <item>
+                 <spacer name="verticalSpacer_45">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Minimum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>7</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item alignment="Qt::AlignTop">
                  <widget class="Line" name="line_102">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -11451,7 +11754,7 @@ background-repeat: repeat-no;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="radioButton_15">
+                 <widget class="QRadioButton" name="head24VPowerSourceStateRadioButton">
                   <property name="font">
                    <font>
                     <pointsize>10</pointsize>
@@ -11466,7 +11769,7 @@ background-repeat: repeat-no;</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_41">
+                 <widget class="QPushButton" name="head24VOnOffButton">
                   <property name="font">
                    <font>
                     <pointsize>10</pointsize>
@@ -11476,6 +11779,22 @@ background-repeat: repeat-no;</string>
                    <string>Head 24V ON/OFF</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_46">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeType">
+                   <enum>QSizePolicy::Minimum</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>7</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                 <item>
                  <widget class="Line" name="line_103">

@@ -1,0 +1,11 @@
+bodyPitchMotorDuty:1,100,30
+bodyPitchMotorDeceleration:2
+bodyPitchMotorAcceleration:2
+//right arm
+rightArmYawMotorDuty:1,100,30
+rightArmYawMotorDeceleration:2
+rightArmYawMotorAcceleration:2
+//left arm
+leftArmYawMotorDuty:1,100,30
+leftArmYawMotorDeceleration:2
+leftArmYawMotorAcceleration:2

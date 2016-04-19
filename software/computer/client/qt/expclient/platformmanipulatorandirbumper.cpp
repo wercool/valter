@@ -10,7 +10,7 @@
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::pPlatformManipulatorAndIRBumper = NULL;
 bool PlatformManipulatorAndIRBumper::instanceFlag = false;
 const string PlatformManipulatorAndIRBumper::controlDeviceId = "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
-const string PlatformManipulatorAndIRBumper::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-manipulator-and-ir-bumper";
+const string PlatformManipulatorAndIRBumper::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-manipulator-and-ir-bumper-defaults";
 
 const double PlatformManipulatorAndIRBumper::rootX = 220;
 const double PlatformManipulatorAndIRBumper::rootY = 130;
@@ -280,6 +280,7 @@ void PlatformManipulatorAndIRBumper::manLink1MovementWorker()
                 {
                     sendCommand("LINK1STOP");
                     setLink1MotorAccelerating(false);
+                    setLink1MotorDecelerating(false);
                 }
             }
             this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -342,6 +343,7 @@ void PlatformManipulatorAndIRBumper::manLink2MovementWorker()
                 {
                     sendCommand("LINK2STOP");
                     setLink2MotorAccelerating(false);
+                    setLink2MotorDecelerating(false);
                 }
             }
             this_thread::sleep_for(std::chrono::milliseconds(50));

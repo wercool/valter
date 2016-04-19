@@ -277,9 +277,9 @@ void setShiftRegisterBit(unsigned char idx, unsigned int value)
         {
             AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
         }
-        delay_us(50);
+        delay_us(25);
         AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
-        delay_us(50);
+        delay_us(25);
     }
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
 }
@@ -298,9 +298,9 @@ void setShiftRegister()
         {
             AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA3);
         }
-        delay_us(50);
+        delay_us(25);
         AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);
-        delay_us(50);
+        delay_us(25);
     }
     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);
 }
@@ -933,12 +933,16 @@ int main(void)
                 {
                     setShiftRegisterBit(headYawREFIndex, 0);
                 }
+                sprintf((char *) msg, "HEAD YAW MOTOR ENABLED");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADYAWDISABLE") == 0)
             {
                 setShiftRegisterBit(headYawENIndex, 1);
                 setShiftRegisterBit(headYawREFIndex, 1);
+                sprintf((char *) msg, "HEAD YAW MOTOR DISABLED");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADYAWLEFT") == 0)
@@ -994,7 +998,7 @@ int main(void)
                     delay_us(headYawStepTime);
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA26);
                     headYawReading = getValueChannel1();
-                    sprintf((char *) msg, "HEAD YAW POSITION: %u\n", headYawReading);
+                    sprintf((char *) msg, "HYP:%u\n", headYawReading);
                     pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 }
                 continue;
@@ -1058,12 +1062,16 @@ int main(void)
                 {
                     setShiftRegisterBit(headPitchREFIndex, 0);
                 }
+                sprintf((char *) msg, "HEAD PITCH MOTOR ENABLED");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADPITCHDISABLE") == 0)
             {
                 setShiftRegisterBit(headPitchREFIndex, 1);
                 setShiftRegisterBit(headPitchENIndex, 1);
+                sprintf((char *) msg, "HEAD PITCH MOTOR DISABLED");
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "HEADPITCHDOWN") == 0)
@@ -1115,7 +1123,7 @@ int main(void)
                     delay_us(headPitchStepTime);
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                     headPitchReading = getValueChannel2();
-                    sprintf((char *) msg, "HEAD PITCH POSITION: %u\n", headPitchReading);
+                    sprintf((char *) msg, "HPP:%u\n", headPitchReading);
                     pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 }
                 continue;

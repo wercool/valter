@@ -525,14 +525,14 @@ private slots:
 
 
 
+    //body-control-p1
+    void initBodyControlP1(Ui::MainWindow *ui);
+
+    void bodyControlP1TabRefreshTimerUpdate();
 
     void on_headYawLeftDirectonCheckButton_toggled(bool checked);
 
     void on_headYawRightDirectonCheckButton_toggled(bool checked);
-
-    void on_pitchHeadDownCheckButton_toggled(bool checked);
-
-    void on_pitchHeadUpCheckButton_toggled(bool checked);
 
     void on_headYawLeftRotateButton_pressed();
 
@@ -545,6 +545,72 @@ private slots:
     void on_headYawRightRotateButton_pressed();
 
     void on_headYawRightRotateButton_released();
+
+    void on_pitchHeadDownDirectionCheckButton_toggled(bool checked);
+
+    void on_pitchHeadUpDirectionCheckButton_toggled(bool checked);
+
+    void on_headPitchStepDelaySpinBox_valueChanged(int value);
+
+    void on_headPitchStepSwitchDelaySpinBox_valueChanged(int value);
+
+    void on_headPitchDownButton_pressed();
+
+    void on_headPitchDownButton_released();
+
+    void on_headPitchUpButton_pressed();
+
+    void on_headPitchUpButton_released();
+
+    void on_head24VOnOffButton_clicked();
+
+    void on_headYawMotorEnableDisableButton_clicked();
+
+    void on_headPitchMotorEnableDisableButton_clicked();
+
+    void on_bodyPitchMotorDutyScroller_valueChanged(int value);
+
+    void on_bodyPitchMotorDecelerationScroller_valueChanged(int value);
+
+    void on_bodyPitchMotorAccelerationScroller_valueChanged(int value);
+
+    void on_bodyControlP1LoadDefaultsButton_clicked();
+
+    void on_rightArmMotorDutyScroller_valueChanged(int value);
+
+    void on_rightArmMotorDecelerationScroller_valueChanged(int value);
+
+    void on_rightArmMotorAccelerationScroller_valueChanged(int value);
+
+    void on_leftArmMotorDutyScroller_valueChanged(int value);
+
+    void on_leftArmMotorDecelerationScroller_valueChanged(int value);
+
+    void on_leftArmMotorAccelerationScroller_valueChanged(int value);
+
+    void on_bodyPitchUpButton_pressed();
+
+    void on_bodyPitchUpButton_released();
+
+    void on_bodyPitchDownButton_pressed();
+
+    void on_bodyPitchDownButton_released();
+
+    void on_rightArmYawOpenButton_pressed();
+
+    void on_rightArmYawOpenButton_released();
+
+    void on_rightArmYawCloseButton_pressed();
+
+    void on_rightArmYawCloseButton_released();
+
+    void on_leftArmYawOpenButton_pressed();
+
+    void on_leftArmYawOpenButton_released();
+
+    void on_leftArmYawCloseButton_pressed();
+
+    void on_leftArmYawCloseButton_released();
 
 private:
     Ui::MainWindow *ui;
@@ -573,6 +639,9 @@ private:
 
     //platform-manipulator-and-ir-bumper
     QTimer *platformManipulatorAndIRBumperRefreshTimer;
+
+    //body-control-p1
+    QTimer *bodyControlP1TabRefreshTimer;
 
     // QWidget interface
 protected:

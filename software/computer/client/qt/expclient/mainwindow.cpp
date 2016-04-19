@@ -13,6 +13,7 @@
 #include <gui/link1endpointviewitem.h>
 #include <gui/link2endpointviewitem.h>
 #include <gui/link3endpointviewitem.h>
+#include <gui/bodycontrolp1GUI.h>
 
 #include "mainwindow/mainwindow.control.devices.utils.cpp"
 #include "mainwindow/mainwindow.platformcontrolp1.cpp"
@@ -55,6 +56,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //PLATFORM-MANIPULATOR-AND-IR-BUMPER
     initPlatformManipulatorAndIRBumper(ui);
+
+    //BODY-CONTROL-P1
+    initBodyControlP1(ui);
 }
 
 MainWindow::~MainWindow()
@@ -170,6 +174,17 @@ void MainWindow::delayGUIAction(IValterModule *valterModule)
             break;
         }
     }
+    //from BodyControlP1
+    if (valterModule->getControlDevice()->getControlDeviceId().compare(BodyControlP1::getControlDeviceId()) == 0)
+    {
+        switch (action)
+        {
+            case IValterModule::RELOAD_DEFAULTS:
+                valterModule->loadDefaults();
+                loadBodyControlP1Defaults(ui);
+            break;
+        }
+    }
 }
 
 
@@ -213,3 +228,12 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
         valter3d->setValterBodyRotationZ(-1 * (double)value / 10);
     }
 }
+
+
+
+
+
+
+
+
+

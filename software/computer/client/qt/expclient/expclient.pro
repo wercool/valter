@@ -59,6 +59,7 @@ HEADERS  += mainwindow.h \
             gui/link1endpointviewitem.h \
             gui/link2endpointviewitem.h \
             gui/link3endpointviewitem.h \
+            gui/bodycontrolp1GUI.h \
             valter3d.h
 
 FORMS    += mainwindow.ui

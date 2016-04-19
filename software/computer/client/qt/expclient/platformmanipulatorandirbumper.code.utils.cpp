@@ -63,15 +63,15 @@ void PlatformManipulatorAndIRBumper::loadDefaults()
 
     //link2MotorAcceleration
     defaultValue = getDefault("link2MotorAcceleration");
-    link2MotorAcceleration = stof(Valter::stringToCharPtr(defaultValue));
+    link2MotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
 
     //link2MotorDeceleration
     defaultValue = getDefault("link2MotorDeceleration");
-    link2MotorDeceleration = stof(Valter::stringToCharPtr(defaultValue));
+    link2MotorDeceleration = atoi(Valter::stringToCharPtr(defaultValue));
 
     //manGripperRotationMotorDuty
     defaultValue = getDefault("manGripperRotationMotorDuty");
-    manGripperRotationMotorDuty = stof(Valter::stringToCharPtr(defaultValue));
+    manGripperRotationMotorDuty = atoi(Valter::stringToCharPtr(defaultValue));
 
     //link1Rotation
     defaultValue = getDefault("link1Rotation");
