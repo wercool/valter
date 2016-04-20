@@ -23,6 +23,14 @@ void MainWindow::initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui)
     ui->platformManipulatorAndIRBumperLink1Link2PositionGraphicsView->setScene(platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene);
     ui->platformManipulatorAndIRBumperLink1Link2PositionGraphicsView->setRenderHint(QPainter::Antialiasing);
 
+    ui->manipulatorLiknk1MotorDutyScroller->installEventFilter(new WheelEventFilter());
+    ui->manipulatorLiknk1DecelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->manipulatorLiknk1AccelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->manipulatorLiknk2MotorDutyScroller->installEventFilter(new WheelEventFilter());
+    ui->manipulatorLiknk2DecelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->manipulatorLiknk2AccelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->manGripperRotationMotorDutyScroller->installEventFilter(new WheelEventFilter());
+
     double man_l1 = PlatformManipulatorAndIRBumper::man_l1;
     double man_l2 = PlatformManipulatorAndIRBumper::man_l2;
     double man_l1_l2 = PlatformManipulatorAndIRBumper::man_l1_l2;

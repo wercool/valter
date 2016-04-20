@@ -376,6 +376,15 @@ private slots:
 
     void on_updateMagnetometerButton_clicked();
 
+    void on_enableAllIRSensorsButton_clicked();
+
+    void on_disableAllIRSensorsButton_clicked();
+
+    void on_enableAllUSSensorsButton_clicked();
+
+    void on_disableAllUSSensorsButton_clicked();
+
+
     //platfrom-control-p2
     void initPlatfromControlP2(Ui::MainWindow *ui);
 
@@ -611,6 +620,44 @@ private slots:
     void on_leftArmYawCloseButton_pressed();
 
     void on_leftArmYawCloseButton_released();
+
+    void on_bodyControlP1ShiftRegEnableButton_clicked();
+
+    void on_bodyControlP1ShiftRegDisableButton_clicked();
+
+    void on_bodyControlP1ShiftRegResetButton_clicked();
+
+    void on_bodyControlP1StopShiftRegResetButton_clicked();
+
+    void on_powerSource5V5OnOffButton_clicked();
+
+    void on_wifiOnOffButton_clicked();
+
+    void on_leftArm24VOnOffButton_clicked();
+
+    void on_rightArm24VButton_clicked();
+
+    void on_headLedOnOffButton_clicked();
+
+    void on_leftAccumulatorOnOffButton_clicked();
+
+    void on_rightAccumulatorOnOffButton_clicked();
+
+    void on_leftArm12VOnOffButton_clicked();
+
+    void on_rightArm12VButton_clicked();
+
+    void on_kinect1OnOffButton_clicked();
+
+    void on_kinect2OnOffButton_clicked();
+
+    void on_headYawTestModeExecuteButton_clicked();
+
+    void on_headPitchTestModeExecuteButton_clicked();
+
+    void on_getHeadYawPositionButton_clicked();
+
+    void on_getHeadPitchPositionButton_clicked();
 
 private:
     Ui::MainWindow *ui;

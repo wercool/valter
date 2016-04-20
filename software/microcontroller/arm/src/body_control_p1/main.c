@@ -625,6 +625,13 @@ int main(void)
                 channel = 15;
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETCHREAD") == 0)
+            {
+                channelReading = getValueChannel0();
+                sprintf((char *) msg, "CH:%u,%u\n", channel, channelReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "CHANNELREADSTART") == 0)
             {
                 channelReadings = 1;
@@ -658,6 +665,13 @@ int main(void)
                 pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETBODYPITCH") == 0)
+            {
+                bodyPitchReading = getValueChannel4();
+                sprintf((char *) msg, "BP:%u\n", bodyPitchReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "BODYPITCHREADINGSSTART") == 0)
             {
                 bodyPitchReadings = 1;
@@ -677,6 +691,13 @@ int main(void)
                 pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETRIGHTARMYAW") == 0)
+            {
+                rightArmYawReading = getValueChannel5();
+                sprintf((char *) msg, "RAY:%u\n", rightArmYawReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "RIGHTARMYAWREADINGSSTART") == 0)
             {
                 rightArmYawReadings = 1;
@@ -693,6 +714,13 @@ int main(void)
             {
                 leftArmYawReading = getValueChannel6();
                 sprintf((char *) msg, "LEFT ARM YAW POSITION: %u\n", leftArmYawReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETLEFTARMYAW") == 0)
+            {
+                leftArmYawReading = getValueChannel6();
+                sprintf((char *) msg, "LAY:%u\n", leftArmYawReading);
                 pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
                 continue;
             }
@@ -1020,6 +1048,14 @@ int main(void)
 
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETHEADYAW") == 0)
+            {
+                //HEAD YAW POSITION 
+                headYawReading = getValueChannel1();
+                sprintf((char *) msg, "HYP:%u\n", headYawReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
+                continue;
+            }
             if (strcmp((char*) cmdParts, "HEADYAWREADING") == 0)
             {
                 headYawReading = getValueChannel1();
@@ -1142,6 +1178,13 @@ int main(void)
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
                 delay_us(headPitchStepSwitchDelay);
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+            }
+            if (strcmp((char*) cmdParts, "GETHEADPITCH") == 0)
+            {
+                //HEAD PITCH POSITION
+                headPitchReading = getValueChannel2();
+                sprintf((char *) msg, "HPP:%u\n", headPitchReading);
+                pCDC.Write(&pCDC, (char *) msg, strlen((char *) msg));
             }
             //max 940 (up)
             //min 25 (down)

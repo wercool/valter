@@ -35,6 +35,168 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         {
             ui->headPitchMotorStateRadioButton->setChecked(false);
         }
+        if (bodyControlP1->getPowerSource5V5State())
+        {
+            ui->powerSource5V5StateRadio->setChecked(true);
+        }
+        else
+        {
+            ui->powerSource5V5StateRadio->setChecked(false);
+        }
+        if (bodyControlP1->getWifiPowerState())
+        {
+            ui->wifiStateRadio->setChecked(true);
+        }
+        else
+        {
+            ui->wifiStateRadio->setChecked(false);
+        }
+        if (bodyControlP1->getLeftArm24VPowerSourceState())
+        {
+            ui->leftArm24VRadio->setChecked(true);
+        }
+        else
+        {
+            ui->leftArm24VRadio->setChecked(false);
+        }
+        if (bodyControlP1->getRightArm24VPowerSourceState())
+        {
+            ui->rightArm24VRadio->setChecked(true);
+        }
+        else
+        {
+            ui->rightArm24VRadio->setChecked(false);
+        }
+        if (bodyControlP1->getRightAccumulatorConnectedState())
+        {
+            ui->rightAccumulatorStateRadio->setChecked(true);
+        }
+        else
+        {
+            ui->rightAccumulatorStateRadio->setChecked(false);
+        }
+        if (bodyControlP1->getLeftAccumulatorConnectedState())
+        {
+            ui->leftAccumulatorStateRadio->setChecked(true);
+        }
+        else
+        {
+            ui->leftAccumulatorStateRadio->setChecked(false);
+        }
+        if (bodyControlP1->getLeftArm12VPowerSourceState())
+        {
+            ui->leftArm12VRadio->setChecked(true);
+        }
+        else
+        {
+            ui->leftArm12VRadio->setChecked(false);
+        }
+        if (bodyControlP1->getRightArm12VPowerSourceState())
+        {
+            ui->rightArm12VRadio->setChecked(true);
+        }
+        else
+        {
+            ui->rightArm12VRadio->setChecked(false);
+        }
+        if (bodyControlP1->getKinect1PowerState())
+        {
+            ui->kinect1StateRadio->setChecked(true);
+        }
+        else
+        {
+            ui->kinect1StateRadio->setChecked(false);
+        }
+        if (bodyControlP1->getKinect2PowerState())
+        {
+            ui->kinect2StateRadio->setChecked(true);
+        }
+        else
+        {
+            ui->kinect2StateRadio->setChecked(false);
+        }
+        if (bodyControlP1->getBodyPitchPositionTrack())
+        {
+            if (bodyControlP1->getBodyPitchPositionADC())
+            {
+                QTableWidgetItem* bodyPitchPositionQWidgetItem = new QTableWidgetItem;
+                bodyPitchPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getBodyPitchADCPosition()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(0, 2, bodyPitchPositionQWidgetItem);
+                ui->bodyPitchPositionLcdNumber->display(bodyControlP1->getBodyPitchADCPosition());
+            }
+        }
+        if (bodyControlP1->getRightArmYawPositionTrack())
+        {
+            if (bodyControlP1->getRightArmYawPositionADC())
+            {
+                QTableWidgetItem* rightArmYawPositionQWidgetItem = new QTableWidgetItem;
+                rightArmYawPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getRightArmYawADCPosition()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(2, 2, rightArmYawPositionQWidgetItem);
+                ui->rightArmYawPositionLcdNumber->display(bodyControlP1->getRightArmYawADCPosition());
+            }
+        }
+        if (bodyControlP1->getLeftArmYawPositionTrack())
+        {
+            if (bodyControlP1->getLeftArmYawPositionADC())
+            {
+                QTableWidgetItem* leftArmYawPositionQWidgetItem = new QTableWidgetItem;
+                leftArmYawPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getLeftArmYawADCPosition()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(4, 2, leftArmYawPositionQWidgetItem);
+                ui->leftArmYawPositionLcdNumber->display(bodyControlP1->getLeftArmYawADCPosition());
+            }
+        }
+        if (bodyControlP1->getHeadPitchPositionTrack())
+        {
+            if (bodyControlP1->getHeadPitchPositionADC())
+            {
+                QTableWidgetItem* headPitchPositionQWidgetItem = new QTableWidgetItem;
+                headPitchPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getHeadPitchADCPosition()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(6, 2, headPitchPositionQWidgetItem);
+                ui->headPitchPositionLcdNumber->display(bodyControlP1->getHeadPitchADCPosition());
+            }
+            ui->headPitchStepPositionLcdNumber->display(bodyControlP1->getHeadPitchStepPosition());
+        }
+        if (bodyControlP1->getHeadYawPositionTrack())
+        {
+            if (bodyControlP1->getHeadYawPositionADC())
+            {
+                QTableWidgetItem* headYawPositionQWidgetItem = new QTableWidgetItem;
+                headYawPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getHeadYawADCPosition()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(7, 2, headYawPositionQWidgetItem);
+                ui->headYawPositionLcdNumber->display(bodyControlP1->getHeadYawADCPosition());
+            }
+            ui->headYawStepPositionLcdNumber->display(bodyControlP1->getHeadYawStepPostion());
+        }
+        if (bodyControlP1->getBodyPitchCurrentTrack())
+        {
+            if (bodyControlP1->getBodyPitchCurrentADC())
+            {
+                QTableWidgetItem* bodyPitchCurrentQWidgetItem = new QTableWidgetItem;
+                bodyPitchCurrentQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getBodyPitchADCCurrent()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(1, 2, bodyPitchCurrentQWidgetItem);
+                ui->bodyPitchCurrentLcdNumber->display(bodyControlP1->getBodyPitchADCCurrent());
+            }
+        }
+        if (bodyControlP1->getRightArmYawCurrentTrack())
+        {
+            if (bodyControlP1->getRightArmYawCurrentADC())
+            {
+                QTableWidgetItem* rightArmYawCurrentQWidgetItem = new QTableWidgetItem;
+                rightArmYawCurrentQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getRightArmYawADCCurrent()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(3, 2, rightArmYawCurrentQWidgetItem);
+                ui->rightArmYawCurrentLcdNumber->display(bodyControlP1->getRightArmYawADCCurrent());
+            }
+        }
+        if (bodyControlP1->getLeftArmYawCurrentTrack())
+        {
+            if (bodyControlP1->getLeftArmYawCurrentADC())
+            {
+                QTableWidgetItem* leftArmYawCurrentQWidgetItem = new QTableWidgetItem;
+                leftArmYawCurrentQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getLeftArmYawADCCurrent()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(5, 2, leftArmYawCurrentQWidgetItem);
+                ui->leftArmYawCurrentLcdNumber->display(bodyControlP1->getLeftArmYawADCCurrent());
+            }
+        }
     }
 }
 
@@ -74,6 +236,24 @@ void loadBodyControlP1Defaults(Ui::MainWindow *ui)
 
     ui->leftArmMotorAccelerationScroller->setValue(bodyControlP1->getLeftArmYawMotorAcceleration());
     ui->leftArmMotorAccelerationLabel->setText(Valter::format_string("[%d]", bodyControlP1->getLeftArmYawMotorAcceleration()).c_str());
+
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(0, 0))->setCheckState((bodyControlP1->getBodyPitchPositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(0, 1))->setCheckState((bodyControlP1->getBodyPitchPositionADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(1, 0))->setCheckState((bodyControlP1->getBodyPitchCurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(1, 1))->setCheckState((bodyControlP1->getBodyPitchCurrentADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(2, 0))->setCheckState((bodyControlP1->getRightArmYawPositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(2, 1))->setCheckState((bodyControlP1->getRightArmYawPositionADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(3, 0))->setCheckState((bodyControlP1->getRightArmYawCurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(3, 1))->setCheckState((bodyControlP1->getRightArmYawCurrentADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(4, 0))->setCheckState((bodyControlP1->getLeftArmYawPositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(4, 1))->setCheckState((bodyControlP1->getLeftArmYawPositionADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(5, 0))->setCheckState((bodyControlP1->getLeftArmYawCurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(5, 1))->setCheckState((bodyControlP1->getLeftArmYawCurrentADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(6, 0))->setCheckState((bodyControlP1->getHeadPitchPositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(6, 1))->setCheckState((bodyControlP1->getHeadPitchPositionADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(7, 0))->setCheckState((bodyControlP1->getHeadYawPositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(7, 1))->setCheckState((bodyControlP1->getHeadYawPositionADC()) ? Qt::Checked : Qt::Unchecked);
+
 }
 
 #endif // BODYCONTROLP1GUI_H

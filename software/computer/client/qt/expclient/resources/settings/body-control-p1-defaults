@@ -9,3 +9,12 @@ rightArmYawMotorAcceleration:2
 leftArmYawMotorDuty:1,100,30
 leftArmYawMotorDeceleration:2
 leftArmYawMotorAcceleration:2
+//sensor readings
+bodyPitchPosition:1,1
+bodyPitchCurrent:1,1
+rightArmYawPosition:1,1
+rightArmYawCurrent:1,1
+leftArmYawPosition:1,1
+leftArmYawCurrent:1,1
+headPitchPosition:1,1
+headYawPosition:1,1

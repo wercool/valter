@@ -168,6 +168,139 @@ public:
     bool prepareRightArmYawMovement();
     bool prepareLeftArmYawMovement();
 
+    bool getBodyPitchPositionTrack() const;
+    void setBodyPitchPositionTrack(bool value);
+
+    bool getBodyPitchPositionADC() const;
+    void setBodyPitchPositionADC(bool value);
+
+    bool getBodyPitchCurrentTrack() const;
+    void setBodyPitchCurrentTrack(bool value);
+
+    bool getBodyPitchCurrentADC() const;
+    void setBodyPitchCurrentADC(bool value);
+
+    bool getRightArmYawPositionTrack() const;
+    void setRightArmYawPositionTrack(bool value);
+
+    bool getRightArmYawPositionADC() const;
+    void setRightArmYawPositionADC(bool value);
+
+    bool getRightArmYawCurrentTrack() const;
+    void setRightArmYawCurrentTrack(bool value);
+
+    bool getRightArmYawCurrentADC() const;
+    void setRightArmYawCurrentADC(bool value);
+
+    bool getLeftArmYawPositionTrack() const;
+    void setLeftArmYawPositionTrack(bool value);
+
+    bool getLeftArmYawPositionADC() const;
+    void setLeftArmYawPositionADC(bool value);
+
+    bool getLeftArmYawCurrentTrack() const;
+    void setLeftArmYawCurrentTrack(bool value);
+
+    bool getLeftArmYawCurrentADC() const;
+    void setLeftArmYawCurrentADC(bool value);
+
+    bool getHeadPitchPositionTrack() const;
+    void setHeadPitchPositionTrack(bool value);
+
+    bool getHeadPitchPositionADC() const;
+    void setHeadPitchPositionADC(bool value);
+
+    bool getHeadYawPositionTrack() const;
+    void setHeadYawPositionTrack(bool value);
+
+    bool getHeadYawPositionADC() const;
+    void setHeadYawPositionADC(bool value);
+
+    int getBodyPitchADCPosition() const;
+    void setBodyPitchADCPosition(int value);
+
+    int getRightArmYawADCPosition() const;
+    void setRightArmYawADCPosition(int value);
+
+    int getLeftArmYawADCPosition() const;
+    void setLeftArmYawADCPosition(int value);
+
+    int getHeadPitchADCPosition() const;
+    void setHeadPitchADCPosition(int value);
+
+    int getHeadYawADCPosition() const;
+    void setHeadYawADCPosition(int value);
+
+    int getHeadYawStepPostion() const;
+    void setHeadYawStepPostion(int value);
+
+    int getHeadPitchStepPosition() const;
+    void setHeadPitchStepPosition(int value);
+
+    int getBodyPitchADCCurrent() const;
+    void setBodyPitchADCCurrent(int value);
+
+    int getRightArmYawADCCurrent() const;
+    void setRightArmYawADCCurrent(int value);
+
+    int getLeftArmYawADCCurrent() const;
+    void setLeftArmYawADCCurrent(int value);
+
+    void shiftRegEnable();
+    void shiftRegDisable();
+    void shiftRegReset();
+    void stopShiftRegReset();
+
+    bool getPowerSource5V5State() const;
+    void setPowerSource5V5State(bool value);
+    void setPowerSource5VOnOff(bool value);
+
+    bool getWifiPowerState() const;
+    void setWifiPowerState(bool value);
+    void setWifiPowerOnOff(bool value);
+
+    bool getRightArm24VPowerSourceState() const;
+    void setRightArm24VPowerSourceState(bool value);
+    void setRightArm24VPowerOnOff(bool value);
+
+    bool getLeftArm24VPowerSourceState() const;
+    void setLeftArm24VPowerSourceState(bool value);
+    void setLeftArm24VPowerOnOff(bool value);
+
+    bool getHeadLedState() const;
+    void setHeadLedState(bool value);
+    void setHeadLedOnOff(bool value);
+
+    bool getLeftAccumulatorConnectedState() const;
+    void setLeftAccumulatorConnectedState(bool value);
+    void setLeftAccumulatorOnOff(bool value);
+
+    bool getRightAccumulatorConnectedState() const;
+    void setRightAccumulatorConnectedState(bool value);
+    void setRightAccumulatorOnOff(bool value);
+
+    bool getRightArm12VPowerSourceState() const;
+    void setRightArm12VPowerSourceState(bool value);
+    void setRightArm12VPowerOnOff(bool value);
+
+    bool getLeftArm12VPowerSourceState() const;
+    void setLeftArm12VPowerSourceState(bool value);
+    void setLeftArm12VPowerOnOff(bool value);
+
+    bool getKinect1PowerState() const;
+    void setKinect1PowerState(bool value);
+    void setKinect1PowerOnOff(bool value);
+
+    bool getKinect2PowerState() const;
+    void setKinect2PowerState(bool value);
+    void setKinect2PowerOnOff(bool value);
+
+    void headYawMoveSteps(bool direction, int stepTime, int steps); //direction true - right, false - left
+    void headPitchMoveSteps(bool direction, int stepTime, int steps);//direction true - down, false - up
+
+    void requestHeadYawPosition();
+    void requestHeadPitchPosition();
+
 private:
     BodyControlP1();
     static BodyControlP1* pBodyControlP1;         // BODY-CONTROL-P1's singleton instance
@@ -191,11 +324,15 @@ private:
     bool headYawMotorActivated;
     int headYawStepDelay; //us
     int headYawStepSwitchDelay; //us
+    int headYawADCPosition;
+    int headYawStepPostion;
 
     bool headPitchDirection;  //true - pitch down, false - pitch up
     bool headPitchMotorActivated;
     int headPitchStepDelay; //us
     int headPitchStepSwitchDelay; //us
+    int headPitchADCPosition;
+    int headPitchStepPosition;
 
     //------------------------------------------------body pitch
     int bodyPitchMotorDuty;
@@ -209,6 +346,9 @@ private:
     bool bodyPitchMovementDirection;        //true - down, false - up
     bool bodyPitchMotorActivated;
     bool bodyPitchMotorStop;
+
+    int bodyPitchADCPosition;
+    int bodyPitchADCCurrent;
 
     //presets
     int bodyPitchMotorDutyPresetCur;
@@ -229,6 +369,9 @@ private:
     bool rightArmYawMotorActivated;
     bool rightArmYawMotorStop;
 
+    int rightArmYawADCPosition;
+    int rightArmYawADCCurrent;
+
     //presets
     int rightArmYawMotorDutyPresetCur;
     int rightArmYawMotorDutyPresetMin;
@@ -247,10 +390,60 @@ private:
     bool leftArmYawMotorActivated;
     bool leftArmYawMotorStop;
 
+    int leftArmYawADCPosition;
+    int leftArmYawADCCurrent;
+
     //presets
     int leftArmYawMotorDutyPresetCur;
     int leftArmYawMotorDutyPresetMin;
     int leftArmYawMotorDutyPresetMax;
+
+    //body control p1 sensors reading settings
+    bool bodyPitchPositionTrack;
+    bool bodyPitchPositionADC;
+    bool bodyPitchCurrentTrack;
+    bool bodyPitchCurrentADC;
+    bool rightArmYawPositionTrack;
+    bool rightArmYawPositionADC;
+    bool rightArmYawCurrentTrack;
+    bool rightArmYawCurrentADC;
+    bool leftArmYawPositionTrack;
+    bool leftArmYawPositionADC;
+    bool leftArmYawCurrentTrack;
+    bool leftArmYawCurrentADC;
+    bool headPitchPositionTrack;
+    bool headPitchPositionADC;
+    bool headYawPositionTrack;
+    bool headYawPositionADC;
+
+    //5.5V
+    bool powerSource5V5State;
+    //wifi
+    bool wifiPowerState;
+
+    //right arm roll 12V state
+    bool rightArm12VPowerSourceState;
+
+    //left arm roll 12V state
+    bool leftArm12VPowerSourceState;
+
+    //right arm roll 24V state
+    bool rightArm24VPowerSourceState;
+
+    //left arm roll 24V state
+    bool leftArm24VPowerSourceState;
+
+    //head led
+    bool headLedState;
+
+    //left accumulator connected state
+    bool leftAccumulatorConnectedState;
+
+    //right accumulator connected state
+    bool rightAccumulatorConnectedState;
+
+    bool kinect1PowerState;
+    bool kinect2PowerState;
 };
 
 

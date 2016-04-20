@@ -237,3 +237,13 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
 
 
 
+
+
+
+
+
+
+
+
+
+

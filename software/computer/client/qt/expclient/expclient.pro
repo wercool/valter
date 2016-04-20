@@ -31,6 +31,7 @@ SOURCES += main.cpp\
 #service code
            platformcontrolp1.code.utils.cpp \
            platformmanipulatorandirbumper.code.utils.cpp \
+           bodycontrolp1.utils.cpp \
 #mainwindow gui service code
            mainwindow/mainwindow.control.devices.utils.cpp \
            mainwindow/mainwindow.platformcontrolp1.cpp \

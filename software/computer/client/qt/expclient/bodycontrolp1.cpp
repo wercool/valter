@@ -5,6 +5,8 @@
 #include "valter.h"
 #include "bodycontrolp1.h"
 
+#include "bodycontrolp1.utils.cpp"
+
 BodyControlP1 *BodyControlP1::pBodyControlP1 = NULL;
 bool BodyControlP1::instanceFlag = false;
 const string BodyControlP1::controlDeviceId = "BODY-CONTROL-P1";
@@ -53,84 +55,6 @@ void BodyControlP1::stopAll()
     }
 }
 
-void BodyControlP1::resetToDefault()
-{
-    if (this->controlDeviceIsSet)
-    {
-        getControlDevice()->setAutoReActivation(true);
-        getControlDevice()->clearMessageQueue();
-        getControlDevice()->clearDataExchangeLog();
-    }
-
-    head24VState            = false;
-    headYawMotorState       = false;
-    headPitchMotorState     = false;
-
-    headYawDirection            = false;  //true - turn right, false - turn left
-    headYawMotorActivated       = false;
-    headYawStepDelay            = 2500;
-    headYawStepSwitchDelay      = 100;
-
-    headPitchDirection          = true;  //true - pitch down, false - pitch up
-    headPitchMotorActivated     = false;
-    headPitchStepDelay          = 2500; //us
-    headPitchStepSwitchDelay    = 100; //us
-
-    //------------------------------------------------body pitch
-    bodyPitchMotorDuty          = 1;
-    bodyPitchMotorDutyMax       = 30;
-    bodyPitchMotorAcceleration  = 2;
-    bodyPitchMotorDeceleration  = 2;
-
-    bodyPitchMotorAccelerating  = false;
-    bodyPitchMotorDecelerating  = false;
-
-    bodyPitchMovementDirection  = true; //true - pitch down, false - pitch up
-    bodyPitchMotorActivated     = false;
-    bodyPitchMotorStop          = true;
-
-    //presets
-    bodyPitchMotorDutyPresetCur     = 30;
-    bodyPitchMotorDutyPresetMin     = 1;
-    bodyPitchMotorDutyPresetMax     = 100;
-
-    //------------------------------------------------right arm yaw
-    rightArmYawMotorDuty            = 1;
-    rightArmYawMotorDutyMax         = 30;
-    rightArmYawMotorAcceleration    = 2;
-    rightArmYawMotorDeceleration    = 2;
-
-    rightArmYawMotorAccelerating    = false;
-    rightArmYawMotorDecelerating    = false;
-
-    rightArmYawMovementDirection    = true; //true - open, false - close
-    rightArmYawMotorActivated       = false;
-    rightArmYawMotorStop            = false;
-
-    //presets
-    rightArmYawMotorDutyPresetCur   = 30;
-    rightArmYawMotorDutyPresetMin   = 1;
-    rightArmYawMotorDutyPresetMax   = 100;
-
-    //------------------------------------------------left arm yaw
-    leftArmYawMotorDuty             = 1;
-    leftArmYawMotorDutyMax          = 30;
-    leftArmYawMotorAcceleration     = 2;
-    leftArmYawMotorDeceleration     = 2;
-
-    leftArmYawMotorAccelerating     = false;
-    leftArmYawMotorDecelerating     = false;
-
-    leftArmYawMovementDirection     = true; //true - open, false - close
-    leftArmYawMotorActivated        = false;
-    leftArmYawMotorStop             = false;
-
-    //presets
-    leftArmYawMotorDutyPresetCur    = 30;
-    leftArmYawMotorDutyPresetMin    = 1;
-    leftArmYawMotorDutyPresetMax    = 100;
-}
-
 void BodyControlP1::setModuleInitialState()
 {
 
@@ -140,86 +64,6 @@ void BodyControlP1::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&BodyControlP1::processMessagesQueueWorker, this));
     getControlDevice()->addMsgToDataExchangeLog("BodyControlP1 Module process messages queue worker started...");
-}
-
-void BodyControlP1::loadDefaults()
-{
-    ifstream defaultsFile(BodyControlP1::defaultsFilePath);
-    string line;
-    while (getline(defaultsFile, line, '\n'))
-    {
-        if (line.substr(0, 2).compare("//") != 0)
-        {
-            char *lineStrPtr = Valter::stringToCharPtr(line);
-            string defaultValueName(strtok(lineStrPtr, ":" ));
-            string defaultValue(strtok(NULL, ":" ));
-            addDefault(defaultValueName, defaultValue);
-        }
-    }
-    defaultsFile.close();
-
-    string defaultValue;
-    char *defaultValuePtr;
-    int curValue;
-    int minValue;
-    int maxValue;
-
-    //bodyPitchMotorDuty
-    defaultValue = getDefault("bodyPitchMotorDuty");
-    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
-    maxValue = atoi(strtok(NULL, "," ));
-    curValue = atoi(strtok(NULL, "," ));
-    setBodyPitchMotorDutyPresetMin(minValue);
-    setBodyPitchMotorDutyPresetMax(maxValue);
-    setBodyPitchMotorDutyPresetCur(curValue);
-    setBodyPitchMotorDutyMax(getBodyPitchMotorDutyPresetCur());
-
-    //bodyPitchMotorDeceleration
-    defaultValue = getDefault("bodyPitchMotorDeceleration");
-    bodyPitchMotorDeceleration = atoi(Valter::stringToCharPtr(defaultValue));
-
-    //bodyPitchMotorAcceleration
-    defaultValue = getDefault("bodyPitchMotorAcceleration");
-    bodyPitchMotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
-
-    //rightArmYawMotorDuty
-    defaultValue = getDefault("rightArmYawMotorDuty");
-    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
-    maxValue = atoi(strtok(NULL, "," ));
-    curValue = atoi(strtok(NULL, "," ));
-    setRightArmYawMotorDutyPresetMin(minValue);
-    setRightArmYawMotorDutyPresetMax(maxValue);
-    setRightArmYawMotorDutyPresetCur(curValue);
-    setRightArmYawMotorDutyMax(getRightArmYawMotorDutyPresetCur());
-
-    //rightArmYawMotorDeceleration
-    defaultValue = getDefault("rightArmYawMotorDeceleration");
-    rightArmYawMotorDeceleration = atoi(Valter::stringToCharPtr(defaultValue));
-
-    //rightArmYawMotorAcceleration
-    defaultValue = getDefault("rightArmYawMotorAcceleration");
-    rightArmYawMotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
-
-    //leftArmYawMotorDuty
-    defaultValue = getDefault("leftArmYawMotorDuty");
-    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
-    maxValue = atoi(strtok(NULL, "," ));
-    curValue = atoi(strtok(NULL, "," ));
-    setLeftArmYawMotorDutyPresetMin(minValue);
-    setLeftArmYawMotorDutyPresetMax(maxValue);
-    setLeftArmYawMotorDutyPresetCur(curValue);
-    setLeftArmYawMotorDutyMax(getLeftArmYawMotorDutyPresetCur());
-
-    //leftArmYawMotorDeceleration
-    defaultValue = getDefault("leftArmYawMotorDeceleration");
-    leftArmYawMotorDeceleration = atoi(Valter::stringToCharPtr(defaultValue));
-
-    //leftArmYawMotorAcceleration
-    defaultValue = getDefault("leftArmYawMotorAcceleration");
-    leftArmYawMotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
 }
 
 void BodyControlP1::processMessagesQueueWorker()
@@ -262,6 +106,189 @@ void BodyControlP1::processMessagesQueueWorker()
                     setHeadPitchMotorState(false);
                     continue;
                 }
+                if (getBodyPitchPositionTrack())
+                {
+                    if (response.find("BP:") != std::string::npos) //body pitch position
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setBodyPitchADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getRightArmYawPositionTrack())
+                {
+                    if (response.find("RAY:") != std::string::npos) //right arm yaw position
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setRightArmYawADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getLeftArmYawPositionTrack())
+                {
+                    if (response.find("LAY:") != std::string::npos) //left arm yaw position
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setLeftArmYawADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getHeadPitchPositionTrack())
+                {
+                    if (response.find("HPP:") != std::string::npos) //head pitch position
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setHeadPitchADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getHeadYawPositionTrack())
+                {
+                    if (response.find("HYP:") != std::string::npos) //head yaw position
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setHeadYawADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getBodyPitchCurrentTrack())
+                {
+                    if (response.find("CH:2") != std::string::npos) //Body pitch current
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setBodyPitchADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getRightArmYawCurrentTrack())
+                {
+                    if (response.find("CH:1") != std::string::npos) //right arm current
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setRightArmYawADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getLeftArmYawCurrentTrack())
+                {
+                    if (response.find("CH:0") != std::string::npos) //left arm current
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setLeftArmYawADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (response.compare("5V5 SOURCE ON") == 0) //5.5V power source on
+                {
+                    setPowerSource5V5State(true);
+                    continue;
+                }
+                if (response.compare("5V5 SOURCE OFF") == 0) //5.5V power source off
+                {
+                    setPowerSource5V5State(false);
+                    continue;
+                }
+                if (response.compare("WIFI ON") == 0) //wifi 12V power source on
+                {
+                    setWifiPowerState(true);
+                    continue;
+                }
+                if (response.compare("WIFI OFF") == 0) //wifi 12V power source off
+                {
+                    setWifiPowerState(false);
+                    continue;
+                }
+                if (response.compare("LEFT ARM 24V ON") == 0) //left arm 24V power source on
+                {
+                    setLeftArm24VPowerSourceState(true);
+                    continue;
+                }
+                if (response.compare("LEFT ARM 24V OFF") == 0) //left arm 24V power source off
+                {
+                    setLeftArm24VPowerSourceState(false);
+                    continue;
+                }
+                if (response.compare("RIGHT ARM 24V ON") == 0) //right arm 24V power source on
+                {
+                    setRightArm24VPowerSourceState(true);
+                    continue;
+                }
+                if (response.compare("RIGHT ARM 24V OFF") == 0) //right arm 24V power source off
+                {
+                    setRightArm24VPowerSourceState(false);
+                    continue;
+                }
+                if (response.compare("RIGHT ACCUMULATOR ON") == 0) //right accumulator connected
+                {
+                    setRightAccumulatorConnectedState(true);
+                    continue;
+                }
+                if (response.compare("RIGHT ACCUMULATOR OFF") == 0) //right accumulator disconnected
+                {
+                    setRightAccumulatorConnectedState(false);
+                    continue;
+                }
+                if (response.compare("LEFT ACCUMULATOR ON") == 0) //left accumulator connected
+                {
+                    setLeftAccumulatorConnectedState(true);
+                    continue;
+                }
+                if (response.compare("LEFT ACCUMULATOR OFF") == 0) //left accumulator disconnected
+                {
+                    setLeftAccumulatorConnectedState(false);
+                    continue;
+                }
+                if (response.compare("LEFT ARM 12V ON") == 0) //left arm 12V power source on
+                {
+                    setLeftArm12VPowerSourceState(true);
+                    continue;
+                }
+                if (response.compare("LEFT ARM 12V OFF") == 0) //left arm 12V power source off
+                {
+                    setLeftArm12VPowerSourceState(false);
+                    continue;
+                }
+                if (response.compare("RIGHT ARM 12V ON") == 0) //right arm 12V power source on
+                {
+                    setRightArm12VPowerSourceState(true);
+                    continue;
+                }
+                if (response.compare("RIGHT ARM 12V OFF") == 0) //right arm 12V power source off
+                {
+                    setRightArm12VPowerSourceState(false);
+                    continue;
+                }
+                if (response.compare("KINECT1 ON") == 0) //kinect 1 on
+                {
+                    setKinect1PowerState(true);
+                    continue;
+                }
+                if (response.compare("KINECT1 OFF") == 0) //kinect 1 off
+                {
+                    setKinect1PowerState(false);
+                    continue;
+                }
+                if (response.compare("KINECT2 ON") == 0) //kinect 2 on
+                {
+                    setKinect2PowerState(true);
+                    continue;
+                }
+                if (response.compare("KINECT2 OFF") == 0) //kinect 2 off
+                {
+                    setKinect2PowerState(false);
+                    continue;
+                }
             }
             this_thread::sleep_for(std::chrono::milliseconds(5));
         }
@@ -275,6 +302,15 @@ void BodyControlP1::headYawWorker()
         if (getHeadYawMotorActivated())
         {
             sendCommand(Valter::format_string("HEADYAW#%d", getHeadYawStepSwitchDelay()));
+            int headYawStepPostion = getHeadYawStepPostion();
+            if (getHeadYawDirection())
+            {
+                setHeadYawStepPostion(++headYawStepPostion);
+            }
+            else
+            {
+                setHeadYawStepPostion(--headYawStepPostion);
+            }
             this_thread::sleep_for(std::chrono::microseconds(getHeadYawStepDelay()));
         }
         else
@@ -291,6 +327,15 @@ void BodyControlP1::headPitchWorker()
         if (getHeadPitchMotorActivated())
         {
             sendCommand(Valter::format_string("HEADPITCH#%d", getHeadPitchStepSwitchDelay()));
+            int headPitchStepPostion = getHeadPitchStepPosition();
+            if (getHeadPitchDirection())
+            {
+                setHeadPitchStepPosition(++headPitchStepPostion);
+            }
+            else
+            {
+                setHeadPitchStepPosition(--headPitchStepPostion);
+            }
             this_thread::sleep_for(std::chrono::microseconds(getHeadPitchStepDelay()));
         }
         else
@@ -306,6 +351,10 @@ void BodyControlP1::bodyPitchWorker()
     {
         if (!getBodyPitchMotorStop())
         {
+            if (getBodyPitchPositionTrack())
+            {
+                sendCommand("GETBODYPITCH");
+            }
             int curBodyPitchMotorDuty = getBodyPitchMotorDuty();
             bool acceleration, deceleration;
             if (getBodyPitchMotorActivated())
@@ -354,6 +403,11 @@ void BodyControlP1::bodyPitchWorker()
                     setBodyPitchMotorDecelerating(false);
                 }
             }
+            if (getBodyPitchCurrentTrack())
+            {
+                sendCommand("CHANNEL2");
+                sendCommand("GETCHREAD");
+            }
             this_thread::sleep_for(std::chrono::milliseconds(50));
         }
         else
@@ -369,6 +423,10 @@ void BodyControlP1::rightArmYawWorker()
     {
         if (!getRightArmYawMotorStop())
         {
+            if (getRightArmYawPositionTrack())
+            {
+                sendCommand("GETRIGHTARMYAW");
+            }
             int curRightArmYawMotorDuty = getRightArmYawMotorDuty();
             bool acceleration, deceleration;
             if (getRightArmYawMotorActivated())
@@ -417,6 +475,11 @@ void BodyControlP1::rightArmYawWorker()
                     setRightArmYawMotorDecelerating(false);
                 }
             }
+            if (getRightArmYawCurrentTrack())
+            {
+                sendCommand("CHANNEL1");
+                sendCommand("GETCHREAD");
+            }
             this_thread::sleep_for(std::chrono::milliseconds(50));
         }
         else
@@ -432,6 +495,10 @@ void BodyControlP1::leftArmYawWorker()
     {
         if (!getLeftArmYawMotorStop())
         {
+            if (getLeftArmYawPositionTrack())
+            {
+                sendCommand("GETLEFTARMYAW");
+            }
             int curLeftArmYawMotorDuty = getLeftArmYawMotorDuty();
             bool acceleration, deceleration;
             if (getLeftArmYawMotorActivated())
@@ -480,6 +547,11 @@ void BodyControlP1::leftArmYawWorker()
                     setLeftArmYawMotorDecelerating(false);
                 }
             }
+            if (getLeftArmYawCurrentTrack())
+            {
+                sendCommand("CHANNEL0");
+                sendCommand("GETCHREAD");
+            }
             this_thread::sleep_for(std::chrono::milliseconds(50));
         }
         else
@@ -489,14 +561,196 @@ void BodyControlP1::leftArmYawWorker()
     }
 }
 
-int BodyControlP1::getLeftArmYawMotorDutyPresetMax() const
+void BodyControlP1::setKinect2PowerOnOff(bool value)
 {
-    return leftArmYawMotorDutyPresetMax;
+    if (value)
+    {
+        sendCommand("KINECT2POWER12VON");
+    }
+    else
+    {
+        sendCommand("KINECT2POWER12VOFF");
+    }
 }
 
-void BodyControlP1::setLeftArmYawMotorDutyPresetMax(int value)
+void BodyControlP1::headYawMoveSteps(bool direction, int stepTime, int steps)
 {
-    leftArmYawMotorDutyPresetMax = value;
+    if (direction)
+    {
+        sendCommand("HEADYAWRIGHT");
+    }
+    else
+    {
+        sendCommand("HEADYAWLEFT");
+    }
+    sendCommand(Valter::format_string("HEADYAWSTEPTIME#%d", stepTime));
+    sendCommand(Valter::format_string("HEADYAWSTEPS#%d", steps));
+}
+
+void BodyControlP1::headPitchMoveSteps(bool direction, int stepTime, int steps)
+{
+    if (direction)
+    {
+        sendCommand("HEADPITCHDOWN");
+    }
+    else
+    {
+        sendCommand("HEADPITCHUP");
+    }
+    sendCommand(Valter::format_string("HEADPITCHSTEPTIME#%d", stepTime));
+    sendCommand(Valter::format_string("HEADPITCHSTEPS#%d", steps));
+}
+
+void BodyControlP1::requestHeadYawPosition()
+{
+    sendCommand("GETHEADYAW");
+}
+
+void BodyControlP1::requestHeadPitchPosition()
+{
+    sendCommand("GETHEADPITCH");
+}
+
+void BodyControlP1::setKinect1PowerOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("KINECT1POWER12VON");
+    }
+    else
+    {
+        sendCommand("KINECT1POWER12VOFF");
+    }
+}
+
+void BodyControlP1::setLeftArm12VPowerOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("LEFTARM12VENABLE");
+    }
+    else
+    {
+        sendCommand("LEFTARM12VDISABLE");
+    }
+}
+
+void BodyControlP1::setRightArm12VPowerOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("RIGHTARM12VENABLE");
+    }
+    else
+    {
+        sendCommand("RIGHTARM12VDISABLE");
+    }
+}
+
+void BodyControlP1::setRightAccumulatorOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("RIGHTACCUMULATORON");
+    }
+    else
+    {
+        sendCommand("RIGHTACCUMULATOROFF");
+    }
+}
+
+void BodyControlP1::setLeftAccumulatorOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("LEFTACCUMULATORON");
+    }
+    else
+    {
+        sendCommand("LEFTACCUMULATOROFF");
+    }
+}
+
+void BodyControlP1::setHeadLedOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("HEADLEDON");
+        setHeadLedState(true);
+    }
+    else
+    {
+        sendCommand("HEADLEDOFF");
+        setHeadLedState(false);
+    }
+}
+
+void BodyControlP1::setLeftArm24VPowerOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("LEFTARM24VON");
+    }
+    else
+    {
+        sendCommand("LEFTARM24VOFF");
+    }
+}
+
+void BodyControlP1::setRightArm24VPowerOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("RIGHTARM24VON");
+    }
+    else
+    {
+        sendCommand("RIGHTARM24VOFF");
+    }
+}
+
+void BodyControlP1::setWifiPowerOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("WIFIPOWER12VON");
+    }
+    else
+    {
+        sendCommand("WIFIPOWER12VOFF");
+    }
+}
+
+void BodyControlP1::setPowerSource5VOnOff(bool value)
+{
+    if (value)
+    {
+        sendCommand("5V5SOURCEON");
+    }
+    else
+    {
+        sendCommand("5V5SOURCEOFF");
+    }
+}
+
+void BodyControlP1::shiftRegEnable()
+{
+    sendCommand("SHIFTREGENABLE");
+}
+
+void BodyControlP1::shiftRegDisable()
+{
+    sendCommand("SHIFTREGDISABLE");
+}
+
+void BodyControlP1::shiftRegReset()
+{
+    sendCommand("STOPSHIFTREGRESET");
+}
+
+void BodyControlP1::stopShiftRegReset()
+{
+    sendCommand("STOPSHIFTREGRESET");
 }
 
 bool BodyControlP1::prepareBodyPitchMovement()
@@ -538,41 +792,6 @@ bool BodyControlP1::prepareLeftArmYawMovement()
     }
 }
 
-int BodyControlP1::getLeftArmYawMotorDutyPresetMin() const
-{
-    return leftArmYawMotorDutyPresetMin;
-}
-
-void BodyControlP1::setLeftArmYawMotorDutyPresetMin(int value)
-{
-    leftArmYawMotorDutyPresetMin = value;
-}
-
-int BodyControlP1::getLeftArmYawMotorDutyPresetCur() const
-{
-    return leftArmYawMotorDutyPresetCur;
-}
-
-void BodyControlP1::setLeftArmYawMotorDutyPresetCur(int value)
-{
-    leftArmYawMotorDutyPresetCur = value;
-}
-
-bool BodyControlP1::getLeftArmYawMotorStop() const
-{
-    return leftArmYawMotorStop;
-}
-
-void BodyControlP1::setLeftArmYawMotorStop(bool value)
-{
-    leftArmYawMotorStop = value;
-}
-
-bool BodyControlP1::getLeftArmYawMotorActivated() const
-{
-    return leftArmYawMotorActivated;
-}
-
 void BodyControlP1::setLeftArmYawMotorActivated(bool value)
 {
     leftArmYawMotorActivated = value;
@@ -580,11 +799,6 @@ void BodyControlP1::setLeftArmYawMotorActivated(bool value)
     {
         setLeftArmYawMotorStop(false);
     }
-}
-
-bool BodyControlP1::getLeftArmYawMovementDirection() const
-{
-    return leftArmYawMovementDirection;
 }
 
 bool BodyControlP1::setLeftArmYawMovementDirection(bool value)
@@ -617,110 +831,10 @@ bool BodyControlP1::setLeftArmYawMovementDirection(bool value)
     return true;
 }
 
-bool BodyControlP1::getLeftArmYawMotorDecelerating() const
-{
-    return leftArmYawMotorDecelerating;
-}
-
-void BodyControlP1::setLeftArmYawMotorDecelerating(bool value)
-{
-    leftArmYawMotorDecelerating = value;
-}
-
-bool BodyControlP1::getLeftArmYawMotorAccelerating() const
-{
-    return leftArmYawMotorAccelerating;
-}
-
-void BodyControlP1::setLeftArmYawMotorAccelerating(bool value)
-{
-    leftArmYawMotorAccelerating = value;
-}
-
-int BodyControlP1::getLeftArmYawMotorDeceleration() const
-{
-    return leftArmYawMotorDeceleration;
-}
-
-void BodyControlP1::setLeftArmYawMotorDeceleration(int value)
-{
-    leftArmYawMotorDeceleration = value;
-}
-
-int BodyControlP1::getLeftArmYawMotorAcceleration() const
-{
-    return leftArmYawMotorAcceleration;
-}
-
-void BodyControlP1::setLeftArmYawMotorAcceleration(int value)
-{
-    leftArmYawMotorAcceleration = value;
-}
-
-int BodyControlP1::getLeftArmYawMotorDutyMax() const
-{
-    return leftArmYawMotorDutyMax;
-}
-
-void BodyControlP1::setLeftArmYawMotorDutyMax(int value)
-{
-    leftArmYawMotorDutyMax = value;
-}
-
-int BodyControlP1::getLeftArmYawMotorDuty() const
-{
-    return leftArmYawMotorDuty;
-}
-
 void BodyControlP1::setLeftArmYawMotorDuty(int value)
 {
     leftArmYawMotorDuty = value;
     sendCommand(Valter::format_string("SETLEFTARMYAWDRIVEDUTY#%d", leftArmYawMotorDuty));
-}
-
-int BodyControlP1::getRightArmYawMotorDutyPresetMax() const
-{
-    return rightArmYawMotorDutyPresetMax;
-}
-
-void BodyControlP1::setRightArmYawMotorDutyPresetMax(int value)
-{
-    rightArmYawMotorDutyPresetMax = value;
-}
-
-int BodyControlP1::getRightArmYawMotorDutyPresetMin() const
-{
-    return rightArmYawMotorDutyPresetMin;
-}
-
-void BodyControlP1::setRightArmYawMotorDutyPresetMin(int value)
-{
-    rightArmYawMotorDutyPresetMin = value;
-}
-
-int BodyControlP1::getRightArmYawMotorDutyPresetCur() const
-{
-    return rightArmYawMotorDutyPresetCur;
-}
-
-void BodyControlP1::setRightArmYawMotorDutyPresetCur(int value)
-{
-    rightArmYawMotorDutyPresetCur = value;
-}
-
-bool BodyControlP1::getRightArmYawMotorStop() const
-{
-    return rightArmYawMotorStop;
-}
-
-void BodyControlP1::setRightArmYawMotorStop(bool value)
-{
-    rightArmYawMotorStop = value;
-}
-
-bool BodyControlP1::getRightArmYawMotorActivated() const
-{
-    return rightArmYawMotorActivated;
 }
 
 void BodyControlP1::setRightArmYawMotorActivated(bool value)
@@ -767,110 +881,10 @@ bool BodyControlP1::setRightArmYawMovementDirection(bool value)
     return true;
 }
 
-bool BodyControlP1::getRightArmYawMotorDecelerating() const
-{
-    return rightArmYawMotorDecelerating;
-}
-
-void BodyControlP1::setRightArmYawMotorDecelerating(bool value)
-{
-    rightArmYawMotorDecelerating = value;
-}
-
-bool BodyControlP1::getRightArmYawMotorAccelerating() const
-{
-    return rightArmYawMotorAccelerating;
-}
-
-void BodyControlP1::setRightArmYawMotorAccelerating(bool value)
-{
-    rightArmYawMotorAccelerating = value;
-}
-
-int BodyControlP1::getRightArmYawMotorDeceleration() const
-{
-    return rightArmYawMotorDeceleration;
-}
-
-void BodyControlP1::setRightArmYawMotorDeceleration(int value)
-{
-    rightArmYawMotorDeceleration = value;
-}
-
-int BodyControlP1::getRightArmYawMotorAcceleration() const
-{
-    return rightArmYawMotorAcceleration;
-}
-
-void BodyControlP1::setRightArmYawMotorAcceleration(int value)
-{
-    rightArmYawMotorAcceleration = value;
-}
-
-int BodyControlP1::getRightArmYawMotorDutyMax() const
-{
-    return rightArmYawMotorDutyMax;
-}
-
-void BodyControlP1::setRightArmYawMotorDutyMax(int value)
-{
-    rightArmYawMotorDutyMax = value;
-}
-
-int BodyControlP1::getRightArmYawMotorDuty() const
-{
-    return rightArmYawMotorDuty;
-}
-
 void BodyControlP1::setRightArmYawMotorDuty(int value)
 {
     rightArmYawMotorDuty = value;
     sendCommand(Valter::format_string("SETRIGHTARMYAWDRIVEDUTY#%d", rightArmYawMotorDuty));
-}
-
-int BodyControlP1::getBodyPitchMotorDutyPresetMax() const
-{
-    return bodyPitchMotorDutyPresetMax;
-}
-
-void BodyControlP1::setBodyPitchMotorDutyPresetMax(int value)
-{
-    bodyPitchMotorDutyPresetMax = value;
-}
-
-int BodyControlP1::getBodyPitchMotorDutyPresetMin() const
-{
-    return bodyPitchMotorDutyPresetMin;
-}
-
-void BodyControlP1::setBodyPitchMotorDutyPresetMin(int value)
-{
-    bodyPitchMotorDutyPresetMin = value;
-}
-
-int BodyControlP1::getBodyPitchMotorDutyPresetCur() const
-{
-    return bodyPitchMotorDutyPresetCur;
-}
-
-void BodyControlP1::setBodyPitchMotorDutyPresetCur(int value)
-{
-    bodyPitchMotorDutyPresetCur = value;
-}
-
-bool BodyControlP1::getBodyPitchMotorStop() const
-{
-    return bodyPitchMotorStop;
-}
-
-void BodyControlP1::setBodyPitchMotorStop(bool value)
-{
-    bodyPitchMotorStop = value;
-}
-
-bool BodyControlP1::getBodyPitchMotorActivated() const
-{
-    return bodyPitchMotorActivated;
 }
 
 void BodyControlP1::setBodyPitchMotorActivated(bool value)
@@ -917,75 +931,10 @@ bool BodyControlP1::setBodyPitchMovementDirection(bool value)
     return true;
 }
 
-bool BodyControlP1::getBodyPitchMotorDecelerating() const
-{
-    return bodyPitchMotorDecelerating;
-}
-
-void BodyControlP1::setBodyPitchMotorDecelerating(bool value)
-{
-    bodyPitchMotorDecelerating = value;
-}
-
-bool BodyControlP1::getBodyPitchMotorAccelerating() const
-{
-    return bodyPitchMotorAccelerating;
-}
-
-void BodyControlP1::setBodyPitchMotorAccelerating(bool value)
-{
-    bodyPitchMotorAccelerating = value;
-}
-
-int BodyControlP1::getBodyPitchMotorDeceleration() const
-{
-    return bodyPitchMotorDeceleration;
-}
-
-void BodyControlP1::setBodyPitchMotorDeceleration(int value)
-{
-    bodyPitchMotorDeceleration = value;
-}
-
-int BodyControlP1::getBodyPitchMotorAcceleration() const
-{
-    return bodyPitchMotorAcceleration;
-}
-
-void BodyControlP1::setBodyPitchMotorAcceleration(int value)
-{
-    bodyPitchMotorAcceleration = value;
-}
-
-int BodyControlP1::getBodyPitchMotorDutyMax() const
-{
-    return bodyPitchMotorDutyMax;
-}
-
-void BodyControlP1::setBodyPitchMotorDutyMax(int value)
-{
-    bodyPitchMotorDutyMax = value;
-}
-
-int BodyControlP1::getBodyPitchMotorDuty() const
-{
-    return bodyPitchMotorDuty;
-}
-
 void BodyControlP1::setBodyPitchMotorDuty(int value)
 {
     bodyPitchMotorDuty = value;
     sendCommand(Valter::format_string("SETBODYPITCHDRIVEDUTY#%d", bodyPitchMotorDuty));
-}
-
-bool BodyControlP1::getHeadPitchMotorState() const
-{
-    return headPitchMotorState;
-}
-
-void BodyControlP1::setHeadPitchMotorState(bool value)
-{
-    headPitchMotorState = value;
 }
 
 void BodyControlP1::setHeadPitchMotorOnOff(bool value)
@@ -1000,16 +949,6 @@ void BodyControlP1::setHeadPitchMotorOnOff(bool value)
     }
 }
 
-bool BodyControlP1::getHeadYawMotorState() const
-{
-    return headYawMotorState;
-}
-
-void BodyControlP1::setHeadYawMotorState(bool value)
-{
-    headYawMotorState = value;
-}
-
 void BodyControlP1::setHeadYawMotorOnOff(bool value)
 {
     if (value)
@@ -1020,16 +959,6 @@ void BodyControlP1::setHeadYawMotorOnOff(bool value)
     {
         sendCommand("HEADYAWDISABLE");
     }
-}
-
-bool BodyControlP1::getHead24VState() const
-{
-    return head24VState;
-}
-
-void BodyControlP1::setHead24VState(bool value)
-{
-    head24VState = value;
 }
 
 void BodyControlP1::setHead24VOnOff(bool value)
@@ -1044,41 +973,6 @@ void BodyControlP1::setHead24VOnOff(bool value)
     }
 }
 
-int BodyControlP1::getHeadPitchStepSwitchDelay() const
-{
-    return headPitchStepSwitchDelay;
-}
-
-void BodyControlP1::setHeadPitchStepSwitchDelay(int value)
-{
-    headPitchStepSwitchDelay = value;
-}
-
-int BodyControlP1::getHeadPitchStepDelay() const
-{
-    return headPitchStepDelay;
-}
-
-void BodyControlP1::setHeadPitchStepDelay(int value)
-{
-    headPitchStepDelay = value;
-}
-
-bool BodyControlP1::getHeadPitchMotorActivated() const
-{
-    return headPitchMotorActivated;
-}
-
-void BodyControlP1::setHeadPitchMotorActivated(bool value)
-{
-    headPitchMotorActivated = value;
-}
-
-bool BodyControlP1::getHeadPitchDirection() const
-{
-    return headPitchDirection;
-}
-
 void BodyControlP1::setHeadPitchDirection(bool value)
 {
     //true - pitch down, false - pitch up
@@ -1091,41 +985,6 @@ void BodyControlP1::setHeadPitchDirection(bool value)
     {
         sendCommand("HEADPITCHUP");
     }
-}
-
-int BodyControlP1::getHeadYawStepSwitchDelay() const
-{
-    return headYawStepSwitchDelay;
-}
-
-void BodyControlP1::setHeadYawStepSwitchDelay(int value)
-{
-    headYawStepSwitchDelay = value;
-}
-
-int BodyControlP1::getHeadYawStepDelay() const
-{
-    return headYawStepDelay;
-}
-
-void BodyControlP1::setHeadYawStepDelay(int value)
-{
-    headYawStepDelay = value;
-}
-
-bool BodyControlP1::getHeadYawMotorActivated() const
-{
-    return headYawMotorActivated;
-}
-
-void BodyControlP1::setHeadYawMotorActivated(bool value)
-{
-    headYawMotorActivated = value;
-}
-
-bool BodyControlP1::getHeadYawDirection() const
-{
-    return headYawDirection;
 }
 
 void BodyControlP1::setHeadYawDirection(bool value)

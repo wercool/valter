@@ -429,7 +429,7 @@ void PlatformControlP2::setBottomFrontLeds(bool value)
     }
     else
     {
-        sendCommand("PLATFORMFRONTLEDSON");
+        sendCommand("PLATFORMFRONTLEDSOFF");
     }
 }
 

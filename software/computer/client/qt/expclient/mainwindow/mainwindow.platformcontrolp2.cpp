@@ -25,6 +25,12 @@ void MainWindow::initPlatfromControlP2(Ui::MainWindow *ui)
     IRScannerVector->setLine(293, 285, 293, 50);
     irScanningGraphicsViewScene->addItem(IRScannerVector);
 
+    ui->chargerMotorDutyScrollBar->installEventFilter(new WheelEventFilter());
+    ui->chargerMotorPushDurationScrollBar->installEventFilter(new WheelEventFilter());
+    ui->irScannerAngleScrollBar->installEventFilter(new WheelEventFilter());
+    ui->beepDurationScrollBar->installEventFilter(new WheelEventFilter());
+    ui->beepDurationScrollBar->installEventFilter(new WheelEventFilter());
+
 }
 
 //PLATFROM-CONTROL-P2

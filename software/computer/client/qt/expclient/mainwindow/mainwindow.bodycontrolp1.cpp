@@ -13,6 +13,26 @@ void MainWindow::initBodyControlP1(Ui::MainWindow *ui)
     bodyControlP1TabRefreshTimer = new QTimer(this);
     connect(bodyControlP1TabRefreshTimer, SIGNAL(timeout()), this, SLOT(bodyControlP1TabRefreshTimerUpdate()));
     bodyControlP1TabRefreshTimer->start(50);
+
+    ui->bodyPitchMotorDutyScroller->installEventFilter(new WheelEventFilter());
+    ui->bodyPitchMotorDecelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->bodyPitchMotorAccelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->rightArmMotorDutyScroller->installEventFilter(new WheelEventFilter());
+    ui->rightArmMotorDecelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->rightArmMotorAccelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->leftArmMotorDutyScroller->installEventFilter(new WheelEventFilter());
+    ui->leftArmMotorDecelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->leftArmMotorAccelerationScroller->installEventFilter(new WheelEventFilter());
+
+    ui->headYawStepDelaySpinBox->installEventFilter(new WheelEventFilter());
+    ui->headYawStepSwitchDelaySpinBox->installEventFilter(new WheelEventFilter());
+    ui->headYawStepDelayTestModeSpinBox->installEventFilter(new WheelEventFilter());
+    ui->headYawMoveStepsSpinBox->installEventFilter(new WheelEventFilter());
+
+    ui->headPitchStepDelaySpinBox->installEventFilter(new WheelEventFilter());
+    ui->headPitchStepSwitchDelaySpinBox->installEventFilter(new WheelEventFilter());
+    ui->headPitchStepDelayTestModeSpinBox->installEventFilter(new WheelEventFilter());
+    ui->headPitchMoveStepsSpinBox->installEventFilter(new WheelEventFilter());
 }
 
 void MainWindow::bodyControlP1TabRefreshTimerUpdate()
@@ -376,4 +396,209 @@ void MainWindow::on_leftArmYawCloseButton_released()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     bodyControlP1->setLeftArmYawMotorActivated(false);
+}
+
+void MainWindow::on_bodyControlP1ShiftRegEnableButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->shiftRegEnable();
+}
+
+void MainWindow::on_bodyControlP1ShiftRegDisableButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->shiftRegDisable();
+}
+
+void MainWindow::on_bodyControlP1ShiftRegResetButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->shiftRegReset();
+}
+
+void MainWindow::on_bodyControlP1StopShiftRegResetButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->stopShiftRegReset();
+}
+
+void MainWindow::on_powerSource5V5OnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getPowerSource5V5State())
+    {
+        bodyControlP1->setPowerSource5VOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setPowerSource5VOnOff(true);
+    }
+}
+
+void MainWindow::on_wifiOnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getWifiPowerState())
+    {
+        bodyControlP1->setWifiPowerOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setWifiPowerOnOff(true);
+    }
+}
+
+void MainWindow::on_leftArm24VOnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getLeftArm24VPowerSourceState())
+    {
+        bodyControlP1->setLeftArm24VPowerOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setLeftArm24VPowerOnOff(true);
+    }
+}
+
+void MainWindow::on_rightArm24VButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getRightArm24VPowerSourceState())
+    {
+        bodyControlP1->setRightArm24VPowerOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setRightArm24VPowerOnOff(true);
+    }
+}
+
+void MainWindow::on_headLedOnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getHeadLedState())
+    {
+        bodyControlP1->setHeadLedOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setHeadLedOnOff(true);
+    }
+}
+
+void MainWindow::on_leftAccumulatorOnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getLeftAccumulatorConnectedState())
+    {
+        bodyControlP1->setLeftAccumulatorOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setLeftAccumulatorOnOff(true);
+    }
+}
+
+void MainWindow::on_rightAccumulatorOnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getRightAccumulatorConnectedState())
+    {
+        bodyControlP1->setRightAccumulatorOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setRightAccumulatorOnOff(true);
+    }
+}
+
+void MainWindow::on_leftArm12VOnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getLeftArm12VPowerSourceState())
+    {
+        bodyControlP1->setLeftArm12VPowerOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setLeftArm12VPowerOnOff(true);
+    }
+}
+
+void MainWindow::on_rightArm12VButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getRightArm12VPowerSourceState())
+    {
+        bodyControlP1->setRightArm12VPowerOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setRightArm12VPowerOnOff(true);
+    }
+}
+
+void MainWindow::on_kinect1OnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getKinect1PowerState())
+    {
+        bodyControlP1->setKinect1PowerOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setKinect1PowerOnOff(true);
+    }
+}
+
+void MainWindow::on_kinect2OnOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (bodyControlP1->getKinect2PowerState())
+    {
+        bodyControlP1->setKinect2PowerOnOff(false);
+    }
+    else
+    {
+        bodyControlP1->setKinect2PowerOnOff(true);
+    }
+}
+
+void MainWindow::on_headYawTestModeExecuteButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bool direction = ui->headYawRightDirectonCheckButton->isChecked();
+    direction = !ui->headYawLeftDirectonCheckButton->isChecked();
+    if (ui->headYawRightDirectonCheckButton->isChecked() || ui->headYawLeftDirectonCheckButton->isChecked())
+    {
+        int stepTime = ui->headYawStepDelayTestModeSpinBox->value();
+        int steps = ui->headYawMoveStepsSpinBox->value();
+        bodyControlP1->headYawMoveSteps(direction, stepTime, steps);
+    }
+}
+
+void MainWindow::on_headPitchTestModeExecuteButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bool direction = ui->pitchHeadDownDirectionCheckButton->isChecked();
+    direction = !ui->pitchHeadUpDirectionCheckButton->isChecked();
+    if (ui->pitchHeadDownDirectionCheckButton->isChecked() || ui->pitchHeadUpDirectionCheckButton->isChecked())
+    {
+        int stepTime = ui->headPitchStepDelayTestModeSpinBox->value();
+        int steps = ui->headPitchMoveStepsSpinBox->value();
+        bodyControlP1->headPitchMoveSteps(direction, stepTime, steps);
+    }
+}
+
+void MainWindow::on_getHeadYawPositionButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->requestHeadYawPosition();
+}
+
+void MainWindow::on_getHeadPitchPositionButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->requestHeadPitchPosition();
 }

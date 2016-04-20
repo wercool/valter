@@ -552,3 +552,44 @@ void MainWindow::on_updateMagnetometerButton_clicked()
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
     platformLocationP1->updateMagnetometer();
 }
+
+
+void MainWindow::on_enableAllIRSensorsButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    for (unsigned int i = 0; i < 12; i++)
+    {
+        platformLocationP1->setReadIRSensor(i, true);
+        ((QTableWidgetItem*)ui->irSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadIRSensor(i)) ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+void MainWindow::on_disableAllIRSensorsButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    for (unsigned int i = 0; i < 12; i++)
+    {
+        platformLocationP1->setReadIRSensor(i, false);
+        ((QTableWidgetItem*)ui->irSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadIRSensor(i)) ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+void MainWindow::on_enableAllUSSensorsButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    for (unsigned int i = 0; i < 12; i++)
+    {
+        platformLocationP1->setReadUSSensor(i, true);
+        ((QTableWidgetItem*)ui->usSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadUSSensor(i)) ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+void MainWindow::on_disableAllUSSensorsButton_clicked()
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    for (unsigned int i = 0; i < 12; i++)
+    {
+        platformLocationP1->setReadUSSensor(i, false);
+        ((QTableWidgetItem*)ui->usSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadUSSensor(i)) ? Qt::Checked : Qt::Unchecked);
+    }
+}
