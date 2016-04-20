@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>1040</height>
+             <width>821</width>
+             <height>1034</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3906,8 +3906,8 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-513</y>
-             <width>838</width>
+             <y>-1874</y>
+             <width>839</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7923,7 +7923,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
+             <width>821</width>
              <height>963</height>
             </rect>
            </property>
@@ -9946,8 +9946,8 @@ background-repeat: repeat-no;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-327</y>
-             <width>820</width>
+             <y>0</y>
+             <width>821</width>
              <height>800</height>
             </rect>
            </property>

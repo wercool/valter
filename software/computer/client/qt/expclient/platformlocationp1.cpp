@@ -643,10 +643,13 @@ void PlatformLocationP1::setGetMagnetometerReadingOnce(bool value)
 
 void PlatformLocationP1::updateCompassHeading()
 {
-    setGetAccelerometerReadingOnce(true);
-    setGetMagnetometerReadingOnce(true);
-    sendCommand("ACC");
-    sendCommand("MAG");
+    for (char i = 0 ; i < 10; i++)
+    {
+        setGetAccelerometerReadingOnce(true);
+        setGetMagnetometerReadingOnce(true);
+        sendCommand("ACC");
+        sendCommand("MAG");
+    }
 }
 
 void PlatformLocationP1::updateAccelerometer()
