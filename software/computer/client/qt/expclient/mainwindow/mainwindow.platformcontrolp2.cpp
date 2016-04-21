@@ -263,3 +263,13 @@ void MainWindow::on_platformControlP2ResetIRScannerServoButton_clicked()
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
     platformControlP2->resetIRScannerServo();
 }
+
+
+
+
+
+
+
+
+
+

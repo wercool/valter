@@ -6,6 +6,7 @@
 
 #include "Board.h"
 #include "cdc_enumerate.h"
+#include "watchdog.h"
 #include "adc.h"
 #include "pwm.h"
 #include "aic.h"
@@ -293,6 +294,10 @@ static void DeviceInit(void)
  */
 int main(void)
 {
+    watchdogReset();
+
+    unsigned char WDINTENTIONALRESET = 0;
+
     struct cdcMessage cdcMessageObj;
     unsigned int armSensorsChannel = 0;
     unsigned char armSensorsReadings = 0;
@@ -361,11 +366,18 @@ int main(void)
 
     DeviceInit();
 
+    watchdogReset();
+
     //forearm roll off
     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
 
     while (1)
     {
+        if (WDINTENTIONALRESET == 0)
+        {
+            watchdogReset();
+        }
+
         //updating logic variables
         forearmCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA20) ? 0 : 1;
         forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
@@ -373,8 +385,8 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
-            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
-            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+//            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
+//            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
@@ -383,6 +395,23 @@ int main(void)
             {
                 sprintf((char *)msg,"ARM-CONTROL-LEFT\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDRESET") == 0)
+            {
+                watchdogReset();
+                sprintf((char *)msg,"WDRST\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETON") == 0)
+            {
+                WDINTENTIONALRESET = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
+            {
+                WDINTENTIONALRESET = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "ARMCH0") == 0)
@@ -964,11 +993,15 @@ int main(void)
             if (strcmp((char*) cmdParts, "FOREARMROLLON") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                sprintf((char *)msg,"FOREARM ROLL MOTOR ON\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMROLLOFF") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                sprintf((char *)msg,"FOREARM ROLL MOTOR OFF\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMROLLCW") == 0)
@@ -1055,6 +1088,21 @@ int main(void)
                     }
                 }
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                continue;
+            }
+            //FOREARMROLL#100       forearm roll; #val - step switch delay
+            if (strcmp((char*) cmdParts, "FOREARMROLL") == 0)
+            {
+                unsigned int stepSwitchDelay = atoi(strtok( NULL, "#" ));
+                forearmCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA20) ? 0 : 1;
+                forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
+                if ((forearmDirection == 0 && forearmCWLimit == 0) || (forearmDirection == 1 && forearmCCWLimit == 0))
+                {
+                    delay_us(stepSwitchDelay);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    delay_us(stepSwitchDelay);
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                }
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMSTEPSREADINGSSTART") == 0)

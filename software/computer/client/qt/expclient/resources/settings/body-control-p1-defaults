@@ -1,3 +1,4 @@
+//body pitch
 bodyPitchMotorDuty:1,100,30
 bodyPitchMotorDeceleration:2
 bodyPitchMotorAcceleration:2

@@ -1,0 +1,12 @@
+//left forearm
+leftForearmMotorDuty:1,100,30
+leftForearmMotorDeceleration:2
+leftForearmMotorAcceleration:2
+//left arm
+leftArmMotorDuty:1,100,30
+leftArmMotorDeceleration:2
+leftArmMotorAcceleration:2
+//left limb
+leftLimbMotorDuty:1,100,30
+leftLimbMotorDeceleration:2
+leftLimbMotorAcceleration:2

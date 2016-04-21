@@ -518,22 +518,6 @@ private slots:
 
     void on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item);
 
-    //Utilities
-
-    //Valter 3D
-    void on_valter3dOpenButton_clicked();
-
-    void on_horizontalScrollBar_9_valueChanged(int value);
-
-    void on_horizontalScrollBar_10_valueChanged(int value);
-
-
-
-
-
-
-
-
     //body-control-p1
     void initBodyControlP1(Ui::MainWindow *ui);
 
@@ -659,6 +643,93 @@ private slots:
 
     void on_getHeadPitchPositionButton_clicked();
 
+    //Utilities
+
+    //Valter 3D
+    void on_valter3dOpenButton_clicked();
+
+    void on_horizontalScrollBar_9_valueChanged(int value);
+
+    void on_horizontalScrollBar_10_valueChanged(int value);
+
+
+
+
+
+
+    //arm-control-left
+    void initArmControlLeft(Ui::MainWindow *ui);
+
+    void armControlLeftTabRefreshTimerUpdate();
+
+    void on_leftForearmMotorDutyScroller_valueChanged(int value);
+
+    void on_leftForearmMotorDecelerationScroller_valueChanged(int value);
+
+    void on_leftForearmAccelerationScroller_valueChanged(int value);
+
+    void on_leftArmMotorDutyScroller_2_valueChanged(int value);
+
+    void on_leftArmMotorDecelerationScroller_2_valueChanged(int value);
+
+    void on_leftArmMotorAccelerationScroller_2_valueChanged(int value);
+
+    void on_leftLimbMotorDutyScroller_valueChanged(int value);
+
+    void on_leftLimbMotorDecelerationScroller_valueChanged(int value);
+
+    void on_leftLimbMotorAccelerationScroller_valueChanged(int value);
+
+    void on_leftForearmMoveUpButton_pressed();
+
+    void on_leftForearmMoveUpButton_released();
+
+    void on_leftForearmMoveDownButton_pressed();
+
+    void on_leftForearmMoveDownButton_released();
+
+    void on_leftArmMoveUpButton_pressed();
+
+    void on_leftArmMoveUpButton_released();
+
+    void on_leftArmMoveDownButton_pressed();
+
+    void on_leftArmMoveDownButton_released();
+
+    void on_leftLimbMoveUpButton_pressed();
+
+    void on_leftLimbMoveUpButton_released();
+
+    void on_leftLimbMoveDownButton_pressed();
+
+    void on_leftLimbMoveDownButton_released();
+
+    void on_leftHandYawCCWButton_pressed();
+
+    void on_leftHandYawCCWButton_released();
+
+    void on_leftHandYawCWButton_pressed();
+
+    void on_leftHandYawCWButton_released();
+
+    void on_leftHandPitchUpButton_pressed();
+
+    void on_leftHandPitchUpButton_released();
+
+    void on_leftHandPitchDownButton_pressed();
+
+    void on_leftHandPitchDownButton_released();
+
+    void on_leftForearmRollCCWButton_pressed();
+
+    void on_leftForearmRollCCWButton_released();
+
+    void on_leftForearmRollCWButton_pressed();
+
+    void on_leftForearmRollCWButton_released();
+
+    void on_forearmRollMotorOnOffButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
@@ -689,6 +760,9 @@ private:
 
     //body-control-p1
     QTimer *bodyControlP1TabRefreshTimer;
+
+    //arm-control-left
+    QTimer *armControlLeftTabRefreshTimer;
 
     // QWidget interface
 protected:

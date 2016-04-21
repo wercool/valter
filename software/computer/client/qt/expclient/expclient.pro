@@ -27,18 +27,21 @@ SOURCES += main.cpp\
            platformcontrolp2.cpp \
            platformmanipulatorandirbumper.cpp \
            bodycontrolp1.cpp \
+           armcontrolleft.cpp \
            valter3d.cpp \
 #service code
            platformcontrolp1.code.utils.cpp \
            platformmanipulatorandirbumper.code.utils.cpp \
            bodycontrolp1.utils.cpp \
+           armcontrolleft.utils.cpp \
 #mainwindow gui service code
            mainwindow/mainwindow.control.devices.utils.cpp \
            mainwindow/mainwindow.platformcontrolp1.cpp \
            mainwindow/mainwindow.platformlocationp1.cpp \
            mainwindow/mainwindow.platformcontrolp2.cpp \
            mainwindow/mainwindow.manipulatorandirbumper.cpp \
-           mainwindow/mainwindow.bodycontrolp1.cpp
+           mainwindow/mainwindow.bodycontrolp1.cpp \
+           mainwindow/mainwindow.armcontrolleft.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -52,6 +55,7 @@ HEADERS  += mainwindow.h \
             platformcontrolp2.h \
             platformmanipulatorandirbumper.h \
             bodycontrolp1.h \
+            armcontrolleft.h \
             gui/guihelpers.h \
             gui/platformcontrolp1GUI.h \
             gui/platformcontrolp2GUI.h \
@@ -61,7 +65,8 @@ HEADERS  += mainwindow.h \
             gui/link2endpointviewitem.h \
             gui/link3endpointviewitem.h \
             gui/bodycontrolp1GUI.h \
-            valter3d.h
+            valter3d.h \
+    gui/armcontrolleftGUI.h
 
 FORMS    += mainwindow.ui
 
