@@ -747,7 +747,7 @@ void PlatformLocationP1::setManLedState(bool state)
 
 void PlatformLocationP1::setAllLEDsOn()
 {
-    for (int idx = 0; idx < 12; idx++)
+    for (int idx = 0; idx < 13; idx++)
     {
         setGreenLedState(idx, true);
         setRedLedState(idx, true);
@@ -757,7 +757,7 @@ void PlatformLocationP1::setAllLEDsOn()
 
 void PlatformLocationP1::setAllLEDsOff()
 {
-    for (int idx = 0; idx < 12; idx++)
+    for (int idx = 0; idx < 13; idx++)
     {
         setGreenLedState(idx, false);
         setRedLedState(idx, false);

@@ -1,0 +1,27 @@
+//right forearm
+rightForearmMotorDuty:1,100,30
+rightForearmMotorDeceleration:2
+rightForearmMotorAcceleration:2
+//right arm
+rightArmMotorDuty:1,100,30
+rightArmMotorDeceleration:2
+rightArmMotorAcceleration:2
+//right limb
+rightLimbMotorDuty:1,100,30
+rightLimbMotorDeceleration:2
+rightLimbMotorAcceleration:2
+//right arm readings
+forearmPosition:1,1
+armPosition:1,1
+limbPosition:1,1
+forearmMotorCurrent:1,1
+armMotorCurrent:1,1
+limbMotorCurrent:1,1
+handYawPosition:1,1
+handPitchPosition:1,1
+forearmYawPosition:1,1
+forearmYawMotorCurrent:1,1
+handYawMotorCurrent:1,1
+handPitchMotorCurrent:1,1
+//hand force sensors
+trackHandSensors:1,1,1,1,1,1,1,1,1,1,1,1,1

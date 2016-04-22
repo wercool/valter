@@ -728,7 +728,115 @@ private slots:
 
     void on_leftForearmRollCWButton_released();
 
-    void on_forearmRollMotorOnOffButton_clicked();
+    void on_leftForearmRollMotorOnOffButton_clicked();
+
+    void on_leftForearmRollStepDelaySpinBox_valueChanged(int value);
+
+    void on_leftForearmRollStepSwitchDelaySpinBox_valueChanged(int value);
+
+    void on_leftForearmResetPositionButton_clicked();
+
+    void on_leftArmLedsOnOffButton_clicked();
+
+    void on_armControlLeftLoadDefaultsButton_clicked();
+
+    void on_leftArmReadingsTable_itemClicked(QTableWidgetItem *item);
+
+    void on_leftHandSensorsTable_itemClicked(QTableWidgetItem *item);
+
+    void on_leftForearmYawCCWButton_pressed();
+
+    void on_leftForearmYawCCWButton_released();
+
+    void on_leftForearmYawCWButton_pressed();
+
+    void on_leftForearmYawCWButton_released();
+
+    //arm-control-right
+    void initArmControlRight(Ui::MainWindow *ui);
+
+    void armControlRightTabRefreshTimerUpdate();
+
+
+    void on_rightForearmMoveUpButton_pressed();
+
+    void on_rightForearmMoveUpButton_released();
+
+    void on_rightForearmMoveDownButton_pressed();
+
+    void on_rightForearmMoveDownButton_released();
+
+    void on_rightForearmMotorDutyScroller_valueChanged(int value);
+
+    void on_rightForearmMotorDecelerationScroller_valueChanged(int value);
+
+    void on_rightForearmAccelerationScroller_valueChanged(int value);
+
+    void on_rightArmMotorDutyScroller_2_valueChanged(int value);
+
+    void on_rightArmMotorDecelerationScroller_2_valueChanged(int value);
+
+    void on_rightArmMotorAccelerationScroller_2_valueChanged(int value);
+
+    void on_rightLimbMotorDutyScroller_valueChanged(int value);
+
+    void on_rightLimbMotorDecelerationScroller_valueChanged(int value);
+
+    void on_rightLimbMotorAccelerationScroller_valueChanged(int value);
+
+    void on_rightArmMoveUpButton_pressed();
+
+    void on_rightArmMoveUpButton_released();
+
+    void on_rightArmMoveDownButton_pressed();
+
+    void on_rightArmMoveDownButton_released();
+
+    void on_rightLimbMoveUpButton_pressed();
+
+    void on_rightLimbMoveUpButton_released();
+
+    void on_rightLimbMoveDownButton_pressed();
+
+    void on_rightLimbMoveDownButton_released();
+
+    void on_rightHandYawCCWButton_pressed();
+
+    void on_rightHandYawCCWButton_released();
+
+    void on_rightHandYawCWButton_pressed();
+
+    void on_rightHandYawCWButton_released();
+
+    void on_rightHandPitchUpButton_pressed();
+
+    void on_rightHandPitchUpButton_released();
+
+    void on_rightHandPitchDownButton_pressed();
+
+    void on_rightHandPitchDownButton_released();
+
+    void on_rightForearmRollMotorOnOffButton_clicked();
+
+    void on_rightForearmRollCCWButton_pressed();
+
+    void on_rightForearmRollCCWButton_released();
+
+    void on_rightForearmRollCWButton_pressed();
+
+    void on_rightForearmRollCWButton_released();
+
+    void on_rightForearmRollStepDelaySpinBox_valueChanged(int value);
+
+    void on_rightForearmRollStepSwitchDelaySpinBox_valueChanged(int value);
+
+    void on_rightForearmResetPositionButton_clicked();
+
+    void on_rightArmLedsOnOffButton_clicked();
+
+    void on_armControlRightLoadDefaultsButton_clicked();
+
+    void on_rightArmReadingsTable_itemClicked(QTableWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;
@@ -763,6 +871,9 @@ private:
 
     //arm-control-left
     QTimer *armControlLeftTabRefreshTimer;
+
+    //arm-control-right
+    QTimer *armControlRightTabRefreshTimer;
 
     // QWidget interface
 protected:

@@ -6,6 +6,7 @@
 
 #include "Board.h"
 #include "cdc_enumerate.h"
+#include "watchdog.h"
 #include "adc.h"
 #include "pwm.h"
 #include "aic.h"
@@ -293,6 +294,10 @@ static void DeviceInit(void)
  */
 int main(void)
 {
+    watchdogReset();
+
+    unsigned char WDINTENTIONALRESET = 0;
+
     struct cdcMessage cdcMessageObj;
     unsigned int armSensorsChannel = 0;
     unsigned char armSensorsReadings = 0;
@@ -361,11 +366,18 @@ int main(void)
 
     DeviceInit();
 
+    watchdogReset();
+
     //forearm roll off
     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
 
     while (1)
     {
+        if (WDINTENTIONALRESET == 0)
+        {
+            watchdogReset();
+        }
+
         //updating logic variables
         forearmCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA20) ? 0 : 1;
         forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
@@ -373,8 +385,8 @@ int main(void)
         cdcMessageObj = getCDCMEssage();
         if (cdcMessageObj.length > 0)
         {
-            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
-            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+//            sprintf((char *)msg,"MSG:%s\n", cdcMessageObj.data);
+//            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
 
             char *cmdParts;
             cmdParts = strtok((char*) cdcMessageObj.data, "#" );
@@ -383,6 +395,23 @@ int main(void)
             {
                 sprintf((char *)msg,"ARM-CONTROL-RIGHT\n");
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDRESET") == 0)
+            {
+                watchdogReset();
+                sprintf((char *)msg,"WDRST\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETON") == 0)
+            {
+                WDINTENTIONALRESET = 1;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
+            {
+                WDINTENTIONALRESET = 0;
                 continue;
             }
             if (strcmp((char*) cmdParts, "ARMCH0") == 0)
@@ -547,6 +576,13 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETHANDSENSOR") == 0)
+            {
+                armSensorsReading = getValueChannel0();
+                sprintf((char *)msg,"HAND SENSOR:%u,%u\n", armSensorsChannel, armSensorsReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             //hand.yaw position
             if (strcmp((char*) cmdParts, "SENSORCH0") == 0)
             {
@@ -708,6 +744,13 @@ int main(void)
             if (strcmp((char*) cmdParts, "SENSORREADSTOP") == 0)
             {
                 sensorsReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETSENSOR") == 0)
+            {
+                sensorsReading = getValueChannel1();
+                sprintf((char *)msg,"SENSOR:%u,%u\n", sensorsChannel, sensorsReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "GETSENSORREADING") == 0)
@@ -922,6 +965,13 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETFOREARMPOS") == 0)
+            {
+                forearmLiftUpPositionReading = getValueChannel4();
+                sprintf((char *)msg,"FOREARM POS:%u\n", forearmLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             //arm liftup position
             if (strcmp((char*) cmdParts, "ARMLIFTUPPOSITIONSTART") == 0)
             {
@@ -941,6 +991,13 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETARMPOS") == 0)
+            {
+                armLiftUpPositionReading = getValueChannel5();
+                sprintf((char *)msg,"ARM POS:%u\n", armLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             //limb liftup position
             if (strcmp((char*) cmdParts, "LIMBLIFTUPPOSITIONSTART") == 0)
             {
@@ -958,6 +1015,13 @@ int main(void)
                 sprintf((char *)msg,"LIMB LIFTUP POSITION: %u\n", limbLiftUpPositionReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(100);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETLIMBPOS") == 0)
+            {
+                limbLiftUpPositionReading = getValueChannel6();
+                sprintf((char *)msg,"LIMB POS:%u\n", limbLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             //forearm roll
@@ -1055,6 +1119,36 @@ int main(void)
                     }
                 }
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                continue;
+            }
+            //FOREARMROLL#100       forearm roll; #val - step switch delay
+            if (strcmp((char*) cmdParts, "FOREARMROLL") == 0)
+            {
+                unsigned int stepSwitchDelay = atoi(strtok( NULL, "#" ));
+                forearmCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA20) ? 0 : 1;
+                forearmCCWLimit = AT91F_PIO_IsInputSet(AT91C_BASE_PIOA, AT91C_PIO_PA30)? 0 : 1;
+                if ((forearmDirection == 0 && forearmCWLimit == 0) || (forearmDirection == 1 && forearmCCWLimit == 0))
+                {
+                    delay_us(stepSwitchDelay);
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    delay_us(stepSwitchDelay);
+                    AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    sprintf((char *)msg,"FA NO LIMIT\n");
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                }
+                else
+                {
+                    if (forearmDirection == 0 && forearmCWLimit == 1)
+                    {
+                        sprintf((char *)msg,"FA CW LIMIT\n");
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    }
+                    if (forearmDirection == 1 && forearmCCWLimit == 1)
+                    {
+                        sprintf((char *)msg,"FA CCW LIMIT\n");
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    }
+                }
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMSTEPSREADINGSSTART") == 0)

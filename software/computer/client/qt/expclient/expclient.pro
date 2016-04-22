@@ -28,12 +28,14 @@ SOURCES += main.cpp\
            platformmanipulatorandirbumper.cpp \
            bodycontrolp1.cpp \
            armcontrolleft.cpp \
+           armcontrolright.cpp \
            valter3d.cpp \
 #service code
            platformcontrolp1.code.utils.cpp \
            platformmanipulatorandirbumper.code.utils.cpp \
            bodycontrolp1.utils.cpp \
            armcontrolleft.utils.cpp \
+           armcontrolright.utils.cpp \
 #mainwindow gui service code
            mainwindow/mainwindow.control.devices.utils.cpp \
            mainwindow/mainwindow.platformcontrolp1.cpp \
@@ -41,7 +43,8 @@ SOURCES += main.cpp\
            mainwindow/mainwindow.platformcontrolp2.cpp \
            mainwindow/mainwindow.manipulatorandirbumper.cpp \
            mainwindow/mainwindow.bodycontrolp1.cpp \
-           mainwindow/mainwindow.armcontrolleft.cpp
+           mainwindow/mainwindow.armcontrolleft.cpp \
+           mainwindow/mainwindow.armcontrolright.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -56,6 +59,7 @@ HEADERS  += mainwindow.h \
             platformmanipulatorandirbumper.h \
             bodycontrolp1.h \
             armcontrolleft.h \
+            armcontrolright.h \
             gui/guihelpers.h \
             gui/platformcontrolp1GUI.h \
             gui/platformcontrolp2GUI.h \
@@ -65,8 +69,9 @@ HEADERS  += mainwindow.h \
             gui/link2endpointviewitem.h \
             gui/link3endpointviewitem.h \
             gui/bodycontrolp1GUI.h \
-            valter3d.h \
-    gui/armcontrolleftGUI.h
+            gui/armcontrolleftGUI.h \
+            gui/armcontrolrightGUI.h \
+            valter3d.h
 
 FORMS    += mainwindow.ui
 

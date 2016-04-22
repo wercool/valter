@@ -117,9 +117,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getBodyPitchPositionTrack())
         {
+            QTableWidgetItem* bodyPitchPositionQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getBodyPitchPositionADC())
             {
-                QTableWidgetItem* bodyPitchPositionQWidgetItem = new QTableWidgetItem;
                 bodyPitchPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getBodyPitchADCPosition()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(0, 2, bodyPitchPositionQWidgetItem);
                 ui->bodyPitchPositionLcdNumber->display(bodyControlP1->getBodyPitchADCPosition());
@@ -127,9 +127,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getRightArmYawPositionTrack())
         {
+            QTableWidgetItem* rightArmYawPositionQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getRightArmYawPositionADC())
             {
-                QTableWidgetItem* rightArmYawPositionQWidgetItem = new QTableWidgetItem;
                 rightArmYawPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getRightArmYawADCPosition()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(2, 2, rightArmYawPositionQWidgetItem);
                 ui->rightArmYawPositionLcdNumber->display(bodyControlP1->getRightArmYawADCPosition());
@@ -137,9 +137,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getLeftArmYawPositionTrack())
         {
+            QTableWidgetItem* leftArmYawPositionQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getLeftArmYawPositionADC())
             {
-                QTableWidgetItem* leftArmYawPositionQWidgetItem = new QTableWidgetItem;
                 leftArmYawPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getLeftArmYawADCPosition()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(4, 2, leftArmYawPositionQWidgetItem);
                 ui->leftArmYawPositionLcdNumber->display(bodyControlP1->getLeftArmYawADCPosition());
@@ -147,9 +147,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getHeadPitchPositionTrack())
         {
+            QTableWidgetItem* headPitchPositionQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getHeadPitchPositionADC())
             {
-                QTableWidgetItem* headPitchPositionQWidgetItem = new QTableWidgetItem;
                 headPitchPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getHeadPitchADCPosition()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(6, 2, headPitchPositionQWidgetItem);
                 ui->headPitchPositionLcdNumber->display(bodyControlP1->getHeadPitchADCPosition());
@@ -158,9 +158,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getHeadYawPositionTrack())
         {
+            QTableWidgetItem* headYawPositionQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getHeadYawPositionADC())
             {
-                QTableWidgetItem* headYawPositionQWidgetItem = new QTableWidgetItem;
                 headYawPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getHeadYawADCPosition()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(7, 2, headYawPositionQWidgetItem);
                 ui->headYawPositionLcdNumber->display(bodyControlP1->getHeadYawADCPosition());
@@ -169,9 +169,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getBodyPitchCurrentTrack())
         {
+            QTableWidgetItem* bodyPitchCurrentQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getBodyPitchCurrentADC())
             {
-                QTableWidgetItem* bodyPitchCurrentQWidgetItem = new QTableWidgetItem;
                 bodyPitchCurrentQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getBodyPitchADCCurrent()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(1, 2, bodyPitchCurrentQWidgetItem);
                 ui->bodyPitchCurrentLcdNumber->display(bodyControlP1->getBodyPitchADCCurrent());
@@ -179,9 +179,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getRightArmYawCurrentTrack())
         {
+            QTableWidgetItem* rightArmYawCurrentQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getRightArmYawCurrentADC())
             {
-                QTableWidgetItem* rightArmYawCurrentQWidgetItem = new QTableWidgetItem;
                 rightArmYawCurrentQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getRightArmYawADCCurrent()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(3, 2, rightArmYawCurrentQWidgetItem);
                 ui->rightArmYawCurrentLcdNumber->display(bodyControlP1->getRightArmYawADCCurrent());
@@ -189,9 +189,9 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (bodyControlP1->getLeftArmYawCurrentTrack())
         {
+            QTableWidgetItem* leftArmYawCurrentQWidgetItem = new QTableWidgetItem;
             if (bodyControlP1->getLeftArmYawCurrentADC())
             {
-                QTableWidgetItem* leftArmYawCurrentQWidgetItem = new QTableWidgetItem;
                 leftArmYawCurrentQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getLeftArmYawADCCurrent()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(5, 2, leftArmYawCurrentQWidgetItem);
                 ui->leftArmYawCurrentLcdNumber->display(bodyControlP1->getLeftArmYawADCCurrent());

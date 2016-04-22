@@ -19,6 +19,8 @@ ArmControlLeft::ArmControlLeft()
     new std::thread(&ArmControlLeft::leftForearmWorker, this);
     new std::thread(&ArmControlLeft::leftArmWorker, this);
     new std::thread(&ArmControlLeft::leftLimbWorker, this);
+    new std::thread(&ArmControlLeft::leftForearmRollWorker, this);
+    new std::thread(&ArmControlLeft::leftArmSensorReadingsWorker, this);
 }
 
 ArmControlLeft *ArmControlLeft::getInstance()
@@ -77,6 +79,177 @@ void ArmControlLeft::processMessagesQueueWorker()
                 {
                     setForearmRollMotorState(false);
                     continue;
+                }
+
+                if (getForearmRollMotorState())
+                {
+                    if (response.compare("FA NO LIMIT") == 0)
+                    {
+                        setForearmRollCWLimit(false);
+                        setForearmRollCCWLimit(false);
+                        continue;
+                    }
+                    if (response.compare("FA CW LIMIT") == 0)
+                    {
+                        setForearmRollCWLimit(true);
+                        continue;
+                    }
+                    if (response.compare("FA CCW LIMIT") == 0)
+                    {
+                        setForearmRollCCWLimit(true);
+                        continue;
+                    }
+                }
+
+                if (getForearmPositionTrack())
+                {
+                    if (response.find("FOREARM POS:") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setForearmADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getArmPositionTrack())
+                {
+                    if (response.find("ARM POS:") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setArmADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getLimbPositionTrack())
+                {
+                    if (response.find("LIMB POS:") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        setLimbADCPosition(atoi(value_str.c_str()));
+                        continue;
+                    }
+                }
+                if (getForearmMotorCurrentTrack())
+                {
+                    if (response.find("SENSOR:5") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setForearmMotorADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getArmMotorCurrentTrack())
+                {
+                    if (response.find("SENSOR:4") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setArmMotorADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getLimbMotorCurrentTrack())
+                {
+                    if (response.find("SENSOR:3") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setLimbMotorADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getHandYawPositionTrack())
+                {
+                    if (response.find("SENSOR:0") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setHandYawADCPosition(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getHandPitchPositionTrack())
+                {
+                    if (response.find("SENSOR:1") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setHandPitchADCPosition(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getForearmYawPositionTrack())
+                {
+                    if (response.find("SENSOR:2") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setForearmYawADCPosition(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getForearmYawMotorCurrentTrack())
+                {
+                    if (response.find("SENSOR:6") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setForearmYawMotorADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getHandYawMotorCurrentTrack())
+                {
+                    if (response.find("SENSOR:7") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setHandYawMotorADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+                if (getHandPitchMotorCurrentTrack())
+                {
+                    if (response.find("SENSOR:8") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setHandPitchMotorADCCurrent(atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
+                }
+
+                //track hand finger sensors
+                bool trackHandFingerSensors = false;
+                for (int idx = 0; idx < 13; idx++)
+                {
+                    if (getHandSensorsTrack(idx))
+                    {
+                        trackHandFingerSensors = true;
+                    }
+                }
+                if (trackHandFingerSensors)
+                {
+                    if (response.find("HAND SENSOR:") != std::string::npos)
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setHandSensorsADCForce(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()));
+                        continue;
+                    }
                 }
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -278,16 +451,6 @@ void ArmControlLeft::leftLimbWorker()
     }
 }
 
-bool ArmControlLeft::getForearmRollMotorState() const
-{
-    return forearmRollMotorState;
-}
-
-void ArmControlLeft::setForearmRollMotorState(bool value)
-{
-    forearmRollMotorState = value;
-}
-
 void ArmControlLeft::setForearmRollMotorOnOff(bool value)
 {
     if (value)//on
@@ -300,10 +463,6 @@ void ArmControlLeft::setForearmRollMotorOnOff(bool value)
     }
 }
 
-bool ArmControlLeft::getForearmRollDirection() const
-{
-    return forearmRollDirection;
-}
 
 void ArmControlLeft::setForearmRollDirection(bool value)
 {
@@ -316,11 +475,6 @@ void ArmControlLeft::setForearmRollDirection(bool value)
     {
         sendCommand("FOREARMROLLCCW");
     }
-}
-
-bool ArmControlLeft::getHandPitchDirection() const
-{
-    return handPitchDirection;
 }
 
 void ArmControlLeft::setHandPitchDirection(bool value)
@@ -348,9 +502,228 @@ void ArmControlLeft::handPitch(bool state)
     }
 }
 
-bool ArmControlLeft::getHandYawDirection() const
+void ArmControlLeft::leftForearmRollWorker()
 {
-    return handYawDirection;
+    while (!stopAllProcesses)
+    {
+        if (getForearmRollResettingStepPosition())
+        {
+            if (getForearmRollMotorState())
+            {
+                if (!getForearmRollCCWLimit())
+                {
+                    sendCommand("FOREARMROLL#250");
+                    this_thread::sleep_for(std::chrono::microseconds(10000));
+                }
+                else
+                {
+                    setForearmRollStepPosition(0);
+                    setForearmRollResettingStepPosition(false);
+                }
+            }
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+        }
+        else
+        {
+            if (getForearmRollMotorActivated())
+            {
+                int forearmRollStepPosition = getForearmRollStepPosition();
+                if (getForearmRollDirection())
+                {
+                    if (!getForearmRollCWLimit())
+                    {
+                        setForearmRollStepPosition(++forearmRollStepPosition);
+                        sendCommand(Valter::format_string("FOREARMROLL#%d", getForearmRollStepSwitchDelay()));
+                    }
+                }
+                else
+                {
+                    if (!getForearmRollCCWLimit())
+                    {
+                        setForearmRollStepPosition(--forearmRollStepPosition);
+                        sendCommand(Valter::format_string("FOREARMROLL#%d", getForearmRollStepSwitchDelay()));
+                    }
+                }
+                this_thread::sleep_for(std::chrono::microseconds(getForearmRollStepDelay()));
+            }
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+        }
+    }
+}
+
+void ArmControlLeft::leftArmSensorReadingsWorker()
+{
+    while (!stopAllProcesses)
+    {
+        bool leftArmReadingActive = false;
+
+        if (getForearmPositionTrack())
+        {
+            sendCommand("GETFOREARMPOS");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getArmPositionTrack())
+        {
+            sendCommand("GETARMPOS");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getLimbPositionTrack())
+        {
+            sendCommand("GETLIMBPOS");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getForearmMotorCurrentTrack())
+        {
+            sendCommand("SENSORCH5");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getArmMotorCurrentTrack())
+        {
+            sendCommand("SENSORCH4");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getLimbMotorCurrentTrack())
+        {
+            sendCommand("SENSORCH3");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getHandYawPositionTrack())
+        {
+            sendCommand("SENSORCH0");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getHandPitchPositionTrack())
+        {
+            sendCommand("SENSORCH1");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getForearmYawPositionTrack())
+        {
+            sendCommand("SENSORCH2");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getForearmYawMotorCurrentTrack())
+        {
+            sendCommand("SENSORCH6");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getHandYawMotorCurrentTrack())
+        {
+            sendCommand("SENSORCH7");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+        if (getHandPitchMotorCurrentTrack())
+        {
+            sendCommand("SENSORCH8");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            sendCommand("GETSENSOR");
+            this_thread::sleep_for(std::chrono::milliseconds(10));
+            leftArmReadingActive = true;
+        }
+
+        for (int idx = 0; idx < 13; idx++)
+        {
+            if (getHandSensorsTrack(idx))
+            {
+                sendCommand(Valter::format_string("ARMCH%d", idx));
+                this_thread::sleep_for(std::chrono::milliseconds(10));
+                sendCommand("GETHANDSENSOR");
+                this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+        }
+
+        if (leftArmReadingActive)
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(25));
+        }
+        else
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
+    }
+}
+
+bool ArmControlLeft::getForearmYawDirection() const
+{
+    return forearmYawDirection;
+}
+
+void ArmControlLeft::setForearmYawDirection(bool value)
+{
+    forearmYawDirection = value;
+    if (value) //CW
+    {
+        sendCommand("FOREARMYAWCW");
+    }
+    else
+    {
+        sendCommand("FOREARMYAWCCW");
+    }
+}
+
+void ArmControlLeft::forearmYaw(bool state)
+{
+    if (state)
+    {
+        sendCommand("FOREARMYAWON");
+    }
+    else
+    {
+        sendCommand("FOREARMYAWOFF");
+    }
+}
+
+void ArmControlLeft::setForearmRollResettingStepPosition(bool value)
+{
+    forearmRollResettingStepPosition = value;
+    setForearmRollDirection(false); //CCW limit = 0 step position
+}
+
+void ArmControlLeft::turnArmLedsOnOff()
+{
+    bool state = getArmLedsState();
+    if (state)
+    {
+        sendCommand("ARMLEDSOFF");
+    }
+    else
+    {
+        sendCommand("ARMLEDSON");
+    }
+    setArmLedsState(!state);
 }
 
 void ArmControlLeft::setHandYawDirection(bool value)
@@ -417,61 +790,6 @@ bool ArmControlLeft::prepareLeftLimbMovement()
     }
 }
 
-int ArmControlLeft::getLeftLimbMotorDutyPresetMin() const
-{
-    return leftLimbMotorDutyPresetMin;
-}
-
-void ArmControlLeft::setLeftLimbMotorDutyPresetMin(int value)
-{
-    leftLimbMotorDutyPresetMin = value;
-}
-
-int ArmControlLeft::getLeftLimbMotorDutyPresetCur() const
-{
-    return leftLimbMotorDutyPresetCur;
-}
-
-void ArmControlLeft::setLeftLimbMotorDutyPresetCur(int value)
-{
-    leftLimbMotorDutyPresetCur = value;
-}
-
-int ArmControlLeft::getLeftLimbADCCurrent() const
-{
-    return leftLimbADCCurrent;
-}
-
-void ArmControlLeft::setLeftLimbADCCurrent(int value)
-{
-    leftLimbADCCurrent = value;
-}
-
-int ArmControlLeft::getLeftLimbADCPosition() const
-{
-    return leftLimbADCPosition;
-}
-
-void ArmControlLeft::setLeftLimbADCPosition(int value)
-{
-    leftLimbADCPosition = value;
-}
-
-bool ArmControlLeft::getLeftLimbMotorStop() const
-{
-    return leftLimbMotorStop;
-}
-
-void ArmControlLeft::setLeftLimbMotorStop(bool value)
-{
-    leftLimbMotorStop = value;
-}
-
-bool ArmControlLeft::getLeftLimbMotorActivated() const
-{
-    return leftLimbMotorActivated;
-}
-
 void ArmControlLeft::setLeftLimbMotorActivated(bool value)
 {
     leftLimbMotorActivated = value;
@@ -516,130 +834,10 @@ bool ArmControlLeft::setLeftLimbMotorMovementDirection(bool value)
     return true;
 }
 
-bool ArmControlLeft::getLeftLimbMotorDecelerating() const
-{
-    return leftLimbMotorDecelerating;
-}
-
-void ArmControlLeft::setLeftLimbMotorDecelerating(bool value)
-{
-    leftLimbMotorDecelerating = value;
-}
-
-bool ArmControlLeft::getLeftLimbMotorAccelerating() const
-{
-    return leftLimbMotorAccelerating;
-}
-
-void ArmControlLeft::setLeftLimbMotorAccelerating(bool value)
-{
-    leftLimbMotorAccelerating = value;
-}
-
-int ArmControlLeft::getLeftLimbMotorDeceleration() const
-{
-    return leftLimbMotorDeceleration;
-}
-
-void ArmControlLeft::setLeftLimbMotorDeceleration(int value)
-{
-    leftLimbMotorDeceleration = value;
-}
-
-int ArmControlLeft::getLeftLimbMotorAcceleration() const
-{
-    return leftLimbMotorAcceleration;
-}
-
-void ArmControlLeft::setLeftLimbMotorAcceleration(int value)
-{
-    leftLimbMotorAcceleration = value;
-}
-
-int ArmControlLeft::getLeftLimbMotorDutyMax() const
-{
-    return leftLimbMotorDutyMax;
-}
-
-void ArmControlLeft::setLeftLimbMotorDutyMax(int value)
-{
-    leftLimbMotorDutyMax = value;
-}
-
-int ArmControlLeft::getLeftLimbMotorDuty() const
-{
-    return leftLimbMotorDuty;
-}
-
 void ArmControlLeft::setLeftLimbMotorDuty(int value)
 {
     leftLimbMotorDuty = value;
     sendCommand(Valter::format_string("SETLIMBLIFTUPDUTY#%d", leftLimbMotorDuty));
-}
-
-int ArmControlLeft::getLeftArmMotorDutyPresetMax() const
-{
-    return leftArmMotorDutyPresetMax;
-}
-
-void ArmControlLeft::setLeftArmMotorDutyPresetMax(int value)
-{
-    leftArmMotorDutyPresetMax = value;
-}
-
-int ArmControlLeft::getLeftArmMotorDutyPresetMin() const
-{
-    return leftArmMotorDutyPresetMin;
-}
-
-void ArmControlLeft::setLeftArmMotorDutyPresetMin(int value)
-{
-    leftArmMotorDutyPresetMin = value;
-}
-
-int ArmControlLeft::getLeftArmMotorDutyPresetCur() const
-{
-    return leftArmMotorDutyPresetCur;
-}
-
-void ArmControlLeft::setLeftArmMotorDutyPresetCur(int value)
-{
-    leftArmMotorDutyPresetCur = value;
-}
-
-int ArmControlLeft::getLeftArmADCCurrent() const
-{
-    return leftArmADCCurrent;
-}
-
-void ArmControlLeft::setLeftArmADCCurrent(int value)
-{
-    leftArmADCCurrent = value;
-}
-
-int ArmControlLeft::getLeftArmADCPosition() const
-{
-    return leftArmADCPosition;
-}
-
-void ArmControlLeft::setLeftArmADCPosition(int value)
-{
-    leftArmADCPosition = value;
-}
-
-bool ArmControlLeft::getLeftArmMotorStop() const
-{
-    return leftArmMotorStop;
-}
-
-void ArmControlLeft::setLeftArmMotorStop(bool value)
-{
-    leftArmMotorStop = value;
-}
-
-bool ArmControlLeft::getLeftArmMotorActivated() const
-{
-    return leftArmMotorActivated;
 }
 
 void ArmControlLeft::setLeftArmMotorActivated(bool value)
@@ -686,130 +884,10 @@ bool ArmControlLeft::setLeftArmMotorMovementDirection(bool value)
     return true;
 }
 
-bool ArmControlLeft::getLeftArmMotorDecelerating() const
-{
-    return leftArmMotorDecelerating;
-}
-
-void ArmControlLeft::setLeftArmMotorDecelerating(bool value)
-{
-    leftArmMotorDecelerating = value;
-}
-
-bool ArmControlLeft::getLeftArmMotorAccelerating() const
-{
-    return leftArmMotorAccelerating;
-}
-
-void ArmControlLeft::setLeftArmMotorAccelerating(bool value)
-{
-    leftArmMotorAccelerating = value;
-}
-
-int ArmControlLeft::getLeftArmMotorDeceleration() const
-{
-    return leftArmMotorDeceleration;
-}
-
-void ArmControlLeft::setLeftArmMotorDeceleration(int value)
-{
-    leftArmMotorDeceleration = value;
-}
-
-int ArmControlLeft::getLeftArmMotorAcceleration() const
-{
-    return leftArmMotorAcceleration;
-}
-
-void ArmControlLeft::setLeftArmMotorAcceleration(int value)
-{
-    leftArmMotorAcceleration = value;
-}
-
-int ArmControlLeft::getLeftArmMotorDutyMax() const
-{
-    return leftArmMotorDutyMax;
-}
-
-void ArmControlLeft::setLeftArmMotorDutyMax(int value)
-{
-    leftArmMotorDutyMax = value;
-}
-
-int ArmControlLeft::getLeftArmMotorDuty() const
-{
-    return leftArmMotorDuty;
-}
-
 void ArmControlLeft::setLeftArmMotorDuty(int value)
 {
     leftArmMotorDuty = value;
     sendCommand(Valter::format_string("SETARMLIFTUPDUTY#%d", leftArmMotorDuty));
-}
-
-int ArmControlLeft::getLeftForearmMotorDutyPresetMax() const
-{
-    return leftForearmMotorDutyPresetMax;
-}
-
-void ArmControlLeft::setLeftForearmMotorDutyPresetMax(int value)
-{
-    leftForearmMotorDutyPresetMax = value;
-}
-
-int ArmControlLeft::getLeftForearmMotorDutyPresetMin() const
-{
-    return leftForearmMotorDutyPresetMin;
-}
-
-void ArmControlLeft::setLeftForearmMotorDutyPresetMin(int value)
-{
-    leftForearmMotorDutyPresetMin = value;
-}
-
-int ArmControlLeft::getLeftForearmMotorDutyPresetCur() const
-{
-    return leftForearmMotorDutyPresetCur;
-}
-
-void ArmControlLeft::setLeftForearmMotorDutyPresetCur(int value)
-{
-    leftForearmMotorDutyPresetCur = value;
-}
-
-int ArmControlLeft::getLeftForearmADCCurrent() const
-{
-    return leftForearmADCCurrent;
-}
-
-void ArmControlLeft::setLeftForearmADCCurrent(int value)
-{
-    leftForearmADCCurrent = value;
-}
-
-int ArmControlLeft::getLeftForearmADCPosition() const
-{
-    return leftForearmADCPosition;
-}
-
-void ArmControlLeft::setLeftForearmADCPosition(int value)
-{
-    leftForearmADCPosition = value;
-}
-
-bool ArmControlLeft::getLeftForearmMotorStop() const
-{
-    return leftForearmMotorStop;
-}
-
-void ArmControlLeft::setLeftForearmMotorStop(bool value)
-{
-    leftForearmMotorStop = value;
-}
-
-bool ArmControlLeft::getLeftForearmMotorActivated() const
-{
-    return leftForearmMotorActivated;
 }
 
 void ArmControlLeft::setLeftForearmMotorActivated(bool value)
@@ -854,61 +932,6 @@ bool ArmControlLeft::setLeftForearmMotorMovementDirection(bool value)
     }
 
     return true;
-}
-
-bool ArmControlLeft::getLeftForearmMotorDecelerating() const
-{
-    return leftForearmMotorDecelerating;
-}
-
-void ArmControlLeft::setLeftForearmMotorDecelerating(bool value)
-{
-    leftForearmMotorDecelerating = value;
-}
-
-bool ArmControlLeft::getLeftForearmMotorAccelerating() const
-{
-    return leftForearmMotorAccelerating;
-}
-
-void ArmControlLeft::setLeftForearmMotorAccelerating(bool value)
-{
-    leftForearmMotorAccelerating = value;
-}
-
-int ArmControlLeft::getLeftForearmMotorDeceleration() const
-{
-    return leftForearmMotorDeceleration;
-}
-
-void ArmControlLeft::setLeftForearmMotorDeceleration(int value)
-{
-    leftForearmMotorDeceleration = value;
-}
-
-int ArmControlLeft::getLeftForearmMotorAcceleration() const
-{
-    return leftForearmMotorAcceleration;
-}
-
-void ArmControlLeft::setLeftForearmMotorAcceleration(int value)
-{
-    leftForearmMotorAcceleration = value;
-}
-
-int ArmControlLeft::getLeftForearmMotorDutyMax() const
-{
-    return leftForearmMotorDutyMax;
-}
-
-void ArmControlLeft::setLeftForearmMotorDutyMax(int value)
-{
-    leftForearmMotorDutyMax = value;
-}
-
-int ArmControlLeft::getLeftForearmMotorDuty() const
-{
-    return leftForearmMotorDuty;
 }
 
 void ArmControlLeft::setLeftForearmMotorDuty(int value)

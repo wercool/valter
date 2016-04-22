@@ -576,6 +576,13 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETHANDSENSOR") == 0)
+            {
+                armSensorsReading = getValueChannel0();
+                sprintf((char *)msg,"HAND SENSOR:%u,%u\n", armSensorsChannel, armSensorsReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             //hand.yaw position
             if (strcmp((char*) cmdParts, "SENSORCH0") == 0)
             {
@@ -737,6 +744,13 @@ int main(void)
             if (strcmp((char*) cmdParts, "SENSORREADSTOP") == 0)
             {
                 sensorsReadings = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETSENSOR") == 0)
+            {
+                sensorsReading = getValueChannel1();
+                sprintf((char *)msg,"SENSOR:%u,%u\n", sensorsChannel, sensorsReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "GETSENSORREADING") == 0)
@@ -951,6 +965,13 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETFOREARMPOS") == 0)
+            {
+                forearmLiftUpPositionReading = getValueChannel4();
+                sprintf((char *)msg,"FOREARM POS:%u\n", forearmLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             //arm liftup position
             if (strcmp((char*) cmdParts, "ARMLIFTUPPOSITIONSTART") == 0)
             {
@@ -970,6 +991,13 @@ int main(void)
                 delay_ms(100);
                 continue;
             }
+            if (strcmp((char*) cmdParts, "GETARMPOS") == 0)
+            {
+                armLiftUpPositionReading = getValueChannel5();
+                sprintf((char *)msg,"ARM POS:%u\n", armLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                continue;
+            }
             //limb liftup position
             if (strcmp((char*) cmdParts, "LIMBLIFTUPPOSITIONSTART") == 0)
             {
@@ -987,6 +1015,13 @@ int main(void)
                 sprintf((char *)msg,"LIMB LIFTUP POSITION: %u\n", limbLiftUpPositionReading);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 delay_ms(100);
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "GETLIMBPOS") == 0)
+            {
+                limbLiftUpPositionReading = getValueChannel6();
+                sprintf((char *)msg,"LIMB POS:%u\n", limbLiftUpPositionReading);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             //forearm roll
@@ -1102,6 +1137,21 @@ int main(void)
                     AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
                     delay_us(stepSwitchDelay);
                     AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA24);
+                    sprintf((char *)msg,"FA NO LIMIT\n");
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                }
+                else
+                {
+                    if (forearmDirection == 0 && forearmCWLimit == 1)
+                    {
+                        sprintf((char *)msg,"FA CW LIMIT\n");
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    }
+                    if (forearmDirection == 1 && forearmCCWLimit == 1)
+                    {
+                        sprintf((char *)msg,"FA CCW LIMIT\n");
+                        pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    }
                 }
                 continue;
             }

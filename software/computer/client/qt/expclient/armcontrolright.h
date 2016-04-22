@@ -1,183 +1,129 @@
-#ifndef ARMCONTROLLEFT_H
-#define ARMCONTROLLEFT_H
+#ifndef ARMCONTROLRIGHT_H
+#define ARMCONTROLRIGHT_H
 
 #include "ivaltermodule.h"
 
 using namespace std;
 
-class ArmControlLeft: public IValterModule
+class ArmControlRight: public IValterModule
 {
 public:
-    static ArmControlLeft *getInstance();
+    static ArmControlRight *getInstance();
 
     static string getControlDeviceId();
 
-public:
     // IValterModule interface
+public:
     void stopAll();
     void resetToDefault();
     void loadDefaults();
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
 
+    int getRightForearmMotorDuty() const;
+    void setRightForearmMotorDuty(int value);
 
+    int getRightForearmMotorDutyMax() const;
+    void setRightForearmMotorDutyMax(int value);
 
-    int getLeftForearmMotorDuty() const;
-    void setLeftForearmMotorDuty(int value);
+    int getRightForearmMotorAcceleration() const;
+    void setRightForearmMotorAcceleration(int value);
 
-    int getLeftForearmMotorDutyMax() const;
-    void setLeftForearmMotorDutyMax(int value);
+    int getRightForearmMotorDeceleration() const;
+    void setRightForearmMotorDeceleration(int value);
 
-    int getLeftForearmMotorAcceleration() const;
-    void setLeftForearmMotorAcceleration(int value);
+    bool getRightForearmMotorAccelerating() const;
+    void setRightForearmMotorAccelerating(bool value);
 
-    int getLeftForearmMotorDeceleration() const;
-    void setLeftForearmMotorDeceleration(int value);
+    bool getRightForearmMotorDecelerating() const;
+    void setRightForearmMotorDecelerating(bool value);
 
-    bool getLeftForearmMotorAccelerating() const;
-    void setLeftForearmMotorAccelerating(bool value);
+    bool getRightForearmMotorMovementDirection() const;
+    bool setRightForearmMotorMovementDirection(bool value);
 
-    bool getLeftForearmMotorDecelerating() const;
-    void setLeftForearmMotorDecelerating(bool value);
+    bool getRightForearmMotorActivated() const;
+    void setRightForearmMotorActivated(bool value);
 
-    bool getLeftForearmMotorMovementDirection() const;
-    bool setLeftForearmMotorMovementDirection(bool value);
+    bool getRightForearmMotorStop() const;
+    void setRightForearmMotorStop(bool value);
 
-    bool getLeftForearmMotorActivated() const;
-    void setLeftForearmMotorActivated(bool value);
+    int getRightForearmADCPosition() const;
+    void setRightForearmADCPosition(int value);
 
-    bool getLeftForearmMotorStop() const;
-    void setLeftForearmMotorStop(bool value);
+    int getRightForearmADCCurrent() const;
+    void setRightForearmADCCurrent(int value);
 
-    int getLeftForearmADCPosition() const;
-    void setLeftForearmADCPosition(int value);
+    int getRightForearmMotorDutyPresetCur() const;
+    void setRightForearmMotorDutyPresetCur(int value);
 
-    int getLeftForearmADCCurrent() const;
-    void setLeftForearmADCCurrent(int value);
+    int getRightForearmMotorDutyPresetMin() const;
+    void setRightForearmMotorDutyPresetMin(int value);
 
-    int getLeftForearmMotorDutyPresetCur() const;
-    void setLeftForearmMotorDutyPresetCur(int value);
+    int getRightForearmMotorDutyPresetMax() const;
+    void setRightForearmMotorDutyPresetMax(int value);
 
-    int getLeftForearmMotorDutyPresetMin() const;
-    void setLeftForearmMotorDutyPresetMin(int value);
+    int getRightArmMotorDuty() const;
+    void setRightArmMotorDuty(int value);
 
-    int getLeftForearmMotorDutyPresetMax() const;
-    void setLeftForearmMotorDutyPresetMax(int value);
+    int getRightArmMotorDutyMax() const;
+    void setRightArmMotorDutyMax(int value);
 
-    int getLeftArmMotorDuty() const;
-    void setLeftArmMotorDuty(int value);
+    int getRightArmMotorAcceleration() const;
+    void setRightArmMotorAcceleration(int value);
 
-    int getLeftArmMotorDutyMax() const;
-    void setLeftArmMotorDutyMax(int value);
+    int getRightArmMotorDeceleration() const;
+    void setRightArmMotorDeceleration(int value);
 
-    int getLeftArmMotorAcceleration() const;
-    void setLeftArmMotorAcceleration(int value);
+    bool getRightArmMotorAccelerating() const;
+    void setRightArmMotorAccelerating(bool value);
 
-    int getLeftArmMotorDeceleration() const;
-    void setLeftArmMotorDeceleration(int value);
+    bool getRightArmMotorDecelerating() const;
+    void setRightArmMotorDecelerating(bool value);
 
-    bool getLeftArmMotorAccelerating() const;
-    void setLeftArmMotorAccelerating(bool value);
+    bool getRightArmMotorMovementDirection() const;
+    bool setRightArmMotorMovementDirection(bool value);
 
-    bool getLeftArmMotorDecelerating() const;
-    void setLeftArmMotorDecelerating(bool value);
+    bool getRightArmMotorActivated() const;
+    void setRightArmMotorActivated(bool value);
 
-    bool getLeftArmMotorMovementDirection() const;
-    bool setLeftArmMotorMovementDirection(bool value);
+    bool getRightArmMotorStop() const;
+    void setRightArmMotorStop(bool value);
 
-    bool getLeftArmMotorActivated() const;
-    void setLeftArmMotorActivated(bool value);
+    int getRightArmADCPosition() const;
+    void setRightArmADCPosition(int value);
 
-    bool getLeftArmMotorStop() const;
-    void setLeftArmMotorStop(bool value);
+    int getRightArmADCCurrent() const;
+    void setRightArmADCCurrent(int value);
 
-    int getLeftArmADCPosition() const;
-    void setLeftArmADCPosition(int value);
+    int getRightArmMotorDutyPresetCur() const;
+    void setRightArmMotorDutyPresetCur(int value);
 
-    int getLeftArmADCCurrent() const;
-    void setLeftArmADCCurrent(int value);
+    int getRightArmMotorDutyPresetMin() const;
+    void setRightArmMotorDutyPresetMin(int value);
 
-    int getLeftArmMotorDutyPresetCur() const;
-    void setLeftArmMotorDutyPresetCur(int value);
+    int getRightArmMotorDutyPresetMax() const;
+    void setRightArmMotorDutyPresetMax(int value);
 
-    int getLeftArmMotorDutyPresetMin() const;
-    void setLeftArmMotorDutyPresetMin(int value);
-
-    int getLeftArmMotorDutyPresetMax() const;
-    void setLeftArmMotorDutyPresetMax(int value);
-
-    int getLeftLimbMotorDuty() const;
-    void setLeftLimbMotorDuty(int value);
-
-    int getLeftLimbMotorDutyMax() const;
-    void setLeftLimbMotorDutyMax(int value);
-
-    int getLeftLimbMotorAcceleration() const;
-    void setLeftLimbMotorAcceleration(int value);
-
-    int getLeftLimbMotorDeceleration() const;
-    void setLeftLimbMotorDeceleration(int value);
-
-    bool getLeftLimbMotorAccelerating() const;
-    void setLeftLimbMotorAccelerating(bool value);
-
-    bool getLeftLimbMotorDecelerating() const;
-    void setLeftLimbMotorDecelerating(bool value);
-
-    bool getLeftLimbMotorMovementDirection() const;
-    bool setLeftLimbMotorMovementDirection(bool value);
-
-    bool getLeftLimbMotorActivated() const;
-    void setLeftLimbMotorActivated(bool value);
-
-    bool getLeftLimbMotorStop() const;
-    void setLeftLimbMotorStop(bool value);
-
-    int getLeftLimbADCPosition() const;
-    void setLeftLimbADCPosition(int value);
-
-    int getLeftLimbADCCurrent() const;
-    void setLeftLimbADCCurrent(int value);
-
-    int getLeftLimbMotorDutyPresetCur() const;
-    void setLeftLimbMotorDutyPresetCur(int value);
-
-    int getLeftLimbMotorDutyPresetMin() const;
-    void setLeftLimbMotorDutyPresetMin(int value);
-
-    int getLeftLimbMotorDutyPresetMax() const;
-    void setLeftLimbMotorDutyPresetMax(int value);
-
-    bool prepareLeftForearmMovement();
-    bool prepareLeftArmMovement();
-    bool prepareLeftLimbMovement();
-
-    //------------------------hand yaw
     bool getHandYawDirection() const;
     void setHandYawDirection(bool value);
-    void handYaw(bool state);
 
-    //------------------------hand pitch
     bool getHandPitchDirection() const;
     void setHandPitchDirection(bool value);
-    void handPitch(bool state);
 
-    //------------------------forearm roll
     bool getForearmRollDirection() const;
     void setForearmRollDirection(bool value);
 
     bool getForearmRollMotorState() const;
     void setForearmRollMotorState(bool value);
-    void setForearmRollMotorOnOff(bool value);
 
     bool getForearmRollMotorActivated() const;
     void setForearmRollMotorActivated(bool value);
 
-    int getForearmRollStepSwitchDelay() const;
-    void setForearmRollStepSwitchDelay(int value);
-
     int getForearmRollStepDelay() const;
     void setForearmRollStepDelay(int value);
+
+    int getForearmRollStepSwitchDelay() const;
+    void setForearmRollStepSwitchDelay(int value);
 
     int getForearmRollStepPosition() const;
     void setForearmRollStepPosition(int value);
@@ -191,12 +137,8 @@ public:
     bool getForearmRollResettingStepPosition() const;
     void setForearmRollResettingStepPosition(bool value);
 
-    void turnArmLedsOnOff();
-
-    bool getArmLedsState() const;
-    void setArmLedsState(bool value);
-
-    //left arm readings presets
+    bool getForearmYawDirection() const;
+    void setForearmYawDirection(bool value);
 
     bool getForearmPositionTrack() const;
     void setForearmPositionTrack(bool value);
@@ -270,8 +212,6 @@ public:
     bool getHandPitchMotorCurrentADC() const;
     void setHandPitchMotorCurrentADC(bool value);
 
-    //left arm readings
-
     int getForearmADCPosition() const;
     void setForearmADCPosition(int value);
 
@@ -314,88 +254,139 @@ public:
     void setHandSensorsADCForce(int idx, int value);
     int getHandSensorsADCForce(int idx);
 
-    //----------------forearm aw
-    bool getForearmYawDirection() const;
-    void setForearmYawDirection(bool value);
-    void forearmYaw(bool state);
+    bool getArmLedsState() const;
+    void setArmLedsState(bool value);
+
+    int getRightLimbMotorDuty() const;
+    void setRightLimbMotorDuty(int value);
+
+    int getRightLimbMotorDutyMax() const;
+    void setRightLimbMotorDutyMax(int value);
+
+    int getRightLimbMotorAcceleration() const;
+    void setRightLimbMotorAcceleration(int value);
+
+    int getRightLimbMotorDeceleration() const;
+    void setRightLimbMotorDeceleration(int value);
+
+    bool getRightLimbMotorAccelerating() const;
+    void setRightLimbMotorAccelerating(bool value);
+
+    bool getRightLimbMotorDecelerating() const;
+    void setRightLimbMotorDecelerating(bool value);
+
+    bool getRightLimbMotorMovementDirection() const;
+    bool setRightLimbMotorMovementDirection(bool value);
+
+    bool getRightLimbMotorActivated() const;
+    void setRightLimbMotorActivated(bool value);
+
+    bool getRightLimbMotorStop() const;
+    void setRightLimbMotorStop(bool value);
+
+    int getRightLimbADCPosition() const;
+    void setRightLimbADCPosition(int value);
+
+    int getRightLimbADCCurrent() const;
+    void setRightLimbADCCurrent(int value);
+
+    int getRightLimbMotorDutyPresetCur() const;
+    void setRightLimbMotorDutyPresetCur(int value);
+
+    int getRightLimbMotorDutyPresetMin() const;
+    void setRightLimbMotorDutyPresetMin(int value);
+
+    int getRightLimbMotorDutyPresetMax() const;
+    void setRightLimbMotorDutyPresetMax(int value);
+
+    bool prepareRightForearmMovement();
+    bool prepareRightArmMovement();
+    bool prepareRightLimbMovement();
+
+    void handYaw(bool state);
+    void handPitch(bool state);
+
+    void setForearmRollMotorOnOff(bool state);
+
+    void turnArmLedsOnOff();
 
 private:
-    ArmControlLeft();
-    static ArmControlLeft* pArmControlLeft;       // ARM-CONTROL-LEFT's singleton instance
+    ArmControlRight();
+    static ArmControlRight* pArmControlRight;       // ARM-CONTROL-RIGHT's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
     static const string defaultsFilePath;
 
     void processMessagesQueueWorker();
 
-    void leftForearmWorker();
-    void leftArmWorker();
-    void leftLimbWorker();
-    void leftForearmRollWorker();
-    void leftArmSensorReadingsWorker();
+    void rightForearmWorker();
+    void rightArmWorker();
+    void rightLimbWorker();
+    void rightForearmRollWorker();
+    void rightArmSensorReadingsWorker();
 
-    //---------------left forearm
-    int leftForearmMotorDuty;
-    int leftForearmMotorDutyMax;
-    int leftForearmMotorAcceleration;
-    int leftForearmMotorDeceleration;
+    //---------------right forearm
+    int rightForearmMotorDuty;
+    int rightForearmMotorDutyMax;
+    int rightForearmMotorAcceleration;
+    int rightForearmMotorDeceleration;
 
-    bool leftForearmMotorAccelerating;
-    bool leftForearmMotorDecelerating;
+    bool rightForearmMotorAccelerating;
+    bool rightForearmMotorDecelerating;
 
-    bool leftForearmMotorMovementDirection;        //true - down, false - up
-    bool leftForearmMotorActivated;
-    bool leftForearmMotorStop;
+    bool rightForearmMotorMovementDirection;        //true - down, false - up
+    bool rightForearmMotorActivated;
+    bool rightForearmMotorStop;
 
-    int leftForearmADCPosition;
-    int leftForearmADCCurrent;
-
-    //presets
-    int leftForearmMotorDutyPresetCur;
-    int leftForearmMotorDutyPresetMin;
-    int leftForearmMotorDutyPresetMax;
-
-    //---------------left arm
-    int leftArmMotorDuty;
-    int leftArmMotorDutyMax;
-    int leftArmMotorAcceleration;
-    int leftArmMotorDeceleration;
-
-    bool leftArmMotorAccelerating;
-    bool leftArmMotorDecelerating;
-
-    bool leftArmMotorMovementDirection;        //true - down, false - up
-    bool leftArmMotorActivated;
-    bool leftArmMotorStop;
-
-    int leftArmADCPosition;
-    int leftArmADCCurrent;
+    int rightForearmADCPosition;
+    int rightForearmADCCurrent;
 
     //presets
-    int leftArmMotorDutyPresetCur;
-    int leftArmMotorDutyPresetMin;
-    int leftArmMotorDutyPresetMax;
+    int rightForearmMotorDutyPresetCur;
+    int rightForearmMotorDutyPresetMin;
+    int rightForearmMotorDutyPresetMax;
 
-    //---------------left limb
-    int leftLimbMotorDuty;
-    int leftLimbMotorDutyMax;
-    int leftLimbMotorAcceleration;
-    int leftLimbMotorDeceleration;
+    //---------------right arm
+    int rightArmMotorDuty;
+    int rightArmMotorDutyMax;
+    int rightArmMotorAcceleration;
+    int rightArmMotorDeceleration;
 
-    bool leftLimbMotorAccelerating;
-    bool leftLimbMotorDecelerating;
+    bool rightArmMotorAccelerating;
+    bool rightArmMotorDecelerating;
 
-    bool leftLimbMotorMovementDirection;        //true - down, false - up
-    bool leftLimbMotorActivated;
-    bool leftLimbMotorStop;
+    bool rightArmMotorMovementDirection;        //true - down, false - up
+    bool rightArmMotorActivated;
+    bool rightArmMotorStop;
 
-    int leftLimbADCPosition;
-    int leftLimbADCCurrent;
+    int rightArmADCPosition;
+    int rightArmADCCurrent;
 
     //presets
-    int leftLimbMotorDutyPresetCur;
-    int leftLimbMotorDutyPresetMin;
-    int leftLimbMotorDutyPresetMax;
+    int rightArmMotorDutyPresetCur;
+    int rightArmMotorDutyPresetMin;
+    int rightArmMotorDutyPresetMax;
+
+    //---------------right limb
+    int rightLimbMotorDuty;
+    int rightLimbMotorDutyMax;
+    int rightLimbMotorAcceleration;
+    int rightLimbMotorDeceleration;
+
+    bool rightLimbMotorAccelerating;
+    bool rightLimbMotorDecelerating;
+
+    bool rightLimbMotorMovementDirection;        //true - down, false - up
+    bool rightLimbMotorActivated;
+    bool rightLimbMotorStop;
+
+    int rightLimbADCPosition;
+    int rightLimbADCCurrent;
+
+    //presets
+    int rightLimbMotorDutyPresetCur;
+    int rightLimbMotorDutyPresetMin;
+    int rightLimbMotorDutyPresetMax;
 
     //------------------------hand yaw
     bool handYawDirection;  //true - CW, false - CCW
@@ -445,7 +436,7 @@ private:
     bool handPitchMotorCurrentTrack;
     bool handPitchMotorCurrentADC;
 
-    //left arm readings
+    //right arm readings
     int forearmADCPosition;
     int armADCPosition;
     int limbADCPosition;
@@ -464,4 +455,4 @@ private:
     int handSensorsADCForce[13];
 };
 
-#endif // ARMCONTROLLEFT_H
+#endif // ARMCONTROLRIGHT_H

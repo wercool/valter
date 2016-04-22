@@ -18,6 +18,7 @@
 #include "platformmanipulatorandirbumper.h"
 #include "bodycontrolp1.h"
 #include "armcontrolleft.h"
+#include "armcontrolright.h"
 
 using namespace std;
 using std::ifstream;

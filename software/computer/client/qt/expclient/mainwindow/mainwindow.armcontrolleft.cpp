@@ -19,12 +19,12 @@ void MainWindow::initArmControlLeft(Ui::MainWindow *ui)
     ui->leftForearmAccelerationScroller->installEventFilter(new WheelEventFilter());
     ui->leftArmMotorDutyScroller_2->installEventFilter(new WheelEventFilter());
     ui->leftArmMotorDecelerationScroller_2->installEventFilter(new WheelEventFilter());
-    ui->leftArmMotorDecelerationScroller_2->installEventFilter(new WheelEventFilter());
+    ui->leftArmMotorAccelerationScroller_2->installEventFilter(new WheelEventFilter());
     ui->leftLimbMotorDutyScroller->installEventFilter(new WheelEventFilter());
     ui->leftLimbMotorDecelerationScroller->installEventFilter(new WheelEventFilter());
     ui->leftLimbMotorAccelerationScroller->installEventFilter(new WheelEventFilter());
-    ui->forearmRollStepDelaySpinBox->installEventFilter(new WheelEventFilter());
-    ui->forearmRollStepSwitchDelaySpinBox->installEventFilter(new WheelEventFilter());
+    ui->leftForearmRollStepDelaySpinBox->installEventFilter(new WheelEventFilter());
+    ui->leftForearmRollStepSwitchDelaySpinBox->installEventFilter(new WheelEventFilter());
 }
 
 void MainWindow::armControlLeftTabRefreshTimerUpdate()
@@ -171,7 +171,6 @@ void MainWindow::on_leftArmMoveDownButton_released()
     armControlLeft->setLeftArmMotorActivated(false);
 }
 
-
 void MainWindow::on_leftLimbMoveUpButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
@@ -209,7 +208,6 @@ void MainWindow::on_leftLimbMoveDownButton_released()
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
     armControlLeft->setLeftLimbMotorActivated(false);
 }
-
 
 void MainWindow::on_leftHandYawCCWButton_pressed()
 {
@@ -263,7 +261,7 @@ void MainWindow::on_leftHandPitchDownButton_released()
     armControlLeft->handPitch(false);
 }
 
-void MainWindow::on_forearmRollMotorOnOffButton_clicked()
+void MainWindow::on_leftForearmRollMotorOnOffButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
     if (armControlLeft->getForearmRollMotorState())
@@ -278,22 +276,99 @@ void MainWindow::on_forearmRollMotorOnOffButton_clicked()
 
 void MainWindow::on_leftForearmRollCCWButton_pressed()
 {
-
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (armControlLeft->getForearmRollMotorState())
+    {
+        armControlLeft->setForearmRollDirection(false); //CCW
+        armControlLeft->setForearmRollMotorActivated(true);
+    }
 }
 
 void MainWindow::on_leftForearmRollCCWButton_released()
 {
-
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmRollMotorActivated(false);
 }
 
 void MainWindow::on_leftForearmRollCWButton_pressed()
 {
-
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (armControlLeft->getForearmRollMotorState())
+    {
+        armControlLeft->setForearmRollDirection(true); //CW
+        armControlLeft->setForearmRollMotorActivated(true);
+    }
 }
 
 void MainWindow::on_leftForearmRollCWButton_released()
 {
-
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmRollMotorActivated(false);
 }
 
+void MainWindow::on_leftForearmRollStepDelaySpinBox_valueChanged(int value)
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmRollStepDelay(value);
+}
 
+void MainWindow::on_leftForearmRollStepSwitchDelaySpinBox_valueChanged(int value)
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmRollStepSwitchDelay(value);
+}
+
+void MainWindow::on_leftForearmResetPositionButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmRollResettingStepPosition(!armControlLeft->getForearmRollResettingStepPosition());
+}
+
+void MainWindow::on_leftArmLedsOnOffButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->turnArmLedsOnOff();
+}
+
+void MainWindow::on_armControlLeftLoadDefaultsButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->loadDefaults();
+    loadArmControlLeftDefaults(ui);
+}
+
+void MainWindow::on_leftArmReadingsTable_itemClicked(QTableWidgetItem *item)
+{
+    setLeftArmReadingsPresets(item);
+}
+
+void MainWindow::on_leftHandSensorsTable_itemClicked(QTableWidgetItem *item)
+{
+    setLeftHandForceSensorsReadingsPresets(item);
+}
+
+void MainWindow::on_leftForearmYawCCWButton_pressed()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmYawDirection(false);
+    armControlLeft->forearmYaw(true);
+}
+
+void MainWindow::on_leftForearmYawCCWButton_released()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->forearmYaw(false);
+}
+
+void MainWindow::on_leftForearmYawCWButton_pressed()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmYawDirection(true);
+    armControlLeft->forearmYaw(true);
+}
+
+void MainWindow::on_leftForearmYawCWButton_released()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->forearmYaw(false);
+}

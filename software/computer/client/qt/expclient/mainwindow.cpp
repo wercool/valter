@@ -15,6 +15,7 @@
 #include <gui/link3endpointviewitem.h>
 #include <gui/bodycontrolp1GUI.h>
 #include <gui/armcontrolleftGUI.h>
+#include <gui/armcontrolrightGUI.h>
 
 #include "mainwindow/mainwindow.control.devices.utils.cpp"
 #include "mainwindow/mainwindow.platformcontrolp1.cpp"
@@ -23,6 +24,7 @@
 #include "mainwindow/mainwindow.manipulatorandirbumper.cpp"
 #include "mainwindow/mainwindow.bodycontrolp1.cpp"
 #include "mainwindow/mainwindow.armcontrolleft.cpp"
+#include "mainwindow/mainwindow.armcontrolright.cpp"
 
 
 MainWindow* MainWindow::pMainWindow = NULL;
@@ -61,6 +63,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //BODY-CONTROL-P1
     initBodyControlP1(ui);
+
+    //ARM-CONTROL-RIGHT
+    initArmControlRight(ui);
 
     //ARM-CONTROL-LEFT
     initArmControlLeft(ui);
@@ -187,6 +192,17 @@ void MainWindow::delayGUIAction(IValterModule *valterModule)
             case IValterModule::RELOAD_DEFAULTS:
                 valterModule->loadDefaults();
                 loadBodyControlP1Defaults(ui);
+            break;
+        }
+    }
+    //from ArmControlRight
+    if (valterModule->getControlDevice()->getControlDeviceId().compare(ArmControlRight::getControlDeviceId()) == 0)
+    {
+        switch (action)
+        {
+            case IValterModule::RELOAD_DEFAULTS:
+                valterModule->loadDefaults();
+                loadArmControlRightDefaults(ui);
             break;
         }
     }
