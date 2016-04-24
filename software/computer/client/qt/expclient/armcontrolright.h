@@ -308,6 +308,8 @@ public:
 
     void setForearmRollMotorOnOff(bool state);
 
+    void forearmYaw(bool state);
+
     void turnArmLedsOnOff();
 
 private:

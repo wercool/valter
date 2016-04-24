@@ -248,6 +248,18 @@ void ArmControlRight::setForearmRollMotorOnOff(bool state)
     }
 }
 
+void ArmControlRight::forearmYaw(bool state)
+{
+    if (state)
+    {
+        sendCommand("FOREARMYAWON");
+    }
+    else
+    {
+        sendCommand("FOREARMYAWOFF");
+    }
+}
+
 void ArmControlRight::turnArmLedsOnOff()
 {
     bool state = getArmLedsState();
@@ -439,22 +451,22 @@ void ArmControlRight::setHandPitchMotorADCCurrent(int value)
 
 void ArmControlRight::setHandSensorsTrack(int idx, bool state)
 {
-
+    handSensorsTrack[idx] = state;
 }
 
 bool ArmControlRight::getHandSensorsTrack(int idx)
 {
-
+    return handSensorsTrack[idx];
 }
 
 void ArmControlRight::setHandSensorsADCForce(int idx, int value)
 {
-
+    handSensorsADCForce[idx] = value;
 }
 
 int ArmControlRight::getHandSensorsADCForce(int idx)
 {
-
+    return handSensorsADCForce[idx];
 }
 
 int ArmControlRight::getHandYawMotorADCCurrent() const
@@ -815,6 +827,14 @@ bool ArmControlRight::getForearmYawDirection() const
 void ArmControlRight::setForearmYawDirection(bool value)
 {
     forearmYawDirection = value;
+    if (value) //CW
+    {
+        sendCommand("FOREARMYAWCW");
+    }
+    else
+    {
+        sendCommand("FOREARMYAWCCW");
+    }
 }
 
 bool ArmControlRight::getForearmRollResettingStepPosition() const

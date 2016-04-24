@@ -341,3 +341,35 @@ void MainWindow::on_rightArmReadingsTable_itemClicked(QTableWidgetItem *item)
 {
     setRightArmReadingsPresets(item);
 }
+
+
+void MainWindow::on_rightHandSensorsTable_itemClicked(QTableWidgetItem *item)
+{
+    setRightHandForceSensorsReadingsPresets(item);
+}
+
+void MainWindow::on_rightForearmYawCCWButton_pressed()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->setForearmYawDirection(false);
+    armControlRight->forearmYaw(true);
+}
+
+void MainWindow::on_rightForearmYawCCWButton_released()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->forearmYaw(false);
+}
+
+void MainWindow::on_rightForearmYawCWButton_pressed()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->setForearmYawDirection(true);
+    armControlRight->forearmYaw(true);
+}
+
+void MainWindow::on_rightForearmYawCWButton_released()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->forearmYaw(false);
+}

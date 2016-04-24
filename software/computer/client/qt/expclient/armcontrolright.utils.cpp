@@ -161,4 +161,168 @@ void ArmControlRight::loadDefaults()
     int minValue;
     int maxValue;
     int val1, val2;
+
+    //rightForearmMotorDuty
+    defaultValue = getDefault("rightForearmMotorDuty");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setRightForearmMotorDutyPresetMin(minValue);
+    setRightForearmMotorDutyPresetMax(maxValue);
+    setRightForearmMotorDutyPresetCur(curValue);
+    setRightForearmMotorDutyMax(getRightForearmMotorDutyPresetCur());
+
+    //rightForearmMotorDeceleration
+    defaultValue = getDefault("rightForearmMotorDeceleration");
+    rightForearmMotorDeceleration = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightForearmMotorAcceleration
+    defaultValue = getDefault("rightForearmMotorAcceleration");
+    rightForearmMotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightArmMotorDuty
+    defaultValue = getDefault("rightArmMotorDuty");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setRightArmMotorDutyPresetMin(minValue);
+    setRightArmMotorDutyPresetMax(maxValue);
+    setRightArmMotorDutyPresetCur(curValue);
+    setRightArmMotorDutyMax(getRightArmMotorDutyPresetCur());
+
+    //rightArmMotorDeceleration
+    defaultValue = getDefault("rightArmMotorDeceleration");
+    rightArmMotorDeceleration = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightArmMotorAcceleration
+    defaultValue = getDefault("rightArmMotorAcceleration");
+    rightArmMotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightLimbMotorDuty
+    defaultValue = getDefault("rightLimbMotorDuty");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setRightLimbMotorDutyPresetMin(minValue);
+    setRightLimbMotorDutyPresetMax(maxValue);
+    setRightLimbMotorDutyPresetCur(curValue);
+    setRightLimbMotorDutyMax(getRightLimbMotorDutyPresetCur());
+
+    //rightLimbMotorDeceleration
+    defaultValue = getDefault("rightLimbMotorDeceleration");
+    rightLimbMotorDeceleration = atoi(Valter::stringToCharPtr(defaultValue));
+
+    //rightLimbMotorAcceleration
+    defaultValue = getDefault("rightLimbMotorAcceleration");
+    rightLimbMotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
+    //forearmPosition
+    defaultValue = getDefault("forearmPosition");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setForearmPositionTrack(val1);
+    setForearmPositionADC(val2);
+
+    //armPosition
+    defaultValue = getDefault("armPosition");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setArmPositionTrack(val1);
+    setArmPositionADC(val2);
+
+    //limbPosition
+    defaultValue = getDefault("limbPosition");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setLimbPositionTrack(val1);
+    setLimbPositionADC(val2);
+
+    //forearmMotorCurrent
+    defaultValue = getDefault("forearmMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setForearmMotorCurrentTrack(val1);
+    setForearmMotorCurrentADC(val2);
+
+    //armMotorCurrent
+    defaultValue = getDefault("armMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setArmMotorCurrentTrack(val1);
+    setArmMotorCurrentADC(val2);
+
+    //limbMotorCurrent
+    defaultValue = getDefault("limbMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setLimbMotorCurrentTrack(val1);
+    setLimbMotorCurrentADC(val2);
+
+    //handYawPosition
+    defaultValue = getDefault("handYawPosition");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setHandYawPositionTrack(val1);
+    setHandYawPositionADC(val2);
+
+    //handPitchPosition
+    defaultValue = getDefault("handPitchPosition");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setHandPitchPositionTrack(val1);
+    setHandPitchPositionADC(val2);
+
+    //forearmYawPosition
+    defaultValue = getDefault("forearmYawPosition");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setForearmYawPositionTrack(val1);
+    setForearmYawPositionADC(val2);
+
+    //forearmYawMotorCurrent
+    defaultValue = getDefault("forearmYawMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setForearmYawMotorCurrentTrack(val1);
+    setForearmYawMotorCurrentADC(val2);
+
+    //handYawMotorCurrent
+    defaultValue = getDefault("handYawMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setHandYawMotorCurrentTrack(val1);
+    setHandYawMotorCurrentADC(val2);
+
+    //handPitchMotorCurrent
+    defaultValue = getDefault("handPitchMotorCurrent");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setHandPitchMotorCurrentTrack(val1);
+    setHandPitchMotorCurrentADC(val2);
+
+    //trackHandSensors
+    defaultValue = getDefault("trackHandSensors");
+    vector<string>defaultValue_str_values = Valter::split(defaultValue, ',');
+    vector<string>::iterator iter = defaultValue_str_values.begin();
+    int idx = 0;
+    while( iter != defaultValue_str_values.end() )
+    {
+        string val = *iter++;
+        defaultValuePtr = Valter::stringToCharPtr(val);
+        setHandSensorsTrack(idx++, ((atoi(defaultValuePtr)) ? true : false));
+    }
 }

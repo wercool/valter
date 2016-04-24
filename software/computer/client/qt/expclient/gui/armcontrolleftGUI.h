@@ -60,7 +60,6 @@ void armControlLeftTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 ui->leftArmReadingsTable->setItem(0, 2, forearmPositionQWidgetItem);
                 ui->leftForearmPositionLcdNumber->display(armControlLeft->getForearmADCPosition());
             }
-
         }
         if (armControlLeft->getArmPositionTrack())
         {

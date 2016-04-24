@@ -531,3 +531,7 @@ void MainWindow::on_valterPlatformMovementControlsDetachButton_clicked()
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
 }
+
+
+
+

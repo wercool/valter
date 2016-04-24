@@ -200,7 +200,6 @@ void ArmControlLeft::loadDefaults()
     defaultValue = getDefault("leftArmMotorAcceleration");
     leftArmMotorAcceleration = atoi(Valter::stringToCharPtr(defaultValue));
 
-
     //leftLimbMotorDuty
     defaultValue = getDefault("leftLimbMotorDuty");
     defaultValuePtr = Valter::stringToCharPtr(defaultValue);

@@ -838,6 +838,16 @@ private slots:
 
     void on_rightArmReadingsTable_itemClicked(QTableWidgetItem *item);
 
+    void on_rightHandSensorsTable_itemClicked(QTableWidgetItem *item);
+
+    void on_rightForearmYawCCWButton_pressed();
+
+    void on_rightForearmYawCCWButton_released();
+
+    void on_rightForearmYawCWButton_pressed();
+
+    void on_rightForearmYawCWButton_released();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;
