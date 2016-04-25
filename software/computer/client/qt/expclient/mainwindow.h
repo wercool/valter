@@ -848,6 +848,22 @@ private slots:
 
     void on_rightForearmYawCWButton_released();
 
+    void on_rightHandSensorsTrackAllButton_clicked();
+
+    void on_rightHandSensorsTrackNoneButton_clicked();
+
+    void on_rightArmReadingsTrackAllButton_clicked();
+
+    void on_rightArmReadingsTrackNoneButton_clicked();
+
+    void on_leftHandSensorsTrackAllButton_clicked();
+
+    void on_leftHandSensorsTrackNoneButton_clicked();
+
+    void on_leftArmReadingsTrackAllButton_clicked();
+
+    void on_leftArmReadingsTrackNoneButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

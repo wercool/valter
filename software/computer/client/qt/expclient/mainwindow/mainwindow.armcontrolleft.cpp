@@ -372,3 +372,65 @@ void MainWindow::on_leftForearmYawCWButton_released()
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
     armControlLeft->forearmYaw(false);
 }
+
+void MainWindow::on_leftHandSensorsTrackAllButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    for (int i = 0; i < 13; i++)
+    {
+        armControlLeft->setHandSensorsTrack(i, true);
+        ((QTableWidgetItem*)ui->leftHandSensorsTable->item(i, 0))->setCheckState(Qt::Checked);
+    }
+}
+
+void MainWindow::on_leftHandSensorsTrackNoneButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    for (int i = 0; i < 13; i++)
+    {
+        armControlLeft->setHandSensorsTrack(i, false);
+        ((QTableWidgetItem*)ui->leftHandSensorsTable->item(i, 0))->setCheckState(Qt::Unchecked);
+    }
+}
+
+void MainWindow::on_leftArmReadingsTrackAllButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmPositionTrack(true);
+    armControlLeft->setArmPositionTrack(true);
+    armControlLeft->setLimbPositionTrack(true);
+    armControlLeft->setForearmMotorCurrentTrack(true);
+    armControlLeft->setArmMotorCurrentTrack(true);
+    armControlLeft->setLimbMotorCurrentTrack(true);
+    armControlLeft->setHandYawPositionTrack(true);
+    armControlLeft->setHandPitchPositionTrack(true);
+    armControlLeft->setForearmYawPositionTrack(true);
+    armControlLeft->setForearmYawMotorCurrentTrack(true);
+    armControlLeft->setHandYawMotorCurrentTrack(true);
+    armControlLeft->setHandPitchMotorCurrentTrack(true);
+    for (int i = 0; i < 12; i++)
+    {
+        ((QTableWidgetItem*)ui->leftArmReadingsTable->item(i, 0))->setCheckState(Qt::Checked);
+    }
+}
+
+void MainWindow::on_leftArmReadingsTrackNoneButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setForearmPositionTrack(false);
+    armControlLeft->setArmPositionTrack(false);
+    armControlLeft->setLimbPositionTrack(false);
+    armControlLeft->setForearmMotorCurrentTrack(false);
+    armControlLeft->setArmMotorCurrentTrack(false);
+    armControlLeft->setLimbMotorCurrentTrack(false);
+    armControlLeft->setHandYawPositionTrack(false);
+    armControlLeft->setHandPitchPositionTrack(false);
+    armControlLeft->setForearmYawPositionTrack(false);
+    armControlLeft->setForearmYawMotorCurrentTrack(false);
+    armControlLeft->setHandYawMotorCurrentTrack(false);
+    armControlLeft->setHandPitchMotorCurrentTrack(false);
+    for (int i = 0; i < 12; i++)
+    {
+        ((QTableWidgetItem*)ui->leftArmReadingsTable->item(i, 0))->setCheckState(Qt::Unchecked);
+    }
+}

@@ -212,7 +212,7 @@ void MainWindow::on_rightLimbMoveDownButton_released()
 void MainWindow::on_rightHandYawCCWButton_pressed()
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    armControlRight->setHandYawDirection(true);
+    armControlRight->setHandYawDirection(false);
     armControlRight->handYaw(true);
 }
 
@@ -225,7 +225,7 @@ void MainWindow::on_rightHandYawCCWButton_released()
 void MainWindow::on_rightHandYawCWButton_pressed()
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    armControlRight->setHandYawDirection(false);
+    armControlRight->setHandYawDirection(true);
     armControlRight->handYaw(true);
 }
 
@@ -342,7 +342,6 @@ void MainWindow::on_rightArmReadingsTable_itemClicked(QTableWidgetItem *item)
     setRightArmReadingsPresets(item);
 }
 
-
 void MainWindow::on_rightHandSensorsTable_itemClicked(QTableWidgetItem *item)
 {
     setRightHandForceSensorsReadingsPresets(item);
@@ -372,4 +371,66 @@ void MainWindow::on_rightForearmYawCWButton_released()
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
     armControlRight->forearmYaw(false);
+}
+
+void MainWindow::on_rightHandSensorsTrackAllButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    for (int i = 0; i < 13; i++)
+    {
+        armControlRight->setHandSensorsTrack(i, true);
+        ((QTableWidgetItem*)ui->rightHandSensorsTable->item(i, 0))->setCheckState(Qt::Checked);
+    }
+}
+
+void MainWindow::on_rightHandSensorsTrackNoneButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    for (int i = 0; i < 13; i++)
+    {
+        armControlRight->setHandSensorsTrack(i, false);
+        ((QTableWidgetItem*)ui->rightHandSensorsTable->item(i, 0))->setCheckState(Qt::Unchecked);
+    }
+}
+
+void MainWindow::on_rightArmReadingsTrackAllButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->setForearmPositionTrack(true);
+    armControlRight->setArmPositionTrack(true);
+    armControlRight->setLimbPositionTrack(true);
+    armControlRight->setForearmMotorCurrentTrack(true);
+    armControlRight->setArmMotorCurrentTrack(true);
+    armControlRight->setLimbMotorCurrentTrack(true);
+    armControlRight->setHandYawPositionTrack(true);
+    armControlRight->setHandPitchPositionTrack(true);
+    armControlRight->setForearmYawPositionTrack(true);
+    armControlRight->setForearmYawMotorCurrentTrack(true);
+    armControlRight->setHandYawMotorCurrentTrack(true);
+    armControlRight->setHandPitchMotorCurrentTrack(true);
+    for (int i = 0; i < 12; i++)
+    {
+        ((QTableWidgetItem*)ui->rightArmReadingsTable->item(i, 0))->setCheckState(Qt::Checked);
+    }
+}
+
+void MainWindow::on_rightArmReadingsTrackNoneButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->setForearmPositionTrack(false);
+    armControlRight->setArmPositionTrack(false);
+    armControlRight->setLimbPositionTrack(false);
+    armControlRight->setForearmMotorCurrentTrack(false);
+    armControlRight->setArmMotorCurrentTrack(false);
+    armControlRight->setLimbMotorCurrentTrack(false);
+    armControlRight->setHandYawPositionTrack(false);
+    armControlRight->setHandPitchPositionTrack(false);
+    armControlRight->setForearmYawPositionTrack(false);
+    armControlRight->setForearmYawMotorCurrentTrack(false);
+    armControlRight->setHandYawMotorCurrentTrack(false);
+    armControlRight->setHandPitchMotorCurrentTrack(false);
+    for (int i = 0; i < 12; i++)
+    {
+        ((QTableWidgetItem*)ui->rightArmReadingsTable->item(i, 0))->setCheckState(Qt::Unchecked);
+    }
 }

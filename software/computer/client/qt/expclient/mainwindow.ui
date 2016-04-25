@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="platformControlP1Tab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>1034</height>
+             <width>820</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3912,7 +3912,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>839</width>
+             <width>838</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7928,7 +7928,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
+             <width>820</width>
              <height>963</height>
             </rect>
            </property>
@@ -9968,7 +9968,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
+             <width>820</width>
              <height>800</height>
             </rect>
            </property>
@@ -12843,8 +12843,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>845</height>
+             <width>820</width>
+             <height>883</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -14806,6 +14806,27 @@ color: rgb(255, 0, 0);</string>
                   </item>
                  </widget>
                 </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_144">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="rightHandSensorsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="rightHandSensorsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
                </layout>
               </item>
               <item>
@@ -15114,6 +15135,27 @@ color: rgb(255, 0, 0);</string>
                   </item>
                  </widget>
                 </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_145">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="rightArmReadingsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="rightArmReadingsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
                </layout>
               </item>
              </layout>
@@ -15208,8 +15250,8 @@ color: rgb(255, 0, 0);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>845</height>
+             <width>820</width>
+             <height>883</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -17171,6 +17213,27 @@ color: rgb(255, 0, 0);</string>
                   </item>
                  </widget>
                 </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_90">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="leftHandSensorsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="leftHandSensorsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
                </layout>
               </item>
               <item>
@@ -17478,6 +17541,27 @@ color: rgb(255, 0, 0);</string>
                    </property>
                   </item>
                  </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_143">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="leftArmReadingsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="leftArmReadingsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                </layout>
               </item>

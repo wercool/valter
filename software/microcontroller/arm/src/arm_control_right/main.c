@@ -1028,11 +1028,15 @@ int main(void)
             if (strcmp((char*) cmdParts, "FOREARMROLLON") == 0)
             {
                 AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                sprintf((char *)msg,"FOREARM ROLL MOTOR ON\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMROLLOFF") == 0)
             {
                 AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA25);
+                sprintf((char *)msg,"FOREARM ROLL MOTOR OFF\n");
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
                 continue;
             }
             if (strcmp((char*) cmdParts, "FOREARMROLLCW") == 0)
