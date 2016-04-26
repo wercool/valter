@@ -36,3 +36,8 @@ link2MotorAcceleration:2
 link2MotorDeceleration:2
 //man gripper rotation
 manGripperRotationMotorDuty:40
+//ir bumper
+irBumperTrack:1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+//irBumperTrack:0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+irBumperTicks:1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+//irBumperTicks:0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

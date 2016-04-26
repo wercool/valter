@@ -518,6 +518,16 @@ private slots:
 
     void on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item);
 
+    void on_irBumperEnableButton_clicked();
+
+    void on_irBumperDisableButton_clicked();
+
+    void on_irBumperInitButton_clicked();
+
+    void on_irBumperFrequencySpin_valueChanged(int value);
+
+    void on_irBumperDutySpin_valueChanged(int value);
+
     //body-control-p1
     void initBodyControlP1(Ui::MainWindow *ui);
 
@@ -752,11 +762,18 @@ private slots:
 
     void on_leftForearmYawCWButton_released();
 
+    void on_leftHandSensorsTrackAllButton_clicked();
+
+    void on_leftHandSensorsTrackNoneButton_clicked();
+
+    void on_leftArmReadingsTrackAllButton_clicked();
+
+    void on_leftArmReadingsTrackNoneButton_clicked();
+
     //arm-control-right
     void initArmControlRight(Ui::MainWindow *ui);
 
     void armControlRightTabRefreshTimerUpdate();
-
 
     void on_rightForearmMoveUpButton_pressed();
 
@@ -856,13 +873,10 @@ private slots:
 
     void on_rightArmReadingsTrackNoneButton_clicked();
 
-    void on_leftHandSensorsTrackAllButton_clicked();
 
-    void on_leftHandSensorsTrackNoneButton_clicked();
+    void on_irBumperTrackAllButton_clicked();
 
-    void on_leftArmReadingsTrackAllButton_clicked();
-
-    void on_leftArmReadingsTrackNoneButton_clicked();
+    void on_irBumperTrackNoneButton_clicked();
 
 private:
     Ui::MainWindow *ui;

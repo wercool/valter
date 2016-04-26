@@ -34,6 +34,7 @@ PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
     new std::thread(&PlatformManipulatorAndIRBumper::manLink1MovementWorker, this);
     new std::thread(&PlatformManipulatorAndIRBumper::manLink2MovementWorker, this);
     new std::thread(&PlatformManipulatorAndIRBumper::manipulatorReadingsWorker, this);
+    new std::thread(&PlatformManipulatorAndIRBumper::irBumperReadingWorker, this);
 }
 
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::getInstance()
@@ -123,6 +124,18 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
     link2ADCPosition    = 0;
     link1ADCCurrent     = 0;
     link2ADCCurrent     = 0;
+
+    for (int i = 0; i < 16; i++)
+    {
+        irBumperTrack[i] = true;
+        irBumperTicks[i] = true;
+    }
+
+    irBumperInitialized = false;
+    irBumperEnabled     = false;
+
+    irBumperFrequency   = 38000;
+    irBumperDuty        = 50;
 }
 
 void PlatformManipulatorAndIRBumper::setModuleInitialState()
@@ -415,6 +428,85 @@ void PlatformManipulatorAndIRBumper::manipulatorReadingsWorker()
         {
             this_thread::sleep_for(std::chrono::milliseconds(500));
         }
+    }
+}
+
+void PlatformManipulatorAndIRBumper::irBumperReadingWorker()
+{
+    while (!stopAllProcesses)
+    {
+        if (controlDeviceIsSet)
+        {
+            if (getIrBumperEnabled() && getIrBumperInitialized())
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    if (getIRBumperTrack(i))
+                    {
+                        this_thread::sleep_for(std::chrono::milliseconds(50));
+                        sendCommand(Valter::format_string("IRB%d", i));
+                        this_thread::sleep_for(std::chrono::milliseconds(50));
+                        sendCommand("IRBGET");
+                        this_thread::sleep_for(std::chrono::milliseconds(250));
+                    }
+                }
+            }
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+}
+
+int PlatformManipulatorAndIRBumper::getIrBumperDuty() const
+{
+    return irBumperDuty;
+}
+
+void PlatformManipulatorAndIRBumper::setIrBumperDuty(int value)
+{
+    irBumperDuty = value;
+    sendCommand(Valter::format_string("SETIRBUMPERTRDUTY#%d", value));
+}
+
+int PlatformManipulatorAndIRBumper::getIrBumperFrequency() const
+{
+    return irBumperFrequency;
+}
+
+void PlatformManipulatorAndIRBumper::setIrBumperFrequency(int value)
+{
+    irBumperFrequency = value;
+    sendCommand(Valter::format_string("IRBUMPERFREQ#%d", value));
+}
+
+bool PlatformManipulatorAndIRBumper::getIrBumperEnabled() const
+{
+    return irBumperEnabled;
+}
+
+void PlatformManipulatorAndIRBumper::setIrBumperEnabled(bool value)
+{
+    irBumperEnabled = value;
+    if (value)
+    {
+        sendCommand("IRBUMPERENABLE");
+    }
+    else
+    {
+        sendCommand("IRBUMPERDISABLE");
+    }
+}
+
+bool PlatformManipulatorAndIRBumper::getIrBumperInitialized() const
+{
+    return irBumperInitialized;
+}
+
+void PlatformManipulatorAndIRBumper::setIrBumperInitialized(bool value)
+{
+    irBumperInitialized = value;
+    if (value)
+    {
+        sendCommand("IRBUMPERINIT");
     }
 }
 

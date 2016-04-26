@@ -216,6 +216,23 @@ public:
     double getGripperPosition() const;
     void setGripperPosition(double value);
 
+    void setIRBumperTrack(int idx, bool state);
+    bool getIRBumperTrack(int idx);
+    void setIRBumperTicks(int idx, bool state);
+    bool getIRBumperTicks(int idx);
+
+    bool getIrBumperInitialized() const;
+    void setIrBumperInitialized(bool value);
+
+    bool getIrBumperEnabled() const;
+    void setIrBumperEnabled(bool value);
+
+    int getIrBumperFrequency() const;
+    void setIrBumperFrequency(int value);
+
+    int getIrBumperDuty() const;
+    void setIrBumperDuty(int value);
+
 private:
     PlatformManipulatorAndIRBumper();
     static PlatformManipulatorAndIRBumper* pPlatformManipulatorAndIRBumper;         // PLATFORM-MANIPULATOR-AND-IR-BUMPER's singleton instance
@@ -227,6 +244,7 @@ private:
     void manLink1MovementWorker();
     void manLink2MovementWorker();
     void manipulatorReadingsWorker();
+    void irBumperReadingWorker();
 
     bool power24VOnOff;
 
@@ -301,6 +319,16 @@ private:
     double gripperTilt;
     double gripperRotation;
     double gripperPosition;
+
+    //IR Bumper
+    bool irBumperTrack[16];
+    bool irBumperTicks[16];
+
+    bool irBumperInitialized;
+    bool irBumperEnabled;
+
+    int irBumperFrequency;
+    int irBumperDuty;
 };
 
 #endif // PLATFORMMANIPULATORANDIRBUMPER_H

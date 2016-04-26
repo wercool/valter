@@ -128,6 +128,30 @@ void PlatformManipulatorAndIRBumper::loadDefaults()
     val2 = atoi(strtok(NULL, "," ));
     setGripperPositionTrack(val1);
     setGripperPositionADC(val2);
+
+    //irBumperTrack
+    defaultValue = getDefault("irBumperTrack");
+    vector<string>defaultValue_str_values = Valter::split(defaultValue, ',');
+    vector<string>::iterator iter = defaultValue_str_values.begin();
+    int idx = 0;
+    while( iter != defaultValue_str_values.end() )
+    {
+        string val = *iter++;
+        defaultValuePtr = Valter::stringToCharPtr(val);
+        setIRBumperTrack(idx++, ((atoi(defaultValuePtr)) ? true : false));
+    }
+
+    //irBumperTicks
+    defaultValue = getDefault("irBumperTicks");
+    defaultValue_str_values = Valter::split(defaultValue, ',');
+    iter = defaultValue_str_values.begin();
+    idx = 0;
+    while( iter != defaultValue_str_values.end() )
+    {
+        string val = *iter++;
+        defaultValuePtr = Valter::stringToCharPtr(val);
+        setIRBumperTicks(idx++, ((atoi(defaultValuePtr)) ? true : false));
+    }
 }
 
 bool PlatformManipulatorAndIRBumper::getLink1MotorDecelerating() const
@@ -634,6 +658,26 @@ double PlatformManipulatorAndIRBumper::getGripperPosition() const
 void PlatformManipulatorAndIRBumper::setGripperPosition(double value)
 {
     gripperPosition = value;
+}
+
+void PlatformManipulatorAndIRBumper::setIRBumperTrack(int idx, bool state)
+{
+    irBumperTrack[idx] = state;
+}
+
+bool PlatformManipulatorAndIRBumper::getIRBumperTrack(int idx)
+{
+    return irBumperTrack[idx];
+}
+
+void PlatformManipulatorAndIRBumper::setIRBumperTicks(int idx, bool state)
+{
+    irBumperTicks[idx] = state;
+}
+
+bool PlatformManipulatorAndIRBumper::getIRBumperTicks(int idx)
+{
+    return irBumperTicks[idx];
 }
 
 double PlatformManipulatorAndIRBumper::getGripperRotation() const

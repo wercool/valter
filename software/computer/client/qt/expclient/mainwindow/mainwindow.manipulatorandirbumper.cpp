@@ -31,6 +31,9 @@ void MainWindow::initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui)
     ui->manipulatorLiknk2AccelerationScroller->installEventFilter(new WheelEventFilter());
     ui->manGripperRotationMotorDutyScroller->installEventFilter(new WheelEventFilter());
 
+    ui->irBumperFrequencySpin->installEventFilter(new WheelEventFilter());
+    ui->irBumperDutySpin->installEventFilter(new WheelEventFilter());
+
     double man_l1 = PlatformManipulatorAndIRBumper::man_l1;
     double man_l2 = PlatformManipulatorAndIRBumper::man_l2;
     double man_l1_l2 = PlatformManipulatorAndIRBumper::man_l1_l2;
@@ -424,4 +427,54 @@ void MainWindow::on_manGripperRotateCW_released()
 void MainWindow::on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item)
 {
     setPlatformManipulatorReadingsPresets(item);
+}
+
+void MainWindow::on_irBumperEnableButton_clicked()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setIrBumperEnabled(true);
+}
+
+void MainWindow::on_irBumperDisableButton_clicked()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setIrBumperEnabled(false);
+}
+
+void MainWindow::on_irBumperInitButton_clicked()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setIrBumperInitialized(true);
+}
+
+void MainWindow::on_irBumperFrequencySpin_valueChanged(int value)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setIrBumperFrequency(value);
+}
+
+void MainWindow::on_irBumperDutySpin_valueChanged(int value)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setIrBumperDuty(value);
+}
+
+void MainWindow::on_irBumperTrackAllButton_clicked()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    for (int i = 0 ; i < 16; i++)
+    {
+        platformManipulatorAndIRBumper->setIRBumperTrack(i, true);
+        ((QTableWidgetItem*)ui->irBumperReadingsTable->item(i, 0))->setCheckState((platformManipulatorAndIRBumper->getIRBumperTrack(i)) ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+void MainWindow::on_irBumperTrackNoneButton_clicked()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    for (int i = 0 ; i < 16; i++)
+    {
+        platformManipulatorAndIRBumper->setIRBumperTrack(i, false);
+        ((QTableWidgetItem*)ui->irBumperReadingsTable->item(i, 0))->setCheckState((platformManipulatorAndIRBumper->getIRBumperTrack(i)) ? Qt::Checked : Qt::Unchecked);
+    }
 }

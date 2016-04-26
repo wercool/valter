@@ -133,6 +133,12 @@ void loadPlatformManipulatorAndIRBumperDefaults(Ui::MainWindow *ui)
     ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(5, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperRotationADC()) ? Qt::Checked : Qt::Unchecked);
 
     ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked(true);
+
+    for (int i = 0; i < 16; i++)
+    {
+        ((QTableWidgetItem*)ui->irBumperReadingsTable->item(i, 0))->setCheckState((platformManipulatorAndIRBumper->getIRBumperTrack(i)) ? Qt::Checked : Qt::Unchecked);
+        ((QTableWidgetItem*)ui->irBumperReadingsTable->item(i, 1))->setCheckState((platformManipulatorAndIRBumper->getIRBumperTicks(i)) ? Qt::Checked : Qt::Unchecked);
+    }
 }
 
 void setPlatformManipulatorReadingsPresets(QTableWidgetItem *item)
