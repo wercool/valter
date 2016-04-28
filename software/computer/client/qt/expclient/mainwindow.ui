@@ -7927,7 +7927,7 @@ background-repeat: repeat-no;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-1069</y>
+             <y>0</y>
              <width>820</width>
              <height>1514</height>
             </rect>

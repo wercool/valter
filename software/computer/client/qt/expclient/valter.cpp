@@ -68,8 +68,6 @@ void Valter::stopAllModules()
     }
 }
 
-
-
 Valter* Valter::getInstance()
 {
     if(!instanceFlag)
@@ -86,7 +84,7 @@ Valter* Valter::getInstance()
 
 string Valter::getVersion()
 {
-    return "0.0.4";
+    return "0.1.1";
 }
 
 bool Valter::getLogControlDeviceMessages() const

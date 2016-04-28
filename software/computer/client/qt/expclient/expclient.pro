@@ -31,11 +31,11 @@ SOURCES += main.cpp\
            armcontrolright.cpp \
            valter3d.cpp \
 #service code
-           platformcontrolp1.code.utils.cpp \
-           platformmanipulatorandirbumper.code.utils.cpp \
+           platformcontrolp1.utils.cpp \
            bodycontrolp1.utils.cpp \
            armcontrolleft.utils.cpp \
            armcontrolright.utils.cpp \
+           platformmanipulatorandirbumper.utils.cpp \
 #mainwindow gui service code
            mainwindow/mainwindow.control.devices.utils.cpp \
            mainwindow/mainwindow.platformcontrolp1.cpp \

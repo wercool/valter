@@ -218,6 +218,8 @@ public:
 
     void setIRBumperTrack(int idx, bool state);
     bool getIRBumperTrack(int idx);
+    bool getIRBumperTracked();
+
     void setIRBumperTicks(int idx, bool state);
     bool getIRBumperTicks(int idx);
 
@@ -232,6 +234,9 @@ public:
 
     int getIrBumperDuty() const;
     void setIrBumperDuty(int value);
+
+    void setIrBumperTicksReading(int idx, int value);
+    int getIrBumperTicksReading(int idx);
 
 private:
     PlatformManipulatorAndIRBumper();
@@ -323,6 +328,8 @@ private:
     //IR Bumper
     bool irBumperTrack[16];
     bool irBumperTicks[16];
+
+    int irBumperTicksReading[16];
 
     bool irBumperInitialized;
     bool irBumperEnabled;

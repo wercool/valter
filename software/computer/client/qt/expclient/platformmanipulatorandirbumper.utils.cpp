@@ -670,6 +670,19 @@ bool PlatformManipulatorAndIRBumper::getIRBumperTrack(int idx)
     return irBumperTrack[idx];
 }
 
+bool PlatformManipulatorAndIRBumper::getIRBumperTracked()
+{
+    bool state = false;
+    for (int i = 0; i < 16; i++)
+    {
+        if (getIRBumperTrack(i))
+        {
+            state = true;
+        }
+    }
+    return state;
+}
+
 void PlatformManipulatorAndIRBumper::setIRBumperTicks(int idx, bool state)
 {
     irBumperTicks[idx] = state;

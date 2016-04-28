@@ -5,7 +5,7 @@
 #include "valter.h"
 #include "platformmanipulatorandirbumper.h"
 
-#include "platformmanipulatorandirbumper.code.utils.cpp"
+#include "platformmanipulatorandirbumper.utils.cpp"
 
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::pPlatformManipulatorAndIRBumper = NULL;
 bool PlatformManipulatorAndIRBumper::instanceFlag = false;
@@ -129,6 +129,7 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
     {
         irBumperTrack[i] = true;
         irBumperTicks[i] = true;
+        irBumperTicksReading[i] = 0;
     }
 
     irBumperInitialized = false;
@@ -233,6 +234,16 @@ void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
                         string value_str = response.substr(value_str_pos);
                         vector<string>value_str_values = Valter::split(value_str, ',');
                         setGripperADCPosition(atoi(value_str_values[1].c_str()));
+                    }
+                }
+                if (getIRBumperTracked())
+                {
+                    if (response.find("IRB:") != std::string::npos)//IR Bumper response
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        vector<string>value_str_values = Valter::split(value_str, ',');
+                        setIrBumperTicksReading(atoi(value_str_values[0].c_str()), atoi(value_str_values[3].c_str()));
                     }
                 }
             }
@@ -465,6 +476,16 @@ void PlatformManipulatorAndIRBumper::setIrBumperDuty(int value)
 {
     irBumperDuty = value;
     sendCommand(Valter::format_string("SETIRBUMPERTRDUTY#%d", value));
+}
+
+void PlatformManipulatorAndIRBumper::setIrBumperTicksReading(int idx, int value)
+{
+    irBumperTicksReading[idx] = value;
+}
+
+int PlatformManipulatorAndIRBumper::getIrBumperTicksReading(int idx)
+{
+    return irBumperTicksReading[idx];
 }
 
 int PlatformManipulatorAndIRBumper::getIrBumperFrequency() const

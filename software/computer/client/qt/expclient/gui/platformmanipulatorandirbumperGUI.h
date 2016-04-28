@@ -88,6 +88,16 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(6, 2, gripperPositionQWidgetItem);
         }
+
+        if (platformManipulatorAndIRBumper->getIRBumperTracked())
+        {
+            for (int i = 0 ; i < 16; i++)
+            {
+                QTableWidgetItem *irBumperReadingsTableQWidgetItem = new QTableWidgetItem;
+                irBumperReadingsTableQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getIrBumperTicksReading(i)).c_str());
+                ui->irBumperReadingsTable->setItem(i, 2, irBumperReadingsTableQWidgetItem);
+            }
+        }
     }
 }
 

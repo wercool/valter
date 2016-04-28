@@ -5,7 +5,7 @@
 #include "valter.h"
 #include "platformcontrolp1.h"
 
-#include "platformcontrolp1.code.utils.cpp"
+#include "platformcontrolp1.utils.cpp"
 
 PlatformControlP1 *PlatformControlP1::pPlatformControlP1 = NULL;
 bool PlatformControlP1::instanceFlag = false;
@@ -13,7 +13,7 @@ const string PlatformControlP1::controlDeviceId = "PLATFORM-CONTROL-P1";
 const string PlatformControlP1::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-control-p1-defaults";
 
 PlatformControlP1::PlatformControlP1()
-{    
+{
     Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
 
     controlDeviceIsSet = false;
