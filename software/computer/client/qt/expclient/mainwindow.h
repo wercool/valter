@@ -528,6 +528,10 @@ private slots:
 
     void on_irBumperDutySpin_valueChanged(int value);
 
+    void on_irBumperTrackAllButton_clicked();
+
+    void on_irBumperTrackNoneButton_clicked();
+
     //body-control-p1
     void initBodyControlP1(Ui::MainWindow *ui);
 
@@ -873,10 +877,6 @@ private slots:
 
     void on_rightArmReadingsTrackNoneButton_clicked();
 
-
-    void on_irBumperTrackAllButton_clicked();
-
-    void on_irBumperTrackNoneButton_clicked();
 
 private:
     Ui::MainWindow *ui;
