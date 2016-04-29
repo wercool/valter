@@ -44,7 +44,9 @@ SOURCES += main.cpp\
            mainwindow/mainwindow.manipulatorandirbumper.cpp \
            mainwindow/mainwindow.bodycontrolp1.cpp \
            mainwindow/mainwindow.armcontrolleft.cpp \
-           mainwindow/mainwindow.armcontrolright.cpp
+           mainwindow/mainwindow.armcontrolright.cpp \
+#tcp
+            tcp/threads/thread.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -71,7 +73,9 @@ HEADERS  += mainwindow.h \
             gui/bodycontrolp1GUI.h \
             gui/armcontrolleftGUI.h \
             gui/armcontrolrightGUI.h \
-            valter3d.h
+            valter3d.h \
+#tcp
+            tcp/threads/thread.h
 
 FORMS    += mainwindow.ui
 

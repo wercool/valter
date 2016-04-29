@@ -269,8 +269,3 @@ void MainWindow::on_platformControlP2ResetIRScannerServoButton_clicked()
 
 
 
-
-
-
-
-
