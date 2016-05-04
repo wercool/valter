@@ -20,6 +20,7 @@ public:
     void loadDefaults();
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
+    void initTcpInterface();
 
     bool getRedLedState(int index);
     void setRedLedState(int index, bool value);

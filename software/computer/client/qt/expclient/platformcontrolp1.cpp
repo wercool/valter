@@ -6,6 +6,7 @@
 #include "platformcontrolp1.h"
 
 #include "platformcontrolp1.utils.cpp"
+#include "tcphandlers/platformcontrolp1.tcphandler.cpp"
 
 PlatformControlP1 *PlatformControlP1::pPlatformControlP1 = NULL;
 bool PlatformControlP1::instanceFlag = false;
@@ -14,7 +15,7 @@ const string PlatformControlP1::defaultsFilePath = "/home/maska/git/valter/softw
 
 PlatformControlP1::PlatformControlP1()
 {
-    Valter::log(PlatformControlP1::controlDeviceId + " singleton started");
+    Valter::log(PlatformControlP1::controlDeviceId + " singleton initialized");
 
     controlDeviceIsSet = false;
 
@@ -65,6 +66,14 @@ void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP1::processMessagesQueueWorker, this));
     getControlDevice()->addMsgToDataExchangeLog("PlatformControlP1 Module process messages queue worker started...");
+}
+
+void PlatformControlP1::initTcpInterface()
+{
+    tcpInterface = new TCPInterface();
+    wqueue<WorkItem*> queue;
+    Thread *pPlatformControlP1ConnectionHandler = (Thread*) new PlatformControlP1ConnectionHandler(queue);
+    tcpInterface->connectionHandler = pPlatformControlP1ConnectionHandler;
 }
 
 void PlatformControlP1::processMessagesQueueWorker()

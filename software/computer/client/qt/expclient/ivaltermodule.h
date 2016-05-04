@@ -1,6 +1,7 @@
 #ifndef IVALTERMODULE_H
 #define IVALTERMODULE_H
 
+#include "tcpinterface.h"
 #include "controldevice.h"
 #include <mutex>
 
@@ -29,11 +30,14 @@ public:
     bool controlDeviceIsSet;
     bool stopAllProcesses;
 
+    TCPInterface *tcpInterface = NULL;
+
     virtual void stopAll() = 0;
     virtual void resetToDefault() = 0;
     virtual void loadDefaults() = 0;
     virtual void setModuleInitialState() = 0;
     virtual void spawnProcessMessagesQueueWorkerThread() = 0;
+    virtual void initTcpInterface() = 0;
 
     void sendCommand(string cmd)
     {

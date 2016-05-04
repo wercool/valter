@@ -20,6 +20,8 @@
 #include "armcontrolleft.h"
 #include "armcontrolright.h"
 
+#include "tcpinterface.h"
+
 using namespace std;
 using std::ifstream;
 using std::copy;

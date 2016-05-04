@@ -19,6 +19,7 @@ public:
     void loadDefaults();
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
+    void initTcpInterface();
 
     bool getHeadYawDirection() const;
     void setHeadYawDirection(bool value);

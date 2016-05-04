@@ -14,7 +14,7 @@ const string BodyControlP1::defaultsFilePath = "/home/maska/git/valter/software/
 
 BodyControlP1::BodyControlP1()
 {
-    Valter::log(BodyControlP1::controlDeviceId + " singleton started");
+    Valter::log(BodyControlP1::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
     resetToDefault();
@@ -64,6 +64,11 @@ void BodyControlP1::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&BodyControlP1::processMessagesQueueWorker, this));
     getControlDevice()->addMsgToDataExchangeLog("BodyControlP1 Module process messages queue worker started...");
+}
+
+void BodyControlP1::initTcpInterface()
+{
+    tcpInterface = new TCPInterface();
 }
 
 void BodyControlP1::processMessagesQueueWorker()

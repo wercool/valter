@@ -12,7 +12,7 @@ const string PlatformLocationP1::defaultsFilePath = "/home/maska/git/valter/soft
 
 PlatformLocationP1::PlatformLocationP1()
 {
-    Valter::log(PlatformLocationP1::controlDeviceId + " singleton started");
+    Valter::log(PlatformLocationP1::controlDeviceId + " singleton initialized");
     controlDeviceIsSet = false;
 
     resetToDefault();
@@ -144,6 +144,11 @@ void PlatformLocationP1::setModuleInitialState()
 void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&PlatformLocationP1::processMessagesQueueWorker, this));
+}
+
+void PlatformLocationP1::initTcpInterface()
+{
+    tcpInterface = new TCPInterface();
 }
 
 void PlatformLocationP1::loadDefaults()

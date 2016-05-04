@@ -10,7 +10,7 @@ const string ArmControlLeft::defaultsFilePath = "/home/maska/git/valter/software
 
 ArmControlLeft::ArmControlLeft()
 {
-    Valter::log(ArmControlLeft::controlDeviceId + " singleton started");
+    Valter::log(ArmControlLeft::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
     resetToDefault();
@@ -58,6 +58,11 @@ void ArmControlLeft::setModuleInitialState()
 void ArmControlLeft::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&ArmControlLeft::processMessagesQueueWorker, this));
+}
+
+void ArmControlLeft::initTcpInterface()
+{
+    tcpInterface = new TCPInterface();
 }
 
 void ArmControlLeft::processMessagesQueueWorker()

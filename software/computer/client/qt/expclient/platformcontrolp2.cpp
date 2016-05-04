@@ -12,7 +12,7 @@ const string PlatformControlP2::defaultsFilePath = "/home/maska/git/valter/softw
 
 PlatformControlP2::PlatformControlP2()
 {
-    Valter::log(PlatformControlP2::controlDeviceId + " singleton started");
+    Valter::log(PlatformControlP2::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
     resetToDefault();
@@ -770,6 +770,11 @@ void PlatformControlP2::resetToDefault()
 void PlatformControlP2::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&PlatformControlP2::processMessagesQueueWorker, this));
+}
+
+void PlatformControlP2::initTcpInterface()
+{
+    tcpInterface = new TCPInterface();
 }
 
 void PlatformControlP2::loadDefaults()

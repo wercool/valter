@@ -19,6 +19,7 @@ public:
     void loadDefaults();
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
+    void initTcpInterface();
 
     bool getPower24VOnOff() const;
     void setPower24VOnOff(bool value);

@@ -10,7 +10,7 @@ const string ArmControlRight::defaultsFilePath = "/home/maska/git/valter/softwar
 
 ArmControlRight::ArmControlRight()
 {
-    Valter::log(ArmControlRight::controlDeviceId + " singleton started");
+    Valter::log(ArmControlRight::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
     resetToDefault();
@@ -58,6 +58,11 @@ void ArmControlRight::setModuleInitialState()
 void ArmControlRight::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&ArmControlRight::processMessagesQueueWorker, this));
+}
+
+void ArmControlRight::initTcpInterface()
+{
+    tcpInterface = new TCPInterface();
 }
 
 void ArmControlRight::processMessagesQueueWorker()

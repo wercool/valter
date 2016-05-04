@@ -275,29 +275,14 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
 
 
 
-#include "tcp/threads/thread.h"
+#include "tcpinterface.h"
 
-
-
-//temp
-class MyThread : public Thread
-{
-    public:
-    void *run()
-    {
-        for (int i = 0; i < 500000000; i++)
-        {
-            qDebug("thread %lu running - %d\n",  (long unsigned int)self(), i+1);
-            usleep(2);
-        }
-        qDebug("thread done %lu\n", (long unsigned int)self());
-        return NULL;
-    }
-};
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    MyThread* thread1 = new MyThread();
-    thread1->start();
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->initTcpInterface();
+    qDebug("%s", platformControlP1->tcpInterface->getIp().c_str());
+    //thread1->start();
     //thread1->join();
 }

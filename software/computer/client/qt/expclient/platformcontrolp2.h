@@ -20,6 +20,7 @@ public:
     void loadDefaults();
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
+    void initTcpInterface();
 
     bool getReadLeftEncoder() const;
     void setReadLeftEncoder(bool value);

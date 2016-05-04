@@ -45,8 +45,13 @@ SOURCES += main.cpp\
            mainwindow/mainwindow.bodycontrolp1.cpp \
            mainwindow/mainwindow.armcontrolleft.cpp \
            mainwindow/mainwindow.armcontrolright.cpp \
+#tcp handlers
+           tcphandlers/platformcontrolp1.tcphandler.cpp \
 #tcp
-            tcp/threads/thread.cpp
+            tcpinterface.cpp \
+            tcp/threads/thread.cpp \
+            tcp/tcpsockets/tcpstream.cpp \
+            tcp/tcpsockets/tcpacceptor.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -75,7 +80,13 @@ HEADERS  += mainwindow.h \
             gui/armcontrolrightGUI.h \
             valter3d.h \
 #tcp
-            tcp/threads/thread.h
+            tcpinterface.h \
+            tcp/threads/thread.h \
+            tcp/wqueue/wqueue.h \
+            tcp/tcpsockets/tcpstream.h \
+            tcp/tcpsockets/tcpacceptor.h \
+            tcp/tcpsockets/workitem.h \
+            tcp/connectionhandler.h
 
 FORMS    += mainwindow.ui
 

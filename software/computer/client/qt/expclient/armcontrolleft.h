@@ -19,7 +19,7 @@ public:
     void loadDefaults();
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
-
+    void initTcpInterface();
 
 
     int getLeftForearmMotorDuty() const;

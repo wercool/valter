@@ -25,7 +25,7 @@ double PlatformManipulatorAndIRBumper::man_g    = 0.0;
 
 PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
 {
-    Valter::log(PlatformManipulatorAndIRBumper::controlDeviceId + " singleton started");
+    Valter::log(PlatformManipulatorAndIRBumper::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
     resetToDefault();
@@ -150,6 +150,11 @@ void PlatformManipulatorAndIRBumper::spawnProcessMessagesQueueWorkerThread()
 {
     setProcessMessagesQueueWorkerThread(new std::thread(&PlatformManipulatorAndIRBumper::processMessagesQueueWorker, this));
     getControlDevice()->addMsgToDataExchangeLog("PlatformManipulatorAndIRBumper Module process messages queue worker started...");
+}
+
+void PlatformManipulatorAndIRBumper::initTcpInterface()
+{
+    tcpInterface = new TCPInterface();
 }
 
 void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
