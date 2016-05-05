@@ -4,6 +4,7 @@
 
 #include "valter.h"
 #include "platformcontrolp2.h"
+#include "tcphandlers/platformcontrolp2.tcphandler.cpp"
 
 PlatformControlP2 *PlatformControlP2::pPlatformControlP2 = NULL;
 bool PlatformControlP2::instanceFlag = false;
@@ -774,7 +775,13 @@ void PlatformControlP2::spawnProcessMessagesQueueWorkerThread()
 
 void PlatformControlP2::initTcpInterface()
 {
-    tcpInterface = new TCPInterface();
+    if (!getTcpInterface())
+    {
+        TCPInterface *tcpInterface = new TCPInterface(33334);
+        setTcpInterface(tcpInterface);
+        getTcpInterface()->setConnectionHandler((Thread*)new PlatformControlP2TCPConnectionHandler(getTcpInterface()->queue));
+        getTcpInterface()->startListening();
+    }
 }
 
 void PlatformControlP2::loadDefaults()

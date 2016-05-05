@@ -6,6 +6,7 @@
 #include "bodycontrolp1.h"
 
 #include "bodycontrolp1.utils.cpp"
+#include "tcphandlers/bodycontrolp1.tcphandler.cpp"
 
 BodyControlP1 *BodyControlP1::pBodyControlP1 = NULL;
 bool BodyControlP1::instanceFlag = false;
@@ -68,7 +69,13 @@ void BodyControlP1::spawnProcessMessagesQueueWorkerThread()
 
 void BodyControlP1::initTcpInterface()
 {
-    tcpInterface = new TCPInterface();
+    if (!getTcpInterface())
+    {
+        TCPInterface *tcpInterface = new TCPInterface(33337);
+        setTcpInterface(tcpInterface);
+        getTcpInterface()->setConnectionHandler((Thread*)new BodyControlP1TCPConnectionHandler(getTcpInterface()->queue));
+        getTcpInterface()->startListening();
+    }
 }
 
 void BodyControlP1::processMessagesQueueWorker()

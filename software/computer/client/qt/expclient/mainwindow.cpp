@@ -6,6 +6,7 @@
 
 #include <valter.h>
 
+#include <gui/controldevicesGUI.h>
 #include <gui/platformcontrolp1GUI.h>
 #include <gui/platformcontrolp2GUI.h>
 #include <gui/platformlocationp1GUI.h>
@@ -261,28 +262,4 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
     {
         valter3d->setValterBodyRotationZ(-1 * (double)value / 10);
     }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-#include "tcpinterface.h"
-
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
-    platformControlP1->initTcpInterface();
-    qDebug("%s", platformControlP1->tcpInterface->getIp().c_str());
-    //thread1->start();
-    //thread1->join();
 }

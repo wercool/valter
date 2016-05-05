@@ -11,28 +11,6 @@
 
 #include <valter.h>
 
-void refreshControlDeviceTableWorker(Ui::MainWindow *ui)
-{
-    ui->controlDeviceTableWidget->clearContents();
-
-    map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
-    typedef map<string, ControlDevice*>::iterator it_type;
-
-    ui->controlDeviceTableWidget->setRowCount(controlDevicesMap.size());
-
-    char i = 0;
-    for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
-    {
-        ControlDevice *controlDevice = controlDevicesMap[iterator->first];
-        ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
-        ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
-        ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "TRUE" :"FALSE")));
-        ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));
-        ui->controlDeviceTableWidget->setItem(i, 4, new QTableWidgetItem(controlDevice->getSysDevicePath().c_str()));
-        i++;
-    }
-}
-
 void loadPlatformControlP1Defaults(Ui::MainWindow *ui)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());

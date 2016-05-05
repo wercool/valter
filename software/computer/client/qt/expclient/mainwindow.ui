@@ -18481,51 +18481,29 @@ color: rgb(255, 0, 0);</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_65">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_146">
-          <item>
-           <widget class="QLabel" name="label_199">
-            <property name="text">
-             <string>IP Address:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="lineEdit">
-            <property name="maximumSize">
-             <size>
-              <width>200</width>
-              <height>16777215</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_2">
-            <property name="text">
-             <string>TEST</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_18">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
+         <widget class="QTableWidget" name="controlDeviceTCPInterfaceTable">
+          <attribute name="horizontalHeaderHighlightSections">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Control Device</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>IP Address</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Port</string>
+           </property>
+          </column>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer_31">

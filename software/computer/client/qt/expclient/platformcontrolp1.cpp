@@ -8,6 +8,7 @@
 #include "platformcontrolp1.utils.cpp"
 #include "tcphandlers/platformcontrolp1.tcphandler.cpp"
 
+
 PlatformControlP1 *PlatformControlP1::pPlatformControlP1 = NULL;
 bool PlatformControlP1::instanceFlag = false;
 const string PlatformControlP1::controlDeviceId = "PLATFORM-CONTROL-P1";
@@ -70,10 +71,13 @@ void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
 
 void PlatformControlP1::initTcpInterface()
 {
-    tcpInterface = new TCPInterface();
-    wqueue<WorkItem*> queue;
-    Thread *pPlatformControlP1ConnectionHandler = (Thread*) new PlatformControlP1ConnectionHandler(queue);
-    tcpInterface->connectionHandler = pPlatformControlP1ConnectionHandler;
+    if (!getTcpInterface())
+    {
+        TCPInterface *tcpInterface = new TCPInterface(33333);
+        setTcpInterface(tcpInterface);
+        getTcpInterface()->setConnectionHandler((Thread*)new PlatformControlP1TCPConnectionHandler(getTcpInterface()->queue));
+        getTcpInterface()->startListening();
+    }
 }
 
 void PlatformControlP1::processMessagesQueueWorker()

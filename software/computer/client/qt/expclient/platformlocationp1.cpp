@@ -4,6 +4,7 @@
 
 #include "valter.h"
 #include "platformlocationp1.h"
+#include "tcphandlers/platformlocationp1.tcphandler.cpp"
 
 PlatformLocationP1 *PlatformLocationP1::pPlatformLocationP1= NULL;
 bool PlatformLocationP1::instanceFlag = false;
@@ -148,7 +149,13 @@ void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()
 
 void PlatformLocationP1::initTcpInterface()
 {
-    tcpInterface = new TCPInterface();
+    if (!getTcpInterface())
+    {
+        TCPInterface *tcpInterface = new TCPInterface(33335);
+        setTcpInterface(tcpInterface);
+        getTcpInterface()->setConnectionHandler((Thread*)new PlatformLocationP1TCPConnectionHandler(getTcpInterface()->queue));
+        getTcpInterface()->startListening();
+    }
 }
 
 void PlatformLocationP1::loadDefaults()

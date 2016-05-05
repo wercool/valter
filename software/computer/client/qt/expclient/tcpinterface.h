@@ -11,16 +11,35 @@
 
 class TCPInterface
 {
+
 public:
-    TCPInterface();
-    Thread *connectionHandler;
+    TCPInterface(int port);
 
     string getIp() const;
     void setIp(const string &value);
+    void readIP();
+
+    int getPort() const;
+    void setPort(int value);
+
+    Thread *getConnectionHandler() const;
+    void setConnectionHandler(Thread *value);
+
+    void startListening();
+
+    bool getListening() const;
+    void setListening(bool value);
+
+    wqueue<WorkItem*> queue;
 
 private:
     string ip;
+    int port;
+    Thread *connectionHandler;
+    TCPAcceptor *connectionAcceptor;
 
+    bool listening;
+    void tcpConnectionWorker();
 };
 
 #endif // TCPINTERFACE_H

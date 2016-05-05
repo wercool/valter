@@ -16,6 +16,11 @@ void MainWindow::initControlDevices(Ui::MainWindow *ui)
     controlDeviceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->controlDeviceTableWidget->setHorizontalHeader(controlDeviceTableWidgetHeaderView);
 
+    QHeaderView* controlDeviceTCPInterfaceTableWidgetHeaderView = new QHeaderView(Qt::Horizontal);
+    controlDeviceTCPInterfaceTableWidgetHeaderView->setStretchLastSection(true);
+    controlDeviceTCPInterfaceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
+    ui->controlDeviceTCPInterfaceTable->setHorizontalHeader(controlDeviceTCPInterfaceTableWidgetHeaderView);
+
     controlDevicesDataExchangeLogTimer = new QTimer(this);
     connect(controlDevicesDataExchangeLogTimer, SIGNAL(timeout()), this, SLOT(controlDevicesDataExchangeLogTimerUpdate()));
     controlDevicesDataExchangeLogTimer->start(1);

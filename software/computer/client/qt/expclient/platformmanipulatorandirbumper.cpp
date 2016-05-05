@@ -6,6 +6,8 @@
 #include "platformmanipulatorandirbumper.h"
 
 #include "platformmanipulatorandirbumper.utils.cpp"
+#include "tcphandlers/platformmanipulatorandirbumper.tcphandler.cpp"
+
 
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::pPlatformManipulatorAndIRBumper = NULL;
 bool PlatformManipulatorAndIRBumper::instanceFlag = false;
@@ -154,7 +156,13 @@ void PlatformManipulatorAndIRBumper::spawnProcessMessagesQueueWorkerThread()
 
 void PlatformManipulatorAndIRBumper::initTcpInterface()
 {
-    tcpInterface = new TCPInterface();
+    if (!getTcpInterface())
+    {
+        TCPInterface *tcpInterface = new TCPInterface(33336);
+        setTcpInterface(tcpInterface);
+        getTcpInterface()->setConnectionHandler((Thread*)new PlatformManipulatorAndIRBumperTCPConnectionHandler(getTcpInterface()->queue));
+        getTcpInterface()->startListening();
+    }
 }
 
 void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()

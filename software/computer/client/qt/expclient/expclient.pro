@@ -51,7 +51,14 @@ SOURCES += main.cpp\
             tcpinterface.cpp \
             tcp/threads/thread.cpp \
             tcp/tcpsockets/tcpstream.cpp \
-            tcp/tcpsockets/tcpacceptor.cpp
+            tcp/tcpsockets/tcpacceptor.cpp \
+            tcp/tcpsockets/tcpconnector.cpp \
+            tcphandlers/platformcontrolp2.tcphandler.cpp \
+            tcphandlers/platformlocationp1.tcphandler.cpp \
+            tcphandlers/platformmanipulatorandirbumper.tcphandler.cpp \
+            tcphandlers/bodycontrolp1.tcphandler.cpp \
+            tcphandlers/armcontrolright.tcphandler.cpp \
+            tcphandlers/armcontrolleft.tcphandler.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -68,6 +75,7 @@ HEADERS  += mainwindow.h \
             armcontrolleft.h \
             armcontrolright.h \
             gui/guihelpers.h \
+            gui/controldevicesGUI.h \
             gui/platformcontrolp1GUI.h \
             gui/platformcontrolp2GUI.h \
             gui/platformlocationp1GUI.h \
@@ -85,8 +93,8 @@ HEADERS  += mainwindow.h \
             tcp/wqueue/wqueue.h \
             tcp/tcpsockets/tcpstream.h \
             tcp/tcpsockets/tcpacceptor.h \
+            tcp/tcpsockets/tcpconnector.h \
             tcp/tcpsockets/workitem.h \
-            tcp/connectionhandler.h
 
 FORMS    += mainwindow.ui
 

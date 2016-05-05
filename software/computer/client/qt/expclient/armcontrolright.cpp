@@ -2,6 +2,7 @@
 #include "armcontrolright.h"
 
 #include "armcontrolright.h"
+#include "tcphandlers/armcontrolright.tcphandler.cpp"
 
 ArmControlRight *ArmControlRight::pArmControlRight = NULL;
 bool ArmControlRight::instanceFlag = false;
@@ -62,7 +63,13 @@ void ArmControlRight::spawnProcessMessagesQueueWorkerThread()
 
 void ArmControlRight::initTcpInterface()
 {
-    tcpInterface = new TCPInterface();
+    if (!getTcpInterface())
+    {
+        TCPInterface *tcpInterface = new TCPInterface(33338);
+        setTcpInterface(tcpInterface);
+        getTcpInterface()->setConnectionHandler((Thread*)new ArmControlRightTCPConnectionHandler(getTcpInterface()->queue));
+        getTcpInterface()->startListening();
+    }
 }
 
 void ArmControlRight::processMessagesQueueWorker()

@@ -878,8 +878,6 @@ private slots:
     void on_rightArmReadingsTrackNoneButton_clicked();
 
 
-    void on_pushButton_2_clicked();
-
 private:
     Ui::MainWindow *ui;
     static MainWindow* pMainWindow;

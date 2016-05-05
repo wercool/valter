@@ -1,11 +1,11 @@
 #include "valter.h"
 
-class PlatformControlP1TCPConnectionHandler : public Thread
+class ArmControlRightTCPConnectionHandler : public Thread
 {
     wqueue<WorkItem*>& m_queue;
 
   public:
-    PlatformControlP1TCPConnectionHandler(wqueue<WorkItem*>& queue) : m_queue(queue) {}
+    ArmControlRightTCPConnectionHandler(wqueue<WorkItem*>& queue) : m_queue(queue) {}
 
     void* run()
     {

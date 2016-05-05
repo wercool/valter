@@ -30,8 +30,6 @@ public:
     bool controlDeviceIsSet;
     bool stopAllProcesses;
 
-    TCPInterface *tcpInterface = NULL;
-
     virtual void stopAll() = 0;
     virtual void resetToDefault() = 0;
     virtual void loadDefaults() = 0;
@@ -123,6 +121,16 @@ public:
 
     static const enum {RELOAD_DEFAULTS = 1} GUIACTION;
 
+    TCPInterface* getTcpInterface() const
+    {
+        return tcpInterface;
+    }
+
+    void setTcpInterface(TCPInterface *value)
+    {
+        tcpInterface = value;
+    }
+
 private:
     ControlDevice *controlDevice;
     std::thread *processMessagesQueueWorkerThread;
@@ -130,6 +138,8 @@ private:
     bool reloadDefaults;
     list<int> delayedGUIActions;
     std::mutex delayedGUIActions_mutex;
+
+    TCPInterface *tcpInterface = NULL;
 
 };
 
