@@ -7,6 +7,8 @@
 #include "tcp/threads/thread.h"
 #include "tcp/wqueue/wqueue.h"
 #include "tcp/tcpsockets/tcpacceptor.h"
+#include "tcp/tcpsockets/tcpconnector.h"
+#include "tcp/tcpsockets/tcpstream.h"
 #include "tcp/tcpsockets/workitem.h"
 
 class TCPInterface
@@ -32,14 +34,34 @@ public:
 
     wqueue<WorkItem*> queue;
 
+    TCPConnector *getCommanfInterfaceConnector() const;
+    void setCommanfInterfaceConnector(TCPConnector *value);
+
+    TCPStream *getCommanfInterfaceStream() const;
+    void setCommanfInterfaceStream(TCPStream *value);
+
+    bool sendCommandMessage(string command);
+
+    string getCommandHostIP() const;
+    void setCommandHostIP(const string &value);
+
+    int getCommandHostPort() const;
+    void setCommandHostPort(int value);
+
 private:
     string ip;
     int port;
     Thread *connectionHandler;
     TCPAcceptor *connectionAcceptor;
+    TCPConnector *commanfInterfaceConnector;
+    TCPStream *commanfInterfaceStream;
 
     bool listening;
     void tcpConnectionWorker();
+
+    //command host
+    string commandHostIP;
+    int commandHostPort;
 };
 
 #endif // TCPINTERFACE_H

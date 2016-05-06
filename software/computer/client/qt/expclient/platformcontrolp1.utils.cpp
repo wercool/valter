@@ -1,5 +1,4 @@
 #include "valter.h"
-#include "platformcontrolp1.h"
 
 void PlatformControlP1::resetToDefault()
 {

@@ -14,6 +14,8 @@ ArmControlRight::ArmControlRight()
     Valter::log(ArmControlRight::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
+    initTcpInterface();
+
     resetToDefault();
     loadDefaults();
 
@@ -67,9 +69,13 @@ void ArmControlRight::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33338);
         setTcpInterface(tcpInterface);
-        getTcpInterface()->setConnectionHandler((Thread*)new ArmControlRightTCPConnectionHandler(getTcpInterface()->queue));
-        getTcpInterface()->startListening();
     }
+}
+
+void ArmControlRight::initTcpCommandAcceptorInterface()
+{
+    getTcpInterface()->setConnectionHandler((Thread*)new ArmControlRightTCPConnectionHandler(getTcpInterface()->queue));
+    getTcpInterface()->startListening();
 }
 
 void ArmControlRight::processMessagesQueueWorker()

@@ -21,6 +21,7 @@ public:
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
+    void initTcpCommandAcceptorInterface();
 
     bool getRedLedState(int index);
     void setRedLedState(int index, bool value);

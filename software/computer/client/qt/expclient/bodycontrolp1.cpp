@@ -18,6 +18,8 @@ BodyControlP1::BodyControlP1()
     Valter::log(BodyControlP1::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
+    initTcpInterface();
+
     resetToDefault();
     loadDefaults();
 
@@ -73,9 +75,13 @@ void BodyControlP1::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33337);
         setTcpInterface(tcpInterface);
-        getTcpInterface()->setConnectionHandler((Thread*)new BodyControlP1TCPConnectionHandler(getTcpInterface()->queue));
-        getTcpInterface()->startListening();
     }
+}
+
+void BodyControlP1::initTcpCommandAcceptorInterface()
+{
+    getTcpInterface()->setConnectionHandler((Thread*)new BodyControlP1TCPConnectionHandler(getTcpInterface()->queue));
+    getTcpInterface()->startListening();
 }
 
 void BodyControlP1::processMessagesQueueWorker()

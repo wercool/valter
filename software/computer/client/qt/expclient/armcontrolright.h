@@ -20,6 +20,7 @@ public:
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
+    void initTcpCommandAcceptorInterface();
 
     int getRightForearmMotorDuty() const;
     void setRightForearmMotorDuty(int value);

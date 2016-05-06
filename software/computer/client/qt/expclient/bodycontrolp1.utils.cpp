@@ -1,5 +1,4 @@
 #include "valter.h"
-#include "bodycontrolp1.h"
 
 
 void BodyControlP1::resetToDefault()

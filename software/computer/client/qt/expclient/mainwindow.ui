@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -441,6 +441,9 @@
               </item>
               <item row="0" column="5">
                <layout class="QVBoxLayout" name="verticalLayout_10">
+                <property name="spacing">
+                 <number>4</number>
+                </property>
                 <item>
                  <widget class="QCheckBox" name="platformControlP1RedrawGUICheckBox">
                   <property name="text">
@@ -455,6 +458,84 @@
                  <widget class="QPushButton" name="platformControlP1LoadDefaultsButton">
                   <property name="text">
                    <string>Load Defaults</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_69">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_199">
+                  <property name="text">
+                   <string>TCP Interface</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="platformControlP1RemoteControlCheckbox">
+                  <property name="text">
+                   <string>Remote Control</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_201">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Command Host</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="platformControlP1CommandHostLineEdit">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>127.0.0.1</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_200">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Command Port</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="platformControlP1CommandPortLineEdit">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="text">
+                   <string>33333</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="platformControlP1CommandHostConnectorUpdateButton">
+                  <property name="text">
+                   <string>Update</string>
                   </property>
                  </widget>
                 </item>
@@ -1220,6 +1301,9 @@
                     </property>
                     <property name="maximum">
                      <number>100</number>
+                    </property>
+                    <property name="tracking">
+                     <bool>true</bool>
                     </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>

@@ -152,162 +152,279 @@ void MainWindow::on_platformMoveStopButton_clicked()
 
 void MainWindow::on_platformMoveForwardButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //left and right forward
-        if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
+        platformControlP1->sendTCPCommand("on_platformMoveForwardButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setLeftMotorActivated(true);
-            platformControlP1->setRightMotorActivated(true);
+            //left and right forward
+            if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
+            {
+                platformControlP1->setLeftMotorActivated(true);
+                platformControlP1->setRightMotorActivated(true);
+            }
         }
     }
 }
 
 void MainWindow::on_platformMoveForwardButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorActivated(false);
-    platformControlP1->setRightMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+         platformControlP1->sendTCPCommand("on_platformMoveForwardButton_released");
+    }
+    else
+    {
+        platformControlP1->setLeftMotorActivated(false);
+        platformControlP1->setRightMotorActivated(false);
+    }
 }
 
 void MainWindow::on_platformBackwardForwardButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //left and right backward
-        if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(false))
+        platformControlP1->sendTCPCommand("on_platformBackwardForwardButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setLeftMotorActivated(true);
-            platformControlP1->setRightMotorActivated(true);
+            //left and right backward
+            if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(false))
+            {
+                platformControlP1->setLeftMotorActivated(true);
+                platformControlP1->setRightMotorActivated(true);
+            }
         }
     }
+
 }
 
 void MainWindow::on_platformBackwardForwardButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorActivated(false);
-    platformControlP1->setRightMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformBackwardForwardButton_released");
+    }
+    else
+    {
+        platformControlP1->setLeftMotorActivated(false);
+        platformControlP1->setRightMotorActivated(false);
+    }
+
 }
 
 void MainWindow::on_platformMoveForwardLeftButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //left forward
-        if (platformControlP1->setLeftMotorDirection(true))
+        platformControlP1->sendTCPCommand("on_platformMoveForwardLeftButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setLeftMotorActivated(true);
+            //left forward
+            if (platformControlP1->setLeftMotorDirection(true))
+            {
+                platformControlP1->setLeftMotorActivated(true);
+            }
         }
     }
+
 }
 
 void MainWindow::on_platformMoveForwardLeftButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformMoveForwardLeftButton_released");
+    }
+    else
+    {
+        platformControlP1->setLeftMotorActivated(false);
+    }
 }
 
 void MainWindow::on_platformMoveForwardRightButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //right forward
-        if (platformControlP1->setRightMotorDirection(true))
+        platformControlP1->sendTCPCommand("on_platformMoveForwardRightButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setRightMotorActivated(true);
+            //right forward
+            if (platformControlP1->setRightMotorDirection(true))
+            {
+                platformControlP1->setRightMotorActivated(true);
+            }
         }
     }
 }
 
 void MainWindow::on_platformMoveForwardRightButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setRightMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformMoveForwardRightButton_released");
+    }
+    else
+    {
+        platformControlP1->setRightMotorActivated(false);
+    }
 }
 
 void MainWindow::on_platformMoveBackwardLeftButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //left backward
-        if (platformControlP1->setLeftMotorDirection(false))
+        platformControlP1->sendTCPCommand("on_platformMoveBackwardLeftButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setLeftMotorActivated(true);
+            //left backward
+            if (platformControlP1->setLeftMotorDirection(false))
+            {
+                platformControlP1->setLeftMotorActivated(true);
+            }
         }
     }
 }
 
 void MainWindow::on_platformMoveBackwardRightButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //right backward
-        if (platformControlP1->setRightMotorDirection(false))
+        platformControlP1->sendTCPCommand("on_platformMoveBackwardRightButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setRightMotorActivated(true);
+            //right backward
+            if (platformControlP1->setRightMotorDirection(false))
+            {
+                platformControlP1->setRightMotorActivated(true);
+            }
         }
     }
 }
 
 void MainWindow::on_platformMoveBackwardLeftButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformMoveBackwardLeftButton_released");
+    }
+    else
+    {
+        platformControlP1->setLeftMotorActivated(false);
+    }
 }
 
 void MainWindow::on_platformMoveBackwardRightButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setRightMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformMoveBackwardRightButton_released");
+    }
+    else
+    {
+        platformControlP1->setRightMotorActivated(false);
+    }
 }
 
 void MainWindow::on_platformRotateLeftButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //left backward right forward
-        if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(true))
+        platformControlP1->sendTCPCommand("on_platformRotateLeftButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setLeftMotorActivated(true);
-            platformControlP1->setRightMotorActivated(true);
+            //left backward right forward
+            if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(true))
+            {
+                platformControlP1->setLeftMotorActivated(true);
+                platformControlP1->setRightMotorActivated(true);
+            }
         }
     }
+
 }
 
 void MainWindow::on_platformRotateRightButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    if (platformControlP1->preparePlatformMovement())
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        //left forward right backward
-        if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(false))
+        platformControlP1->sendTCPCommand("on_platformRotateRightButton_pressed");
+    }
+    else
+    {
+        if (platformControlP1->preparePlatformMovement())
         {
-            platformControlP1->setLeftMotorActivated(true);
-            platformControlP1->setRightMotorActivated(true);
+            //left forward right backward
+            if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(false))
+            {
+                platformControlP1->setLeftMotorActivated(true);
+                platformControlP1->setRightMotorActivated(true);
+            }
         }
     }
+
 }
 
 void MainWindow::on_platformRotateLeftButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorActivated(false);
-    platformControlP1->setRightMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformRotateLeftButton_released");
+    }
+    else
+    {
+        platformControlP1->setLeftMotorActivated(false);
+        platformControlP1->setRightMotorActivated(false);
+    }
 }
 
 void MainWindow::on_platformRotateRightButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorActivated(false);
-    platformControlP1->setRightMotorActivated(false);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformRotateRightButton_released");
+    }
+    else
+    {
+        platformControlP1->setLeftMotorActivated(false);
+        platformControlP1->setRightMotorActivated(false);
+    }
 }
 
 void MainWindow::on_turretRotateLeftButton_pressed()
@@ -356,9 +473,16 @@ void MainWindow::on_turretRotateRightButton_released()
 
 void MainWindow::on_platformControlP1LoadDefaultsButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->loadDefaults();
-    loadPlatformControlP1Defaults(ui);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformControlP1LoadDefaultsButton_clicked");
+    }
+    else
+    {
+        platformControlP1->loadDefaults();
+        loadPlatformControlP1Defaults(ui);
+    }
 }
 
 void MainWindow::on_platformControlP1MotorsPWMFrequencySetButton_clicked()
@@ -437,60 +561,95 @@ void MainWindow::on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem 
 
 void MainWindow::on_leftMotorPlatformControlP1DutySlider_valueChanged(int value)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setLeftMotorDutyMax(value);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_leftMotorPlatformControlP1DutySlider_valueChanged@%d", value));
+    }
+    else
+    {
+        platformControlP1->setLeftMotorDutyMax(value);
+    }
     ui->leftMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getLeftMotorDutyMax()).c_str());
 }
 
 void MainWindow::on_rightMotorPlatformControlP1DutySlider_valueChanged(int value)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setRightMotorDutyMax(value);
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_rightMotorPlatformControlP1DutySlider_valueChanged@%d", value));
+    }
+    else
+    {
+        platformControlP1->setRightMotorDutyMax(value);
+    }
     ui->rightMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getRightMotorDutyMax()).c_str());
 }
 
 void MainWindow::on_platformMovementAccelerationSlider_valueChanged(int value)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setPlatformAcceleration(value);
-    ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformMovementAccelerationSlider_valueChanged@%d", value));
+    }
+    else
+    {
+        platformControlP1->setPlatformAcceleration(value);
+        ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+    }
 }
 
 void MainWindow::on_platformMovementDecelerationSlider_valueChanged(int value)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setPlatformDeceleration(value);
-    ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformMovementDecelerationSlider_valueChanged@%d", value));
+    }
+    else
+    {
+        platformControlP1->setPlatformDeceleration(value);
+        ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
+    }
 }
 
 void MainWindow::on_platformControlP1WheelMotorsDutySlider_valueChanged(int value)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    static int prevDutyVal = 1;
-    int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
-    int maxDutyRight = platformControlP1->getRightMotorDutyMax();
-
-    if(value > prevDutyVal)
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        if (maxDutyLeft < 100)
-            maxDutyLeft++;
-        if (maxDutyRight < 100)
-            maxDutyRight++;
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1WheelMotorsDutySlider_valueChanged@%d", value));
     }
     else
     {
-        if (maxDutyLeft > 1)
-            maxDutyLeft--;
-        if (maxDutyRight > 1)
-            maxDutyRight--;
+        static int prevDutyVal = 1;
+        int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
+        int maxDutyRight = platformControlP1->getRightMotorDutyMax();
+
+        if(value > prevDutyVal)
+        {
+            if (maxDutyLeft < 100)
+                maxDutyLeft++;
+            if (maxDutyRight < 100)
+                maxDutyRight++;
+        }
+        else
+        {
+            if (maxDutyLeft > 1)
+                maxDutyLeft--;
+            if (maxDutyRight > 1)
+                maxDutyRight--;
+        }
+        platformControlP1->setLeftMotorDutyMax(maxDutyLeft);
+        platformControlP1->setRightMotorDutyMax(maxDutyRight);
+
+        ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyMax());
+        ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyMax());
+
+        prevDutyVal = value;
     }
-    platformControlP1->setLeftMotorDutyMax(maxDutyLeft);
-    platformControlP1->setRightMotorDutyMax(maxDutyRight);
-
-    ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyMax());
-    ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyMax());
-
-    prevDutyVal = value;
 }
 
 void MainWindow::on_turretRotationDutySlider_valueChanged(int value)
@@ -532,6 +691,12 @@ void MainWindow::on_valterPlatformMovementControlsDetachButton_clicked()
     pWidget->show();
 }
 
+void MainWindow::on_platformControlP1CommandHostConnectorUpdateButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->getTcpInterface()->setCommandHostIP(ui->platformControlP1CommandHostLineEdit->text().toStdString());
+    platformControlP1->getTcpInterface()->setCommandHostPort(atoi(ui->platformControlP1CommandPortLineEdit->text().toStdString().c_str()));
+}
 
 
 

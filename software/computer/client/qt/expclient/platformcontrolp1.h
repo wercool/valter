@@ -20,6 +20,7 @@ public:
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
+    void initTcpCommandAcceptorInterface();
 
     bool preparePlatformMovement();
 

@@ -36,6 +36,7 @@ public:
     virtual void setModuleInitialState() = 0;
     virtual void spawnProcessMessagesQueueWorkerThread() = 0;
     virtual void initTcpInterface() = 0;
+    virtual void initTcpCommandAcceptorInterface() = 0;
 
     void sendCommand(string cmd)
     {
@@ -46,6 +47,11 @@ public:
                 getControlDevice()->addRequest(cmd);
             }
         }
+    }
+
+    void sendTCPCommand(string cmd)
+    {
+        getTcpInterface()->sendCommandMessage(cmd);
     }
 
     std::thread *getProcessMessagesQueueWorkerThread()

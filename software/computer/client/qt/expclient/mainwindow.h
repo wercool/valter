@@ -107,7 +107,7 @@ protected:
         return false;
     }
 
-private slots:
+public slots:
     //Control Devices
     void initControlDevices(Ui::MainWindow *ui);
 
@@ -877,6 +877,8 @@ private slots:
 
     void on_rightArmReadingsTrackNoneButton_clicked();
 
+
+    void on_platformControlP1CommandHostConnectorUpdateButton_clicked();
 
 private:
     Ui::MainWindow *ui;

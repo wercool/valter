@@ -16,6 +16,8 @@ PlatformControlP2::PlatformControlP2()
     Valter::log(PlatformControlP2::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
+    initTcpInterface();
+
     resetToDefault();
     loadDefaults();
 }
@@ -779,9 +781,13 @@ void PlatformControlP2::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33334);
         setTcpInterface(tcpInterface);
-        getTcpInterface()->setConnectionHandler((Thread*)new PlatformControlP2TCPConnectionHandler(getTcpInterface()->queue));
-        getTcpInterface()->startListening();
     }
+}
+
+void PlatformControlP2::initTcpCommandAcceptorInterface()
+{
+    getTcpInterface()->setConnectionHandler((Thread*)new PlatformControlP2TCPConnectionHandler(getTcpInterface()->queue));
+    getTcpInterface()->startListening();
 }
 
 void PlatformControlP2::loadDefaults()

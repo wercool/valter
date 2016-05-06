@@ -3,7 +3,6 @@
 #include <cstdio>
 
 #include "valter.h"
-#include "platformmanipulatorandirbumper.h"
 
 
 void PlatformManipulatorAndIRBumper::loadDefaults()

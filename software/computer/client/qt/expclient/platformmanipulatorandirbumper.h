@@ -20,6 +20,7 @@ public:
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
+    void initTcpCommandAcceptorInterface();
 
     bool getPower24VOnOff() const;
     void setPower24VOnOff(bool value);

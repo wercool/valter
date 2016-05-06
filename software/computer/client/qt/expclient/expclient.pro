@@ -94,7 +94,7 @@ HEADERS  += mainwindow.h \
             tcp/tcpsockets/tcpstream.h \
             tcp/tcpsockets/tcpacceptor.h \
             tcp/tcpsockets/tcpconnector.h \
-            tcp/tcpsockets/workitem.h \
+            tcp/tcpsockets/workitem.h
 
 FORMS    += mainwindow.ui
 

@@ -8,17 +8,9 @@
 TCPInterface::TCPInterface(int port)
 {
     setPort(port);
-
     readIP();
-
     setListening(false);
-
-    connectionAcceptor = new TCPAcceptor(port, (char*)ip.c_str());
-
-    if (!connectionAcceptor || connectionAcceptor->start() != 0)
-    {
-        Valter::log(Valter::format_string("Could not create an connection acceptor on the %s:%d", ip.c_str(), port));
-    }
+    setCommanfInterfaceConnector(new TCPConnector());
 }
 
 string TCPInterface::getIp() const
@@ -98,6 +90,55 @@ bool TCPInterface::getListening() const
 void TCPInterface::setListening(bool value)
 {
     listening = value;
+
+    if (listening)
+    {
+        connectionAcceptor = new TCPAcceptor(port, (char*)ip.c_str());
+
+        if (!connectionAcceptor || connectionAcceptor->start() != 0)
+        {
+            Valter::log(Valter::format_string("Could not create an connection acceptor on the %s:%d", ip.c_str(), port));
+        }
+    }
+}
+
+TCPConnector *TCPInterface::getCommanfInterfaceConnector() const
+{
+    return commanfInterfaceConnector;
+}
+
+void TCPInterface::setCommanfInterfaceConnector(TCPConnector *value)
+{
+    commanfInterfaceConnector = value;
+}
+
+TCPStream *TCPInterface::getCommanfInterfaceStream() const
+{
+    return commanfInterfaceStream;
+}
+
+void TCPInterface::setCommanfInterfaceStream(TCPStream *value)
+{
+    commanfInterfaceStream = value;
+}
+
+bool TCPInterface::sendCommandMessage(string command)
+{
+    TCPStream* stream = getCommanfInterfaceConnector()->connect(getCommandHostIP().c_str(), getCommandHostPort());
+    int length;
+    char response[256];
+    if (stream)
+    {
+        //qDebug("sent - %s", command.c_str());
+        stream->send(command.c_str(), command.size());
+        length = stream->receive(response, sizeof(response));
+        response[length] = '\0';
+        qDebug("received - %s", response);
+        delete stream;
+
+        return true;
+    }
+    return false;
 }
 
 void TCPInterface::tcpConnectionWorker()
@@ -113,6 +154,26 @@ void TCPInterface::tcpConnectionWorker()
             continue;
         }
         queue.add(item);
-        this_thread::sleep_for(std::chrono::milliseconds(10));
+        this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+}
+
+int TCPInterface::getCommandHostPort() const
+{
+    return commandHostPort;
+}
+
+void TCPInterface::setCommandHostPort(int value)
+{
+    commandHostPort = value;
+}
+
+string TCPInterface::getCommandHostIP() const
+{
+    return commandHostIP;
+}
+
+void TCPInterface::setCommandHostIP(const string &value)
+{
+    commandHostIP = value;
 }

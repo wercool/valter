@@ -21,6 +21,7 @@ public:
     void setModuleInitialState();
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
+    void initTcpCommandAcceptorInterface();
 
     bool getReadLeftEncoder() const;
     void setReadLeftEncoder(bool value);

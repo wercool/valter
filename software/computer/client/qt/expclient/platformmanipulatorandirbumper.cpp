@@ -30,6 +30,8 @@ PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
     Valter::log(PlatformManipulatorAndIRBumper::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
+    initTcpInterface();
+
     resetToDefault();
     loadDefaults();
 
@@ -160,9 +162,13 @@ void PlatformManipulatorAndIRBumper::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33336);
         setTcpInterface(tcpInterface);
-        getTcpInterface()->setConnectionHandler((Thread*)new PlatformManipulatorAndIRBumperTCPConnectionHandler(getTcpInterface()->queue));
-        getTcpInterface()->startListening();
     }
+}
+
+void PlatformManipulatorAndIRBumper::initTcpCommandAcceptorInterface()
+{
+    getTcpInterface()->setConnectionHandler((Thread*)new PlatformManipulatorAndIRBumperTCPConnectionHandler(getTcpInterface()->queue));
+    getTcpInterface()->startListening();
 }
 
 void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()

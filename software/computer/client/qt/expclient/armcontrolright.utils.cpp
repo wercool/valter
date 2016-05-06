@@ -1,5 +1,4 @@
 #include "valter.h"
-#include "armcontrolright.h"
 
 void ArmControlRight::resetToDefault()
 {

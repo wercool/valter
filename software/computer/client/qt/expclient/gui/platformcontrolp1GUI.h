@@ -1,5 +1,5 @@
-#ifndef MAINWINDOWUTILS_H
-#define MAINWINDOWUTILS_H
+#ifndef PLATFORMCONTROLP1GUI_H
+#define PLATFORMCONTROLP1GUI_H
 
 #include <QMainWindow>
 #include <QTimer>

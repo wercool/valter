@@ -20,6 +20,8 @@ PlatformControlP1::PlatformControlP1()
 
     controlDeviceIsSet = false;
 
+    initTcpInterface();
+
     resetToDefault();
     loadDefaults();
 
@@ -75,9 +77,13 @@ void PlatformControlP1::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33333);
         setTcpInterface(tcpInterface);
-        getTcpInterface()->setConnectionHandler((Thread*)new PlatformControlP1TCPConnectionHandler(getTcpInterface()->queue));
-        getTcpInterface()->startListening();
     }
+}
+
+void PlatformControlP1::initTcpCommandAcceptorInterface()
+{
+    getTcpInterface()->setConnectionHandler((Thread*)new PlatformControlP1TCPConnectionHandler(getTcpInterface()->queue));
+    getTcpInterface()->startListening();
 }
 
 void PlatformControlP1::processMessagesQueueWorker()
