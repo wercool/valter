@@ -157,16 +157,13 @@ void MainWindow::on_platformMoveForwardButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformMoveForwardButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //left and right forward
+        if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
         {
-            //left and right forward
-            if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
-            {
-                platformControlP1->setLeftMotorActivated(true);
-                platformControlP1->setRightMotorActivated(true);
-            }
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
         }
     }
 }
@@ -178,11 +175,8 @@ void MainWindow::on_platformMoveForwardButton_released()
     {
          platformControlP1->sendTCPCommand("on_platformMoveForwardButton_released");
     }
-    else
-    {
-        platformControlP1->setLeftMotorActivated(false);
-        platformControlP1->setRightMotorActivated(false);
-    }
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
 }
 
 void MainWindow::on_platformBackwardForwardButton_pressed()
@@ -192,19 +186,15 @@ void MainWindow::on_platformBackwardForwardButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformBackwardForwardButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //left and right backward
+        if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(false))
         {
-            //left and right backward
-            if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(false))
-            {
-                platformControlP1->setLeftMotorActivated(true);
-                platformControlP1->setRightMotorActivated(true);
-            }
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
         }
     }
-
 }
 
 void MainWindow::on_platformBackwardForwardButton_released()
@@ -214,12 +204,8 @@ void MainWindow::on_platformBackwardForwardButton_released()
     {
         platformControlP1->sendTCPCommand("on_platformBackwardForwardButton_released");
     }
-    else
-    {
-        platformControlP1->setLeftMotorActivated(false);
-        platformControlP1->setRightMotorActivated(false);
-    }
-
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
 }
 
 void MainWindow::on_platformMoveForwardLeftButton_pressed()
@@ -229,18 +215,14 @@ void MainWindow::on_platformMoveForwardLeftButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformMoveForwardLeftButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //left forward
+        if (platformControlP1->setLeftMotorDirection(true))
         {
-            //left forward
-            if (platformControlP1->setLeftMotorDirection(true))
-            {
-                platformControlP1->setLeftMotorActivated(true);
-            }
+            platformControlP1->setLeftMotorActivated(true);
         }
     }
-
 }
 
 void MainWindow::on_platformMoveForwardLeftButton_released()
@@ -250,10 +232,7 @@ void MainWindow::on_platformMoveForwardLeftButton_released()
     {
         platformControlP1->sendTCPCommand("on_platformMoveForwardLeftButton_released");
     }
-    else
-    {
-        platformControlP1->setLeftMotorActivated(false);
-    }
+    platformControlP1->setLeftMotorActivated(false);
 }
 
 void MainWindow::on_platformMoveForwardRightButton_pressed()
@@ -263,15 +242,12 @@ void MainWindow::on_platformMoveForwardRightButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformMoveForwardRightButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //right forward
+        if (platformControlP1->setRightMotorDirection(true))
         {
-            //right forward
-            if (platformControlP1->setRightMotorDirection(true))
-            {
-                platformControlP1->setRightMotorActivated(true);
-            }
+            platformControlP1->setRightMotorActivated(true);
         }
     }
 }
@@ -283,10 +259,7 @@ void MainWindow::on_platformMoveForwardRightButton_released()
     {
         platformControlP1->sendTCPCommand("on_platformMoveForwardRightButton_released");
     }
-    else
-    {
-        platformControlP1->setRightMotorActivated(false);
-    }
+    platformControlP1->setRightMotorActivated(false);
 }
 
 void MainWindow::on_platformMoveBackwardLeftButton_pressed()
@@ -296,15 +269,12 @@ void MainWindow::on_platformMoveBackwardLeftButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformMoveBackwardLeftButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //left backward
+        if (platformControlP1->setLeftMotorDirection(false))
         {
-            //left backward
-            if (platformControlP1->setLeftMotorDirection(false))
-            {
-                platformControlP1->setLeftMotorActivated(true);
-            }
+            platformControlP1->setLeftMotorActivated(true);
         }
     }
 }
@@ -316,15 +286,12 @@ void MainWindow::on_platformMoveBackwardRightButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformMoveBackwardRightButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //right backward
+        if (platformControlP1->setRightMotorDirection(false))
         {
-            //right backward
-            if (platformControlP1->setRightMotorDirection(false))
-            {
-                platformControlP1->setRightMotorActivated(true);
-            }
+            platformControlP1->setRightMotorActivated(true);
         }
     }
 }
@@ -336,10 +303,7 @@ void MainWindow::on_platformMoveBackwardLeftButton_released()
     {
         platformControlP1->sendTCPCommand("on_platformMoveBackwardLeftButton_released");
     }
-    else
-    {
-        platformControlP1->setLeftMotorActivated(false);
-    }
+    platformControlP1->setLeftMotorActivated(false);
 }
 
 void MainWindow::on_platformMoveBackwardRightButton_released()
@@ -349,10 +313,7 @@ void MainWindow::on_platformMoveBackwardRightButton_released()
     {
         platformControlP1->sendTCPCommand("on_platformMoveBackwardRightButton_released");
     }
-    else
-    {
-        platformControlP1->setRightMotorActivated(false);
-    }
+    platformControlP1->setRightMotorActivated(false);
 }
 
 void MainWindow::on_platformRotateLeftButton_pressed()
@@ -362,19 +323,15 @@ void MainWindow::on_platformRotateLeftButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformRotateLeftButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //left backward right forward
+        if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(true))
         {
-            //left backward right forward
-            if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(true))
-            {
-                platformControlP1->setLeftMotorActivated(true);
-                platformControlP1->setRightMotorActivated(true);
-            }
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
         }
     }
-
 }
 
 void MainWindow::on_platformRotateRightButton_pressed()
@@ -384,19 +341,15 @@ void MainWindow::on_platformRotateRightButton_pressed()
     {
         platformControlP1->sendTCPCommand("on_platformRotateRightButton_pressed");
     }
-    else
+    if (platformControlP1->preparePlatformMovement())
     {
-        if (platformControlP1->preparePlatformMovement())
+        //left forward right backward
+        if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(false))
         {
-            //left forward right backward
-            if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(false))
-            {
-                platformControlP1->setLeftMotorActivated(true);
-                platformControlP1->setRightMotorActivated(true);
-            }
+            platformControlP1->setLeftMotorActivated(true);
+            platformControlP1->setRightMotorActivated(true);
         }
     }
-
 }
 
 void MainWindow::on_platformRotateLeftButton_released()
@@ -406,11 +359,8 @@ void MainWindow::on_platformRotateLeftButton_released()
     {
         platformControlP1->sendTCPCommand("on_platformRotateLeftButton_released");
     }
-    else
-    {
-        platformControlP1->setLeftMotorActivated(false);
-        platformControlP1->setRightMotorActivated(false);
-    }
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
 }
 
 void MainWindow::on_platformRotateRightButton_released()
@@ -420,11 +370,8 @@ void MainWindow::on_platformRotateRightButton_released()
     {
         platformControlP1->sendTCPCommand("on_platformRotateRightButton_released");
     }
-    else
-    {
-        platformControlP1->setLeftMotorActivated(false);
-        platformControlP1->setRightMotorActivated(false);
-    }
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
 }
 
 void MainWindow::on_turretRotateLeftButton_pressed()
@@ -478,11 +425,8 @@ void MainWindow::on_platformControlP1LoadDefaultsButton_clicked()
     {
         platformControlP1->sendTCPCommand("on_platformControlP1LoadDefaultsButton_clicked");
     }
-    else
-    {
-        platformControlP1->loadDefaults();
-        loadPlatformControlP1Defaults(ui);
-    }
+    platformControlP1->loadDefaults();
+    loadPlatformControlP1Defaults(ui);
 }
 
 void MainWindow::on_platformControlP1MotorsPWMFrequencySetButton_clicked()
@@ -566,10 +510,7 @@ void MainWindow::on_leftMotorPlatformControlP1DutySlider_valueChanged(int value)
     {
         platformControlP1->sendTCPCommand(Valter::format_string("on_leftMotorPlatformControlP1DutySlider_valueChanged@%d", value));
     }
-    else
-    {
-        platformControlP1->setLeftMotorDutyMax(value);
-    }
+    platformControlP1->setLeftMotorDutyMax(value);
     ui->leftMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getLeftMotorDutyMax()).c_str());
 }
 
@@ -580,10 +521,7 @@ void MainWindow::on_rightMotorPlatformControlP1DutySlider_valueChanged(int value
     {
         platformControlP1->sendTCPCommand(Valter::format_string("on_rightMotorPlatformControlP1DutySlider_valueChanged@%d", value));
     }
-    else
-    {
-        platformControlP1->setRightMotorDutyMax(value);
-    }
+    platformControlP1->setRightMotorDutyMax(value);
     ui->rightMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getRightMotorDutyMax()).c_str());
 }
 
@@ -594,11 +532,8 @@ void MainWindow::on_platformMovementAccelerationSlider_valueChanged(int value)
     {
         platformControlP1->sendTCPCommand(Valter::format_string("on_platformMovementAccelerationSlider_valueChanged@%d", value));
     }
-    else
-    {
-        platformControlP1->setPlatformAcceleration(value);
-        ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
-    }
+    platformControlP1->setPlatformAcceleration(value);
+    ui->platformControlP1WheelMotorsAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_platformMovementDecelerationSlider_valueChanged(int value)
@@ -608,11 +543,8 @@ void MainWindow::on_platformMovementDecelerationSlider_valueChanged(int value)
     {
         platformControlP1->sendTCPCommand(Valter::format_string("on_platformMovementDecelerationSlider_valueChanged@%d", value));
     }
-    else
-    {
-        platformControlP1->setPlatformDeceleration(value);
-        ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
-    }
+    platformControlP1->setPlatformDeceleration(value);
+    ui->platformControlP1WheelMotorsDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_platformControlP1WheelMotorsDutySlider_valueChanged(int value)
@@ -622,39 +554,41 @@ void MainWindow::on_platformControlP1WheelMotorsDutySlider_valueChanged(int valu
     {
         platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1WheelMotorsDutySlider_valueChanged@%d", value));
     }
+
+    static int prevDutyVal = 1;
+    int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
+    int maxDutyRight = platformControlP1->getRightMotorDutyMax();
+
+    if(value > prevDutyVal)
+    {
+        if (maxDutyLeft < 100)
+            maxDutyLeft++;
+        if (maxDutyRight < 100)
+            maxDutyRight++;
+    }
     else
     {
-        static int prevDutyVal = 1;
-        int maxDutyLeft = platformControlP1->getLeftMotorDutyMax();
-        int maxDutyRight = platformControlP1->getRightMotorDutyMax();
-
-        if(value > prevDutyVal)
-        {
-            if (maxDutyLeft < 100)
-                maxDutyLeft++;
-            if (maxDutyRight < 100)
-                maxDutyRight++;
-        }
-        else
-        {
-            if (maxDutyLeft > 1)
-                maxDutyLeft--;
-            if (maxDutyRight > 1)
-                maxDutyRight--;
-        }
-        platformControlP1->setLeftMotorDutyMax(maxDutyLeft);
-        platformControlP1->setRightMotorDutyMax(maxDutyRight);
-
-        ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyMax());
-        ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyMax());
-
-        prevDutyVal = value;
+        if (maxDutyLeft > 1)
+            maxDutyLeft--;
+        if (maxDutyRight > 1)
+            maxDutyRight--;
     }
+    platformControlP1->setLeftMotorDutyMax(maxDutyLeft);
+    platformControlP1->setRightMotorDutyMax(maxDutyRight);
+
+    ui->leftMotorPlatformControlP1DutySlider->setValue(platformControlP1->getLeftMotorDutyMax());
+    ui->rightMotorPlatformControlP1DutySlider->setValue(platformControlP1->getRightMotorDutyMax());
+
+    prevDutyVal = value;
 }
 
 void MainWindow::on_turretRotationDutySlider_valueChanged(int value)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_turretRotationDutySlider_valueChanged@%d", value));
+    }
     platformControlP1->setTurretMotorDutyMax(value);
     ui->turretMotorMaxDutyLabel->setText(Valter::format_string("[%d]", platformControlP1->getTurretMotorDutyMax()).c_str());
 }

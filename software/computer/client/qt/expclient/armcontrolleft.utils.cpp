@@ -134,8 +134,11 @@ void ArmControlLeft::resetToDefault()
     handPitchMotorADCCurrent            = 0;
 
     //hand finger sesnors preset
-    handSensorsTrack[13]                = {false};
-    handSensorsADCForce[13]             = {0};
+    for (unsigned int i = 0; i < 13; i++)
+    {
+        handSensorsTrack[i]  = false;
+        handSensorsADCForce[i] = 0;
+    }
 }
 
 void ArmControlLeft::loadDefaults()

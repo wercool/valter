@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>1040</height>
+             <width>821</width>
+             <height>1034</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -490,7 +490,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Command Host</string>
+                   <string>Remote Command Host</string>
                   </property>
                  </widget>
                 </item>
@@ -515,7 +515,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Command Port</string>
+                   <string>Remote Command Port</string>
                   </property>
                  </widget>
                 </item>
@@ -3996,7 +3996,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>838</width>
+             <width>82</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8012,7 +8012,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
+             <width>797</width>
              <height>1514</height>
             </rect>
            </property>
@@ -10572,7 +10572,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
+             <width>812</width>
              <height>800</height>
             </rect>
            </property>
@@ -13447,8 +13447,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>883</height>
+             <width>785</width>
+             <height>880</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -15854,8 +15854,8 @@ color: rgb(255, 0, 0);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>820</width>
-             <height>883</height>
+             <width>785</width>
+             <height>880</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">

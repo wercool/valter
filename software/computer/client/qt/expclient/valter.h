@@ -97,17 +97,18 @@ public:
    }
    static char* stringToCharPtr(string str)
    {
-       char *charPtr = new char[str.size() + 1];
-       std::copy(str.begin(), str.end(), charPtr);
-       charPtr[str.size()] = '\0';
-       return charPtr;
+        char *charPtr = new char[str.size() + 1];
+        std::copy(str.begin(), str.end(), charPtr);
+        charPtr[str.size()] = '\0';
+        return charPtr;
    }
 
    static std::vector<std::string> split(const std::string &text, char sep)
    {
      std::vector<std::string> tokens;
      std::size_t start = 0, end = 0;
-     while ((end = text.find(sep, start)) != std::string::npos) {
+     while ((end = text.find(sep, start)) != std::string::npos)
+     {
        tokens.push_back(text.substr(start, end - start));
        start = end + 1;
      }
