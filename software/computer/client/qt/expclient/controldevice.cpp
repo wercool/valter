@@ -56,7 +56,8 @@ void ControlDevice::scanControlDevices()
     while( iter != devices_found.end() )
     {
         serial::PortInfo serialPortDeviceInfo = *iter++;
-        if (serialPortDeviceInfo.port.find("ttyACM") != string::npos)
+        //scan onlye ID 03eb:6125 Atmel Corp.
+        if (serialPortDeviceInfo.hardware_id.compare("03eb:6125") > 0)
         {
             ttyACMDevicesNum++;
             Valter::log(Valter::format_string("Trying to connect %s port", serialPortDeviceInfo.port.c_str()));
@@ -91,20 +92,12 @@ void ControlDevice::scanControlDevices()
                     else
                     {
                         potentialControlDeviceSerialPort.close();
-                        //if ID 03eb:6125 Atmel Corp. detected
-                        if (serialPortDeviceInfo.hardware_id.compare("03eb:6125"))
-                        {
-                            Valter::log("ID 03eb:6125 Atmel Corp. detected, resetting respective System Device");
-                            string controlDeviceSysPathCmdWithDev = Valter::format_string(controlDeviceSysPathCmd, serialPortDeviceInfo.port.c_str());
-                            string sys_usb_bus_device = Valter::exec_shell(controlDeviceSysPathCmdWithDev);
-                            sys_usb_bus_device.erase(sys_usb_bus_device.length()-1);
-                            USBSysDeviceReset(sys_usb_bus_device);
-                            needsReScan = true;
-                        }
-                        else
-                        {
-                            Valter::log(Valter::format_string("Not a Valter Control Device\n"));
-                        }
+                        Valter::log("ID 03eb:6125 Atmel Corp. detected, resetting respective System Device");
+                        string controlDeviceSysPathCmdWithDev = Valter::format_string(controlDeviceSysPathCmd, serialPortDeviceInfo.port.c_str());
+                        string sys_usb_bus_device = Valter::exec_shell(controlDeviceSysPathCmdWithDev);
+                        sys_usb_bus_device.erase(sys_usb_bus_device.length()-1);
+                        USBSysDeviceReset(sys_usb_bus_device);
+                        needsReScan = true;
                     }
                 }
                 else
