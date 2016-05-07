@@ -364,6 +364,9 @@ int main(void)
     //positions
     unsigned int forearmYawPosition = 0;
 
+    //globally watchers on/off
+    unsigned char allWatchersOnOff = 1; //1 - on, 0 - off
+
     DeviceInit();
 
     watchdogReset();
@@ -412,6 +415,16 @@ int main(void)
             if (strcmp((char*) cmdParts, "WDINTENTIONALRESETOFF") == 0)
             {
                 WDINTENTIONALRESET = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STOPWATCHERS") == 0)
+            {
+                allWatchersOnOff = 0;
+                continue;
+            }
+            if (strcmp((char*) cmdParts, "STARTWATCHERS") == 0)
+            {
+                allWatchersOnOff = 1;
                 continue;
             }
             if (strcmp((char*) cmdParts, "ARMCH0") == 0)
@@ -1235,122 +1248,125 @@ int main(void)
             armLiftUpPositionReading = round((double)armLiftUpPositionReading_sum / (double) 5);
         }
         //check thresholds
-        if (armLiftUpDirection == 0) //move down
+        if (allWatchersOnOff == 1)
         {
-            if (armLiftUpPositionReading >= armLiftUpPositionThreshold)
+            if (armLiftUpDirection == 0) //move down
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U5.IN2
+                if (armLiftUpPositionReading >= armLiftUpPositionThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA6);  //U5.IN1
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA7);  //U5.IN2
 
-                armLiftUpDirection = 2;
+                    armLiftUpDirection = 2;
 
-                sprintf((char *)msg,"ARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", armLiftUpPositionThreshold, armLiftUpPositionReading);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                    sprintf((char *)msg,"ARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", armLiftUpPositionThreshold, armLiftUpPositionReading);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
             }
-        }
-        if (forearmLiftUpDirection == 0)
-        {
-            if (forearmLiftUpPositionReading <= forearmLiftUpPositionThreshold)
+            if (forearmLiftUpDirection == 0)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //U4.IN2
+                if (forearmLiftUpPositionReading <= forearmLiftUpPositionThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA4);  //U4.IN1
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA5);  //U4.IN2
 
-                forearmLiftUpDirection = 2;
+                    forearmLiftUpDirection = 2;
 
-                sprintf((char *)msg,"FOREARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", forearmLiftUpPositionThreshold, forearmLiftUpPositionReading);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                    sprintf((char *)msg,"FOREARM LIFTUP POSITION LIMIT [T: %u, V: %u] REACHED\n", forearmLiftUpPositionThreshold, forearmLiftUpPositionReading);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
             }
-        }
-        if (handYawWatch == 1)
-        {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
-
-            handYawPosition = getValueChannel1();
-
-            sprintf((char *)msg,"HAND YAW POSITION: %u\n", handYawPosition);
-            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(10);
-
-            if (handYawDirection == 0 && handYawPosition <= handYawCWThreshold)
+            if (handYawWatch == 1)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
-                handYawWatch = 0;
-                sprintf((char *)msg,"HAND YAW CW LIMIT [T: %u, V: %u] REACHED\n", handYawCWThreshold, handYawPosition);
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+
+                handYawPosition = getValueChannel1();
+
+                sprintf((char *)msg,"HAND YAW POSITION: %u\n", handYawPosition);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                delay_ms(10);
+
+                if (handYawDirection == 0 && handYawPosition <= handYawCWThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+                    handYawWatch = 0;
+                    sprintf((char *)msg,"HAND YAW CW LIMIT [T: %u, V: %u] REACHED\n", handYawCWThreshold, handYawPosition);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
+                if (handYawDirection == 1 && handYawPosition >= handYawCCWThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
+                    handYawWatch = 0;
+                    sprintf((char *)msg,"HAND YAW CCW LIMIT [T: %u, V: %u] REACHED\n", handYawCCWThreshold, handYawPosition);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
             }
-            if (handYawDirection == 1 && handYawPosition >= handYawCCWThreshold)
+            if (handPitchWatch == 1)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA13);
-                handYawWatch = 0;
-                sprintf((char *)msg,"HAND YAW CCW LIMIT [T: %u, V: %u] REACHED\n", handYawCCWThreshold, handYawPosition);
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+
+                handPitchPosition = getValueChannel1();
+
+                sprintf((char *)msg,"HAND PITCH POSITION: %u\n", handPitchPosition);
                 pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                delay_ms(10);
+
+                if (handPitchDirection == 0 && handPitchPosition <= handPitchCWThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
+                    handPitchWatch = 0;
+                    sprintf((char *)msg,"HAND PITCH CW LIMIT [T: %u, V: %u] REACHED\n", handPitchCWThreshold, handPitchPosition);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
+                if (handPitchDirection == 1 && handPitchPosition >= handPitchCCWThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
+                    handPitchWatch = 0;
+                    sprintf((char *)msg,"HAND PITCH CCW LIMIT [T: %u, V: %u] REACHED\n", handPitchCCWThreshold, handPitchPosition);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
             }
-        }
-        if (handPitchWatch == 1)
-        {
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);     //U2   A
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);  //U2   B
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
-
-            handPitchPosition = getValueChannel1();
-
-            sprintf((char *)msg,"HAND PITCH POSITION: %u\n", handPitchPosition);
-            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(10);
-
-            if (handPitchDirection == 0 && handPitchPosition <= handPitchCWThreshold)
+            if (forearmYawWatch == 1)
             {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
-                handPitchWatch = 0;
-                sprintf((char *)msg,"HAND PITCH CW LIMIT [T: %u, V: %u] REACHED\n", handPitchCWThreshold, handPitchPosition);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
-            }
-            if (handPitchDirection == 1 && handPitchPosition >= handPitchCCWThreshold)
-            {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA14);
-                handPitchWatch = 0;
-                sprintf((char *)msg,"HAND PITCH CCW LIMIT [T: %u, V: %u] REACHED\n", handPitchCCWThreshold, handPitchPosition);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
-            }
-        }
-        if (forearmYawWatch == 1)
-        {
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
-            AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
-            AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA9);   //U2   A
+                AT91F_PIO_SetOutput(AT91C_BASE_PIOA, AT91C_PIO_PA10);    //U2   B
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA11);  //U2   C
+                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA12);  //U2   D
 
-            forearmYawPosition = getValueChannel1();
+                forearmYawPosition = getValueChannel1();
 
-            sprintf((char *)msg,"FOREARM YAW POSITION: %u\n", forearmYawPosition);
-            pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-            delay_ms(10);
+                sprintf((char *)msg,"FOREARM YAW POSITION: %u\n", forearmYawPosition);
+                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                delay_ms(10);
 
-            if (forearmYawDirection == 0 && forearmYawPosition <= forearmYawCWThreshold)
-            {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
-                forearmYawWatch = 0;
-                sprintf((char *)msg,"FOREARM YAW CW LIMIT [T: %u, V: %u] REACHED\n", forearmYawCWThreshold, forearmYawPosition);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
-            }
-            if (forearmYawDirection == 1 && forearmYawPosition >= forearmYawCCWThreshold)
-            {
-                AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
-                forearmYawWatch = 0;
-                sprintf((char *)msg,"FOREARM YAW CCW LIMIT [T: %u, V: %u] REACHED\n", forearmYawCCWThreshold, forearmYawPosition);
-                pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
-                delay_ms(100);
+                if (forearmYawDirection == 0 && forearmYawPosition <= forearmYawCWThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+                    forearmYawWatch = 0;
+                    sprintf((char *)msg,"FOREARM YAW CW LIMIT [T: %u, V: %u] REACHED\n", forearmYawCWThreshold, forearmYawPosition);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
+                if (forearmYawDirection == 1 && forearmYawPosition >= forearmYawCCWThreshold)
+                {
+                    AT91F_PIO_ClearOutput(AT91C_BASE_PIOA, AT91C_PIO_PA22);
+                    forearmYawWatch = 0;
+                    sprintf((char *)msg,"FOREARM YAW CCW LIMIT [T: %u, V: %u] REACHED\n", forearmYawCCWThreshold, forearmYawPosition);
+                    pCDC.Write(&pCDC, (char *)msg, strlen((char *)msg));
+                    delay_ms(100);
+                }
             }
         }
         //readings
