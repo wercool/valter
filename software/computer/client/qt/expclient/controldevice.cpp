@@ -57,7 +57,7 @@ void ControlDevice::scanControlDevices()
     {
         serial::PortInfo serialPortDeviceInfo = *iter++;
         //scan onlye ID 03eb:6125 Atmel Corp.
-        if (serialPortDeviceInfo.hardware_id.compare("03eb:6125") > 0)
+        if (serialPortDeviceInfo.hardware_id.find("03eb:6125") != std::string::npos)
         {
             ttyACMDevicesNum++;
             Valter::log(Valter::format_string("Trying to connect %s port", serialPortDeviceInfo.port.c_str()));
