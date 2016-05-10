@@ -210,7 +210,7 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
 {
     if (getCentralCommandHostIP().compare("") > 0)
     {
-        TCPStream* stream = getCommanfInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCommandHostPort());
+        TCPStream* stream = getCommanfInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
         int length;
         char response[256];
         if (stream)
