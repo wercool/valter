@@ -56,8 +56,8 @@ public:
 
     bool sendCDRToCentralCommandHost(string command);
 
-    string getCentralCommandHostIPPort() const;
-    void setCentralCommandHostIPPort(const string &value);
+    int getCentralCommandHostIPPort() const;
+    void setCentralCommandHostIPPort(const int &value);
 
 private:
     string ip;
@@ -76,7 +76,7 @@ private:
 
     //central command host
     string centralCommandHostIP;
-    string centralCommandHostIPPort;
+    int centralCommandHostIPPort;
 };
 
 #endif // TCPINTERFACE_H

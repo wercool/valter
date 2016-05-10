@@ -186,12 +186,12 @@ void TCPInterface::tcpConnectionWorker()
     }
 }
 
-string TCPInterface::getCentralCommandHostIPPort() const
+int TCPInterface::getCentralCommandHostIPPort() const
 {
     return centralCommandHostIPPort;
 }
 
-void TCPInterface::setCentralCommandHostIPPort(const string &value)
+void TCPInterface::setCentralCommandHostIPPort(const int &value)
 {
     centralCommandHostIPPort = value;
 }

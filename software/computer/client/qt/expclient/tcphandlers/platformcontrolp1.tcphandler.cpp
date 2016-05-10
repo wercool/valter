@@ -62,11 +62,12 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         if (cmd.find("setCentralCommandHostInfo") != std::string::npos)
         {
             int substr_pos = cmd.find("@") + 1;
-            string central_host_ip_str = cmd.substr(substr_pos);
+            string value_str = cmd.substr(substr_pos);
+            vector<string>value_str_values = Valter::split(value_str, '@');
 
-            platformControlP1->getTcpInterface()->setCentralCommandHostIP(central_host_ip_str);
-            platformControlP1->getTcpInterface()->setCentralCommandHostIPPort();
-            qDebug("Central Command Host IP Address:%s Port:%s", platformControlP1->getTcpInterface()->getCentralCommandHostIP().c_str());
+            platformControlP1->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
+            platformControlP1->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
+            qDebug("Central Command Host IP Address:%s Port:%d", platformControlP1->getTcpInterface()->getCentralCommandHostIP().c_str(), platformControlP1->getTcpInterface()->getCentralCommandHostIPPort());
             return;
         }
 

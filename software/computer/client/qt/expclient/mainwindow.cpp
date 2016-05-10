@@ -277,6 +277,6 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
-        platformControlP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@d", centralCommandHostIp.c_str(), platformControlP1->getTcpInterface()->getPort()));
+        platformControlP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformControlP1->getTcpInterface()->getPort()));
     }
 }
