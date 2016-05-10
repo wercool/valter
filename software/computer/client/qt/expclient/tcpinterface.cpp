@@ -11,6 +11,9 @@ TCPInterface::TCPInterface(int port)
     readIP();
     setListening(false);
     setCommanfInterfaceConnector(new TCPConnector());
+
+    //set uninitialized from the beginning
+    centralCommandHostIP = "";
 }
 
 string TCPInterface::getIp() const
@@ -46,6 +49,31 @@ void TCPInterface::readIP()
     }
 
     freeifaddrs(ifap);
+}
+
+string TCPInterface::getLocalHostIP()
+{
+    struct ifaddrs *ifap, *ifa;
+    struct sockaddr_in *sa;
+    char *addr;
+
+    getifaddrs (&ifap);
+    for (ifa = ifap; ifa; ifa = ifa->ifa_next)
+    {
+        if (ifa->ifa_addr->sa_family == AF_INET)
+        {
+            sa = (struct sockaddr_in *) ifa->ifa_addr;
+            addr = inet_ntoa(sa->sin_addr);
+            qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
+            if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0)
+            {
+                std::string localhostIPAddress(addr);
+                freeifaddrs(ifap);
+                return localhostIPAddress;
+            }
+        }
+    }
+    return "";
 }
 
 int TCPInterface::getPort() const
@@ -156,6 +184,48 @@ void TCPInterface::tcpConnectionWorker()
         queue.add(item);
         this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+}
+
+string TCPInterface::getCentralCommandHostIPPort() const
+{
+    return centralCommandHostIPPort;
+}
+
+void TCPInterface::setCentralCommandHostIPPort(const string &value)
+{
+    centralCommandHostIPPort = value;
+}
+
+string TCPInterface::getCentralCommandHostIP() const
+{
+    return centralCommandHostIP;
+}
+
+void TCPInterface::setCentralCommandHostIP(const string &value)
+{
+    centralCommandHostIP = value;
+}
+
+bool TCPInterface::sendCDRToCentralCommandHost(string command)
+{
+    if (getCentralCommandHostIP().compare("") > 0)
+    {
+        TCPStream* stream = getCommanfInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCommandHostPort());
+        int length;
+        char response[256];
+        if (stream)
+        {
+            //qDebug("sent - %s", command.c_str());
+            stream->send(command.c_str(), command.size());
+            length = stream->receive(response, sizeof(response));
+            response[length] = '\0';
+            qDebug("received - %s", response);
+            delete stream;
+
+            return true;
+        }
+    }
+    return false;
 }
 
 int TCPInterface::getCommandHostPort() const

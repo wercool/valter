@@ -1,15 +1,15 @@
 //left forearm
-leftForearmMotorDuty:1,100,30
-leftForearmMotorDeceleration:2
-leftForearmMotorAcceleration:2
+leftForearmMotorDuty:1,100,80
+leftForearmMotorDeceleration:5
+leftForearmMotorAcceleration:5
 //left arm
-leftArmMotorDuty:1,100,30
-leftArmMotorDeceleration:2
-leftArmMotorAcceleration:2
+leftArmMotorDuty:1,100,80
+leftArmMotorDeceleration:5
+leftArmMotorAcceleration:5
 //left limb
-leftLimbMotorDuty:1,100,30
-leftLimbMotorDeceleration:2
-leftLimbMotorAcceleration:2
+leftLimbMotorDuty:1,100,80
+leftLimbMotorDeceleration:5
+leftLimbMotorAcceleration:5
 //left arm readings
 forearmPosition:1,1
 armPosition:1,1

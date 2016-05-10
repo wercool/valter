@@ -50,8 +50,27 @@ class PlatformControlP1TCPConnectionHandler : public Thread
 
     void executeCommand(string cmd)
     {
+        PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+        qDebug("TCP[%s] >>>>>>>>>>>>>>>>>>>>>>> %s", platformControlP1->getControlDeviceId().c_str(), cmd.c_str());
 
-        qDebug("TCP Interface Command >>>>>>>>>>>>>>>>>>>>>>> %s", cmd.c_str());
+        if (cmd.find("CDR~") != std::string::npos)
+        {
+            qDebug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        }
+
+        //control/service messages
+        if (cmd.find("setCentralCommandHostInfo") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string central_host_ip_str = cmd.substr(substr_pos);
+
+            platformControlP1->getTcpInterface()->setCentralCommandHostIP(central_host_ip_str);
+            platformControlP1->getTcpInterface()->setCentralCommandHostIPPort();
+            qDebug("Central Command Host IP Address:%s Port:%s", platformControlP1->getTcpInterface()->getCentralCommandHostIP().c_str());
+            return;
+        }
+
+        //GUI elements events handler
 
         MainWindow *mainWindow = MainWindow::getInstance();
         Ui::MainWindow* ui = mainWindow->getUi();

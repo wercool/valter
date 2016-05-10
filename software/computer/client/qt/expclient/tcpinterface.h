@@ -21,6 +21,8 @@ public:
     void setIp(const string &value);
     void readIP();
 
+    static string getLocalHostIP();
+
     int getPort() const;
     void setPort(int value);
 
@@ -48,6 +50,15 @@ public:
     int getCommandHostPort() const;
     void setCommandHostPort(int value);
 
+    //central command host
+    string getCentralCommandHostIP() const;
+    void setCentralCommandHostIP(const string &value);
+
+    bool sendCDRToCentralCommandHost(string command);
+
+    string getCentralCommandHostIPPort() const;
+    void setCentralCommandHostIPPort(const string &value);
+
 private:
     string ip;
     int port;
@@ -62,6 +73,10 @@ private:
     //command host
     string commandHostIP;
     int commandHostPort;
+
+    //central command host
+    string centralCommandHostIP;
+    string centralCommandHostIPPort;
 };
 
 #endif // TCPINTERFACE_H

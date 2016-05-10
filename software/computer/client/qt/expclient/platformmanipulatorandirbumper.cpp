@@ -12,7 +12,7 @@
 PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::pPlatformManipulatorAndIRBumper = NULL;
 bool PlatformManipulatorAndIRBumper::instanceFlag = false;
 const string PlatformManipulatorAndIRBumper::controlDeviceId = "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
-const string PlatformManipulatorAndIRBumper::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-manipulator-and-ir-bumper-defaults";
+const string PlatformManipulatorAndIRBumper::defaultsFilePath = "settings/platform-manipulator-and-ir-bumper-defaults";
 
 const double PlatformManipulatorAndIRBumper::rootX = 220;
 const double PlatformManipulatorAndIRBumper::rootY = 130;

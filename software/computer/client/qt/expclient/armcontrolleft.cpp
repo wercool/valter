@@ -7,7 +7,7 @@
 ArmControlLeft *ArmControlLeft::pArmControlLeft = NULL;
 bool ArmControlLeft::instanceFlag = false;
 const string ArmControlLeft::controlDeviceId = "ARM-CONTROL-LEFT";
-const string ArmControlLeft::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/arm-control-left-defaults";
+const string ArmControlLeft::defaultsFilePath = "settings/arm-control-left-defaults";
 
 ArmControlLeft::ArmControlLeft()
 {
@@ -722,6 +722,16 @@ void ArmControlLeft::forearmYaw(bool state)
     {
         sendCommand("FOREARMYAWOFF");
     }
+}
+
+void ArmControlLeft::stopAllWatchers()
+{
+    sendCommand("STOPWATCHERS");
+}
+
+void ArmControlLeft::startAllWatchers()
+{
+    sendCommand("STARTWATCHERS");
 }
 
 void ArmControlLeft::setForearmRollResettingStepPosition(bool value)

@@ -11,7 +11,8 @@
 
 Valter* Valter::pValter = NULL;
 bool Valter::instanceFlag = false;
-const string Valter::cmdFilesPath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/commands/";
+const string Valter::filePathPrefix = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/";
+const string Valter::cmdFilesPath = "commands/";
 
 Valter::Valter()
 {
@@ -133,7 +134,7 @@ void Valter::readControlDevicesCommandsFromFiles(bool printCommands)
     for(vector<string>::size_type i = 0; i != controlDeviceIds.size(); i++)
     {
         commands.clear();
-        ifstream cmdfile(cmdFilesPath + (string)controlDeviceIds[i]);
+        ifstream cmdfile(filePathPrefix + cmdFilesPath + (string)controlDeviceIds[i]);
         string line;
         while (getline(cmdfile, line, '\n'))
         {

@@ -99,6 +99,8 @@ public:
    {
         char *charPtr = new char[str.size() + 1];
         std::copy(str.begin(), str.end(), charPtr);
+        //strcpy(charPtr, str.c_str());
+        //strdup(str.c_str());
         charPtr[str.size()] = '\0';
         return charPtr;
    }
@@ -126,6 +128,8 @@ public:
         }
         return input;
    }
+
+   static const string filePathPrefix;
 
 private:
    Valter();

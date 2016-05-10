@@ -9,7 +9,7 @@
 PlatformControlP2 *PlatformControlP2::pPlatformControlP2 = NULL;
 bool PlatformControlP2::instanceFlag = false;
 const string PlatformControlP2::controlDeviceId = "PLATFORM-CONTROL-P2";
-const string PlatformControlP2::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-control-p2-defaults";
+const string PlatformControlP2::defaultsFilePath = "settings/platform-control-p2-defaults";
 
 PlatformControlP2::PlatformControlP2()
 {
@@ -84,7 +84,15 @@ void PlatformControlP2::processMessagesQueueWorker()
                         int value_str_pos = response.find_first_of(":") + 1;
                         string value_str = response.substr(value_str_pos);
                         int  value = atoi(value_str.c_str());
-                        addIRScannerScan(getIRScannerAngle(), value);
+                        if (getIntetntionalIRScannerReadingReuqest() == 1)
+                        {
+                            setIrScannerReadingADC(value);
+                            setIntetntionalIRScannerReadingReuqest(2);
+                        }
+                        else
+                        {
+                            addIRScannerScan(getIRScannerAngle(), value);
+                        }
                     }
                 }
 
@@ -149,6 +157,12 @@ void PlatformControlP2::resetIRScannerServo()
 {
     sendCommand("SETSONARSERVODUTY#18");
     disableIRScannerServo();
+}
+
+void PlatformControlP2::requestIrScannerReadingADC()
+{
+    intetntionalIRScannerReadingReuqest = 1;
+    sendCommand("GETIRSCAN");
 }
 
 bool PlatformControlP2::getChargerMotorDirection() const
@@ -291,6 +305,26 @@ void PlatformControlP2::chargerMotorRotateWorker()
     {
         getControlDevice()->addMsgToDataExchangeLog("chargerMotorRotateWorker finished...");
     }
+}
+
+int PlatformControlP2::getIntetntionalIRScannerReadingReuqest() const
+{
+    return intetntionalIRScannerReadingReuqest;
+}
+
+void PlatformControlP2::setIntetntionalIRScannerReadingReuqest(int value)
+{
+    intetntionalIRScannerReadingReuqest = value;
+}
+
+int PlatformControlP2::getIrScannerReadingADC() const
+{
+    return irScannerReadingADC;
+}
+
+void PlatformControlP2::setIrScannerReadingADC(int value)
+{
+    irScannerReadingADC = value;
 }
 bool PlatformControlP2::getIRScannerIntentionalAngleSet() const
 {
@@ -768,6 +802,9 @@ void PlatformControlP2::resetToDefault()
     chargerMotorRotateWorkerActivated = false;
 
     ALARM = false;
+
+    irScannerReadingADC = 0;
+    intetntionalIRScannerReadingReuqest = 1;
 }
 
 void PlatformControlP2::spawnProcessMessagesQueueWorkerThread()
@@ -792,7 +829,7 @@ void PlatformControlP2::initTcpCommandAcceptorInterface()
 
 void PlatformControlP2::loadDefaults()
 {
-    ifstream defaultsFile(PlatformControlP2::defaultsFilePath);
+    ifstream defaultsFile(Valter::filePathPrefix + PlatformControlP2::defaultsFilePath);
     string line;
     while (getline(defaultsFile, line, '\n'))
     {

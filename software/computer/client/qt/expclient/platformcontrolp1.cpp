@@ -12,7 +12,7 @@
 PlatformControlP1 *PlatformControlP1::pPlatformControlP1 = NULL;
 bool PlatformControlP1::instanceFlag = false;
 const string PlatformControlP1::controlDeviceId = "PLATFORM-CONTROL-P1";
-const string PlatformControlP1::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-control-p1-defaults";
+const string PlatformControlP1::defaultsFilePath = "settings/platform-control-p1-defaults";
 
 PlatformControlP1::PlatformControlP1()
 {
@@ -77,6 +77,7 @@ void PlatformControlP1::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33333);
         setTcpInterface(tcpInterface);
+        initTcpCommandAcceptorInterface();
     }
 }
 
@@ -95,6 +96,8 @@ void PlatformControlP1::processMessagesQueueWorker()
             if (getControlDevice()->responsesAvailable())
             {
                 string response = getControlDevice()->pullResponse();
+
+                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
 
                 //execute identification of responses with priority
                 if (getLeftMotorStop() && getRightMotorStop() && getTurretMotorStop())

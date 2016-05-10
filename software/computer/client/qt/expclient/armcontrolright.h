@@ -314,6 +314,9 @@ public:
 
     void turnArmLedsOnOff();
 
+    void stopAllWatchers();
+    void startAllWatchers();
+
 private:
     ArmControlRight();
     static ArmControlRight* pArmControlRight;       // ARM-CONTROL-RIGHT's singleton instance

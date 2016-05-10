@@ -7,7 +7,7 @@
 
 void PlatformManipulatorAndIRBumper::loadDefaults()
 {
-    ifstream defaultsFile(PlatformManipulatorAndIRBumper::defaultsFilePath);
+    ifstream defaultsFile(Valter::filePathPrefix + PlatformManipulatorAndIRBumper::defaultsFilePath);
     string line;
     while (getline(defaultsFile, line, '\n'))
     {

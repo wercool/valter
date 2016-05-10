@@ -265,7 +265,8 @@ void MainWindow::on_platformControlP2ResetIRScannerServoButton_clicked()
 }
 
 
-
-
-
-
+void MainWindow::on_platformControlP2GetBottomIRReadingButton_clicked()
+{
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->requestIrScannerReadingADC();
+}

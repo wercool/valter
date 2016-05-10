@@ -9,7 +9,7 @@
 PlatformLocationP1 *PlatformLocationP1::pPlatformLocationP1= NULL;
 bool PlatformLocationP1::instanceFlag = false;
 const string PlatformLocationP1::controlDeviceId = "PLATFORM-LOCATION-P1";
-const string PlatformLocationP1::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/platform-location-p1-defaults";
+const string PlatformLocationP1::defaultsFilePath = "settings/platform-location-p1-defaults";
 
 PlatformLocationP1::PlatformLocationP1()
 {
@@ -166,7 +166,7 @@ void PlatformLocationP1::initTcpCommandAcceptorInterface()
 
 void PlatformLocationP1::loadDefaults()
 {
-    ifstream defaultsFile(PlatformLocationP1::defaultsFilePath);
+    ifstream defaultsFile(Valter::filePathPrefix + PlatformLocationP1::defaultsFilePath);
     string line;
     while (getline(defaultsFile, line, '\n'))
     {

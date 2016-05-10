@@ -72,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     //ARM-CONTROL-LEFT
     initArmControlLeft(ui);
+
+    ui->centralCommandHostIPLineEdit->setText(TCPInterface::getLocalHostIP().c_str());
 }
 
 MainWindow::~MainWindow()
@@ -261,5 +263,20 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
     if (valter3d != 0)
     {
         valter3d->setValterBodyRotationZ(-1 * (double)value / 10);
+    }
+}
+
+
+//TCP Interface Tab
+
+
+void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked()
+{
+    string centralCommandHostIp = ui->centralCommandHostIPLineEdit->text().toStdString();
+
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@d", centralCommandHostIp.c_str(), platformControlP1->getTcpInterface()->getPort()));
     }
 }

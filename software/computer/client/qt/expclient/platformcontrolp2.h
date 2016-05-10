@@ -138,6 +138,13 @@ public:
     void disableIRScannerServo();
     void resetIRScannerServo();
 
+    void requestIrScannerReadingADC();
+    int getIrScannerReadingADC() const;
+    void setIrScannerReadingADC(int value);
+
+    int getIntetntionalIRScannerReadingReuqest() const;
+    void setIntetntionalIRScannerReadingReuqest(int value);
+
 private:
     PlatformControlP2();
     static PlatformControlP2* pPlatformControlP2;       // PLATFORM-CONTROL-P2's singleton instance
@@ -183,6 +190,9 @@ private:
 
     int iRScannerAngle;
 
+    int irScannerReadingADC;
+    bool intetntionalIRScannerReadingReuqest;
+
     map<signed int, float>IRScannerScans;  //<angle, distance>
     std::mutex IRScannerScans_mutex;
 
@@ -190,7 +200,7 @@ private:
 
     int iRScannerMinAngle;
     int iRScannerMaxAngle;
-    bool iRScannerIntentionalAngleSet;
+    int iRScannerIntentionalAngleSet;
 
     bool ALARM;
 };

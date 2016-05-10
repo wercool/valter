@@ -137,7 +137,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 {
     if (ui->platformControlP1RedrawGUICheckBox->isChecked()) //PLATFROM-CONROL-P1 Tab
     {
-        PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+        PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
         if (!platformControlP1->getScan220ACAvailable())
         {
             ui->power220VACAvailableRadioButton->setChecked(false);
@@ -173,7 +173,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             ui->chargerConnectedRadioButton->setEnabled(true);
             ui->charger120Ah14v7RadioButton->setEnabled(true);
         }
-//qDebug("%d, %d", platformControlP1->getLeftMotorDuty(), platformControlP1->getRightMotorDuty());
+
         ui->leftMotorCurDutyBar->setValue(platformControlP1->getLeftMotorDuty());
         ui->rightMotorCurDutyBar->setValue(platformControlP1->getRightMotorDuty());
         ui->turretMotorCurDutyBar->setValue(platformControlP1->getTurretMotorDuty());

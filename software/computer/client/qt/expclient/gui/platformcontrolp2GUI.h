@@ -67,6 +67,11 @@ void platformControlP2TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 MainWindow::getInstance()->platformControlP2EncodersRefreshTimer->stop();
             }
         }
+        if (platformControlP2->getIntetntionalIRScannerReadingReuqest() == 2)
+        {
+            ui->platfromControlP2IRScannerReadingLCDNumber->display(platformControlP2->getIrScannerReadingADC());
+            platformControlP2->setIntetntionalIRScannerReadingReuqest(0);
+        }
     }
 }
 

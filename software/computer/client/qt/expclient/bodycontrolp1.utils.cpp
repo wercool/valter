@@ -135,7 +135,7 @@ void BodyControlP1::resetToDefault()
 
 void BodyControlP1::loadDefaults()
 {
-    ifstream defaultsFile(BodyControlP1::defaultsFilePath);
+    ifstream defaultsFile(Valter::filePathPrefix + BodyControlP1::defaultsFilePath);
     string line;
     while (getline(defaultsFile, line, '\n'))
     {

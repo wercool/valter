@@ -1283,7 +1283,7 @@ void PlatformControlP1::setLeftMotorDuty(int value)
 
 void PlatformControlP1::loadDefaults()
 {
-    ifstream defaultsFile(PlatformControlP1::defaultsFilePath);
+    ifstream defaultsFile(Valter::filePathPrefix + PlatformControlP1::defaultsFilePath);
     string line;
     while (getline(defaultsFile, line, '\n'))
     {

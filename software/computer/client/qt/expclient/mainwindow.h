@@ -919,6 +919,13 @@ private:
 
     // QWidget interface
 protected:
+private slots:
+    void on_platformControlP2GetBottomIRReadingButton_clicked();
+    void on_armControlRightStopAllWatchersButton_clicked();
+    void on_armControlRightStartAllWatchersButton_clicked();
+    void on_armControlLeftStopAllWatchersButton_clicked();
+    void on_armControlLeftStartAllWatchersButton_clicked();
+    void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
 };
 
 #endif // MAINWINDOW_H

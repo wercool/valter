@@ -7,7 +7,7 @@
 ArmControlRight *ArmControlRight::pArmControlRight = NULL;
 bool ArmControlRight::instanceFlag = false;
 const string ArmControlRight::controlDeviceId = "ARM-CONTROL-RIGHT";
-const string ArmControlRight::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/arm-control-right-defaults";
+const string ArmControlRight::defaultsFilePath = "settings/arm-control-right-defaults";
 
 ArmControlRight::ArmControlRight()
 {
@@ -740,6 +740,16 @@ void ArmControlRight::turnArmLedsOnOff()
         sendCommand("ARMLEDSON");
     }
     setArmLedsState(!state);
+}
+
+void ArmControlRight::stopAllWatchers()
+{
+    sendCommand("STOPWATCHERS");
+}
+
+void ArmControlRight::startAllWatchers()
+{
+    sendCommand("STARTWATCHERS");
 }
 
 bool ArmControlRight::setRightLimbMotorMovementDirection(bool value)

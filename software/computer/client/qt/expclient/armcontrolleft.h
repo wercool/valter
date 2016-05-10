@@ -319,6 +319,9 @@ public:
     void setForearmYawDirection(bool value);
     void forearmYaw(bool state);
 
+    void stopAllWatchers();
+    void startAllWatchers();
+
 private:
     ArmControlLeft();
     static ArmControlLeft* pArmControlLeft;       // ARM-CONTROL-LEFT's singleton instance

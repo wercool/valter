@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>879</width>
+    <width>887</width>
     <height>601</height>
    </rect>
   </property>
@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>821</width>
-             <height>1034</height>
+             <width>828</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -470,6 +470,12 @@
                 </item>
                 <item>
                  <widget class="QLabel" name="label_199">
+                  <property name="font">
+                   <font>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
                   <property name="text">
                    <string>TCP Interface</string>
                   </property>
@@ -483,6 +489,18 @@
                  </widget>
                 </item>
                 <item>
+                 <widget class="QLabel" name="label_205">
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Commands Receiver Host</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QLabel" name="label_201">
                   <property name="font">
                    <font>
@@ -490,7 +508,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Remote Command Host</string>
+                   <string>Host</string>
                   </property>
                  </widget>
                 </item>
@@ -515,7 +533,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Remote Command Port</string>
+                   <string>Port</string>
                   </property>
                  </widget>
                 </item>
@@ -3453,19 +3471,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <spacer name="verticalSpacer_6">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
          </layout>
         </item>
         <item>
@@ -3608,17 +3613,11 @@
                   </widget>
                  </item>
                  <item>
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
+                  <widget class="QPushButton" name="platformControlP2GetBottomIRReadingButton">
+                   <property name="text">
+                    <string>Get Reading</string>
                    </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
+                  </widget>
                  </item>
                  <item>
                   <widget class="QPushButton" name="irScanningButton">
@@ -3996,7 +3995,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>82</width>
+             <width>846</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8012,7 +8011,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>797</width>
+             <width>828</width>
              <height>1514</height>
             </rect>
            </property>
@@ -10572,7 +10571,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>812</width>
+             <width>828</width>
              <height>800</height>
             </rect>
            </property>
@@ -13412,6 +13411,20 @@ background-repeat: repeat-no;</string>
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="armControlRightStopAllWatchersButton">
+            <property name="text">
+             <string>Stop All Watchers</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="armControlRightStartAllWatchersButton">
+            <property name="text">
+             <string>Start All Watchers</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="Line" name="line_58">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -13447,8 +13460,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>785</width>
-             <height>880</height>
+             <width>828</width>
+             <height>883</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -15819,6 +15832,20 @@ color: rgb(255, 0, 0);</string>
            </spacer>
           </item>
           <item>
+           <widget class="QPushButton" name="armControlLeftStopAllWatchersButton">
+            <property name="text">
+             <string>Stop All Watchers</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="armControlLeftStartAllWatchersButton">
+            <property name="text">
+             <string>Start All Watchers</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="Line" name="line_54">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
@@ -15854,8 +15881,8 @@ color: rgb(255, 0, 0);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>785</width>
-             <height>880</height>
+             <width>828</width>
+             <height>883</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -18588,6 +18615,57 @@ color: rgb(255, 0, 0);</string>
            </property>
           </column>
          </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_202">
+          <property name="text">
+           <string>Central Command Host</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_146">
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_203">
+            <property name="text">
+             <string>IP Address</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="centralCommandHostIPLineEdit">
+            <property name="maximumSize">
+             <size>
+              <width>200</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="updateCentralCommandHostConnectionInfoOnAllSlavesButton">
+            <property name="text">
+             <string>Update on All Slaves Central Command Host IP Address</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="verticalSpacer_31">

@@ -143,7 +143,7 @@ void ArmControlLeft::resetToDefault()
 
 void ArmControlLeft::loadDefaults()
 {
-    ifstream defaultsFile(ArmControlLeft::defaultsFilePath);
+    ifstream defaultsFile(Valter::filePathPrefix + ArmControlLeft::defaultsFilePath);
     string line;
     while (getline(defaultsFile, line, '\n'))
     {

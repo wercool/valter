@@ -279,7 +279,7 @@ void MainWindow::on_rightForearmRollCCWButton_pressed()
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
     if (armControlRight->getForearmRollMotorState())
     {
-        armControlRight->setForearmRollDirection(false); //CCW
+        armControlRight->setForearmRollDirection(true); //CW
         armControlRight->setForearmRollMotorActivated(true);
     }
 }
@@ -295,7 +295,7 @@ void MainWindow::on_rightForearmRollCWButton_pressed()
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
     if (armControlRight->getForearmRollMotorState())
     {
-        armControlRight->setForearmRollDirection(true); //CW
+        armControlRight->setForearmRollDirection(false); //CCW
         armControlRight->setForearmRollMotorActivated(true);
     }
 }
@@ -433,4 +433,16 @@ void MainWindow::on_rightArmReadingsTrackNoneButton_clicked()
     {
         ((QTableWidgetItem*)ui->rightArmReadingsTable->item(i, 0))->setCheckState(Qt::Unchecked);
     }
+}
+
+void MainWindow::on_armControlRightStopAllWatchersButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->stopAllWatchers();
+}
+
+void MainWindow::on_armControlRightStartAllWatchersButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->startAllWatchers();
 }

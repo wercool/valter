@@ -698,7 +698,6 @@ void ControlDevice::activate()
         }
         setStatus(ControlDevice::StatusActive);
         spawnControlDeviceThreadWorker();
-        Valter::getInstance()->getValterModule(getControlDeviceId())->initTcpCommandAcceptorInterface();
     }
 }
 

@@ -11,7 +11,7 @@
 BodyControlP1 *BodyControlP1::pBodyControlP1 = NULL;
 bool BodyControlP1::instanceFlag = false;
 const string BodyControlP1::controlDeviceId = "BODY-CONTROL-P1";
-const string BodyControlP1::defaultsFilePath = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/settings/body-control-p1-defaults";
+const string BodyControlP1::defaultsFilePath = "settings/body-control-p1-defaults";
 
 BodyControlP1::BodyControlP1()
 {

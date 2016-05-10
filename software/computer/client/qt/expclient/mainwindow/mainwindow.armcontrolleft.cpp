@@ -434,3 +434,16 @@ void MainWindow::on_leftArmReadingsTrackNoneButton_clicked()
         ((QTableWidgetItem*)ui->leftArmReadingsTable->item(i, 0))->setCheckState(Qt::Unchecked);
     }
 }
+
+void MainWindow::on_armControlLeftStopAllWatchersButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->stopAllWatchers();
+}
+
+void MainWindow::on_armControlLeftStartAllWatchersButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->startAllWatchers();
+}
+
