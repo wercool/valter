@@ -21,6 +21,7 @@ public:
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
+    void processControlDeviceResponse(string response);
 
     bool preparePlatformMovement();
 

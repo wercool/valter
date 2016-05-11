@@ -21,6 +21,7 @@ public:
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
+    void processControlDeviceResponse(string response);
 
     int getRightForearmMotorDuty() const;
     void setRightForearmMotorDuty(int value);

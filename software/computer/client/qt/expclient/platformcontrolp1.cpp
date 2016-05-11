@@ -97,354 +97,364 @@ void PlatformControlP1::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
+                processControlDeviceResponse(response);
+
                 getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
 
-                //execute identification of responses with priority
-                if (getLeftMotorStop() && getRightMotorStop() && getTurretMotorStop())
-                {
-                    if (response.compare("DC/DC 5V ENABLED") == 0)
-                    {
-                        setPower5VOnState(true);
-                        continue;
-                    }
-                    if (response.compare("DC/DC 5V DISABLED") == 0)
-                    {
-                        setPower5VOnState(false);
-                        continue;
-                    }
-                    if (response.compare("LEFT ACCUMULATOR CONNECTED") == 0)
-                    {
-                        setLeftAccumulatorConnected(true);
-                        continue;
-                    }
-                    if (response.compare("LEFT ACCUMULATOR DISCONNECTED") == 0)
-                    {
-                        setLeftAccumulatorConnected(false);
-                        continue;
-                    }
-                    if (response.compare("RIGHT ACCUMULATOR CONNECTED") == 0)
-                    {
-                        setRightAccumulatorConnected(true);
-                        continue;
-                    }
-                    if (response.compare("RIGHT ACCUMULATOR DISCONNECTED") == 0)
-                    {
-                        setRightAccumulatorConnected(false);
-                        continue;
-                    }
-                    if (response.find("INPUT1 CHANNEL [8]: ") != std::string::npos) //charger voltage
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setChargerVoltageADC(value);
-                        setPower220VACAvailable(true);
-                        continue;
-                    }
-                    if (response.compare("MAIN ACCUMULATOR RELAY SET ON") == 0)
-                    {
-                        setMainAccumulatorRelayOnState(true);
-                        continue;
-                    }
-                    if (response.compare("MAIN ACCUMULATOR RELAY SET OFF") == 0)
-                    {
-                        setMainAccumulatorRelayOnState(false);
-                        continue;
-                    }
-                    if (response.compare("LEFT ACCUMULATOR RELAY SET ON") == 0)
-                    {
-                        setLeftAccumulatorRelayOnState(true);
-                        continue;
-                    }
-                    if (response.compare("LEFT ACCUMULATOR RELAY SET OFF") == 0)
-                    {
-                        setLeftAccumulatorRelayOnState(false);
-                        continue;
-                    }
-                    if (response.compare("RIGHT ACCUMULATOR RELAY SET ON") == 0)
-                    {
-                        setRightAccumulatorRelayOnState(true);
-                        continue;
-                    }
-                    if (response.compare("RIGHT ACCUMULATOR RELAY SET OFF") == 0)
-                    {
-                        setRightAccumulatorRelayOnState(false);
-                        continue;
-                    }
-                    if (response.find("INPUT2 CHANNEL [8]: ") != std::string::npos) //charger connected
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        if (value > 1000)
-                        {
-                            setChargerConnected(true);
-                        }
-                        else
-                        {
-                            setChargerConnected(false);
-                        }
-                        setPower220VACAvailable(true);
-                        continue;
-                    }
-                    if (response.find("INPUT2 CHANNEL [9]: ") != std::string::npos) //14.4V / 0.8A 1.2-35Ah
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        if (value > 1000)
-                        {
-                            setCharger35Ah(true);
-                        }
-                        else
-                        {
-                            setCharger35Ah(false);
-                        }
-                        continue;
-                    }
-                    if (response.find("INPUT2 CHANNEL [10]: ") != std::string::npos) //14.4V / 3.6A 35-120Ah
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        if (value > 1000)
-                        {
-                            setCharger120Ah(true);
-                        }
-                        else
-                        {
-                            setCharger120Ah(false);
-                        }
-                        continue;
-                    }
-                    if (response.find("INPUT2 CHANNEL [6]: ") != std::string::npos) //Charging in progress
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        if (value > 500)
-                        {
-                            setChargingInProgress(true);
-                        }
-                        else
-                        {
-                            setChargingInProgress(false);
-                        }
-                        continue;
-                    }
-                    if (response.find("INPUT2 CHANNEL [7]: ") != std::string::npos) //Charging complete
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        if (value > 500)
-                        {
-                            setChargingComplete(true);
-                        }
-                        else
-                        {
-                            setChargingComplete(false);
-                        }
-                        continue;
-                    }
-                }
-                else
-                {
-                    //response template
-                    //ALLCURREADINGS:IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER
-                    if (response.find("ALLCURREADINGS:") != std::string::npos) //composed readings
-                    {
-                        int substr_pos = response.find(":") + 1;
-                        string value_str = response.substr(substr_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ';');
-
-                        int turretPosition = atoi(Valter::stringToCharPtr(value_str_values[2]));
-
-                        int leftMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[3]));
-                        int rightMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[4]));
-                        int turretMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[5]));
-
-                        int leftWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[6]));
-                        int rightWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[7]));
-
-                        if (!getLeftMotorStop())
-                        {
-                            setLeftMotorCurrentADC(leftMotorCurrent);
-                        }
-                        if (!getRightMotorStop())
-                        {
-                            setRightMotorCurrentADC(rightMotorCurrent);
-                        }
-                        if (!getTurretMotorStop())
-                        {
-                            setTurretMotorCurrentADC(turretMotorCurrent);
-                        }
-                        if (getLeftWheelEncoderRead())
-                        {
-                            setLeftWheelEncoder(leftWheelEncoder);
-                        }
-                        if (getRightWheelEncoderRead())
-                        {
-                            setRightWheelEncoder(rightWheelEncoder);
-                        }
-
-                        if (getTurretPositionRead() && !getTurretMotorStop())
-                        {
-                            setTurretPositionADC(turretPosition);
-                        }
-                        continue;
-                    }
-                }
-                //get when requested inspite motors is not stopped
-                if (getLeftWheelEncoderGetOnce())
-                {
-                    if (response.find("LEFT MOTOR COUNTER: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setLeftWheelEncoder(value);
-                        setLeftWheelEncoderGetOnce(false);
-                        continue;
-                    }
-                }
-                if (getRightWheelEncoderGetOnce())
-                {
-                    if (response.find("RIGHT MOTOR COUNTER: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setRightWheelEncoder(value);
-                        setRightWheelEncoderGetOnce(false);
-                        continue;
-                    }
-                }
-                if (getTurretPositionGetOnce())
-                {
-                    if (response.find("TURRET: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setTurretPositionADC(value);
-                        setTurretPositionGetOnce(false);
-                        continue;
-                    }
-                }
-                if (getMainAccumulatorVoltageRead())
-                {
-                    //main accumulator voltage
-                    if (response.find("INPUT1 CHANNEL [0]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setMainAccumulatorVoltageADC(value);
-                        continue;
-                    }
-                }
-                if (getLeftAccumulatorVoltageRead())
-                {
-                    //left accumulator voltage
-                    if (response.find("INPUT1 CHANNEL [1]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setLeftAccumulatorVoltageADC(value);
-                        continue;
-                    }
-                }
-                if (getRightAccumulatorVoltageRead())
-                {
-                    //right accumulator voltage
-                    if (response.find("INPUT1 CHANNEL [2]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setRightAccumulatorVoltageADC(value);
-                        continue;
-                    }
-                }
-                if (getMainAccumulatorAmperageTotalRead())
-                {
-                    //main accumulator amperage total
-                    if (response.find("INPUT1 CHANNEL [3]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setMainAccumulatorAmperageTotalADC(value);
-                        continue;
-                    }
-                }
-                if (getPlatformAmperageRead())
-                {
-                    //main accumulator amperage bottom (platform)
-                    if (response.find("INPUT1 CHANNEL [4]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setPlatformAmperageADC(value);
-                        continue;
-                    }
-                }
-                if (getBodyAmperageRead())
-                {
-                    //main accumulator amperage top (body)
-                    if (response.find("INPUT1 CHANNEL [5]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setBodyAmperageADC(value);
-                        continue;
-                    }
-                }
-                if (getLeftAccumulatorAmperageRead())
-                {
-                    //left accumulator amperage
-                    if (response.find("INPUT1 CHANNEL [6]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setLeftAccumulatorAmperageADC(value);
-                        continue;
-                    }
-                }
-                if (getRightAccumulatorAmperageRead())
-                {
-                    //right accumulator amperage
-                    if (response.find("INPUT1 CHANNEL [7]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setRightAccumulatorAmperageADC(value);
-                        continue;
-                    }
-                }
-                if (getChargerVoltageRead())
-                {
-                    //charger connected (charger voltage)
-                    if (response.find("INPUT1 CHANNEL [8]: ") != std::string::npos)
-                    {
-                        int substr_pos = response.find(":") + 2;
-                        string value_str = response.substr(substr_pos);
-                        int value = atoi(value_str.c_str());
-                        setChargerVoltageADC(value);
-                        setPower220VACAvailable(true);
-                        continue;
-                    }
-                }
+                this_thread::sleep_for(std::chrono::milliseconds(1));
             }
-            this_thread::sleep_for(std::chrono::milliseconds(1));
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
         }
         getControlDevice()->addMsgToDataExchangeLog("PlatformControlP1 Module process messages queue worker stopped!");
+    }
+}
+
+void PlatformControlP1::processControlDeviceResponse(string response)
+{
+    //execute identification of responses with priority
+    if (getLeftMotorStop() && getRightMotorStop() && getTurretMotorStop())
+    {
+        if (response.compare("DC/DC 5V ENABLED") == 0)
+        {
+            setPower5VOnState(true);
+            return;
+        }
+        if (response.compare("DC/DC 5V DISABLED") == 0)
+        {
+            setPower5VOnState(false);
+            return;
+        }
+        if (response.compare("LEFT ACCUMULATOR CONNECTED") == 0)
+        {
+            setLeftAccumulatorConnected(true);
+            return;
+        }
+        if (response.compare("LEFT ACCUMULATOR DISCONNECTED") == 0)
+        {
+            setLeftAccumulatorConnected(false);
+            return;
+        }
+        if (response.compare("RIGHT ACCUMULATOR CONNECTED") == 0)
+        {
+            setRightAccumulatorConnected(true);
+            return;
+        }
+        if (response.compare("RIGHT ACCUMULATOR DISCONNECTED") == 0)
+        {
+            setRightAccumulatorConnected(false);
+            return;
+        }
+        if (response.find("INPUT1 CHANNEL [8]: ") != std::string::npos) //charger voltage
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setChargerVoltageADC(value);
+            setPower220VACAvailable(true);
+            return;
+        }
+        if (response.compare("MAIN ACCUMULATOR RELAY SET ON") == 0)
+        {
+            setMainAccumulatorRelayOnState(true);
+            return;
+        }
+        if (response.compare("MAIN ACCUMULATOR RELAY SET OFF") == 0)
+        {
+            setMainAccumulatorRelayOnState(false);
+            return;
+        }
+        if (response.compare("LEFT ACCUMULATOR RELAY SET ON") == 0)
+        {
+            setLeftAccumulatorRelayOnState(true);
+            return;
+        }
+        if (response.compare("LEFT ACCUMULATOR RELAY SET OFF") == 0)
+        {
+            setLeftAccumulatorRelayOnState(false);
+            return;
+        }
+        if (response.compare("RIGHT ACCUMULATOR RELAY SET ON") == 0)
+        {
+            setRightAccumulatorRelayOnState(true);
+            return;
+        }
+        if (response.compare("RIGHT ACCUMULATOR RELAY SET OFF") == 0)
+        {
+            setRightAccumulatorRelayOnState(false);
+            return;
+        }
+        if (response.find("INPUT2 CHANNEL [8]: ") != std::string::npos) //charger connected
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            if (value > 1000)
+            {
+                setChargerConnected(true);
+            }
+            else
+            {
+                setChargerConnected(false);
+            }
+            setPower220VACAvailable(true);
+            return;
+        }
+        if (response.find("INPUT2 CHANNEL [9]: ") != std::string::npos) //14.4V / 0.8A 1.2-35Ah
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            if (value > 1000)
+            {
+                setCharger35Ah(true);
+            }
+            else
+            {
+                setCharger35Ah(false);
+            }
+            return;
+        }
+        if (response.find("INPUT2 CHANNEL [10]: ") != std::string::npos) //14.4V / 3.6A 35-120Ah
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            if (value > 1000)
+            {
+                setCharger120Ah(true);
+            }
+            else
+            {
+                setCharger120Ah(false);
+            }
+            return;
+        }
+        if (response.find("INPUT2 CHANNEL [6]: ") != std::string::npos) //Charging in progress
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            if (value > 500)
+            {
+                setChargingInProgress(true);
+            }
+            else
+            {
+                setChargingInProgress(false);
+            }
+            return;
+        }
+        if (response.find("INPUT2 CHANNEL [7]: ") != std::string::npos) //Charging complete
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            if (value > 500)
+            {
+                setChargingComplete(true);
+            }
+            else
+            {
+                setChargingComplete(false);
+            }
+            return;
+        }
+    }
+    else
+    {
+        //response template
+        //ALLCURREADINGS:IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER
+        if (response.find("ALLCURREADINGS:") != std::string::npos) //composed readings
+        {
+            int substr_pos = response.find(":") + 1;
+            string value_str = response.substr(substr_pos);
+            vector<string>value_str_values = Valter::split(value_str, ';');
+
+            int turretPosition = atoi(Valter::stringToCharPtr(value_str_values[2]));
+
+            int leftMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[3]));
+            int rightMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[4]));
+            int turretMotorCurrent = atoi(Valter::stringToCharPtr(value_str_values[5]));
+
+            int leftWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[6]));
+            int rightWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[7]));
+
+            if (!getLeftMotorStop())
+            {
+                setLeftMotorCurrentADC(leftMotorCurrent);
+            }
+            if (!getRightMotorStop())
+            {
+                setRightMotorCurrentADC(rightMotorCurrent);
+            }
+            if (!getTurretMotorStop())
+            {
+                setTurretMotorCurrentADC(turretMotorCurrent);
+            }
+            if (getLeftWheelEncoderRead())
+            {
+                setLeftWheelEncoder(leftWheelEncoder);
+            }
+            if (getRightWheelEncoderRead())
+            {
+                setRightWheelEncoder(rightWheelEncoder);
+            }
+
+            if (getTurretPositionRead() && !getTurretMotorStop())
+            {
+                setTurretPositionADC(turretPosition);
+            }
+            return;
+        }
+    }
+    //get when requested inspite motors is not stopped
+    if (getLeftWheelEncoderGetOnce())
+    {
+        if (response.find("LEFT MOTOR COUNTER: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setLeftWheelEncoder(value);
+            setLeftWheelEncoderGetOnce(false);
+            return;
+        }
+    }
+    if (getRightWheelEncoderGetOnce())
+    {
+        if (response.find("RIGHT MOTOR COUNTER: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setRightWheelEncoder(value);
+            setRightWheelEncoderGetOnce(false);
+            return;
+        }
+    }
+    if (getTurretPositionGetOnce())
+    {
+        if (response.find("TURRET: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setTurretPositionADC(value);
+            setTurretPositionGetOnce(false);
+            return;
+        }
+    }
+    if (getMainAccumulatorVoltageRead())
+    {
+        //main accumulator voltage
+        if (response.find("INPUT1 CHANNEL [0]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setMainAccumulatorVoltageADC(value);
+            return;
+        }
+    }
+    if (getLeftAccumulatorVoltageRead())
+    {
+        //left accumulator voltage
+        if (response.find("INPUT1 CHANNEL [1]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setLeftAccumulatorVoltageADC(value);
+            return;
+        }
+    }
+    if (getRightAccumulatorVoltageRead())
+    {
+        //right accumulator voltage
+        if (response.find("INPUT1 CHANNEL [2]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setRightAccumulatorVoltageADC(value);
+            return;
+        }
+    }
+    if (getMainAccumulatorAmperageTotalRead())
+    {
+        //main accumulator amperage total
+        if (response.find("INPUT1 CHANNEL [3]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setMainAccumulatorAmperageTotalADC(value);
+            return;
+        }
+    }
+    if (getPlatformAmperageRead())
+    {
+        //main accumulator amperage bottom (platform)
+        if (response.find("INPUT1 CHANNEL [4]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setPlatformAmperageADC(value);
+            return;
+        }
+    }
+    if (getBodyAmperageRead())
+    {
+        //main accumulator amperage top (body)
+        if (response.find("INPUT1 CHANNEL [5]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setBodyAmperageADC(value);
+            return;
+        }
+    }
+    if (getLeftAccumulatorAmperageRead())
+    {
+        //left accumulator amperage
+        if (response.find("INPUT1 CHANNEL [6]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setLeftAccumulatorAmperageADC(value);
+            return;
+        }
+    }
+    if (getRightAccumulatorAmperageRead())
+    {
+        //right accumulator amperage
+        if (response.find("INPUT1 CHANNEL [7]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setRightAccumulatorAmperageADC(value);
+            return;
+        }
+    }
+    if (getChargerVoltageRead())
+    {
+        //charger connected (charger voltage)
+        if (response.find("INPUT1 CHANNEL [8]: ") != std::string::npos)
+        {
+            int substr_pos = response.find(":") + 2;
+            string value_str = response.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            setChargerVoltageADC(value);
+            setPower220VACAvailable(true);
+            return;
+        }
     }
 }
 

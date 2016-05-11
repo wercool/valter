@@ -171,6 +171,11 @@ void PlatformManipulatorAndIRBumper::initTcpCommandAcceptorInterface()
     getTcpInterface()->startListening();
 }
 
+void PlatformManipulatorAndIRBumper::processControlDeviceResponse(string response)
+{
+
+}
+
 void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
 {
     if (getControlDeviceIsSet())

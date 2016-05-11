@@ -22,6 +22,7 @@ public:
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
+    void processControlDeviceResponse(string response);
 
     bool getRedLedState(int index);
     void setRedLedState(int index, bool value);

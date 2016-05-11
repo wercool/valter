@@ -78,6 +78,11 @@ void ArmControlRight::initTcpCommandAcceptorInterface()
     getTcpInterface()->startListening();
 }
 
+void ArmControlRight::processControlDeviceResponse(string response)
+{
+
+}
+
 void ArmControlRight::processMessagesQueueWorker()
 {
     if (getControlDeviceIsSet())

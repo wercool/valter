@@ -22,6 +22,7 @@ public:
     void spawnProcessMessagesQueueWorkerThread();
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
+    void processControlDeviceResponse(string response);
 
     bool getReadLeftEncoder() const;
     void setReadLeftEncoder(bool value);

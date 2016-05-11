@@ -32,69 +32,7 @@ void PlatformControlP2::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
-                if (leftEncoderGetOnce)
-                {
-                    if (response.find("LWEN:") !=std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int  value = atoi(value_str.c_str());
-                        setLeftEncoder(value);
-                    }
-                }
-                if (rightEncoderGetOnce)
-                {
-                    if (response.find("RWEN:") !=std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int  value = atoi(value_str.c_str());
-                        setRightEncoder(value);
-                    }
-                }
-
-                if (getEncodersWorkerActivated())
-                {
-                    if (getReadLeftEncoder())
-                    {
-                        if (response.find("LWEN:") !=std::string::npos)
-                        {
-                            int value_str_pos = response.find_first_of(":") + 1;
-                            string value_str = response.substr(value_str_pos);
-                            int  value = atoi(value_str.c_str());
-                            setLeftEncoder(value);
-                        }
-                    }
-                    if (getReadRightEncoder())
-                    {
-                        if (response.find("RWEN:") !=std::string::npos)
-                        {
-                            int value_str_pos = response.find_first_of(":") + 1;
-                            string value_str = response.substr(value_str_pos);
-                            int  value = atoi(value_str.c_str());
-                            setRightEncoder(value);
-                        }
-                    }
-                }
-
-                if (getIrScanningWorkerActivated())
-                {
-                    if (response.find("IRSCAN:") !=std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int  value = atoi(value_str.c_str());
-                        if (getIntetntionalIRScannerReadingReuqest() == 1)
-                        {
-                            setIrScannerReadingADC(value);
-                            setIntetntionalIRScannerReadingReuqest(2);
-                        }
-                        else
-                        {
-                            addIRScannerScan(getIRScannerAngle(), value);
-                        }
-                    }
-                }
+                processControlDeviceResponse(response);
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }
@@ -105,6 +43,80 @@ void PlatformControlP2::processMessagesQueueWorker()
         }
     }
 }
+
+
+void PlatformControlP2::processControlDeviceResponse(string response)
+{
+    if (leftEncoderGetOnce)
+    {
+        if (response.find("LWEN:") !=std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            int  value = atoi(value_str.c_str());
+            setLeftEncoder(value);
+            return;
+        }
+    }
+    if (rightEncoderGetOnce)
+    {
+        if (response.find("RWEN:") !=std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            int  value = atoi(value_str.c_str());
+            setRightEncoder(value);
+            return;
+        }
+    }
+
+    if (getEncodersWorkerActivated())
+    {
+        if (getReadLeftEncoder())
+        {
+            if (response.find("LWEN:") !=std::string::npos)
+            {
+                int value_str_pos = response.find_first_of(":") + 1;
+                string value_str = response.substr(value_str_pos);
+                int  value = atoi(value_str.c_str());
+                setLeftEncoder(value);
+                return;
+            }
+        }
+        if (getReadRightEncoder())
+        {
+            if (response.find("RWEN:") !=std::string::npos)
+            {
+                int value_str_pos = response.find_first_of(":") + 1;
+                string value_str = response.substr(value_str_pos);
+                int  value = atoi(value_str.c_str());
+                setRightEncoder(value);
+                return;
+            }
+        }
+    }
+
+    if (getIrScanningWorkerActivated())
+    {
+        if (response.find("IRSCAN:") !=std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            int  value = atoi(value_str.c_str());
+            if (getIntetntionalIRScannerReadingReuqest() == 1)
+            {
+                setIrScannerReadingADC(value);
+                setIntetntionalIRScannerReadingReuqest(2);
+            }
+            else
+            {
+                addIRScannerScan(getIRScannerAngle(), value);
+            }
+            return;
+        }
+    }
+}
+
 bool PlatformControlP2::getChargerMotorRotateWorkerActivated() const
 {
     return chargerMotorRotateWorkerActivated;

@@ -37,6 +37,7 @@ public:
     virtual void spawnProcessMessagesQueueWorkerThread() = 0;
     virtual void initTcpInterface() = 0;
     virtual void initTcpCommandAcceptorInterface() = 0;
+    virtual void processControlDeviceResponse(string response) = 0;
 
     void sendCommand(string cmd)
     {

@@ -84,6 +84,11 @@ void BodyControlP1::initTcpCommandAcceptorInterface()
     getTcpInterface()->startListening();
 }
 
+void BodyControlP1::processControlDeviceResponse(string response)
+{
+
+}
+
 void BodyControlP1::processMessagesQueueWorker()
 {
     if (getControlDeviceIsSet())

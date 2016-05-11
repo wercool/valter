@@ -164,6 +164,11 @@ void PlatformLocationP1::initTcpCommandAcceptorInterface()
     getTcpInterface()->startListening();
 }
 
+void PlatformLocationP1::processControlDeviceResponse(string response)
+{
+
+}
+
 void PlatformLocationP1::loadDefaults()
 {
     ifstream defaultsFile(Valter::filePathPrefix + PlatformLocationP1::defaultsFilePath);

@@ -51,11 +51,15 @@ class PlatformControlP1TCPConnectionHandler : public Thread
     void executeCommand(string cmd)
     {
         PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
-        qDebug("TCP[%s] >>>>>>>>>>>>>>>>>>>>>>> %s", platformControlP1->getControlDeviceId().c_str(), cmd.c_str());
 
         if (cmd.find("CDR~") != std::string::npos)
         {
-            qDebug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            int cdr_pos = cmd.find("~") + 1;
+            string cdr = cmd.substr(cdr_pos);
+
+            qDebug("TCP[%s] → %s", platformControlP1->getControlDeviceId().c_str(), cdr.c_str());
+
+            platformControlP1->processControlDeviceResponse(cdr);
         }
 
         //control/service messages
