@@ -40,56 +40,102 @@ void MainWindow::platformControlP1TabRefreshTimerUpdate()
 void MainWindow::on_on5VPlatformControlP1pushButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_on5VPlatformControlP1pushButton_clicked");
+    }
     platformControlP1->toggle5VSource(true);
 }
 
 void MainWindow::on_off5VPlatformControlP1pushButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_off5VPlatformControlP1pushButton_clicked");
+    }
     platformControlP1->toggle5VSource(false);
 }
 
 void MainWindow::on_onLeftAccumulatorPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_onLeftAccumulatorPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleLeftAccumulator(true);
 }
 
 void MainWindow::on_offLeftAccumulatorPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_offLeftAccumulatorPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleLeftAccumulator(false);
 }
 
 void MainWindow::on_onRightAccumulatorPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_onRightAccumulatorPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleRightAccumulator(true);
 }
 
 void MainWindow::on_offRightAccumulatorPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_offRightAccumulatorPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleRightAccumulator(false);
 }
 
 void MainWindow::on_scan220VAOnCButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_scan220VAOnCButton_clicked");
+    }
     platformControlP1->setScan220ACAvailable(true);
 }
 
 void MainWindow::on_scan220VAOffCButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_scan220VAOffCButton_clicked");
+    }
     platformControlP1->setScan220ACAvailable(false);
+}
+
+void MainWindow::on_chargerVoltageADCCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_chargerVoltageADCCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
 }
 
 void MainWindow::on_onMainAccumulatorRelayPlatformControlP1Button_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->mainAccumulatorON())
     {
+        if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+        {
+            platformControlP1->sendTCPCommand("on_onMainAccumulatorRelayPlatformControlP1Button_clicked");
+        }
+
         QMessageBox msgBox;
         msgBox.setText("220V AC is not connected");
         msgBox.exec();
@@ -99,54 +145,90 @@ void MainWindow::on_onMainAccumulatorRelayPlatformControlP1Button_clicked()
 void MainWindow::on_offMainAccumulatorRelayPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_offMainAccumulatorRelayPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleMainAccumulatorRelayState(false);
 }
 
 void MainWindow::on_onLeftAccumulatorRelayPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_onLeftAccumulatorRelayPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleLeftAccumulatorRelay(true);
 }
 
 void MainWindow::on_offLeftAccumulatorRelayPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_offLeftAccumulatorRelayPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleLeftAccumulatorRelay(false);
 }
 
 void MainWindow::on_onRightAccumulatorRelayPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_onRightAccumulatorRelayPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleRightAccumulatorRelay(true);
 }
 
 void MainWindow::on_offRightAccumulatorRelayPlatformControlP1Button_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_offRightAccumulatorRelayPlatformControlP1Button_clicked");
+    }
     platformControlP1->toggleRightAccumulatorRelay(false);
 }
 
 void MainWindow::on_chargerButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_chargerButton_clicked");
+    }
     platformControlP1->chargerButtonPress();
 }
 
 void MainWindow::on_setChargeOnButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_setChargeOnButton_clicked");
+    }
     platformControlP1->setChargerMode(true);
 }
 
 void MainWindow::on_setChargeOffButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_setChargeOffButton_clicked");
+    }
     platformControlP1->setChargerMode(false);
 }
 
 void MainWindow::on_platformMoveStopButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformMoveStopButton_clicked");
+    }
     platformControlP1->setPlatformEmergencyStop(true);
 }
 
@@ -376,7 +458,11 @@ void MainWindow::on_platformRotateRightButton_released()
 
 void MainWindow::on_turretRotateLeftButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_turretRotateLeftButton_pressed");
+    }
     if (platformControlP1->preparePlatformMovement())
     {
         //rotate left (ccw)
@@ -389,13 +475,21 @@ void MainWindow::on_turretRotateLeftButton_pressed()
 
 void MainWindow::on_turretRotateLeftButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_turretRotateLeftButton_released");
+    }
     platformControlP1->setTurretMotorActivated(false);
 }
 
 void MainWindow::on_turretRotateRightButton_pressed()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_turretRotateRightButton_pressed");
+    }
     if (platformControlP1->preparePlatformMovement())
     {
         //rotate right (cw)
@@ -408,13 +502,21 @@ void MainWindow::on_turretRotateRightButton_pressed()
 
 void MainWindow::on_bodyRotationStopButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_bodyRotationStopButton_clicked");
+    }
     platformControlP1->setTurretEmergencyStop(true);
 }
 
 void MainWindow::on_turretRotateRightButton_released()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_turretRotateRightButton_released");
+    }
     platformControlP1->setTurretMotorActivated(false);
 }
 
@@ -431,7 +533,11 @@ void MainWindow::on_platformControlP1LoadDefaultsButton_clicked()
 
 void MainWindow::on_platformControlP1MotorsPWMFrequencySetButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformControlP1MotorsPWMFrequencySetButton_clicked");
+    }
     platformControlP1->setMotorsPWMFrequncy(ui->platformControlP1MotorsPWMFrequencySpinBox->value());
 }
 
@@ -447,59 +553,86 @@ void MainWindow::on_rightMotorCurrentCheckBox_clicked()
     platformControlP1->setRightMotorCurrentRead(ui->rightMotorCurrentCheckBox->isChecked());
 }
 
-void MainWindow::on_turretMotorCurrentCheckBox_clicked()
-{
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
-    platformControlP1->setTurretMotorCurrentRead(ui->turretMotorCurrentCheckBox->isChecked());
-}
-
 void MainWindow::on_platformControlP1LeftWheelEncoderResetButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformControlP1LeftWheelEncoderResetButton_clicked");
+    }
     platformControlP1->resetLeftWheelEncoder();
 }
 
 void MainWindow::on_platformControlP1RightWheelEncoderResetButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformControlP1RightWheelEncoderResetButton_clicked");
+    }
     platformControlP1->resetRightWheelEncoder();
 }
 
 void MainWindow::on_platformControlP1LeftWheelEncoderGetButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformControlP1LeftWheelEncoderGetButton_clicked");
+    }
     ui->platformControlP1LeftWheelEncoderLcdNumber->display("");
     platformControlP1->setLeftWheelEncoderGetOnce(true);
 }
 
 void MainWindow::on_platformControlP1RightWheelEncoderGetButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformControlP1RightWheelEncoderGetButton_clicked");
+    }
     ui->platformControlP1RightWheelEncoderLcdNumber->display("");
     platformControlP1->setRightWheelEncoderGetOnce(true);
 }
 
 void MainWindow::on_platformControlP1LeftWheelEncoderAutoresetCheckBox_clicked(bool checked)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1LeftWheelEncoderAutoresetCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
     platformControlP1->setLeftWheelEncoderAutoreset(checked);
 }
 
 void MainWindow::on_platformControlP1RightWheelEncoderAutoresetCheckBox_clicked(bool checked)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1RightWheelEncoderAutoresetCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
     platformControlP1->setRightWheelEncoderAutoreset(checked);
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_getBodyRotationPositionButton_clicked()
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_getBodyRotationPositionButton_clicked");
+    }
     ui->turretPositionLcdNumber->display("");
     platformControlP1->setTurretPositionGetOnce(true);
 }
 
 void MainWindow::on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem *item)
 {
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1ReadingsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
+    }
     setPlatfromControlP1AdditionalReadings(item);
 }
 
@@ -596,6 +729,10 @@ void MainWindow::on_turretRotationDutySlider_valueChanged(int value)
 void MainWindow::on_decelerationTurretRotationSlider_valueChanged(int value)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_decelerationTurretRotationSlider_valueChanged@%d", value));
+    }
     platformControlP1->setTurretDeceleration(value);
     ui->platformControlP1TurretMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -603,6 +740,10 @@ void MainWindow::on_decelerationTurretRotationSlider_valueChanged(int value)
 void MainWindow::on_accelerationTurretRotationSlider_valueChanged(int value)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_accelerationTurretRotationSlider_valueChanged@%d", value));
+    }
     platformControlP1->setTurretAcceleration(value);
     ui->platformControlP1TurretMotorAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -610,6 +751,10 @@ void MainWindow::on_accelerationTurretRotationSlider_valueChanged(int value)
 void MainWindow::on_platformControlP1additionalReadingsTrackingDelay_valueChanged(int value)
 {
     PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1additionalReadingsTrackingDelay_valueChanged@%d", value));
+    }
     platformControlP1->setAdditionalReadingsDelayCur(value);
     ui->platformControlP1additionalReadingsTrackingDelayLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -632,5 +777,93 @@ void MainWindow::on_platformControlP1CommandHostConnectorUpdateButton_clicked()
     platformControlP1->getTcpInterface()->setCommandHostPort(atoi(ui->platformControlP1CommandPortLineEdit->text().toStdString().c_str()));
 }
 
+void MainWindow::on_wheelMotorsCurrentADCCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_wheelMotorsCurrentADCCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
 
+void MainWindow::on_leftMotorCurrentCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_leftMotorCurrentCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
 
+void MainWindow::on_rightMotorCurrentCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_rightMotorCurrentCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
+
+void MainWindow::on_platformControlP1MotorsPWMFrequencySpinBox_valueChanged(int value)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1MotorsPWMFrequencySpinBox_valueChanged@%d", value));
+    }
+}
+
+void MainWindow::on_platformControlP1LeftWheelEncoderCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1LeftWheelEncoderCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
+
+void MainWindow::on_platformControlP1RightWheelEncoderCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1RightWheelEncoderCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
+
+void MainWindow::on_turretMotorCurrentCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_turretMotorCurrentCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+    platformControlP1->setTurretMotorCurrentRead(checked);
+}
+
+void MainWindow::on_turretMotorCurrentADCCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_turretMotorCurrentADCCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
+
+void MainWindow::on_turretPositionReadCheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_turretPositionReadCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
+
+void MainWindow::on_platformControlP1RedrawGUICheckBox_clicked(bool checked)
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1RedrawGUICheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}

@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -2013,7 +2013,7 @@
                            <number>0</number>
                           </property>
                           <item>
-                           <widget class="QPushButton" name="pushButton">
+                           <widget class="QPushButton" name="getBodyRotationPositionButton">
                             <property name="maximumSize">
                              <size>
                               <width>35</width>
@@ -18827,7 +18827,7 @@ color: rgb(255, 0, 0);</string>
   <tabstop>turretPositionADCRadioButton</tabstop>
   <tabstop>turretPositionDegRadioButton</tabstop>
   <tabstop>turretPositionRadRadioButton</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>getBodyRotationPositionButton</tabstop>
   <tabstop>turretMotorCurrentCheckBox</tabstop>
   <tabstop>turretMotorCurrentADCCheckBox</tabstop>
   <tabstop>platformControlP1MotorsPWMFrequencySpinBox</tabstop>

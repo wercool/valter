@@ -234,7 +234,11 @@ public slots:
 
     void on_rightMotorCurrentCheckBox_clicked();
 
-    void on_turretMotorCurrentCheckBox_clicked();
+    void on_platformControlP1LeftWheelEncoderCheckBox_clicked(bool checked);
+
+    void on_platformControlP1RightWheelEncoderCheckBox_clicked(bool checked);
+
+    void on_turretMotorCurrentCheckBox_clicked(bool checked);
 
     void on_platformControlP1LeftWheelEncoderResetButton_clicked();
 
@@ -248,7 +252,7 @@ public slots:
 
     void on_platformControlP1RightWheelEncoderAutoresetCheckBox_clicked(bool checked);
 
-    void on_pushButton_clicked();
+    void on_getBodyRotationPositionButton_clicked();
 
     void on_platformControlP1ReadingsTable_itemClicked(QTableWidgetItem *item);
 
@@ -274,7 +278,23 @@ public slots:
 
     void on_valterPlatformMovementControlsDetachButton_clicked();
 
-    //PLATFORM-LOCATION-P1
+    void on_leftMotorCurrentCheckBox_clicked(bool checked);
+
+    void on_rightMotorCurrentCheckBox_clicked(bool checked);
+
+    void on_platformControlP1MotorsPWMFrequencySpinBox_valueChanged(int value);
+
+    void on_wheelMotorsCurrentADCCheckBox_clicked(bool checked);
+
+    void on_platformControlP1CommandHostConnectorUpdateButton_clicked();
+
+    void on_turretMotorCurrentADCCheckBox_clicked(bool checked);
+
+    void on_turretPositionReadCheckBox_clicked(bool checked);
+
+    void on_chargerVoltageADCCheckBox_clicked(bool checked);
+
+    //platform-location-p1
     void initPlatfromLocationP1(Ui::MainWindow *ui);
 
     void platformLocationP1TabRefreshTimerUpdate();
@@ -774,6 +794,10 @@ public slots:
 
     void on_leftArmReadingsTrackNoneButton_clicked();
 
+    void on_armControlRightStopAllWatchersButton_clicked();
+
+    void on_armControlRightStartAllWatchersButton_clicked();
+
     //arm-control-right
     void initArmControlRight(Ui::MainWindow *ui);
 
@@ -877,8 +901,10 @@ public slots:
 
     void on_rightArmReadingsTrackNoneButton_clicked();
 
+    void on_armControlLeftStopAllWatchersButton_clicked();
 
-    void on_platformControlP1CommandHostConnectorUpdateButton_clicked();
+    void on_armControlLeftStartAllWatchersButton_clicked();
+
 
 private:
     Ui::MainWindow *ui;
@@ -921,11 +947,8 @@ private:
 protected:
 private slots:
     void on_platformControlP2GetBottomIRReadingButton_clicked();
-    void on_armControlRightStopAllWatchersButton_clicked();
-    void on_armControlRightStartAllWatchersButton_clicked();
-    void on_armControlLeftStopAllWatchersButton_clicked();
-    void on_armControlLeftStartAllWatchersButton_clicked();
     void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
+    void on_platformControlP1RedrawGUICheckBox_clicked(bool checked);
 };
 
 #endif // MAINWINDOW_H

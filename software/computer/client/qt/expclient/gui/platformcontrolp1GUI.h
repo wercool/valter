@@ -410,7 +410,7 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
 
 void setPlatfromControlP1AdditionalReadings(QTableWidgetItem *item)
 {
-    PlatformControlP1 *platformControlP1 = (PlatformControlP1*)Valter::getInstance()->getValterModule(PlatformControlP1::getControlDeviceId());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (item->column() == 3)
     {
         switch (item->row())
