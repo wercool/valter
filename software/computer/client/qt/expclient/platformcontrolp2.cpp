@@ -34,6 +34,8 @@ void PlatformControlP2::processMessagesQueueWorker()
 
                 processControlDeviceResponse(response);
 
+                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }
             else
@@ -830,6 +832,7 @@ void PlatformControlP2::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33334);
         setTcpInterface(tcpInterface);
+        initTcpCommandAcceptorInterface();
     }
 }
 

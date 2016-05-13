@@ -770,13 +770,6 @@ void MainWindow::on_valterPlatformMovementControlsDetachButton_clicked()
     pWidget->show();
 }
 
-void MainWindow::on_platformControlP1CommandHostConnectorUpdateButton_clicked()
-{
-    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
-    platformControlP1->getTcpInterface()->setCommandHostIP(ui->platformControlP1CommandHostLineEdit->text().toStdString());
-    platformControlP1->getTcpInterface()->setCommandHostPort(atoi(ui->platformControlP1CommandPortLineEdit->text().toStdString().c_str()));
-}
-
 void MainWindow::on_wheelMotorsCurrentADCCheckBox_clicked(bool checked)
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();

@@ -154,85 +154,146 @@ void MainWindow::platformLocationP1TabRefreshTimerUpdate()
 
 void MainWindow::platfromLocationP1LEDHandler()
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
     QPushButton* btn = (QPushButton*) sender();
-    int channel = atoi(btn->objectName().toStdString().substr(2, (btn->objectName().length() - 8)).c_str());
-    if (btn->objectName().endsWith("RedLed"))
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("platfromLocationP1LEDOnOff@%s", btn->objectName().toStdString().c_str()));
+    }
+    platfromLocationP1LEDOnOff(btn->objectName().toStdString());
+}
+
+void MainWindow::platfromLocationP1LEDOnOff(string ledButtonName_stdString)
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+
+    QString ledButtonName = QString::fromUtf8(ledButtonName_stdString.c_str());
+    int channel = atoi(ledButtonName.toStdString().substr(2, (ledButtonName.toStdString().length() - 8)).c_str());
+    if (ledButtonName.endsWith("RedLed"))
     {
         platformLocationP1->setRedLedState(channel, !platformLocationP1->getRedLedState(channel));
-        setRedLedButtonOn(this, btn, platformLocationP1->getRedLedState(channel));
+        setRedLedButtonOn(ledButtonName, platformLocationP1->getRedLedState(channel));
     }
-    else if (btn->objectName().endsWith("GreenLed"))
+    else if (ledButtonName.endsWith("GreenLed"))
     {
         platformLocationP1->setGreenLedState(channel, !platformLocationP1->getGreenLedState(channel));
-        setGreenLedButtonOn(this, btn, platformLocationP1->getGreenLedState(channel));
+        setGreenLedButtonOn(ledButtonName, platformLocationP1->getGreenLedState(channel));
     }
 }
 
 void MainWindow::on_loadDefaultsPlatformLocationP1Button_clicked()
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_loadDefaultsPlatformLocationP1Button_clicked");
+    }
     platformLocationP1->loadDefaults();
     loadPlatformLocationP1Defaults(ui);
 }
 
+
+void MainWindow::on_platformLocationP1RedrawGUICheckBox_clicked(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_platformLocationP1RedrawGUICheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
+
 void MainWindow::on_irSensorsPresetsTable_itemClicked(QTableWidgetItem *item)
 {
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_irSensorsPresetsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
+    }
     setPlatformLocationIRSensorPresets(item);
 }
 
 void MainWindow::on_usSensorsPresetsTable_itemClicked(QTableWidgetItem *item)
 {
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_usSensorsPresetsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
+    }
     setPlatformLocationUSSensorPresets(item);
 }
 
 void MainWindow::on_LEDStatesButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_LEDStatesButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setLedStatesSet(checked);
 }
 
 void MainWindow::on_USSignalDutyScroller_valueChanged(int value)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_USSignalDutyScroller_valueChanged@%d", value));
+    }
     platformLocationP1->setUsSignalDuty(value);
-
     ui->USSignalDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_USSignalBurstScroller_valueChanged(int value)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_USSignalBurstScroller_valueChanged@%d", value));
+    }
     platformLocationP1->setUsSignalBurst(value);
-
     ui->USSignalBurstLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_USSignalDelayScroller_valueChanged(int value)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_USSignalDelayScroller_valueChanged@%d", value));
+    }
     platformLocationP1->setUsSignalDelay(value);
-
     ui->USSignalDelayLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_USVoltageUpButton_clicked()
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_USVoltageUpButton_clicked");
+    }
     platformLocationP1->setRelativeUSSensorVoltageUp();
     ui->USVoltageRegulatorLabel->setText(Valter::format_string("[%d] relative to initial", platformLocationP1->getRelativeUSSensorVoltage()).c_str());
 }
 
 void MainWindow::on_USVoltageDownButton_clicked()
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_USVoltageDownButton_clicked");
+    }
     platformLocationP1->setRelativeUSSensorVoltageDown();
     ui->USVoltageRegulatorLabel->setText(Valter::format_string("[%d] relative to initial", platformLocationP1->getRelativeUSSensorVoltage()).c_str());
 }
 
 void MainWindow::on_leftSonarScanButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_leftSonarScanButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setLeftSonarActivated(checked);
     if (!platformLocationP1->getLeftSonarActivated())
     {
@@ -250,7 +311,11 @@ void MainWindow::on_leftSonarScanButton_toggled(bool checked)
 
 void MainWindow::on_rightSonarScanButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_rightSonarScanButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setRightSonarActivated(checked);
     if (!platformLocationP1->getRightSonarActivated())
     {
@@ -268,18 +333,25 @@ void MainWindow::on_rightSonarScanButton_toggled(bool checked)
 
 void MainWindow::on_leftSonarAngleScroller_valueChanged(int value)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_leftSonarAngleScroller_valueChanged@%d", value));
+    }
     if (!platformLocationP1->getLeftSonarActivated())
     {
         platformLocationP1->setLeftSonarAngle(value);
     }
-
     ui->leftSonarAngleLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_rightSonarAngleScroller_valueChanged(int value)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_rightSonarAngleScroller_valueChanged@%d", value));
+    }
     if (!platformLocationP1->getRightSonarActivated())
     {
         platformLocationP1->setRightSonarAngle(value);
@@ -323,13 +395,41 @@ void MainWindow::on_detatchSonarsFrameButton_clicked()
 
 void MainWindow::on_accelerometerTrackCheckBox_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_accelerometerTrackCheckBox_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setAccelerometerWorkerActivated(checked);
+}
+
+
+void MainWindow::on_accelerometerRawCheckBox_clicked(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_accelerometerRawCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}
+
+
+void MainWindow::on_magnetometerRawCheckBox_clicked(bool checked)
+{
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_magnetometerRawCheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
 }
 
 void MainWindow::on_magnetometerTrackCheckBox_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_magnetometerTrackCheckBox_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setMagnetometerWorkerActivated(checked);
 }
 
@@ -381,7 +481,11 @@ void MainWindow::on_magnetometerGraphicsViewRedrawCheckbox_toggled(bool checked)
 
 void MainWindow::on_compassHeadingTrackCheckBox_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_compassHeadingTrackCheckBox_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setCompassHeadingWorkerActivated(checked);
 }
 
@@ -440,31 +544,51 @@ void MainWindow::on_inclinometerZCheckbox_toggled(bool checked)
 
 void MainWindow::on_llLedToggleButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_llLedToggleButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setLLLedState(checked);
 }
 
 void MainWindow::on_lrLedToggleButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_lrLedToggleButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setLRLedState(checked);
 }
 
 void MainWindow::on_rlLedToggleButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_rlLedToggleButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setRLLedState(checked);
 }
 
 void MainWindow::on_rrLedToggleButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_rrLedToggleButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setRRLedState(checked);
 }
 
 void MainWindow::on_allSonarsLedsToggleButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_allSonarsLedsToggleButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setAllSonarsLedsState(checked);
     ui->llLedToggleButton->setChecked(checked);
     ui->lrLedToggleButton->setChecked(checked);
@@ -474,7 +598,11 @@ void MainWindow::on_allSonarsLedsToggleButton_toggled(bool checked)
 
 void MainWindow::on_manLedToggleButton_toggled(bool checked)
 {
-    PlatformLocationP1 *platformLocationP1 = (PlatformLocationP1*)Valter::getInstance()->getValterModule(PlatformLocationP1::getControlDeviceId());
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand(Valter::format_string("on_manLedToggleButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     platformLocationP1->setManLedState(checked);
 }
 
@@ -499,18 +627,30 @@ void MainWindow::on_inclinometerFrameDetatchButton_clicked()
 void MainWindow::on_platformLocationP1EnableSensorsButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_platformLocationP1EnableSensorsButton_clicked");
+    }
     platformLocationP1->enableSensors();
 }
 
 void MainWindow::on_platformLocationP1DisableSensorsButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_platformLocationP1DisableSensorsButton_clicked");
+    }
     platformLocationP1->disableSensors();
 }
 
 void MainWindow::on_platformLocationP1AllLEDsONButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_platformLocationP1AllLEDsONButton_clicked");
+    }
     platformLocationP1->setAllLEDsOn();
     setAllLedsButtonsOn(this);
 }
@@ -518,6 +658,10 @@ void MainWindow::on_platformLocationP1AllLEDsONButton_clicked()
 void MainWindow::on_platformLocationP1AllLEDsOFFButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_platformLocationP1AllLEDsOFFButton_clicked");
+    }
     platformLocationP1->setAllLEDsOff();
     setAllLedsButtonsOff(this);
 }
@@ -525,18 +669,30 @@ void MainWindow::on_platformLocationP1AllLEDsOFFButton_clicked()
 void MainWindow::on_leftSonarReleaseButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_leftSonarReleaseButton_clicked");
+    }
     platformLocationP1->setLeftSonarActivated(false);
 }
 
 void MainWindow::on_rightSonarReleaseButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_rightSonarReleaseButton_clicked");
+    }
     platformLocationP1->setRightSonarActivated(false);
 }
 
 void MainWindow::on_updateCompassHeadingButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_updateCompassHeadingButton_clicked");
+    }
     platformLocationP1->updateCompassHeading();
 }
 
@@ -544,6 +700,10 @@ void MainWindow::on_updateCompassHeadingButton_clicked()
 void MainWindow::on_updateAccelerometerButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_updateAccelerometerButton_clicked");
+    }
     platformLocationP1->updateAccelerometer();
 }
 
@@ -557,39 +717,61 @@ void MainWindow::on_updateMagnetometerButton_clicked()
 void MainWindow::on_enableAllIRSensorsButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_enableAllIRSensorsButton_clicked");
+    }
     for (unsigned int i = 0; i < 12; i++)
     {
         platformLocationP1->setReadIRSensor(i, true);
         ((QTableWidgetItem*)ui->irSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadIRSensor(i)) ? Qt::Checked : Qt::Unchecked);
     }
+    ui->irSensorsPresetsTable->viewport()->update();
 }
 
 void MainWindow::on_disableAllIRSensorsButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_disableAllIRSensorsButton_clicked");
+    }
     for (unsigned int i = 0; i < 12; i++)
     {
         platformLocationP1->setReadIRSensor(i, false);
         ((QTableWidgetItem*)ui->irSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadIRSensor(i)) ? Qt::Checked : Qt::Unchecked);
     }
+    ui->irSensorsPresetsTable->viewport()->update();
 }
 
 void MainWindow::on_enableAllUSSensorsButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_enableAllUSSensorsButton_clicked");
+    }
     for (unsigned int i = 0; i < 12; i++)
     {
         platformLocationP1->setReadUSSensor(i, true);
         ((QTableWidgetItem*)ui->usSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadUSSensor(i)) ? Qt::Checked : Qt::Unchecked);
     }
+    ui->usSensorsPresetsTable->viewport()->update();
 }
 
 void MainWindow::on_disableAllUSSensorsButton_clicked()
 {
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
+    {
+        platformLocationP1->sendTCPCommand("on_disableAllUSSensorsButton_clicked");
+    }
     for (unsigned int i = 0; i < 12; i++)
     {
         platformLocationP1->setReadUSSensor(i, false);
         ((QTableWidgetItem*)ui->usSensorsPresetsTable->item(i, 1))->setCheckState((platformLocationP1->getReadUSSensor(i)) ? Qt::Checked : Qt::Unchecked);
     }
+    ui->usSensorsPresetsTable->viewport()->update();
 }
+
+

@@ -477,8 +477,11 @@ void initLedButtons(MainWindow *mainWindow)
     setAllLedsButtonsOff(mainWindow);
 }
 
-void setRedLedButtonOn(MainWindow *mainWindow, QPushButton *btn, bool state)
+void setRedLedButtonOn(QString buttonName, bool state)
 {
+    MainWindow *mainWindow = MainWindow::getInstance();
+    Ui::MainWindow* ui = mainWindow->getUi();
+    QPushButton *btn = ui->platformLocationP1Tab->findChild<QPushButton*>(buttonName, Qt::FindChildrenRecursively);
     if (state)
     {
         btn->setIcon(mainWindow->redLedOnIcon);
@@ -494,8 +497,11 @@ void setRedLedButtonOff(MainWindow *mainWindow, QPushButton *btn)
     btn->setIcon(mainWindow->redLedOffIcon);
 }
 
-void setGreenLedButtonOn(MainWindow *mainWindow, QPushButton *btn, bool state)
+void setGreenLedButtonOn(QString buttonName, bool state)
 {
+    MainWindow *mainWindow = MainWindow::getInstance();
+    Ui::MainWindow* ui = mainWindow->getUi();
+    QPushButton *btn = ui->platformLocationP1Tab->findChild<QPushButton*>(buttonName, Qt::FindChildrenRecursively);
     if (state)
     {
         btn->setIcon(mainWindow->greenLedOnIcon);

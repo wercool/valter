@@ -155,6 +155,7 @@ void PlatformLocationP1::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33335);
         setTcpInterface(tcpInterface);
+        initTcpCommandAcceptorInterface();
     }
 }
 
@@ -164,9 +165,114 @@ void PlatformLocationP1::initTcpCommandAcceptorInterface()
     getTcpInterface()->startListening();
 }
 
+void PlatformLocationP1::processMessagesQueueWorker()
+{
+    if (getControlDeviceIsSet())
+    {
+        while (getControlDevice()->getStatus() == ControlDevice::StatusActive)
+        {
+            if (getControlDevice()->responsesAvailable())
+            {
+                string response = getControlDevice()->pullResponse();
+
+                processControlDeviceResponse(response);
+
+                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+
+                this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
+        }
+    }
+}
+
 void PlatformLocationP1::processControlDeviceResponse(string response)
 {
+    if (response.find("IR[") !=std::string::npos) //infrared SHARP sensor readings
+    {
+        int channel_str_pos1 = response.find_first_of("[") + 1;
+        int channel_str_pos2 = response.find_first_of("]");
+        string channel_str = response.substr(channel_str_pos1, channel_str_pos2 - channel_str_pos1);
+        int channel = atoi(channel_str.c_str());
+        int value_str_pos = response.find_first_of(":") + 1;
+        string value_str = response.substr(value_str_pos);
+        int  value = atoi(value_str.c_str());
 
+        setIRSensorADC(channel, value);
+
+        return;
+    }
+    if (response.find("US[") !=std::string::npos) //ultrasound distance meter sensor readings
+    {
+        int channel_str_pos1 = response.find_first_of("[") + 1;
+        int channel_str_pos2 = response.find_first_of("]");
+        string channel_str = response.substr(channel_str_pos1, channel_str_pos2 - channel_str_pos1);
+        int channel = atoi(channel_str.c_str());
+        int value_str_pos = response.find_first_of(":") + 1;
+        string value_str = response.substr(value_str_pos);
+        int  value = atoi(value_str.c_str());
+
+        setUSSensorTicks(channel, value);
+
+        return;
+    }
+    if (getLeftSonarActivated())
+    {
+        if (response.find("LUSS") !=std::string::npos) //left ultrasound sonar distance meter sensor readings
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            int  value = atoi(value_str.c_str());
+            addLeftSonarScan(getLeftSonarAngle(), value);
+            return;
+        }
+    }
+    if (getRightSonarActivated())
+    {
+        if (response.find("RUSS") !=std::string::npos) //right ultrasound sonar distance meter sensor readings
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            int  value = atoi(value_str.c_str());
+            addRightSonarScan(getRightSonarAngle(), value);
+            return;
+        }
+    }
+
+    if (getAccelerometerWorkerActivated() || getGetAccelerometerReadingOnce())
+    {
+        if (response.find("ACC:") !=std::string::npos) //accelerometer sensor readings
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setAccelerometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()), atoi(value_str_values[2].c_str()));
+            if (getGetAccelerometerReadingOnce())
+            {
+                setGetAccelerometerReadingOnce(false);
+            }
+            return;
+        }
+    }
+
+    if (getMagnetometerWorkerActivated() || getGetMagnetometerReadingOnce())
+    {
+        if (response.find("MAG:") !=std::string::npos) //magnetometer sensor readings
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setMagnetometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[2].c_str()), atoi(value_str_values[1].c_str()));
+            if (getGetMagnetometerReadingOnce())
+            {
+                setGetMagnetometerReadingOnce(false);
+            }
+            return;
+        }
+    }
 }
 
 void PlatformLocationP1::loadDefaults()
@@ -329,105 +435,6 @@ void PlatformLocationP1::setLeds()
         ledStates.append(getRedLedState(i) ? "1" : "0");
     }
     sendCommand(ledStates);
-}
-
-void PlatformLocationP1::processMessagesQueueWorker()
-{
-    if (getControlDeviceIsSet())
-    {
-        while (getControlDevice()->getStatus() == ControlDevice::StatusActive)
-        {
-            if (getControlDevice()->responsesAvailable())
-            {
-                string response = getControlDevice()->pullResponse();
-
-                if (response.find("IR[") !=std::string::npos) //infrared SHARP sensor readings
-                {
-                    int channel_str_pos1 = response.find_first_of("[") + 1;
-                    int channel_str_pos2 = response.find_first_of("]");
-                    string channel_str = response.substr(channel_str_pos1, channel_str_pos2 - channel_str_pos1);
-                    int channel = atoi(channel_str.c_str());
-                    int value_str_pos = response.find_first_of(":") + 1;
-                    string value_str = response.substr(value_str_pos);
-                    int  value = atoi(value_str.c_str());
-
-                    setIRSensorADC(channel, value);
-
-                    continue;
-                }
-                if (response.find("US[") !=std::string::npos) //ultrasound distance meter sensor readings
-                {
-                    int channel_str_pos1 = response.find_first_of("[") + 1;
-                    int channel_str_pos2 = response.find_first_of("]");
-                    string channel_str = response.substr(channel_str_pos1, channel_str_pos2 - channel_str_pos1);
-                    int channel = atoi(channel_str.c_str());
-                    int value_str_pos = response.find_first_of(":") + 1;
-                    string value_str = response.substr(value_str_pos);
-                    int  value = atoi(value_str.c_str());
-
-                    setUSSensorTicks(channel, value);
-
-                    continue;
-                }
-                if (getLeftSonarActivated())
-                {
-                    if (response.find("LUSS") !=std::string::npos) //left ultrasound sonar distance meter sensor readings
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int  value = atoi(value_str.c_str());
-                        addLeftSonarScan(getLeftSonarAngle(), value);
-                    }
-                }
-                if (getRightSonarActivated())
-                {
-                    if (response.find("RUSS") !=std::string::npos) //right ultrasound sonar distance meter sensor readings
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int  value = atoi(value_str.c_str());
-                        addRightSonarScan(getRightSonarAngle(), value);
-                    }
-                }
-
-                if (getAccelerometerWorkerActivated() || getGetAccelerometerReadingOnce())
-                {
-                    if (response.find("ACC:") !=std::string::npos) //accelerometer sensor readings
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setAccelerometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()), atoi(value_str_values[2].c_str()));
-                        if (getGetAccelerometerReadingOnce())
-                        {
-                            setGetAccelerometerReadingOnce(false);
-                        }
-                    }
-                }
-
-                if (getMagnetometerWorkerActivated() || getGetMagnetometerReadingOnce())
-                {
-                    if (response.find("MAG:") !=std::string::npos) //magnetometer sensor readings
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setMagnetometerReadings(atoi(value_str_values[0].c_str()), atoi(value_str_values[2].c_str()), atoi(value_str_values[1].c_str()));
-                    }
-                    if (getGetMagnetometerReadingOnce())
-                    {
-                        setGetMagnetometerReadingOnce(false);
-                    }
-                }
-
-                this_thread::sleep_for(std::chrono::milliseconds(1));
-            }
-            else
-            {
-                this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-        }
-    }
 }
 
 void PlatformLocationP1::LEDStatesWorker()

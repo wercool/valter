@@ -286,16 +286,18 @@ public slots:
 
     void on_wheelMotorsCurrentADCCheckBox_clicked(bool checked);
 
-    void on_platformControlP1CommandHostConnectorUpdateButton_clicked();
-
     void on_turretMotorCurrentADCCheckBox_clicked(bool checked);
 
     void on_turretPositionReadCheckBox_clicked(bool checked);
 
     void on_chargerVoltageADCCheckBox_clicked(bool checked);
 
+    void on_platformControlP1RedrawGUICheckBox_clicked(bool checked);
+
     //platform-location-p1
     void initPlatfromLocationP1(Ui::MainWindow *ui);
+
+    void on_platformLocationP1RedrawGUICheckBox_clicked(bool checked);
 
     void platformLocationP1TabRefreshTimerUpdate();
 
@@ -404,9 +406,17 @@ public slots:
 
     void on_disableAllUSSensorsButton_clicked();
 
+    void platfromLocationP1LEDOnOff(string ledButtonName_stdString);
+
+    void on_accelerometerRawCheckBox_clicked(bool checked);
+
+    void on_magnetometerRawCheckBox_clicked(bool checked);
+
 
     //platfrom-control-p2
     void initPlatfromControlP2(Ui::MainWindow *ui);
+
+    void on_platfromControlP2RedrawGUICheckBox_clicked(bool checked);
 
     void on_chargerMotorDutyScrollBar_valueChanged(int value);
 
@@ -430,7 +440,6 @@ public slots:
 
     void on_platformControlP2ResetIRScannerServoButton_clicked();
 
-    //platfrom control p2
     void platformControlP2EncodersRefreshTimerUpdate();
 
     void on_platformControlP2LeftWheelEncoderGetButton_clicked();
@@ -520,6 +529,18 @@ public slots:
     void on_manGripperRotateCW_pressed();
 
     void on_manGripperRotateCW_released();
+
+    void on_platformControlP2GetBottomIRReadingButton_clicked();
+
+    void on_platformControlP2LeftWheelEncoderCheckBox_clicked(bool checked);
+
+    void on_platformControlP2RightWheelEncoderCheckBox_clicked(bool checked);
+
+    void on_platformControlP2LeftWheelEncoderAutoresetCheckBox_clicked(bool checked);
+
+    void on_platformControlP2RightWheelEncoderAutoresetCheckBox_clicked(bool checked);
+
+    void on_platfromControlP2IRScannerADCCheckBox_clicked(bool checked);
 
     //platform-manipulator-and-ir-bumper
     void initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui);
@@ -946,9 +967,8 @@ private:
     // QWidget interface
 protected:
 private slots:
-    void on_platformControlP2GetBottomIRReadingButton_clicked();
     void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
-    void on_platformControlP1RedrawGUICheckBox_clicked(bool checked);
+    void on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked();
 };
 
 #endif // MAINWINDOW_H
