@@ -162,6 +162,7 @@ void PlatformManipulatorAndIRBumper::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33336);
         setTcpInterface(tcpInterface);
+        initTcpCommandAcceptorInterface();
     }
 }
 
@@ -169,11 +170,6 @@ void PlatformManipulatorAndIRBumper::initTcpCommandAcceptorInterface()
 {
     getTcpInterface()->setConnectionHandler((Thread*)new PlatformManipulatorAndIRBumperTCPConnectionHandler(getTcpInterface()->queue));
     getTcpInterface()->startListening();
-}
-
-void PlatformManipulatorAndIRBumper::processControlDeviceResponse(string response)
-{
-
 }
 
 void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
@@ -186,94 +182,111 @@ void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
-                if (response.find("24V DCDC Voltage Regulator is ON") != std::string::npos) //24V ON
-                {
-                    setPower24VOn();
-                    continue;
-                }
-                if (response.find("24V DCDC Voltage Regulator is OFF") != std::string::npos) //24V OFF
-                {
-                    setPower24VOff();
-                    continue;
-                }
-                if (response.find("LINK1:") != std::string::npos)//LINK1 position (rotation)
-                {
-                    int value_str_pos = response.find_first_of(":") + 1;
-                    string value_str = response.substr(value_str_pos);
-                    int  value = atoi(value_str.c_str());
-                    setLink1ADCPosition(value);
-                }
-                if (response.find("LINK2:") != std::string::npos)//LINK2 position (rotation)
-                {
-                    int value_str_pos = response.find_first_of(":") + 1;
-                    string value_str = response.substr(value_str_pos);
-                    int  value = atoi(value_str.c_str());
-                    setLink2ADCPosition(value);
-                }
-                if (getLink1CurrentTrack())
-                {
-                    if (response.find("LINK1CURRENT:") != std::string::npos)//LINK1 current
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int  value = atoi(value_str.c_str());
-                        setLink1ADCCurrent(value);
-                    }
-                }
-                if (getLink2CurrentTrack())
-                {
-                    if (response.find("LINK2CURRENT:") != std::string::npos)//LINK2 current
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int  value = atoi(value_str.c_str());
-                        setLink2ADCCurrent(value);
-                    }
-                }
-                if (getGripperTiltTrack())
-                {
-                    if (response.find("IN1:0") != std::string::npos)//gripper tilt CH0
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setGripperADCTilt(atoi(value_str_values[1].c_str()));
-                    }
-                }
-                if (getGripperRotationTrack())
-                {
-                    if (response.find("IN1:1") != std::string::npos)//gripper rotation CH1
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setGripperADCRotation(atoi(value_str_values[1].c_str()));
-                    }
-                }
-                if (getGripperPositionTrack())
-                {
-                    if (response.find("IN2:2") != std::string::npos)//gripper position CH2
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setGripperADCPosition(atoi(value_str_values[1].c_str()));
-                    }
-                }
-                if (getIRBumperTracked())
-                {
-                    if (response.find("IRB:") != std::string::npos)//IR Bumper response
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setIrBumperTicksReading(atoi(value_str_values[0].c_str()), atoi(value_str_values[3].c_str()));
-                    }
-                }
+                processControlDeviceResponse(response);
+
+                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+
+                this_thread::sleep_for(std::chrono::milliseconds(1));
             }
-            this_thread::sleep_for(std::chrono::milliseconds(1));
+            this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         getControlDevice()->addMsgToDataExchangeLog("PlatformManipulatorAndIRBumper Module process messages queue worker stopped!");
+    }
+}
+
+void PlatformManipulatorAndIRBumper::processControlDeviceResponse(string response)
+{
+    if (response.find("24V DCDC Voltage Regulator is ON") != std::string::npos) //24V ON
+    {
+        setPower24VOn();
+        return;
+    }
+    if (response.find("24V DCDC Voltage Regulator is OFF") != std::string::npos) //24V OFF
+    {
+        setPower24VOff();
+        return;
+    }
+    if (response.find("LINK1:") != std::string::npos)//LINK1 position (rotation)
+    {
+        int value_str_pos = response.find_first_of(":") + 1;
+        string value_str = response.substr(value_str_pos);
+        int  value = atoi(value_str.c_str());
+        setLink1ADCPosition(value);
+        return;
+    }
+    if (response.find("LINK2:") != std::string::npos)//LINK2 position (rotation)
+    {
+        int value_str_pos = response.find_first_of(":") + 1;
+        string value_str = response.substr(value_str_pos);
+        int  value = atoi(value_str.c_str());
+        setLink2ADCPosition(value);
+        return;
+    }
+    if (getLink1CurrentTrack())
+    {
+        if (response.find("LINK1CURRENT:") != std::string::npos)//LINK1 current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            int  value = atoi(value_str.c_str());
+            setLink1ADCCurrent(value);
+            return;
+        }
+    }
+    if (getLink2CurrentTrack())
+    {
+        if (response.find("LINK2CURRENT:") != std::string::npos)//LINK2 current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            int  value = atoi(value_str.c_str());
+            setLink2ADCCurrent(value);
+            return;
+        }
+    }
+    if (getGripperTiltTrack())
+    {
+        if (response.find("IN1:0") != std::string::npos)//gripper tilt CH0
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperADCTilt(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperRotationTrack())
+    {
+        if (response.find("IN1:1") != std::string::npos)//gripper rotation CH1
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperADCRotation(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperPositionTrack())
+    {
+        if (response.find("IN2:2") != std::string::npos)//gripper position CH2
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperADCPosition(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getIRBumperTracked())
+    {
+        if (response.find("IRB:") != std::string::npos)//IR Bumper response
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setIrBumperTicksReading(atoi(value_str_values[0].c_str()), atoi(value_str_values[3].c_str()));
+            return;
+        }
     }
 }
 

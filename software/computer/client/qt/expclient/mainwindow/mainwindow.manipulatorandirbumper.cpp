@@ -196,6 +196,12 @@ void MainWindow::on_platformManipulatorAndIRBumperRedrawGUICheckBox_toggled(bool
 
 void MainWindow::on_platformManipulatorExecuteAngleSettingsButton_clicked()
 {
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_platformManipulatorExecuteAngleSettingsButton_clicked");
+    }
+
     Link1EndPointViewItem* plink1EndPoint = (Link1EndPointViewItem*)link1EndPoint;
     Link2EndPointViewItem* plink2EndPoint = (Link2EndPointViewItem*)link2EndPoint;
     Link3EndPointViewItem* plink3EndPoint = (Link3EndPointViewItem*)link3EndPoint;
@@ -217,12 +223,20 @@ void MainWindow::on_detachManipulatorFrameButton_clicked()
 void MainWindow::on_powerOnOff24VPlatfromManipulatorAndIRBumperButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_powerOnOff24VPlatfromManipulatorAndIRBumperButton_clicked");
+    }
     platformManipulatorAndIRBumper->setPower24VOnOff(!platformManipulatorAndIRBumper->getPower24VOnOff());
 }
 
 void MainWindow::on_manipulatorLiknk1AscentButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk1AscentButton_pressed");
+    }
     if (platformManipulatorAndIRBumper->prepareManLink1Movement())
     {
         //ascent
@@ -236,12 +250,20 @@ void MainWindow::on_manipulatorLiknk1AscentButton_pressed()
 void MainWindow::on_manipulatorLiknk1AscentButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk1AscentButton_released");
+    }
     platformManipulatorAndIRBumper->setLink1MotorActivated(false);
 }
 
 void MainWindow::on_manipulatorLiknk1DescentButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk1DescentButton_pressed");
+    }
     if (platformManipulatorAndIRBumper->prepareManLink1Movement())
     {
         //descent
@@ -255,19 +277,41 @@ void MainWindow::on_manipulatorLiknk1DescentButton_pressed()
 void MainWindow::on_manipulatorLiknk1DescentButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk1DescentButton_released");
+    }
     platformManipulatorAndIRBumper->setLink1MotorActivated(false);
 }
 
 void MainWindow::on_platformManipulatorAndIRBumperLoadDefaultsButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_platformManipulatorAndIRBumperLoadDefaultsButton_clicked");
+    }
     platformManipulatorAndIRBumper->loadDefaults();
     loadPlatformManipulatorAndIRBumperDefaults(ui);
+}
+
+
+void MainWindow::on_platformManipulatorAndIRBumperRedrawGUICheckBox_clicked(bool checked)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_platformManipulatorAndIRBumperRedrawGUICheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
 }
 
 void MainWindow::on_manipulatorLiknk1MotorDutyScroller_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manipulatorLiknk1MotorDutyScroller_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setLink1MotorDutyMax(value);
     ui->manipulatorLiknk1MotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -275,6 +319,10 @@ void MainWindow::on_manipulatorLiknk1MotorDutyScroller_valueChanged(int value)
 void MainWindow::on_manipulatorLiknk1DecelerationScroller_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manipulatorLiknk1DecelerationScroller_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setLink1MotorDeceleration(value);
     ui->manipulatorLiknk1DecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -282,6 +330,10 @@ void MainWindow::on_manipulatorLiknk1DecelerationScroller_valueChanged(int value
 void MainWindow::on_manipulatorLiknk1AccelerationScroller_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manipulatorLiknk1AccelerationScroller_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setLink1MotorAcceleration(value);
     ui->manipulatorLiknk1AccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -289,6 +341,10 @@ void MainWindow::on_manipulatorLiknk1AccelerationScroller_valueChanged(int value
 void MainWindow::on_manipulatorLiknk2MotorDutyScroller_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manipulatorLiknk2MotorDutyScroller_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setLink2MotorDutyMax(value);
     ui->manipulatorLiknk2MotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -296,6 +352,10 @@ void MainWindow::on_manipulatorLiknk2MotorDutyScroller_valueChanged(int value)
 void MainWindow::on_manipulatorLiknk2DecelerationScroller_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manipulatorLiknk2DecelerationScroller_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setLink2MotorDeceleration(value);
     ui->manipulatorLiknk2DecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -303,6 +363,10 @@ void MainWindow::on_manipulatorLiknk2DecelerationScroller_valueChanged(int value
 void MainWindow::on_manipulatorLiknk2AccelerationScroller_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manipulatorLiknk2AccelerationScroller_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setLink2MotorAcceleration(value);
     ui->manipulatorLiknk2AccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -310,6 +374,10 @@ void MainWindow::on_manipulatorLiknk2AccelerationScroller_valueChanged(int value
 void MainWindow::on_manipulatorLiknk2AscentButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk2AscentButton_pressed");
+    }
     if (platformManipulatorAndIRBumper->prepareManLink2Movement())
     {
         //ascent
@@ -323,12 +391,20 @@ void MainWindow::on_manipulatorLiknk2AscentButton_pressed()
 void MainWindow::on_manipulatorLiknk2AscentButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk2AscentButton_released");
+    }
     platformManipulatorAndIRBumper->setLink2MotorActivated(false);
 }
 
 void MainWindow::on_manipulatorLiknk2DescentButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk2DescentButton_pressed");
+    }
     if (platformManipulatorAndIRBumper->prepareManLink2Movement())
     {
         //descent
@@ -342,60 +418,100 @@ void MainWindow::on_manipulatorLiknk2DescentButton_pressed()
 void MainWindow::on_manipulatorLiknk2DescentButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manipulatorLiknk2DescentButton_released");
+    }
     platformManipulatorAndIRBumper->setLink2MotorActivated(false);
 }
 
 void MainWindow::on_gripperTiltAscentButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_gripperTiltAscentButton_pressed");
+    }
     platformManipulatorAndIRBumper->manLink3TiltUp();
 }
 
 void MainWindow::on_gripperTiltAscentButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_gripperTiltAscentButton_released");
+    }
     platformManipulatorAndIRBumper->manLink3Stop();
 }
 
 void MainWindow::on_gripperTiltDescentButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_gripperTiltDescentButton_pressed");
+    }
     platformManipulatorAndIRBumper->manLink3TiltDown();
 }
 
 void MainWindow::on_gripperTiltDescentButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_gripperTiltDescentButton_released");
+    }
     platformManipulatorAndIRBumper->manLink3Stop();
 }
 
 void MainWindow::on_manGripperOpenButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperOpenButton_pressed");
+    }
     platformManipulatorAndIRBumper->manGripperOpen();
 }
 
 void MainWindow::on_manGripperOpenButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperOpenButton_released");
+    }
     platformManipulatorAndIRBumper->manGripperStop();
 }
 
 void MainWindow::on_manGripperCloseButton_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperCloseButton_pressed");
+    }
     platformManipulatorAndIRBumper->manGripperClose();
 }
 
 void MainWindow::on_manGripperCloseButton_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperCloseButton_released");
+    }
     platformManipulatorAndIRBumper->manGripperStop();
 }
 
 void MainWindow::on_manGripperRotationMotorDutyScroller_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manGripperRotationMotorDutyScroller_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setManGripperRotationMotorDuty(value);
     ui->manGripperRotationMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
@@ -403,65 +519,110 @@ void MainWindow::on_manGripperRotationMotorDutyScroller_valueChanged(int value)
 void MainWindow::on_manGripperRotateCCW_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperRotateCCW_pressed");
+    }
     platformManipulatorAndIRBumper->manGripperRotateCCW();
 }
 
 void MainWindow::on_manGripperRotateCCW_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperRotateCCW_released");
+    }
     platformManipulatorAndIRBumper->manGripperRotateStop();
 }
 
 void MainWindow::on_manGripperRotateCW_pressed()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperRotateCW_pressed");
+    }
     platformManipulatorAndIRBumper->manGripperRotateCW();
 }
 
 void MainWindow::on_manGripperRotateCW_released()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_manGripperRotateCW_released");
+    }
     platformManipulatorAndIRBumper->manGripperRotateStop();
 }
 
 void MainWindow::on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(QTableWidgetItem *item)
 {
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
+    }
     setPlatformManipulatorReadingsPresets(item);
 }
 
 void MainWindow::on_irBumperEnableButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_irBumperEnableButton_clicked");
+    }
     platformManipulatorAndIRBumper->setIrBumperEnabled(true);
 }
 
 void MainWindow::on_irBumperDisableButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_irBumperDisableButton_clicked");
+    }
     platformManipulatorAndIRBumper->setIrBumperEnabled(false);
 }
 
 void MainWindow::on_irBumperInitButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_irBumperInitButton_clicked");
+    }
     platformManipulatorAndIRBumper->setIrBumperInitialized(true);
 }
 
 void MainWindow::on_irBumperFrequencySpin_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_irBumperFrequencySpin_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setIrBumperFrequency(value);
 }
 
 void MainWindow::on_irBumperDutySpin_valueChanged(int value)
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_irBumperDutySpin_valueChanged@%d", value));
+    }
     platformManipulatorAndIRBumper->setIrBumperDuty(value);
 }
 
 void MainWindow::on_irBumperTrackAllButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_irBumperTrackAllButton_clicked");
+    }
     for (int i = 0 ; i < 16; i++)
     {
         platformManipulatorAndIRBumper->setIRBumperTrack(i, true);
@@ -472,9 +633,49 @@ void MainWindow::on_irBumperTrackAllButton_clicked()
 void MainWindow::on_irBumperTrackNoneButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_irBumperTrackNoneButton_clicked");
+    }
     for (int i = 0 ; i < 16; i++)
     {
         platformManipulatorAndIRBumper->setIRBumperTrack(i, false);
         ((QTableWidgetItem*)ui->irBumperReadingsTable->item(i, 0))->setCheckState((platformManipulatorAndIRBumper->getIRBumperTrack(i)) ? Qt::Checked : Qt::Unchecked);
+    }
+}
+
+void MainWindow::on_platformManipulatorAngleASpinBox_valueChanged(double value)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_platformManipulatorAngleASpinBox_valueChanged@%f", value));
+    }
+}
+
+void MainWindow::on_platformManipulatorAngleBSpinBox_valueChanged(double value)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_platformManipulatorAngleBSpinBox_valueChanged@%f", value));
+    }
+}
+
+void MainWindow::on_platformManipulatorAngleGSpinBox_valueChanged(double value)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_platformManipulatorAngleGSpinBox_valueChanged@%f", value));
+    }
+}
+
+void MainWindow::on_irBumperReadingsTable_itemClicked(QTableWidgetItem *item)
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_irBumperReadingsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
     }
 }

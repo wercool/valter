@@ -291,6 +291,12 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     {
         platformLocationP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformLocationP1->getTcpInterface()->getPort()));
     }
+
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getPort()));
+    }
 }
 
 void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked()
