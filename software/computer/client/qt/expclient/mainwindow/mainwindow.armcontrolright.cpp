@@ -333,8 +333,21 @@ void MainWindow::on_rightArmLedsOnOffButton_clicked()
 void MainWindow::on_armControlRightLoadDefaultsButton_clicked()
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightLoadDefaultsButton_clicked");
+    }
     armControlRight->loadDefaults();
     loadArmControlRightDefaults(ui);
+}
+
+void MainWindow::on_armControlRightRedrawGUICheckBox_clicked(bool checked)
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightRedrawGUICheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
 }
 
 void MainWindow::on_rightArmReadingsTable_itemClicked(QTableWidgetItem *item)
@@ -438,11 +451,19 @@ void MainWindow::on_rightArmReadingsTrackNoneButton_clicked()
 void MainWindow::on_armControlRightStopAllWatchersButton_clicked()
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightStopAllWatchersButton_clicked");
+    }
     armControlRight->stopAllWatchers();
 }
 
 void MainWindow::on_armControlRightStartAllWatchersButton_clicked()
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightStartAllWatchersButton_clicked");
+    }
     armControlRight->startAllWatchers();
 }

@@ -356,6 +356,7 @@ public slots:
     //body-control-p1
     void initBodyControlP1(Ui::MainWindow *ui);
     void bodyControlP1TabRefreshTimerUpdate();
+    void on_bodyControlP1CheckBox_clicked(bool checked);
     void on_headYawLeftDirectonCheckButton_toggled(bool checked);
     void on_headYawRightDirectonCheckButton_toggled(bool checked);
     void on_headYawLeftRotateButton_pressed();
@@ -416,6 +417,11 @@ public slots:
     void on_headPitchTestModeExecuteButton_clicked();
     void on_getHeadYawPositionButton_clicked();
     void on_getHeadPitchPositionButton_clicked();
+    void on_headYawStepDelayTestModeSpinBox_valueChanged(int value);
+    void on_headYawMoveStepsSpinBox_valueChanged(int value);
+    void on_headPitchStepDelayTestModeSpinBox_valueChanged(int value);
+    void on_headPitchMoveStepsSpinBox_valueChanged(int value);
+    void on_bodyControlP1ReadingsTable_itemClicked(QTableWidgetItem *item);
 
     //arm-control-left
     void initArmControlLeft(Ui::MainWindow *ui);
@@ -579,6 +585,7 @@ private slots:
     //TCP Interface
     void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
     void on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked();
+    void on_armControlRightRedrawGUICheckBox_clicked(bool checked);
 };
 
 #endif // MAINWINDOW_H

@@ -75,6 +75,7 @@ void BodyControlP1::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33337);
         setTcpInterface(tcpInterface);
+        initTcpCommandAcceptorInterface();
     }
 }
 
@@ -82,11 +83,6 @@ void BodyControlP1::initTcpCommandAcceptorInterface()
 {
     getTcpInterface()->setConnectionHandler((Thread*)new BodyControlP1TCPConnectionHandler(getTcpInterface()->queue));
     getTcpInterface()->startListening();
-}
-
-void BodyControlP1::processControlDeviceResponse(string response)
-{
-
 }
 
 void BodyControlP1::processMessagesQueueWorker()
@@ -99,222 +95,231 @@ void BodyControlP1::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
-                if (response.compare("HEAD 24V ON") == 0)
-                {
-                    setHead24VState(true);
-                    continue;
-                }
-                if (response.compare("HEAD 24V OFF") == 0)
-                {
-                    setHead24VState(false);
-                    continue;
-                }
-                if (response.compare("HEAD YAW MOTOR ENABLED") == 0)
-                {
-                    setHeadYawMotorState(true);
-                    continue;
-                }
-                if (response.compare("HEAD YAW MOTOR DISABLED") == 0)
-                {
-                    setHeadYawMotorState(false);
-                    continue;
-                }
-                if (response.compare("HEAD PITCH MOTOR ENABLED") == 0)
-                {
-                    setHeadPitchMotorState(true);
-                    continue;
-                }
-                if (response.compare("HEAD PITCH MOTOR DISABLED") == 0)
-                {
-                    setHeadPitchMotorState(false);
-                    continue;
-                }
-                if (getBodyPitchPositionTrack())
-                {
-                    if (response.find("BP:") != std::string::npos) //body pitch position
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setBodyPitchADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getRightArmYawPositionTrack())
-                {
-                    if (response.find("RAY:") != std::string::npos) //right arm yaw position
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setRightArmYawADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getLeftArmYawPositionTrack())
-                {
-                    if (response.find("LAY:") != std::string::npos) //left arm yaw position
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setLeftArmYawADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getHeadPitchPositionTrack())
-                {
-                    if (response.find("HPP:") != std::string::npos) //head pitch position
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setHeadPitchADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getHeadYawPositionTrack())
-                {
-                    if (response.find("HYP:") != std::string::npos) //head yaw position
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setHeadYawADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getBodyPitchCurrentTrack())
-                {
-                    if (response.find("CH:2") != std::string::npos) //Body pitch current
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setBodyPitchADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getRightArmYawCurrentTrack())
-                {
-                    if (response.find("CH:1") != std::string::npos) //right arm current
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setRightArmYawADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getLeftArmYawCurrentTrack())
-                {
-                    if (response.find("CH:0") != std::string::npos) //left arm current
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setLeftArmYawADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (response.compare("5V5 SOURCE ON") == 0) //5.5V power source on
-                {
-                    setPowerSource5V5State(true);
-                    continue;
-                }
-                if (response.compare("5V5 SOURCE OFF") == 0) //5.5V power source off
-                {
-                    setPowerSource5V5State(false);
-                    continue;
-                }
-                if (response.compare("WIFI ON") == 0) //wifi 12V power source on
-                {
-                    setWifiPowerState(true);
-                    continue;
-                }
-                if (response.compare("WIFI OFF") == 0) //wifi 12V power source off
-                {
-                    setWifiPowerState(false);
-                    continue;
-                }
-                if (response.compare("LEFT ARM 24V ON") == 0) //left arm 24V power source on
-                {
-                    setLeftArm24VPowerSourceState(true);
-                    continue;
-                }
-                if (response.compare("LEFT ARM 24V OFF") == 0) //left arm 24V power source off
-                {
-                    setLeftArm24VPowerSourceState(false);
-                    continue;
-                }
-                if (response.compare("RIGHT ARM 24V ON") == 0) //right arm 24V power source on
-                {
-                    setRightArm24VPowerSourceState(true);
-                    continue;
-                }
-                if (response.compare("RIGHT ARM 24V OFF") == 0) //right arm 24V power source off
-                {
-                    setRightArm24VPowerSourceState(false);
-                    continue;
-                }
-                if (response.compare("RIGHT ACCUMULATOR ON") == 0) //right accumulator connected
-                {
-                    setRightAccumulatorConnectedState(true);
-                    continue;
-                }
-                if (response.compare("RIGHT ACCUMULATOR OFF") == 0) //right accumulator disconnected
-                {
-                    setRightAccumulatorConnectedState(false);
-                    continue;
-                }
-                if (response.compare("LEFT ACCUMULATOR ON") == 0) //left accumulator connected
-                {
-                    setLeftAccumulatorConnectedState(true);
-                    continue;
-                }
-                if (response.compare("LEFT ACCUMULATOR OFF") == 0) //left accumulator disconnected
-                {
-                    setLeftAccumulatorConnectedState(false);
-                    continue;
-                }
-                if (response.compare("LEFT ARM 12V ON") == 0) //left arm 12V power source on
-                {
-                    setLeftArm12VPowerSourceState(true);
-                    continue;
-                }
-                if (response.compare("LEFT ARM 12V OFF") == 0) //left arm 12V power source off
-                {
-                    setLeftArm12VPowerSourceState(false);
-                    continue;
-                }
-                if (response.compare("RIGHT ARM 12V ON") == 0) //right arm 12V power source on
-                {
-                    setRightArm12VPowerSourceState(true);
-                    continue;
-                }
-                if (response.compare("RIGHT ARM 12V OFF") == 0) //right arm 12V power source off
-                {
-                    setRightArm12VPowerSourceState(false);
-                    continue;
-                }
-                if (response.compare("KINECT1 ON") == 0) //kinect 1 on
-                {
-                    setKinect1PowerState(true);
-                    continue;
-                }
-                if (response.compare("KINECT1 OFF") == 0) //kinect 1 off
-                {
-                    setKinect1PowerState(false);
-                    continue;
-                }
-                if (response.compare("KINECT2 ON") == 0) //kinect 2 on
-                {
-                    setKinect2PowerState(true);
-                    continue;
-                }
-                if (response.compare("KINECT2 OFF") == 0) //kinect 2 off
-                {
-                    setKinect2PowerState(false);
-                    continue;
-                }
+                processControlDeviceResponse(response);
+
+                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+
+                this_thread::sleep_for(std::chrono::milliseconds(1));
             }
-            this_thread::sleep_for(std::chrono::milliseconds(5));
+            this_thread::sleep_for(std::chrono::milliseconds(10));
         }
+    }
+}
+
+void BodyControlP1::processControlDeviceResponse(string response)
+{
+    if (response.compare("HEAD 24V ON") == 0)
+    {
+        setHead24VState(true);
+        return;
+    }
+    if (response.compare("HEAD 24V OFF") == 0)
+    {
+        setHead24VState(false);
+        return;
+    }
+    if (response.compare("HEAD YAW MOTOR ENABLED") == 0)
+    {
+        setHeadYawMotorState(true);
+        return;
+    }
+    if (response.compare("HEAD YAW MOTOR DISABLED") == 0)
+    {
+        setHeadYawMotorState(false);
+        return;
+    }
+    if (response.compare("HEAD PITCH MOTOR ENABLED") == 0)
+    {
+        setHeadPitchMotorState(true);
+        return;
+    }
+    if (response.compare("HEAD PITCH MOTOR DISABLED") == 0)
+    {
+        setHeadPitchMotorState(false);
+        return;
+    }
+    if (getBodyPitchPositionTrack())
+    {
+        if (response.find("BP:") != std::string::npos) //body pitch position
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setBodyPitchADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getRightArmYawPositionTrack())
+    {
+        if (response.find("RAY:") != std::string::npos) //right arm yaw position
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setRightArmYawADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getLeftArmYawPositionTrack())
+    {
+        if (response.find("LAY:") != std::string::npos) //left arm yaw position
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setLeftArmYawADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getHeadPitchPositionTrack())
+    {
+        if (response.find("HPP:") != std::string::npos) //head pitch position
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setHeadPitchADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getHeadYawPositionTrack())
+    {
+        if (response.find("HYP:") != std::string::npos) //head yaw position
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setHeadYawADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getBodyPitchCurrentTrack())
+    {
+        if (response.find("CH:2") != std::string::npos) //Body pitch current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setBodyPitchADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getRightArmYawCurrentTrack())
+    {
+        if (response.find("CH:1") != std::string::npos) //right arm current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setRightArmYawADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getLeftArmYawCurrentTrack())
+    {
+        if (response.find("CH:0") != std::string::npos) //left arm current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setLeftArmYawADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (response.compare("5V5 SOURCE ON") == 0) //5.5V power source on
+    {
+        setPowerSource5V5State(true);
+        return;
+    }
+    if (response.compare("5V5 SOURCE OFF") == 0) //5.5V power source off
+    {
+        setPowerSource5V5State(false);
+        return;
+    }
+    if (response.compare("WIFI ON") == 0) //wifi 12V power source on
+    {
+        setWifiPowerState(true);
+        return;
+    }
+    if (response.compare("WIFI OFF") == 0) //wifi 12V power source off
+    {
+        setWifiPowerState(false);
+        return;
+    }
+    if (response.compare("LEFT ARM 24V ON") == 0) //left arm 24V power source on
+    {
+        setLeftArm24VPowerSourceState(true);
+        return;
+    }
+    if (response.compare("LEFT ARM 24V OFF") == 0) //left arm 24V power source off
+    {
+        setLeftArm24VPowerSourceState(false);
+        return;
+    }
+    if (response.compare("RIGHT ARM 24V ON") == 0) //right arm 24V power source on
+    {
+        setRightArm24VPowerSourceState(true);
+        return;
+    }
+    if (response.compare("RIGHT ARM 24V OFF") == 0) //right arm 24V power source off
+    {
+        setRightArm24VPowerSourceState(false);
+        return;
+    }
+    if (response.compare("RIGHT ACCUMULATOR ON") == 0) //right accumulator connected
+    {
+        setRightAccumulatorConnectedState(true);
+        return;
+    }
+    if (response.compare("RIGHT ACCUMULATOR OFF") == 0) //right accumulator disconnected
+    {
+        setRightAccumulatorConnectedState(false);
+        return;
+    }
+    if (response.compare("LEFT ACCUMULATOR ON") == 0) //left accumulator connected
+    {
+        setLeftAccumulatorConnectedState(true);
+        return;
+    }
+    if (response.compare("LEFT ACCUMULATOR OFF") == 0) //left accumulator disconnected
+    {
+        setLeftAccumulatorConnectedState(false);
+        return;
+    }
+    if (response.compare("LEFT ARM 12V ON") == 0) //left arm 12V power source on
+    {
+        setLeftArm12VPowerSourceState(true);
+        return;
+    }
+    if (response.compare("LEFT ARM 12V OFF") == 0) //left arm 12V power source off
+    {
+        setLeftArm12VPowerSourceState(false);
+        return;
+    }
+    if (response.compare("RIGHT ARM 12V ON") == 0) //right arm 12V power source on
+    {
+        setRightArm12VPowerSourceState(true);
+        return;
+    }
+    if (response.compare("RIGHT ARM 12V OFF") == 0) //right arm 12V power source off
+    {
+        setRightArm12VPowerSourceState(false);
+        return;
+    }
+    if (response.compare("KINECT1 ON") == 0) //kinect 1 on
+    {
+        setKinect1PowerState(true);
+        return;
+    }
+    if (response.compare("KINECT1 OFF") == 0) //kinect 1 off
+    {
+        setKinect1PowerState(false);
+        return;
+    }
+    if (response.compare("KINECT2 ON") == 0) //kinect 2 on
+    {
+        setKinect2PowerState(true);
+        return;
+    }
+    if (response.compare("KINECT2 OFF") == 0) //kinect 2 off
+    {
+        setKinect2PowerState(false);
+        return;
     }
 }
 

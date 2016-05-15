@@ -69,6 +69,7 @@ void ArmControlRight::initTcpInterface()
     {
         TCPInterface *tcpInterface = new TCPInterface(33338);
         setTcpInterface(tcpInterface);
+        initTcpCommandAcceptorInterface();
     }
 }
 
@@ -76,11 +77,6 @@ void ArmControlRight::initTcpCommandAcceptorInterface()
 {
     getTcpInterface()->setConnectionHandler((Thread*)new ArmControlRightTCPConnectionHandler(getTcpInterface()->queue));
     getTcpInterface()->startListening();
-}
-
-void ArmControlRight::processControlDeviceResponse(string response)
-{
-
 }
 
 void ArmControlRight::processMessagesQueueWorker()
@@ -93,191 +89,200 @@ void ArmControlRight::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
-                if (response.compare("FOREARM ROLL MOTOR ON") == 0)
-                {
-                    setForearmRollMotorState(true);
-                    continue;
-                }
-                if (response.compare("FOREARM ROLL MOTOR OFF") == 0)
-                {
-                    setForearmRollMotorState(false);
-                    continue;
-                }
+                processControlDeviceResponse(response);
 
-                if (getForearmRollMotorState())
-                {
-                    if (response.compare("FA NO LIMIT") == 0)
-                    {
-                        setForearmRollCWLimit(false);
-                        setForearmRollCCWLimit(false);
-                        continue;
-                    }
-                    if (response.compare("FA CW LIMIT") == 0)
-                    {
-                        setForearmRollCWLimit(true);
-                        continue;
-                    }
-                    if (response.compare("FA CCW LIMIT") == 0)
-                    {
-                        setForearmRollCCWLimit(true);
-                        continue;
-                    }
-                }
-                if (getForearmPositionTrack())
-                {
-                    if (response.find("FOREARM POS:") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setForearmADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getArmPositionTrack())
-                {
-                    if (response.find("ARM POS:") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setArmADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getLimbPositionTrack())
-                {
-                    if (response.find("LIMB POS:") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        setLimbADCPosition(atoi(value_str.c_str()));
-                        continue;
-                    }
-                }
-                if (getForearmMotorCurrentTrack())
-                {
-                    if (response.find("SENSOR:5") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setForearmMotorADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getArmMotorCurrentTrack())
-                {
-                    if (response.find("SENSOR:4") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setArmMotorADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getLimbMotorCurrentTrack())
-                {
-                    if (response.find("SENSOR:3") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setLimbMotorADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getHandYawPositionTrack())
-                {
-                    if (response.find("SENSOR:0") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setHandYawADCPosition(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getHandPitchPositionTrack())
-                {
-                    if (response.find("SENSOR:1") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setHandPitchADCPosition(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }                if (getForearmYawPositionTrack())
-                {
-                    if (response.find("SENSOR:2") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setForearmYawADCPosition(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getForearmYawMotorCurrentTrack())
-                {
-                    if (response.find("SENSOR:6") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setForearmYawMotorADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getHandYawMotorCurrentTrack())
-                {
-                    if (response.find("SENSOR:7") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setHandYawMotorADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
-                if (getHandPitchMotorCurrentTrack())
-                {
-                    if (response.find("SENSOR:8") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setHandPitchMotorADCCurrent(atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
+                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
 
-                //track hand finger sensors
-                bool trackHandFingerSensors = false;
-                for (int idx = 0; idx < 13; idx++)
-                {
-                    if (getHandSensorsTrack(idx))
-                    {
-                        trackHandFingerSensors = true;
-                    }
-                }
-                if (trackHandFingerSensors)
-                {
-                    if (response.find("HAND SENSOR:") != std::string::npos)
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        vector<string>value_str_values = Valter::split(value_str, ',');
-                        setHandSensorsADCForce(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()));
-                        continue;
-                    }
-                }
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }
             else
             {
                 this_thread::sleep_for(std::chrono::milliseconds(10));
             }
+        }
+    }
+}
+
+void ArmControlRight::processControlDeviceResponse(string response)
+{
+    if (response.compare("FOREARM ROLL MOTOR ON") == 0)
+    {
+        setForearmRollMotorState(true);
+        return;
+    }
+    if (response.compare("FOREARM ROLL MOTOR OFF") == 0)
+    {
+        setForearmRollMotorState(false);
+        return;
+    }
+
+    if (getForearmRollMotorState())
+    {
+        if (response.compare("FA NO LIMIT") == 0)
+        {
+            setForearmRollCWLimit(false);
+            setForearmRollCCWLimit(false);
+            return;
+        }
+        if (response.compare("FA CW LIMIT") == 0)
+        {
+            setForearmRollCWLimit(true);
+            return;
+        }
+        if (response.compare("FA CCW LIMIT") == 0)
+        {
+            setForearmRollCCWLimit(true);
+            return;
+        }
+    }
+    if (getForearmPositionTrack())
+    {
+        if (response.find("FOREARM POS:") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setForearmADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getArmPositionTrack())
+    {
+        if (response.find("ARM POS:") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setArmADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getLimbPositionTrack())
+    {
+        if (response.find("LIMB POS:") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            setLimbADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+    if (getForearmMotorCurrentTrack())
+    {
+        if (response.find("SENSOR:5") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setForearmMotorADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getArmMotorCurrentTrack())
+    {
+        if (response.find("SENSOR:4") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setArmMotorADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getLimbMotorCurrentTrack())
+    {
+        if (response.find("SENSOR:3") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setLimbMotorADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getHandYawPositionTrack())
+    {
+        if (response.find("SENSOR:0") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setHandYawADCPosition(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getHandPitchPositionTrack())
+    {
+        if (response.find("SENSOR:1") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setHandPitchADCPosition(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getForearmYawPositionTrack())
+    {
+        if (response.find("SENSOR:2") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setForearmYawADCPosition(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getForearmYawMotorCurrentTrack())
+    {
+        if (response.find("SENSOR:6") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setForearmYawMotorADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getHandYawMotorCurrentTrack())
+    {
+        if (response.find("SENSOR:7") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setHandYawMotorADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getHandPitchMotorCurrentTrack())
+    {
+        if (response.find("SENSOR:8") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setHandPitchMotorADCCurrent(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+
+    //track hand finger sensors
+    bool trackHandFingerSensors = false;
+    for (int idx = 0; idx < 13; idx++)
+    {
+        if (getHandSensorsTrack(idx))
+        {
+            trackHandFingerSensors = true;
+        }
+    }
+    if (trackHandFingerSensors)
+    {
+        if (response.find("HAND SENSOR:") != std::string::npos)
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setHandSensorsADCForce(atoi(value_str_values[0].c_str()), atoi(value_str_values[1].c_str()));
+            return;
         }
     }
 }
