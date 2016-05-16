@@ -201,16 +201,16 @@ void loadArmControlRightDefaults(Ui::MainWindow *ui)
     ui->rightForearmAccelerationScroller->setValue(armControlRight->getRightForearmMotorAcceleration());
     ui->rightForearmAccelerationLabel->setText(Valter::format_string("[%d]", armControlRight->getRightForearmMotorAcceleration()).c_str());
 
-    ui->rightArmMotorDutyScroller_2->setMinimum(armControlRight->getRightArmMotorDutyPresetMin());
-    ui->rightArmMotorDutyScroller_2->setMaximum(armControlRight->getRightArmMotorDutyPresetMax());
-    ui->rightArmMotorDutyScroller_2->setValue(armControlRight->getRightArmMotorDutyPresetCur());
-    ui->rightArmMotorDutyLabel_2->setText(Valter::format_string("[%d]", armControlRight->getRightArmMotorDutyPresetCur()).c_str());
+    ui->armControlRightArmMotorDutyScroller->setMinimum(armControlRight->getRightArmMotorDutyPresetMin());
+    ui->armControlRightArmMotorDutyScroller->setMaximum(armControlRight->getRightArmMotorDutyPresetMax());
+    ui->armControlRightArmMotorDutyScroller->setValue(armControlRight->getRightArmMotorDutyPresetCur());
+    ui->armControlRightArmMotorDutyLabel->setText(Valter::format_string("[%d]", armControlRight->getRightArmMotorDutyPresetCur()).c_str());
 
-    ui->rightArmMotorDecelerationScroller_2->setValue(armControlRight->getRightArmMotorDeceleration());
-    ui->rightArmMotorDecelerationLabel_2->setText(Valter::format_string("[%d]", armControlRight->getRightArmMotorDeceleration()).c_str());
+    ui->armControlRightArmMotorDecelerationScroller->setValue(armControlRight->getRightArmMotorDeceleration());
+    ui->armControlRightArmMotorDecelerationLabel->setText(Valter::format_string("[%d]", armControlRight->getRightArmMotorDeceleration()).c_str());
 
-    ui->rightArmMotorAccelerationScroller_2->setValue(armControlRight->getRightArmMotorAcceleration());
-    ui->rightArmMotorAccelerationLabel_2->setText(Valter::format_string("[%d]", armControlRight->getRightArmMotorAcceleration()).c_str());
+    ui->armControlRightMotorAccelerationScroller->setValue(armControlRight->getRightArmMotorAcceleration());
+    ui->armControlRightArmMotorAccelerationLabel->setText(Valter::format_string("[%d]", armControlRight->getRightArmMotorAcceleration()).c_str());
 
     ui->rightLimbMotorDutyScroller->setMinimum(armControlRight->getRightLimbMotorDutyPresetMin());
     ui->rightLimbMotorDutyScroller->setMaximum(armControlRight->getRightLimbMotorDutyPresetMax());

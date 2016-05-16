@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1034</height>
+             <width>874</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3934,7 +3934,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>893</width>
+             <width>892</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7950,7 +7950,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>1514</height>
             </rect>
            </property>
@@ -10510,7 +10510,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>800</height>
             </rect>
            </property>
@@ -13405,8 +13405,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>880</height>
+             <width>874</width>
+             <height>883</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -14069,7 +14069,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="rightArmMotorDutyLabel_2">
+                   <widget class="QLabel" name="armControlRightArmMotorDutyLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -14084,7 +14084,7 @@ background-repeat: repeat-no;</string>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="rightArmMotorDutyScroller_2">
+                 <widget class="QScrollBar" name="armControlRightArmMotorDutyScroller">
                   <property name="minimum">
                    <number>1</number>
                   </property>
@@ -14114,7 +14114,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="rightArmMotorDecelerationLabel_2">
+                   <widget class="QLabel" name="armControlRightArmMotorDecelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -14129,7 +14129,7 @@ background-repeat: repeat-no;</string>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="rightArmMotorDecelerationScroller_2">
+                 <widget class="QScrollBar" name="armControlRightArmMotorDecelerationScroller">
                   <property name="minimum">
                    <number>1</number>
                   </property>
@@ -14162,7 +14162,7 @@ background-repeat: repeat-no;</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="rightArmMotorAccelerationLabel_2">
+                   <widget class="QLabel" name="armControlRightArmMotorAccelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -14177,7 +14177,7 @@ background-repeat: repeat-no;</string>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="rightArmMotorAccelerationScroller_2">
+                 <widget class="QScrollBar" name="armControlRightMotorAccelerationScroller">
                   <property name="minimum">
                    <number>1</number>
                   </property>
@@ -15826,8 +15826,8 @@ color: rgb(255, 0, 0);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>880</height>
+             <width>874</width>
+             <height>883</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -16490,7 +16490,7 @@ color: rgb(255, 0, 0);</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="leftArmMotorDutyLabel_2">
+                   <widget class="QLabel" name="armControlLeftArmMotorDutyLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -16505,7 +16505,7 @@ color: rgb(255, 0, 0);</string>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="leftArmMotorDutyScroller_2">
+                 <widget class="QScrollBar" name="armControlLeftArmMotorDutyScroller">
                   <property name="minimum">
                    <number>1</number>
                   </property>
@@ -16535,7 +16535,7 @@ color: rgb(255, 0, 0);</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="leftArmMotorDecelerationLabel_2">
+                   <widget class="QLabel" name="armControlLeftArmMotorDecelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -16550,7 +16550,7 @@ color: rgb(255, 0, 0);</string>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="leftArmMotorDecelerationScroller_2">
+                 <widget class="QScrollBar" name="armControlLeftArmMotorDecelerationScroller">
                   <property name="minimum">
                    <number>1</number>
                   </property>
@@ -16583,7 +16583,7 @@ color: rgb(255, 0, 0);</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QLabel" name="leftArmMotorAccelerationLabel_2">
+                   <widget class="QLabel" name="armControlLeftArmMotorAccelerationLabel">
                     <property name="font">
                      <font>
                       <pointsize>10</pointsize>
@@ -16598,7 +16598,7 @@ color: rgb(255, 0, 0);</string>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QScrollBar" name="leftArmMotorAccelerationScroller_2">
+                 <widget class="QScrollBar" name="armControlLeftArmMotorAccelerationScroller">
                   <property name="minimum">
                    <number>1</number>
                   </property>

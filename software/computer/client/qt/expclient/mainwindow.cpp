@@ -313,6 +313,22 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
         bodyControlP1->loadDefaults();
         loadBodyControlP1Defaults(ui);
     }
+
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), armControlRight->getTcpInterface()->getPort()));
+        armControlRight->loadDefaults();
+        loadArmControlRightDefaults(ui);
+    }
+
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), armControlLeft->getTcpInterface()->getPort()));
+        armControlLeft->loadDefaults();
+        loadArmControlLeftDefaults(ui);
+    }
 }
 
 void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked()

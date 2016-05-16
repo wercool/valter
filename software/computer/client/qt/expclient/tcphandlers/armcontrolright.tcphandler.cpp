@@ -103,5 +103,296 @@ class ArmControlRightTCPConnectionHandler : public Thread
             mainWindow->on_armControlRightStopAllWatchersButton_clicked();
             return;
         }
+        if (cmd.find("on_rightForearmMoveUpButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightForearmMoveUpButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightForearmMoveUpButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightForearmMoveUpButton_released();
+            return;
+        }
+        if (cmd.find("on_rightForearmMoveDownButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightForearmMoveDownButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightForearmMoveDownButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightForearmMoveDownButton_released();
+            return;
+        }
+        if (cmd.find("on_rightForearmMotorDutyScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightForearmMotorDutyScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightForearmMotorDecelerationScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightForearmMotorDecelerationScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightForearmAccelerationScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightForearmAccelerationScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightArmMoveUpButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightArmMoveUpButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightArmMoveUpButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightArmMoveUpButton_released();
+            return;
+        }
+        if (cmd.find("on_rightArmMoveDownButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightArmMoveDownButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightArmMoveDownButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightArmMoveDownButton_released();
+            return;
+        }
+        if (cmd.find("on_armControlRightArmMotorDutyScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightArmMotorDutyScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_armControlRightArmMotorDecelerationScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightArmMotorDecelerationScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_armControlRightMotorAccelerationScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightMotorAccelerationScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightLimbMoveUpButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightLimbMoveUpButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightLimbMoveUpButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightLimbMoveUpButton_released();
+            return;
+        }
+        if (cmd.find("on_rightLimbMoveDownButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightLimbMoveDownButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightLimbMoveDownButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightLimbMoveDownButton_released();
+            return;
+        }
+        if (cmd.find("on_rightLimbMotorDutyScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightLimbMotorDutyScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightLimbMotorDecelerationScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightLimbMotorDecelerationScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightLimbMotorAccelerationScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightLimbMotorAccelerationScroller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightHandYawCCWButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightHandYawCCWButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightHandYawCCWButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightHandYawCCWButton_released();
+            return;
+        }
+        if (cmd.find("on_rightHandYawCWButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightHandYawCWButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightHandYawCWButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightHandYawCWButton_released();
+            return;
+        }
+        if (cmd.find("on_rightHandPitchUpButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightHandPitchUpButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightHandPitchUpButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightHandPitchUpButton_released();
+            return;
+        }
+        if (cmd.find("on_rightHandPitchDownButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightHandPitchDownButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightHandPitchDownButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightHandPitchDownButton_released();
+            return;
+        }
+        if (cmd.find("on_rightForearmRollMotorOnOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightForearmRollMotorOnOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightForearmRollCCWButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightForearmRollCCWButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightForearmRollCCWButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightForearmRollCCWButton_released();
+            return;
+        }
+        if (cmd.find("on_rightForearmRollCWButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightForearmRollCWButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightForearmRollCWButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightForearmRollCWButton_released();
+            return;
+        }
+        if (cmd.find("on_rightForearmRollStepDelaySpinBox_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightForearmRollStepDelaySpinBox->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightForearmRollStepSwitchDelaySpinBox_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->rightForearmRollStepSwitchDelaySpinBox->setValue(value);
+            return;
+        }
+        if (cmd.find("on_rightForearmResetPositionButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightForearmResetPositionButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightForearmYawCCWButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightForearmYawCCWButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightForearmYawCCWButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightForearmYawCCWButton_released();
+            return;
+        }
+        if (cmd.find("on_rightForearmYawCWButton_pressed") != std::string::npos)
+        {
+            mainWindow->on_rightForearmYawCWButton_pressed();
+            return;
+        }
+        if (cmd.find("on_rightForearmYawCWButton_released") != std::string::npos)
+        {
+            mainWindow->on_rightForearmYawCWButton_released();
+            return;
+        }
+        if (cmd.find("on_rightArmLedsOnOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightArmLedsOnOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightHandSensorsTable_itemClicked") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            vector<string>value_str_values = Valter::split(value_str, '@');
+            int row = atoi(((string)value_str_values[0]).c_str());
+            int column = atoi(((string)value_str_values[1]).c_str());
+            bool checked = (value_str_values[2].compare("true")) ? true : false;
+            QTableWidgetItem* item = ui->rightHandSensorsTable->item(row, column);
+            item->setCheckState((checked) ? Qt::Checked: Qt::Unchecked);
+            ui->rightHandSensorsTable->viewport()->update();
+            mainWindow->on_rightHandSensorsTable_itemClicked(item);
+            return;
+        }
+        if (cmd.find("on_rightArmReadingsTable_itemClicked") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            vector<string>value_str_values = Valter::split(value_str, '@');
+            int row = atoi(((string)value_str_values[0]).c_str());
+            int column = atoi(((string)value_str_values[1]).c_str());
+            bool checked = (value_str_values[2].compare("true")) ? true : false;
+            QTableWidgetItem* item = ui->rightArmReadingsTable->item(row, column);
+            item->setCheckState((checked) ? Qt::Checked: Qt::Unchecked);
+            ui->rightArmReadingsTable->viewport()->update();
+            mainWindow->on_rightArmReadingsTable_itemClicked(item);
+            return;
+        }
+        if (cmd.find("on_rightHandSensorsTrackAllButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightHandSensorsTrackAllButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightHandSensorsTrackNoneButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightHandSensorsTrackNoneButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightArmReadingsTrackAllButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightArmReadingsTrackAllButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightArmReadingsTrackNoneButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightArmReadingsTrackNoneButton_clicked();
+            return;
+        }
     }
 };

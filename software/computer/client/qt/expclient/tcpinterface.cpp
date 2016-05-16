@@ -161,7 +161,7 @@ bool TCPInterface::sendCommandMessage(string command)
         stream->send(command.c_str(), command.size());
         length = stream->receive(response, sizeof(response));
         response[length] = '\0';
-        qDebug("received - %s", response);
+        //qDebug("received - %s", response);
         delete stream;
 
         return true;
@@ -219,7 +219,7 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
             stream->send(command.c_str(), command.size());
             length = stream->receive(response, sizeof(response));
             response[length] = '\0';
-            qDebug("received - %s", response);
+            //qDebug("received - %s", response);
             delete stream;
 
             return true;

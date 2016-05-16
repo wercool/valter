@@ -17,9 +17,9 @@ void MainWindow::initArmControlLeft(Ui::MainWindow *ui)
     ui->leftForearmMotorDutyScroller->installEventFilter(new WheelEventFilter());
     ui->leftForearmMotorDecelerationScroller->installEventFilter(new WheelEventFilter());
     ui->leftForearmAccelerationScroller->installEventFilter(new WheelEventFilter());
-    ui->leftArmMotorDutyScroller_2->installEventFilter(new WheelEventFilter());
-    ui->leftArmMotorDecelerationScroller_2->installEventFilter(new WheelEventFilter());
-    ui->leftArmMotorAccelerationScroller_2->installEventFilter(new WheelEventFilter());
+    ui->armControlLeftArmMotorDutyScroller->installEventFilter(new WheelEventFilter());
+    ui->armControlLeftArmMotorDecelerationScroller->installEventFilter(new WheelEventFilter());
+    ui->armControlLeftArmMotorAccelerationScroller->installEventFilter(new WheelEventFilter());
     ui->leftLimbMotorDutyScroller->installEventFilter(new WheelEventFilter());
     ui->leftLimbMotorDecelerationScroller->installEventFilter(new WheelEventFilter());
     ui->leftLimbMotorAccelerationScroller->installEventFilter(new WheelEventFilter());
@@ -34,70 +34,110 @@ void MainWindow::armControlLeftTabRefreshTimerUpdate()
 
 void MainWindow::on_leftForearmMotorDutyScroller_valueChanged(int value)
 {
-    ui->leftForearmMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftForearmMotorDutyScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftForearmMotorDutyMax(value);
+    ui->leftForearmMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_leftForearmMotorDecelerationScroller_valueChanged(int value)
 {
-    ui->leftForearmMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftForearmMotorDecelerationScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftForearmMotorDeceleration(value);
+    ui->leftForearmMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_leftForearmAccelerationScroller_valueChanged(int value)
 {
-    ui->leftForearmAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftForearmAccelerationScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftForearmMotorAcceleration(value);
+    ui->leftForearmAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
-void MainWindow::on_leftArmMotorDutyScroller_2_valueChanged(int value)
+void MainWindow::on_armControlLeftArmMotorDutyScroller_valueChanged(int value)
 {
-    ui->leftArmMotorDutyLabel_2->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftArmMotorDutyScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftArmMotorDutyMax(value);
+    ui->armControlLeftArmMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
-void MainWindow::on_leftArmMotorDecelerationScroller_2_valueChanged(int value)
+void MainWindow::on_armControlLeftArmMotorDecelerationScroller_valueChanged(int value)
 {
-    ui->leftArmMotorDecelerationLabel_2->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftArmMotorDecelerationScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftArmMotorDeceleration(value);
+    ui->armControlLeftArmMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
-void MainWindow::on_leftArmMotorAccelerationScroller_2_valueChanged(int value)
+void MainWindow::on_armControlLeftArmMotorAccelerationScroller_valueChanged(int value)
 {
-    ui->leftArmMotorAccelerationLabel_2->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftArmMotorAccelerationScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftArmMotorAcceleration(value);
+    ui->armControlLeftArmMotorAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_leftLimbMotorDutyScroller_valueChanged(int value)
 {
-    ui->leftLimbMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftLimbMotorDutyScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftLimbMotorDutyMax(value);
+    ui->leftLimbMotorDutyLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_leftLimbMotorDecelerationScroller_valueChanged(int value)
 {
-    ui->leftLimbMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftLimbMotorDecelerationScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftLimbMotorDeceleration(value);
+    ui->leftLimbMotorDecelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_leftLimbMotorAccelerationScroller_valueChanged(int value)
 {
-    ui->leftLimbMotorAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftLimbMotorAccelerationScroller_valueChanged@%d", value));
+    }
     armControlLeft->setLeftLimbMotorAcceleration(value);
+    ui->leftLimbMotorAccelerationLabel->setText(Valter::format_string("[%d]", value).c_str());
 }
 
 void MainWindow::on_leftForearmMoveUpButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmMoveUpButton_pressed");
+    }
     if (armControlLeft->prepareLeftForearmMovement())
     {
         //up
@@ -111,12 +151,20 @@ void MainWindow::on_leftForearmMoveUpButton_pressed()
 void MainWindow::on_leftForearmMoveUpButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmMoveUpButton_released");
+    }
     armControlLeft->setLeftForearmMotorActivated(false);
 }
 
 void MainWindow::on_leftForearmMoveDownButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmMoveDownButton_pressed");
+    }
     if (armControlLeft->prepareLeftForearmMovement())
     {
         //down
@@ -130,12 +178,20 @@ void MainWindow::on_leftForearmMoveDownButton_pressed()
 void MainWindow::on_leftForearmMoveDownButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmMoveDownButton_released");
+    }
     armControlLeft->setLeftForearmMotorActivated(false);
 }
 
 void MainWindow::on_leftArmMoveUpButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftArmMoveUpButton_pressed");
+    }
     if (armControlLeft->prepareLeftArmMovement())
     {
         //up
@@ -149,12 +205,20 @@ void MainWindow::on_leftArmMoveUpButton_pressed()
 void MainWindow::on_leftArmMoveUpButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftArmMoveUpButton_released");
+    }
     armControlLeft->setLeftArmMotorActivated(false);
 }
 
 void MainWindow::on_leftArmMoveDownButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftArmMoveDownButton_pressed");
+    }
     if (armControlLeft->prepareLeftArmMovement())
     {
         //down
@@ -168,12 +232,20 @@ void MainWindow::on_leftArmMoveDownButton_pressed()
 void MainWindow::on_leftArmMoveDownButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftArmMoveDownButton_released");
+    }
     armControlLeft->setLeftArmMotorActivated(false);
 }
 
 void MainWindow::on_leftLimbMoveUpButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftLimbMoveUpButton_pressed");
+    }
     if (armControlLeft->prepareLeftLimbMovement())
     {
         //up
@@ -187,12 +259,20 @@ void MainWindow::on_leftLimbMoveUpButton_pressed()
 void MainWindow::on_leftLimbMoveUpButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftLimbMoveUpButton_released");
+    }
     armControlLeft->setLeftLimbMotorActivated(false);
 }
 
 void MainWindow::on_leftLimbMoveDownButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftLimbMoveDownButton_pressed");
+    }
     if (armControlLeft->prepareLeftLimbMovement())
     {
         //down
@@ -206,12 +286,20 @@ void MainWindow::on_leftLimbMoveDownButton_pressed()
 void MainWindow::on_leftLimbMoveDownButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftLimbMoveDownButton_released");
+    }
     armControlLeft->setLeftLimbMotorActivated(false);
 }
 
 void MainWindow::on_leftHandYawCCWButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandYawCCWButton_pressed");
+    }
     armControlLeft->setHandYawDirection(false);
     armControlLeft->handYaw(true);
 }
@@ -219,12 +307,20 @@ void MainWindow::on_leftHandYawCCWButton_pressed()
 void MainWindow::on_leftHandYawCCWButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandYawCCWButton_released");
+    }
     armControlLeft->handYaw(false);
 }
 
 void MainWindow::on_leftHandYawCWButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandYawCWButton_pressed");
+    }
     armControlLeft->setHandYawDirection(true);
     armControlLeft->handYaw(true);
 }
@@ -232,12 +328,20 @@ void MainWindow::on_leftHandYawCWButton_pressed()
 void MainWindow::on_leftHandYawCWButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandYawCWButton_released");
+    }
     armControlLeft->handYaw(false);
 }
 
 void MainWindow::on_leftHandPitchUpButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandPitchUpButton_pressed");
+    }
     armControlLeft->setHandPitchDirection(true);
     armControlLeft->handPitch(true);
 }
@@ -245,12 +349,20 @@ void MainWindow::on_leftHandPitchUpButton_pressed()
 void MainWindow::on_leftHandPitchUpButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandPitchUpButton_released");
+    }
     armControlLeft->handPitch(false);
 }
 
 void MainWindow::on_leftHandPitchDownButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandPitchDownButton_pressed");
+    }
     armControlLeft->setHandPitchDirection(false);
     armControlLeft->handPitch(true);
 }
@@ -258,12 +370,20 @@ void MainWindow::on_leftHandPitchDownButton_pressed()
 void MainWindow::on_leftHandPitchDownButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandPitchDownButton_released");
+    }
     armControlLeft->handPitch(false);
 }
 
 void MainWindow::on_leftForearmRollMotorOnOffButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmRollMotorOnOffButton_clicked");
+    }
     if (armControlLeft->getForearmRollMotorState())
     {
         armControlLeft->setForearmRollMotorOnOff(false);
@@ -277,6 +397,10 @@ void MainWindow::on_leftForearmRollMotorOnOffButton_clicked()
 void MainWindow::on_leftForearmRollCCWButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmRollCCWButton_pressed");
+    }
     if (armControlLeft->getForearmRollMotorState())
     {
         armControlLeft->setForearmRollDirection(false); //CCW
@@ -287,12 +411,20 @@ void MainWindow::on_leftForearmRollCCWButton_pressed()
 void MainWindow::on_leftForearmRollCCWButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmRollCCWButton_released");
+    }
     armControlLeft->setForearmRollMotorActivated(false);
 }
 
 void MainWindow::on_leftForearmRollCWButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmRollCWButton_pressed");
+    }
     if (armControlLeft->getForearmRollMotorState())
     {
         armControlLeft->setForearmRollDirection(true); //CW
@@ -303,30 +435,50 @@ void MainWindow::on_leftForearmRollCWButton_pressed()
 void MainWindow::on_leftForearmRollCWButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmRollCWButton_released");
+    }
     armControlLeft->setForearmRollMotorActivated(false);
 }
 
 void MainWindow::on_leftForearmRollStepDelaySpinBox_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftForearmRollStepDelaySpinBox_valueChanged@%d", value));
+    }
     armControlLeft->setForearmRollStepDelay(value);
 }
 
 void MainWindow::on_leftForearmRollStepSwitchDelaySpinBox_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftForearmRollStepSwitchDelaySpinBox_valueChanged@%d", value));
+    }
     armControlLeft->setForearmRollStepSwitchDelay(value);
 }
 
 void MainWindow::on_leftForearmResetPositionButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmResetPositionButton_clicked");
+    }
     armControlLeft->setForearmRollResettingStepPosition(!armControlLeft->getForearmRollResettingStepPosition());
 }
 
 void MainWindow::on_leftArmLedsOnOffButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftArmLedsOnOffButton_clicked");
+    }
     armControlLeft->turnArmLedsOnOff();
 }
 
@@ -339,17 +491,31 @@ void MainWindow::on_armControlLeftLoadDefaultsButton_clicked()
 
 void MainWindow::on_leftArmReadingsTable_itemClicked(QTableWidgetItem *item)
 {
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftArmReadingsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
+    }
     setLeftArmReadingsPresets(item);
 }
 
 void MainWindow::on_leftHandSensorsTable_itemClicked(QTableWidgetItem *item)
 {
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_leftHandSensorsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
+    }
     setLeftHandForceSensorsReadingsPresets(item);
 }
 
 void MainWindow::on_leftForearmYawCCWButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmYawCCWButton_pressed");
+    }
     armControlLeft->setForearmYawDirection(false);
     armControlLeft->forearmYaw(true);
 }
@@ -357,12 +523,20 @@ void MainWindow::on_leftForearmYawCCWButton_pressed()
 void MainWindow::on_leftForearmYawCCWButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmYawCCWButton_released");
+    }
     armControlLeft->forearmYaw(false);
 }
 
 void MainWindow::on_leftForearmYawCWButton_pressed()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmYawCWButton_pressed");
+    }
     armControlLeft->setForearmYawDirection(true);
     armControlLeft->forearmYaw(true);
 }
@@ -370,12 +544,20 @@ void MainWindow::on_leftForearmYawCWButton_pressed()
 void MainWindow::on_leftForearmYawCWButton_released()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftForearmYawCWButton_released");
+    }
     armControlLeft->forearmYaw(false);
 }
 
 void MainWindow::on_leftHandSensorsTrackAllButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandSensorsTrackAllButton_clicked");
+    }
     for (int i = 0; i < 13; i++)
     {
         armControlLeft->setHandSensorsTrack(i, true);
@@ -386,6 +568,10 @@ void MainWindow::on_leftHandSensorsTrackAllButton_clicked()
 void MainWindow::on_leftHandSensorsTrackNoneButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftHandSensorsTrackNoneButton_clicked");
+    }
     for (int i = 0; i < 13; i++)
     {
         armControlLeft->setHandSensorsTrack(i, false);
@@ -396,6 +582,10 @@ void MainWindow::on_leftHandSensorsTrackNoneButton_clicked()
 void MainWindow::on_leftArmReadingsTrackAllButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftArmReadingsTrackAllButton_clicked");
+    }
     armControlLeft->setForearmPositionTrack(true);
     armControlLeft->setArmPositionTrack(true);
     armControlLeft->setLimbPositionTrack(true);
@@ -417,6 +607,10 @@ void MainWindow::on_leftArmReadingsTrackAllButton_clicked()
 void MainWindow::on_leftArmReadingsTrackNoneButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_leftArmReadingsTrackNoneButton_clicked");
+    }
     armControlLeft->setForearmPositionTrack(false);
     armControlLeft->setArmPositionTrack(false);
     armControlLeft->setLimbPositionTrack(false);
@@ -438,12 +632,29 @@ void MainWindow::on_leftArmReadingsTrackNoneButton_clicked()
 void MainWindow::on_armControlLeftStopAllWatchersButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_armControlLeftStopAllWatchersButton_clicked");
+    }
     armControlLeft->stopAllWatchers();
 }
 
 void MainWindow::on_armControlLeftStartAllWatchersButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_armControlLeftStartAllWatchersButton_clicked");
+    }
     armControlLeft->startAllWatchers();
 }
 
+
+void MainWindow::on_armControlLeftRedrawGUICheckBox_clicked(bool checked)
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftRedrawGUICheckBox_clicked@%s", (!checked) ? "true" : "false"));
+    }
+}

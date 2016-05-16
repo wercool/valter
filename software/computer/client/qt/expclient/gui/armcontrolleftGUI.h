@@ -202,16 +202,16 @@ void loadArmControlLeftDefaults(Ui::MainWindow *ui)
     ui->leftForearmAccelerationLabel->setText(Valter::format_string("[%d]", armControlLeft->getLeftForearmMotorAcceleration()).c_str());
 
 
-    ui->leftArmMotorDutyScroller_2->setMinimum(armControlLeft->getLeftArmMotorDutyPresetMin());
-    ui->leftArmMotorDutyScroller_2->setMaximum(armControlLeft->getLeftArmMotorDutyPresetMax());
-    ui->leftArmMotorDutyScroller_2->setValue(armControlLeft->getLeftArmMotorDutyPresetCur());
-    ui->leftArmMotorDutyLabel_2->setText(Valter::format_string("[%d]", armControlLeft->getLeftArmMotorDutyPresetCur()).c_str());
+    ui->armControlLeftArmMotorDutyScroller->setMinimum(armControlLeft->getLeftArmMotorDutyPresetMin());
+    ui->armControlLeftArmMotorDutyScroller->setMaximum(armControlLeft->getLeftArmMotorDutyPresetMax());
+    ui->armControlLeftArmMotorDutyScroller->setValue(armControlLeft->getLeftArmMotorDutyPresetCur());
+    ui->armControlLeftArmMotorDutyLabel->setText(Valter::format_string("[%d]", armControlLeft->getLeftArmMotorDutyPresetCur()).c_str());
 
-    ui->leftArmMotorDecelerationScroller_2->setValue(armControlLeft->getLeftArmMotorDeceleration());
-    ui->leftArmMotorDecelerationLabel_2->setText(Valter::format_string("[%d]", armControlLeft->getLeftArmMotorDeceleration()).c_str());
+    ui->armControlLeftArmMotorDecelerationScroller->setValue(armControlLeft->getLeftArmMotorDeceleration());
+    ui->armControlLeftArmMotorDecelerationLabel->setText(Valter::format_string("[%d]", armControlLeft->getLeftArmMotorDeceleration()).c_str());
 
-    ui->leftArmMotorAccelerationScroller_2->setValue(armControlLeft->getLeftArmMotorAcceleration());
-    ui->leftArmMotorAccelerationLabel_2->setText(Valter::format_string("[%d]", armControlLeft->getLeftArmMotorAcceleration()).c_str());
+    ui->armControlLeftArmMotorAccelerationScroller->setValue(armControlLeft->getLeftArmMotorAcceleration());
+    ui->armControlLeftArmMotorAccelerationLabel->setText(Valter::format_string("[%d]", armControlLeft->getLeftArmMotorAcceleration()).c_str());
 
 
     ui->leftLimbMotorDutyScroller->setMinimum(armControlLeft->getLeftLimbMotorDutyPresetMin());

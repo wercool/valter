@@ -429,9 +429,9 @@ public slots:
     void on_leftForearmMotorDutyScroller_valueChanged(int value);
     void on_leftForearmMotorDecelerationScroller_valueChanged(int value);
     void on_leftForearmAccelerationScroller_valueChanged(int value);
-    void on_leftArmMotorDutyScroller_2_valueChanged(int value);
-    void on_leftArmMotorDecelerationScroller_2_valueChanged(int value);
-    void on_leftArmMotorAccelerationScroller_2_valueChanged(int value);
+    void on_armControlLeftArmMotorDutyScroller_valueChanged(int value);
+    void on_armControlLeftArmMotorDecelerationScroller_valueChanged(int value);
+    void on_armControlLeftArmMotorAccelerationScroller_valueChanged(int value);
     void on_leftLimbMotorDutyScroller_valueChanged(int value);
     void on_leftLimbMotorDecelerationScroller_valueChanged(int value);
     void on_leftLimbMotorAccelerationScroller_valueChanged(int value);
@@ -488,9 +488,9 @@ public slots:
     void on_rightForearmMotorDutyScroller_valueChanged(int value);
     void on_rightForearmMotorDecelerationScroller_valueChanged(int value);
     void on_rightForearmAccelerationScroller_valueChanged(int value);
-    void on_rightArmMotorDutyScroller_2_valueChanged(int value);
-    void on_rightArmMotorDecelerationScroller_2_valueChanged(int value);
-    void on_rightArmMotorAccelerationScroller_2_valueChanged(int value);
+    void on_armControlRightArmMotorDutyScroller_valueChanged(int value);
+    void on_armControlRightArmMotorDecelerationScroller_valueChanged(int value);
+    void on_armControlRightMotorAccelerationScroller_valueChanged(int value);
     void on_rightLimbMotorDutyScroller_valueChanged(int value);
     void on_rightLimbMotorDecelerationScroller_valueChanged(int value);
     void on_rightLimbMotorAccelerationScroller_valueChanged(int value);
@@ -532,6 +532,7 @@ public slots:
     void on_rightArmReadingsTrackNoneButton_clicked();
     void on_armControlLeftStopAllWatchersButton_clicked();
     void on_armControlLeftStartAllWatchersButton_clicked();
+    void on_armControlRightRedrawGUICheckBox_clicked(bool checked);
 
     //Utilities
 
@@ -585,7 +586,7 @@ private slots:
     //TCP Interface
     void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
     void on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked();
-    void on_armControlRightRedrawGUICheckBox_clicked(bool checked);
+    void on_armControlLeftRedrawGUICheckBox_clicked(bool checked);
 };
 
 #endif // MAINWINDOW_H
