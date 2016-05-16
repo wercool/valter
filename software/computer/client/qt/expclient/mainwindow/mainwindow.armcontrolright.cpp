@@ -576,6 +576,7 @@ void MainWindow::on_rightHandSensorsTrackAllButton_clicked()
         armControlRight->setHandSensorsTrack(i, true);
         ((QTableWidgetItem*)ui->rightHandSensorsTable->item(i, 0))->setCheckState(Qt::Checked);
     }
+    ui->rightHandSensorsTable->viewport()->update();
 }
 
 void MainWindow::on_rightHandSensorsTrackNoneButton_clicked()
@@ -590,6 +591,7 @@ void MainWindow::on_rightHandSensorsTrackNoneButton_clicked()
         armControlRight->setHandSensorsTrack(i, false);
         ((QTableWidgetItem*)ui->rightHandSensorsTable->item(i, 0))->setCheckState(Qt::Unchecked);
     }
+    ui->rightHandSensorsTable->viewport()->update();
 }
 
 void MainWindow::on_rightArmReadingsTrackAllButton_clicked()
@@ -615,6 +617,7 @@ void MainWindow::on_rightArmReadingsTrackAllButton_clicked()
     {
         ((QTableWidgetItem*)ui->rightArmReadingsTable->item(i, 0))->setCheckState(Qt::Checked);
     }
+    ui->rightArmReadingsTable->viewport()->update();
 }
 
 void MainWindow::on_rightArmReadingsTrackNoneButton_clicked()
@@ -640,6 +643,7 @@ void MainWindow::on_rightArmReadingsTrackNoneButton_clicked()
     {
         ((QTableWidgetItem*)ui->rightArmReadingsTable->item(i, 0))->setCheckState(Qt::Unchecked);
     }
+    ui->rightArmReadingsTable->viewport()->update();
 }
 
 void MainWindow::on_armControlRightStopAllWatchersButton_clicked()
