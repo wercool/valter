@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -11100,7 +11100,7 @@ background-repeat: repeat-no;</string>
                      <number>100</number>
                     </property>
                     <property name="value">
-                     <number>2500</number>
+                     <number>5000</number>
                     </property>
                    </widget>
                   </item>
@@ -11206,6 +11206,9 @@ background-repeat: repeat-no;</string>
                     </property>
                     <property name="singleStep">
                      <number>100</number>
+                    </property>
+                    <property name="value">
+                     <number>5000</number>
                     </property>
                    </widget>
                   </item>
@@ -11320,7 +11323,7 @@ background-repeat: repeat-no;</string>
                    <number>1</number>
                   </property>
                   <property name="maximum">
-                   <number>700</number>
+                   <number>1000</number>
                   </property>
                   <property name="singleStep">
                    <number>10</number>
@@ -12020,6 +12023,9 @@ background-repeat: repeat-no;</string>
                     <property name="singleStep">
                      <number>100</number>
                     </property>
+                    <property name="value">
+                     <number>2500</number>
+                    </property>
                    </widget>
                   </item>
                   <item>
@@ -12121,7 +12127,7 @@ background-repeat: repeat-no;</string>
                    <number>1</number>
                   </property>
                   <property name="maximum">
-                   <number>700</number>
+                   <number>1000</number>
                   </property>
                   <property name="singleStep">
                    <number>10</number>

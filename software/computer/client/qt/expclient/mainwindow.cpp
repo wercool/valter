@@ -278,30 +278,40 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
         platformControlP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformControlP1->getTcpInterface()->getPort()));
+        platformControlP1->loadDefaults();
+        loadPlatformControlP1Defaults(ui);
     }
 
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
     if (ui->platformControlP2RemoteControlCheckbox->isChecked())
     {
         platformControlP2->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformControlP2->getTcpInterface()->getPort()));
+        platformControlP2->loadDefaults();
+        loadPlatformControlP2Defaults(ui);
     }
 
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
     if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
     {
         platformLocationP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformLocationP1->getTcpInterface()->getPort()));
+        platformLocationP1->loadDefaults();
+        loadPlatformLocationP1Defaults(ui);
     }
 
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
     if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
     {
         platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getPort()));
+        platformManipulatorAndIRBumper->loadDefaults();
+        loadPlatformManipulatorAndIRBumperDefaults(ui);
     }
 
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
         bodyControlP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), bodyControlP1->getTcpInterface()->getPort()));
+        bodyControlP1->loadDefaults();
+        loadBodyControlP1Defaults(ui);
     }
 }
 
@@ -325,7 +335,7 @@ void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_cl
 
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     bodyControlP1->getTcpInterface()->setCommandHostIP(ui->bodyControlP1CommandHostLineEdit->text().toStdString());
-    bodyControlP1->getTcpInterface()->setCommandHostPort(atoi(ui->bodyControlP1CommandHostLineEdit->text().toStdString().c_str()));
+    bodyControlP1->getTcpInterface()->setCommandHostPort(atoi(ui->bodyControlP1CommandPortLineEdit->text().toStdString().c_str()));
 
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
     armControlRight->getTcpInterface()->setCommandHostIP(ui->armControlRightCommandHostLineEdit->text().toStdString());
