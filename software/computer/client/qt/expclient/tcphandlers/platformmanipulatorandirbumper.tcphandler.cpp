@@ -72,7 +72,7 @@ class PlatformManipulatorAndIRBumperTCPConnectionHandler : public Thread
 
             platformManipulatorAndIRBumper->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
             platformManipulatorAndIRBumper->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
-            qDebug("Central Command Host IP Address:%s Port:%d", platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIP().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIPPort());
+            qDebug("[%s] Central Command Host IP Address:%s Port:%d", platformManipulatorAndIRBumper->getControlDeviceId().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIP().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIPPort());
             return;
         }
 

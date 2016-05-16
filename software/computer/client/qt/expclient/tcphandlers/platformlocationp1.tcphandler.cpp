@@ -72,7 +72,7 @@ class PlatformLocationP1TCPConnectionHandler : public Thread
 
             platformLocationP1->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
             platformLocationP1->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
-            qDebug("Central Command Host IP Address:%s Port:%d", platformLocationP1->getTcpInterface()->getCentralCommandHostIP().c_str(), platformLocationP1->getTcpInterface()->getCentralCommandHostIPPort());
+            qDebug("[%s] Central Command Host IP Address:%s Port:%d", platformLocationP1->getControlDeviceId().c_str(), platformLocationP1->getTcpInterface()->getCentralCommandHostIP().c_str(), platformLocationP1->getTcpInterface()->getCentralCommandHostIPPort());
             return;
         }
 
