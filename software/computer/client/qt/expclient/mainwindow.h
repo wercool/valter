@@ -587,6 +587,7 @@ private slots:
     void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
     void on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked();
     void on_armControlLeftRedrawGUICheckBox_clicked(bool checked);
+    void on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked();
 };
 
 #endif // MAINWINDOW_H

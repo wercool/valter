@@ -167,7 +167,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getForearmMotorCurrentTrack())
     {
-        if (response.find("SENSOR:5") != std::string::npos)
+        if (response.find("SENSOR:5") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -178,7 +178,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getArmMotorCurrentTrack())
     {
-        if (response.find("SENSOR:4") != std::string::npos)
+        if (response.find("SENSOR:4") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -189,7 +189,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getLimbMotorCurrentTrack())
     {
-        if (response.find("SENSOR:3") != std::string::npos)
+        if (response.find("SENSOR:3") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -200,7 +200,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getHandYawPositionTrack())
     {
-        if (response.find("SENSOR:0") != std::string::npos)
+        if (response.find("SENSOR:0") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -211,7 +211,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getHandPitchPositionTrack())
     {
-        if (response.find("SENSOR:1") != std::string::npos)
+        if (response.find("SENSOR:1") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -222,7 +222,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getForearmYawPositionTrack())
     {
-        if (response.find("SENSOR:2") != std::string::npos)
+        if (response.find("SENSOR:2") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -233,7 +233,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getForearmYawMotorCurrentTrack())
     {
-        if (response.find("SENSOR:6") != std::string::npos)
+        if (response.find("SENSOR:6") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -244,7 +244,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getHandYawMotorCurrentTrack())
     {
-        if (response.find("SENSOR:7") != std::string::npos)
+        if (response.find("SENSOR:7") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -255,7 +255,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (getHandPitchMotorCurrentTrack())
     {
-        if (response.find("SENSOR:8") != std::string::npos)
+        if (response.find("SENSOR:8") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
@@ -276,7 +276,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
     if (trackHandFingerSensors)
     {
-        if (response.find("HAND SENSOR:") != std::string::npos)
+        if (response.find("HAND SENSOR:") == 0)
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);

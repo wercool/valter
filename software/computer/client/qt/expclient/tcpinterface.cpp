@@ -13,6 +13,7 @@ TCPInterface::TCPInterface(int port)
     setCommanfInterfaceConnector(new TCPConnector());
 
     //set uninitialized from the beginning
+    connected = false;
     centralCommandHostIP = "";
 }
 
@@ -186,6 +187,16 @@ void TCPInterface::tcpConnectionWorker()
     }
 }
 
+bool TCPInterface::getConnected() const
+{
+    return connected;
+}
+
+void TCPInterface::setConnected(bool value)
+{
+    connected = value;
+}
+
 int TCPInterface::getCentralCommandHostIPPort() const
 {
     return centralCommandHostIPPort;
@@ -208,21 +219,24 @@ void TCPInterface::setCentralCommandHostIP(const string &value)
 
 bool TCPInterface::sendCDRToCentralCommandHost(string command)
 {
-    if (getCentralCommandHostIP().compare("") > 0)
+    if (connected)
     {
-        TCPStream* stream = getCommanfInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
-        int length;
-        char response[256];
-        if (stream)
+        if (getCentralCommandHostIP().compare("") > 0)
         {
-            //qDebug("sent - %s", command.c_str());
-            stream->send(command.c_str(), command.size());
-            length = stream->receive(response, sizeof(response));
-            response[length] = '\0';
-            //qDebug("received - %s", response);
-            delete stream;
+            TCPStream* stream = getCommanfInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
+            int length;
+            char response[256];
+            if (stream)
+            {
+                //qDebug("sent - %s", command.c_str());
+                stream->send(command.c_str(), command.size());
+                length = stream->receive(response, sizeof(response));
+                response[length] = '\0';
+                //qDebug("received - %s", response);
+                delete stream;
 
-            return true;
+                return true;
+            }
         }
     }
     return false;

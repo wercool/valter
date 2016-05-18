@@ -59,6 +59,9 @@ public:
     int getCentralCommandHostIPPort() const;
     void setCentralCommandHostIPPort(const int &value);
 
+    bool getConnected() const;
+    void setConnected(bool value);
+
 private:
     string ip;
     int port;
@@ -77,6 +80,8 @@ private:
     //central command host
     string centralCommandHostIP;
     int centralCommandHostIPPort;
+
+    bool connected;
 };
 
 #endif // TCPINTERFACE_H

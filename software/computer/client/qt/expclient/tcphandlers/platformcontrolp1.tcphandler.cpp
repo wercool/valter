@@ -72,7 +72,13 @@ class PlatformControlP1TCPConnectionHandler : public Thread
 
             platformControlP1->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
             platformControlP1->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
+            platformControlP1->getTcpInterface()->setConnected(true);
             qDebug("[%s] Central Command Host IP Address:%s Port:%d", platformControlP1->getControlDeviceId().c_str(), platformControlP1->getTcpInterface()->getCentralCommandHostIP().c_str(), platformControlP1->getTcpInterface()->getCentralCommandHostIPPort());
+            return;
+        }
+        if (cmd.find("stopCDTtoCentralCommandHost") != std::string::npos)
+        {
+            platformControlP1->getTcpInterface()->setConnected(false);
             return;
         }
 

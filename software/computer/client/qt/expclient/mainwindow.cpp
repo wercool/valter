@@ -363,3 +363,28 @@ void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_cl
 
     on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
 }
+
+
+void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
+
+    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+    platformControlP2->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
+
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    platformLocationP1->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
+
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
+
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bodyControlP1->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
+
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    armControlRight->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
+
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
+}
