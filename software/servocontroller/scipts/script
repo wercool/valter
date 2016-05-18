@@ -1,0 +1,162 @@
+### Sequence subroutines: ###
+
+############################################################### Inactive all
+sub Inactive_All
+  500 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 frame_0..23 # Inactive All
+return
+
+############################################################### Left Arm
+sub Left_Arm_Inactive
+  begin
+    0 0 0 0 0 0 frame_6..11 # Inactive
+  repeat
+return
+
+sub Left_Arm_Initial
+  begin
+    4864 3090 3710 7616 6828 5252 frame_6..11 # Activated - initial
+  repeat
+return
+
+sub Left_Arm_Grasping
+  begin
+    7804 6870 7469 3680 2600 3166 frame_6..11 # Grasping
+  repeat
+return
+
+sub Left_Arm_Grasping_F6
+  begin
+    7804 6 servo
+  repeat
+return
+
+sub Left_Arm_Grasping_F7
+  begin
+    6870 7 servo
+  repeat
+return
+
+sub Left_Arm_Grasping_F8
+  begin
+    7469 8 servo
+  repeat
+return
+
+sub Left_Arm_Grasping_F9
+  begin
+    3680 9 servo
+  repeat
+return
+
+sub Left_Arm_Grasping_F10
+  begin
+    2600 10 servo
+  repeat
+return
+
+sub Left_Arm_Grasping_F11
+  begin
+    3166 11 servo
+  repeat
+return
+
+############################################################### Right Arm
+sub Right_Arm_Inactive
+  begin
+    0 0 0 0 0 0 frame_0..5 # Inactive
+  repeat
+return
+
+sub Right_Arm_Initial
+  begin
+    5200 8282 8155 3556 3046 6000 frame_0..5 # Activated - initial
+  repeat
+return
+
+sub Right_Arm_Grasping
+  begin
+    2432 4985 3795 7116 6953 8849 frame_0..5 # Grasping
+  repeat
+return
+
+sub Right_Arm_Grasping_F0
+  begin
+    2432 0 servo
+  repeat
+return
+
+sub Right_Arm_Grasping_F1
+  begin
+    4985 1 servo
+  repeat
+return
+
+sub Right_Arm_Grasping_F2
+  begin
+    3795 2 servo
+  repeat
+return
+
+sub Right_Arm_Grasping_F3
+  begin
+    7116 3 servo
+  repeat
+return
+
+sub Right_Arm_Grasping_F4
+  begin
+    6953 4 servo
+  repeat
+return
+
+sub Right_Arm_Grasping_F5
+  begin
+    8849 5 servo
+  repeat
+return
+
+sub frame_0..23
+  23 servo
+  22 servo
+  21 servo
+  20 servo
+  19 servo
+  18 servo
+  17 servo
+  16 servo
+  15 servo
+  14 servo
+  13 servo
+  12 servo
+  11 servo
+  10 servo
+  9 servo
+  8 servo
+  7 servo
+  6 servo
+  5 servo
+  4 servo
+  3 servo
+  2 servo
+  1 servo
+  0 servo
+  delay
+return
+
+sub frame_6..11
+  11 servo
+  10 servo
+  9 servo
+  8 servo
+  7 servo
+  6 servo
+return
+
+sub frame_0..5
+  5 servo
+  4 servo
+  3 servo
+  2 servo
+  1 servo
+  0 servo
+return

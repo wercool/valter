@@ -1,0 +1,188 @@
+0000:                      -- ### Sequence subroutines: ###
+0000:                      -- 
+0000:                      -- ############################################################### Inactive all
+0000:                      -- sub Inactive_All
+0000: 0332F40100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000093 --   500 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 frame_0..23 # Inactive All
+0035: 05                   -- return
+0036:                      -- 
+0036:                      -- ############################################################### Left Arm
+0036:                      -- sub Left_Arm_Inactive
+0036:                      --   begin
+0036: 040600000000000094   --     0 0 0 0 0 0 frame_6..11 # Inactive
+003F: 063600               --   repeat
+0042: 05                   -- return
+0043:                      -- 
+0043:                      -- sub Left_Arm_Initial
+0043:                      --   begin
+0043: 030C0013120C7E0EC01DAC1A841494 --     4864 3090 3710 7616 6828 5252 frame_6..11 # Activated - initial
+0052: 064300               --   repeat
+0055: 05                   -- return
+0056:                      -- 
+0056:                      -- sub Left_Arm_Grasping
+0056:                      --   begin
+0056: 030C7C1ED61A2D1D600E280A5E0C94 --     7804 6870 7469 3680 2600 3166 frame_6..11 # Grasping
+0065: 065600               --   repeat
+0068: 05                   -- return
+0069:                      -- 
+0069:                      -- sub Left_Arm_Grasping_F6
+0069:                      --   begin
+0069: 03047C1E06002A       --     7804 6 servo
+0070: 066900               --   repeat
+0073: 05                   -- return
+0074:                      -- 
+0074:                      -- sub Left_Arm_Grasping_F7
+0074:                      --   begin
+0074: 0304D61A07002A       --     6870 7 servo
+007B: 067400               --   repeat
+007E: 05                   -- return
+007F:                      -- 
+007F:                      -- sub Left_Arm_Grasping_F8
+007F:                      --   begin
+007F: 03042D1D08002A       --     7469 8 servo
+0086: 067F00               --   repeat
+0089: 05                   -- return
+008A:                      -- 
+008A:                      -- sub Left_Arm_Grasping_F9
+008A:                      --   begin
+008A: 0304600E09002A       --     3680 9 servo
+0091: 068A00               --   repeat
+0094: 05                   -- return
+0095:                      -- 
+0095:                      -- sub Left_Arm_Grasping_F10
+0095:                      --   begin
+0095: 0304280A0A002A       --     2600 10 servo
+009C: 069500               --   repeat
+009F: 05                   -- return
+00A0:                      -- 
+00A0:                      -- sub Left_Arm_Grasping_F11
+00A0:                      --   begin
+00A0: 03045E0C0B002A       --     3166 11 servo
+00A7: 06A000               --   repeat
+00AA: 05                   -- return
+00AB:                      -- 
+00AB:                      -- ############################################################### Right Arm
+00AB:                      -- sub Right_Arm_Inactive
+00AB:                      --   begin
+00AB: 040600000000000095   --     0 0 0 0 0 0 frame_0..5 # Inactive
+00B4: 06AB00               --   repeat
+00B7: 05                   -- return
+00B8:                      -- 
+00B8:                      -- sub Right_Arm_Initial
+00B8:                      --   begin
+00B8: 030C50145A20DB1FE40DE60B701795 --     5200 8282 8155 3556 3046 6000 frame_0..5 # Activated - initial
+00C7: 06B800               --   repeat
+00CA: 05                   -- return
+00CB:                      -- 
+00CB:                      -- sub Right_Arm_Grasping
+00CB:                      --   begin
+00CB: 030C80097913D30ECC1B291B912295 --     2432 4985 3795 7116 6953 8849 frame_0..5 # Grasping
+00DA: 06CB00               --   repeat
+00DD: 05                   -- return
+00DE:                      -- 
+00DE:                      -- sub Right_Arm_Grasping_F0
+00DE:                      --   begin
+00DE: 0304800900002A       --     2432 0 servo
+00E5: 06DE00               --   repeat
+00E8: 05                   -- return
+00E9:                      -- 
+00E9:                      -- sub Right_Arm_Grasping_F1
+00E9:                      --   begin
+00E9: 0304791301002A       --     4985 1 servo
+00F0: 06E900               --   repeat
+00F3: 05                   -- return
+00F4:                      -- 
+00F4:                      -- sub Right_Arm_Grasping_F2
+00F4:                      --   begin
+00F4: 0304D30E02002A       --     3795 2 servo
+00FB: 06F400               --   repeat
+00FE: 05                   -- return
+00FF:                      -- 
+00FF:                      -- sub Right_Arm_Grasping_F3
+00FF:                      --   begin
+00FF: 0304CC1B03002A       --     7116 3 servo
+0106: 06FF00               --   repeat
+0109: 05                   -- return
+010A:                      -- 
+010A:                      -- sub Right_Arm_Grasping_F4
+010A:                      --   begin
+010A: 0304291B04002A       --     6953 4 servo
+0111: 060A01               --   repeat
+0114: 05                   -- return
+0115:                      -- 
+0115:                      -- sub Right_Arm_Grasping_F5
+0115:                      --   begin
+0115: 0304912205002A       --     8849 5 servo
+011C: 061501               --   repeat
+011F: 05                   -- return
+0120:                      -- 
+0120:                      -- sub frame_0..23
+0120: 02172A               --   23 servo
+0123: 02162A               --   22 servo
+0126: 02152A               --   21 servo
+0129: 02142A               --   20 servo
+012C: 02132A               --   19 servo
+012F: 02122A               --   18 servo
+0132: 02112A               --   17 servo
+0135: 02102A               --   16 servo
+0138: 020F2A               --   15 servo
+013B: 020E2A               --   14 servo
+013E: 020D2A               --   13 servo
+0141: 020C2A               --   12 servo
+0144: 020B2A               --   11 servo
+0147: 020A2A               --   10 servo
+014A: 02092A               --   9 servo
+014D: 02082A               --   8 servo
+0150: 02072A               --   7 servo
+0153: 02062A               --   6 servo
+0156: 02052A               --   5 servo
+0159: 02042A               --   4 servo
+015C: 02032A               --   3 servo
+015F: 02022A               --   2 servo
+0162: 02012A               --   1 servo
+0165: 02002A               --   0 servo
+0168: 08                   --   delay
+0169: 05                   -- return
+016A:                      -- 
+016A:                      -- sub frame_6..11
+016A: 020B2A               --   11 servo
+016D: 020A2A               --   10 servo
+0170: 02092A               --   9 servo
+0173: 02082A               --   8 servo
+0176: 02072A               --   7 servo
+0179: 02062A               --   6 servo
+017C: 05                   -- return
+017D:                      -- 
+017D:                      -- sub frame_0..5
+017D: 02052A               --   5 servo
+0180: 02042A               --   4 servo
+0183: 02032A               --   3 servo
+0186: 02022A               --   2 servo
+0189: 02012A               --   1 servo
+018C: 02002A               --   0 servo
+018F: 05                   -- return
+0190:                      -- 
+
+Subroutines:
+Hex Decimal Address Name
+00  000     0000    INACTIVE_ALL
+01  001     0036    LEFT_ARM_INACTIVE
+02  002     0043    LEFT_ARM_INITIAL
+03  003     0056    LEFT_ARM_GRASPING
+04  004     0069    LEFT_ARM_GRASPING_F6
+05  005     0074    LEFT_ARM_GRASPING_F7
+06  006     007F    LEFT_ARM_GRASPING_F8
+07  007     008A    LEFT_ARM_GRASPING_F9
+08  008     0095    LEFT_ARM_GRASPING_F10
+09  009     00A0    LEFT_ARM_GRASPING_F11
+0A  010     00AB    RIGHT_ARM_INACTIVE
+0B  011     00B8    RIGHT_ARM_INITIAL
+0C  012     00CB    RIGHT_ARM_GRASPING
+0D  013     00DE    RIGHT_ARM_GRASPING_F0
+0E  014     00E9    RIGHT_ARM_GRASPING_F1
+0F  015     00F4    RIGHT_ARM_GRASPING_F2
+10  016     00FF    RIGHT_ARM_GRASPING_F3
+11  017     010A    RIGHT_ARM_GRASPING_F4
+12  018     0115    RIGHT_ARM_GRASPING_F5
+13  019     0120    FRAME_0..23
+14  020     016A    FRAME_6..11
+15  021     017D    FRAME_0..5
