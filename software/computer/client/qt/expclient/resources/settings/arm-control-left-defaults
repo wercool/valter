@@ -25,3 +25,10 @@ handYawMotorCurrent:1,1
 handPitchMotorCurrent:1,1
 //hand force sensors
 trackHandSensors:1,1,1,1,1,1,1,1,1,1,1,1,1
+//fingers settings (values have to be multiplied x4)
+finger6InitialGrasped:1216,1951
+finger7InitialGrasped:772,1717
+finger8InitialGrasped:927,1867
+finger9InitialGrasped:1904,920
+finger10InitialGrasped:1707,650
+finger11InitialGrasped:1313,791

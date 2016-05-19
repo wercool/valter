@@ -473,5 +473,10 @@ class BodyControlP1TCPConnectionHandler : public Thread
             mainWindow->on_bodyControlP1ReadingsTable_itemClicked(item);
             return;
         }
+        if (cmd.find("on_bodyCameraReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_bodyCameraReleaseButton_clicked();
+            return;
+        }
     }
 };

@@ -665,3 +665,162 @@ void MainWindow::on_armControlRightStartAllWatchersButton_clicked()
     }
     armControlRight->startAllWatchers();
 }
+
+//-------------------------------FINGERS
+
+void MainWindow::on_armControlRightFinger0ReleaseButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightFinger0ReleaseButton_clicked");
+    }
+    armControlRight->releaseFinger(0);
+}
+
+void MainWindow::on_armControlRightFinger1ReleaseButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightFinger1ReleaseButton_clicked");
+    }
+    armControlRight->releaseFinger(1);
+}
+
+void MainWindow::on_armControlRightFinger2ReleaseButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightFinger2ReleaseButton_clicked");
+    }
+    armControlRight->releaseFinger(2);
+}
+
+void MainWindow::on_armControlRightFinger3ReleaseButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightFinger3ReleaseButton_clicked");
+    }
+    armControlRight->releaseFinger(3);
+}
+
+void MainWindow::on_armControlRightFinger4ReleaseButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightFinger4ReleaseButton_clicked");
+    }
+    armControlRight->releaseFinger(4);
+}
+
+void MainWindow::on_armControlRightFinger5ReleaseButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightFinger5ReleaseButton_clicked");
+    }
+    armControlRight->releaseFinger(5);
+}
+
+void MainWindow::on_armControlRightPalmReleaseButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightPalmReleaseButton_clicked");
+    }
+    armControlRight->releaseAllFingers();
+}
+
+void MainWindow::on_armControlRightPalmActivatedButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightPalmActivatedButton_clicked");
+    }
+}
+
+void MainWindow::on_armControlRightPalmGraspButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightPalmGraspButton_clicked");
+    }
+}
+
+void MainWindow::on_armControlRightPalmSqueezeButton_clicked()
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand("on_armControlRightPalmSqueezeButton_clicked");
+    }
+}
+
+void MainWindow::on_armControlRightFinger0PositionScoller_valueChanged(int value)
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger0PositionScoller_valueChanged@%d", value));
+    }
+    armControlRight->setFingerPosition(0, value);
+}
+
+void MainWindow::on_armControlRightFinger1PositionScoller_valueChanged(int value)
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger1PositionScoller_valueChanged@%d", value));
+    }
+    armControlRight->setFingerPosition(1, value);
+}
+
+void MainWindow::on_armControlRightFinger2PositionScoller_valueChanged(int value)
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger2PositionScoller_valueChanged@%d", value));
+    }
+    armControlRight->setFingerPosition(2, value);
+}
+
+void MainWindow::on_armControlRightFinger3PositionScoller_valueChanged(int value)
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger3PositionScoller_valueChanged@%d", value));
+    }
+    armControlRight->setFingerPosition(3, value);
+}
+
+void MainWindow::on_armControlRightFinger4PositionScoller_valueChanged(int value)
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger4PositionScoller_valueChanged@%d", value));
+    }
+    armControlRight->setFingerPosition(4, value);
+}
+
+void MainWindow::on_armControlRightFinger5PositionScoller_valueChanged(int value)
+{
+    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    {
+        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger5PositionScoller_valueChanged@%d", value));
+    }
+    armControlRight->setFingerPosition(5, value);
+}

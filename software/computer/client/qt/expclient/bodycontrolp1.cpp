@@ -639,6 +639,16 @@ void BodyControlP1::requestHeadPitchPosition()
     sendCommand("GETHEADPITCH");
 }
 
+void BodyControlP1::releaseBodyCamera()
+{
+    Valter::getInstance()->executeUscCmdMaestroLinux("--servo 12,0");
+}
+
+void BodyControlP1::setBodyCameraPosition(unsigned int position)
+{
+    Valter::getInstance()->executeUscCmdMaestroLinux(Valter::format_string("--servo 12,%d", position));
+}
+
 void BodyControlP1::setKinect1PowerOnOff(bool value)
 {
     if (value)

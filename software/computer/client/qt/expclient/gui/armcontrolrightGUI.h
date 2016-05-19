@@ -252,6 +252,84 @@ void loadArmControlRightDefaults(Ui::MainWindow *ui)
     {
         ((QTableWidgetItem*)ui->rightHandSensorsTable->item(idx, 0))->setCheckState((armControlRight->getHandSensorsTrack(idx)) ? Qt::Checked : Qt::Unchecked);
     }
+
+    if (armControlRight->getFingerInitialPosition(0) > armControlRight->getFingerGraspedPosition(0))
+    {
+        ui->armControlRightFinger0PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger0PositionScoller->setMinimum(armControlRight->getFingerGraspedPosition(0));
+        ui->armControlRightFinger0PositionScoller->setMaximum(armControlRight->getFingerInitialPosition(0));
+    }
+    else
+    {
+        ui->armControlRightFinger0PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger0PositionScoller->setMaximum(armControlRight->getFingerGraspedPosition(0));
+        ui->armControlRightFinger0PositionScoller->setMinimum(armControlRight->getFingerInitialPosition(0));
+    }
+
+    if (armControlRight->getFingerInitialPosition(1) > armControlRight->getFingerGraspedPosition(1))
+    {
+        ui->armControlRightFinger1PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger1PositionScoller->setMinimum(armControlRight->getFingerGraspedPosition(1));
+        ui->armControlRightFinger1PositionScoller->setMaximum(armControlRight->getFingerInitialPosition(1));
+    }
+    else
+    {
+        ui->armControlRightFinger1PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger1PositionScoller->setMaximum(armControlRight->getFingerGraspedPosition(1));
+        ui->armControlRightFinger1PositionScoller->setMinimum(armControlRight->getFingerInitialPosition(1));
+    }
+
+    if (armControlRight->getFingerInitialPosition(2) > armControlRight->getFingerGraspedPosition(2))
+    {
+        ui->armControlRightFinger2PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger2PositionScoller->setMinimum(armControlRight->getFingerGraspedPosition(2));
+        ui->armControlRightFinger2PositionScoller->setMaximum(armControlRight->getFingerInitialPosition(2));
+    }
+    else
+    {
+        ui->armControlRightFinger2PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger2PositionScoller->setMaximum(armControlRight->getFingerGraspedPosition(2));
+        ui->armControlRightFinger2PositionScoller->setMinimum(armControlRight->getFingerInitialPosition(2));
+    }
+
+    if (armControlRight->getFingerInitialPosition(3) > armControlRight->getFingerGraspedPosition(3))
+    {
+        ui->armControlRightFinger3PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger3PositionScoller->setMinimum(armControlRight->getFingerGraspedPosition(3));
+        ui->armControlRightFinger3PositionScoller->setMaximum(armControlRight->getFingerInitialPosition(3));
+    }
+    else
+    {
+        ui->armControlRightFinger3PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger3PositionScoller->setMaximum(armControlRight->getFingerGraspedPosition(3));
+        ui->armControlRightFinger3PositionScoller->setMinimum(armControlRight->getFingerInitialPosition(3));
+    }
+
+    if (armControlRight->getFingerInitialPosition(4) > armControlRight->getFingerGraspedPosition(4))
+    {
+        ui->armControlRightFinger4PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger4PositionScoller->setMinimum(armControlRight->getFingerGraspedPosition(4));
+        ui->armControlRightFinger4PositionScoller->setMaximum(armControlRight->getFingerInitialPosition(4));
+    }
+    else
+    {
+        ui->armControlRightFinger4PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger4PositionScoller->setMaximum(armControlRight->getFingerGraspedPosition(4));
+        ui->armControlRightFinger4PositionScoller->setMinimum(armControlRight->getFingerInitialPosition(4));
+    }
+
+    if (armControlRight->getFingerInitialPosition(5) > armControlRight->getFingerGraspedPosition(5))
+    {
+        ui->armControlRightFinger5PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger5PositionScoller->setMinimum(armControlRight->getFingerGraspedPosition(5));
+        ui->armControlRightFinger5PositionScoller->setMaximum(armControlRight->getFingerInitialPosition(5));
+    }
+    else
+    {
+        ui->armControlRightFinger5PositionScoller->setInvertedAppearance(true);
+        ui->armControlRightFinger5PositionScoller->setMaximum(armControlRight->getFingerGraspedPosition(5));
+        ui->armControlRightFinger5PositionScoller->setMinimum(armControlRight->getFingerInitialPosition(5));
+    }
 }
 
 void setRightArmReadingsPresets(QTableWidgetItem *item)

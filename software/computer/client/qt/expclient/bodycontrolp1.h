@@ -304,6 +304,9 @@ public:
     void requestHeadYawPosition();
     void requestHeadPitchPosition();
 
+    void releaseBodyCamera();
+    void setBodyCameraPosition(unsigned int position);
+
 private:
     BodyControlP1();
     static BodyControlP1* pBodyControlP1;         // BODY-CONTROL-P1's singleton instance

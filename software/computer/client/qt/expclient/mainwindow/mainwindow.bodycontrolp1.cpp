@@ -895,3 +895,13 @@ void MainWindow::on_bodyControlP1ReadingsTable_itemClicked(QTableWidgetItem *ite
         bodyControlP1->sendTCPCommand(Valter::format_string("on_bodyControlP1ReadingsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
     }
 }
+
+void MainWindow::on_bodyCameraReleaseButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_bodyCameraReleaseButton_clicked");
+    }
+    bodyControlP1->releaseBodyCamera();
+}

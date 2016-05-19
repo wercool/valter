@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -12545,6 +12545,46 @@ background-repeat: repeat-no;</string>
                      </widget>
                     </item>
                     <item>
+                     <widget class="QLabel" name="label_207">
+                      <property name="font">
+                       <font>
+                        <pointsize>10</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Body Camera Pitch</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="bodyCameraReleaseButton">
+                      <property name="text">
+                       <string>Release</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="label_226">
+                      <property name="font">
+                       <font>
+                        <pointsize>10</pointsize>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>Camera position</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QScrollBar" name="bodyCameraPositionScroller">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
                      <spacer name="verticalSpacer_13">
                       <property name="orientation">
                        <enum>Qt::Vertical</enum>
@@ -13406,7 +13446,7 @@ background-repeat: repeat-no;</string>
              <x>0</x>
              <y>0</y>
              <width>874</width>
-             <height>883</height>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -15140,6 +15180,877 @@ color: rgb(255, 0, 0);</string>
              </layout>
             </item>
             <item>
+             <widget class="Line" name="line_71">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_149">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QFrame" name="frame_2">
+                <property name="minimumSize">
+                 <size>
+                  <width>600</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);
+image: url(:/hand.png);</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh2LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>155</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh3LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>20</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh4LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>153</x>
+                   <y>63</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh5LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>153</x>
+                   <y>110</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh6LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>153</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh7LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>20</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh1LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh0LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>535</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_9">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_10">
+                 <property name="geometry">
+                  <rect>
+                   <x>535</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh8LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>245</x>
+                   <y>15</y>
+                   <width>100</width>
+                   <height>80</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>16</pointsize>
+                  </font>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh9LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>245</x>
+                   <y>105</y>
+                   <width>100</width>
+                   <height>80</height>
+                  </rect>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>16</pointsize>
+                  </font>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_13">
+                 <property name="geometry">
+                  <rect>
+                   <x>360</x>
+                   <y>75</y>
+                   <width>50</width>
+                   <height>50</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_69">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_26">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item row="6" column="1">
+                   <widget class="QLabel" name="label_206">
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>F5:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="3">
+                   <widget class="QScrollBar" name="armControlRightFinger2PositionScoller">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QPushButton" name="armControlRightFinger4ReleaseButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="3">
+                   <widget class="QScrollBar" name="armControlRightFinger1PositionScoller">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="3">
+                   <widget class="QScrollBar" name="armControlRightFinger4PositionScoller">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QLabel" name="label_204">
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>F3:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="0">
+                   <widget class="QPushButton" name="armControlRightFinger5ReleaseButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QLabel" name="label_205">
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>F4:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QPushButton" name="armControlRightFinger0ReleaseButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QPushButton" name="armControlRightFinger1ReleaseButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLabel" name="label_200">
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>F1:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="3">
+                   <widget class="QScrollBar" name="armControlRightFinger3PositionScoller">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="3">
+                   <widget class="QScrollBar" name="armControlRightFinger5PositionScoller">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="label_199">
+                    <property name="maximumSize">
+                     <size>
+                      <width>35</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>F0:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QPushButton" name="armControlRightFinger3ReleaseButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QLabel" name="label_201">
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>F2:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="3">
+                   <widget class="QScrollBar" name="armControlRightFinger0PositionScoller">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>10</height>
+                     </size>
+                    </property>
+                    <property name="layoutDirection">
+                     <enum>Qt::LeftToRight</enum>
+                    </property>
+                    <property name="minimum">
+                     <number>0</number>
+                    </property>
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="value">
+                     <number>0</number>
+                    </property>
+                    <property name="tracking">
+                     <bool>false</bool>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="invertedAppearance">
+                     <bool>false</bool>
+                    </property>
+                    <property name="invertedControls">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QPushButton" name="armControlRightFinger2ReleaseButton">
+                    <property name="minimumSize">
+                     <size>
+                      <width>0</width>
+                      <height>0</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_27">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="1">
+                   <widget class="QPushButton" name="armControlRightPalmActivatedButton">
+                    <property name="text">
+                     <string>Initial - activated</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QPushButton" name="armControlRightPalmReleaseButton">
+                    <property name="text">
+                     <string>Release</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QPushButton" name="armControlRightPalmGraspButton">
+                    <property name="text">
+                     <string>Grasp</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QPushButton" name="armControlRightPalmSqueezeButton">
+                    <property name="text">
+                     <string>Squeeze</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="Line" name="line_65">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -15827,7 +16738,7 @@ color: rgb(255, 0, 0);</string>
              <x>0</x>
              <y>0</y>
              <width>874</width>
-             <height>883</height>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -17561,6 +18472,721 @@ color: rgb(255, 0, 0);</string>
              </layout>
             </item>
             <item>
+             <widget class="Line" name="line_72">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_148">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QFrame" name="frame_3">
+                <property name="minimumSize">
+                 <size>
+                  <width>600</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::NoContextMenu</enum>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(255, 255, 255);
+image: url(:/hand-left.png);</string>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <widget class="QLineEdit" name="lineEdit_14">
+                 <property name="geometry">
+                  <rect>
+                   <x>20</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_15">
+                 <property name="geometry">
+                  <rect>
+                   <x>156</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_16">
+                 <property name="geometry">
+                  <rect>
+                   <x>20</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_17">
+                 <property name="geometry">
+                  <rect>
+                   <x>156</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_18">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_19">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>63</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_20">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>110</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_21">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_22">
+                 <property name="geometry">
+                  <rect>
+                   <x>535</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_23">
+                 <property name="geometry">
+                  <rect>
+                   <x>535</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_24">
+                 <property name="geometry">
+                  <rect>
+                   <x>250</x>
+                   <y>16</y>
+                   <width>100</width>
+                   <height>80</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>16</pointsize>
+                  </font>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_25">
+                 <property name="geometry">
+                  <rect>
+                   <x>250</x>
+                   <y>105</y>
+                   <width>100</width>
+                   <height>80</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>80</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>16</pointsize>
+                  </font>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="lineEdit_26">
+                 <property name="geometry">
+                  <rect>
+                   <x>180</x>
+                   <y>75</y>
+                   <width>50</width>
+                   <height>50</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>50</width>
+                   <height>50</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_67">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_28">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="label_209">
+                    <property name="text">
+                     <string>F7:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLabel" name="label_208">
+                    <property name="maximumSize">
+                     <size>
+                      <width>35</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string>F6:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QScrollBar" name="armControlLeftFinger6PositionScoller">
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QLabel" name="label_214">
+                    <property name="text">
+                     <string>F9:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QScrollBar" name="armControlLeftFinger7PositionScoller">
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QPushButton" name="pushButton_12">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QPushButton" name="pushButton_13">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QPushButton" name="pushButton_15">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QPushButton" name="pushButton_14">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QPushButton" name="pushButton_16">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="2">
+                   <widget class="QScrollBar" name="armControlLeftFinger8PositionScoller">
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLabel" name="label_210">
+                    <property name="text">
+                     <string>F8:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="2">
+                   <widget class="QScrollBar" name="armControlLeftFinger9PositionScoller">
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QPushButton" name="pushButton_17">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>40</width>
+                      <height>18</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>8</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>R</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QLabel" name="label_215">
+                    <property name="text">
+                     <string>F10:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QLabel" name="label_225">
+                    <property name="text">
+                     <string>F11:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="2">
+                   <widget class="QScrollBar" name="armControlLeftFinger10PositionScoller">
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="2">
+                   <widget class="QScrollBar" name="armControlLeftFinger11PositionScoller">
+                    <property name="maximum">
+                     <number>0</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QGridLayout" name="gridLayout_29">
+                  <property name="spacing">
+                   <number>0</number>
+                  </property>
+                  <item row="0" column="0">
+                   <widget class="QPushButton" name="armControlLeftPalmReleaseButton">
+                    <property name="text">
+                     <string>Release</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QPushButton" name="armControlLeftPalmActivatedButton">
+                    <property name="text">
+                     <string>Initial - activated</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QPushButton" name="armControlLeftPalmGraspButton">
+                    <property name="text">
+                     <string>Grasp</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QPushButton" name="armControlLeftPalmSqueezeButton">
+                    <property name="text">
+                     <string>Squeeze</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="Line" name="line_55">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -18643,24 +20269,55 @@ color: rgb(255, 0, 0);</string>
           <property name="topMargin">
            <number>0</number>
           </property>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_217">
+          <property name="spacing">
+           <number>4</number>
+          </property>
+          <item row="3" column="2">
+           <widget class="QLineEdit" name="platformLocationP1CommandPortLineEdit">
             <property name="text">
-             <string>PLATFORM-CONTROL-P1</string>
+             <string>33335</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_218">
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="armControlRightCommandHostLineEdit">
             <property name="text">
-             <string>PLATFORM-CONTROL-P2</string>
+             <string>127.0.0.1</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_220">
+          <item row="4" column="3">
+           <widget class="QCheckBox" name="platformManipulatorAndIRBumperRemoteControlCheckbox">
             <property name="text">
-             <string>PLATFORM-MANIPULATOR-AND-IR-BUMPER</string>
+             <string>Remote Control</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="3">
+           <widget class="QCheckBox" name="armControlLeftRemoteControlCheckbox">
+            <property name="text">
+             <string>Remote Control</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QCheckBox" name="platformControlP2RemoteControlCheckbox">
+            <property name="text">
+             <string>Remote Control</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="2">
+           <widget class="QLineEdit" name="armControlLeftCommandPortLineEdit">
+            <property name="text">
+             <string>33339</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="platformLocationP1CommandHostLineEdit">
+            <property name="text">
+             <string>127.0.0.1</string>
             </property>
            </widget>
           </item>
@@ -18668,16 +20325,6 @@ color: rgb(255, 0, 0);</string>
            <widget class="QCheckBox" name="platformControlP1RemoteControlCheckbox">
             <property name="text">
              <string>Remote Control</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <widget class="QLabel" name="label_221">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Control Mode</string>
             </property>
            </widget>
           </item>
@@ -18691,15 +20338,95 @@ color: rgb(255, 0, 0);</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
-           <widget class="QLabel" name="label_223">
+          <item row="3" column="3">
+           <widget class="QCheckBox" name="platformLocationP1RemoteControlCheckbox">
             <property name="text">
-             <string>ARM-CONTROL-RIGHT</string>
+             <string>Remote Control</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="platformControlP1CommandHostLineEdit">
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="platformManipulatorAndIRBumperCommandHostLineEdit">
+            <property name="text">
+             <string>127.0.0.1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLineEdit" name="platformControlP2CommandPortLineEdit">
+            <property name="text">
+             <string>33334</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="3">
+           <widget class="QCheckBox" name="bodyControlP1RemoteControlCheckbox">
+            <property name="text">
+             <string>Remote Control</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLineEdit" name="platformControlP1CommandPortLineEdit">
+            <property name="text">
+             <string>33333</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="label_224">
+            <property name="text">
+             <string>ARM-CONTROL-LEFT</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="2">
+           <widget class="QLineEdit" name="armControlRightCommandPortLineEdit">
+            <property name="text">
+             <string>33338</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="label_221">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
+            <property name="text">
+             <string>Control Mode</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_219">
+            <property name="text">
+             <string>PLATFORM-LOCATION-P1</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="3">
+           <widget class="QCheckBox" name="armControlRightRemoteControlCheckbox">
+            <property name="text">
+             <string>Remote Control</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <widget class="QLineEdit" name="platformManipulatorAndIRBumperCommandPortLineEdit">
+            <property name="text">
+             <string>33336</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_220">
+            <property name="text">
+             <string>PLATFORM-MANIPULATOR-AND-IR-BUMPER</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="armControlLeftCommandHostLineEdit">
             <property name="text">
              <string>127.0.0.1</string>
             </property>
@@ -18721,67 +20448,8 @@ color: rgb(255, 0, 0);</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label_212">
-            <property name="styleSheet">
-             <string notr="true">background-color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>IP Address</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_219">
-            <property name="text">
-             <string>PLATFORM-LOCATION-P1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="0">
-           <widget class="QLabel" name="label_224">
-            <property name="text">
-             <string>ARM-CONTROL-LEFT</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_222">
-            <property name="text">
-             <string>BODY-CONTROL-P1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QLineEdit" name="platformControlP1CommandPortLineEdit">
-            <property name="text">
-             <string>33333</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="1" colspan="3">
-           <widget class="QPushButton" name="tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton">
-            <property name="text">
-             <string>Update Settings / Connect All</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="platformControlP2CommandHostLineEdit">
-            <property name="text">
-             <string>127.0.0.1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLineEdit" name="platformLocationP1CommandHostLineEdit">
-            <property name="text">
-             <string>127.0.0.1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="QLineEdit" name="platformManipulatorAndIRBumperCommandHostLineEdit">
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="platformControlP1CommandHostLineEdit">
             <property name="text">
              <string>127.0.0.1</string>
             </property>
@@ -18794,38 +20462,10 @@ color: rgb(255, 0, 0);</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
-           <widget class="QLineEdit" name="armControlRightCommandHostLineEdit">
+          <item row="8" column="0">
+           <widget class="QPushButton" name="tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton">
             <property name="text">
-             <string>127.0.0.1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="7" column="1">
-           <widget class="QLineEdit" name="armControlLeftCommandHostLineEdit">
-            <property name="text">
-             <string>127.0.0.1</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QLineEdit" name="platformControlP2CommandPortLineEdit">
-            <property name="text">
-             <string>33334</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLineEdit" name="platformLocationP1CommandPortLineEdit">
-            <property name="text">
-             <string>33335</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QLineEdit" name="platformManipulatorAndIRBumperCommandPortLineEdit">
-            <property name="text">
-             <string>33336</string>
+             <string>Disconnect All</string>
             </property>
            </widget>
           </item>
@@ -18836,66 +20476,68 @@ color: rgb(255, 0, 0);</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="2">
-           <widget class="QLineEdit" name="armControlRightCommandPortLineEdit">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_217">
             <property name="text">
-             <string>33338</string>
+             <string>PLATFORM-CONTROL-P1</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="2">
-           <widget class="QLineEdit" name="armControlLeftCommandPortLineEdit">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_218">
             <property name="text">
-             <string>33339</string>
+             <string>PLATFORM-CONTROL-P2</string>
             </property>
            </widget>
           </item>
-          <item row="2" column="3">
-           <widget class="QCheckBox" name="platformControlP2RemoteControlCheckbox">
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="platformControlP2CommandHostLineEdit">
             <property name="text">
-             <string>Remote Control</string>
+             <string>127.0.0.1</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="3">
-           <widget class="QCheckBox" name="platformLocationP1RemoteControlCheckbox">
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_212">
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 255, 255);</string>
+            </property>
             <property name="text">
-             <string>Remote Control</string>
+             <string>IP Address</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="3">
-           <widget class="QCheckBox" name="platformManipulatorAndIRBumperRemoteControlCheckbox">
+          <item row="6" column="0">
+           <widget class="QLabel" name="label_223">
             <property name="text">
-             <string>Remote Control</string>
+             <string>ARM-CONTROL-RIGHT</string>
             </property>
            </widget>
           </item>
-          <item row="5" column="3">
-           <widget class="QCheckBox" name="bodyControlP1RemoteControlCheckbox">
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_222">
             <property name="text">
-             <string>Remote Control</string>
+             <string>BODY-CONTROL-P1</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="3">
-           <widget class="QCheckBox" name="armControlRightRemoteControlCheckbox">
+          <item row="8" column="1" colspan="2">
+           <widget class="QPushButton" name="tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="text">
-             <string>Remote Control</string>
+             <string>Update Settings / Connect All</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="3">
-           <widget class="QCheckBox" name="armControlLeftRemoteControlCheckbox">
+          <item row="8" column="3">
+           <widget class="QPushButton" name="tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton">
             <property name="text">
-             <string>Remote Control</string>
-            </property>
-           </widget>
-          </item>
-          <item row="8" column="0">
-           <widget class="QPushButton" name="tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton">
-            <property name="text">
-             <string>Disconnect All</string>
+             <string>Check All</string>
             </property>
            </widget>
           </item>
@@ -19021,15 +20663,13 @@ color: rgb(255, 0, 0);</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>scrollArea</tabstop>
-  <tabstop>platformControlP1LoadDefaultsButton</tabstop>
-  <tabstop>powerSource5VRadioButton</tabstop>
-  <tabstop>on5VPlatformControlP1pushButton</tabstop>
-  <tabstop>off5VPlatformControlP1pushButton</tabstop>
-  <tabstop>leftAccumulatorConnectedRadioButton</tabstop>
-  <tabstop>onLeftAccumulatorPlatformControlP1Button</tabstop>
-  <tabstop>offLeftAccumulatorPlatformControlP1Button</tabstop>
-  <tabstop>rightAccumulatorConnected</tabstop>
+  <tabstop>platformControlP1CommandHostLineEdit</tabstop>
+  <tabstop>platformControlP2CommandHostLineEdit</tabstop>
+  <tabstop>platformLocationP1CommandHostLineEdit</tabstop>
+  <tabstop>platformManipulatorAndIRBumperCommandHostLineEdit</tabstop>
+  <tabstop>bodyControlP1CommandHostLineEdit</tabstop>
+  <tabstop>armControlRightCommandHostLineEdit</tabstop>
+  <tabstop>armControlLeftCommandHostLineEdit</tabstop>
   <tabstop>onRightAccumulatorPlatformControlP1Button</tabstop>
   <tabstop>offRightAccumulatorPlatformControlP1Button</tabstop>
   <tabstop>scan220VAOnCButton</tabstop>
@@ -19042,6 +20682,7 @@ color: rgb(255, 0, 0);</string>
   <tabstop>chargingInProgressRadioButton</tabstop>
   <tabstop>chargingCompleteRadioButton</tabstop>
   <tabstop>chargerButton</tabstop>
+  <tabstop>powerSource5VRadioButton</tabstop>
   <tabstop>setChargeOnButton</tabstop>
   <tabstop>setChargeOffButton</tabstop>
   <tabstop>mainAccumulatorRelayRadioButton</tabstop>
@@ -19104,6 +20745,315 @@ color: rgb(255, 0, 0);</string>
   <tabstop>sendCommandButton</tabstop>
   <tabstop>clearCommandButton</tabstop>
   <tabstop>selectedControlDeviceListWidget</tabstop>
+  <tabstop>mainTabWidget</tabstop>
+  <tabstop>platformControlP1RedrawGUICheckBox</tabstop>
+  <tabstop>valterPlatformMovementControlsDetachButton</tabstop>
+  <tabstop>scrollArea_6</tabstop>
+  <tabstop>platfromControlP2RedrawGUICheckBox</tabstop>
+  <tabstop>loadDefaultsPlatfromControlP2Button</tabstop>
+  <tabstop>platformControlP2LeftWheelEncoderCheckBox</tabstop>
+  <tabstop>platformControlP2RightWheelEncoderCheckBox</tabstop>
+  <tabstop>platformControlP2LeftWheelEncoderGetButton</tabstop>
+  <tabstop>platformControlP2RightWheelEncoderGetButton</tabstop>
+  <tabstop>platformControlP2LeftWheelEncoderResetButton</tabstop>
+  <tabstop>platformControlP2RightWheelEncoderResetButton</tabstop>
+  <tabstop>platformControlP2LeftWheelEncoderAutoresetCheckBox</tabstop>
+  <tabstop>platformControlP2RightWheelEncoderAutoresetCheckBox</tabstop>
+  <tabstop>chargerMotorRotateCCWButton</tabstop>
+  <tabstop>chargerMotorRotateCWButton</tabstop>
+  <tabstop>chargerMotorPushCCWButton</tabstop>
+  <tabstop>chargerMotorPushCWButton</tabstop>
+  <tabstop>detachIRScanningFrameButton</tabstop>
+  <tabstop>platfromControlP2IRScannerADCCheckBox</tabstop>
+  <tabstop>platformControlP2GetBottomIRReadingButton</tabstop>
+  <tabstop>irScanningButton</tabstop>
+  <tabstop>irScanningGraphicsView</tabstop>
+  <tabstop>platformControlP2ResetIRScannerServoButton</tabstop>
+  <tabstop>beepButton</tabstop>
+  <tabstop>alarmButton</tabstop>
+  <tabstop>chargerLedsButton</tabstop>
+  <tabstop>bottomFronLedsButton</tabstop>
+  <tabstop>bottomRearLedsButton</tabstop>
+  <tabstop>platfromLocationP1ScrollAreaContainer</tabstop>
+  <tabstop>ch0RedLed</tabstop>
+  <tabstop>ch0GreenLed</tabstop>
+  <tabstop>ch1RedLed</tabstop>
+  <tabstop>ch2RedLed</tabstop>
+  <tabstop>ch3RedLed</tabstop>
+  <tabstop>ch4RedLed</tabstop>
+  <tabstop>ch5RedLed</tabstop>
+  <tabstop>ch6RedLed</tabstop>
+  <tabstop>ch7RedLed</tabstop>
+  <tabstop>ch8RedLed</tabstop>
+  <tabstop>ch9RedLed</tabstop>
+  <tabstop>ch10RedLed</tabstop>
+  <tabstop>ch11RedLed</tabstop>
+  <tabstop>ch1GreenLed</tabstop>
+  <tabstop>ch2GreenLed</tabstop>
+  <tabstop>ch3GreenLed</tabstop>
+  <tabstop>ch4GreenLed</tabstop>
+  <tabstop>ch5GreenLed</tabstop>
+  <tabstop>ch6GreenLed</tabstop>
+  <tabstop>ch7GreenLed</tabstop>
+  <tabstop>ch8GreenLed</tabstop>
+  <tabstop>ch9GreenLed</tabstop>
+  <tabstop>ch10GreenLed</tabstop>
+  <tabstop>ch11GreenLed</tabstop>
+  <tabstop>platformLocationP1AllLEDsONButton</tabstop>
+  <tabstop>platformLocationP1AllLEDsOFFButton</tabstop>
+  <tabstop>irSensorsPresetsTable</tabstop>
+  <tabstop>usSensorsPresetsTable</tabstop>
+  <tabstop>platformLocationP1RedrawGUICheckBox</tabstop>
+  <tabstop>loadDefaultsPlatformLocationP1Button</tabstop>
+  <tabstop>LEDStatesButton</tabstop>
+  <tabstop>USVoltageUpButton</tabstop>
+  <tabstop>USVoltageDownButton</tabstop>
+  <tabstop>detatchSonarsFrameButton</tabstop>
+  <tabstop>rightSonarScanButton</tabstop>
+  <tabstop>leftSonarScanButton</tabstop>
+  <tabstop>platformLocationP1GraphicsView</tabstop>
+  <tabstop>leftSonarReleaseButton</tabstop>
+  <tabstop>rightSonarReleaseButton</tabstop>
+  <tabstop>accelerometerGraphicsViewRedrawCheckbox</tabstop>
+  <tabstop>accelerometerTrackCheckBox</tabstop>
+  <tabstop>accelerometerRawCheckBox</tabstop>
+  <tabstop>magnetometerRawCheckBox</tabstop>
+  <tabstop>magnetometerTrackCheckBox</tabstop>
+  <tabstop>updateAccelerometerButton</tabstop>
+  <tabstop>updateMagnetometerButton</tabstop>
+  <tabstop>magnetometerGraphicsView</tabstop>
+  <tabstop>accelerometerGraphicsView</tabstop>
+  <tabstop>magnetometerGraphicsViewRedrawCheckbox</tabstop>
+  <tabstop>detatchAccAndMagFrameButton</tabstop>
+  <tabstop>detatchCompassFrameButton</tabstop>
+  <tabstop>updateCompassHeadingButton</tabstop>
+  <tabstop>compassHeadingTrackCheckBox</tabstop>
+  <tabstop>compassGraphicsView</tabstop>
+  <tabstop>compassGraphicsViewRedrawCheckbox</tabstop>
+  <tabstop>inclinometerXCheckbox</tabstop>
+  <tabstop>inclinometerYCheckbox</tabstop>
+  <tabstop>inclinometerZCheckbox</tabstop>
+  <tabstop>inclinometerGraphicsView</tabstop>
+  <tabstop>inclinometerGraphicsViewRedrawCheckbox</tabstop>
+  <tabstop>inclinometerFrameDetatchButton</tabstop>
+  <tabstop>llLedToggleButton</tabstop>
+  <tabstop>lrLedToggleButton</tabstop>
+  <tabstop>rlLedToggleButton</tabstop>
+  <tabstop>rrLedToggleButton</tabstop>
+  <tabstop>manLedToggleButton</tabstop>
+  <tabstop>allSonarsLedsToggleButton</tabstop>
+  <tabstop>platformLocationP1EnableSensorsButton</tabstop>
+  <tabstop>platformLocationP1DisableSensorsButton</tabstop>
+  <tabstop>enableAllIRSensorsButton</tabstop>
+  <tabstop>enableAllUSSensorsButton</tabstop>
+  <tabstop>disableAllUSSensorsButton</tabstop>
+  <tabstop>disableAllIRSensorsButton</tabstop>
+  <tabstop>is24VOnRadioButton</tabstop>
+  <tabstop>powerOnOff24VPlatfromManipulatorAndIRBumperButton</tabstop>
+  <tabstop>platformManipulatorAndIRBumperRedrawGUICheckBox</tabstop>
+  <tabstop>platformManipulatorAndIRBumperLoadDefaultsButton</tabstop>
+  <tabstop>detachManipulatorFrameButton</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>manipulatorLiknk1AscentButton</tabstop>
+  <tabstop>manipulatorLiknk1DescentButton</tabstop>
+  <tabstop>gripperTiltAscentButton</tabstop>
+  <tabstop>gripperTiltDescentButton</tabstop>
+  <tabstop>manGripperOpenButton</tabstop>
+  <tabstop>manGripperCloseButton</tabstop>
+  <tabstop>manipulatorLiknk2AscentButton</tabstop>
+  <tabstop>manipulatorLiknk2DescentButton</tabstop>
+  <tabstop>manGripperRotateCCW</tabstop>
+  <tabstop>manGripperRotateCW</tabstop>
+  <tabstop>platformManipulatorAngleASpinBox</tabstop>
+  <tabstop>platformManipulatorAngleBSpinBox</tabstop>
+  <tabstop>platformManipulatorAngleGSpinBox</tabstop>
+  <tabstop>platformManipulatorExecuteAngleSettingsButton</tabstop>
+  <tabstop>platformManipulatorAndIRBumperLink1Link2PositionGraphicsView</tabstop>
+  <tabstop>manipulatorAndIRBumperManipulatorReadingsTableWidget</tabstop>
+  <tabstop>irBumperReadingsTable</tabstop>
+  <tabstop>irBumperEnableButton</tabstop>
+  <tabstop>irBumperDisableButton</tabstop>
+  <tabstop>irBumperInitButton</tabstop>
+  <tabstop>irBumperFrequencySpin</tabstop>
+  <tabstop>irBumperDutySpin</tabstop>
+  <tabstop>irBumperTrackAllButton</tabstop>
+  <tabstop>irBumperTrackNoneButton</tabstop>
+  <tabstop>bodyControlP1CheckBox</tabstop>
+  <tabstop>bodyControlP1LoadDefaultsButton</tabstop>
+  <tabstop>scrollArea_3</tabstop>
+  <tabstop>bodyPitchUpButton</tabstop>
+  <tabstop>bodyPitchDownButton</tabstop>
+  <tabstop>headYawMotorStateRadioButton</tabstop>
+  <tabstop>headYawMotorEnableDisableButton</tabstop>
+  <tabstop>headYawRightRotateButton</tabstop>
+  <tabstop>headYawLeftRotateButton</tabstop>
+  <tabstop>headYawStepDelaySpinBox</tabstop>
+  <tabstop>headYawStepSwitchDelaySpinBox</tabstop>
+  <tabstop>headYawStepDelayTestModeSpinBox</tabstop>
+  <tabstop>headYawRightDirectonCheckButton</tabstop>
+  <tabstop>headYawLeftDirectonCheckButton</tabstop>
+  <tabstop>headYawMoveStepsSpinBox</tabstop>
+  <tabstop>headYawTestModeExecuteButton</tabstop>
+  <tabstop>getHeadYawPositionButton</tabstop>
+  <tabstop>rightArmYawOpenButton</tabstop>
+  <tabstop>rightArmYawCloseButton</tabstop>
+  <tabstop>headPitchMotorStateRadioButton</tabstop>
+  <tabstop>headPitchMotorEnableDisableButton</tabstop>
+  <tabstop>headPitchDownButton</tabstop>
+  <tabstop>headPitchUpButton</tabstop>
+  <tabstop>headPitchStepDelaySpinBox</tabstop>
+  <tabstop>headPitchStepSwitchDelaySpinBox</tabstop>
+  <tabstop>headPitchStepDelayTestModeSpinBox</tabstop>
+  <tabstop>pitchHeadDownDirectionCheckButton</tabstop>
+  <tabstop>pitchHeadUpDirectionCheckButton</tabstop>
+  <tabstop>headPitchMoveStepsSpinBox</tabstop>
+  <tabstop>headPitchTestModeExecuteButton</tabstop>
+  <tabstop>getHeadPitchPositionButton</tabstop>
+  <tabstop>leftArmYawOpenButton</tabstop>
+  <tabstop>leftArmYawCloseButton</tabstop>
+  <tabstop>head24VPowerSourceStateRadioButton</tabstop>
+  <tabstop>head24VOnOffButton</tabstop>
+  <tabstop>bodyControlP1ShiftRegEnableButton</tabstop>
+  <tabstop>bodyControlP1ShiftRegDisableButton</tabstop>
+  <tabstop>bodyControlP1ShiftRegResetButton</tabstop>
+  <tabstop>bodyControlP1StopShiftRegResetButton</tabstop>
+  <tabstop>leftArm12VRadio</tabstop>
+  <tabstop>leftArm12VOnOffButton</tabstop>
+  <tabstop>rightArm12VRadio</tabstop>
+  <tabstop>rightArm12VButton</tabstop>
+  <tabstop>kinect1StateRadio</tabstop>
+  <tabstop>kinect1OnOffButton</tabstop>
+  <tabstop>kinect2StateRadio</tabstop>
+  <tabstop>kinect2OnOffButton</tabstop>
+  <tabstop>powerSource5V5StateRadio</tabstop>
+  <tabstop>powerSource5V5OnOffButton</tabstop>
+  <tabstop>wifiStateRadio</tabstop>
+  <tabstop>wifiOnOffButton</tabstop>
+  <tabstop>leftArm24VRadio</tabstop>
+  <tabstop>leftArm24VOnOffButton</tabstop>
+  <tabstop>rightArm24VRadio</tabstop>
+  <tabstop>rightArm24VButton</tabstop>
+  <tabstop>headLedOnOffButton</tabstop>
+  <tabstop>leftAccumulatorStateRadio</tabstop>
+  <tabstop>leftAccumulatorOnOffButton</tabstop>
+  <tabstop>rightAccumulatorStateRadio</tabstop>
+  <tabstop>rightAccumulatorOnOffButton</tabstop>
+  <tabstop>bodyControlP1ReadingsTable</tabstop>
+  <tabstop>armControlRightStopAllWatchersButton</tabstop>
+  <tabstop>armControlRightStartAllWatchersButton</tabstop>
+  <tabstop>armControlRightRedrawGUICheckBox</tabstop>
+  <tabstop>armControlRightLoadDefaultsButton</tabstop>
+  <tabstop>scrollArea_5</tabstop>
+  <tabstop>rightForearmMoveUpButton</tabstop>
+  <tabstop>rightForearmMoveDownButton</tabstop>
+  <tabstop>rightForearmYawCCWButton</tabstop>
+  <tabstop>rightForearmYawCWButton</tabstop>
+  <tabstop>rightArmMoveUpButton</tabstop>
+  <tabstop>rightArmMoveDownButton</tabstop>
+  <tabstop>rightLimbMoveUpButton</tabstop>
+  <tabstop>rightLimbMoveDownButton</tabstop>
+  <tabstop>rightHandYawCCWButton</tabstop>
+  <tabstop>rightHandYawCWButton</tabstop>
+  <tabstop>rightHandPitchUpButton</tabstop>
+  <tabstop>rightHandPitchDownButton</tabstop>
+  <tabstop>rightArmLedsOnOffButton</tabstop>
+  <tabstop>rightForearmRollMotorStateRadio</tabstop>
+  <tabstop>rightForearmRollMotorOnOffButton</tabstop>
+  <tabstop>rightForearmRollCCWButton</tabstop>
+  <tabstop>rightForearmRollCWButton</tabstop>
+  <tabstop>rightForearmRollStepDelaySpinBox</tabstop>
+  <tabstop>rightForearmRollStepSwitchDelaySpinBox</tabstop>
+  <tabstop>rightForearmResetPositionButton</tabstop>
+  <tabstop>armControlRightFingerSensorCh2LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh3LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh4LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh5LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh6LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh7LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh1LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh0LineEdit</tabstop>
+  <tabstop>lineEdit_9</tabstop>
+  <tabstop>lineEdit_10</tabstop>
+  <tabstop>armControlRightFingerSensorCh8LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh9LineEdit</tabstop>
+  <tabstop>lineEdit_13</tabstop>
+  <tabstop>armControlRightFinger0ReleaseButton</tabstop>
+  <tabstop>armControlRightFinger1ReleaseButton</tabstop>
+  <tabstop>armControlRightFinger2ReleaseButton</tabstop>
+  <tabstop>armControlRightFinger3ReleaseButton</tabstop>
+  <tabstop>armControlRightFinger4ReleaseButton</tabstop>
+  <tabstop>armControlRightFinger5ReleaseButton</tabstop>
+  <tabstop>armControlRightPalmActivatedButton</tabstop>
+  <tabstop>armControlRightPalmReleaseButton</tabstop>
+  <tabstop>armControlRightPalmGraspButton</tabstop>
+  <tabstop>armControlRightPalmSqueezeButton</tabstop>
+  <tabstop>rightHandSensorsTable</tabstop>
+  <tabstop>rightHandSensorsTrackAllButton</tabstop>
+  <tabstop>rightHandSensorsTrackNoneButton</tabstop>
+  <tabstop>rightArmReadingsTable</tabstop>
+  <tabstop>rightArmReadingsTrackAllButton</tabstop>
+  <tabstop>rightArmReadingsTrackNoneButton</tabstop>
+  <tabstop>armControlLeftStopAllWatchersButton</tabstop>
+  <tabstop>armControlLeftStartAllWatchersButton</tabstop>
+  <tabstop>armControlLeftRedrawGUICheckBox</tabstop>
+  <tabstop>armControlLeftLoadDefaultsButton</tabstop>
+  <tabstop>scrollArea_4</tabstop>
+  <tabstop>leftForearmMoveUpButton</tabstop>
+  <tabstop>leftForearmMoveDownButton</tabstop>
+  <tabstop>leftForearmYawCCWButton</tabstop>
+  <tabstop>leftForearmYawCWButton</tabstop>
+  <tabstop>leftArmMoveUpButton</tabstop>
+  <tabstop>leftArmMoveDownButton</tabstop>
+  <tabstop>leftLimbMoveUpButton</tabstop>
+  <tabstop>leftLimbMoveDownButton</tabstop>
+  <tabstop>leftHandYawCCWButton</tabstop>
+  <tabstop>leftHandYawCWButton</tabstop>
+  <tabstop>leftHandPitchUpButton</tabstop>
+  <tabstop>leftHandPitchDownButton</tabstop>
+  <tabstop>leftArmLedsOnOffButton</tabstop>
+  <tabstop>leftForearmRollMotorStateRadio</tabstop>
+  <tabstop>leftForearmRollMotorOnOffButton</tabstop>
+  <tabstop>leftForearmRollCCWButton</tabstop>
+  <tabstop>leftForearmRollCWButton</tabstop>
+  <tabstop>leftForearmRollStepDelaySpinBox</tabstop>
+  <tabstop>leftForearmRollStepSwitchDelaySpinBox</tabstop>
+  <tabstop>leftForearmResetPositionButton</tabstop>
+  <tabstop>leftHandSensorsTable</tabstop>
+  <tabstop>leftHandSensorsTrackAllButton</tabstop>
+  <tabstop>leftHandSensorsTrackNoneButton</tabstop>
+  <tabstop>leftArmReadingsTable</tabstop>
+  <tabstop>leftArmReadingsTrackAllButton</tabstop>
+  <tabstop>leftArmReadingsTrackNoneButton</tabstop>
+  <tabstop>scanControlDevicesBtn</tabstop>
+  <tabstop>connectAllPushButton</tabstop>
+  <tabstop>resetControlDeviceButton</tabstop>
+  <tabstop>controlDeviceTCPInterfaceTable</tabstop>
+  <tabstop>centralCommandHostIPLineEdit</tabstop>
+  <tabstop>updateCentralCommandHostConnectionInfoOnAllSlavesButton</tabstop>
+  <tabstop>platformControlP1RemoteControlCheckbox</tabstop>
+  <tabstop>platformControlP1LoadDefaultsButton</tabstop>
+  <tabstop>platformControlP1CommandPortLineEdit</tabstop>
+  <tabstop>rightAccumulatorConnected</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>on5VPlatformControlP1pushButton</tabstop>
+  <tabstop>off5VPlatformControlP1pushButton</tabstop>
+  <tabstop>leftAccumulatorConnectedRadioButton</tabstop>
+  <tabstop>onLeftAccumulatorPlatformControlP1Button</tabstop>
+  <tabstop>offLeftAccumulatorPlatformControlP1Button</tabstop>
+  <tabstop>platformControlP2CommandPortLineEdit</tabstop>
+  <tabstop>platformLocationP1CommandPortLineEdit</tabstop>
+  <tabstop>platformManipulatorAndIRBumperCommandPortLineEdit</tabstop>
+  <tabstop>bodyControlP1CommandPortLineEdit</tabstop>
+  <tabstop>armControlRightCommandPortLineEdit</tabstop>
+  <tabstop>armControlLeftCommandPortLineEdit</tabstop>
+  <tabstop>platformControlP2RemoteControlCheckbox</tabstop>
+  <tabstop>platformLocationP1RemoteControlCheckbox</tabstop>
+  <tabstop>platformManipulatorAndIRBumperRemoteControlCheckbox</tabstop>
+  <tabstop>bodyControlP1RemoteControlCheckbox</tabstop>
+  <tabstop>armControlRightRemoteControlCheckbox</tabstop>
+  <tabstop>armControlLeftRemoteControlCheckbox</tabstop>
+  <tabstop>tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton</tabstop>
+  <tabstop>valter3dOpenButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

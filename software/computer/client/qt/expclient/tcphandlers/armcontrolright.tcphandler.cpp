@@ -400,5 +400,103 @@ class ArmControlRightTCPConnectionHandler : public Thread
             mainWindow->on_rightArmReadingsTrackNoneButton_clicked();
             return;
         }
+        if (cmd.find("on_armControlRightFinger0ReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightFinger0ReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger1ReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightFinger1ReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger2ReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightFinger2ReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger3ReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightFinger3ReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger4ReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightFinger4ReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger5ReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightFinger5ReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightPalmReleaseButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightPalmReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightPalmActivatedButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightPalmActivatedButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightPalmGraspButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightPalmGraspButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightPalmSqueezeButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_armControlRightPalmSqueezeButton_clicked();
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger0PositionScoller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightFinger0PositionScoller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger1PositionScoller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightFinger1PositionScoller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger2PositionScoller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightFinger2PositionScoller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger3PositionScoller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightFinger3PositionScoller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger4PositionScoller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightFinger4PositionScoller->setValue(value);
+            return;
+        }
+        if (cmd.find("on_armControlRightFinger5PositionScoller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->armControlRightFinger5PositionScoller->setValue(value);
+            return;
+        }
     }
 };

@@ -13,6 +13,7 @@ Valter* Valter::pValter = NULL;
 bool Valter::instanceFlag = false;
 const string Valter::filePathPrefix = "/home/maska/git/valter/software/computer/client/qt/expclient/resources/";
 const string Valter::cmdFilesPath = "commands/";
+const string Valter::maestoServoControllerUscCmdPathPrefix = "/home/maska/Desktop/maestro_linux/UscCmd";
 
 Valter::Valter()
 {
@@ -57,6 +58,14 @@ void Valter::addUpdateValterModule(string controlDeviceId, IValterModule *valter
 IValterModule *Valter::getValterModule(string controlDeviceId)
 {
     return valterModulesMap[controlDeviceId];
+}
+
+void Valter::executeUscCmdMaestroLinux(string cmdArgs)
+{
+    string cmd = maestoServoControllerUscCmdPathPrefix + " " + cmdArgs;
+    qDebug("SERVO CONTROLLER ← [%s]", cmd.c_str());
+    string result = Valter::exec_shell(cmd);
+    qDebug("SERVO CONTROLLER → %s", result.c_str());
 }
 
 void Valter::stopAllModules()

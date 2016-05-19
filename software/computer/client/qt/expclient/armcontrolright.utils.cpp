@@ -139,6 +139,13 @@ void ArmControlRight::resetToDefault()
         handSensorsTrack[i] = false;
         handSensorsADCForce[i] = 0;
     }
+
+    //hand finger servo positions
+    for (unsigned int i = 0 ; i < 6; i++)
+    {
+        fingerInitialPositions[i] = 0;
+        fingerGraspedPositions[i] = 0;
+    }
 }
 
 void ArmControlRight::loadDefaults()
@@ -327,6 +334,54 @@ void ArmControlRight::loadDefaults()
         defaultValuePtr = Valter::stringToCharPtr(val);
         setHandSensorsTrack(idx++, ((atoi(defaultValuePtr)) ? true : false));
     }
+
+    //finger0InitialGrasped
+    defaultValue = getDefault("finger0InitialGrasped");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    fingerInitialPositions[0] = val1;
+    fingerGraspedPositions[0] = val2;
+
+    //finger1InitialGrasped
+    defaultValue = getDefault("finger1InitialGrasped");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    fingerInitialPositions[1] = val1;
+    fingerGraspedPositions[1] = val2;
+
+    //finger2InitialGrasped
+    defaultValue = getDefault("finger2InitialGrasped");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    fingerInitialPositions[2] = val1;
+    fingerGraspedPositions[2] = val2;
+
+    //finger3InitialGrasped
+    defaultValue = getDefault("finger3InitialGrasped");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    fingerInitialPositions[3] = val1;
+    fingerGraspedPositions[3] = val2;
+
+    //finger4InitialGrasped
+    defaultValue = getDefault("finger4InitialGrasped");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    fingerInitialPositions[4] = val1;
+    fingerGraspedPositions[4] = val2;
+
+    //finger5InitialGrasped
+    defaultValue = getDefault("finger5InitialGrasped");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    fingerInitialPositions[5] = val1;
+    fingerGraspedPositions[5] = val2;
 }
 
 int ArmControlRight::getRightLimbMotorDutyPresetMax() const

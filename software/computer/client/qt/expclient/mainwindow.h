@@ -422,6 +422,7 @@ public slots:
     void on_headPitchStepDelayTestModeSpinBox_valueChanged(int value);
     void on_headPitchMoveStepsSpinBox_valueChanged(int value);
     void on_bodyControlP1ReadingsTable_itemClicked(QTableWidgetItem *item);
+    void on_bodyCameraReleaseButton_clicked();
 
     //arm-control-left
     void initArmControlLeft(Ui::MainWindow *ui);
@@ -533,7 +534,22 @@ public slots:
     void on_armControlLeftStopAllWatchersButton_clicked();
     void on_armControlLeftStartAllWatchersButton_clicked();
     void on_armControlRightRedrawGUICheckBox_clicked(bool checked);
-
+    void on_armControlRightFinger0ReleaseButton_clicked();
+    void on_armControlRightFinger1ReleaseButton_clicked();
+    void on_armControlRightFinger2ReleaseButton_clicked();
+    void on_armControlRightFinger3ReleaseButton_clicked();
+    void on_armControlRightFinger4ReleaseButton_clicked();
+    void on_armControlRightFinger5ReleaseButton_clicked();
+    void on_armControlRightPalmReleaseButton_clicked();
+    void on_armControlRightPalmActivatedButton_clicked();
+    void on_armControlRightPalmGraspButton_clicked();
+    void on_armControlRightPalmSqueezeButton_clicked();
+    void on_armControlRightFinger0PositionScoller_valueChanged(int value);
+    void on_armControlRightFinger1PositionScoller_valueChanged(int value);
+    void on_armControlRightFinger2PositionScoller_valueChanged(int value);
+    void on_armControlRightFinger3PositionScoller_valueChanged(int value);
+    void on_armControlRightFinger4PositionScoller_valueChanged(int value);
+    void on_armControlRightFinger5PositionScoller_valueChanged(int value);
     //Utilities
 
     //Valter 3D
@@ -588,6 +604,7 @@ private slots:
     void on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked();
     void on_armControlLeftRedrawGUICheckBox_clicked(bool checked);
     void on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked();
+    void on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_clicked();
 };
 
 #endif // MAINWINDOW_H

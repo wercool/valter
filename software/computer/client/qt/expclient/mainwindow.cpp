@@ -388,3 +388,14 @@ void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_cli
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
     armControlLeft->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
 }
+
+void MainWindow::on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_clicked()
+{
+    ui->platformControlP1RemoteControlCheckbox->setChecked(true);
+    ui->platformControlP2RemoteControlCheckbox->setChecked(true);
+    ui->platformLocationP1RemoteControlCheckbox->setChecked(true);
+    ui->platformManipulatorAndIRBumperRemoteControlCheckbox->setChecked(true);
+    ui->bodyControlP1RemoteControlCheckbox->setChecked(true);
+    ui->armControlRightRemoteControlCheckbox->setChecked(true);
+    ui->armControlLeftRemoteControlCheckbox->setChecked(true);
+}

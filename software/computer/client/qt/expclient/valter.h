@@ -55,6 +55,8 @@ public:
    void addUpdateValterModule(string controlDeviceId, IValterModule *valterModule);
    IValterModule *getValterModule(string controlDeviceId);
 
+   void executeUscCmdMaestroLinux(string cmdArgs);
+
    void stopAllModules();
 
    //Utils
@@ -139,6 +141,7 @@ private:
    static const bool logToConsole = true;
    bool logControlDeviceMessages;
    static const string cmdFilesPath;
+   static const string maestoServoControllerUscCmdPathPrefix;
    map<string, ControlDevice*> controlDevicesMap;
 
    map<string, IValterModule*> valterModulesMap;

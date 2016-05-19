@@ -13,5 +13,7 @@
         <file>alarm_off.png</file>
         <file>alarm_on.png</file>
         <file>alarm_beep.png</file>
+        <file>hand.png</file>
+        <file>hand-left.png</file>
     </qresource>
 </RCC>

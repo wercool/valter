@@ -762,6 +762,46 @@ void ArmControlRight::startAllWatchers()
     sendCommand("STARTWATCHERS");
 }
 
+void ArmControlRight::releaseFinger(unsigned int idx)
+{
+    Valter::getInstance()->executeUscCmdMaestroLinux(Valter::format_string("--servo %d,0", idx));
+}
+
+void ArmControlRight::releaseAllFingers()
+{
+    releaseFinger(0);
+    releaseFinger(1);
+    releaseFinger(2);
+    releaseFinger(3);
+    releaseFinger(4);
+    releaseFinger(5);
+}
+
+void ArmControlRight::setFingerPosition(unsigned int idx, unsigned int position)
+{
+    Valter::getInstance()->executeUscCmdMaestroLinux(Valter::format_string("--servo %d,%d", idx, position * 4));
+}
+
+void ArmControlRight::fingersGrasp()
+{
+
+}
+
+void ArmControlRight::fingersSqueeze()
+{
+
+}
+
+unsigned int ArmControlRight::getFingerInitialPosition(unsigned int idx)
+{
+    return fingerInitialPositions[idx];
+}
+
+unsigned int ArmControlRight::getFingerGraspedPosition(unsigned int idx)
+{
+    return fingerGraspedPositions[idx];
+}
+
 bool ArmControlRight::setRightLimbMotorMovementDirection(bool value)
 {
     if (getRightLimbMotorStop())
