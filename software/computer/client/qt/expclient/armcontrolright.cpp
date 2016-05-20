@@ -784,7 +784,10 @@ void ArmControlRight::setFingerPosition(unsigned int idx, unsigned int position)
 
 void ArmControlRight::fingersGrasp()
 {
-
+    for (int i = 0; i < 6; i++)
+    {
+        setFingerPosition(i, getFingerGraspedPosition(i));
+    }
 }
 
 void ArmControlRight::fingersSqueeze()

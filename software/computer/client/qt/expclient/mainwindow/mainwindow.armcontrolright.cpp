@@ -754,6 +754,7 @@ void MainWindow::on_armControlRightPalmGraspButton_clicked()
     {
         armControlRight->sendTCPCommand("on_armControlRightPalmGraspButton_clicked");
     }
+    armControlRight->fingersGrasp();
 }
 
 void MainWindow::on_armControlRightPalmSqueezeButton_clicked()
