@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1034</height>
+             <width>874</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3934,7 +3934,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>893</width>
+             <width>892</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7950,7 +7950,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>1514</height>
             </rect>
            </property>
@@ -10510,7 +10510,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>800</height>
             </rect>
            </property>
@@ -13444,9 +13444,9 @@ background-repeat: repeat-no;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>875</width>
-             <height>1097</height>
+             <y>-278</y>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -15487,7 +15487,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_9">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh8LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -15521,7 +15521,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_10">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh9LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>535</x>
@@ -15555,7 +15555,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh8LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh10LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>245</x>
@@ -15594,7 +15594,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh9LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh11LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>245</x>
@@ -15627,7 +15627,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_13">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh12LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>360</x>
@@ -16752,8 +16752,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1097</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -18522,7 +18522,7 @@ image: url(:/hand-left.png);</string>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <widget class="QLineEdit" name="lineEdit_14">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh8LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
@@ -18550,7 +18550,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_15">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh9LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>156</x>
@@ -18578,7 +18578,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_16">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh0LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
@@ -18606,7 +18606,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_17">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh1LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>156</x>
@@ -18634,7 +18634,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_18">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh6LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -18662,7 +18662,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_19">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh5LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -18690,7 +18690,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_20">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh4LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -18718,7 +18718,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_21">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh2LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -18746,7 +18746,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_22">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh3LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>535</x>
@@ -18774,7 +18774,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_23">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh7LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>535</x>
@@ -18802,7 +18802,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_24">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh10LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>250</x>
@@ -18835,7 +18835,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_25">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh11LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>250</x>
@@ -18868,7 +18868,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="lineEdit_26">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh12LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>180</x>
@@ -18933,6 +18933,9 @@ image: url(:/hand-left.png);</string>
                     <property name="maximum">
                      <number>0</number>
                     </property>
+                    <property name="tracking">
+                     <bool>false</bool>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -18950,13 +18953,16 @@ image: url(:/hand-left.png);</string>
                     <property name="maximum">
                      <number>0</number>
                     </property>
+                    <property name="tracking">
+                     <bool>false</bool>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
                    </widget>
                   </item>
                   <item row="0" column="0">
-                   <widget class="QPushButton" name="pushButton_12">
+                   <widget class="QPushButton" name="armControlLeftFinger6ReleaseButton">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -18980,7 +18986,7 @@ image: url(:/hand-left.png);</string>
                    </widget>
                   </item>
                   <item row="1" column="0">
-                   <widget class="QPushButton" name="pushButton_13">
+                   <widget class="QPushButton" name="armControlLeftFinger7ReleaseButton">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -19004,7 +19010,7 @@ image: url(:/hand-left.png);</string>
                    </widget>
                   </item>
                   <item row="3" column="0">
-                   <widget class="QPushButton" name="pushButton_15">
+                   <widget class="QPushButton" name="armControlLeftFinger9ReleaseButton">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -19028,7 +19034,7 @@ image: url(:/hand-left.png);</string>
                    </widget>
                   </item>
                   <item row="2" column="0">
-                   <widget class="QPushButton" name="pushButton_14">
+                   <widget class="QPushButton" name="armControlLeftFinger8ReleaseButton">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -19052,7 +19058,7 @@ image: url(:/hand-left.png);</string>
                    </widget>
                   </item>
                   <item row="4" column="0">
-                   <widget class="QPushButton" name="pushButton_16">
+                   <widget class="QPushButton" name="armControlLeftFinger10ReleaseButton">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -19080,6 +19086,9 @@ image: url(:/hand-left.png);</string>
                     <property name="maximum">
                      <number>0</number>
                     </property>
+                    <property name="tracking">
+                     <bool>false</bool>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -19097,13 +19106,16 @@ image: url(:/hand-left.png);</string>
                     <property name="maximum">
                      <number>0</number>
                     </property>
+                    <property name="tracking">
+                     <bool>false</bool>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
                    </widget>
                   </item>
                   <item row="5" column="0">
-                   <widget class="QPushButton" name="pushButton_17">
+                   <widget class="QPushButton" name="armControlLeftFinger11ReleaseButton">
                     <property name="minimumSize">
                      <size>
                       <width>40</width>
@@ -19145,6 +19157,9 @@ image: url(:/hand-left.png);</string>
                     <property name="maximum">
                      <number>0</number>
                     </property>
+                    <property name="tracking">
+                     <bool>false</bool>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -19154,6 +19169,9 @@ image: url(:/hand-left.png);</string>
                    <widget class="QScrollBar" name="armControlLeftFinger11PositionScoller">
                     <property name="maximum">
                      <number>0</number>
+                    </property>
+                    <property name="tracking">
+                     <bool>false</bool>
                     </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
@@ -20987,11 +21005,11 @@ image: url(:/hand-left.png);</string>
   <tabstop>armControlRightFingerSensorCh7LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh1LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh0LineEdit</tabstop>
-  <tabstop>lineEdit_9</tabstop>
-  <tabstop>lineEdit_10</tabstop>
   <tabstop>armControlRightFingerSensorCh8LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh9LineEdit</tabstop>
-  <tabstop>lineEdit_13</tabstop>
+  <tabstop>armControlRightFingerSensorCh10LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh11LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh12LineEdit</tabstop>
   <tabstop>armControlRightFinger0ReleaseButton</tabstop>
   <tabstop>armControlRightFinger1ReleaseButton</tabstop>
   <tabstop>armControlRightFinger2ReleaseButton</tabstop>

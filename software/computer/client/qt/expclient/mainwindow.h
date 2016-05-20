@@ -478,6 +478,22 @@ public slots:
     void on_leftArmReadingsTrackNoneButton_clicked();
     void on_armControlRightStopAllWatchersButton_clicked();
     void on_armControlRightStartAllWatchersButton_clicked();
+    void on_armControlLeftPalmReleaseButton_clicked();
+    void on_armControlLeftPalmActivatedButton_clicked();
+    void on_armControlLeftPalmGraspButton_clicked();
+    void on_armControlLeftPalmSqueezeButton_clicked();
+    void on_armControlLeftFinger6PositionScoller_valueChanged(int value);
+    void on_armControlLeftFinger7PositionScoller_valueChanged(int value);
+    void on_armControlLeftFinger8PositionScoller_valueChanged(int value);
+    void on_armControlLeftFinger9PositionScoller_valueChanged(int value);
+    void on_armControlLeftFinger10PositionScoller_valueChanged(int value);
+    void on_armControlLeftFinger11PositionScoller_valueChanged(int value);
+    void on_armControlLeftFinger6ReleaseButton_clicked();
+    void on_armControlLeftFinger7ReleaseButton_clicked();
+    void on_armControlLeftFinger8ReleaseButton_clicked();
+    void on_armControlLeftFinger9ReleaseButton_clicked();
+    void on_armControlLeftFinger10ReleaseButton_clicked();
+    void on_armControlLeftFinger11ReleaseButton_clicked();
 
     //arm-control-right
     void initArmControlRight(Ui::MainWindow *ui);

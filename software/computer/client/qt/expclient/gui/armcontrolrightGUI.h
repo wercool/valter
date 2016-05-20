@@ -183,6 +183,20 @@ void armControlRightTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 ui->rightHandSensorsTable->setItem(idx, 1, handFingerSensorReadingQWidgetItem);
             }
         }
+
+        ui->armControlRightFingerSensorCh0LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(0)).c_str());
+        ui->armControlRightFingerSensorCh1LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(1)).c_str());
+        ui->armControlRightFingerSensorCh2LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(2)).c_str());
+        ui->armControlRightFingerSensorCh3LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(3)).c_str());
+        ui->armControlRightFingerSensorCh4LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(4)).c_str());
+        ui->armControlRightFingerSensorCh5LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(5)).c_str());
+        ui->armControlRightFingerSensorCh6LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(6)).c_str());
+        ui->armControlRightFingerSensorCh7LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(7)).c_str());
+        ui->armControlRightFingerSensorCh8LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(8)).c_str());
+        ui->armControlRightFingerSensorCh9LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(9)).c_str());
+        ui->armControlRightFingerSensorCh10LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(10)).c_str());
+        ui->armControlRightFingerSensorCh11LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(11)).c_str());
+        ui->armControlRightFingerSensorCh12LineEdit->setText(Valter::format_string("%d", armControlRight->getHandSensorsADCForce(12)).c_str());
     }
 }
 

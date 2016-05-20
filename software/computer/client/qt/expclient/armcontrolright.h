@@ -321,6 +321,7 @@ public:
     //fingers controllers
     void releaseFinger(unsigned int idx);
     void releaseAllFingers();
+    void fingersToInitialPositions();
     void setFingerPosition(unsigned int idx, unsigned int position);
     void fingersGrasp();
     void fingersSqueeze();

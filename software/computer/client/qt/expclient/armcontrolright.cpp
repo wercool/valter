@@ -777,6 +777,14 @@ void ArmControlRight::releaseAllFingers()
     releaseFinger(5);
 }
 
+void ArmControlRight::fingersToInitialPositions()
+{
+    for (int i = 0; i < 6; i++)
+    {
+        setFingerPosition(i, getFingerInitialPosition(i));
+    }
+}
+
 void ArmControlRight::setFingerPosition(unsigned int idx, unsigned int position)
 {
     Valter::getInstance()->executeUscCmdMaestroLinux(Valter::format_string("--servo %d,%d", idx, position * 4));

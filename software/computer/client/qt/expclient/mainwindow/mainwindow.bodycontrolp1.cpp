@@ -80,6 +80,11 @@ void MainWindow::on_headYawRightDirectonCheckButton_toggled(bool checked)
 
 void MainWindow::on_pitchHeadDownDirectionCheckButton_toggled(bool checked)
 {
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand(Valter::format_string("on_pitchHeadDownDirectionCheckButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     if (checked)
     {
         ui->pitchHeadDownDirectionCheckButton->setStyleSheet("background-color: rgb(246, 216, 29); border-radius:10px;");
@@ -94,6 +99,11 @@ void MainWindow::on_pitchHeadDownDirectionCheckButton_toggled(bool checked)
 
 void MainWindow::on_pitchHeadUpDirectionCheckButton_toggled(bool checked)
 {
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand(Valter::format_string("on_pitchHeadUpDirectionCheckButton_toggled@%s", (!checked) ? "true" : "false"));
+    }
     if (checked)
     {
         ui->pitchHeadUpDirectionCheckButton->setStyleSheet("background-color: rgb(246, 216, 29); border-radius:10px;");

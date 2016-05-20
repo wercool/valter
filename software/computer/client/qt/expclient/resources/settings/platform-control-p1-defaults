@@ -2,7 +2,7 @@ leftMotorDuty:1,100,20
 rightMotorDuty:1,100,20
 motorsDeceleration:1,20,5
 motorsAcceleration:1,15,5
-turretMotorDuty:1,100,15
+turretMotorDuty:1,100,10
 turretMotorDeceleration:1,15,5
 turretMotorAcceleration:1,10,2
 trackLeftMotorCurrent:1

@@ -743,6 +743,59 @@ void ArmControlLeft::startAllWatchers()
     sendCommand("STARTWATCHERS");
 }
 
+void ArmControlLeft::releaseFinger(unsigned int idx)
+{
+    Valter::getInstance()->executeUscCmdMaestroLinux(Valter::format_string("--servo %d,0", idx));
+}
+
+void ArmControlLeft::releaseAllFingers()
+{
+    releaseFinger(6);
+    releaseFinger(7);
+    releaseFinger(8);
+    releaseFinger(9);
+    releaseFinger(10);
+    releaseFinger(11);
+}
+
+void ArmControlLeft::fingersToInitialPositions()
+{
+    int j = 0;
+    for (int i = 6; i < 12; i++)
+    {
+        setFingerPosition(i, getFingerInitialPosition(j++));
+    }
+}
+
+void ArmControlLeft::setFingerPosition(unsigned int idx, unsigned int position)
+{
+    Valter::getInstance()->executeUscCmdMaestroLinux(Valter::format_string("--servo %d,%d", idx, position * 4));
+}
+
+void ArmControlLeft::fingersGrasp()
+{
+    int j = 0;
+    for (int i = 6; i < 12; i++)
+    {
+        setFingerPosition(i, getFingerGraspedPosition(j++));
+    }
+}
+
+void ArmControlLeft::fingersSqueeze()
+{
+
+}
+
+unsigned int ArmControlLeft::getFingerInitialPosition(unsigned int idx)
+{
+    return fingerInitialPositions[idx];
+}
+
+unsigned int ArmControlLeft::getFingerGraspedPosition(unsigned int idx)
+{
+    return fingerGraspedPositions[idx];
+}
+
 void ArmControlLeft::setForearmRollResettingStepPosition(bool value)
 {
     forearmRollResettingStepPosition = value;

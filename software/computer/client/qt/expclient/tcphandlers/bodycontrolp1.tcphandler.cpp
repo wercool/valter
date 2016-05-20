@@ -364,14 +364,18 @@ class BodyControlP1TCPConnectionHandler : public Thread
         {
             int substr_pos = cmd.find("@") + 1;
             string value_str = cmd.substr(substr_pos);
-            ui->headYawRightDirectonCheckButton->setChecked((value_str.compare("true")) ? true : false);
+            bool checked = (value_str.compare("true")) ? true : false;
+            ui->headYawRightDirectonCheckButton->setChecked(checked);
+            mainWindow->on_headYawRightDirectonCheckButton_toggled(checked);
             return;
         }
         if (cmd.find("on_headYawLeftDirectonCheckButton_toggled") != std::string::npos)
         {
             int substr_pos = cmd.find("@") + 1;
             string value_str = cmd.substr(substr_pos);
-            ui->headYawLeftDirectonCheckButton->setChecked((value_str.compare("true")) ? true : false);
+            bool checked = (value_str.compare("true")) ? true : false;
+            ui->headYawLeftDirectonCheckButton->setChecked(checked);
+            mainWindow->on_headYawLeftDirectonCheckButton_toggled(checked);
             return;
         }
         if (cmd.find("on_headYawMoveStepsSpinBox_valueChanged") != std::string::npos)
@@ -476,6 +480,24 @@ class BodyControlP1TCPConnectionHandler : public Thread
         if (cmd.find("on_bodyCameraReleaseButton_clicked") != std::string::npos)
         {
             mainWindow->on_bodyCameraReleaseButton_clicked();
+            return;
+        }
+        if (cmd.find("on_pitchHeadDownDirectionCheckButton_toggled") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            bool checked = (value_str.compare("true")) ? true : false;
+            ui->pitchHeadDownDirectionCheckButton->setChecked(checked);
+            mainWindow->on_pitchHeadDownDirectionCheckButton_toggled(checked);
+            return;
+        }
+        if (cmd.find("on_pitchHeadUpDirectionCheckButton_toggled") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            bool checked = (value_str.compare("true")) ? true : false;
+            ui->pitchHeadUpDirectionCheckButton->setChecked(checked);
+            mainWindow->on_pitchHeadUpDirectionCheckButton_toggled(checked);
             return;
         }
     }

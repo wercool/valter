@@ -323,6 +323,17 @@ public:
     void stopAllWatchers();
     void startAllWatchers();
 
+    //fingers controllers
+    void releaseFinger(unsigned int idx);
+    void releaseAllFingers();
+    void fingersToInitialPositions();
+    void setFingerPosition(unsigned int idx, unsigned int position);
+    void fingersGrasp();
+    void fingersSqueeze();
+
+    unsigned int getFingerInitialPosition(unsigned int idx);
+    unsigned int getFingerGraspedPosition(unsigned int idx);
+
 private:
     ArmControlLeft();
     static ArmControlLeft* pArmControlLeft;       // ARM-CONTROL-LEFT's singleton instance
@@ -466,6 +477,9 @@ private:
     //hand finger sesnors preset
     bool handSensorsTrack[13];
     int handSensorsADCForce[13];
+
+    unsigned int fingerInitialPositions[6];
+    unsigned int fingerGraspedPositions[6];
 };
 
 #endif // ARMCONTROLLEFT_H

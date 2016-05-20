@@ -25,6 +25,13 @@ void MainWindow::initArmControlRight(Ui::MainWindow *ui)
     ui->rightLimbMotorAccelerationScroller->installEventFilter(new WheelEventFilter());
     ui->rightForearmRollStepDelaySpinBox->installEventFilter(new WheelEventFilter());
     ui->rightForearmRollStepSwitchDelaySpinBox->installEventFilter(new WheelEventFilter());
+
+    ui->armControlRightFinger0PositionScoller->installEventFilter(new WheelEventFilter());
+    ui->armControlRightFinger1PositionScoller->installEventFilter(new WheelEventFilter());
+    ui->armControlRightFinger2PositionScoller->installEventFilter(new WheelEventFilter());
+    ui->armControlRightFinger3PositionScoller->installEventFilter(new WheelEventFilter());
+    ui->armControlRightFinger4PositionScoller->installEventFilter(new WheelEventFilter());
+    ui->armControlRightFinger5PositionScoller->installEventFilter(new WheelEventFilter());
 }
 
 void MainWindow::armControlRightTabRefreshTimerUpdate()
@@ -745,6 +752,7 @@ void MainWindow::on_armControlRightPalmActivatedButton_clicked()
     {
         armControlRight->sendTCPCommand("on_armControlRightPalmActivatedButton_clicked");
     }
+    armControlRight->fingersToInitialPositions();
 }
 
 void MainWindow::on_armControlRightPalmGraspButton_clicked()
