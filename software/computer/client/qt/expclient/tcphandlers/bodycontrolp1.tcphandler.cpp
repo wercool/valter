@@ -366,7 +366,6 @@ class BodyControlP1TCPConnectionHandler : public Thread
             string value_str = cmd.substr(substr_pos);
             bool checked = (value_str.compare("true")) ? true : false;
             ui->headYawRightDirectonCheckButton->setChecked(checked);
-            mainWindow->on_headYawRightDirectonCheckButton_toggled(checked);
             return;
         }
         if (cmd.find("on_headYawLeftDirectonCheckButton_toggled") != std::string::npos)
@@ -375,7 +374,6 @@ class BodyControlP1TCPConnectionHandler : public Thread
             string value_str = cmd.substr(substr_pos);
             bool checked = (value_str.compare("true")) ? true : false;
             ui->headYawLeftDirectonCheckButton->setChecked(checked);
-            mainWindow->on_headYawLeftDirectonCheckButton_toggled(checked);
             return;
         }
         if (cmd.find("on_headYawMoveStepsSpinBox_valueChanged") != std::string::npos)
@@ -488,7 +486,6 @@ class BodyControlP1TCPConnectionHandler : public Thread
             string value_str = cmd.substr(substr_pos);
             bool checked = (value_str.compare("true")) ? true : false;
             ui->pitchHeadDownDirectionCheckButton->setChecked(checked);
-            mainWindow->on_pitchHeadDownDirectionCheckButton_toggled(checked);
             return;
         }
         if (cmd.find("on_pitchHeadUpDirectionCheckButton_toggled") != std::string::npos)
@@ -497,7 +494,6 @@ class BodyControlP1TCPConnectionHandler : public Thread
             string value_str = cmd.substr(substr_pos);
             bool checked = (value_str.compare("true")) ? true : false;
             ui->pitchHeadUpDirectionCheckButton->setChecked(checked);
-            mainWindow->on_pitchHeadUpDirectionCheckButton_toggled(checked);
             return;
         }
     }
