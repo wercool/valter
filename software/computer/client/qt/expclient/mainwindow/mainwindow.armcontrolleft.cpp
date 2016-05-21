@@ -492,6 +492,10 @@ void MainWindow::on_leftArmLedsOnOffButton_clicked()
 void MainWindow::on_armControlLeftLoadDefaultsButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    {
+        armControlLeft->sendTCPCommand("on_armControlLeftLoadDefaultsButton_clicked");
+    }
     armControlLeft->loadDefaults();
     loadArmControlLeftDefaults(ui);
 }
@@ -715,61 +719,79 @@ void MainWindow::on_armControlLeftPalmSqueezeButton_clicked()
 void MainWindow::on_armControlLeftFinger6PositionScoller_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
-    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    if (!armControlLeft->getDefaultsLoading())
     {
-        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger6PositionScoller_valueChanged@%d", value));
+        if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+        {
+            armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger6PositionScoller_valueChanged@%d", value));
+        }
+        armControlLeft->setFingerPosition(6, value);
     }
-    armControlLeft->setFingerPosition(6, value);
 }
 
 void MainWindow::on_armControlLeftFinger7PositionScoller_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
-    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    if (!armControlLeft->getDefaultsLoading())
     {
-        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger7PositionScoller_valueChanged@%d", value));
+        if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+        {
+            armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger7PositionScoller_valueChanged@%d", value));
+        }
+        armControlLeft->setFingerPosition(7, value);
     }
-    armControlLeft->setFingerPosition(7, value);
 }
 
 void MainWindow::on_armControlLeftFinger8PositionScoller_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
-    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    if (!armControlLeft->getDefaultsLoading())
     {
-        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger8PositionScoller_valueChanged@%d", value));
+        if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+        {
+            armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger8PositionScoller_valueChanged@%d", value));
+        }
+        armControlLeft->setFingerPosition(8, value);
     }
-    armControlLeft->setFingerPosition(8, value);
 }
 
 void MainWindow::on_armControlLeftFinger9PositionScoller_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
-    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    if (!armControlLeft->getDefaultsLoading())
     {
-        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger9PositionScoller_valueChanged@%d", value));
+        if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+        {
+            armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger9PositionScoller_valueChanged@%d", value));
+        }
+        armControlLeft->setFingerPosition(9, value);
     }
-    armControlLeft->setFingerPosition(9, value);
 }
 
 void MainWindow::on_armControlLeftFinger10PositionScoller_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
-    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    if (!armControlLeft->getDefaultsLoading())
     {
-        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger10PositionScoller_valueChanged@%d", value));
+        if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+        {
+            armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger10PositionScoller_valueChanged@%d", value));
+        }
+        armControlLeft->setFingerPosition(10, value);
     }
-    armControlLeft->setFingerPosition(10, value);
 }
 
 void MainWindow::on_armControlLeftFinger11PositionScoller_valueChanged(int value)
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
-    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+    if (!armControlLeft->getDefaultsLoading())
     {
-        armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger11PositionScoller_valueChanged@%d", value));
+        if (ui->armControlLeftRemoteControlCheckbox->isChecked())
+        {
+            armControlLeft->sendTCPCommand(Valter::format_string("on_armControlLeftFinger11PositionScoller_valueChanged@%d", value));
+        }
+        armControlLeft->setFingerPosition(11, value);
     }
-    armControlLeft->setFingerPosition(11, value);
 }
 
 void MainWindow::on_armControlLeftFinger6ReleaseButton_clicked()

@@ -139,6 +139,7 @@ void ArmControlLeft::resetToDefault()
         handSensorsTrack[i]  = false;
         handSensorsADCForce[i] = 0;
     }
+    defaultsLoading = false;
 }
 
 void ArmControlLeft::loadDefaults()
@@ -1210,3 +1211,12 @@ int ArmControlLeft::getLeftForearmMotorDuty() const
     return leftForearmMotorDuty;
 }
 
+bool ArmControlLeft::getDefaultsLoading() const
+{
+    return defaultsLoading;
+}
+
+void ArmControlLeft::setDefaultsLoading(bool value)
+{
+    defaultsLoading = value;
+}

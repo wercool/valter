@@ -334,12 +334,17 @@ public:
     unsigned int getFingerInitialPosition(unsigned int idx);
     unsigned int getFingerGraspedPosition(unsigned int idx);
 
+    bool getDefaultsLoading() const;
+    void setDefaultsLoading(bool value);
+
 private:
     ArmControlLeft();
     static ArmControlLeft* pArmControlLeft;       // ARM-CONTROL-LEFT's singleton instance
     static bool instanceFlag;
     static const string controlDeviceId;
     static const string defaultsFilePath;
+
+    bool defaultsLoading;
 
     void processMessagesQueueWorker();
 

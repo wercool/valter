@@ -204,6 +204,8 @@ void loadArmControlRightDefaults(Ui::MainWindow *ui)
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
 
+    armControlRight->setDefaultsLoading(true);
+
     ui->rightForearmMotorDutyScroller->setMinimum(armControlRight->getRightForearmMotorDutyPresetMin());
     ui->rightForearmMotorDutyScroller->setMaximum(armControlRight->getRightForearmMotorDutyPresetMax());
     ui->rightForearmMotorDutyScroller->setValue(armControlRight->getRightForearmMotorDutyPresetCur());
@@ -339,6 +341,8 @@ void loadArmControlRightDefaults(Ui::MainWindow *ui)
     }
     ui->armControlRightFinger5PositionScoller->setValue(armControlRight->getFingerInitialPosition(5));
     ui->armControlRightFinger5PositionScoller->setInvertedAppearance(true);
+
+    armControlRight->setDefaultsLoading(false);
 }
 
 void setRightArmReadingsPresets(QTableWidgetItem *item)

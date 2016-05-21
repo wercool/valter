@@ -777,59 +777,77 @@ void MainWindow::on_armControlRightPalmSqueezeButton_clicked()
 void MainWindow::on_armControlRightFinger0PositionScoller_valueChanged(int value)
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    if (!armControlRight->getDefaultsLoading())
     {
-        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger0PositionScoller_valueChanged@%d", value));
+        if (ui->armControlRightRemoteControlCheckbox->isChecked())
+        {
+            armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger0PositionScoller_valueChanged@%d", value));
+        }
+        armControlRight->setFingerPosition(0, value);
     }
-    armControlRight->setFingerPosition(0, value);
 }
 
 void MainWindow::on_armControlRightFinger1PositionScoller_valueChanged(int value)
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    if (!armControlRight->getDefaultsLoading())
     {
-        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger1PositionScoller_valueChanged@%d", value));
+        if (ui->armControlRightRemoteControlCheckbox->isChecked())
+        {
+            armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger1PositionScoller_valueChanged@%d", value));
+        }
+        armControlRight->setFingerPosition(1, value);
     }
-    armControlRight->setFingerPosition(1, value);
 }
 
 void MainWindow::on_armControlRightFinger2PositionScoller_valueChanged(int value)
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    if (!armControlRight->getDefaultsLoading())
     {
-        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger2PositionScoller_valueChanged@%d", value));
+        if (ui->armControlRightRemoteControlCheckbox->isChecked())
+        {
+            armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger2PositionScoller_valueChanged@%d", value));
+        }
+        armControlRight->setFingerPosition(2, value);
     }
-    armControlRight->setFingerPosition(2, value);
 }
 
 void MainWindow::on_armControlRightFinger3PositionScoller_valueChanged(int value)
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    if (!armControlRight->getDefaultsLoading())
     {
-        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger3PositionScoller_valueChanged@%d", value));
+        if (ui->armControlRightRemoteControlCheckbox->isChecked())
+        {
+            armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger3PositionScoller_valueChanged@%d", value));
+        }
+        armControlRight->setFingerPosition(3, value);
     }
-    armControlRight->setFingerPosition(3, value);
 }
 
 void MainWindow::on_armControlRightFinger4PositionScoller_valueChanged(int value)
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    if (!armControlRight->getDefaultsLoading())
     {
-        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger4PositionScoller_valueChanged@%d", value));
+        if (ui->armControlRightRemoteControlCheckbox->isChecked())
+        {
+            armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger4PositionScoller_valueChanged@%d", value));
+        }
+        armControlRight->setFingerPosition(4, value);
     }
-    armControlRight->setFingerPosition(4, value);
 }
 
 void MainWindow::on_armControlRightFinger5PositionScoller_valueChanged(int value)
 {
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    if (ui->armControlRightRemoteControlCheckbox->isChecked())
+    if (!armControlRight->getDefaultsLoading())
     {
-        armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger5PositionScoller_valueChanged@%d", value));
+        if (ui->armControlRightRemoteControlCheckbox->isChecked())
+        {
+            armControlRight->sendTCPCommand(Valter::format_string("on_armControlRightFinger5PositionScoller_valueChanged@%d", value));
+        }
+        armControlRight->setFingerPosition(5, value);
     }
-    armControlRight->setFingerPosition(5, value);
 }

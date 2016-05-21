@@ -769,20 +769,22 @@ void ArmControlRight::releaseFinger(unsigned int idx)
 
 void ArmControlRight::releaseAllFingers()
 {
-    releaseFinger(0);
-    releaseFinger(1);
-    releaseFinger(2);
-    releaseFinger(3);
-    releaseFinger(4);
-    releaseFinger(5);
+//    releaseFinger(0);
+//    releaseFinger(1);
+//    releaseFinger(2);
+//    releaseFinger(3);
+//    releaseFinger(4);
+//    releaseFinger(5);
+    Valter::getInstance()->executeUscCmdMaestroLinux("--sub 010"); //RIGHT_ARM_INACTIVE
 }
 
 void ArmControlRight::fingersToInitialPositions()
 {
-    for (int i = 0; i < 6; i++)
-    {
-        setFingerPosition(i, getFingerInitialPosition(i));
-    }
+//    for (int i = 0; i < 6; i++)
+//    {
+//        setFingerPosition(i, getFingerInitialPosition(i));
+//    }
+    Valter::getInstance()->executeUscCmdMaestroLinux("--sub 011"); //RIGHT_ARM_INITIAL
 }
 
 void ArmControlRight::setFingerPosition(unsigned int idx, unsigned int position)
@@ -792,10 +794,11 @@ void ArmControlRight::setFingerPosition(unsigned int idx, unsigned int position)
 
 void ArmControlRight::fingersGrasp()
 {
-    for (int i = 0; i < 6; i++)
-    {
-        setFingerPosition(i, getFingerGraspedPosition(i));
-    }
+//    for (int i = 0; i < 6; i++)
+//    {
+//        setFingerPosition(i, getFingerGraspedPosition(i));
+//    }
+    Valter::getInstance()->executeUscCmdMaestroLinux("--sub 012"); //RIGHT_ARM_GRASPING
 }
 
 void ArmControlRight::fingersSqueeze()

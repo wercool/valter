@@ -146,6 +146,8 @@ void ArmControlRight::resetToDefault()
         fingerInitialPositions[i] = 0;
         fingerGraspedPositions[i] = 0;
     }
+
+    defaultsLoading = false;
 }
 
 void ArmControlRight::loadDefaults()
@@ -1237,4 +1239,14 @@ void ArmControlRight::setRightForearmMotorDutyMax(int value)
 int ArmControlRight::getRightForearmMotorDuty() const
 {
     return rightForearmMotorDuty;
+}
+
+bool ArmControlRight::getDefaultsLoading() const
+{
+    return defaultsLoading;
+}
+
+void ArmControlRight::setDefaultsLoading(bool value)
+{
+    defaultsLoading = value;
 }

@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1040</height>
+             <width>875</width>
+             <height>1034</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3934,7 +3934,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>892</width>
+             <width>893</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7950,7 +7950,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
+             <width>875</width>
              <height>1514</height>
             </rect>
            </property>
@@ -10510,7 +10510,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
+             <width>875</width>
              <height>800</height>
             </rect>
            </property>
@@ -13444,9 +13444,9 @@ background-repeat: repeat-no;</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-278</y>
-             <width>874</width>
-             <height>1100</height>
+             <y>-317</y>
+             <width>875</width>
+             <height>1097</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -16752,8 +16752,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1100</height>
+             <width>875</width>
+             <height>1097</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -18522,11 +18522,11 @@ image: url(:/hand-left.png);</string>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh8LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh11LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
-                   <y>16</y>
+                   <y>156</y>
                    <width>45</width>
                    <height>27</height>
                   </rect>
@@ -18540,34 +18540,6 @@ image: url(:/hand-left.png);</string>
                  <property name="maximumSize">
                   <size>
                    <width>45</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh9LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>156</x>
-                   <y>16</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
                    <height>16777215</height>
                   </size>
                  </property>
@@ -18581,7 +18553,7 @@ image: url(:/hand-left.png);</string>
                 <widget class="QLineEdit" name="armControlLeftFingerSensorCh0LineEdit">
                  <property name="geometry">
                   <rect>
-                   <x>20</x>
+                   <x>395</x>
                    <y>156</y>
                    <width>45</width>
                    <height>27</height>
@@ -18606,7 +18578,35 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh1LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh12LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>20</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh2LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>156</x>
@@ -18662,7 +18662,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh5LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh7LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -18690,7 +18690,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh4LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh3LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -18718,11 +18718,11 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh2LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh9LineEdit">
                  <property name="geometry">
                   <rect>
-                   <x>395</x>
-                   <y>156</y>
+                   <x>156</x>
+                   <y>16</y>
                    <width>45</width>
                    <height>27</height>
                   </rect>
@@ -18746,7 +18746,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh3LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh10LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>535</x>
@@ -18774,7 +18774,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh7LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh4LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>535</x>
@@ -18802,7 +18802,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh10LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh5LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>250</x>
@@ -18835,7 +18835,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh11LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh1LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>250</x>
@@ -18868,7 +18868,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh12LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh8LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>180</x>
@@ -18930,6 +18930,12 @@ image: url(:/hand-left.png);</string>
                   </item>
                   <item row="0" column="2">
                    <widget class="QScrollBar" name="armControlLeftFinger6PositionScoller">
+                    <property name="styleSheet">
+                     <string notr="true"/>
+                    </property>
+                    <property name="minimum">
+                     <number>0</number>
+                    </property>
                     <property name="maximum">
                      <number>0</number>
                     </property>
