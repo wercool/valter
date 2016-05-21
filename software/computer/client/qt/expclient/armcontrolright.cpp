@@ -650,7 +650,6 @@ void ArmControlRight::rightArmSensorReadingsWorker()
     }
 }
 
-
 bool ArmControlRight::prepareRightForearmMovement()
 {
     if (getRightForearmMotorAccelerating() || getRightForearmMotorDecelerating())
@@ -1011,4 +1010,51 @@ void ArmControlRight::setRightForearmMotorDuty(int value)
 {
     rightForearmMotorDuty = value;
     sendCommand(Valter::format_string("SETFOREARMLIFTUPDUTY#%d", rightForearmMotorDuty));
+}
+
+void ArmControlRight::setHandSensorsADCForce(int idx, int value)
+{
+    handSensorsADCForce[idx] = value;
+    switch (idx)
+    {
+        case 0: //rightPalmJamb
+            setPalmJambReading(value);
+        break;
+        case 1: //rightFinger5Tip
+            setFinger5TipReading(value);
+        break;
+        case 2: //rightFinger5Phalanx
+            setFinger5PhalanxReading(value);
+        break;
+        case 3: //rightFinger4Tip
+            setFinger4TipReading(value);
+        break;
+        case 4: //rightFinger4Phalanx
+            setFinger4PhalanxReading(value);
+        break;
+        case 5: //rightFinger3Phalanx
+            setFinger3PhalanxReading(value);
+        break;
+        case 6: //rightFinger2Phalanx
+            setFinger2PhalanxReading(value);
+        break;
+        case 7: //rightFinger1Tip
+            setFinger1TipReading(value);
+        break;
+        case 8: //rightFinger1Phalanx
+            setFinger1PhalanxReading(value);
+        break;
+        case 9: //rightFinger0Phalanx
+            setFinger0PhalanxReading(value);
+        break;
+        case 10: //rightFinger0Tip
+            setFinger0TipReading(value);
+        break;
+        case 11: //rightPalmUpper
+            setPalmUpperReading(value);
+        break;
+        case 12: //rightPalmLower
+            setPalmLowerReading(value);
+        break;
+    }
 }

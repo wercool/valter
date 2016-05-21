@@ -915,3 +915,13 @@ void MainWindow::on_bodyCameraReleaseButton_clicked()
     }
     bodyControlP1->releaseBodyCamera();
 }
+
+void MainWindow::on_bodyCameraPositionScroller_valueChanged(int value)
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand(Valter::format_string("on_bodyCameraPositionScroller_valueChanged@%d", value));
+    }
+    bodyControlP1->setBodyCameraPosition(value * 4);
+}

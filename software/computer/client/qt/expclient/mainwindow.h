@@ -621,6 +621,7 @@ private slots:
     void on_armControlLeftRedrawGUICheckBox_clicked(bool checked);
     void on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked();
     void on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_clicked();
+    void on_bodyCameraPositionScroller_valueChanged(int value);
 };
 
 #endif // MAINWINDOW_H

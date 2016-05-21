@@ -19,3 +19,5 @@ leftArmYawPosition:1,1
 leftArmYawCurrent:1,1
 headPitchPosition:1,1
 headYawPosition:1,1
+//camera settings down,up,center (values have to be multiplied x4)
+bodyCameraServoPosition:1650,1020,1460

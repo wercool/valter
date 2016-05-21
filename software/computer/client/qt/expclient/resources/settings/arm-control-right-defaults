@@ -32,3 +32,17 @@ finger2InitialGrasped:2038,948
 finger3InitialGrasped:889,1779
 finger4InitialGrasped:761,1738
 finger5InitialGrasped:1500,2212
+//fingers thresholds (finger sensors)
+finger0Tip:903
+finger0Phalanx:590
+finger1Phalanx:10
+finger1Tip:0
+finger2Phalanx:550
+finger3Phalanx:395
+finger4Tip:670
+finger4Phalanx:432
+finger5Phalanx:601
+finger5Tip:425
+rightPalmUpper:680
+rightPalmLower:640
+rightPalmJamb:980

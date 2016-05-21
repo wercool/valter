@@ -131,6 +131,10 @@ void BodyControlP1::resetToDefault()
 
     kinect1PowerState               = false;
     kinect2PowerState               = false;
+
+    bodyCameraLowerPosition     = 1650;
+    bodyCameraCenterPosition    = 1460;
+    bodyCameraUpperPosition     = 1020;
 }
 
 void BodyControlP1::loadDefaults()
@@ -139,7 +143,7 @@ void BodyControlP1::loadDefaults()
     string line;
     while (getline(defaultsFile, line, '\n'))
     {
-        if (line.substr(0, 2).compare("//") != 0)
+        if (line.substr(0, 2).compare("//") != 0 && line.length() > 0)
         {
             char *lineStrPtr = Valter::stringToCharPtr(line);
             string defaultValueName(strtok(lineStrPtr, ":" ));
@@ -276,6 +280,16 @@ void BodyControlP1::loadDefaults()
     val2 = atoi(strtok(NULL, "," ));
     setHeadYawPositionTrack(val1);
     setHeadYawPositionADC(val2);
+
+    //bodyCameraServoPosition
+    defaultValue = getDefault("leftArmYawMotorDuty");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    maxValue = atoi(strtok(NULL, "," ));
+    curValue = atoi(strtok(NULL, "," ));
+    setBodyCameraLowerPosition(maxValue);
+    setBodyCameraCenterPosition(curValue);
+    setBodyCameraUpperPosition(minValue);
 }
 
 int BodyControlP1::getLeftArmYawMotorDutyPresetMin() const
@@ -1051,4 +1065,33 @@ bool BodyControlP1::getKinect1PowerState() const
 void BodyControlP1::setKinect1PowerState(bool value)
 {
     kinect1PowerState = value;
+}
+int BodyControlP1::getBodyCameraUpperPosition() const
+{
+    return bodyCameraUpperPosition;
+}
+
+void BodyControlP1::setBodyCameraUpperPosition(int value)
+{
+    bodyCameraUpperPosition = value;
+}
+
+int BodyControlP1::getBodyCameraCenterPosition() const
+{
+    return bodyCameraCenterPosition;
+}
+
+void BodyControlP1::setBodyCameraCenterPosition(int value)
+{
+    bodyCameraCenterPosition = value;
+}
+
+int BodyControlP1::getBodyCameraLowerPosition() const
+{
+    return bodyCameraLowerPosition;
+}
+
+void BodyControlP1::setBodyCameraLowerPosition(int value)
+{
+    bodyCameraLowerPosition = value;
 }

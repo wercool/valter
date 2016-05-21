@@ -254,6 +254,9 @@ void loadBodyControlP1Defaults(Ui::MainWindow *ui)
     ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(7, 0))->setCheckState((bodyControlP1->getHeadYawPositionTrack()) ? Qt::Checked : Qt::Unchecked);
     ((QTableWidgetItem*)ui->bodyControlP1ReadingsTable->item(7, 1))->setCheckState((bodyControlP1->getHeadYawPositionADC()) ? Qt::Checked : Qt::Unchecked);
 
+    ui->bodyCameraPositionScroller->setMinimum(bodyControlP1->getBodyCameraUpperPosition());
+    ui->bodyCameraPositionScroller->setMaximum(bodyControlP1->getBodyCameraLowerPosition());
+    ui->bodyCameraPositionScroller->setValue(bodyControlP1->getBodyCameraCenterPosition());
 }
 
 #endif // BODYCONTROLP1GUI_H

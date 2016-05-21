@@ -703,11 +703,6 @@ void ArmControlLeft::leftArmSensorReadingsWorker()
     }
 }
 
-bool ArmControlLeft::getForearmYawDirection() const
-{
-    return forearmYawDirection;
-}
-
 void ArmControlLeft::setForearmYawDirection(bool value)
 {
     forearmYawDirection = value;
@@ -1031,4 +1026,52 @@ void ArmControlLeft::setLeftForearmMotorDuty(int value)
 {
     leftForearmMotorDuty = value;
     sendCommand(Valter::format_string("SETFOREARMLIFTUPDUTY#%d", leftForearmMotorDuty));
+}
+
+void ArmControlLeft::setHandSensorsADCForce(int idx, int value)
+{
+    handSensorsADCForce[idx] = value;
+
+    switch (idx)
+    {
+        case 0: //leftPalmJamb
+            setPalmJambReading(value);
+        break;
+        case 1: //leftFinger11Tip
+            setFinger11TipReading(value);
+        break;
+        case 2: //leftFinger11Phalanx
+            setFinger11PhalanxReading(value);
+        break;
+        case 3: //leftFinger10Phalanx
+            setFinger10PhalanxReading(value);
+        break;
+        case 4: //leftFinger10Tip
+            setFinger10TipReading(value);
+        break;
+        case 5: //leftFinger9Phalanx
+            setFinger9PhalanxReading(value);
+        break;
+        case 6: //leftFinger8Phalanx
+            setFinger8PhalanxReading(value);
+        break;
+        case 7: //leftFinger7Tip
+            setFinger7TipReading(value);
+        break;
+        case 8: //leftFinger7Phalanx
+            setFinger7PhalanxReading(value);
+        break;
+        case 9: //leftFinger6Phalanx
+            setFinger6PhalanxReading(value);
+        break;
+        case 10: //leftFinger6Tip
+            setFinger6TipReading(value);
+        break;
+        case 11: //leftPalmUpper
+            setPalmUpperReading(value);
+        break;
+        case 12: //leftPalmLower
+            setPalmLowerReading(value);
+        break;
+    }
 }

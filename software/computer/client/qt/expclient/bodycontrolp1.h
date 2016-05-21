@@ -307,6 +307,15 @@ public:
     void releaseBodyCamera();
     void setBodyCameraPosition(unsigned int position);
 
+    int getBodyCameraLowerPosition() const;
+    void setBodyCameraLowerPosition(int value);
+
+    int getBodyCameraCenterPosition() const;
+    void setBodyCameraCenterPosition(int value);
+
+    int getBodyCameraUpperPosition() const;
+    void setBodyCameraUpperPosition(int value);
+
 private:
     BodyControlP1();
     static BodyControlP1* pBodyControlP1;         // BODY-CONTROL-P1's singleton instance
@@ -450,6 +459,10 @@ private:
 
     bool kinect1PowerState;
     bool kinect2PowerState;
+
+    int bodyCameraLowerPosition;
+    int bodyCameraCenterPosition;
+    int bodyCameraUpperPosition;
 };
 
 

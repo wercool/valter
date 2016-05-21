@@ -848,7 +848,7 @@ void PlatformControlP2::loadDefaults()
     string line;
     while (getline(defaultsFile, line, '\n'))
     {
-        if (line.substr(0, 2).compare("//") != 0)
+        if (line.substr(0, 2).compare("//") != 0 && line.length() > 0)
         {
             char *lineStrPtr = Valter::stringToCharPtr(line);
             string defaultValueName(strtok(lineStrPtr, ":" ));

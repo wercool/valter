@@ -496,5 +496,13 @@ class BodyControlP1TCPConnectionHandler : public Thread
             ui->pitchHeadUpDirectionCheckButton->setChecked(checked);
             return;
         }
+        if (cmd.find("on_bodyCameraPositionScroller_valueChanged") != std::string::npos)
+        {
+            int substr_pos = cmd.find("@") + 1;
+            string value_str = cmd.substr(substr_pos);
+            int value = atoi(value_str.c_str());
+            ui->bodyCameraPositionScroller->setValue(value);
+            return;
+        }
     }
 };

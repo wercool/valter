@@ -337,6 +337,123 @@ public:
     bool getDefaultsLoading() const;
     void setDefaultsLoading(bool value);
 
+    unsigned int getFinger6TipThreshold() const;
+    void setFinger6TipThreshold(unsigned int value);
+
+    unsigned int getFinger6PhalanxThreshold() const;
+    void setFinger6PhalanxThreshold(unsigned int value);
+
+    unsigned int getFinger7PhalanxThreshold() const;
+    void setFinger7PhalanxThreshold(unsigned int value);
+
+    unsigned int getFinger7TipThreshold() const;
+    void setFinger7TipThreshold(unsigned int value);
+
+    unsigned int getFinger8PhalanxThreshold() const;
+    void setFinger8PhalanxThreshold(unsigned int value);
+
+    unsigned int getFinger9PhalanxThreshold() const;
+    void setFinger9PhalanxThreshold(unsigned int value);
+
+    unsigned int getFinger10TipThreshold() const;
+    void setFinger10TipThreshold(unsigned int value);
+
+    unsigned int getFinger10PhalanxThreshold() const;
+    void setFinger10PhalanxThreshold(unsigned int value);
+
+    unsigned int getFinger11TipThreshold() const;
+    void setFinger11TipThreshold(unsigned int value);
+
+    unsigned int getFinger11PhalanxThreshold() const;
+    void setFinger11PhalanxThreshold(unsigned int value);
+
+    unsigned int getPalmUpperThreshold() const;
+    void setPalmUpperThreshold(unsigned int value);
+
+    unsigned int getPalmLowerThreshold() const;
+    void setPalmLowerThreshold(unsigned int value);
+
+    unsigned int getPalmJambThreshold() const;
+    void setPalmJambThreshold(unsigned int value);
+
+    unsigned int getFinger6TipReading() const;
+    void setFinger6TipReading(unsigned int value);
+
+    unsigned int getFinger6PhalanxReading() const;
+    void setFinger6PhalanxReading(unsigned int value);
+
+    unsigned int getFinger7PhalanxReading() const;
+    void setFinger7PhalanxReading(unsigned int value);
+
+    unsigned int getFinger7TipReading() const;
+    void setFinger7TipReading(unsigned int value);
+
+    unsigned int getFinger8PhalanxReading() const;
+    void setFinger8PhalanxReading(unsigned int value);
+
+    unsigned int getFinger9PhalanxReading() const;
+    void setFinger9PhalanxReading(unsigned int value);
+
+    unsigned int getFinger10TipReading() const;
+    void setFinger10TipReading(unsigned int value);
+
+    unsigned int getFinger10PhalanxReading() const;
+    void setFinger10PhalanxReading(unsigned int value);
+
+    unsigned int getFinger11TipReading() const;
+    void setFinger11TipReading(unsigned int value);
+
+    unsigned int getFinger11PhalanxReading() const;
+    void setFinger11PhalanxReading(unsigned int value);
+
+    unsigned int getPalmUpperReading() const;
+    void setPalmUpperReading(unsigned int value);
+
+    unsigned int getPalmLowerReading() const;
+    void setPalmLowerReading(unsigned int value);
+
+    unsigned int getPalmJambReading() const;
+    void setPalmJambReading(unsigned int value);
+
+    float getFinger6TipReadingRelative() const;
+    void setFinger6TipReadingRelative(float value);
+
+    float getFinger6PhalanxReadingRelative() const;
+    void setFinger6PhalanxReadingRelative(float value);
+
+    float getFinger7PhalanxReadingRelative() const;
+    void setFinger7PhalanxReadingRelative(float value);
+
+    float getFinger7TipReadingRelative() const;
+    void setFinger7TipReadingRelative(float value);
+
+    float getFinger8PhalanxReadingRelative() const;
+    void setFinger8PhalanxReadingRelative(float value);
+
+    float getFinger9PhalanxReadingRelative() const;
+    void setFinger9PhalanxReadingRelative(float value);
+
+    float getFinger10TipReadingRelative() const;
+    void setFinger10TipReadingRelative(float value);
+
+    float getFinger10PhalanxReadingRelative() const;
+    void setFinger10PhalanxReadingRelative(float value);
+
+    float getFinger11TipReadingRelative() const;
+    void setFinger11TipReadingRelative(float value);
+
+    float getFinger11PhalanxReadingRelative() const;
+    void setFinger11PhalanxReadingRelative(float value);
+
+    float getPalmUpperReadingRelative() const;
+    void setPalmUpperReadingRelative(float value);
+
+    float getPalmLowerReadingRelative() const;
+    void setPalmLowerReadingRelative(float value);
+
+    float getPalmJambReadingRelative() const;
+    void setPalmJambReadingRelative(float value);
+
 private:
     ArmControlLeft();
     static ArmControlLeft* pArmControlLeft;       // ARM-CONTROL-LEFT's singleton instance
@@ -485,6 +602,49 @@ private:
 
     unsigned int fingerInitialPositions[6];
     unsigned int fingerGraspedPositions[6];
+
+    //fingers thresholds (finger sensors)
+    unsigned int finger6TipThreshold;
+    unsigned int finger6PhalanxThreshold;
+    unsigned int finger7PhalanxThreshold;
+    unsigned int finger7TipThreshold;
+    unsigned int finger8PhalanxThreshold;
+    unsigned int finger9PhalanxThreshold;
+    unsigned int finger10TipThreshold;
+    unsigned int finger10PhalanxThreshold;
+    unsigned int finger11TipThreshold;
+    unsigned int finger11PhalanxThreshold;
+    unsigned int palmUpperThreshold;
+    unsigned int palmLowerThreshold;
+    unsigned int palmJambThreshold;
+
+    unsigned int finger6TipReading;
+    unsigned int finger6PhalanxReading;
+    unsigned int finger7PhalanxReading;
+    unsigned int finger7TipReading;
+    unsigned int finger8PhalanxReading;
+    unsigned int finger9PhalanxReading;
+    unsigned int finger10TipReading;
+    unsigned int finger10PhalanxReading;
+    unsigned int finger11TipReading;
+    unsigned int finger11PhalanxReading;
+    unsigned int palmUpperReading;
+    unsigned int palmLowerReading;
+    unsigned int palmJambReading;
+
+    float finger6TipReadingRelative;
+    float finger6PhalanxReadingRelative;
+    float finger7PhalanxReadingRelative;
+    float finger7TipReadingRelative;
+    float finger8PhalanxReadingRelative;
+    float finger9PhalanxReadingRelative;
+    float finger10TipReadingRelative;
+    float finger10PhalanxReadingRelative;
+    float finger11TipReadingRelative;
+    float finger11PhalanxReadingRelative;
+    float palmUpperReadingRelative;
+    float palmLowerReadingRelative;
+    float palmJambReadingRelative;
 };
 
 #endif // ARMCONTROLLEFT_H

@@ -183,19 +183,33 @@ void armControlLeftTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             }
         }
 
-        ui->armControlLeftFingerSensorCh0LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(0)).c_str());
-        ui->armControlLeftFingerSensorCh1LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(1)).c_str());
-        ui->armControlLeftFingerSensorCh2LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(2)).c_str());
-        ui->armControlLeftFingerSensorCh3LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(3)).c_str());
-        ui->armControlLeftFingerSensorCh4LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(4)).c_str());
-        ui->armControlLeftFingerSensorCh5LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(5)).c_str());
-        ui->armControlLeftFingerSensorCh6LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(6)).c_str());
-        ui->armControlLeftFingerSensorCh7LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(7)).c_str());
-        ui->armControlLeftFingerSensorCh8LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(8)).c_str());
-        ui->armControlLeftFingerSensorCh9LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(9)).c_str());
-        ui->armControlLeftFingerSensorCh10LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(10)).c_str());
-        ui->armControlLeftFingerSensorCh11LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(11)).c_str());
-        ui->armControlLeftFingerSensorCh12LineEdit->setText(Valter::format_string("%d", armControlLeft->getHandSensorsADCForce(12)).c_str());
+        ui->leftPalmJambLineEdit->setText(Valter::format_string("%d", armControlLeft->getPalmJambReading()).c_str());
+        ui->leftFinger11TipLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger11TipReading()).c_str());
+        ui->leftFinger11PhalanxLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger11PhalanxReading()).c_str());
+        ui->leftFinger10PhalanxLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger10PhalanxReading()).c_str());
+        ui->leftFinger10TipLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger10TipReading()).c_str());
+        ui->leftFinger9PhalanxLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger9PhalanxReading()).c_str());
+        ui->leftFinger8PhalanxLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger8PhalanxReading()).c_str());
+        ui->leftFinger7TipLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger7TipReading()).c_str());
+        ui->leftFinger7PhalanxLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger7PhalanxReading()).c_str());
+        ui->leftFinger6PhalanxLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger6PhalanxReading()).c_str());
+        ui->leftFinger6TipLineEdit->setText(Valter::format_string("%d", armControlLeft->getFinger6TipReading()).c_str());
+        ui->leftPalmUpperLineEdit->setText(Valter::format_string("%d", armControlLeft->getPalmUpperReading()).c_str());
+        ui->leftPalmLowerLineEdit->setText(Valter::format_string("%d", armControlLeft->getPalmLowerReading()).c_str());
+
+        ui->leftPalmJambLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getPalmJambReadingRelative()).c_str());
+        ui->leftFinger11TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger11TipReadingRelative()).c_str());
+        ui->leftFinger11PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger11PhalanxReadingRelative()).c_str());
+        ui->leftFinger10PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger10PhalanxReadingRelative()).c_str());
+        ui->leftFinger10TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger10TipReadingRelative()).c_str());
+        ui->leftFinger9PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger9PhalanxReadingRelative()).c_str());
+        ui->leftFinger8PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger8PhalanxReadingRelative()).c_str());
+        ui->leftFinger7TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger7TipReadingRelative()).c_str());
+        ui->leftFinger7PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger7PhalanxReadingRelative()).c_str());
+        ui->leftFinger6PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger6PhalanxReadingRelative()).c_str());
+        ui->leftFinger6TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger6TipReadingRelative()).c_str());
+        ui->leftPalmUpperLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getPalmUpperReadingRelative()).c_str());
+        ui->leftPalmLowerLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getPalmLowerReadingRelative()).c_str());
     }
 }
 
