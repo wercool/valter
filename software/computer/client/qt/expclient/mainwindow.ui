@@ -12579,6 +12579,9 @@ background-repeat: repeat-no;</string>
                     </item>
                     <item>
                      <widget class="QScrollBar" name="bodyCameraPositionScroller">
+                      <property name="maximum">
+                       <number>0</number>
+                      </property>
                       <property name="tracking">
                        <bool>false</bool>
                       </property>

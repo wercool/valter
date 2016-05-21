@@ -282,14 +282,14 @@ void BodyControlP1::loadDefaults()
     setHeadYawPositionADC(val2);
 
     //bodyCameraServoPosition
-    defaultValue = getDefault("leftArmYawMotorDuty");
+    defaultValue = getDefault("bodyCameraServoPosition");
     defaultValuePtr = Valter::stringToCharPtr(defaultValue);
-    minValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
-    maxValue = atoi(strtok(NULL, "," ));
+    maxValue = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    minValue = atoi(strtok(NULL, "," ));
     curValue = atoi(strtok(NULL, "," ));
     setBodyCameraLowerPosition(maxValue);
-    setBodyCameraCenterPosition(curValue);
     setBodyCameraUpperPosition(minValue);
+    setBodyCameraCenterPosition(curValue);
 }
 
 int BodyControlP1::getLeftArmYawMotorDutyPresetMin() const

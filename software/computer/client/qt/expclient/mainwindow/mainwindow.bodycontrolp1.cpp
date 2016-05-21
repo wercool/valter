@@ -33,6 +33,8 @@ void MainWindow::initBodyControlP1(Ui::MainWindow *ui)
     ui->headPitchStepSwitchDelaySpinBox->installEventFilter(new WheelEventFilter());
     ui->headPitchStepDelayTestModeSpinBox->installEventFilter(new WheelEventFilter());
     ui->headPitchMoveStepsSpinBox->installEventFilter(new WheelEventFilter());
+
+    ui->bodyCameraPositionScroller->installEventFilter(new WheelEventFilter());
 }
 
 void MainWindow::bodyControlP1TabRefreshTimerUpdate()
