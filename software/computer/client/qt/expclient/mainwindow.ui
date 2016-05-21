@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -15202,6 +15202,12 @@ color: rgb(255, 0, 0);</string>
                   <height>200</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>600</width>
+                  <height>200</height>
+                 </size>
+                </property>
                 <property name="contextMenuPolicy">
                  <enum>Qt::NoContextMenu</enum>
                 </property>
@@ -15215,7 +15221,7 @@ image: url(:/hand.png);</string>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh2LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh8LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>155</x>
@@ -15249,7 +15255,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh3LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh7LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
@@ -15283,7 +15289,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh4LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh6LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>153</x>
@@ -15351,7 +15357,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh6LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh4LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>153</x>
@@ -15385,7 +15391,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh7LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh3LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
@@ -15419,113 +15425,11 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh1LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>395</x>
-                   <y>16</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>45</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="readOnly">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh0LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>535</x>
-                   <y>16</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>45</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="readOnly">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh8LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>395</x>
-                   <y>156</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>45</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="readOnly">
-                  <bool>false</bool>
-                 </property>
-                </widget>
                 <widget class="QLineEdit" name="armControlRightFingerSensorCh9LineEdit">
                  <property name="geometry">
                   <rect>
-                   <x>535</x>
-                   <y>156</y>
+                   <x>395</x>
+                   <y>16</y>
                    <width>45</width>
                    <height>27</height>
                   </rect>
@@ -15556,6 +15460,108 @@ image: url(:/hand.png);</string>
                  </property>
                 </widget>
                 <widget class="QLineEdit" name="armControlRightFingerSensorCh10LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>535</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh2LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh1LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>535</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>45</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="readOnly">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh11LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>245</x>
@@ -15594,7 +15600,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh11LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh12LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>245</x>
@@ -15627,7 +15633,7 @@ image: url(:/hand.png);</string>
                   <bool>false</bool>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlRightFingerSensorCh12LineEdit">
+                <widget class="QLineEdit" name="armControlRightFingerSensorCh0LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>360</x>
@@ -16751,7 +16757,7 @@ image: url(:/hand.png);</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-258</y>
              <width>875</width>
              <height>1097</height>
             </rect>
@@ -18509,6 +18515,12 @@ color: rgb(255, 0, 0);</string>
                   <height>200</height>
                  </size>
                 </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>600</width>
+                  <height>200</height>
+                 </size>
+                </property>
                 <property name="contextMenuPolicy">
                  <enum>Qt::NoContextMenu</enum>
                 </property>
@@ -18522,7 +18534,7 @@ image: url(:/hand-left.png);</string>
                 <property name="frameShadow">
                  <enum>QFrame::Raised</enum>
                 </property>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh11LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh10LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
@@ -18550,7 +18562,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh0LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh8LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>395</x>
@@ -18578,123 +18590,11 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh12LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh1LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>20</x>
                    <y>16</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh2LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>156</x>
-                   <y>156</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh6LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>395</x>
-                   <y>16</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh7LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>395</x>
-                   <y>63</y>
-                   <width>45</width>
-                   <height>27</height>
-                  </rect>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>45</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">background-color: rgb(228, 228, 228);</string>
-                 </property>
-                </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh3LineEdit">
-                 <property name="geometry">
-                  <rect>
-                   <x>395</x>
-                   <y>110</y>
                    <width>45</width>
                    <height>27</height>
                   </rect>
@@ -18722,6 +18622,34 @@ image: url(:/hand-left.png);</string>
                  <property name="geometry">
                   <rect>
                    <x>156</x>
+                   <y>156</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh3LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
                    <y>16</y>
                    <width>45</width>
                    <height>27</height>
@@ -18746,7 +18674,91 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh10LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh5LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>63</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh6LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>395</x>
+                   <y>110</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh2LineEdit">
+                 <property name="geometry">
+                  <rect>
+                   <x>156</x>
+                   <y>16</y>
+                   <width>45</width>
+                   <height>27</height>
+                  </rect>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>45</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgb(228, 228, 228);</string>
+                 </property>
+                </widget>
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh7LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>535</x>
@@ -18802,7 +18814,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh5LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh11LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>250</x>
@@ -18835,7 +18847,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh1LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh12LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>250</x>
@@ -18868,7 +18880,7 @@ image: url(:/hand-left.png);</string>
                   <string notr="true">background-color: rgb(228, 228, 228);</string>
                  </property>
                 </widget>
-                <widget class="QLineEdit" name="armControlLeftFingerSensorCh8LineEdit">
+                <widget class="QLineEdit" name="armControlLeftFingerSensorCh0LineEdit">
                  <property name="geometry">
                   <rect>
                    <x>180</x>
@@ -21003,19 +21015,19 @@ image: url(:/hand-left.png);</string>
   <tabstop>rightForearmRollStepDelaySpinBox</tabstop>
   <tabstop>rightForearmRollStepSwitchDelaySpinBox</tabstop>
   <tabstop>rightForearmResetPositionButton</tabstop>
-  <tabstop>armControlRightFingerSensorCh2LineEdit</tabstop>
-  <tabstop>armControlRightFingerSensorCh3LineEdit</tabstop>
-  <tabstop>armControlRightFingerSensorCh4LineEdit</tabstop>
-  <tabstop>armControlRightFingerSensorCh5LineEdit</tabstop>
-  <tabstop>armControlRightFingerSensorCh6LineEdit</tabstop>
-  <tabstop>armControlRightFingerSensorCh7LineEdit</tabstop>
-  <tabstop>armControlRightFingerSensorCh1LineEdit</tabstop>
-  <tabstop>armControlRightFingerSensorCh0LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh8LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh7LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh6LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh5LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh4LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh3LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh9LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh10LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh2LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh1LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh11LineEdit</tabstop>
   <tabstop>armControlRightFingerSensorCh12LineEdit</tabstop>
+  <tabstop>armControlRightFingerSensorCh0LineEdit</tabstop>
   <tabstop>armControlRightFinger0ReleaseButton</tabstop>
   <tabstop>armControlRightFinger1ReleaseButton</tabstop>
   <tabstop>armControlRightFinger2ReleaseButton</tabstop>
