@@ -1450,7 +1450,7 @@ unsigned int ArmControlLeft::getPalmJambReading() const
 void ArmControlLeft::setPalmJambReading(unsigned int value)
 {
     palmJambReading = value;
-    float relationToInitial = (palmJambReading - getPalmJambThreshold()) / (1023 - getPalmJambThreshold());
+    float relationToInitial = ((double)palmJambReading - (double)getPalmJambThreshold()) / ((double)1023 - (double)getPalmJambThreshold());
     setPalmJambReadingRelative(relationToInitial);
 }
 
@@ -1462,7 +1462,7 @@ unsigned int ArmControlLeft::getPalmLowerReading() const
 void ArmControlLeft::setPalmLowerReading(unsigned int value)
 {
     palmLowerReading = value;
-    float relationToInitial = (palmLowerReading - getPalmLowerThreshold()) / (1023 - getPalmLowerThreshold());
+    float relationToInitial = ((double)palmLowerReading - (double)getPalmLowerThreshold()) / ((double)1023 - (double)getPalmLowerThreshold());
     setPalmLowerReadingRelative(relationToInitial);
 }
 
@@ -1474,7 +1474,7 @@ unsigned int ArmControlLeft::getPalmUpperReading() const
 void ArmControlLeft::setPalmUpperReading(unsigned int value)
 {
     palmUpperReading = value;
-    float relationToInitial = (palmUpperReading - getPalmUpperThreshold()) / (1023 - getPalmUpperThreshold());
+    float relationToInitial = ((double)palmUpperReading - (double)getPalmUpperThreshold()) / ((double)1023 - (double)getPalmUpperThreshold());
     setPalmUpperReadingRelative(relationToInitial);
 }
 
@@ -1486,7 +1486,7 @@ unsigned int ArmControlLeft::getFinger11PhalanxReading() const
 void ArmControlLeft::setFinger11PhalanxReading(unsigned int value)
 {
     finger11PhalanxReading = value;
-    float relationToInitial = (finger11PhalanxReading - getFinger11PhalanxThreshold()) / (1023 - getFinger11PhalanxThreshold());
+    float relationToInitial = ((double)finger11PhalanxReading - (double)getFinger11PhalanxThreshold()) / ((double)1023 - (double)getFinger11PhalanxThreshold());
     setFinger11PhalanxReadingRelative(relationToInitial);
 }
 
@@ -1498,7 +1498,7 @@ unsigned int ArmControlLeft::getFinger11TipReading() const
 void ArmControlLeft::setFinger11TipReading(unsigned int value)
 {
     finger11TipReading = value;
-    float relationToInitial = (finger11TipReading - getFinger11TipThreshold()) / (1023 - getFinger11TipThreshold());
+    float relationToInitial = ((double)finger11TipReading - (double)getFinger11TipThreshold()) / ((double)1023 - (double)getFinger11TipThreshold());
     setFinger11TipReadingRelative(relationToInitial);
 }
 
@@ -1510,7 +1510,7 @@ unsigned int ArmControlLeft::getFinger10PhalanxReading() const
 void ArmControlLeft::setFinger10PhalanxReading(unsigned int value)
 {
     finger10PhalanxReading = value;
-    float relationToInitial = (finger10PhalanxReading - getFinger10PhalanxThreshold()) / (1023 - getFinger10PhalanxThreshold());
+    float relationToInitial = ((double)finger10PhalanxReading - (double)getFinger10PhalanxThreshold()) / ((double)1023 - (double)getFinger10PhalanxThreshold());
     setFinger10PhalanxReadingRelative(relationToInitial);
 }
 
@@ -1522,7 +1522,7 @@ unsigned int ArmControlLeft::getFinger10TipReading() const
 void ArmControlLeft::setFinger10TipReading(unsigned int value)
 {
     finger10TipReading = value;
-    float relationToInitial = (finger10TipReading - getFinger10TipThreshold()) / (1023 - getFinger10TipThreshold());
+    float relationToInitial = ((double)finger10TipReading - (double)getFinger10TipThreshold()) / ((double)1023 - (double)getFinger10TipThreshold());
     setFinger10TipReadingRelative(relationToInitial);
 }
 
@@ -1534,7 +1534,7 @@ unsigned int ArmControlLeft::getFinger9PhalanxReading() const
 void ArmControlLeft::setFinger9PhalanxReading(unsigned int value)
 {
     finger9PhalanxReading = value;
-    float relationToInitial = (finger9PhalanxReading - getFinger9PhalanxThreshold()) / (1023 - getFinger9PhalanxThreshold());
+    float relationToInitial = ((double)finger9PhalanxReading - (double)getFinger9PhalanxThreshold()) / ((double)1023 - (double)getFinger9PhalanxThreshold());
     setFinger9PhalanxReadingRelative(relationToInitial);
 }
 
@@ -1546,7 +1546,7 @@ unsigned int ArmControlLeft::getFinger8PhalanxReading() const
 void ArmControlLeft::setFinger8PhalanxReading(unsigned int value)
 {
     finger8PhalanxReading = value;
-    float relationToInitial = (finger8PhalanxReading - getFinger8PhalanxThreshold()) / (1023 - getFinger8PhalanxThreshold());
+    float relationToInitial = ((double)finger8PhalanxReading - (double)getFinger8PhalanxThreshold()) / ((double)1023 - (double)getFinger8PhalanxThreshold());
     setFinger8PhalanxReadingRelative(relationToInitial);
 }
 
@@ -1558,7 +1558,7 @@ unsigned int ArmControlLeft::getFinger7TipReading() const
 void ArmControlLeft::setFinger7TipReading(unsigned int value)
 {
     finger7TipReading = value;
-    float relationToInitial = (finger7TipReading - getFinger7TipThreshold()) / (1023 - getFinger7TipThreshold());
+    float relationToInitial = ((double)finger7TipReading - (double)getFinger7TipThreshold()) / ((double)1023 - (double)getFinger7TipThreshold());
     setFinger7TipReadingRelative(relationToInitial);
 }
 
@@ -1570,7 +1570,7 @@ unsigned int ArmControlLeft::getFinger7PhalanxReading() const
 void ArmControlLeft::setFinger7PhalanxReading(unsigned int value)
 {
     finger7PhalanxReading = value;
-    float relationToInitial = (finger7PhalanxReading - getFinger7PhalanxThreshold()) / (1023 - getFinger7PhalanxThreshold());
+    float relationToInitial = ((double)finger7PhalanxReading - (double)getFinger7PhalanxThreshold()) / ((double)1023 - (double)getFinger7PhalanxThreshold());
     setFinger7PhalanxReadingRelative(relationToInitial);
 }
 
@@ -1582,7 +1582,7 @@ unsigned int ArmControlLeft::getFinger6PhalanxReading() const
 void ArmControlLeft::setFinger6PhalanxReading(unsigned int value)
 {
     finger6PhalanxReading = value;
-    float relationToInitial = (finger6PhalanxReading - getFinger6PhalanxThreshold()) / (1023 - getFinger6PhalanxThreshold());
+    float relationToInitial = ((double)finger6PhalanxReading - (double)getFinger6PhalanxThreshold()) / ((double)1023 - (double)getFinger6PhalanxThreshold());
     setFinger6PhalanxReadingRelative(relationToInitial);
 }
 
@@ -1594,7 +1594,7 @@ unsigned int ArmControlLeft::getFinger6TipReading() const
 void ArmControlLeft::setFinger6TipReading(unsigned int value)
 {
     finger6TipReading = value;
-    float relationToInitial = (finger6TipReading - getFinger6TipThreshold()) / (1023 - getFinger6TipThreshold());
+    float relationToInitial = ((double)finger6TipReading - (double)getFinger6TipThreshold()) / ((double)1023 - (double)getFinger6TipThreshold());
     setFinger6TipReadingRelative(relationToInitial);
 }
 

@@ -210,6 +210,8 @@ void armControlLeftTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         ui->leftFinger6TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger6TipReadingRelative())).c_str());
         ui->leftPalmUpperLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getPalmUpperReadingRelative())).c_str());
         ui->leftPalmLowerLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getPalmLowerReadingRelative())).c_str());
+
+        qDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. %f", abs(armControlLeft->getFinger11PhalanxReadingRelative()));
     }
 }
 
