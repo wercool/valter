@@ -1624,8 +1624,12 @@ void ArmControlRight::setFinger0TipThreshold(unsigned int value)
 {
     finger0TipThreshold = value;
 }
-float ArmControlRight::getPalmJambReadingRelative() const
+float ArmControlRight::getPalmJambReadingRelative()
 {
+    if (palmJambReadingRelative > 1)
+        palmJambReadingRelative = 1;
+    if (palmJambReadingRelative < 0)
+        palmJambReadingRelative = 0;
     return palmJambReadingRelative;
 }
 
@@ -1634,8 +1638,12 @@ void ArmControlRight::setPalmJambReadingRelative(float value)
     palmJambReadingRelative = value;
 }
 
-float ArmControlRight::getPalmLowerReadingRelative() const
+float ArmControlRight::getPalmLowerReadingRelative()
 {
+    if (palmLowerReadingRelative > 1)
+        palmLowerReadingRelative = 1;
+    if (palmLowerReadingRelative < 0)
+        palmLowerReadingRelative = 0;
     return palmLowerReadingRelative;
 }
 
@@ -1644,8 +1652,12 @@ void ArmControlRight::setPalmLowerReadingRelative(float value)
     palmLowerReadingRelative = value;
 }
 
-float ArmControlRight::getPalmUpperReadingRelative() const
+float ArmControlRight::getPalmUpperReadingRelative()
 {
+    if (palmUpperReadingRelative > 1)
+        palmUpperReadingRelative = 1;
+    if (palmUpperReadingRelative < 0)
+        palmUpperReadingRelative = 0;
     return palmUpperReadingRelative;
 }
 
@@ -1654,8 +1666,12 @@ void ArmControlRight::setPalmUpperReadingRelative(float value)
     palmUpperReadingRelative = value;
 }
 
-float ArmControlRight::getFinger5TipReadingRelative() const
+float ArmControlRight::getFinger5TipReadingRelative()
 {
+    if (finger5TipReadingRelative > 1)
+        finger5TipReadingRelative = 1;
+    if (finger5TipReadingRelative < 0)
+        finger5TipReadingRelative = 0;
     return finger5TipReadingRelative;
 }
 
@@ -1664,8 +1680,12 @@ void ArmControlRight::setFinger5TipReadingRelative(float value)
     finger5TipReadingRelative = value;
 }
 
-float ArmControlRight::getFinger5PhalanxReadingRelative() const
+float ArmControlRight::getFinger5PhalanxReadingRelative()
 {
+    if (finger5PhalanxReadingRelative > 1)
+        finger5PhalanxReadingRelative = 1;
+    if (finger5PhalanxReadingRelative < 0)
+        finger5PhalanxReadingRelative = 0;
     return finger5PhalanxReadingRelative;
 }
 
@@ -1674,8 +1694,12 @@ void ArmControlRight::setFinger5PhalanxReadingRelative(float value)
     finger5PhalanxReadingRelative = value;
 }
 
-float ArmControlRight::getFinger4PhalanxReadingRelative() const
+float ArmControlRight::getFinger4PhalanxReadingRelative()
 {
+    if (finger4PhalanxReadingRelative > 1)
+        finger4PhalanxReadingRelative = 1;
+    if (finger4PhalanxReadingRelative < 0)
+        finger4PhalanxReadingRelative = 0;
     return finger4PhalanxReadingRelative;
 }
 
@@ -1684,8 +1708,12 @@ void ArmControlRight::setFinger4PhalanxReadingRelative(float value)
     finger4PhalanxReadingRelative = value;
 }
 
-float ArmControlRight::getFinger4TipReadingRelative() const
+float ArmControlRight::getFinger4TipReadingRelative()
 {
+    if (finger4TipReadingRelative > 1)
+        finger4TipReadingRelative = 1;
+    if (finger4TipReadingRelative < 0)
+        finger4TipReadingRelative = 0;
     return finger4TipReadingRelative;
 }
 
@@ -1694,8 +1722,12 @@ void ArmControlRight::setFinger4TipReadingRelative(float value)
     finger4TipReadingRelative = value;
 }
 
-float ArmControlRight::getFinger3PhalanxReadingRelative() const
+float ArmControlRight::getFinger3PhalanxReadingRelative()
 {
+    if (finger3PhalanxReadingRelative > 1)
+        finger3PhalanxReadingRelative = 1;
+    if (finger3PhalanxReadingRelative < 0)
+        finger3PhalanxReadingRelative = 0;
     return finger3PhalanxReadingRelative;
 }
 
@@ -1704,8 +1736,12 @@ void ArmControlRight::setFinger3PhalanxReadingRelative(float value)
     finger3PhalanxReadingRelative = value;
 }
 
-float ArmControlRight::getFinger2PhalanxReadingRelative() const
+float ArmControlRight::getFinger2PhalanxReadingRelative()
 {
+    if (finger2PhalanxReadingRelative > 1)
+        finger2PhalanxReadingRelative = 1;
+    if (finger2PhalanxReadingRelative < 0)
+        finger2PhalanxReadingRelative = 0;
     return finger2PhalanxReadingRelative;
 }
 
@@ -1714,8 +1750,12 @@ void ArmControlRight::setFinger2PhalanxReadingRelative(float value)
     finger2PhalanxReadingRelative = value;
 }
 
-float ArmControlRight::getFinger1TipReadingRelative() const
+float ArmControlRight::getFinger1TipReadingRelative()
 {
+    if (finger1TipReadingRelative > 1)
+        finger1TipReadingRelative = 1;
+    if (finger1TipReadingRelative < 0)
+        finger1TipReadingRelative = 0;
     return finger1TipReadingRelative;
 }
 
@@ -1724,8 +1764,12 @@ void ArmControlRight::setFinger1TipReadingRelative(float value)
     finger1TipReadingRelative = value;
 }
 
-float ArmControlRight::getFinger1PhalanxReadingRelative() const
+float ArmControlRight::getFinger1PhalanxReadingRelative()
 {
+    if (finger1PhalanxReadingRelative > 1)
+        finger1PhalanxReadingRelative = 1;
+    if (finger1PhalanxReadingRelative < 0)
+        finger1PhalanxReadingRelative = 0;
     return finger1PhalanxReadingRelative;
 }
 
@@ -1734,8 +1778,12 @@ void ArmControlRight::setFinger1PhalanxReadingRelative(float value)
     finger1PhalanxReadingRelative = value;
 }
 
-float ArmControlRight::getFinger0PhalanxReadingRelative() const
+float ArmControlRight::getFinger0PhalanxReadingRelative()
 {
+    if (finger0PhalanxReadingRelative > 1)
+        finger0PhalanxReadingRelative = 1;
+    if (finger0PhalanxReadingRelative < 0)
+        finger0PhalanxReadingRelative = 0;
     return finger0PhalanxReadingRelative;
 }
 
@@ -1744,8 +1792,12 @@ void ArmControlRight::setFinger0PhalanxReadingRelative(float value)
     finger0PhalanxReadingRelative = value;
 }
 
-float ArmControlRight::getFinger0TipReadingRelative() const
+float ArmControlRight::getFinger0TipReadingRelative()
 {
+    if (finger0TipReadingRelative > 1)
+        finger0TipReadingRelative = 1;
+    if (finger0TipReadingRelative < 0)
+        finger0TipReadingRelative = 0;
     return finger0TipReadingRelative;
 }
 

@@ -415,43 +415,43 @@ public:
     unsigned int getPalmJambReading() const;
     void setPalmJambReading(unsigned int value);
 
-    float getFinger6TipReadingRelative() const;
+    float getFinger6TipReadingRelative();
     void setFinger6TipReadingRelative(float value);
 
-    float getFinger6PhalanxReadingRelative() const;
+    float getFinger6PhalanxReadingRelative();
     void setFinger6PhalanxReadingRelative(float value);
 
-    float getFinger7PhalanxReadingRelative() const;
+    float getFinger7PhalanxReadingRelative();
     void setFinger7PhalanxReadingRelative(float value);
 
-    float getFinger7TipReadingRelative() const;
+    float getFinger7TipReadingRelative();
     void setFinger7TipReadingRelative(float value);
 
-    float getFinger8PhalanxReadingRelative() const;
+    float getFinger8PhalanxReadingRelative();
     void setFinger8PhalanxReadingRelative(float value);
 
-    float getFinger9PhalanxReadingRelative() const;
+    float getFinger9PhalanxReadingRelative();
     void setFinger9PhalanxReadingRelative(float value);
 
-    float getFinger10TipReadingRelative() const;
+    float getFinger10TipReadingRelative();
     void setFinger10TipReadingRelative(float value);
 
-    float getFinger10PhalanxReadingRelative() const;
+    float getFinger10PhalanxReadingRelative();
     void setFinger10PhalanxReadingRelative(float value);
 
-    float getFinger11TipReadingRelative() const;
+    float getFinger11TipReadingRelative();
     void setFinger11TipReadingRelative(float value);
 
-    float getFinger11PhalanxReadingRelative() const;
+    float getFinger11PhalanxReadingRelative();
     void setFinger11PhalanxReadingRelative(float value);
 
-    float getPalmUpperReadingRelative() const;
+    float getPalmUpperReadingRelative();
     void setPalmUpperReadingRelative(float value);
 
-    float getPalmLowerReadingRelative() const;
+    float getPalmLowerReadingRelative();
     void setPalmLowerReadingRelative(float value);
 
-    float getPalmJambReadingRelative() const;
+    float getPalmJambReadingRelative();
     void setPalmJambReadingRelative(float value);
 
 private:

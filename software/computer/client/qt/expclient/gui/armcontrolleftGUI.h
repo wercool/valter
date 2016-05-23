@@ -197,19 +197,19 @@ void armControlLeftTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         ui->leftPalmUpperLineEdit->setText(Valter::format_string("%d", armControlLeft->getPalmUpperReading()).c_str());
         ui->leftPalmLowerLineEdit->setText(Valter::format_string("%d", armControlLeft->getPalmLowerReading()).c_str());
 
-        ui->leftPalmJambLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getPalmJambReadingRelative())).c_str());
-        ui->leftFinger11TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger11TipReadingRelative())).c_str());
-        ui->leftFinger11PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger11PhalanxReadingRelative())).c_str());
-        ui->leftFinger10PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger10PhalanxReadingRelative())).c_str());
-        ui->leftFinger10TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger10TipReadingRelative())).c_str());
-        ui->leftFinger9PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger9PhalanxReadingRelative())).c_str());
-        ui->leftFinger8PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger8PhalanxReadingRelative())).c_str());
-        ui->leftFinger7TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger7TipReadingRelative())).c_str());
-        ui->leftFinger7PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger7PhalanxReadingRelative())).c_str());
-        ui->leftFinger6PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger6PhalanxReadingRelative())).c_str());
-        ui->leftFinger6TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getFinger6TipReadingRelative())).c_str());
-        ui->leftPalmUpperLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getPalmUpperReadingRelative())).c_str());
-        ui->leftPalmLowerLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", abs(armControlLeft->getPalmLowerReadingRelative())).c_str());
+        ui->leftPalmJambLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getPalmJambReadingRelative()).c_str());
+        ui->leftFinger11TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger11TipReadingRelative()).c_str());
+        ui->leftFinger11PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger11PhalanxReadingRelative()).c_str());
+        ui->leftFinger10PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger10PhalanxReadingRelative()).c_str());
+        ui->leftFinger10TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger10TipReadingRelative()).c_str());
+        ui->leftFinger9PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger9PhalanxReadingRelative()).c_str());
+        ui->leftFinger8PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger8PhalanxReadingRelative()).c_str());
+        ui->leftFinger7TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger7TipReadingRelative()).c_str());
+        ui->leftFinger7PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger7PhalanxReadingRelative()).c_str());
+        ui->leftFinger6PhalanxLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger6PhalanxReadingRelative()).c_str());
+        ui->leftFinger6TipLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getFinger6TipReadingRelative()).c_str());
+        ui->leftPalmUpperLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getPalmUpperReadingRelative()).c_str());
+        ui->leftPalmLowerLineEdit->setStyleSheet(Valter::format_string("background-color: rgba(255, 0, 0, %f);", armControlLeft->getPalmLowerReadingRelative()).c_str());
     }
 }
 
