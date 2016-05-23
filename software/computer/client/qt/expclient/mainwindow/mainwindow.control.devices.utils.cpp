@@ -285,6 +285,14 @@ void MainWindow::controlDevicesTableRefreshTimerUpdate()
 
 void MainWindow::on_connectAllPushButton_clicked()
 {
+    ui->platformControlP1RedrawGUICheckBox->setChecked(false);
+    ui->platfromControlP2RedrawGUICheckBox->setChecked(false);
+    ui->platformLocationP1RedrawGUICheckBox->setChecked(false);
+    ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked(false);
+    ui->bodyControlP1CheckBox->setChecked(false);
+    ui->armControlRightRedrawGUICheckBox->setChecked(false);
+    ui->armControlLeftRedrawGUICheckBox->setChecked(false);
+
     int selectedControlDeviceRowIndex = ui->controlDeviceTableWidget->selectionModel()->currentIndex().row();
     map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
     typedef map<string, ControlDevice*>::iterator it_type;
