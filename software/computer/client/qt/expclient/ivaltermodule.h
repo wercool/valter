@@ -12,6 +12,7 @@ public:
 
     IValterModule()
     {
+        tcpInterface = NULL;
         stopAllProcesses = false;
     }
 
@@ -146,7 +147,7 @@ private:
     list<int> delayedGUIActions;
     std::mutex delayedGUIActions_mutex;
 
-    TCPInterface *tcpInterface = NULL;
+    TCPInterface *tcpInterface;
 
 };
 
