@@ -22,6 +22,9 @@
 
 #include "tcpinterface.h"
 
+//Tasks includes
+#include "tasks/tasks.h"
+
 using namespace std;
 using std::ifstream;
 using std::copy;

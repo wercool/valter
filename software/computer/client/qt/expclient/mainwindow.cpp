@@ -235,6 +235,7 @@ void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
     pWidget->show();
 }
 
+//------------------------------------------------Utilites
 //Valter3D
 void MainWindow::on_valter3dOpenButton_clicked()
 {
@@ -266,6 +267,13 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
     }
 }
 
+//Tasks
+
+void MainWindow::on_testTaskButton_clicked()
+{
+    ITask *task = new SetLink2PositionTask(30);
+    task->execute();
+}
 
 //TCP Interface Tab
 

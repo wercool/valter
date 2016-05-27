@@ -58,7 +58,9 @@ SOURCES += main.cpp\
             tcphandlers/platformmanipulatorandirbumper.tcphandler.cpp \
             tcphandlers/bodycontrolp1.tcphandler.cpp \
             tcphandlers/armcontrolright.tcphandler.cpp \
-            tcphandlers/armcontrolleft.tcphandler.cpp
+            tcphandlers/armcontrolleft.tcphandler.cpp \
+    tasks/itask.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -94,7 +96,10 @@ HEADERS  += mainwindow.h \
             tcp/tcpsockets/tcpstream.h \
             tcp/tcpsockets/tcpacceptor.h \
             tcp/tcpsockets/tcpconnector.h \
-            tcp/tcpsockets/workitem.h
+            tcp/tcpsockets/workitem.h \
+    tasks/itask.h \
+    tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
+    tasks/tasks.h
 
 FORMS    += mainwindow.ui
 
