@@ -175,6 +175,8 @@ void MainWindow::initPlatformManipulatorAndIRBumper(Ui::MainWindow *ui)
     gamma->setPlainText("γ:0.00");
     gamma->setFont(font);
     platformManipulatorAndIRBumperLink1Link2PositionGraphicsViewScene->addItem(gamma);
+
+    platformManipulatorAndIRBumperRefreshTimer->start(50);
 }
 
 void MainWindow::platformManipulatorAndIRBumperRefreshTimerUpdate()

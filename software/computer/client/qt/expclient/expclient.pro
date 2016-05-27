@@ -105,3 +105,5 @@ CONFIG += c++11
 RESOURCES += \
             resources/platform-location.qrc \
             valter3d.qrc
+
+QMAKE_CXXFLAGS += -std=c++0x -D_GLIBCXX_USE_NANOSLEEP

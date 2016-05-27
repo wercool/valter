@@ -1,10 +1,6 @@
 #ifndef VALTER_H
 #define VALTER_H
 
-#ifndef _GLIBCXX_USE_NANOSLEEP
-#define _GLIBCXX_USE_NANOSLEEP
-#endif
-
 #include "mainwindow.h"
 
 #include <fstream>
