@@ -21,6 +21,7 @@ software/microcontroller/AVR                [Atmel AVR mc source codes and binar
 software/microcontroller/ARM                [Atmel ARM mc source codes and binaries]
 software/computer/*                         [pc source codes and binaries]
 software/computer/client/*                  [pc source codes and binaries - client control applications]
+software/computer/client/qt                 [pc source codes for main Experimental Valter's Client Application done in Qt]
 software/computer/server/*                  [pc source codes and binaries - embedded programs, core application for robot]
 software/computer/server/core/*             [core application for robot (meta OS)]
 software/computer/server/www/*              [web applications]
