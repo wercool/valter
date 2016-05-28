@@ -43,7 +43,7 @@ public:
     static double man_b;
     static double man_g;
 
-    //------------------------------------------------man link1
+    //------------------------------------------------man link1 drive
     bool getLink1MovementDirection() const;
     bool setLink1MovementDirection(bool value);
 
@@ -74,7 +74,7 @@ public:
     int getLink1MotorDutyPresetMax() const;
     void setLink1MotorDutyPresetMax(int value);
 
-    //------------------------------------------------man link2
+    //------------------------------------------------man link2 drive
     int getLink2MotorDuty() const;
     void setLink2MotorDuty(int value);
 
@@ -134,42 +134,43 @@ public:
     void manGripperRotateCCW();
     void manGripperRotateStop();
 
-    //-------------------------------------------------manipulator readings
-    bool getLink1PositionTrack() const;
-    void setLink1PositionTrack(bool value);
+    //-------------------------------------------------manipulator readings triggers
+    /* triggers */
+                    bool getLink1PositionTrack() const;
+                    void setLink1PositionTrack(bool value);
 
-    bool getLink1PositionADC() const;
-    void setLink1PositionADC(bool value);
+                    bool getLink1PositionADC() const;
+                    void setLink1PositionADC(bool value);
 
-    bool getLink2PositionTrack() const;
-    void setLink2PositionTrack(bool value);
+                    bool getLink2PositionTrack() const;
+                    void setLink2PositionTrack(bool value);
 
-    bool getLink2PositionADC() const;
-    void setLink2PositionADC(bool value);
+                    bool getLink2PositionADC() const;
+                    void setLink2PositionADC(bool value);
 
-    bool getLink1CurrentTrack() const;
-    void setLink1CurrentTrack(bool value);
+                    bool getLink1CurrentTrack() const;
+                    void setLink1CurrentTrack(bool value);
 
-    bool getLink1CurrentADC() const;
-    void setLink1CurrentADC(bool value);
+                    bool getLink1CurrentADC() const;
+                    void setLink1CurrentADC(bool value);
 
-    bool getLink2CurrentTrack() const;
-    void setLink2CurrentTrack(bool value);
+                    bool getLink2CurrentTrack() const;
+                    void setLink2CurrentTrack(bool value);
 
-    bool getLink2CurrentADC() const;
-    void setLink2CurrentADC(bool value);
+                    bool getLink2CurrentADC() const;
+                    void setLink2CurrentADC(bool value);
 
-    double getLink1Position() const;
-    void setLink1Position(double value);
+                    double getLink1Position() const;
+                    void setLink1Position(double value);
 
-    double getLink2Position() const;
-    void setLink2Position(double value);
+                    double getLink2Position() const;
+                    void setLink2Position(double value);
 
-    double getLink1Current() const;
-    void setLink1Current(double value);
+                    double getLink1Current() const;
+                    void setLink1Current(double value);
 
-    double getLink2Current() const;
-    void setLink2Current(double value);
+                    double getLink2Current() const;
+                    void setLink2Current(double value);
 
     int getLink1ADCPosition() const;
     void setLink1ADCPosition(int value);

@@ -637,6 +637,8 @@ int PlatformManipulatorAndIRBumper::getLink2ADCPosition() const
 void PlatformManipulatorAndIRBumper::setLink2ADCPosition(int value)
 {
     link2ADCPosition = value;
+    double degressValue = ((double)link2ADCPosition - 136) / 9.02; //max 948, min 136, 90deg max. 136 ~ 0, 948-136=812 812/90 = 9.02
+    setLink2Position(degressValue);
 }
 
 int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
@@ -647,6 +649,8 @@ int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
 void PlatformManipulatorAndIRBumper::setLink1ADCPosition(int value)
 {
     link1ADCPosition = value;
+    double degressValue = link1ADCPosition / 16; //max 0, min 1023, 64deg max. 1023 ~ 0, 1024/64 = 16
+    setLink1Position(degressValue);
 }
 
 double PlatformManipulatorAndIRBumper::getGripperPosition() const

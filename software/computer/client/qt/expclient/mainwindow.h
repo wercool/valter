@@ -623,6 +623,7 @@ private slots:
     void on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_clicked();
     void on_bodyCameraPositionScroller_valueChanged(int value);
     void on_testTaskButton_clicked();
+    void on_stopTestTaskButton_clicked();
 };
 
 #endif // MAINWINDOW_H

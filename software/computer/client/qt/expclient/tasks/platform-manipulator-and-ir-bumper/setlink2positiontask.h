@@ -17,6 +17,8 @@ public:
     bool initialize();
     void execute();
     void stopExecution();
+    void reportCompletion();
+
     // ITask interface
 protected:
     void executionWorker();

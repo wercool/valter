@@ -20727,14 +20727,27 @@ image: url(:/hand-left.png);</string>
        <widget class="QPushButton" name="testTaskButton">
         <property name="geometry">
          <rect>
-          <x>790</x>
+          <x>748</x>
           <y>10</y>
-          <width>99</width>
+          <width>141</width>
           <height>27</height>
          </rect>
         </property>
         <property name="text">
-         <string>Test Task</string>
+         <string>Start Test Task</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="stopTestTaskButton">
+        <property name="geometry">
+         <rect>
+          <x>750</x>
+          <y>40</y>
+          <width>141</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>STOP Test Task</string>
         </property>
        </widget>
       </widget>

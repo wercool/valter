@@ -23,6 +23,13 @@ bool ITask::getBlocking() const
     return blocking;
 }
 
+void ITask::setCompleted(bool value)
+{
+    executing = !value;
+    completed = value;
+    reportCompletion();
+}
+
 void ITask::setBlocking(bool value)
 {
     blocking = value;

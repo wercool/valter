@@ -269,10 +269,19 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
 
 //Tasks
 
+ITask *task;
+
 void MainWindow::on_testTaskButton_clicked()
 {
-    ITask *task = new SetLink2PositionTask(30);
+    task = new SetLink2PositionTask(45);
     task->execute();
+}
+
+
+
+void MainWindow::on_stopTestTaskButton_clicked()
+{
+    task->stopExecution();
 }
 
 //TCP Interface Tab

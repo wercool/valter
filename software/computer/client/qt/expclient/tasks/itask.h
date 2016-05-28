@@ -15,14 +15,17 @@ public:
     virtual bool initialize(void)       = 0;
     virtual void execute(void)          = 0;
     virtual void stopExecution(void)    = 0;
+    virtual void reportCompletion(void)    = 0;
 
     unsigned long getTaskId();
 
     bool getExecuting() const;
+
+    void setCompleted(bool value);
     bool getCompleted() const;
 
-    bool getBlocking() const;
     void setBlocking(bool value);
+    bool getBlocking() const;
 
 
 protected:
