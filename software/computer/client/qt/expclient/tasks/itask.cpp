@@ -8,7 +8,7 @@ ITask::ITask()
     completed = false;
 }
 
-unsigned long ITask::getTaskId()
+unsigned long ITask::getTaskId() const
 {
     return taskId;
 }

@@ -29,11 +29,11 @@ CH9:0,0
 //man link1
 link1MotorDuty:1,100,30
 link1MotorAcceleration:2
-link1MotorDeceleration:2
+link1MotorDeceleration:1
 //man link2
 link2MotorDuty:1,100,30
 link2MotorAcceleration:2
-link2MotorDeceleration:2
+link2MotorDeceleration:1
 //man gripper rotation
 manGripperRotationMotorDuty:40
 //ir bumper

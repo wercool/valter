@@ -120,12 +120,16 @@ void loadPlatformManipulatorAndIRBumperDefaults(Ui::MainWindow *ui)
     ui->manipulatorLiknk1DecelerationScroller->setValue(platformManipulatorAndIRBumper->getLink1MotorDeceleration());
     ui->manipulatorLiknk1AccelerationScroller->setValue(platformManipulatorAndIRBumper->getLink1MotorAcceleration());
 
+    ui->manipulatorLiknk1DecelerationLabel->setText(Valter::format_string("[%d]", platformManipulatorAndIRBumper->getLink1MotorDeceleration()).c_str());
+
     ui->manipulatorLiknk2MotorDutyScroller->setMinimum(platformManipulatorAndIRBumper->getLink2MotorDutyPresetMin());
     ui->manipulatorLiknk2MotorDutyScroller->setMaximum(platformManipulatorAndIRBumper->getLink2MotorDutyPresetMax());
     ui->manipulatorLiknk2MotorDutyScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorDutyPresetCur());
 
     ui->manipulatorLiknk2DecelerationScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorDeceleration());
     ui->manipulatorLiknk2AccelerationScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorAcceleration());
+
+    ui->manipulatorLiknk2DecelerationLabel->setText(Valter::format_string("[%d]", platformManipulatorAndIRBumper->getLink2MotorDeceleration()).c_str());
 
     ui->manGripperRotationMotorDutyScroller->setValue(platformManipulatorAndIRBumper->getManGripperRotationMotorDuty());
 

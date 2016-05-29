@@ -24,6 +24,7 @@
 
 //Tasks includes
 #include "tasks/tasks.h"
+#include "tasks/taskmanager.h"
 
 using namespace std;
 using std::ifstream;
@@ -136,6 +137,9 @@ public:
 
    static const string filePathPrefix;
 
+   TaskManager *getTaskManager() const;
+   void setTaskManager(TaskManager *value);
+
 private:
    Valter();
    static Valter *pValter;      // Valter's singleton instance
@@ -148,6 +152,8 @@ private:
    map<string, ControlDevice*> controlDevicesMap;
 
    map<string, IValterModule*> valterModulesMap;
+
+   TaskManager *taskManager;
 
 };
 

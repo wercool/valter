@@ -9,7 +9,7 @@
 class SetLink2PositionTask : public ITask
 {
 public:
-    SetLink2PositionTask(float targetAngle);
+    SetLink2PositionTask();
 
     // ITask interface
 public:
@@ -19,12 +19,16 @@ public:
     void stopExecution();
     void reportCompletion();
 
-    // ITask interface
+    float getAngle() const;
+    void setAngle(float value);
+
 protected:
     void executionWorker();
 
 private:
     float angle;
+    static float prevAngle;
+
 };
 
 #endif // SETLINK2POSITIONTASK_H

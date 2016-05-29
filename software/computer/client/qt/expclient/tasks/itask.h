@@ -11,13 +11,14 @@ class ITask
 
 public:
     ITask();
-    virtual bool checkFeasibility(void) = 0;
-    virtual bool initialize(void)       = 0;
-    virtual void execute(void)          = 0;
-    virtual void stopExecution(void)    = 0;
-    virtual void reportCompletion(void)    = 0;
 
-    unsigned long getTaskId();
+    virtual bool checkFeasibility(void)     = 0;
+    virtual bool initialize(void)           = 0;
+    virtual void execute(void)              = 0;
+    virtual void stopExecution(void)        = 0;
+    virtual void reportCompletion(void)     = 0;
+
+    unsigned long getTaskId() const;
 
     bool getExecuting() const;
 

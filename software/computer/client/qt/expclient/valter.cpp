@@ -38,6 +38,18 @@ Valter::Valter()
     addUpdateValterModule(BodyControlP1::getInstance()->getControlDeviceId(), BodyControlP1::getInstance());
     addUpdateValterModule(ArmControlRight::getInstance()->getControlDeviceId(), ArmControlRight::getInstance());
     addUpdateValterModule(ArmControlLeft::getInstance()->getControlDeviceId(), ArmControlLeft::getInstance());
+
+    setTaskManager(TaskManager::getInstance());
+}
+
+TaskManager *Valter::getTaskManager() const
+{
+    return taskManager;
+}
+
+void Valter::setTaskManager(TaskManager *value)
+{
+    taskManager = value;
 }
 
 map<string, IValterModule *> Valter::getValterModulesMap() const

@@ -269,19 +269,20 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
 
 //Tasks
 
-ITask *task;
-
+unsigned long taskId;
 void MainWindow::on_testTaskButton_clicked()
 {
-    task = new SetLink2PositionTask(45);
-    task->execute();
+    ITask* task = new SetLink2PositionTask();
+    taskId = task->getTaskId();
+    Valter::getInstance()->getTaskManager()->addTask(task);
+    ((SetLink2PositionTask*)task)->setAngle(atoi(ui->taskTestValueLineEdit->text().toStdString().c_str()));
+    //task->execute();
+    Valter::getInstance()->getTaskManager()->getTaskById(taskId)->execute();
 }
-
-
 
 void MainWindow::on_stopTestTaskButton_clicked()
 {
-    task->stopExecution();
+    Valter::getInstance()->getTaskManager()->getTaskById(taskId)->stopExecution();
 }
 
 //TCP Interface Tab
