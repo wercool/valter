@@ -5,6 +5,7 @@ float SetLink2PositionTask::prevAngle = 0.0;
 
 SetLink2PositionTask::SetLink2PositionTask()
 {
+    taskName = "SetLink2PositionTask";
     checkFeasibility();
 }
 
@@ -43,7 +44,7 @@ void SetLink2PositionTask::stopExecution()
 
 void SetLink2PositionTask::reportCompletion()
 {
-    qDebug("Task#%lu completed.", getTaskId());
+    qDebug("Task#%lu (%s) completed.", getTaskId(), getTaskName().c_str());
 }
 
 void SetLink2PositionTask::executionWorker()
@@ -98,7 +99,10 @@ void SetLink2PositionTask::executionWorker()
             }
         }
 
-        qDebug("Task#%lu: link2Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink2Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink2Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink2MovementDirection() ? "descent" : "ascent"));
+        if (qDebugOn)
+        {
+            qDebug("Task#%lu: link2Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink2Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink2Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink2MovementDirection() ? "descent" : "ascent"));
+        }
 
         if (abs(angle - platformManipulatorAndIRBumper->getLink2Position()) < sigma)
         {

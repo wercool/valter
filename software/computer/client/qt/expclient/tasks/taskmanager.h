@@ -14,13 +14,27 @@ public:
     void addTask(ITask *task);
     ITask* getTaskById(unsigned long id);
 
+    ITask *getProcessingTask();
+
+    bool getQueueStopped() const;
+    void setQueueStopped(bool value);
+
+    ITask *getNextQueuedTask();
+    void  eraseQueuedCompletedTask();
+
 private:
     TaskManager();
     static TaskManager *pTaskManager;      // TaskManager's singleton instance
     static bool instanceFlag;
 
-    std::map<unsigned long, ITask*> tasksMap;
-    std::mutex tasks_add_mutex;
+    std::map<unsigned long, ITask*> queuedTasksMap;
+    std::mutex tasks_mutex;
+
+    ITask *processingTask;
+
+    bool queueStopped;
+
+    void tasksQueueWorker(void);
 };
 
 #endif // TASKMANAGER_H

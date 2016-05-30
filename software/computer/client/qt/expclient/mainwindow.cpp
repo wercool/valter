@@ -273,16 +273,19 @@ unsigned long taskId;
 void MainWindow::on_testTaskButton_clicked()
 {
     ITask* task = new SetLink2PositionTask();
-    taskId = task->getTaskId();
-    Valter::getInstance()->getTaskManager()->addTask(task);
     ((SetLink2PositionTask*)task)->setAngle(atoi(ui->taskTestValueLineEdit->text().toStdString().c_str()));
-    //task->execute();
-    Valter::getInstance()->getTaskManager()->getTaskById(taskId)->execute();
+    TaskManager::getInstance()->addTask(task);
+
+    taskId = task->getTaskId();
 }
 
 void MainWindow::on_stopTestTaskButton_clicked()
 {
-    Valter::getInstance()->getTaskManager()->getTaskById(taskId)->stopExecution();
+    ITask *task = TaskManager::getInstance()->getTaskById(taskId);
+    if (task != NULL)
+    {
+       task->stopExecution();
+    }
 }
 
 //TCP Interface Tab

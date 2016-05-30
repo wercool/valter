@@ -12,11 +12,11 @@ class ITask
 public:
     ITask();
 
-    virtual bool checkFeasibility(void)     = 0;
-    virtual bool initialize(void)           = 0;
-    virtual void execute(void)              = 0;
-    virtual void stopExecution(void)        = 0;
-    virtual void reportCompletion(void)     = 0;
+    virtual bool checkFeasibility(void)                 = 0;
+    virtual bool initialize(void)                       = 0;
+    virtual void execute(void)                          = 0;
+    virtual void stopExecution(void)                    = 0;
+    virtual void reportCompletion(void)                 = 0;
 
     unsigned long getTaskId() const;
 
@@ -28,6 +28,10 @@ public:
     void setBlocking(bool value);
     bool getBlocking() const;
 
+    bool getQDebugOn() const;
+    void setQDebugOn(bool value);
+
+    std::string getTaskName() const;
 
 protected:
     bool stopped;
@@ -36,6 +40,9 @@ protected:
     bool completed;
 
     unsigned long taskId;
+    std::string taskName;
+
+    bool qDebugOn;
 
     virtual void executionWorker(void) = 0;
 };
