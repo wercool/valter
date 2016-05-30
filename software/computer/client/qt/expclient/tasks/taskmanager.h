@@ -11,7 +11,7 @@ class TaskManager
 {
 public:
     static TaskManager *getInstance();
-    void addTask(ITask *task);
+    unsigned int addTask(ITask *task);
     ITask* getTaskById(unsigned long id);
 
     ITask *getProcessingTask();
@@ -19,8 +19,11 @@ public:
     bool getQueueStopped() const;
     void setQueueStopped(bool value);
 
-    ITask *getNextQueuedTask();
-    void  eraseQueuedCompletedTask();
+    void  wipeQueuedCompletedTaskFromQueue(unsigned long id);
+
+    void processScript(std::string script);
+
+    unsigned int routeTaskRequest(std::string taskMessage); //returns TaskId
 
 private:
     TaskManager();
@@ -28,6 +31,7 @@ private:
     static bool instanceFlag;
 
     std::map<unsigned long, ITask*> queuedTasksMap;
+    std::map<std::string, ITask*> executingTasksMap;
     std::mutex tasks_mutex;
 
     ITask *processingTask;

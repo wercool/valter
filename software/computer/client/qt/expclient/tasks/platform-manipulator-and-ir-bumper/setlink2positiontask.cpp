@@ -40,11 +40,17 @@ void SetLink2PositionTask::execute()
 void SetLink2PositionTask::stopExecution()
 {
     stopped = true;
+    setCompleted(true);
 }
 
 void SetLink2PositionTask::reportCompletion()
 {
     qDebug("Task#%lu (%s) completed.", getTaskId(), getTaskName().c_str());
+}
+
+ITask *SetLink2PositionTask::create()
+{
+    return (ITask*)new SetLink2PositionTask();
 }
 
 void SetLink2PositionTask::executionWorker()
@@ -62,7 +68,7 @@ void SetLink2PositionTask::executionWorker()
     {
         if (!executing)
         {
-            if (prevAngle > angle) //move Link2 down
+            if (prevAngle > angle) //move Link2 descending
             {
 
                 if (platformManipulatorAndIRBumper->prepareManLink2Movement())
@@ -77,6 +83,7 @@ void SetLink2PositionTask::executionWorker()
                 else
                 {
                     qDebug("Task#%lu could not be completed; reason platformManipulatorAndIRBumper->prepareManLink2Movement()", getTaskId());
+                    stopExecution();
                     return;
                 }
             }
@@ -94,6 +101,7 @@ void SetLink2PositionTask::executionWorker()
                 else
                 {
                     qDebug("Task#%lu could not be completed; reason platformManipulatorAndIRBumper->prepareManLink2Movement()", getTaskId());
+                    stopExecution();
                     return;
                 }
             }
@@ -124,12 +132,15 @@ void SetLink2PositionTask::executionWorker()
 
         /************************************ emulation *********************start***************************/
         int positionADC = platformManipulatorAndIRBumper->getLink2ADCPosition();
-        platformManipulatorAndIRBumper->setLink2ADCPosition(++positionADC);
+        positionADC++;
+        positionADC++;
+        platformManipulatorAndIRBumper->setLink2ADCPosition(positionADC);
         /************************************ emulation *********************finish**************************/
 
         this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+    setCompleted(true);
 }
 
 float SetLink2PositionTask::getAngle() const

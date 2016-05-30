@@ -33,6 +33,8 @@ public:
 
     std::string getTaskName() const;
 
+    bool getStopped() const;
+
 protected:
     bool stopped;
     bool blocking;

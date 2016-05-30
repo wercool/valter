@@ -2,7 +2,9 @@
 #define PLATFORMMANIPULATORANDIRBUMPER_H
 
 #include <string>
+#include <map>
 
+#include "tasks/itask.h"
 #include "ivaltermodule.h"
 
 using namespace std;
@@ -22,6 +24,7 @@ public:
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
     void processControlDeviceResponse(string response);
+    unsigned int executeTask(std::string taskScriptLine);
 
     bool getPower24VOnOff() const;
     void setPower24VOnOff(bool value);
@@ -340,6 +343,9 @@ private:
 
     int irBumperFrequency;
     int irBumperDuty;
+
+    /**************************************************** TASKS ******************************************************/
+    std::map<std::string, function<ITask*(void)>> tasks;
 };
 
 #endif // PLATFORMMANIPULATORANDIRBUMPER_H

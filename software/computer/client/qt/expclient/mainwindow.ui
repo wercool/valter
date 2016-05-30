@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1030</height>
+             <width>874</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3934,7 +3934,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>893</width>
+             <width>892</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7950,8 +7950,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1512</height>
+             <width>874</width>
+             <height>1514</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -10510,7 +10510,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>800</height>
             </rect>
            </property>
@@ -13451,8 +13451,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -16764,8 +16764,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -20776,6 +20776,55 @@ image: url(:/hand-left.png);</string>
          <string>Test Value</string>
         </property>
        </widget>
+       <widget class="QPushButton" name="pushButton">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>140</y>
+          <width>171</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set Link1 Position</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="geometry">
+         <rect>
+          <x>690</x>
+          <y>180</y>
+          <width>171</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Set Link2 Position </string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="geometry">
+         <rect>
+          <x>710</x>
+          <y>490</y>
+          <width>161</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Execute Script</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="taskScriptTextEdit">
+        <property name="geometry">
+         <rect>
+          <x>493</x>
+          <y>250</y>
+          <width>371</width>
+          <height>231</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -20867,7 +20916,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>sendCommandButton</tabstop>
   <tabstop>clearCommandButton</tabstop>
   <tabstop>selectedControlDeviceListWidget</tabstop>
-  <tabstop>mainTabWidget</tabstop>
   <tabstop>platformControlP1RedrawGUICheckBox</tabstop>
   <tabstop>valterPlatformMovementControlsDetachButton</tabstop>
   <tabstop>scrollArea_6</tabstop>

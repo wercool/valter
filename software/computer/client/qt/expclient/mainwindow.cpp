@@ -272,11 +272,7 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
 unsigned long taskId;
 void MainWindow::on_testTaskButton_clicked()
 {
-    ITask* task = new SetLink2PositionTask();
-    ((SetLink2PositionTask*)task)->setAngle(atoi(ui->taskTestValueLineEdit->text().toStdString().c_str()));
-    TaskManager::getInstance()->addTask(task);
-
-    taskId = task->getTaskId();
+    taskId = PlatformManipulatorAndIRBumper::getInstance()->executeTask(Valter::format_string("T_PMIB_SetLink2PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
 }
 
 void MainWindow::on_stopTestTaskButton_clicked()
@@ -287,6 +283,23 @@ void MainWindow::on_stopTestTaskButton_clicked()
        task->stopExecution();
     }
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink1PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink2PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
+}
+
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    TaskManager::getInstance()->processScript(ui->taskScriptTextEdit->toPlainText().toStdString());
+}
+
 
 //TCP Interface Tab
 

@@ -23,6 +23,7 @@
 #include "tcpinterface.h"
 
 //Tasks includes
+#include "tasks/itask.h"
 #include "tasks/tasks.h"
 #include "tasks/taskmanager.h"
 
@@ -137,8 +138,7 @@ public:
 
    static const string filePathPrefix;
 
-   TaskManager *getTaskManager() const;
-   void setTaskManager(TaskManager *value);
+   IValterModule *getValterModulePtrByShortName(std::string shortValterModuleName);
 
 private:
    Valter();
@@ -152,8 +152,7 @@ private:
    map<string, ControlDevice*> controlDevicesMap;
 
    map<string, IValterModule*> valterModulesMap;
-
-   TaskManager *taskManager;
+   map<string, IValterModule*> valterModuleShortNameMap;
 
 };
 

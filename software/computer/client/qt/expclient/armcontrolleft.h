@@ -22,6 +22,7 @@ public:
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
     void processControlDeviceResponse(string response);
+    unsigned int executeTask(std::string taskScriptLine);
 
     int getLeftForearmMotorDuty() const;
     void setLeftForearmMotorDuty(int value);

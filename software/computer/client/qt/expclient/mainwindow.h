@@ -624,6 +624,9 @@ private slots:
     void on_bodyCameraPositionScroller_valueChanged(int value);
     void on_testTaskButton_clicked();
     void on_stopTestTaskButton_clicked();
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
 };
 
 #endif // MAINWINDOW_H

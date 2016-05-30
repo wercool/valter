@@ -323,6 +323,11 @@ void BodyControlP1::processControlDeviceResponse(string response)
     }
 }
 
+unsigned int BodyControlP1::executeTask(string taskScriptLine)
+{
+
+}
+
 void BodyControlP1::headYawWorker()
 {
     while (!stopAllProcesses)

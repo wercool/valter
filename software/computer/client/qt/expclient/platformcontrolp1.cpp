@@ -458,6 +458,11 @@ void PlatformControlP1::processControlDeviceResponse(string response)
     }
 }
 
+unsigned int PlatformControlP1::executeTask(string taskScriptLine)
+{
+
+}
+
 void PlatformControlP1::scanFor220VACAvailable()
 {
     while (!stopAllProcesses)

@@ -5,6 +5,102 @@
 #include "valter.h"
 
 
+PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::pPlatformManipulatorAndIRBumper = NULL;
+bool PlatformManipulatorAndIRBumper::instanceFlag = false;
+const string PlatformManipulatorAndIRBumper::controlDeviceId = "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
+const string PlatformManipulatorAndIRBumper::defaultsFilePath = "settings/platform-manipulator-and-ir-bumper-defaults";
+
+const double PlatformManipulatorAndIRBumper::rootX = 220;
+const double PlatformManipulatorAndIRBumper::rootY = 130;
+const double PlatformManipulatorAndIRBumper::man_l1      = 120;
+const double PlatformManipulatorAndIRBumper::man_l2      = 128;
+const double PlatformManipulatorAndIRBumper::man_l1_l2   = 30;
+const double PlatformManipulatorAndIRBumper::man_l2_l3   = 10;
+const double PlatformManipulatorAndIRBumper::man_l3      = 40;
+double PlatformManipulatorAndIRBumper::man_a    = 0.0;
+double PlatformManipulatorAndIRBumper::man_b    = 0.0;
+double PlatformManipulatorAndIRBumper::man_g    = 0.0;
+
+void PlatformManipulatorAndIRBumper::resetToDefault()
+{
+    if (this->controlDeviceIsSet)
+    {
+        getControlDevice()->setAutoReActivation(true);
+        getControlDevice()->clearMessageQueue();
+        getControlDevice()->clearDataExchangeLog();
+    }
+
+    power24VOnOff           = false;
+
+    //link1
+    link1MovementDirection  = false;
+    link1MotorActivated     = false;
+    link1MotorStop          = true;
+
+    link1MotorDuty          = 1;
+    link1MotorDutyMax       = 30;
+    link1MotorAcceleration  = 2;
+    link1MotorDeceleration  = 2;
+
+    link1MotorAccelerating  = false;
+    link1MotorDecelerating  = false;
+
+    link1MotorDutyPresetCur = 30;
+    link1MotorDutyPresetMin = 1;
+    link1MotorDutyPresetMax = 1;
+
+    //link2
+    link2MovementDirection  = false;
+    link2MotorActivated     = false;
+    link2MotorStop          = false;
+
+    link2MotorDuty          = 1;
+    link2MotorDutyMax       = 30;
+    link2MotorAcceleration  = 2;
+    link2MotorDeceleration  = 2;
+
+    link2MotorAccelerating  = false;
+    link2MotorDecelerating  = false;
+
+    link2MotorDutyPresetCur = false;
+    link2MotorDutyPresetMin = false;
+    link2MotorDutyPresetMax = false;
+
+    manGripperRotationMotorDuty         = 1;
+
+    link1PositionTrack      = true;
+    link1PositionADC        = true;
+    link2PositionTrack      = true;
+    link2PositionADC        = true;
+    link1CurrentTrack       = true;
+    link1CurrentADC         = true;
+    link2CurrentTrack       = true;
+    link2CurrentADC         = true;
+
+    link1Position   = 0;
+    link2Position   = 0;
+    link1Current    = 0;
+    link2Current    = 0;
+
+    link1ADCPosition    = 0;
+    link2ADCPosition    = 0;
+    link1ADCCurrent     = 0;
+    link2ADCCurrent     = 0;
+
+    for (int i = 0; i < 16; i++)
+    {
+        irBumperTrack[i] = true;
+        irBumperTicks[i] = true;
+        irBumperTicksReading[i] = 0;
+    }
+
+    irBumperInitialized = false;
+    irBumperEnabled     = false;
+
+    irBumperFrequency   = 38000;
+    irBumperDuty        = 50;
+}
+
 void PlatformManipulatorAndIRBumper::loadDefaults()
 {
     ifstream defaultsFile(Valter::filePathPrefix + PlatformManipulatorAndIRBumper::defaultsFilePath);

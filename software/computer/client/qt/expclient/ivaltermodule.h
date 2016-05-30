@@ -31,14 +31,15 @@ public:
     bool controlDeviceIsSet;
     bool stopAllProcesses;
 
-    virtual void stopAll() = 0;
-    virtual void resetToDefault() = 0;
-    virtual void loadDefaults() = 0;
-    virtual void setModuleInitialState() = 0;
-    virtual void spawnProcessMessagesQueueWorkerThread() = 0;
-    virtual void initTcpInterface() = 0;
-    virtual void initTcpCommandAcceptorInterface() = 0;
-    virtual void processControlDeviceResponse(string response) = 0;
+    virtual void stopAll()                                              = 0;
+    virtual void resetToDefault()                                       = 0;
+    virtual void loadDefaults()                                         = 0;
+    virtual void setModuleInitialState()                                = 0;
+    virtual void spawnProcessMessagesQueueWorkerThread()                = 0;
+    virtual void initTcpInterface()                                     = 0;
+    virtual void initTcpCommandAcceptorInterface()                      = 0;
+    virtual void processControlDeviceResponse(string response)          = 0;
+    virtual unsigned int  executeTask(std::string taskScriptLine)       = 0;
 
     void sendCommand(string cmd)
     {

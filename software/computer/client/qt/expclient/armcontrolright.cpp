@@ -287,6 +287,11 @@ void ArmControlRight::processControlDeviceResponse(string response)
     }
 }
 
+unsigned int ArmControlRight::executeTask(string taskScriptLine)
+{
+
+}
+
 void ArmControlRight::rightForearmWorker()
 {
     while (!stopAllProcesses)

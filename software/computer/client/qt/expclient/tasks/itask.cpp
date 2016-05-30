@@ -1,4 +1,5 @@
 #include "itask.h"
+#include "taskmanager.h"
 
 ITask::ITask()
 {
@@ -43,10 +44,16 @@ std::string ITask::getTaskName() const
     return taskName;
 }
 
+bool ITask::getStopped() const
+{
+    return stopped;
+}
+
 void ITask::setCompleted(bool value)
 {
-    executing = !value;
     completed = value;
+    executing = !value;
+    TaskManager::getInstance()->wipeQueuedCompletedTaskFromQueue(this->getTaskId());
     reportCompletion();
 }
 

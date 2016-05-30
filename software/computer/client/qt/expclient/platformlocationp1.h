@@ -23,6 +23,7 @@ public:
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
     void processControlDeviceResponse(string response);
+    unsigned int executeTask(std::string taskScriptLine);
 
     bool getRedLedState(int index);
     void setRedLedState(int index, bool value);

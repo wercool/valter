@@ -1,16 +1,15 @@
-#ifndef SETLINK2POSITIONTASK_H
-#define SETLINK2POSITIONTASK_H
+#ifndef SETLINK1POSITIONTASK_H
+#define SETLINK1POSITIONTASK_H
 
 #include <QtDebug>
 
 #include "tasks/itask.h"
 #include <thread>
 
-class SetLink2PositionTask : public ITask
+class SetLink1PositionTask : public ITask
 {
 public:
-    SetLink2PositionTask();
-
+    SetLink1PositionTask();
     // ITask interface
 public:
     bool checkFeasibility();
@@ -32,4 +31,4 @@ private:
     static float prevAngle;
 };
 
-#endif // SETLINK2POSITIONTASK_H
+#endif // SETLINK1POSITIONTASK_H

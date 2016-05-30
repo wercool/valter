@@ -1,0 +1,9 @@
+T_PMIB_SetLink1PositionTask_{%d = target angle}
+T_PMIB_SetLink2PositionTask_{%d = target angle}
+
+/*
+T_PMIB_SetLink1PositionTask_32
+T_PMIB_SetLink2PositionTask_45
+DELAY_500
+T_PMIB_SetLink1PositionTask_32
+*/

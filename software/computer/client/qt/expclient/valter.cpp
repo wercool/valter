@@ -39,17 +39,13 @@ Valter::Valter()
     addUpdateValterModule(ArmControlRight::getInstance()->getControlDeviceId(), ArmControlRight::getInstance());
     addUpdateValterModule(ArmControlLeft::getInstance()->getControlDeviceId(), ArmControlLeft::getInstance());
 
-    setTaskManager(TaskManager::getInstance());
-}
-
-TaskManager *Valter::getTaskManager() const
-{
-    return taskManager;
-}
-
-void Valter::setTaskManager(TaskManager *value)
-{
-    taskManager = value;
+    valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("PCP1", PlatformControlP1::getInstance()));
+    valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("PCP2", PlatformControlP2::getInstance()));
+    valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("PLP1", PlatformLocationP1::getInstance()));
+    valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("PMIB", PlatformManipulatorAndIRBumper::getInstance()));
+    valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("BCP1", BodyControlP1::getInstance()));
+    valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("ACR", ArmControlRight::getInstance()));
+    valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("ACL", ArmControlLeft::getInstance()));
 }
 
 map<string, IValterModule *> Valter::getValterModulesMap() const
@@ -88,6 +84,11 @@ void Valter::stopAllModules()
         IValterModule *valterModule = valterModulesMap[iterator->first];
         valterModule->stopAll();
     }
+}
+
+IValterModule *Valter::getValterModulePtrByShortName(string shortValterModuleName)
+{
+    return valterModuleShortNameMap[shortValterModuleName];
 }
 
 Valter* Valter::getInstance()

@@ -275,6 +275,11 @@ void PlatformLocationP1::processControlDeviceResponse(string response)
     }
 }
 
+unsigned int PlatformLocationP1::executeTask(string taskScriptLine)
+{
+
+}
+
 void PlatformLocationP1::loadDefaults()
 {
     ifstream defaultsFile(Valter::filePathPrefix + PlatformLocationP1::defaultsFilePath);

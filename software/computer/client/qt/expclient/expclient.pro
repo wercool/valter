@@ -61,7 +61,9 @@ SOURCES += main.cpp\
             tcphandlers/armcontrolleft.tcphandler.cpp \
     tasks/itask.cpp \
     tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.cpp \
-    tasks/taskmanager.cpp
+    tasks/taskmanager.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
+    tasks/delaytask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -101,7 +103,9 @@ HEADERS  += mainwindow.h \
     tasks/itask.h \
     tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
     tasks/tasks.h \
-    tasks/taskmanager.h
+    tasks/taskmanager.h \
+    tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
+    tasks/delaytask.h
 
 FORMS    += mainwindow.ui
 
