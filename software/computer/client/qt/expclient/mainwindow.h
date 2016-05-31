@@ -125,6 +125,8 @@ public slots:
     void on_reScanControlDevicesButton_clicked();
     void on_wdResetOnButton_clicked();
     void on_resetControlDeviceButton_clicked();
+    void on_stopSelectedControlDeviceLogButton_clicked();
+    void on_startSelectedControlDeviceLogButton_clicked();
 
     //platfrom control p1
     void initPlatfromControlP1(Ui::MainWindow *ui);
@@ -423,6 +425,7 @@ public slots:
     void on_headPitchMoveStepsSpinBox_valueChanged(int value);
     void on_bodyControlP1ReadingsTable_itemClicked(QTableWidgetItem *item);
     void on_bodyCameraReleaseButton_clicked();
+    void on_bodyCameraPositionScroller_valueChanged(int value);
 
     //arm-control-left
     void initArmControlLeft(Ui::MainWindow *ui);
@@ -621,7 +624,8 @@ private slots:
     void on_armControlLeftRedrawGUICheckBox_clicked(bool checked);
     void on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked();
     void on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_clicked();
-    void on_bodyCameraPositionScroller_valueChanged(int value);
+
+    //Utils
     void on_testTaskButton_clicked();
     void on_stopTestTaskButton_clicked();
     void on_pushButton_clicked();

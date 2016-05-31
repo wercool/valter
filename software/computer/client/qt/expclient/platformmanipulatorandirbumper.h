@@ -245,6 +245,69 @@ public:
     void setIrBumperTicksReading(int idx, int value);
     int getIrBumperTicksReading(int idx);
 
+    bool getGripperForceSensor1Track() const;
+    void setGripperForceSensor1Track(bool value);
+
+    bool getGripperForceSensor2Track() const;
+    void setGripperForceSensor2Track(bool value);
+
+    bool getGripperForceSensor3Track() const;
+    void setGripperForceSensor3Track(bool value);
+
+    bool getGripperObjectDetectorTrack() const;
+    void setGripperObjectDetectorTrack(bool value);
+
+    bool getGripperTiltMotorCurrentTrack() const;
+    void setGripperTiltMotorCurrentTrack(bool value);
+
+    bool getGripperOpenCloseMotorCurrentTrack() const;
+    void setGripperOpenCloseMotorCurrentTrack(bool value);
+
+    bool getGripperRotationMotorCurrentTrack() const;
+    void setGripperRotationMotorCurrentTrack(bool value);
+
+    bool getGripperForceSensor1ADC() const;
+    void setGripperForceSensor1ADC(bool value);
+
+    bool getGripperForceSensor2ADC() const;
+    void setGripperForceSensor2ADC(bool value);
+
+    bool getGripperForceSensor3ADC() const;
+    void setGripperForceSensor3ADC(bool value);
+
+    bool getGripperObjectDetectorADC() const;
+    void setGripperObjectDetectorADC(bool value);
+
+    bool getGripperTiltMotorCurrentADC() const;
+    void setGripperTiltMotorCurrentADC(bool value);
+
+    bool getGripperOpenCloseMotorCurrentADC() const;
+    void setGripperOpenCloseMotorCurrentADC(bool value);
+
+    bool getGripperRotationMotorCurrentADC() const;
+    void setGripperRotationMotorCurrentADC(bool value);
+
+    int getGripperForceSensor1ADCValue() const;
+    void setGripperForceSensor1ADCValue(int value);
+
+    int getGripperForceSensor2ADCValue() const;
+    void setGripperForceSensor2ADCValue(int value);
+
+    int getGripperForceSensor3ADCValue() const;
+    void setGripperForceSensor3ADCValue(int value);
+
+    int getGripperObjectDetectorADCValue() const;
+    void setGripperObjectDetectorADCValue(int value);
+
+    int getGripperTiltMotorCurrentADCValue() const;
+    void setGripperTiltMotorCurrentADCValue(int value);
+
+    int getGripperOpenCloseMotorCurrentADCValue() const;
+    void setGripperOpenCloseMotorCurrentADCValue(int value);
+
+    int getGripperRotationMotorCurrentADCValue() const;
+    void setGripperRotationMotorCurrentADCValue(int value);
+
 private:
     PlatformManipulatorAndIRBumper();
     static PlatformManipulatorAndIRBumper* pPlatformManipulatorAndIRBumper;         // PLATFORM-MANIPULATOR-AND-IR-BUMPER's singleton instance
@@ -302,19 +365,36 @@ private:
 
     //-------------------------------------------------manipulator readings
     bool link1PositionTrack;
-    bool link1PositionADC;
     bool link2PositionTrack;
-    bool link2PositionADC;
     bool link1CurrentTrack;
-    bool link1CurrentADC;
     bool link2CurrentTrack;
-    bool link2CurrentADC;
     bool gripperTiltTrack;
-    bool gripperTiltADC;
     bool gripperRotationTrack;
-    bool gripperRotationADC;
     bool gripperPositionTrack;
+
+    bool gripperForceSensor1Track;
+    bool gripperForceSensor2Track;
+    bool gripperForceSensor3Track;
+    bool gripperObjectDetectorTrack;
+    bool gripperTiltMotorCurrentTrack;
+    bool gripperOpenCloseMotorCurrentTrack;
+    bool gripperRotationMotorCurrentTrack;
+
+    bool link1PositionADC;
+    bool link2PositionADC;
+    bool link1CurrentADC;
+    bool link2CurrentADC;
+    bool gripperTiltADC;
+    bool gripperRotationADC;
     bool gripperPositionADC;
+
+    bool gripperForceSensor1ADC;
+    bool gripperForceSensor2ADC;
+    bool gripperForceSensor3ADC;
+    bool gripperObjectDetectorADC;
+    bool gripperTiltMotorCurrentADC;
+    bool gripperOpenCloseMotorCurrentADC;
+    bool gripperRotationMotorCurrentADC;
 
     int link1ADCPosition;
     int link2ADCPosition;
@@ -323,6 +403,14 @@ private:
     int gripperADCTilt;
     int gripperADCRotation;
     int gripperADCPosition;
+
+    int gripperForceSensor1ADCValue;
+    int gripperForceSensor2ADCValue;
+    int gripperForceSensor3ADCValue;
+    int gripperObjectDetectorADCValue;
+    int gripperTiltMotorCurrentADCValue;
+    int gripperOpenCloseMotorCurrentADCValue;
+    int gripperRotationMotorCurrentADCValue;
 
     double link1Position;
     double link2Position;

@@ -89,6 +89,9 @@ public:
     unsigned char getWdTimerNotResetCnt() const;
     void setWdTimerNotResetCnt(unsigned char value);
 
+    bool getLogging() const;
+    void setLogging(bool value);
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
@@ -115,6 +118,8 @@ private:
     std::mutex responses_mutex;
     std::mutex requests_mutex;
     std::mutex dataExchangeLog_mutex;
+
+    bool logging;
 };
 
 #endif // CONTROLDEVICE_H

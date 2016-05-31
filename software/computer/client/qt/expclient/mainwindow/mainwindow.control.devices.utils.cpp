@@ -238,19 +238,22 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
         if (selectedControlDeviceId.length() > 0)
         {
             ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
-            if (controlDevice->dataExchangeLogAvailable() > 0)
+            if (controlDevice->getLogging())
             {
-                string logMsg = controlDevice->getMsgFromDataExchangeLog();
-                Valter::log(logMsg);
-                if (ui->logToStatusBarCheckBox->isChecked())
+                if (controlDevice->dataExchangeLogAvailable() > 0)
                 {
-                    statusBarText->setText(logMsg.c_str());
-                }
-                if (ui->autoclearLogBox->isChecked())
-                {
-                    if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
+                    string logMsg = controlDevice->getMsgFromDataExchangeLog();
+                    Valter::log(logMsg);
+                    if (ui->logToStatusBarCheckBox->isChecked())
                     {
-                        controlDevice->clearDataExchangeLog();
+                        statusBarText->setText(logMsg.c_str());
+                    }
+                    if (ui->autoclearLogBox->isChecked())
+                    {
+                        if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
+                        {
+                            controlDevice->clearDataExchangeLog();
+                        }
                     }
                 }
             }
@@ -261,16 +264,19 @@ void MainWindow::controlDevicesDataExchangeLogTimerUpdate()
         for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
         {
             ControlDevice *controlDevice = controlDevicesMap[iterator->first];
-            if (controlDevice->dataExchangeLogAvailable() > 0)
+            if (controlDevice->getLogging())
             {
-                string logMsg = controlDevice->getMsgFromDataExchangeLog();
-                Valter::log(logMsg);
-                statusBarText->setText(logMsg.c_str());
-                if (ui->autoclearLogBox->isChecked())
+                if (controlDevice->dataExchangeLogAvailable() > 0)
                 {
-                    if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
+                    string logMsg = controlDevice->getMsgFromDataExchangeLog();
+                    Valter::log(logMsg);
+                    statusBarText->setText(logMsg.c_str());
+                    if (ui->autoclearLogBox->isChecked())
                     {
-                        controlDevice->clearDataExchangeLog();
+                        if (controlDevice->dataExchangeLogAvailable() > ControlDevice::maxLogBufferSize)
+                        {
+                            controlDevice->clearDataExchangeLog();
+                        }
                     }
                 }
             }
@@ -391,5 +397,26 @@ void MainWindow::on_resetControlDeviceButton_clicked()
         ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
         Valter::log(Valter::format_string("Reset the %s", controlDevice->getControlDeviceId().c_str()));
         controlDevice->resetUSBSysDevice();
+    }
+}
+
+void MainWindow::on_stopSelectedControlDeviceLogButton_clicked()
+{
+    if (selectedControlDeviceId.length() > 0)
+    {
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
+        controlDevice->setLogging(false);
+    }
+}
+
+
+void MainWindow::on_startSelectedControlDeviceLogButton_clicked()
+{
+    if (selectedControlDeviceId.length() > 0)
+    {
+        map<string, ControlDevice*> controlDevicesMap = Valter::getInstance()->getControlDevicesMap();
+        ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
+        controlDevice->setLogging(true);
     }
 }

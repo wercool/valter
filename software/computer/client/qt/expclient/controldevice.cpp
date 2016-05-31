@@ -20,6 +20,7 @@ ControlDevice::ControlDevice()
     autoReActivation = false;
     wdTimerNotResetCnt = 0;
     rescanNum = 0;
+    logging = true;
 }
 
 void ControlDevice::listDevices()
@@ -443,6 +444,16 @@ void ControlDevice::controlDeviceThreadWorker()
         this->setRescanNum(0);
         reScanThisControlDevice();
     }
+}
+
+bool ControlDevice::getLogging() const
+{
+    return logging;
+}
+
+void ControlDevice::setLogging(bool value)
+{
+    logging = value;
 }
 
 void ControlDevice::resetUSBSysDevice()

@@ -34,8 +34,8 @@ unsigned int TaskManager::addTask(ITask *task)
 {
     std::lock_guard<std::mutex> guard(tasks_mutex);
     queuedTasksMap.insert(pair<unsigned long, ITask*>(task->getTaskId(), task));
-    this_thread::sleep_for(std::chrono::milliseconds(10));
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
+    this_thread::sleep_for(std::chrono::milliseconds(10));
     return task->getTaskId();
 }
 
@@ -68,9 +68,13 @@ void TaskManager::setQueueStopped(bool value)
 
 void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
 {
-    std::lock_guard<std::mutex> guard(tasks_mutex);
-    executingTasksMap.erase(getTaskById(id)->getTaskName());
-    queuedTasksMap.erase(id);
+    ITask *task = getTaskById(id);
+    if (task != NULL)
+    {
+        std::lock_guard<std::mutex> guard(tasks_mutex);
+        executingTasksMap.erase(task->getTaskName());
+        queuedTasksMap.erase(id);
+    }
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
 }
 

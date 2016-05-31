@@ -197,12 +197,89 @@ void PlatformManipulatorAndIRBumper::processControlDeviceResponse(string respons
     }
     if (getGripperPositionTrack())
     {
-        if (response.find("IN2:2") != std::string::npos)//gripper position CH2
+        if (response.find("IN1:2") != std::string::npos)//gripper position CH2
         {
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
             vector<string>value_str_values = Valter::split(value_str, ',');
             setGripperADCPosition(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperForceSensor1Track())
+    {
+        if (response.find("IN1:3") != std::string::npos)//Gripper Force Sensor 1
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperForceSensor1ADCValue(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperForceSensor2Track())
+    {
+        if (response.find("IN1:4") != std::string::npos)//Gripper Force Sensor 2
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperForceSensor2ADCValue(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperForceSensor3Track())
+    {
+        if (response.find("IN1:5") != std::string::npos)//Gripper Force Sensor 3
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperForceSensor3ADCValue(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperObjectDetectorTrack())
+    {
+        if (response.find("IN1:6") != std::string::npos)//Gripper Object Detector
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperObjectDetectorADCValue(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperTiltMotorCurrentTrack())
+    {
+        if (response.find("IN1:7") != std::string::npos)//Gripper Tilt Motor Current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperTiltMotorCurrentADCValue(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperOpenCloseMotorCurrentTrack())
+    {
+        if (response.find("IN1:8") != std::string::npos)//Gripper Open/Close Motor Current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperOpenCloseMotorCurrentADCValue(atoi(value_str_values[1].c_str()));
+            return;
+        }
+    }
+    if (getGripperRotationMotorCurrentTrack())
+    {
+        if (response.find("IN1:9") != std::string::npos)//Gripper Rotation Motor Current
+        {
+            int value_str_pos = response.find_first_of(":") + 1;
+            string value_str = response.substr(value_str_pos);
+            vector<string>value_str_values = Valter::split(value_str, ',');
+            setGripperRotationMotorCurrentADCValue(atoi(value_str_values[1].c_str()));
             return;
         }
     }
@@ -394,6 +471,55 @@ void PlatformManipulatorAndIRBumper::manipulatorReadingsWorker()
                     this_thread::sleep_for(std::chrono::milliseconds(10));
                     sendCommand("GETIN1");
                 }
+                if (getGripperForceSensor1Track())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH3");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperForceSensor2Track())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH4");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperForceSensor3Track())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH5");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperObjectDetectorTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH6");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperTiltMotorCurrentTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH7");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperOpenCloseMotorCurrentTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH8");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
+                if (getGripperRotationMotorCurrentTrack())
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(25));
+                    sendCommand("CH9");
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                    sendCommand("GETIN1");
+                }
                 this_thread::sleep_for(std::chrono::milliseconds(50));
             }
             else
@@ -431,11 +557,6 @@ void PlatformManipulatorAndIRBumper::irBumperReadingWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-}
-
-int PlatformManipulatorAndIRBumper::getIrBumperDuty() const
-{
-    return irBumperDuty;
 }
 
 void PlatformManipulatorAndIRBumper::setIrBumperDuty(int value)

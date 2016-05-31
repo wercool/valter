@@ -1,31 +1,31 @@
-//Link1 Rotation [1 - track],[2 - ADC]
-link1Rotation:0,0
+//Link1 Rotation [track 1/0],[ADC or natural redings 1/0]
+link1Rotation:1,1
 //Link2 Rotation
-link2Rotation:0,0
+link2Rotation:1,1
 //Link1 Motor Current
-link1MotorCurrent:0,0
+link1MotorCurrent:0,1
 //Link2 Motor Current
-link2MotorCurrent:0,0
+link2MotorCurrent:0,1
 //CH0 Gripper Tilt
-CH0:0,0
+CH0:1,1
 //CH1 Gripper Rotation
-CH1:0,0
+CH1:1,1
 //CH2 Gripper Position
-CH2:0,0
+CH2:1,1
 //CH3 Gripper Force Sensor 1
-CH3:0,0
+CH3:0,1
 //CH4 Gripper Force Sensor 2
-CH4:0,0
+CH4:0,1
 //CH5 Gripper Force Sensor 3
-CH5:0,0
+CH5:0,1
 //CH6 Gripper Object Detector
-CH6:0,0
+CH6:1,1
 //CH7 Gripper Tilt Motor Current
-CH7:0,0
+CH7:0,1
 //CH8 Gripper Open/Close Motor Current
-CH8:0,0
+CH8:0,1
 //CH9 Gripper Rotation Motor Current
-CH9:0,0
+CH9:0,1
 //man link1
 link1MotorDuty:1,100,30
 link1MotorAcceleration:2

@@ -31,6 +31,12 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             if (platformManipulatorAndIRBumper->getLink1PositionADC()) // show ADC value
             {
                 link1PositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink1ADCPosition()).c_str());
+                ui->manipulatorLiknk1PositionLcdNumber->display(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink1ADCPosition()).c_str());
+            }
+            else
+            {
+                link1PositionQWidgetItem->setText(Valter::format_string("%.1f", platformManipulatorAndIRBumper->getLink1Position()).c_str());
+                ui->manipulatorLiknk1PositionLcdNumber->display(Valter::format_string("%.1f", platformManipulatorAndIRBumper->getLink1Position()).c_str());
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(0, 2, link1PositionQWidgetItem);
         }
@@ -40,6 +46,12 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             if (platformManipulatorAndIRBumper->getLink2PositionADC()) // show ADC value
             {
                 link2PositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink2ADCPosition()).c_str());
+                ui->manipulatorLiknk2PositionLcdNumber->display(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink2ADCPosition()).c_str());
+            }
+            else
+            {
+                link2PositionQWidgetItem->setText(Valter::format_string("%.1f", platformManipulatorAndIRBumper->getLink2Position()).c_str());
+                ui->manipulatorLiknk2PositionLcdNumber->display(Valter::format_string("%.1f", platformManipulatorAndIRBumper->getLink2Position()).c_str());
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(1, 2, link2PositionQWidgetItem);
         }
@@ -49,6 +61,7 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             if (platformManipulatorAndIRBumper->getLink1CurrentADC()) // show ADC value
             {
                 link1CurrentQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink1ADCCurrent()).c_str());
+                ui->manipulatorLiknk1CurrentLcdNumber->display(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink1ADCCurrent()).c_str());
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(2, 2, link1CurrentQWidgetItem);
         }
@@ -58,6 +71,7 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             if (platformManipulatorAndIRBumper->getLink2CurrentADC()) // show ADC value
             {
                 link2CurrentQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink2ADCCurrent()).c_str());
+                ui->manipulatorLiknk2CurrentLcdNumber->display(Valter::format_string("%d", platformManipulatorAndIRBumper->getLink2ADCCurrent()).c_str());
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(3, 2, link2CurrentQWidgetItem);
         }
@@ -67,6 +81,7 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             if (platformManipulatorAndIRBumper->getGripperTiltADC()) // show ADC value
             {
                 gripperTiltQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperADCTilt()).c_str());
+                ui->gripperTitltPositionLcdNumber->display(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperADCTilt()).c_str());
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(4, 2, gripperTiltQWidgetItem);
         }
@@ -76,6 +91,7 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             if (platformManipulatorAndIRBumper->getGripperRotationADC()) // show ADC value
             {
                 gripperRotationQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperADCRotation()).c_str());
+                ui->gripperRotationPositionLcdNumber->display(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperADCRotation()).c_str());
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(5, 2, gripperRotationQWidgetItem);
         }
@@ -85,8 +101,72 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             if (platformManipulatorAndIRBumper->getGripperPositionADC()) // show ADC value
             {
                 gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperADCPosition()).c_str());
+                ui->gripperPositionLcdNumber->display(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperADCPosition()).c_str());
             }
             ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(6, 2, gripperPositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getGripperForceSensor1Track())
+        {
+            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getGripperForceSensor1ADC()) // show ADC value
+            {
+                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor1ADCValue()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(7, 2, gripperPositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getGripperForceSensor2Track())
+        {
+            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getGripperForceSensor2ADC()) // show ADC value
+            {
+                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor2ADCValue()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(8, 2, gripperPositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getGripperForceSensor3Track())
+        {
+            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getGripperForceSensor3ADC()) // show ADC value
+            {
+                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor3ADCValue()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(9, 2, gripperPositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getGripperObjectDetectorTrack())
+        {
+            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getGripperObjectDetectorADC()) // show ADC value
+            {
+                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperObjectDetectorADCValue()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(10, 2, gripperPositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getGripperTiltMotorCurrentTrack())
+        {
+            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getGripperTiltMotorCurrentADC()) // show ADC value
+            {
+                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperTiltMotorCurrentADCValue()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(11, 2, gripperPositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentTrack())
+        {
+            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentADC()) // show ADC value
+            {
+                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentADCValue()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(12, 2, gripperPositionQWidgetItem);
+        }
+        if (platformManipulatorAndIRBumper->getGripperRotationMotorCurrentTrack())
+        {
+            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            if (platformManipulatorAndIRBumper->getGripperRotationMotorCurrentADC()) // show ADC value
+            {
+                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperRotationMotorCurrentADCValue()).c_str());
+            }
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(13, 2, gripperPositionQWidgetItem);
         }
 
         if (platformManipulatorAndIRBumper->getIRBumperTracked())
@@ -145,8 +225,24 @@ void loadPlatformManipulatorAndIRBumperDefaults(Ui::MainWindow *ui)
     ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(4, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperTiltADC()) ? Qt::Checked : Qt::Unchecked);
     ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(5, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperRotationTrack()) ? Qt::Checked : Qt::Unchecked);
     ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(5, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperRotationADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(6, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperPositionTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(6, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperPositionADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(7, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperForceSensor1Track()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(7, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperForceSensor1ADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(8, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperForceSensor2Track()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(8, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperForceSensor2ADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(9, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperForceSensor3Track()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(9, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperForceSensor3ADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(10, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperObjectDetectorTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(10, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperObjectDetectorADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(11, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperTiltMotorCurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(11, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperTiltMotorCurrentADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(12, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(12, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentADC()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(13, 0))->setCheckState((platformManipulatorAndIRBumper->getGripperRotationMotorCurrentTrack()) ? Qt::Checked : Qt::Unchecked);
+    ((QTableWidgetItem*)ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(13, 1))->setCheckState((platformManipulatorAndIRBumper->getGripperRotationMotorCurrentADC()) ? Qt::Checked : Qt::Unchecked);
 
-    ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked(true);
+    //ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked(true);
 
     for (int i = 0; i < 16; i++)
     {
@@ -231,18 +327,74 @@ void setPlatformManipulatorReadingsPresets(QTableWidgetItem *item)
             }
         break;
         case 7://CH3 Gripper Force Sensor 1
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setGripperForceSensor1Track((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setGripperForceSensor1ADC((item->checkState() == Qt::Checked) ? true : false);
+            }
         break;
         case 8://CH4 Gripper Force Sensor 2
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setGripperForceSensor2Track((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setGripperForceSensor2ADC((item->checkState() == Qt::Checked) ? true : false);
+            }
         break;
         case 9://CH5 Gripper Force Sensor 3
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setGripperForceSensor3Track((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setGripperForceSensor3ADC((item->checkState() == Qt::Checked) ? true : false);
+            }
         break;
         case 10://CH6 Gripper Object Detector
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setGripperObjectDetectorTrack((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setGripperObjectDetectorADC((item->checkState() == Qt::Checked) ? true : false);
+            }
         break;
         case 11://CH7 Gripper Tilt Motor Current
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setGripperTiltMotorCurrentTrack((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setGripperTiltMotorCurrentADC((item->checkState() == Qt::Checked) ? true : false);
+            }
         break;
         case 12://CH8 Gripper Open/Close Current
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setGripperOpenCloseMotorCurrentTrack((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setGripperOpenCloseMotorCurrentADC((item->checkState() == Qt::Checked) ? true : false);
+            }
         break;
         case 13://CH8 Gripper Rotation Motor Current
+            if (item->column() == 0)
+            {
+                platformManipulatorAndIRBumper->setGripperRotationMotorCurrentTrack((item->checkState() == Qt::Checked) ? true : false);
+            }
+            if (item->column() == 1)
+            {
+                platformManipulatorAndIRBumper->setGripperRotationMotorCurrentADC((item->checkState() == Qt::Checked) ? true : false);
+            }
         break;
     }
 }

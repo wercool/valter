@@ -77,6 +77,22 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
     link2CurrentTrack       = true;
     link2CurrentADC         = true;
 
+    gripperForceSensor1Track            = true;
+    gripperForceSensor2Track            = true;
+    gripperForceSensor3Track            = true;
+    gripperObjectDetectorTrack          = true;
+    gripperTiltMotorCurrentTrack        = true;
+    gripperOpenCloseMotorCurrentTrack   = true;
+    gripperRotationMotorCurrentTrack    = true;
+
+    gripperForceSensor1ADC              = true;
+    gripperForceSensor2ADC              = true;
+    gripperForceSensor3ADC              = true;
+    gripperObjectDetectorADC            = true;
+    gripperTiltMotorCurrentADC          = true;
+    gripperOpenCloseMotorCurrentADC     = true;
+    gripperRotationMotorCurrentADC      = true;
+
     link1Position   = 0;
     link2Position   = 0;
     link1Current    = 0;
@@ -86,6 +102,14 @@ void PlatformManipulatorAndIRBumper::resetToDefault()
     link2ADCPosition    = 0;
     link1ADCCurrent     = 0;
     link2ADCCurrent     = 0;
+
+    gripperForceSensor1ADCValue             = 0;
+    gripperForceSensor2ADCValue             = 0;
+    gripperForceSensor3ADCValue             = 0;
+    gripperObjectDetectorADCValue           = 0;
+    gripperTiltMotorCurrentADCValue         = 0;
+    gripperOpenCloseMotorCurrentADCValue    = 0;
+    gripperRotationMotorCurrentADCValue     = 0;
 
     for (int i = 0; i < 16; i++)
     {
@@ -223,6 +247,62 @@ void PlatformManipulatorAndIRBumper::loadDefaults()
     val2 = atoi(strtok(NULL, "," ));
     setGripperPositionTrack(val1);
     setGripperPositionADC(val2);
+
+    //CH3 Gripper Force Sensor 1      CH3
+    defaultValue = getDefault("CH3");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperForceSensor1Track(val1);
+    setGripperForceSensor1ADC(val2);
+
+    //CH4 Gripper Force Sensor 2      CH4
+    defaultValue = getDefault("CH4");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperForceSensor2Track(val1);
+    setGripperForceSensor2ADC(val2);
+
+    //CH5 Gripper Force Sensor 3      CH5
+    defaultValue = getDefault("CH5");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperForceSensor3Track(val1);
+    setGripperForceSensor3ADC(val2);
+
+    //CH6 Gripper Object Detector      CH6
+    defaultValue = getDefault("CH6");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperObjectDetectorTrack(val1);
+    setGripperObjectDetectorADC(val2);
+
+    //CH7 Gripper Tilt Motor Current      CH7
+    defaultValue = getDefault("CH7");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperTiltMotorCurrentTrack(val1);
+    setGripperTiltMotorCurrentADC(val2);
+
+    //CH8 Gripper Open/Close Motor Current      CH8
+    defaultValue = getDefault("CH8");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperOpenCloseMotorCurrentTrack(val1);
+    setGripperOpenCloseMotorCurrentADC(val2);
+
+    //CH9 Gripper Rotation Motor Current      CH9
+    defaultValue = getDefault("CH9");
+    defaultValuePtr = Valter::stringToCharPtr(defaultValue);
+    val1 = atoi(Valter::stringToCharPtr(strtok(defaultValuePtr, "," )));
+    val2 = atoi(strtok(NULL, "," ));
+    setGripperRotationMotorCurrentTrack(val1);
+    setGripperRotationMotorCurrentADC(val2);
 
     //irBumperTrack
     defaultValue = getDefault("irBumperTrack");
@@ -860,4 +940,219 @@ bool PlatformManipulatorAndIRBumper::getGripperRotationTrack() const
 void PlatformManipulatorAndIRBumper::setGripperRotationTrack(bool value)
 {
     gripperRotationTrack = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperRotationMotorCurrentADC() const
+{
+    return gripperRotationMotorCurrentADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperRotationMotorCurrentADC(bool value)
+{
+    gripperRotationMotorCurrentADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperOpenCloseMotorCurrentADC() const
+{
+    return gripperOpenCloseMotorCurrentADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperOpenCloseMotorCurrentADC(bool value)
+{
+    gripperOpenCloseMotorCurrentADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperTiltMotorCurrentADC() const
+{
+    return gripperTiltMotorCurrentADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperTiltMotorCurrentADC(bool value)
+{
+    gripperTiltMotorCurrentADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperObjectDetectorADC() const
+{
+    return gripperObjectDetectorADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperObjectDetectorADC(bool value)
+{
+    gripperObjectDetectorADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperForceSensor3ADC() const
+{
+    return gripperForceSensor3ADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor3ADC(bool value)
+{
+    gripperForceSensor3ADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperForceSensor2ADC() const
+{
+    return gripperForceSensor2ADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor2ADC(bool value)
+{
+    gripperForceSensor2ADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperForceSensor1ADC() const
+{
+    return gripperForceSensor1ADC;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor1ADC(bool value)
+{
+    gripperForceSensor1ADC = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperRotationMotorCurrentTrack() const
+{
+    return gripperRotationMotorCurrentTrack;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperRotationMotorCurrentTrack(bool value)
+{
+    gripperRotationMotorCurrentTrack = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperOpenCloseMotorCurrentTrack() const
+{
+    return gripperOpenCloseMotorCurrentTrack;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperOpenCloseMotorCurrentTrack(bool value)
+{
+    gripperOpenCloseMotorCurrentTrack = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperTiltMotorCurrentTrack() const
+{
+    return gripperTiltMotorCurrentTrack;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperTiltMotorCurrentTrack(bool value)
+{
+    gripperTiltMotorCurrentTrack = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperObjectDetectorTrack() const
+{
+    return gripperObjectDetectorTrack;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperObjectDetectorTrack(bool value)
+{
+    gripperObjectDetectorTrack = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperForceSensor3Track() const
+{
+    return gripperForceSensor3Track;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor3Track(bool value)
+{
+    gripperForceSensor3Track = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperForceSensor2Track() const
+{
+    return gripperForceSensor2Track;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor2Track(bool value)
+{
+    gripperForceSensor2Track = value;
+}
+
+bool PlatformManipulatorAndIRBumper::getGripperForceSensor1Track() const
+{
+    return gripperForceSensor1Track;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor1Track(bool value)
+{
+    gripperForceSensor1Track = value;
+}
+
+int PlatformManipulatorAndIRBumper::getIrBumperDuty() const
+{
+    return irBumperDuty;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperRotationMotorCurrentADCValue() const
+{
+    return gripperRotationMotorCurrentADCValue;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperRotationMotorCurrentADCValue(int value)
+{
+    gripperRotationMotorCurrentADCValue = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperOpenCloseMotorCurrentADCValue() const
+{
+    return gripperOpenCloseMotorCurrentADCValue;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperOpenCloseMotorCurrentADCValue(int value)
+{
+    gripperOpenCloseMotorCurrentADCValue = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperTiltMotorCurrentADCValue() const
+{
+    return gripperTiltMotorCurrentADCValue;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperTiltMotorCurrentADCValue(int value)
+{
+    gripperTiltMotorCurrentADCValue = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperObjectDetectorADCValue() const
+{
+    return gripperObjectDetectorADCValue;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperObjectDetectorADCValue(int value)
+{
+    gripperObjectDetectorADCValue = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperForceSensor3ADCValue() const
+{
+    return gripperForceSensor3ADCValue;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor3ADCValue(int value)
+{
+    gripperForceSensor3ADCValue = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperForceSensor2ADCValue() const
+{
+    return gripperForceSensor2ADCValue;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor2ADCValue(int value)
+{
+    gripperForceSensor2ADCValue = value;
+}
+
+int PlatformManipulatorAndIRBumper::getGripperForceSensor1ADCValue() const
+{
+    return gripperForceSensor1ADCValue;
+}
+
+void PlatformManipulatorAndIRBumper::setGripperForceSensor1ADCValue(int value)
+{
+    gripperForceSensor1ADCValue = value;
 }

@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>9</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1030</height>
+             <width>874</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3934,7 +3934,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>893</width>
+             <width>892</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7950,8 +7950,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1512</height>
+             <width>874</width>
+             <height>1514</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -8428,7 +8428,7 @@ background-repeat: repeat-no;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QLCDNumber" name="lcdNumber">
+                          <widget class="QLCDNumber" name="gripperTitltPositionLcdNumber">
                            <property name="minimumSize">
                             <size>
                              <width>0</width>
@@ -8550,7 +8550,7 @@ background-repeat: repeat-no;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QLCDNumber" name="lcdNumber_3">
+                          <widget class="QLCDNumber" name="gripperPositionLcdNumber">
                            <property name="minimumSize">
                             <size>
                              <width>0</width>
@@ -9027,7 +9027,7 @@ background-repeat: repeat-no;</string>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QLCDNumber" name="lcdNumber_2">
+                          <widget class="QLCDNumber" name="gripperRotationPositionLcdNumber">
                            <property name="minimumSize">
                             <size>
                              <width>0</width>
@@ -9634,9 +9634,6 @@ background-repeat: repeat-no;</string>
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
                 </item>
                 <item row="5" column="0">
                  <property name="text">
@@ -9663,9 +9660,6 @@ background-repeat: repeat-no;</string>
                 <item row="5" column="2">
                  <property name="text">
                   <string/>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
                  </property>
                 </item>
                 <item row="6" column="0">
@@ -9694,9 +9688,6 @@ background-repeat: repeat-no;</string>
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
                 </item>
                 <item row="7" column="0">
                  <property name="text">
@@ -9723,9 +9714,6 @@ background-repeat: repeat-no;</string>
                 <item row="7" column="2">
                  <property name="text">
                   <string/>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
                  </property>
                 </item>
                 <item row="8" column="0">
@@ -9754,9 +9742,6 @@ background-repeat: repeat-no;</string>
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
                 </item>
                 <item row="9" column="0">
                  <property name="text">
@@ -9783,9 +9768,6 @@ background-repeat: repeat-no;</string>
                 <item row="9" column="2">
                  <property name="text">
                   <string/>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
                  </property>
                 </item>
                 <item row="10" column="0">
@@ -9814,9 +9796,6 @@ background-repeat: repeat-no;</string>
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
                 </item>
                 <item row="11" column="0">
                  <property name="text">
@@ -9843,9 +9822,6 @@ background-repeat: repeat-no;</string>
                 <item row="11" column="2">
                  <property name="text">
                   <string/>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
                  </property>
                 </item>
                 <item row="12" column="0">
@@ -9874,9 +9850,6 @@ background-repeat: repeat-no;</string>
                  <property name="text">
                   <string/>
                  </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
-                 </property>
                 </item>
                 <item row="13" column="0">
                  <property name="text">
@@ -9903,9 +9876,6 @@ background-repeat: repeat-no;</string>
                 <item row="13" column="2">
                  <property name="text">
                   <string/>
-                 </property>
-                 <property name="flags">
-                  <set>ItemIsDragEnabled|ItemIsUserCheckable|ItemIsEnabled</set>
                  </property>
                 </item>
                </widget>
@@ -10510,7 +10480,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>800</height>
             </rect>
            </property>
@@ -13451,8 +13421,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -16764,8 +16734,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -20151,6 +20121,20 @@ image: url(:/hand-left.png);</string>
               </property>
               <property name="text">
                <string>add time</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="startSelectedControlDeviceLogButton">
+              <property name="text">
+               <string>Start Logging Selected</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="stopSelectedControlDeviceLogButton">
+              <property name="text">
+               <string>Stop Logging Selected</string>
               </property>
              </widget>
             </item>
