@@ -364,6 +364,7 @@ private:
 
 
     //-------------------------------------------------manipulator readings
+    /*************** triggers ************************/
     bool link1PositionTrack;
     bool link2PositionTrack;
     bool link1CurrentTrack;
@@ -396,6 +397,7 @@ private:
     bool gripperOpenCloseMotorCurrentADC;
     bool gripperRotationMotorCurrentADC;
 
+    /*************** readings ************************/
     int link1ADCPosition;
     int link2ADCPosition;
     int link1ADCCurrent;

@@ -813,7 +813,7 @@ int PlatformManipulatorAndIRBumper::getLink2ADCPosition() const
 void PlatformManipulatorAndIRBumper::setLink2ADCPosition(int value)
 {
     link2ADCPosition = value;
-    double degressValue = ((double)link2ADCPosition - 136) / 9.02; //max 948, min 136, 90deg max. 136 ~ 0, 948-136=812 812/90 = 9.02
+    double degressValue = ((double)link2ADCPosition - 278) / 8.28; //max 1023, min 278, 90deg max. 278 ~ 0 deg, 1023-278=745 -> 745/90 deg = 8.28
     setLink2Position(degressValue);
 }
 
@@ -825,7 +825,7 @@ int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
 void PlatformManipulatorAndIRBumper::setLink1ADCPosition(int value)
 {
     link1ADCPosition = value;
-    double degressValue = link1ADCPosition / 16; //max 0, min 1023, 64deg max. 1023 ~ 0, 1024/64 = 16
+    double degressValue = (1023 - link1ADCPosition) / 14.13; //max 20, min 1023, 71deg max. 1023 ~ 0, 1023-20=1003 -> 1003/71 = 14.13
     setLink1Position(degressValue);
 }
 
