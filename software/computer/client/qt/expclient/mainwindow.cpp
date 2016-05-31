@@ -301,6 +301,11 @@ void MainWindow::on_pushButton_3_clicked()
 }
 
 
+void MainWindow::on_pushButton_4_clicked()
+{
+    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink1PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
+    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink2PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
+}
 //TCP Interface Tab
 
 

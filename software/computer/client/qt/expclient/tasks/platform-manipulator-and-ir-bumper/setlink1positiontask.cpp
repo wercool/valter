@@ -5,7 +5,9 @@ float SetLink1PositionTask::prevAngle = 0.0;
 
 SetLink1PositionTask::SetLink1PositionTask()
 {
+    qDebugOn = false;
     taskName = "SetLink1PositionTask";
+    blocking = false;
     checkFeasibility();
 }
 
@@ -40,7 +42,7 @@ void SetLink1PositionTask::execute()
 void SetLink1PositionTask::stopExecution()
 {
     stopped = true;
-    setCompleted(true);
+    setCompleted();
 }
 
 void SetLink1PositionTask::reportCompletion()
@@ -55,6 +57,7 @@ ITask *SetLink1PositionTask::create()
 
 void SetLink1PositionTask::executionWorker()
 {
+    qDebug("Task#%lu %s started", getTaskId(), taskName.c_str());
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
 
     /************************************ emulation *********************start***************************/
@@ -113,7 +116,7 @@ void SetLink1PositionTask::executionWorker()
 
         if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
         {
-            setCompleted(true);
+            setCompleted();
             return;
         }
         else
@@ -139,7 +142,7 @@ void SetLink1PositionTask::executionWorker()
         this_thread::sleep_for(std::chrono::milliseconds(10));
     }
     qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
-    setCompleted(true);
+    setCompleted();
 }
 
 float SetLink1PositionTask::getAngle() const

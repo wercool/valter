@@ -22,7 +22,7 @@ public:
 
     bool getExecuting() const;
 
-    void setCompleted(bool value);
+    void setCompleted();
     bool getCompleted() const;
 
     void setBlocking(bool value);

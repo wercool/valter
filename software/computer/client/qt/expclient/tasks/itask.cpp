@@ -49,12 +49,12 @@ bool ITask::getStopped() const
     return stopped;
 }
 
-void ITask::setCompleted(bool value)
+void ITask::setCompleted()
 {
-    completed = value;
-    executing = !value;
     TaskManager::getInstance()->wipeQueuedCompletedTaskFromQueue(this->getTaskId());
     reportCompletion();
+    completed = true;
+    executing = false;
 }
 
 void ITask::setBlocking(bool value)

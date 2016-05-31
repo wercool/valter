@@ -34,6 +34,8 @@ unsigned int TaskManager::addTask(ITask *task)
 {
     std::lock_guard<std::mutex> guard(tasks_mutex);
     queuedTasksMap.insert(pair<unsigned long, ITask*>(task->getTaskId(), task));
+    this_thread::sleep_for(std::chrono::milliseconds(10));
+    qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
     return task->getTaskId();
 }
 
@@ -69,6 +71,7 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
     std::lock_guard<std::mutex> guard(tasks_mutex);
     executingTasksMap.erase(getTaskById(id)->getTaskName());
     queuedTasksMap.erase(id);
+    qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
 }
 
 void TaskManager::processScript(string script)
@@ -76,7 +79,7 @@ void TaskManager::processScript(string script)
     std::vector<std::string> scriptInstructions = Valter::split(script, '\n');
     for (int i = 0; i < static_cast<int>(scriptInstructions.size()); i++)
     {
-        qDebug("processScript: %s", ((string)scriptInstructions[i]).c_str());
+        //qDebug("processScript: %s", ((string)scriptInstructions[i]).c_str());
         std::vector<std::string> scriptInstructionParts = Valter::split(scriptInstructions[i], '_');
         if (((string)scriptInstructionParts[0]).compare("DELAY") == 0)
         {
@@ -91,7 +94,7 @@ void TaskManager::processScript(string script)
 
 unsigned int TaskManager::routeTaskRequest(string taskMessage)
 {
-    qDebug("routeTaskRequest: %s", taskMessage.c_str());
+    //qDebug("routeTaskRequest: %s", taskMessage.c_str());
     std::vector<std::string> taskMessageParts = Valter::split(taskMessage, '_');
     if (((string)taskMessageParts[0]).compare("T") == 0)
     {
@@ -116,31 +119,35 @@ void TaskManager::tasksQueueWorker()
     {
         if (!queuedTasksMap.empty())
         {
-            for (std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); ++it)
+            for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
             {
                 processingTask = it->second;
-                if (executingTasksMap.find(processingTask->getTaskName()) == executingTasksMap.end())
+                if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
                 {
-                    if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
-                    {
-                        executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
-                        processingTask->execute();
-                    }
+                    executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
+                    processingTask->execute();
                     if (processingTask->getBlocking())
                     {
-                        while (processingTask->getExecuting())
+                        break;
+                    }
+                }
+                else
+                {
+                    if (processingTask->getExecuting())
+                    {
+                        if (processingTask->getBlocking())
                         {
-                            this_thread::sleep_for(std::chrono::milliseconds(10));
+                            break;
                         }
                     }
                 }
             }
 
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(1));
         }
         else
         {
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 }
