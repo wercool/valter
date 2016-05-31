@@ -61,7 +61,7 @@ void SetLink1PositionTask::executionWorker()
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
 
     /************************************ emulation *********************start***************************/
-    platformManipulatorAndIRBumper->setLink1ADCPosition(0); //32 degrees = 512;
+//    platformManipulatorAndIRBumper->setLink1ADCPosition(0); //32 degrees = 512;
     /************************************ emulation *********************finish**************************/
 
     float sigma = 0.5; //precision in degrees
@@ -133,10 +133,10 @@ void SetLink1PositionTask::executionWorker()
         prevAngle = angle;
 
         /************************************ emulation *********************start***************************/
-        int positionADC = platformManipulatorAndIRBumper->getLink1ADCPosition();
-        positionADC++;
-        positionADC++;
-        platformManipulatorAndIRBumper->setLink1ADCPosition(positionADC);
+//        int positionADC = platformManipulatorAndIRBumper->getLink1ADCPosition();
+//        positionADC++;
+//        positionADC++;
+//        platformManipulatorAndIRBumper->setLink1ADCPosition(positionADC);
         /************************************ emulation *********************finish**************************/
 
         this_thread::sleep_for(std::chrono::milliseconds(10));
