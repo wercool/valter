@@ -67,7 +67,7 @@ void SetLink1PositionTask::executionWorker()
     //descending (angle increased) - true
     bool direction = (angle > platformManipulatorAndIRBumper->getLink1Position()) ? true : false;
 
-    float cutoffAngle = (direction) ? (angle * 0.95) : (angle / 0.95); //<<<<<<<<<<<<<<< dynamic parameter
+//    float cutoffAngle = (direction) ? (angle * 0.95) : (angle / 0.95); //<<<<<<<<<<<<<<< dynamic parameter
 
     if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
     {
@@ -120,15 +120,14 @@ void SetLink1PositionTask::executionWorker()
 
         if (qDebugOn)
         {
-            qDebug("Task#%lu: link1Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink1Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink1Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink1MovementDirection() ? "ascent" : "descent"));
+            qDebug("Task#%lu: link1Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink1Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink1Position()), sigma, (platformManipulatorAndIRBumper->getLink1MovementDirection() ? "ascent" : "descent"));
         }
 
-        if (abs(cutoffAngle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
+        if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
         {
             if (platformManipulatorAndIRBumper->getLink1MotorActivated())
             {
                 platformManipulatorAndIRBumper->setLink1MotorActivated(false);
-                qDebug("Task#%lu: link1Position CUTOFF cutoffAngle = %f", getTaskId(), cutoffAngle);
                 setCompleted();
                 return;
             }
