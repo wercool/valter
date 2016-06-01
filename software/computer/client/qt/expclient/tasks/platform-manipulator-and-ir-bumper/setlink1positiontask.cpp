@@ -123,20 +123,14 @@ void SetLink1PositionTask::executionWorker()
             qDebug("Task#%lu: link1Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink1Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink1Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink1MovementDirection() ? "ascent" : "descent"));
         }
 
-        if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
+        if (abs(cutoffAngle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
         {
-            setCompleted();
-            return;
-        }
-        else
-        {
-            if (abs(cutoffAngle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
+            if (platformManipulatorAndIRBumper->getLink1MotorActivated())
             {
-                if (platformManipulatorAndIRBumper->getLink1MotorActivated())
-                {
-                    platformManipulatorAndIRBumper->setLink1MotorActivated(false);
-                    qDebug("Task#%lu: link1Position CUTOFF cutoffAngle = %f", getTaskId(), cutoffAngle);
-                }
+                platformManipulatorAndIRBumper->setLink1MotorActivated(false);
+                qDebug("Task#%lu: link1Position CUTOFF cutoffAngle = %f", getTaskId(), cutoffAngle);
+                setCompleted();
+                return;
             }
         }
 
