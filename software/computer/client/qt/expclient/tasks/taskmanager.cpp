@@ -72,8 +72,14 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
     if (task != NULL)
     {
         std::lock_guard<std::mutex> guard(tasks_mutex);
-        executingTasksMap.erase(task->getTaskName());
-        queuedTasksMap.erase(id);
+        if (executingTasksMap.find(task->getTaskName()) != executingTasksMap.end())
+        {
+            executingTasksMap.erase(task->getTaskName());
+        }
+        if (queuedTasksMap.find(id) != queuedTasksMap.end())
+        {
+            queuedTasksMap.erase(id);
+        }
     }
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
 }

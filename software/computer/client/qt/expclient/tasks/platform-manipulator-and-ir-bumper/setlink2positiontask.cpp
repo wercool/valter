@@ -1,11 +1,9 @@
 #include "valter.h"
 #include "setlink2positiontask.h"
 
-float SetLink2PositionTask::prevAngle = 0.0;
-
 SetLink2PositionTask::SetLink2PositionTask()
 {
-    qDebugOn = false;
+    qDebugOn = true;
     taskName = "SetLink2PositionTask";
     blocking = false;
     checkFeasibility();
@@ -61,17 +59,28 @@ void SetLink2PositionTask::executionWorker()
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
 
     /************************************ emulation *********************start***************************/
-//    platformManipulatorAndIRBumper->setLink2ADCPosition(136); //45 degrees = 542;
+//    platformManipulatorAndIRBumper->setLink2ADCPosition(948); //0 degrees = 278;
     /************************************ emulation *********************finish**************************/
 
     float sigma = 0.5; //precision in degrees
-    float cutoffAngle = angle * 0.85; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< dynamic parameter
+
+    //descending (angle increased) - true
+    bool direction = (angle > platformManipulatorAndIRBumper->getLink2Position()) ? true : false;
+
+    float cutoffAngle = (direction) ? (angle * 0.95) : (angle / 0.95); //<<<<<<<<<<<<<<< dynamic parameter
+
+    if (abs(angle - platformManipulatorAndIRBumper->getLink2Position()) < sigma)
+    {
+        setCompleted();
+        return;
+    }
+
 
     while (!stopped)
     {
         if (!executing)
         {
-            if (prevAngle > angle) //move Link2 descending
+            if (direction) //move Link2 descending
             {
 
                 if (platformManipulatorAndIRBumper->prepareManLink2Movement())
@@ -112,7 +121,7 @@ void SetLink2PositionTask::executionWorker()
 
         if (qDebugOn)
         {
-            qDebug("Task#%lu: link2Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink2Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink2Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink2MovementDirection() ? "descent" : "ascent"));
+            qDebug("Task#%lu: link2Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink2Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink2Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink2MovementDirection() ? "ascent" : "descent"));
         }
 
         if (abs(angle - platformManipulatorAndIRBumper->getLink2Position()) < sigma)
@@ -127,16 +136,21 @@ void SetLink2PositionTask::executionWorker()
                 if (platformManipulatorAndIRBumper->getLink2MotorActivated())
                 {
                     platformManipulatorAndIRBumper->setLink2MotorActivated(false);
+                    qDebug("Task#%lu: link2Position CUTOFF cutoffAngle = %f", getTaskId(), cutoffAngle);
                 }
             }
         }
 
-        prevAngle = angle;
-
         /************************************ emulation *********************start***************************/
 //        int positionADC = platformManipulatorAndIRBumper->getLink2ADCPosition();
-//        positionADC++;
-//        positionADC++;
+//        if (direction)
+//        {
+//            positionADC++;
+//        }
+//        else
+//        {
+//            positionADC--;
+//        }
 //        platformManipulatorAndIRBumper->setLink2ADCPosition(positionADC);
         /************************************ emulation *********************finish**************************/
 

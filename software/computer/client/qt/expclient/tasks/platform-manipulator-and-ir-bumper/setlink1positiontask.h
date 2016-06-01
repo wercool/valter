@@ -28,7 +28,6 @@ protected:
 
 private:
     float angle;
-    static float prevAngle;
 };
 
 #endif // SETLINK1POSITIONTASK_H

@@ -1,11 +1,9 @@
 #include "valter.h"
 #include "setlink1positiontask.h"
 
-float SetLink1PositionTask::prevAngle = 0.0;
-
 SetLink1PositionTask::SetLink1PositionTask()
 {
-    qDebugOn = false;
+    qDebugOn = true;
     taskName = "SetLink1PositionTask";
     blocking = false;
     checkFeasibility();
@@ -13,7 +11,7 @@ SetLink1PositionTask::SetLink1PositionTask()
 
 bool SetLink1PositionTask::checkFeasibility()
 {
-    if (angle < 0 || angle > 64)
+    if (angle < 0 || angle > 71)
     {
         stopExecution();
 
@@ -61,17 +59,28 @@ void SetLink1PositionTask::executionWorker()
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
 
     /************************************ emulation *********************start***************************/
-//    platformManipulatorAndIRBumper->setLink1ADCPosition(0); //32 degrees = 512;
+    platformManipulatorAndIRBumper->setLink1ADCPosition(512); //35.5 degrees = 512;
     /************************************ emulation *********************finish**************************/
 
     float sigma = 0.5; //precision in degrees
-    float cutoffAngle = angle * 0.85; //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< dynamic parameter
+
+    //descending (angle increased) - true
+    bool direction = (angle > platformManipulatorAndIRBumper->getLink1Position()) ? true : false;
+
+    float cutoffAngle = (direction) ? (angle * 0.95) : (angle / 0.95); //<<<<<<<<<<<<<<< dynamic parameter
+
+    if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
+    {
+        this_thread::sleep_for(std::chrono::milliseconds(100));
+        setCompleted();
+        return;
+    }
 
     while (!stopped)
     {
         if (!executing)
         {
-            if (prevAngle > angle) //move Link1 ascending
+            if (direction) //move Link1 ascending
             {
                 if (platformManipulatorAndIRBumper->prepareManLink1Movement())
                 {
@@ -111,7 +120,7 @@ void SetLink1PositionTask::executionWorker()
 
         if (qDebugOn)
         {
-            qDebug("Task#%lu: link1Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink1Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink1Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink1MovementDirection() ? "descent" : "ascent"));
+            qDebug("Task#%lu: link1Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, cutoff = %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink1Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink1Position()), sigma, cutoffAngle, (platformManipulatorAndIRBumper->getLink1MovementDirection() ? "ascent" : "descent"));
         }
 
         if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
@@ -126,17 +135,22 @@ void SetLink1PositionTask::executionWorker()
                 if (platformManipulatorAndIRBumper->getLink1MotorActivated())
                 {
                     platformManipulatorAndIRBumper->setLink1MotorActivated(false);
+                    qDebug("Task#%lu: link1Position CUTOFF cutoffAngle = %f", getTaskId(), cutoffAngle);
                 }
             }
         }
 
-        prevAngle = angle;
-
         /************************************ emulation *********************start***************************/
-//        int positionADC = platformManipulatorAndIRBumper->getLink1ADCPosition();
-//        positionADC++;
-//        positionADC++;
-//        platformManipulatorAndIRBumper->setLink1ADCPosition(positionADC);
+        int positionADC = platformManipulatorAndIRBumper->getLink1ADCPosition();
+        if (direction)
+        {
+            positionADC--;
+        }
+        else
+        {
+            positionADC++;
+        }
+        platformManipulatorAndIRBumper->setLink1ADCPosition(positionADC);
         /************************************ emulation *********************finish**************************/
 
         this_thread::sleep_for(std::chrono::milliseconds(10));
