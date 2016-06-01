@@ -297,7 +297,18 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-    TaskManager::getInstance()->processScript(ui->taskScriptTextEdit->toPlainText().toStdString());
+    if (ui->executeTasksScriptLocallyCheckBox->isChecked())
+    {
+        TaskManager::getInstance()->processScript(ui->taskScriptTextEdit->toPlainText().toStdString());
+    }
+    else
+    {
+        vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
+        for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
+        {
+            TaskManager::getInstance()->sendScriptToRemoteTaskManager(ui->taskScriptTextEdit->toPlainText().toStdString(), remoteControlDeviceTCPInterfacesIpAdresses[i]);
+        }
+    }
 }
 
 
@@ -306,9 +317,15 @@ void MainWindow::on_pushButton_4_clicked()
     taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink1PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
     taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink2PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
 }
+
+
+void MainWindow::on_clearTasksQueueButton_clicked()
+{
+    TaskManager::getInstance()->clearQueue();
+
+}
+
 //TCP Interface Tab
-
-
 void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked()
 {
     string centralCommandHostIp = ui->centralCommandHostIPLineEdit->text().toStdString();

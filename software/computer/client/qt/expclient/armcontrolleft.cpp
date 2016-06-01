@@ -290,7 +290,7 @@ void ArmControlLeft::processControlDeviceResponse(string response)
 
 unsigned int ArmControlLeft::executeTask(string taskScriptLine)
 {
-
+    return 0;
 }
 
 void ArmControlLeft::leftForearmWorker()

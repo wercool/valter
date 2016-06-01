@@ -460,7 +460,7 @@ void PlatformControlP1::processControlDeviceResponse(string response)
 
 unsigned int PlatformControlP1::executeTask(string taskScriptLine)
 {
-
+    return 0;
 }
 
 void PlatformControlP1::scanFor220VACAvailable()

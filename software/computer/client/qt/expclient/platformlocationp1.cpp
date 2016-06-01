@@ -277,7 +277,7 @@ void PlatformLocationP1::processControlDeviceResponse(string response)
 
 unsigned int PlatformLocationP1::executeTask(string taskScriptLine)
 {
-
+    return 0;
 }
 
 void PlatformLocationP1::loadDefaults()

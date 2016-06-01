@@ -2,6 +2,8 @@
 #include "taskmanager.h"
 #include <QtDebug>
 
+#include "tcphandlers/taskmanager.tcphandler.cpp"
+
 
 TaskManager* TaskManager::pTaskManager = NULL;
 bool TaskManager::instanceFlag = false;
@@ -25,6 +27,7 @@ TaskManager *TaskManager::getInstance()
 
 TaskManager::TaskManager()
 {
+    initTcpInterface();
     qDebug("Task Manager initialized");
     queueStopped = false;
     new std::thread(&TaskManager::tasksQueueWorker, this);
@@ -86,25 +89,54 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
 
 void TaskManager::processScript(string script)
 {
+    qDebug("processScript:\n=====================SCRIPT============start===============\n%s\n=====================SCRIPT============end=================\n", script.c_str());
     std::vector<std::string> scriptInstructions = Valter::split(script, '\n');
     for (int i = 0; i < static_cast<int>(scriptInstructions.size()); i++)
     {
-        //qDebug("processScript: %s", ((string)scriptInstructions[i]).c_str());
-        std::vector<std::string> scriptInstructionParts = Valter::split(scriptInstructions[i], '_');
-        if (((string)scriptInstructionParts[0]).compare("DELAY") == 0)
+        if (((string)scriptInstructions[i]).length() > 0)
         {
-            TaskManager::getInstance()->addTask(new DelayTask(atoi(((string)scriptInstructionParts[1]).c_str())));
-        }
-        else
-        {
-            routeTaskRequest(scriptInstructions[i]);
+            std::vector<std::string> scriptInstructionParts = Valter::split(scriptInstructions[i], '_');
+            if (((string)scriptInstructionParts[0]).compare("DELAY") == 0)
+            {
+                TaskManager::getInstance()->addTask(new DelayTask(atoi(((string)scriptInstructionParts[1]).c_str())));
+            }
+            else
+            {
+                routeTaskRequest(scriptInstructions[i]);
+            }
         }
     }
 }
 
+void TaskManager::clearQueue()
+{
+    std::lock_guard<std::mutex> guard(tasks_mutex);
+    executingTasksMap.clear();
+    queuedTasksMap.clear();
+}
+
+bool TaskManager::sendScriptToRemoteTaskManager(string script, string ipAddress)
+{
+    TCPStream* stream = getTcpInterface()->getCommanfInterfaceConnector()->connect(ipAddress.c_str(), getTcpInterface()->getPort());
+    int length;
+    char response[256];
+    if (stream)
+    {
+        //qDebug("sent - %s", command.c_str());
+        stream->send(script.c_str(), script.size());
+        length = stream->receive(response, sizeof(response));
+        response[length] = '\0';
+        //qDebug("received - %s", response);
+        delete stream;
+
+        return true;
+    }
+    return false;
+}
+
 unsigned int TaskManager::routeTaskRequest(string taskMessage)
 {
-    //qDebug("routeTaskRequest: %s", taskMessage.c_str());
+    qDebug("routeTaskRequest: %s", taskMessage.c_str());
     std::vector<std::string> taskMessageParts = Valter::split(taskMessage, '_');
     if (((string)taskMessageParts[0]).compare("T") == 0)
     {
@@ -118,7 +150,14 @@ unsigned int TaskManager::routeTaskRequest(string taskMessage)
             }
             taskScriptLine.append(taskMessageParts[i]);
         }
-        return valterModule->executeTask(taskScriptLine);
+        if (valterModule->getControlDeviceIsSet())
+        {
+            if (valterModule->getControlDevice()->getStatus() == ControlDevice::StatusActive)
+            {
+                //qDebug("%s", valterModule->getControlDevice()->getControlDeviceId().c_str());
+                return valterModule->executeTask(taskScriptLine);
+            }
+        }
     }
     return 0;
 }
@@ -134,6 +173,10 @@ void TaskManager::tasksQueueWorker()
                 processingTask = it->second;
                 if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
                 {
+                    if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
+                    {
+                        continue;
+                    }
                     executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
                     processingTask->execute();
                     if (processingTask->getBlocking())
@@ -160,4 +203,30 @@ void TaskManager::tasksQueueWorker()
             this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
+}
+
+TCPInterface *TaskManager::getTcpInterface() const
+{
+    return tcpInterface;
+}
+
+void TaskManager::setTcpInterface(TCPInterface *value)
+{
+    tcpInterface = value;
+}
+
+void TaskManager::initTcpInterface()
+{
+    if (!getTcpInterface())
+    {
+        TCPInterface *tcpInterface = new TCPInterface(55555);
+        setTcpInterface(tcpInterface);
+        initTcpCommandAcceptorInterface();
+    }
+}
+
+void TaskManager::initTcpCommandAcceptorInterface()
+{
+    getTcpInterface()->setConnectionHandler((Thread*)new TaskManagerTCPConnectionHandler(getTcpInterface()->queue));
+    getTcpInterface()->startListening();
 }

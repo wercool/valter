@@ -140,6 +140,10 @@ public:
 
    IValterModule *getValterModulePtrByShortName(std::string shortValterModuleName);
 
+   void addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(string ipAddress);
+
+   vector<string> getRemoteControlDeviceTCPInterfacesIpAddressesVector() const;
+
 private:
    Valter();
    static Valter *pValter;      // Valter's singleton instance
@@ -153,6 +157,8 @@ private:
 
    map<string, IValterModule*> valterModulesMap;
    map<string, IValterModule*> valterModuleShortNameMap;
+
+   vector<string> remoteControlDeviceTCPInterfacesIpAddressesVector;
 
 };
 

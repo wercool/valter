@@ -121,7 +121,7 @@ void PlatformControlP2::processControlDeviceResponse(string response)
 
 unsigned int PlatformControlP2::executeTask(string taskScriptLine)
 {
-
+    return 0;
 }
 
 bool PlatformControlP2::getChargerMotorRotateWorkerActivated() const

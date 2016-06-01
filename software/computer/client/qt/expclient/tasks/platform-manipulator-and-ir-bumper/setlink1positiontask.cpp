@@ -13,9 +13,10 @@ bool SetLink1PositionTask::checkFeasibility()
 {
     if (angle < 0 || angle > 71)
     {
+        this_thread::sleep_for(std::chrono::milliseconds(100));
         stopExecution();
 
-        qDebug("Task#%lu target Link1 angle in unreachable.", getTaskId());
+        qDebug("Task#%lu target Link1 angle %f in unreachable.", getTaskId(), angle);
         return false;
     }
     return true;
@@ -59,7 +60,7 @@ void SetLink1PositionTask::executionWorker()
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
 
     /************************************ emulation *********************start***************************/
-//    platformManipulatorAndIRBumper->setLink1ADCPosition(512); //35.5 degrees = 512;
+    platformManipulatorAndIRBumper->setLink1ADCPosition(512); //35.5 degrees = 512;
     /************************************ emulation *********************finish**************************/
 
     float sigma = 1.0; //precision in degrees
@@ -67,7 +68,7 @@ void SetLink1PositionTask::executionWorker()
     //descending (angle increased) - true
     bool direction = (angle > platformManipulatorAndIRBumper->getLink1Position()) ? true : false;
 
-//    float cutoffAngle = (direction) ? (angle * 0.95) : (angle / 0.95); //<<<<<<<<<<<<<<< dynamic parameter
+    float cutoffAngle = (direction) ? (angle * 0.98) : (angle / 0.98); //<<<<<<<<<<<<<<< dynamic parameter
 
     if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
     {
@@ -117,35 +118,37 @@ void SetLink1PositionTask::executionWorker()
                 }
             }
         }
-
-        if (qDebugOn)
+        else
         {
-            qDebug("Task#%lu: link1Position (deg) = %f, target (deg) = %f, dSigma = %f ? %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink1Position(), angle, abs(angle - platformManipulatorAndIRBumper->getLink1Position()), sigma, (platformManipulatorAndIRBumper->getLink1MovementDirection() ? "ascent" : "descent"));
-        }
 
-        if (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma)
-        {
-            if (platformManipulatorAndIRBumper->getLink1MotorActivated())
+            if (qDebugOn)
             {
-                platformManipulatorAndIRBumper->setLink1MotorActivated(false);
-                setCompleted();
-                return;
+                qDebug("Task#%lu: link1Position (deg) = %f, target (deg) = %f, cutoffAngle = %f, dSigma = %f ? %f, direction: %s", getTaskId(), platformManipulatorAndIRBumper->getLink1Position(), angle, cutoffAngle, abs(angle - platformManipulatorAndIRBumper->getLink1Position()), sigma, (platformManipulatorAndIRBumper->getLink1MovementDirection() ? "ascent" : "descent"));
             }
+
+            if ((direction && platformManipulatorAndIRBumper->getLink1Position() >= cutoffAngle) || ((!direction && platformManipulatorAndIRBumper->getLink1Position() <= cutoffAngle)) || (abs(angle - platformManipulatorAndIRBumper->getLink1Position()) < sigma))
+            {
+                if (platformManipulatorAndIRBumper->getLink1MotorActivated())
+                {
+                    platformManipulatorAndIRBumper->setLink1MotorActivated(false);
+                    setCompleted();
+                    return;
+                }
+            }
+
+            /************************************ emulation *********************start***************************/
+            int positionADC = platformManipulatorAndIRBumper->getLink1ADCPosition();
+            if (direction)
+            {
+                positionADC -= 5;
+            }
+            else
+            {
+                positionADC += 5;
+            }
+            platformManipulatorAndIRBumper->setLink1ADCPosition(positionADC);
+            /************************************ emulation *********************finish**************************/
         }
-
-        /************************************ emulation *********************start***************************/
-//        int positionADC = platformManipulatorAndIRBumper->getLink1ADCPosition();
-//        if (direction)
-//        {
-//            positionADC--;
-//        }
-//        else
-//        {
-//            positionADC++;
-//        }
-//        platformManipulatorAndIRBumper->setLink1ADCPosition(positionADC);
-        /************************************ emulation *********************finish**************************/
-
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());

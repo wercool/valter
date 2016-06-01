@@ -6,6 +6,8 @@
 #include <cstdio>
 #include <sys/time.h>
 
+#include <algorithm>
+
 #include "valter.h"
 #include "controldevice.h"
 
@@ -46,6 +48,15 @@ Valter::Valter()
     valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("BCP1", BodyControlP1::getInstance()));
     valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("ACR", ArmControlRight::getInstance()));
     valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("ACL", ArmControlLeft::getInstance()));
+
+    TaskManager::getInstance();
+
+    remoteControlDeviceTCPInterfacesIpAddressesVector = {};
+}
+
+vector<string> Valter::getRemoteControlDeviceTCPInterfacesIpAddressesVector() const
+{
+    return remoteControlDeviceTCPInterfacesIpAddressesVector;
 }
 
 map<string, IValterModule *> Valter::getValterModulesMap() const
@@ -89,6 +100,26 @@ void Valter::stopAllModules()
 IValterModule *Valter::getValterModulePtrByShortName(string shortValterModuleName)
 {
     return valterModuleShortNameMap[shortValterModuleName];
+}
+
+void Valter::addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(string ipAddress)
+{
+    if (ipAddress.compare("127.0.0.1") == 0)
+    {
+        return;
+    }
+    bool addIpAddress = true;
+    for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAddressesVector.size(); i++)
+    {
+        if (((string)remoteControlDeviceTCPInterfacesIpAddressesVector[i]).compare(ipAddress) == 0)
+        {
+            addIpAddress = false;
+        }
+    }
+    if (addIpAddress)
+    {
+        remoteControlDeviceTCPInterfacesIpAddressesVector.push_back(ipAddress);
+    }
 }
 
 Valter* Valter::getInstance()
@@ -255,7 +286,14 @@ void Valter::updateControlDevice(string controlDeviceId, string port)
 
 ControlDevice *Valter::getControlDeviceById(string controlDeviceId)
 {
-    return controlDevicesMap[controlDeviceId];
+    if (controlDevicesMap.find(controlDeviceId) != controlDevicesMap.end())
+    {
+        return controlDevicesMap[controlDeviceId];
+    }
+    else
+    {
+        return NULL;
+    }
 }
 
 void Valter::closeAllControlDevicePorts()

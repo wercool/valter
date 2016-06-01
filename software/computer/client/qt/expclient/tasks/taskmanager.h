@@ -6,6 +6,7 @@
 #include <mutex>
 
 #include <tasks/itask.h>
+#include "tcpinterface.h"
 
 class TaskManager
 {
@@ -22,8 +23,17 @@ public:
     void  wipeQueuedCompletedTaskFromQueue(unsigned long id);
 
     void processScript(std::string script);
+    void clearQueue();
+
+    bool sendScriptToRemoteTaskManager(string script, string ipAddress);
 
     unsigned int routeTaskRequest(std::string taskMessage); //returns TaskId
+
+    TCPInterface *getTcpInterface() const;
+    void setTcpInterface(TCPInterface *value);
+
+    void initTcpInterface();
+    void initTcpCommandAcceptorInterface();
 
 private:
     TaskManager();
@@ -39,6 +49,8 @@ private:
     bool queueStopped;
 
     void tasksQueueWorker(void);
+
+    TCPInterface *tcpInterface;
 };
 
 #endif // TASKMANAGER_H

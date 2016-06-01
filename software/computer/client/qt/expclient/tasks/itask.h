@@ -3,6 +3,8 @@
 
 #include <thread>
 #include <chrono>
+#include <string>
+
 using namespace std;
 using namespace chrono;
 

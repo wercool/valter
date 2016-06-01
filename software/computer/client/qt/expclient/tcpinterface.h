@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
+#include <vector>
+
 #include "tcp/threads/thread.h"
 #include "tcp/wqueue/wqueue.h"
 #include "tcp/tcpsockets/tcpacceptor.h"

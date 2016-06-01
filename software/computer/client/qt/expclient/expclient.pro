@@ -59,11 +59,14 @@ SOURCES += main.cpp\
             tcphandlers/bodycontrolp1.tcphandler.cpp \
             tcphandlers/armcontrolright.tcphandler.cpp \
             tcphandlers/armcontrolleft.tcphandler.cpp \
-    tasks/itask.cpp \
-    tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.cpp \
-    tasks/taskmanager.cpp \
-    tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
-    tasks/delaytask.cpp
+            tcphandlers/taskmanager.tcphandler.cpp \
+#tasks
+            tasks/itask.cpp \
+            tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.cpp \
+            tasks/taskmanager.cpp \
+            tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
+            tasks/delaytask.cpp \
+            tcphandlers/taskmanager.tcphandler.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -100,12 +103,13 @@ HEADERS  += mainwindow.h \
             tcp/tcpsockets/tcpacceptor.h \
             tcp/tcpsockets/tcpconnector.h \
             tcp/tcpsockets/workitem.h \
-    tasks/itask.h \
-    tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
-    tasks/tasks.h \
-    tasks/taskmanager.h \
-    tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
-    tasks/delaytask.h
+#tasks
+            tasks/itask.h \
+            tasks/tasks.h \
+            tasks/taskmanager.h \
+            tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
+            tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
+            tasks/delaytask.h
 
 FORMS    += mainwindow.ui
 

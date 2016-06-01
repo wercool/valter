@@ -260,4 +260,5 @@ string TCPInterface::getCommandHostIP() const
 void TCPInterface::setCommandHostIP(const string &value)
 {
     commandHostIP = value;
+    Valter::getInstance()->addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(commandHostIP);
 }

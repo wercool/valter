@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1030</height>
+             <width>874</width>
+             <height>1040</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -3934,7 +3934,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>893</width>
+             <width>892</width>
              <height>2400</height>
             </rect>
            </property>
@@ -7950,8 +7950,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1512</height>
+             <width>874</width>
+             <height>1514</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -10480,7 +10480,7 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>800</height>
             </rect>
            </property>
@@ -13421,8 +13421,8 @@ background-repeat: repeat-no;</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -16734,8 +16734,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -20763,8 +20763,8 @@ image: url(:/hand-left.png);</string>
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
          <rect>
-          <x>690</x>
-          <y>140</y>
+          <x>500</x>
+          <y>30</y>
           <width>171</width>
           <height>27</height>
          </rect>
@@ -20776,8 +20776,8 @@ image: url(:/hand-left.png);</string>
        <widget class="QPushButton" name="pushButton_2">
         <property name="geometry">
          <rect>
-          <x>690</x>
-          <y>180</y>
+          <x>500</x>
+          <y>60</y>
           <width>171</width>
           <height>27</height>
          </rect>
@@ -20789,8 +20789,8 @@ image: url(:/hand-left.png);</string>
        <widget class="QPushButton" name="pushButton_3">
         <property name="geometry">
          <rect>
-          <x>320</x>
-          <y>250</y>
+          <x>10</x>
+          <y>210</y>
           <width>161</width>
           <height>27</height>
          </rect>
@@ -20802,7 +20802,7 @@ image: url(:/hand-left.png);</string>
        <widget class="QPlainTextEdit" name="taskScriptTextEdit">
         <property name="geometry">
          <rect>
-          <x>493</x>
+          <x>10</x>
           <y>250</y>
           <width>371</width>
           <height>231</height>
@@ -20812,14 +20812,40 @@ image: url(:/hand-left.png);</string>
        <widget class="QPushButton" name="pushButton_4">
         <property name="geometry">
          <rect>
-          <x>660</x>
-          <y>210</y>
+          <x>480</x>
+          <y>90</y>
           <width>201</width>
           <height>27</height>
          </rect>
         </property>
         <property name="text">
          <string>Set Link1 &amp; Link2 Position</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="clearTasksQueueButton">
+        <property name="geometry">
+         <rect>
+          <x>190</x>
+          <y>210</y>
+          <width>181</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Clear Tasks Queue</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>180</y>
+          <width>171</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>execute script locally</string>
         </property>
        </widget>
       </widget>
