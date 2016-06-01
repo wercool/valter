@@ -146,7 +146,7 @@ void SetLink1PositionTask::executionWorker()
 //        platformManipulatorAndIRBumper->setLink1ADCPosition(positionADC);
         /************************************ emulation *********************finish**************************/
 
-        this_thread::sleep_for(std::chrono::milliseconds(1));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
     setCompleted();
