@@ -62,7 +62,7 @@ void SetLink2PositionTask::executionWorker()
 //    platformManipulatorAndIRBumper->setLink2ADCPosition(948); //0 degrees = 278;
     /************************************ emulation *********************finish**************************/
 
-    float sigma = 0.5; //precision in degrees
+    float sigma = 1.0; //precision in degrees
 
     //descending (angle increased) - true
     bool direction = (angle > platformManipulatorAndIRBumper->getLink2Position()) ? true : false;
@@ -146,7 +146,7 @@ void SetLink2PositionTask::executionWorker()
 //        platformManipulatorAndIRBumper->setLink2ADCPosition(positionADC);
         /************************************ emulation *********************finish**************************/
 
-        this_thread::sleep_for(std::chrono::milliseconds(10));
+        this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
     setCompleted();
