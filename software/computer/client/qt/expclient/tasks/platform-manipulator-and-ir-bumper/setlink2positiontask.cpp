@@ -62,7 +62,7 @@ void SetLink2PositionTask::executionWorker()
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
 
     /************************************ emulation *********************start***************************/
-    platformManipulatorAndIRBumper->setLink2ADCPosition(650); //0 degrees = 278; 45 deg - 650
+//    platformManipulatorAndIRBumper->setLink2ADCPosition(650); //0 degrees = 278; 45 deg - 650
     /************************************ emulation *********************finish**************************/
 
     float sigma = 1.0; //precision in degrees
@@ -139,16 +139,16 @@ void SetLink2PositionTask::executionWorker()
             }
 
             /************************************ emulation *********************start***************************/
-            int positionADC = platformManipulatorAndIRBumper->getLink2ADCPosition();
-            if (direction)
-            {
-                positionADC += 5;
-            }
-            else
-            {
-                positionADC -= 5;
-            }
-            platformManipulatorAndIRBumper->setLink2ADCPosition(positionADC);
+//            int positionADC = platformManipulatorAndIRBumper->getLink2ADCPosition();
+//            if (direction)
+//            {
+//                positionADC += 5;
+//            }
+//            else
+//            {
+//                positionADC -= 5;
+//            }
+//            platformManipulatorAndIRBumper->setLink2ADCPosition(positionADC);
             /************************************ emulation *********************finish**************************/
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
