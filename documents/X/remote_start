@@ -1,8 +1,5 @@
-1)
-
+remote:
 DISPLAY=:0 ./expclient & x11vnc -many -display :0 &
-xwininfo -display :0 -name "Valter Exp Client"
 
-
-2)
-http://ghanima.net/doku.php?id=wiki:linuxtips:vncapplicationserver
+central:
+gvncviewer 192.168.0.172:0
