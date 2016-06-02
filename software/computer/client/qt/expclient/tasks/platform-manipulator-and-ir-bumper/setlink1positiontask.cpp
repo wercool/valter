@@ -13,9 +13,6 @@ bool SetLink1PositionTask::checkFeasibility()
 {
     if (angle < 0 || angle > 71)
     {
-        this_thread::sleep_for(std::chrono::milliseconds(100));
-        stopExecution();
-
         qDebug("Task#%lu target Link1 angle %f in unreachable.", getTaskId(), angle);
         return false;
     }
@@ -34,6 +31,11 @@ void SetLink1PositionTask::execute()
         if (checkFeasibility())
         {
             new std::thread(&SetLink1PositionTask::executionWorker, this);
+        }
+        else
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            stopExecution();
         }
     }
 }

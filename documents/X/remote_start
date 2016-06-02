@@ -1,0 +1,8 @@
+1)
+
+DISPLAY=:0 ./expclient & x11vnc -many -display :0 &
+xwininfo -display :0 -name "Valter Exp Client"
+
+
+2)
+http://ghanima.net/doku.php?id=wiki:linuxtips:vncapplicationserver

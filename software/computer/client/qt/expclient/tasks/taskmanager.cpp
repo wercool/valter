@@ -166,41 +166,48 @@ void TaskManager::tasksQueueWorker()
 {
     while (!queueStopped)
     {
-        if (!queuedTasksMap.empty())
+        try
         {
-            for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
+            if (!queuedTasksMap.empty())
             {
-                processingTask = it->second;
-                if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
+                for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
                 {
-                    if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
+                    processingTask = it->second;
+                    if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
                     {
-                        continue;
-                    }
-                    executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
-                    processingTask->execute();
-                    if (processingTask->getBlocking())
-                    {
-                        break;
-                    }
-                }
-                else
-                {
-                    if (processingTask->getExecuting())
-                    {
+                        if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
+                        {
+                            continue;
+                        }
+                        executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
+                        processingTask->execute();
                         if (processingTask->getBlocking())
                         {
                             break;
                         }
                     }
+                    else
+                    {
+                        if (processingTask->getExecuting())
+                        {
+                            if (processingTask->getBlocking())
+                            {
+                                break;
+                            }
+                        }
+                    }
                 }
-            }
 
-            this_thread::sleep_for(std::chrono::milliseconds(1));
+                this_thread::sleep_for(std::chrono::milliseconds(1));
+            }
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
         }
-        else
+        catch(const std::system_error& e)
         {
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+                qDebug("Caught system_error with code %d  meaning %s",  e.code().value(), e.what());
         }
     }
 }
