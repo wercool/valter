@@ -127,22 +127,22 @@ void PlatformControlP1::processControlDeviceResponse(string response)
             setPower5VOnState(false);
             return;
         }
-        if (response.compare("LEFT ACCUMULATOR CONNECTED") == 0)
+        if (response.compare("LEFT ACCUMULATOR CONNECTED") == 0) //to charger
         {
             setLeftAccumulatorConnected(true);
             return;
         }
-        if (response.compare("LEFT ACCUMULATOR DISCONNECTED") == 0)
+        if (response.compare("LEFT ACCUMULATOR DISCONNECTED") == 0) //from charger
         {
             setLeftAccumulatorConnected(false);
             return;
         }
-        if (response.compare("RIGHT ACCUMULATOR CONNECTED") == 0)
+        if (response.compare("RIGHT ACCUMULATOR CONNECTED") == 0) //to charger
         {
             setRightAccumulatorConnected(true);
             return;
         }
-        if (response.compare("RIGHT ACCUMULATOR DISCONNECTED") == 0)
+        if (response.compare("RIGHT ACCUMULATOR DISCONNECTED") == 0) //from charger
         {
             setRightAccumulatorConnected(false);
             return;

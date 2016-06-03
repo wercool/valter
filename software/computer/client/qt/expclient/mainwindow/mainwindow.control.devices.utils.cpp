@@ -314,6 +314,7 @@ void MainWindow::on_connectAllPushButton_clicked()
 
                 IValterModule *valterModule = Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId());
                 valterModule->loadDefaults();
+                valterModule->setModuleInitialState();
                 valterModule->addActionToDelayedGUIActions(IValterModule::RELOAD_DEFAULTS);
             }
         }

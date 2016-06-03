@@ -35,6 +35,12 @@ public:
     void initTcpInterface();
     void initTcpCommandAcceptorInterface();
 
+    bool getIncomingScriptProcessing() const;
+    void setIncomingScriptProcessing(bool value);
+
+    bool getStopTopTask() const;
+    void setStopTopTask(bool value);
+
 private:
     TaskManager();
     static TaskManager *pTaskManager;      // TaskManager's singleton instance
@@ -47,6 +53,8 @@ private:
     ITask *processingTask;
 
     bool queueStopped;
+    bool incomingScriptProcessing;
+    bool stopTopTask;
 
     void tasksQueueWorker(void);
 

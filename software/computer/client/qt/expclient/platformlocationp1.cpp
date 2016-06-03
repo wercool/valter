@@ -135,6 +135,7 @@ void PlatformLocationP1::resetToDefault()
 
 void PlatformLocationP1::setModuleInitialState()
 {
+    qDebug("PlatformLocationP1::setModuleInitialState");
     for (int i = 0; i < 12; i++)
     {
         redLedArray[i] = false;
@@ -142,6 +143,7 @@ void PlatformLocationP1::setModuleInitialState()
     }
     setRedLedState(0, false);
     setGreenLedState(0, false);
+    setAllLEDsOff();
 }
 
 void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()

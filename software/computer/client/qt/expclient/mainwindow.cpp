@@ -74,6 +74,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     initArmControlLeft(ui);
 
     ui->centralCommandHostIPLineEdit->setText(TCPInterface::getLocalHostIP().c_str());
+
+    connect(ui->stopAllButton1, SIGNAL(clicked()), this, SLOT(on_stopAllButton1_clicked()));
+    connect(ui->stopAllButton2, SIGNAL(clicked()), this, SLOT(on_stopAllButton2_clicked()));
+    connect(ui->stopAllButton3, SIGNAL(clicked()), this, SLOT(on_stopAllButton3_clicked()));
+    connect(ui->stopAllButton4, SIGNAL(clicked()), this, SLOT(on_stopAllButton4_clicked()));
+    connect(ui->stopAllButton5, SIGNAL(clicked()), this, SLOT(on_stopAllButton5_clicked()));
+    connect(ui->stopAllButton6, SIGNAL(clicked()), this, SLOT(on_stopAllButton6_clicked()));
+    connect(ui->stopAllButton7, SIGNAL(clicked()), this, SLOT(on_stopAllButton7_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -103,6 +111,45 @@ Ui::MainWindow *MainWindow::getUi() const
 void MainWindow::setUi(Ui::MainWindow *value)
 {
     ui = value;
+}
+
+void MainWindow::on_stopAllButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_stopAllButton_clicked");
+    }
+    platformControlP1->sendCommand("DCDC5VENABLEOFF");
+}
+
+void MainWindow::on_stopAllButton1_clicked()
+{
+    on_stopAllButton_clicked();
+}
+void MainWindow::on_stopAllButton2_clicked()
+{
+    on_stopAllButton_clicked();
+}
+void MainWindow::on_stopAllButton3_clicked()
+{
+    on_stopAllButton_clicked();
+}
+void MainWindow::on_stopAllButton4_clicked()
+{
+    on_stopAllButton_clicked();
+}
+void MainWindow::on_stopAllButton5_clicked()
+{
+    on_stopAllButton_clicked();
+}
+void MainWindow::on_stopAllButton6_clicked()
+{
+    on_stopAllButton_clicked();
+}
+void MainWindow::on_stopAllButton7_clicked()
+{
+    on_stopAllButton_clicked();
 }
 
 void MainWindow::refreshControlDeviceTableWidget()
@@ -267,64 +314,6 @@ void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
     }
 }
 
-//Tasks
-
-unsigned long taskId;
-void MainWindow::on_testTaskButton_clicked()
-{
-    taskId = PlatformManipulatorAndIRBumper::getInstance()->executeTask(Valter::format_string("T_PMIB_SetLink2PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
-}
-
-void MainWindow::on_stopTestTaskButton_clicked()
-{
-    ITask *task = TaskManager::getInstance()->getTaskById(taskId);
-    if (task != NULL)
-    {
-       task->stopExecution();
-    }
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink1PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink2PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
-}
-
-
-void MainWindow::on_pushButton_3_clicked()
-{
-    if (ui->executeTasksScriptLocallyCheckBox->isChecked())
-    {
-        TaskManager::getInstance()->processScript(ui->taskScriptTextEdit->toPlainText().toStdString());
-    }
-    else
-    {
-        vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
-        for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
-        {
-            TaskManager::getInstance()->sendScriptToRemoteTaskManager(ui->taskScriptTextEdit->toPlainText().toStdString(), remoteControlDeviceTCPInterfacesIpAdresses[i]);
-        }
-    }
-}
-
-
-void MainWindow::on_pushButton_4_clicked()
-{
-    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink1PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
-    taskId = TaskManager::getInstance()->routeTaskRequest(Valter::format_string("T_PMIB_SetLink2PositionTask_%d", atoi(ui->taskTestValueLineEdit->text().toStdString().c_str())));
-}
-
-
-void MainWindow::on_clearTasksQueueButton_clicked()
-{
-    TaskManager::getInstance()->clearQueue();
-
-}
-
 //TCP Interface Tab
 void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked()
 {
@@ -454,4 +443,56 @@ void MainWindow::on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_cl
     ui->bodyControlP1RemoteControlCheckbox->setChecked(true);
     ui->armControlRightRemoteControlCheckbox->setChecked(true);
     ui->armControlLeftRemoteControlCheckbox->setChecked(true);
+}
+
+
+//Tasks
+
+
+void MainWindow::on_executeScriptButton_clicked()
+{
+    if (ui->executeTasksScriptLocallyCheckBox->isChecked())
+    {
+        TaskManager::getInstance()->processScript(ui->taskScriptTextEdit->toPlainText().toStdString());
+    }
+    else
+    {
+        vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
+        for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
+        {
+            TaskManager::getInstance()->sendScriptToRemoteTaskManager(ui->taskScriptTextEdit->toPlainText().toStdString(), remoteControlDeviceTCPInterfacesIpAdresses[i]);
+        }
+    }
+}
+
+void MainWindow::on_clearTasksQueueButton_clicked()
+{
+    if (ui->executeTasksScriptLocallyCheckBox->isChecked())
+    {
+        TaskManager::getInstance()->clearQueue();
+    }
+    else
+    {
+        vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
+        for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
+        {
+            TaskManager::getInstance()->sendScriptToRemoteTaskManager("CLEARQUEUE", remoteControlDeviceTCPInterfacesIpAdresses[i]);
+        }
+    }
+}
+
+void MainWindow::on_forcefullyCompleteTaskButton_clicked()
+{
+    if (ui->executeTasksScriptLocallyCheckBox->isChecked())
+    {
+        TaskManager::getInstance()->setStopTopTask(true);
+    }
+    else
+    {
+        vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
+        for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
+        {
+            TaskManager::getInstance()->sendScriptToRemoteTaskManager("STOPTOPTASK", remoteControlDeviceTCPInterfacesIpAdresses[i]);
+        }
+    }
 }

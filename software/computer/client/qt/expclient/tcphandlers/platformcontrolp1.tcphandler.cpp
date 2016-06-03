@@ -87,6 +87,12 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         MainWindow *mainWindow = MainWindow::getInstance();
         Ui::MainWindow* ui = mainWindow->getUi();
 
+        if (cmd.find("on_stopAllButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_stopAllButton_clicked();
+            return;
+        }
+
         if (cmd.find("on_platformControlP1LoadDefaultsButton_clicked") != std::string::npos)
         {
             mainWindow->on_platformControlP1LoadDefaultsButton_clicked();

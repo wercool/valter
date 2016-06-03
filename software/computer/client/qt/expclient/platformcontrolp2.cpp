@@ -942,5 +942,7 @@ void PlatformControlP2::loadDefaults()
 
 void PlatformControlP2::setModuleInitialState()
 {
-
+    qDebug("PlatformControlP2::setModuleInitialState");
+    resetIRScannerServo();
+    resetIRScannerServo();
 }

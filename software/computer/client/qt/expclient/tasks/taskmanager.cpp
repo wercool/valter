@@ -30,7 +30,29 @@ TaskManager::TaskManager()
     initTcpInterface();
     qDebug("Task Manager initialized");
     queueStopped = false;
+    incomingScriptProcessing = false;
+    stopTopTask = false;
     new std::thread(&TaskManager::tasksQueueWorker, this);
+}
+
+bool TaskManager::getStopTopTask() const
+{
+    return stopTopTask;
+}
+
+void TaskManager::setStopTopTask(bool value)
+{
+    stopTopTask = value;
+}
+
+bool TaskManager::getIncomingScriptProcessing() const
+{
+    return incomingScriptProcessing;
+}
+
+void TaskManager::setIncomingScriptProcessing(bool value)
+{
+    incomingScriptProcessing = value;
 }
 
 unsigned int TaskManager::addTask(ITask *task)
@@ -89,6 +111,7 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
 
 void TaskManager::processScript(string script)
 {
+    setIncomingScriptProcessing(true);
     qDebug("processScript:\n=====================SCRIPT============start===============\n%s\n=====================SCRIPT============end=================\n", script.c_str());
     std::vector<std::string> scriptInstructions = Valter::split(script, '\n');
     for (int i = 0; i < static_cast<int>(scriptInstructions.size()); i++)
@@ -96,20 +119,40 @@ void TaskManager::processScript(string script)
         if (((string)scriptInstructions[i]).length() > 0)
         {
             std::vector<std::string> scriptInstructionParts = Valter::split(scriptInstructions[i], '_');
+            if (((string)scriptInstructionParts[0]).compare("CLEARQUEUE") == 0)
+            {
+                TaskManager::getInstance()->clearQueue();
+                continue;
+            }
+            if (((string)scriptInstructionParts[0]).compare("STOPTOPTASK") == 0)
+            {
+                TaskManager::getInstance()->setStopTopTask(true);
+                continue;
+            }
             if (((string)scriptInstructionParts[0]).compare("DELAY") == 0)
             {
                 TaskManager::getInstance()->addTask(new DelayTask(atoi(((string)scriptInstructionParts[1]).c_str())));
+                continue;
             }
-            else
+            if (((string)scriptInstructionParts[0]).compare("INITIAL") == 0)
             {
-                routeTaskRequest(scriptInstructions[i]);
+                TaskManager::getInstance()->addTask(new SetModuleInitialStateTask());
+                continue;
             }
+
+            routeTaskRequest(scriptInstructions[i]);
         }
     }
+    qDebug("\n=====================SCRIPT============processing completed=======================\n");
+    setIncomingScriptProcessing(false);
 }
 
 void TaskManager::clearQueue()
 {
+    for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
+    {
+        ((ITask*)it->second)->stopExecution();
+    }
     std::lock_guard<std::mutex> guard(tasks_mutex);
     executingTasksMap.clear();
     queuedTasksMap.clear();
@@ -166,48 +209,60 @@ void TaskManager::tasksQueueWorker()
 {
     while (!queueStopped)
     {
-        try
+        if (!getIncomingScriptProcessing())
         {
-            if (!queuedTasksMap.empty())
+            try
             {
-                for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
+                if (!queuedTasksMap.empty())
                 {
-                    processingTask = it->second;
-                    if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
+                    for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
                     {
-                        if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
+                        processingTask = it->second;
+                        if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
                         {
-                            continue;
-                        }
-                        executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
-                        processingTask->execute();
-                        if (processingTask->getBlocking())
-                        {
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (processingTask->getExecuting())
-                        {
+                            if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
+                            {
+                                continue;
+                            }
+                            executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
+                            processingTask->execute();
                             if (processingTask->getBlocking())
                             {
                                 break;
                             }
                         }
+                        else
+                        {
+                            if (processingTask->getExecuting())
+                            {
+                                if (getStopTopTask())
+                                {
+                                    processingTask->stopExecution();
+                                    setStopTopTask(false);
+                                }
+                                if (processingTask->getBlocking())
+                                {
+                                    break;
+                                }
+                            }
+                        }
                     }
-                }
 
-                this_thread::sleep_for(std::chrono::milliseconds(1));
+                    this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
+                else
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(10));
+                }
             }
-            else
+            catch(const std::system_error& e)
             {
-                this_thread::sleep_for(std::chrono::milliseconds(10));
+                    qDebug("Caught system_error with code %d  meaning %s",  e.code().value(), e.what());
             }
         }
-        catch(const std::system_error& e)
+        else
         {
-                qDebug("Caught system_error with code %d  meaning %s",  e.code().value(), e.what());
+            this_thread::sleep_for(std::chrono::milliseconds(50));
         }
     }
 }

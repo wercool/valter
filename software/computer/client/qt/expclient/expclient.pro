@@ -66,7 +66,8 @@ SOURCES += main.cpp\
             tasks/taskmanager.cpp \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
             tasks/delaytask.cpp \
-            tcphandlers/taskmanager.tcphandler.cpp
+            tcphandlers/taskmanager.tcphandler.cpp \
+    tasks/setmoduleinitialstatetask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -109,7 +110,8 @@ HEADERS  += mainwindow.h \
             tasks/taskmanager.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
-            tasks/delaytask.h
+            tasks/delaytask.h \
+    tasks/setmoduleinitialstatetask.h
 
 FORMS    += mainwindow.ui
 

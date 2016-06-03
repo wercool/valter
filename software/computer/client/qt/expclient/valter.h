@@ -62,6 +62,7 @@ public:
 
    void executeUscCmdMaestroLinux(string cmdArgs);
 
+   void setAllModulesInitialState();
    void stopAllModules();
 
    //Utils

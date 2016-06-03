@@ -99,6 +99,8 @@ public:
     Ui::MainWindow *getUi() const;
     void setUi(Ui::MainWindow *value);
 
+    void on_stopAllButton_clicked();
+
 protected:
     bool sliderWheelEventFilter(QObject *obj, QEvent *event)
     {
@@ -108,6 +110,14 @@ protected:
     }
 
 public slots:
+    void on_stopAllButton1_clicked();
+    void on_stopAllButton2_clicked();
+    void on_stopAllButton3_clicked();
+    void on_stopAllButton4_clicked();
+    void on_stopAllButton5_clicked();
+    void on_stopAllButton6_clicked();
+    void on_stopAllButton7_clicked();
+
     //Control Devices
     void initControlDevices(Ui::MainWindow *ui);
     void on_scanControlDevicesBtn_clicked();
@@ -626,13 +636,9 @@ private slots:
     void on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_clicked();
 
     //Utils
-    void on_testTaskButton_clicked();
-    void on_stopTestTaskButton_clicked();
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
-    void on_pushButton_3_clicked();
-    void on_pushButton_4_clicked();
+    void on_executeScriptButton_clicked();
     void on_clearTasksQueueButton_clicked();
+    void on_forcefullyCompleteTaskButton_clicked();
 };
 
 #endif // MAINWINDOW_H

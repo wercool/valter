@@ -37,6 +37,9 @@ public:
 
     bool getStopped() const;
 
+    std::thread *getExecutionWorkerThread() const;
+    void setExecutionWorkerThread(std::thread *value);
+
 protected:
     bool stopped;
     bool blocking;
@@ -49,6 +52,8 @@ protected:
     bool qDebugOn;
 
     virtual void executionWorker(void) = 0;
+
+    std::thread *executionWorkerThread;
 };
 
 #endif // ITASK_H

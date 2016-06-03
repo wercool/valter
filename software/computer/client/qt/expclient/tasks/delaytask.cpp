@@ -26,7 +26,8 @@ void DelayTask::execute()
 
 void DelayTask::stopExecution()
 {
-
+    stopped = true;
+    qDebug("Task#%lu (%s) stopExecution()", getTaskId(), getTaskName().c_str());
 }
 
 void DelayTask::reportCompletion()
@@ -37,6 +38,11 @@ void DelayTask::reportCompletion()
 void DelayTask::executionWorker()
 {
     qDebug("Task#%lu (%s) sleeping for %dms...", getTaskId(), getTaskName().c_str(), delay_ms);
-    this_thread::sleep_for(std::chrono::milliseconds(delay_ms));
+    unsigned int t = 0;
+    while ((t < delay_ms) && (!stopped))
+    {
+        this_thread::sleep_for(std::chrono::milliseconds(1));
+        t++;
+    }
     setCompleted();
 }

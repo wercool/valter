@@ -47,12 +47,24 @@ void PlatformManipulatorAndIRBumper::stopAll()
     if (this->controlDeviceIsSet)
     {
         Valter::log(Valter::format_string("STOP ALL sent to %s", PlatformManipulatorAndIRBumper::controlDeviceId.c_str()));
+        setModuleInitialState();
     }
 }
 
 void PlatformManipulatorAndIRBumper::setModuleInitialState()
 {
-
+    qDebug("PlatformManipulatorAndIRBumper::setModuleInitialState");
+    sendCommand("LINK1STOP");
+    setLink1MotorAccelerating(false);
+    setLink1MotorDecelerating(false);
+    sendCommand("LINK2STOP");
+    setLink2MotorAccelerating(false);
+    setLink2MotorDecelerating(false);
+    setLink1MotorActivated(false);
+    setLink2MotorActivated(false);
+    manLink3Stop();
+    manGripperRotateStop();
+    manGripperStop();
 }
 
 unsigned int PlatformManipulatorAndIRBumper::executeTask(string taskScriptLine)

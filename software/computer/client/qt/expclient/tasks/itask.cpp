@@ -12,6 +12,8 @@ ITask::ITask()
     blocking = false;
 
     qDebugOn = true;
+
+    executionWorkerThread = NULL;
 }
 
 unsigned long ITask::getTaskId() const
@@ -47,6 +49,16 @@ std::string ITask::getTaskName() const
 bool ITask::getStopped() const
 {
     return stopped;
+}
+
+std::thread *ITask::getExecutionWorkerThread() const
+{
+    return executionWorkerThread;
+}
+
+void ITask::setExecutionWorkerThread(std::thread *value)
+{
+    executionWorkerThread = value;
 }
 
 void ITask::setCompleted()

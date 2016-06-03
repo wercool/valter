@@ -42,8 +42,10 @@ void SetLink2PositionTask::execute()
 
 void SetLink2PositionTask::stopExecution()
 {
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setLink2MotorActivated(false);
     stopped = true;
-    setCompleted();
+    qDebug("Task#%lu (%s) stopExecution()", getTaskId(), getTaskName().c_str());
 }
 
 void SetLink2PositionTask::reportCompletion()

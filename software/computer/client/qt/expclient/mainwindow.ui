@@ -469,6 +469,45 @@
                  </widget>
                 </item>
                 <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_150">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="stopAllButton1">
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
+border-radius:8px;
+border-color: rgb(140, 140, 140);</string>
+                    </property>
+                    <property name="text">
+                     <string>STOP</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <spacer name="verticalSpacer_7">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -2823,8 +2862,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>248</width>
-             <height>508</height>
+             <width>231</width>
+             <height>575</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -2855,6 +2894,45 @@
                  <string>Load Defaults</string>
                 </property>
                </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_151">
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="stopAllButton2">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>80</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>80</width>
+                    <height>80</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>20</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
+border-radius:8px;
+border-color: rgb(140, 140, 140);</string>
+                  </property>
+                  <property name="text">
+                   <string>STOP</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
                <widget class="Line" name="line_31">
@@ -6113,8 +6191,8 @@
            <widget class="QPushButton" name="LEDStatesButton">
             <property name="geometry">
              <rect>
-              <x>705</x>
-              <y>65</y>
+              <x>680</x>
+              <y>70</y>
               <width>99</width>
               <height>27</height>
              </rect>
@@ -7672,8 +7750,8 @@ background-repeat: repeat-no;</string>
            <widget class="QPushButton" name="platformLocationP1EnableSensorsButton">
             <property name="geometry">
              <rect>
-              <x>705</x>
-              <y>5</y>
+              <x>680</x>
+              <y>10</y>
               <width>121</width>
               <height>27</height>
              </rect>
@@ -7685,8 +7763,8 @@ background-repeat: repeat-no;</string>
            <widget class="QPushButton" name="platformLocationP1DisableSensorsButton">
             <property name="geometry">
              <rect>
-              <x>705</x>
-              <y>35</y>
+              <x>680</x>
+              <y>40</y>
               <width>121</width>
               <height>27</height>
              </rect>
@@ -7826,6 +7904,44 @@ background-repeat: repeat-no;</string>
             </property>
             <property name="text">
              <string>Disable ALL IR</string>
+            </property>
+           </widget>
+           <widget class="QPushButton" name="stopAllButton3">
+            <property name="geometry">
+             <rect>
+              <x>805</x>
+              <y>10</y>
+              <width>80</width>
+              <height>80</height>
+             </rect>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>80</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>80</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>20</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
+border-radius:8px;
+border-color: rgb(140, 140, 140);</string>
+            </property>
+            <property name="text">
+             <string>STOP</string>
             </property>
            </widget>
           </widget>
@@ -9125,6 +9241,45 @@ background-repeat: repeat-no;</string>
                      <property name="topMargin">
                       <number>5</number>
                      </property>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_155">
+                       <property name="topMargin">
+                        <number>0</number>
+                       </property>
+                       <item>
+                        <widget class="QPushButton" name="stopAllButton4">
+                         <property name="minimumSize">
+                          <size>
+                           <width>80</width>
+                           <height>80</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>80</width>
+                           <height>80</height>
+                          </size>
+                         </property>
+                         <property name="font">
+                          <font>
+                           <pointsize>20</pointsize>
+                           <weight>75</weight>
+                           <bold>true</bold>
+                          </font>
+                         </property>
+                         <property name="styleSheet">
+                          <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
+border-radius:8px;
+border-color: rgb(140, 140, 140);</string>
+                         </property>
+                         <property name="text">
+                          <string>STOP</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
                      <item>
                       <layout class="QHBoxLayout" name="horizontalLayout_85">
                        <item>
@@ -12591,6 +12746,52 @@ background-repeat: repeat-no;</string>
                      <number>0</number>
                     </property>
                     <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_152">
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="stopAllButton5">
+                        <property name="minimumSize">
+                         <size>
+                          <width>80</width>
+                          <height>80</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>80</width>
+                          <height>80</height>
+                         </size>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>20</pointsize>
+                          <weight>75</weight>
+                          <bold>true</bold>
+                         </font>
+                        </property>
+                        <property name="styleSheet">
+                         <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
+border-radius:8px;
+border-color: rgb(140, 140, 140);</string>
+                        </property>
+                        <property name="text">
+                         <string>STOP</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="Line" name="line_73">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
                      <widget class="QPushButton" name="bodyControlP1ShiftRegEnableButton">
                       <property name="font">
                        <font>
@@ -14207,6 +14408,52 @@ background-repeat: repeat-no;</string>
                    <enum>Qt::Horizontal</enum>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line_74">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_153">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="stopAllButton6">
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
+border-radius:8px;
+border-color: rgb(140, 140, 140);</string>
+                    </property>
+                    <property name="text">
+                     <string>STOP</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <spacer name="verticalSpacer_20">
@@ -17522,6 +17769,52 @@ image: url(:/hand.png);</string>
                  </widget>
                 </item>
                 <item>
+                 <widget class="Line" name="line_75">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_154">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="stopAllButton7">
+                    <property name="minimumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>80</width>
+                      <height>80</height>
+                     </size>
+                    </property>
+                    <property name="font">
+                     <font>
+                      <pointsize>20</pointsize>
+                      <weight>75</weight>
+                      <bold>true</bold>
+                     </font>
+                    </property>
+                    <property name="styleSheet">
+                     <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);
+border-radius:8px;
+border-color: rgb(140, 140, 140);</string>
+                    </property>
+                    <property name="text">
+                     <string>STOP</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <spacer name="verticalSpacer_18">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -20211,7 +20504,7 @@ image: url(:/hand-left.png);</string>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="ControlDEviceTab">
        <attribute name="title">
         <string>TCP Interface</string>
        </attribute>
@@ -20612,9 +20905,76 @@ image: url(:/hand-left.png);</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="TasksTab">
+       <attribute name="title">
+        <string>Tasks</string>
+       </attribute>
+       <widget class="QPushButton" name="clearTasksQueueButton">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>90</y>
+          <width>211</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Stop and Clear Tasks Queue</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>20</y>
+          <width>171</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>execute script locally</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="taskScriptTextEdit">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>50</y>
+          <width>371</width>
+          <height>231</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="executeScriptButton">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>60</y>
+          <width>161</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Execute Script</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="forcefullyCompleteTaskButton">
+        <property name="geometry">
+         <rect>
+          <x>410</x>
+          <y>120</y>
+          <width>281</width>
+          <height>27</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Forcefully Complete Queue Top Task</string>
+        </property>
+       </widget>
+      </widget>
       <widget class="QWidget" name="utilitiesTab">
        <attribute name="title">
-        <string>Utilities</string>
+        <string>Valter 3D</string>
        </attribute>
        <widget class="QPushButton" name="valter3dOpenButton">
         <property name="geometry">
@@ -20706,146 +21066,6 @@ image: url(:/hand-left.png);</string>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="testTaskButton">
-        <property name="geometry">
-         <rect>
-          <x>678</x>
-          <y>60</y>
-          <width>141</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Start Test Task</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="stopTestTaskButton">
-        <property name="geometry">
-         <rect>
-          <x>680</x>
-          <y>90</y>
-          <width>141</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>STOP Test Task</string>
-        </property>
-       </widget>
-       <widget class="QLineEdit" name="taskTestValueLineEdit">
-        <property name="geometry">
-         <rect>
-          <x>680</x>
-          <y>30</y>
-          <width>151</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>45</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_227">
-        <property name="geometry">
-         <rect>
-          <x>680</x>
-          <y>10</y>
-          <width>101</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Test Value</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton">
-        <property name="geometry">
-         <rect>
-          <x>500</x>
-          <y>30</y>
-          <width>171</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set Link1 Position</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="geometry">
-         <rect>
-          <x>500</x>
-          <y>60</y>
-          <width>171</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set Link2 Position </string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>210</y>
-          <width>161</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Execute Script</string>
-        </property>
-       </widget>
-       <widget class="QPlainTextEdit" name="taskScriptTextEdit">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>250</y>
-          <width>371</width>
-          <height>231</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="geometry">
-         <rect>
-          <x>480</x>
-          <y>90</y>
-          <width>201</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Set Link1 &amp; Link2 Position</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="clearTasksQueueButton">
-        <property name="geometry">
-         <rect>
-          <x>190</x>
-          <y>210</y>
-          <width>181</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Clear Tasks Queue</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>180</y>
-          <width>171</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>execute script locally</string>
         </property>
        </widget>
       </widget>

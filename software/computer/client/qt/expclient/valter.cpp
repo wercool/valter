@@ -97,6 +97,17 @@ void Valter::stopAllModules()
     }
 }
 
+
+void Valter::setAllModulesInitialState()
+{
+    typedef map<string, IValterModule*>::iterator it_type;
+    for(it_type iterator = valterModulesMap.begin(); iterator != valterModulesMap.end(); iterator++)
+    {
+        IValterModule *valterModule = valterModulesMap[iterator->first];
+        valterModule->setModuleInitialState();
+    }
+}
+
 IValterModule *Valter::getValterModulePtrByShortName(string shortValterModuleName)
 {
     return valterModuleShortNameMap[shortValterModuleName];
