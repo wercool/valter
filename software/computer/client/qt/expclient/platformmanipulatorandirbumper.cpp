@@ -314,6 +314,7 @@ void PlatformManipulatorAndIRBumper::processControlDeviceResponse(string respons
         controlDevice->setRemote(true);
         controlDevice->setRemoteIPAddress(value_str_values[2]);
         controlDevice->setRemotePort(atoi(((string)value_str_values[3]).c_str()));
+        controlDevice->setRemoteStatus(value_str_values[4]);
         Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
         return;
     }

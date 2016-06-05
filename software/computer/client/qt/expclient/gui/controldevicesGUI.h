@@ -38,6 +38,7 @@ void refreshControlDeviceTableWorker(Ui::MainWindow *ui)
                 ui->controlDeviceTCPInterfaceTable->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
                 ui->controlDeviceTCPInterfaceTable->setItem(i, 1, new QTableWidgetItem(Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->getTcpInterface()->getIp().c_str()));
                 ui->controlDeviceTCPInterfaceTable->setItem(i, 2, new QTableWidgetItem(Valter::format_string("%d", Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->getTcpInterface()->getPort()).c_str()));
+                ui->controlDeviceTCPInterfaceTable->setItem(i, 3, new QTableWidgetItem(controlDevice->getStatus().c_str()));
             }
 
             i++;
@@ -60,6 +61,7 @@ void refreshControlDeviceTableWorker(Ui::MainWindow *ui)
                 ui->controlDeviceTCPInterfaceTable->setItem(i, 0, new QTableWidgetItem(remoteControlDevice->getControlDeviceId().c_str()));
                 ui->controlDeviceTCPInterfaceTable->setItem(i, 1, new QTableWidgetItem(remoteControlDevice->getRemoteIPAddress().c_str()));
                 ui->controlDeviceTCPInterfaceTable->setItem(i, 2, new QTableWidgetItem(Valter::format_string("%d", remoteControlDevice->getRemotePort()).c_str()));
+                ui->controlDeviceTCPInterfaceTable->setItem(i, 3, new QTableWidgetItem(remoteControlDevice->getRemoteStatus().c_str()));
 
                 i++;
             }

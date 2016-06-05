@@ -101,6 +101,9 @@ public:
     int getRemotePort() const;
     void setRemotePort(int value);
 
+    string getRemoteStatus() const;
+    void setRemoteStatus(const string &value);
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
@@ -112,6 +115,7 @@ private:
     bool remote;
     string remoteIPAddress;
     int remotePort;
+    string remoteStatus;
 
     void controlDeviceThreadWorker();
     std::thread *controlDeviceThread;

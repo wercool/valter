@@ -73,7 +73,7 @@ class BodyControlP1TCPConnectionHandler : public Thread
             bodyControlP1->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
             bodyControlP1->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
             bodyControlP1->getTcpInterface()->setConnected(true);
-            bodyControlP1->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~REMOTECD:%s:%s:%d", bodyControlP1->getControlDeviceId().c_str(), bodyControlP1->getTcpInterface()->getCentralCommandHostIP().c_str(), bodyControlP1->getTcpInterface()->getCentralCommandHostIPPort()));
+            bodyControlP1->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~REMOTECD:%s:%s:%d:%s", bodyControlP1->getControlDeviceId().c_str(), bodyControlP1->getTcpInterface()->getCentralCommandHostIP().c_str(), bodyControlP1->getTcpInterface()->getCentralCommandHostIPPort(), bodyControlP1->getControlDevice()->getStatus().c_str()));
             qDebug("[%s] Central Command Host IP Address:%s Port:%d", bodyControlP1->getControlDeviceId().c_str(), bodyControlP1->getTcpInterface()->getCentralCommandHostIP().c_str(), bodyControlP1->getTcpInterface()->getCentralCommandHostIPPort());
             return;
         }

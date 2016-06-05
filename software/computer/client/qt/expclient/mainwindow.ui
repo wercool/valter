@@ -20532,6 +20532,11 @@ image: url(:/hand-left.png);</string>
             <string>Port</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Status</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item>

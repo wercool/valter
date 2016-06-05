@@ -73,7 +73,7 @@ class PlatformControlP2TCPConnectionHandler : public Thread
             platformControlP2->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
             platformControlP2->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
             platformControlP2->getTcpInterface()->setConnected(true);
-            platformControlP2->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~REMOTECD:%s:%s:%d", platformControlP2->getControlDeviceId().c_str(), platformControlP2->getTcpInterface()->getCentralCommandHostIP().c_str(), platformControlP2->getTcpInterface()->getCentralCommandHostIPPort()));
+            platformControlP2->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~REMOTECD:%s:%s:%d:%s", platformControlP2->getControlDeviceId().c_str(), platformControlP2->getTcpInterface()->getCentralCommandHostIP().c_str(), platformControlP2->getTcpInterface()->getCentralCommandHostIPPort(), platformControlP2->getControlDevice()->getStatus().c_str()));
             qDebug("[%s] Central Command Host IP Address:%s Port:%d", platformControlP2->getControlDeviceId().c_str(), platformControlP2->getTcpInterface()->getCentralCommandHostIP().c_str(), platformControlP2->getTcpInterface()->getCentralCommandHostIPPort());
             return;
         }

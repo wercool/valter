@@ -304,6 +304,16 @@ string ControlDevice::sanitizeConrtolDeviceResponse(string &msg)
     return msg;
 }
 
+string ControlDevice::getRemoteStatus() const
+{
+    return remoteStatus;
+}
+
+void ControlDevice::setRemoteStatus(const string &value)
+{
+    remoteStatus = value;
+}
+
 int ControlDevice::getRemotePort() const
 {
     return remotePort;
