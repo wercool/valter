@@ -21,6 +21,7 @@ ControlDevice::ControlDevice()
     wdTimerNotResetCnt = 0;
     rescanNum = 0;
     logging = true;
+    remote = false;
 }
 
 void ControlDevice::listDevices()
@@ -118,6 +119,8 @@ void ControlDevice::scanControlDevices()
 
 void ControlDevice::reScanThisControlDevice()
 {
+    if (remote) return;
+
     if (getControlDevicePort()->isOpen())
     {
         deactivate();
@@ -301,6 +304,36 @@ string ControlDevice::sanitizeConrtolDeviceResponse(string &msg)
     return msg;
 }
 
+int ControlDevice::getRemotePort() const
+{
+    return remotePort;
+}
+
+void ControlDevice::setRemotePort(int value)
+{
+    remotePort = value;
+}
+
+string ControlDevice::getRemoteIPAddress() const
+{
+    return remoteIPAddress;
+}
+
+void ControlDevice::setRemoteIPAddress(const string &value)
+{
+    remoteIPAddress = value;
+}
+
+bool ControlDevice::getRemote() const
+{
+    return remote;
+}
+
+void ControlDevice::setRemote(bool value)
+{
+    remote = value;
+}
+
 string ControlDevice::getSysDevicePath() const
 {
     return sysDevicePath;
@@ -313,6 +346,8 @@ void ControlDevice::setSysDevicePath(const string &value)
 
 void ControlDevice::controlDeviceThreadWorker()
 {
+    if (remote) return;
+
     clearMessageQueue();
 
     unsigned int WDRESETTIMER = 0;
@@ -458,6 +493,8 @@ void ControlDevice::setLogging(bool value)
 
 void ControlDevice::resetUSBSysDevice()
 {
+    if (remote) return;
+
     this->addMsgToDataExchangeLog(Valter::format_string("Resetting %s system device of [%s] Control Device", this->getSysDevicePath().c_str(), this->getControlDeviceId().c_str()));
 
     int fd;
@@ -539,6 +576,8 @@ bool ControlDevice::getRescanningAfterPossibleReset() const
 
 void ControlDevice::setRescanningAfterPossibleReset(bool value)
 {
+    if (remote) return;
+
     rescanningAfterPossibleReset = value;
     if (rescanningAfterPossibleReset)
     {
@@ -697,6 +736,8 @@ void ControlDevice::setStatus(const string &value)
 
 void ControlDevice::activate()
 {
+    if (remote) return;
+
     if (getStatus() == ControlDevice::StatusReady)
     {
         try
@@ -714,6 +755,8 @@ void ControlDevice::activate()
 
 void ControlDevice::deactivate()
 {
+    if (remote) return;
+
     setStatus(ControlDevice::StatusReady);
     getControlDevicePort()->close();
 }

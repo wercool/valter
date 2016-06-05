@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>9</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1040</height>
+             <width>875</width>
+             <height>1034</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2862,7 +2862,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>231</width>
+             <width>232</width>
              <height>575</height>
             </rect>
            </property>
@@ -4012,7 +4012,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>892</width>
+             <width>893</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8066,7 +8066,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
+             <width>875</width>
              <height>1514</height>
             </rect>
            </property>
@@ -10635,7 +10635,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
+             <width>875</width>
              <height>800</height>
             </rect>
            </property>
@@ -13622,8 +13622,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1100</height>
+             <width>875</width>
+             <height>1097</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -16981,8 +16981,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1100</height>
+             <width>875</width>
+             <height>1097</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">

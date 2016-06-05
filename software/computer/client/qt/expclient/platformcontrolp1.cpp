@@ -456,6 +456,18 @@ void PlatformControlP1::processControlDeviceResponse(string response)
             return;
         }
     }
+
+    if (response.find("REMOTECD") != std::string::npos)
+    {
+        vector<string>value_str_values = Valter::split(response, ':');
+        ControlDevice *controlDevice = new ControlDevice();
+        controlDevice->setControlDeviceId(value_str_values[1]);
+        controlDevice->setRemote(true);
+        controlDevice->setRemoteIPAddress(value_str_values[2]);
+        controlDevice->setRemotePort(atoi(((string)value_str_values[3]).c_str()));
+        Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
+        return;
+    }
 }
 
 unsigned int PlatformControlP1::executeTask(string taskScriptLine)
@@ -510,6 +522,7 @@ void PlatformControlP1::scanFor220VACAvailable()
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    qDebug("STOPPED: PlatformControlP1::scanFor220VACAvailable");
 }
 
 void PlatformControlP1::chargerModeSetting()
@@ -599,6 +612,7 @@ void PlatformControlP1::platformMovementWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    qDebug("STOPPED: PlatformControlP1::platformMovementWorker");
 }
 
 void PlatformControlP1::platformMovementDynamics()
@@ -739,6 +753,7 @@ void PlatformControlP1::turretRotationWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    qDebug("STOPPED: PlatformControlP1::turretRotationWorker");
 }
 
 void PlatformControlP1::turretRotationDynamics()
@@ -869,6 +884,7 @@ void PlatformControlP1::additionalReadingsScanWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(getAdditionalReadingsDelayCur()));
     }
+    qDebug("STOPPED: PlatformControlP1::additionalReadingsScanWorker");
 }
 
 

@@ -92,12 +92,26 @@ public:
     bool getLogging() const;
     void setLogging(bool value);
 
+    bool getRemote() const;
+    void setRemote(bool value);
+
+    string getRemoteIPAddress() const;
+    void setRemoteIPAddress(const string &value);
+
+    int getRemotePort() const;
+    void setRemotePort(int value);
+
 private:
     string controlDeviceId;
     serial::Serial *controlDevicePort;
     static string sanitizeConrtolDeviceResponse(string &msg);
     string status;
     string sysDevicePath;
+
+    //for Remote Control Device
+    bool remote;
+    string remoteIPAddress;
+    int remotePort;
 
     void controlDeviceThreadWorker();
     std::thread *controlDeviceThread;

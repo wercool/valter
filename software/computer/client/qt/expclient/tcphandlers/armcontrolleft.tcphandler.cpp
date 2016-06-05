@@ -73,6 +73,7 @@ class ArmControlLeftTCPConnectionHandler : public Thread
             armControlLeft->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
             armControlLeft->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
             armControlLeft->getTcpInterface()->setConnected(true);
+            armControlLeft->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~REMOTECD:%s:%s:%d", armControlLeft->getControlDeviceId().c_str(), armControlLeft->getTcpInterface()->getCentralCommandHostIP().c_str(), armControlLeft->getTcpInterface()->getCentralCommandHostIPPort()));
             qDebug("[%s] Central Command Host IP Address:%s Port:%d", armControlLeft->getControlDeviceId().c_str(), armControlLeft->getTcpInterface()->getCentralCommandHostIP().c_str(), armControlLeft->getTcpInterface()->getCentralCommandHostIPPort());
             return;
         }

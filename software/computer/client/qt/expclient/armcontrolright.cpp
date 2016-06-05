@@ -285,6 +285,17 @@ void ArmControlRight::processControlDeviceResponse(string response)
             return;
         }
     }
+    if (response.find("REMOTECD") != std::string::npos)
+    {
+        vector<string>value_str_values = Valter::split(response, ':');
+        ControlDevice *controlDevice = new ControlDevice();
+        controlDevice->setControlDeviceId(value_str_values[1]);
+        controlDevice->setRemote(true);
+        controlDevice->setRemoteIPAddress(value_str_values[2]);
+        controlDevice->setRemotePort(atoi(((string)value_str_values[3]).c_str()));
+        Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
+        return;
+    }
 }
 
 unsigned int ArmControlRight::executeTask(string taskScriptLine)
@@ -353,6 +364,7 @@ void ArmControlRight::rightForearmWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: ArmControlRight::rightForearmWorker");
 }
 
 void ArmControlRight::rightArmWorker()
@@ -416,6 +428,7 @@ void ArmControlRight::rightArmWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: ArmControlRight::rightArmWorker");
 }
 
 void ArmControlRight::rightLimbWorker()
@@ -479,6 +492,7 @@ void ArmControlRight::rightLimbWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: ArmControlRight::rightLimbWorker");
 }
 
 void ArmControlRight::rightForearmRollWorker()
@@ -534,6 +548,7 @@ void ArmControlRight::rightForearmRollWorker()
             }
         }
     }
+    qDebug("STOPPED: ArmControlRight::rightForearmRollWorker");
 }
 
 void ArmControlRight::rightArmSensorReadingsWorker()
@@ -653,6 +668,7 @@ void ArmControlRight::rightArmSensorReadingsWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: ArmControlRight::rightArmSensorReadingsWorker");
 }
 
 bool ArmControlRight::prepareRightForearmMovement()

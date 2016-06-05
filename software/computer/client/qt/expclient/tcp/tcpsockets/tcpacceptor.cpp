@@ -26,8 +26,13 @@
 #include <arpa/inet.h>
 #include "tcpacceptor.h"
 
-TCPAcceptor::TCPAcceptor(int port, const char* address) 
-    : m_lsd(0), m_port(port), m_address(address), m_listening(false) {} 
+void TCPAcceptor::setListening(bool listening)
+{
+    m_listening = listening;
+}
+
+TCPAcceptor::TCPAcceptor(int port, const char* address)
+    : m_lsd(0), m_port(port), m_address(address), m_listening(false) {}
 
 TCPAcceptor::~TCPAcceptor()
 {

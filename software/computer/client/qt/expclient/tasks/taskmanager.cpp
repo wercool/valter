@@ -160,7 +160,7 @@ void TaskManager::clearQueue()
 
 bool TaskManager::sendScriptToRemoteTaskManager(string script, string ipAddress)
 {
-    TCPStream* stream = getTcpInterface()->getCommanfInterfaceConnector()->connect(ipAddress.c_str(), getTcpInterface()->getPort());
+    TCPStream* stream = getTcpInterface()->getCommandInterfaceConnector()->connect(ipAddress.c_str(), getTcpInterface()->getPort());
     int length;
     char response[256];
     if (stream)
@@ -185,7 +185,7 @@ unsigned int TaskManager::routeTaskRequest(string taskMessage)
     {
         IValterModule* valterModule = Valter::getInstance()->getValterModulePtrByShortName(taskMessageParts[1]);
         std::string taskScriptLine = "";
-        for (int i = 2; i < static_cast<int>(taskMessageParts.size()); i++)
+        for (int i = 2; i <static_cast<int>(taskMessageParts.size()); i++)
         {
             if (i > 2)
             {
@@ -200,6 +200,10 @@ unsigned int TaskManager::routeTaskRequest(string taskMessage)
                 //qDebug("%s", valterModule->getControlDevice()->getControlDeviceId().c_str());
                 return valterModule->executeTask(taskScriptLine);
             }
+        }
+        else
+        {
+            qDebug("Task %s could not be executed - NO COTNROL DEVICE CONNECTED", taskScriptLine.c_str());
         }
     }
     return 0;
@@ -265,6 +269,7 @@ void TaskManager::tasksQueueWorker()
             this_thread::sleep_for(std::chrono::milliseconds(50));
         }
     }
+    qDebug("STOPPED: TaskManager::tasksQueueWorker");
 }
 
 TCPInterface *TaskManager::getTcpInterface() const

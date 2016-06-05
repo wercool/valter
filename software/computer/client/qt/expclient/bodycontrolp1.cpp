@@ -321,6 +321,17 @@ void BodyControlP1::processControlDeviceResponse(string response)
         setKinect2PowerState(false);
         return;
     }
+    if (response.find("REMOTECD") != std::string::npos)
+    {
+        vector<string>value_str_values = Valter::split(response, ':');
+        ControlDevice *controlDevice = new ControlDevice();
+        controlDevice->setControlDeviceId(value_str_values[1]);
+        controlDevice->setRemote(true);
+        controlDevice->setRemoteIPAddress(value_str_values[2]);
+        controlDevice->setRemotePort(atoi(((string)value_str_values[3]).c_str()));
+        Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
+        return;
+    }
 }
 
 unsigned int BodyControlP1::executeTask(string taskScriptLine)
@@ -351,6 +362,7 @@ void BodyControlP1::headYawWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: BodyControlP1::headYawWorker");
 }
 
 void BodyControlP1::headPitchWorker()
@@ -376,6 +388,7 @@ void BodyControlP1::headPitchWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: BodyControlP1::headPitchWorker");
 }
 
 void BodyControlP1::bodyPitchWorker()
@@ -448,6 +461,7 @@ void BodyControlP1::bodyPitchWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: BodyControlP1::bodyPitchWorker");
 }
 
 void BodyControlP1::rightArmYawWorker()
@@ -520,6 +534,7 @@ void BodyControlP1::rightArmYawWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: BodyControlP1::rightArmYawWorker");
 }
 
 void BodyControlP1::leftArmYawWorker()
@@ -592,6 +607,7 @@ void BodyControlP1::leftArmYawWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: BodyControlP1::leftArmYawWorker");
 }
 
 void BodyControlP1::setKinect2PowerOnOff(bool value)

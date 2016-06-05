@@ -38,11 +38,11 @@ public:
 
     wqueue<WorkItem*> queue;
 
-    TCPConnector *getCommanfInterfaceConnector() const;
-    void setCommanfInterfaceConnector(TCPConnector *value);
+    TCPConnector *getCommandInterfaceConnector() const;
+    void setCommandInterfaceConnector(TCPConnector *value);
 
-    TCPStream *getCommanfInterfaceStream() const;
-    void setCommanfInterfaceStream(TCPStream *value);
+    TCPStream *getCommandInterfaceStream() const;
+    void setCommandInterfaceStream(TCPStream *value);
 
     bool sendCommandMessage(string command);
 
@@ -64,13 +64,15 @@ public:
     bool getConnected() const;
     void setConnected(bool value);
 
+    TCPAcceptor *getConnectionAcceptor() const;
+
 private:
     string ip;
     int port;
     Thread *connectionHandler;
     TCPAcceptor *connectionAcceptor;
-    TCPConnector *commanfInterfaceConnector;
-    TCPStream *commanfInterfaceStream;
+    TCPConnector *commandInterfaceConnector;
+    TCPStream *commandInterfaceStream;
 
     bool listening;
     void tcpConnectionWorker();

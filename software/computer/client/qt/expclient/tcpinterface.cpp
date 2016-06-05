@@ -10,7 +10,7 @@ TCPInterface::TCPInterface(int port)
     setPort(port);
     readIP();
     setListening(false);
-    setCommanfInterfaceConnector(new TCPConnector());
+    setCommandInterfaceConnector(new TCPConnector());
 
     //set uninitialized from the beginning
     connected = false;
@@ -131,29 +131,29 @@ void TCPInterface::setListening(bool value)
     }
 }
 
-TCPConnector *TCPInterface::getCommanfInterfaceConnector() const
+TCPConnector *TCPInterface::getCommandInterfaceConnector() const
 {
-    return commanfInterfaceConnector;
+    return commandInterfaceConnector;
 }
 
-void TCPInterface::setCommanfInterfaceConnector(TCPConnector *value)
+void TCPInterface::setCommandInterfaceConnector(TCPConnector *value)
 {
-    commanfInterfaceConnector = value;
+    commandInterfaceConnector = value;
 }
 
-TCPStream *TCPInterface::getCommanfInterfaceStream() const
+TCPStream *TCPInterface::getCommandInterfaceStream() const
 {
-    return commanfInterfaceStream;
+    return commandInterfaceStream;
 }
 
-void TCPInterface::setCommanfInterfaceStream(TCPStream *value)
+void TCPInterface::setCommandInterfaceStream(TCPStream *value)
 {
-    commanfInterfaceStream = value;
+    commandInterfaceStream = value;
 }
 
 bool TCPInterface::sendCommandMessage(string command)
 {
-    TCPStream* stream = getCommanfInterfaceConnector()->connect(getCommandHostIP().c_str(), getCommandHostPort());
+    TCPStream* stream = getCommandInterfaceConnector()->connect(getCommandHostIP().c_str(), getCommandHostPort());
     int length;
     char response[256];
     if (stream)
@@ -185,6 +185,7 @@ void TCPInterface::tcpConnectionWorker()
         queue.add(item);
         this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+    qDebug("STOPPED: TCPInterface::tcpConnectionWorker");
 }
 
 bool TCPInterface::getConnected() const
@@ -195,6 +196,11 @@ bool TCPInterface::getConnected() const
 void TCPInterface::setConnected(bool value)
 {
     connected = value;
+}
+
+TCPAcceptor *TCPInterface::getConnectionAcceptor() const
+{
+    return connectionAcceptor;
 }
 
 int TCPInterface::getCentralCommandHostIPPort() const
@@ -223,7 +229,7 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
     {
         if (getCentralCommandHostIP().compare("") > 0)
         {
-            TCPStream* stream = getCommanfInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
+            TCPStream* stream = getCommandInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
             int length;
             char response[256];
             if (stream)

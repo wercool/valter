@@ -97,6 +97,20 @@ void Valter::stopAllModules()
     }
 }
 
+void Valter::prepareShutdown()
+{
+    typedef map<string, IValterModule*>::iterator it_type;
+    for(it_type iterator = valterModulesMap.begin(); iterator != valterModulesMap.end(); iterator++)
+    {
+        IValterModule *valterModule = valterModulesMap[iterator->first];
+        valterModule->stopAllProcesses = true;
+        valterModule->getTcpInterface()->getConnectionAcceptor()->setListening(false);
+        valterModule->getTcpInterface()->setConnected(false);
+    }
+    TaskManager::getInstance()->setQueueStopped(true);
+    TaskManager::getInstance()->getTcpInterface()->setListening(false);
+}
+
 
 void Valter::setAllModulesInitialState()
 {
@@ -237,6 +251,21 @@ void Valter::setControlDevicesMap(const map<string, ControlDevice *> &value)
 void Valter::clearControlDevicesMap()
 {
     controlDevicesMap.clear();
+}
+
+map<string, ControlDevice *> Valter::getRemoteControlDevicesMap() const
+{
+    return remoteControlDevicesMap;
+}
+
+void Valter::clearRemoteControlDevicesMap()
+{
+    remoteControlDevicesMap.clear();
+}
+
+void Valter::addControlDeviceToRemoteControlDevicesMap(ControlDevice *controlDevice)
+{
+    remoteControlDevicesMap[controlDevice->getControlDeviceId()] = controlDevice;
 }
 
 void Valter::scanControlDevices()

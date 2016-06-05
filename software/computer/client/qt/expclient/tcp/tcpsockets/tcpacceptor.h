@@ -44,7 +44,9 @@ class TCPAcceptor
     int        start();
     TCPStream* accept();
 
-  private:
+    void setListening(bool listening);
+
+private:
     TCPAcceptor() {}
 };
 

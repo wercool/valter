@@ -275,6 +275,17 @@ void PlatformLocationP1::processControlDeviceResponse(string response)
             return;
         }
     }
+    if (response.find("REMOTECD") != std::string::npos)
+    {
+        vector<string>value_str_values = Valter::split(response, ':');
+        ControlDevice *controlDevice = new ControlDevice();
+        controlDevice->setControlDeviceId(value_str_values[1]);
+        controlDevice->setRemote(true);
+        controlDevice->setRemoteIPAddress(value_str_values[2]);
+        controlDevice->setRemotePort(atoi(((string)value_str_values[3]).c_str()));
+        Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
+        return;
+    }
 }
 
 unsigned int PlatformLocationP1::executeTask(string taskScriptLine)
@@ -481,10 +492,7 @@ void PlatformLocationP1::LEDStatesWorker()
             break;
         }
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("LEDStatesWorker finished...");
-    }
+    qDebug("STOPPED: PlatformLocationP1::LEDStatesWorker");
 }
 
 void PlatformLocationP1::leftSonarWorker()
@@ -532,10 +540,7 @@ void PlatformLocationP1::leftSonarWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("leftSonarWorker finished...");
-    }
+    qDebug("STOPPED: PlatformLocationP1::leftSonarWorker");
 }
 
 bool PlatformLocationP1::getLeftSonarActivated() const
@@ -602,10 +607,7 @@ void PlatformLocationP1::rightSonarWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("rightSonarWorker finished...");
-    }
+    qDebug("STOPPED: PlatformLocationP1::rightSonarWorker");
 }
 
 void PlatformLocationP1::accelerometerWorker()
@@ -622,10 +624,7 @@ void PlatformLocationP1::accelerometerWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("accelerometerWorker finished...");
-    }
+    qDebug("STOPPED: PlatformLocationP1::accelerometerWorker");
 }
 
 void PlatformLocationP1::magnetometerWorker()
@@ -642,10 +641,7 @@ void PlatformLocationP1::magnetometerWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("magnetometerWorker finished...");
-    }
+    qDebug("STOPPED: PlatformLocationP1::magnetometerWorker");
 }
 
 void PlatformLocationP1::compassHeadingWorker()
@@ -662,10 +658,7 @@ void PlatformLocationP1::compassHeadingWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("compassHeadingWorker finished...");
-    }
+    qDebug("STOPPED: PlatformLocationP1::compassHeadingWorker");
 }
 
 bool PlatformLocationP1::getGetMagnetometerReadingOnce() const
@@ -1355,4 +1348,5 @@ void PlatformLocationP1::readSensorsWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    qDebug("STOPPED: PlatformLocationP1::readSensorsWorker");
 }

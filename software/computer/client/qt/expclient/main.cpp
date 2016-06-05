@@ -23,6 +23,9 @@ int main(int argc, char *argv[])
         r = application.exec();
 
         Valter::getInstance()->closeAllControlDevicePorts();
+        Valter::getInstance()->prepareShutdown();
+
+        this_thread::sleep_for(std::chrono::milliseconds(500));
 
         qDebug("Finished");
     }

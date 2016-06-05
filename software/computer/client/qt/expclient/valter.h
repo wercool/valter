@@ -49,9 +49,15 @@ public:
    void updateControlDevice(string controlDeviceId, string port);
    ControlDevice* getControlDeviceById(string controlDeviceId);
    void closeAllControlDevicePorts();
+
    map<string, ControlDevice *> getControlDevicesMap() const;
    void setControlDevicesMap(const map<string, ControlDevice *> &value);
    void clearControlDevicesMap();
+
+   map<string, ControlDevice *> getRemoteControlDevicesMap() const;
+   void clearRemoteControlDevicesMap();
+   void addControlDeviceToRemoteControlDevicesMap(ControlDevice* controlDevice);
+
    bool getLogControlDeviceMessages() const;
    void setLogControlDeviceMessages(bool value);
 
@@ -64,6 +70,13 @@ public:
 
    void setAllModulesInitialState();
    void stopAllModules();
+   void prepareShutdown();
+
+   IValterModule *getValterModulePtrByShortName(std::string shortValterModuleName);
+
+   void addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(string ipAddress);
+
+   vector<string> getRemoteControlDeviceTCPInterfacesIpAddressesVector() const;
 
    //Utils
    static std::string format_string(const std::string fmt_str, ...)
@@ -112,7 +125,6 @@ public:
         charPtr[str.size()] = '\0';
         return charPtr;
    }
-
    static std::vector<std::string> split(const std::string &text, char sep)
    {
      std::vector<std::string> tokens;
@@ -125,7 +137,6 @@ public:
      tokens.push_back(text.substr(start));
      return tokens;
    }
-
    static int convert_twos_complement(int input)
    {
         if (input >= 0x8000)
@@ -139,12 +150,6 @@ public:
 
    static const string filePathPrefix;
 
-   IValterModule *getValterModulePtrByShortName(std::string shortValterModuleName);
-
-   void addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(string ipAddress);
-
-   vector<string> getRemoteControlDeviceTCPInterfacesIpAddressesVector() const;
-
 private:
    Valter();
    static Valter *pValter;      // Valter's singleton instance
@@ -155,6 +160,7 @@ private:
    static const string cmdFilesPath;
    static const string maestoServoControllerUscCmdPathPrefix;
    map<string, ControlDevice*> controlDevicesMap;
+   map<string, ControlDevice*> remoteControlDevicesMap;
 
    map<string, IValterModule*> valterModulesMap;
    map<string, IValterModule*> valterModuleShortNameMap;

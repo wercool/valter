@@ -306,6 +306,17 @@ void PlatformManipulatorAndIRBumper::processControlDeviceResponse(string respons
             return;
         }
     }
+    if (response.find("REMOTECD") != std::string::npos)
+    {
+        vector<string>value_str_values = Valter::split(response, ':');
+        ControlDevice *controlDevice = new ControlDevice();
+        controlDevice->setControlDeviceId(value_str_values[1]);
+        controlDevice->setRemote(true);
+        controlDevice->setRemoteIPAddress(value_str_values[2]);
+        controlDevice->setRemotePort(atoi(((string)value_str_values[3]).c_str()));
+        Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
+        return;
+    }
 }
 
 void PlatformManipulatorAndIRBumper::manLink1MovementWorker()
@@ -369,6 +380,7 @@ void PlatformManipulatorAndIRBumper::manLink1MovementWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: PlatformManipulatorAndIRBumper::manLink1MovementWorker");
 }
 
 void PlatformManipulatorAndIRBumper::manLink2MovementWorker()
@@ -432,6 +444,7 @@ void PlatformManipulatorAndIRBumper::manLink2MovementWorker()
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
+    qDebug("STOPPED: PlatformManipulatorAndIRBumper::manLink2MovementWorker");
 }
 
 void PlatformManipulatorAndIRBumper::manipulatorReadingsWorker()
@@ -544,6 +557,7 @@ void PlatformManipulatorAndIRBumper::manipulatorReadingsWorker()
             this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
+    qDebug("STOPPED: PlatformManipulatorAndIRBumper::manipulatorReadingsWorker");
 }
 
 void PlatformManipulatorAndIRBumper::irBumperReadingWorker()
@@ -569,6 +583,7 @@ void PlatformManipulatorAndIRBumper::irBumperReadingWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(100));
     }
+    qDebug("STOPPED: PlatformManipulatorAndIRBumper::irBumperReadingWorker");
 }
 
 void PlatformManipulatorAndIRBumper::setIrBumperDuty(int value)

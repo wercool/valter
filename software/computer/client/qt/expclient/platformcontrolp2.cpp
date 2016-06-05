@@ -117,6 +117,17 @@ void PlatformControlP2::processControlDeviceResponse(string response)
             return;
         }
     }
+    if (response.find("REMOTECD") != std::string::npos)
+    {
+        vector<string>value_str_values = Valter::split(response, ':');
+        ControlDevice *controlDevice = new ControlDevice();
+        controlDevice->setControlDeviceId(value_str_values[1]);
+        controlDevice->setRemote(true);
+        controlDevice->setRemoteIPAddress(value_str_values[2]);
+        controlDevice->setRemotePort(atoi(((string)value_str_values[3]).c_str()));
+        Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
+        return;
+    }
 }
 
 unsigned int PlatformControlP2::executeTask(string taskScriptLine)
@@ -242,10 +253,7 @@ void PlatformControlP2::encodersWorker()
             break;
         }
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("encodersWorker finished...");
-    }
+    qDebug("STOPPED: PlatformControlP2::encodersWorker");
 }
 
 void PlatformControlP2::irScanningWorker()
@@ -293,10 +301,7 @@ void PlatformControlP2::irScanningWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    if (getControlDeviceIsSet())
-    {
-        getControlDevice()->addMsgToDataExchangeLog("irScanningWorker finished...");
-    }
+    qDebug("STOPPED: PlatformControlP2::irScanningWorker");
 }
 
 void PlatformControlP2::chargerMotorRotateWorker()
