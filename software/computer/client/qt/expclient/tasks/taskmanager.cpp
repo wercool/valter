@@ -61,7 +61,10 @@ unsigned int TaskManager::addTask(ITask *task)
     queuedTasksMap.insert(pair<unsigned long, ITask*>(task->getTaskId(), task));
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
     this_thread::sleep_for(std::chrono::milliseconds(10));
-    return task->getTaskId();
+    unsigned taskId = task->getTaskId();
+    qDebug("Task [%d] has been queued...", taskId);
+    getTcpInterface()->sendCDRToCentralCommandHost("!!!!!!!!!!!");
+    return taskId;
 }
 
 ITask* TaskManager::getTaskById(unsigned long id)
@@ -112,7 +115,7 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
 void TaskManager::processScript(string script)
 {
     setIncomingScriptProcessing(true);
-    qDebug("processScript:\n=====================SCRIPT============start===============\n%s\n=====================SCRIPT============end=================\n", script.c_str());
+    qDebug("processScript:\n=====================SCRIPT============start\n%s\n=====================SCRIPT============end\n", script.c_str());
     std::vector<std::string> scriptInstructions = Valter::split(script, '\n');
     for (int i = 0; i < static_cast<int>(scriptInstructions.size()); i++)
     {
@@ -143,7 +146,7 @@ void TaskManager::processScript(string script)
             routeTaskRequest(scriptInstructions[i]);
         }
     }
-    qDebug("\n=====================SCRIPT============processing completed=======================\n");
+    qDebug("\n=====================SCRIPT============processing completed\n");
     setIncomingScriptProcessing(false);
 }
 

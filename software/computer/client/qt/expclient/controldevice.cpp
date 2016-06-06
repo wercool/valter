@@ -179,7 +179,7 @@ void ControlDevice::reScanThisControlDevice()
                         string result;
                         unsigned int scanStep = 0;
                         bool isValterRescanningControlDevice = false;
-                        while (scanStep < 5 && !isValterRescanningControlDevice)
+                        while (scanStep < 3 && !isValterRescanningControlDevice)
                         {
                             potentialControlDeviceSerialPort.write("GETID");
                             this->addMsgToDataExchangeLog(Valter::format_string("%s ← GETID", serialPortDeviceInfo.port.c_str()));
@@ -239,7 +239,7 @@ void ControlDevice::reScanThisControlDevice()
     }
     else
     {
-        if (cnt < 10)
+        if (cnt < 3)
         {
             this_thread::sleep_for(std::chrono::seconds(1));
             reScanThisControlDevice();
@@ -247,8 +247,10 @@ void ControlDevice::reScanThisControlDevice()
         else
         {
             this->addMsgToDataExchangeLog(Valter::format_string("Rescanning Control Device [%s] port FAILED after Attempt #%d", this->getControlDeviceId().c_str(), cnt));
+            cnt = 0;
             setFailedAfterRescanning(true);
             setRescanningAfterPossibleReset(false);
+            exit(2);
         }
     }
 }
@@ -372,6 +374,13 @@ void ControlDevice::controlDeviceThreadWorker()
 
     wdTimerNotResetCnt = 0;
 
+    if (Valter::getInstance()->getGlobalSetting("wdrIntent").compare("true") == 0)
+    {
+        this->getControlDevicePort()->write("WDINTENTIONALRESETON");
+        intentionalWDTimerResetOnAT91SAM7s = true;
+        setResetWDTimer(true);
+    }
+
     while (this->getStatus() == ControlDevice::StatusActive)
     {
         try
@@ -444,7 +453,7 @@ void ControlDevice::controlDeviceThreadWorker()
                     }
                     wdTimerNotResetCnt++;
                     this->addMsgToDataExchangeLog(Valter::format_string("WD was not Reset on %s Control Device [attempt #%d]", this->getControlDeviceId().c_str(), wdTimerNotResetCnt));
-                    if (wdTimerNotResetCnt > 4)
+                    if (wdTimerNotResetCnt > 3)
                     {
                         if (intentionalWDTimerResetOnAT91SAM7s)
                         {

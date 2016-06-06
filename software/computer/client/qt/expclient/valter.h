@@ -41,7 +41,7 @@ public:
 
    void readControlDevicesCommandsFromFiles(bool printCommands = false);
    void scanControlDevices();
-   vector<string> controlDeviceIds;
+   static vector<string> controlDeviceIds;
    map<string, vector<string>> controlDevicesCommands;
    map<string, vector<string>> getControlDevicesCommands();
    void addControlDevice(string controlDeviceId, string port);
@@ -77,6 +77,12 @@ public:
    void addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(string ipAddress);
 
    vector<string> getRemoteControlDeviceTCPInterfacesIpAddressesVector() const;
+
+   //Initialization
+   void readGlobalSettings();
+   string getGlobalSetting(string key);
+   void autoInitialization();
+   void autoScanAndConnectAllControlDevices();
 
    //Utils
    static std::string format_string(const std::string fmt_str, ...)
@@ -167,6 +173,7 @@ private:
 
    vector<string> remoteControlDeviceTCPInterfacesIpAddressesVector;
 
+   map<string, string> globalSettings;
 };
 
 

@@ -17,21 +17,24 @@ const string Valter::filePathPrefix = "/home/maska/git/valter/software/computer/
 const string Valter::cmdFilesPath = "commands/";
 const string Valter::maestoServoControllerUscCmdPathPrefix = "/home/maska/Desktop/maestro_linux/UscCmd";
 
+vector<string> Valter::controlDeviceIds = {"PLATFORM-CONTROL-P1",                  //idx 1
+                                           "PLATFORM-CONTROL-P2",                  //idx 2
+                                           "PLATFORM-LOCATION-P1",                 //idx 3
+                                           "PLATFORM-MANIPULATOR-AND-IR-BUMPER",   //idx 4
+                                           "BODY-CONTROL-P1",                      //idx 5
+                                           "ARM-CONTROL-RIGHT",                    //idx 6
+                                           "ARM-CONTROL-LEFT"};                    //idx 7
+
 Valter::Valter()
 {
+    globalSettings = {};
+    readGlobalSettings();
+
     logControlDeviceMessages = true;
 
-    controlDeviceIds = {"PLATFORM-CONTROL-P1",                  //idx 1
-                        "PLATFORM-CONTROL-P2",                  //idx 2
-                        "PLATFORM-LOCATION-P1",                 //idx 3
-                        "PLATFORM-MANIPULATOR-AND-IR-BUMPER",   //idx 4
-                        "BODY-CONTROL-P1",                      //idx 5
-                        "ARM-CONTROL-RIGHT",                    //idx 6
-                        "ARM-CONTROL-LEFT"};                    //idx 7
+    ControlDevice::listDevices();
 
     readControlDevicesCommandsFromFiles();
-
-    ControlDevice::listDevices();
 
     addUpdateValterModule(PlatformControlP1::getInstance()->getControlDeviceId(), PlatformControlP1::getInstance());
     addUpdateValterModule(PlatformControlP2::getInstance()->getControlDeviceId(), PlatformControlP2::getInstance());
@@ -57,6 +60,55 @@ Valter::Valter()
 vector<string> Valter::getRemoteControlDeviceTCPInterfacesIpAddressesVector() const
 {
     return remoteControlDeviceTCPInterfacesIpAddressesVector;
+}
+
+void Valter::readGlobalSettings()
+{
+    ifstream defaultsFile(Valter::filePathPrefix + "settings/global-settings");
+    string line;
+    while (getline(defaultsFile, line, '\n'))
+    {
+        if (line.substr(0, 2).compare("//") != 0 && line.length() > 0)
+        {
+            char *lineStrPtr = Valter::stringToCharPtr(line);
+            string defaultValueName(strtok(lineStrPtr, ":" ));
+            string defaultValue(strtok(NULL, ":" ));
+            globalSettings[defaultValueName] = defaultValue;
+        }
+    }
+}
+
+string Valter::getGlobalSetting(string key)
+{
+    if (globalSettings.find(key) != globalSettings.end())
+    {
+        return globalSettings[key];
+    }
+    return "";
+}
+
+void Valter::autoInitialization()
+{
+    if (getGlobalSetting("autoInit").compare("true") == 0)
+    {
+        autoScanAndConnectAllControlDevices();
+        typedef map<string, IValterModule*>::iterator it_type;
+        for(it_type iterator = valterModulesMap.begin(); iterator != valterModulesMap.end(); iterator++)
+        {
+            IValterModule *valterModule = valterModulesMap[iterator->first];
+            if (valterModule->getControlDeviceIsSet())
+            {
+                valterModule->sendCommand("WDINTENTIONALRESETON");
+                valterModule->getControlDevice()->setResetWDTimer(true);
+            }
+        }
+    }
+}
+
+void Valter::autoScanAndConnectAllControlDevices()
+{
+    MainWindow::getInstance()->on_scanControlDevicesBtn_clicked();
+    MainWindow::getInstance()->on_connectAllPushButton_clicked();
 }
 
 map<string, IValterModule *> Valter::getValterModulesMap() const
@@ -316,7 +368,7 @@ void Valter::updateControlDevice(string controlDeviceId, string port)
 
     string controlDeviceSysPathCmdWithDev = Valter::format_string(ControlDevice::controlDeviceSysPathCmd, port.c_str());
     string sys_usb_bus_device = Valter::exec_shell(controlDeviceSysPathCmdWithDev);
-    sys_usb_bus_device.erase(sys_usb_bus_device.length()-1);
+    sys_usb_bus_device.erase(sys_usb_bus_device.length() - 1);
 
     controlDevice->setSysDevicePath(sys_usb_bus_device);
     Valter::getInstance()->getValterModule(controlDevice->getControlDeviceId())->resetToDefault();
