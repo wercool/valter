@@ -152,11 +152,6 @@ void MainWindow::on_stopAllButton7_clicked()
     on_stopAllButton_clicked();
 }
 
-void MainWindow::refreshControlDeviceTableWidget()
-{
-    refreshControlDeviceTableWorker(ui);
-}
-
 void MainWindow::addMsgToLog(string msg)
 {
     if (ui->addTimeToLogCheckBox->isChecked())
@@ -378,6 +373,8 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
 
 void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked()
 {
+    refreshControlDeviceTableTimer->start(1000);
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     platformControlP1->getTcpInterface()->setCommandHostIP(ui->platformControlP1CommandHostLineEdit->text().toStdString());
     platformControlP1->getTcpInterface()->setCommandHostPort(atoi(ui->platformControlP1CommandPortLineEdit->text().toStdString().c_str()));
@@ -412,6 +409,8 @@ void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_cl
 
 void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked()
 {
+    refreshControlDeviceTableTimer->stop();
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     platformControlP1->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
 

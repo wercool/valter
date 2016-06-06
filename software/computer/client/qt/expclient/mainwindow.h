@@ -137,6 +137,7 @@ public slots:
     void on_resetControlDeviceButton_clicked();
     void on_stopSelectedControlDeviceLogButton_clicked();
     void on_startSelectedControlDeviceLogButton_clicked();
+    void refreshControlDeviceTableWidgetWorker();
 
     //platfrom control p1
     void initPlatfromControlP1(Ui::MainWindow *ui);
@@ -598,6 +599,7 @@ private:
     QTimer *controlDevicesDataExchangeLogTimer;
     QTimer *delayedGUIActionsProcessingTimer;
     string selectedControlDeviceId;
+    QTimer *refreshControlDeviceTableTimer;
     bool allConnect;
 
     QTimer *controlDevicesTableRefreshTimer;

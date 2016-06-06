@@ -9,6 +9,7 @@
 
 void MainWindow::initControlDevices(Ui::MainWindow *ui)
 {
+    //initializations
     ui->controlDeviceTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->controlDeviceTableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     QHeaderView* controlDeviceTableWidgetHeaderView = new QHeaderView(Qt::Horizontal);
@@ -21,6 +22,7 @@ void MainWindow::initControlDevices(Ui::MainWindow *ui)
     controlDeviceTCPInterfaceTableWidgetHeaderView->setSectionResizeMode(QHeaderView::ResizeToContents);
     ui->controlDeviceTCPInterfaceTable->setHorizontalHeader(controlDeviceTCPInterfaceTableWidgetHeaderView);
 
+    //timers
     controlDevicesDataExchangeLogTimer = new QTimer(this);
     connect(controlDevicesDataExchangeLogTimer, SIGNAL(timeout()), this, SLOT(controlDevicesDataExchangeLogTimerUpdate()));
     controlDevicesDataExchangeLogTimer->start(1);
@@ -28,6 +30,9 @@ void MainWindow::initControlDevices(Ui::MainWindow *ui)
     controlDevicesTableRefreshTimer = new QTimer(this);
     connect(controlDevicesTableRefreshTimer, SIGNAL(timeout()), this, SLOT(controlDevicesTableRefreshTimerUpdate()));
     controlDevicesTableRefreshTimer->start(1000);
+
+    refreshControlDeviceTableTimer = new QTimer(this);
+    connect(refreshControlDeviceTableTimer, SIGNAL(timeout()), this, SLOT(refreshControlDeviceTableWidgetWorker()));
 }
 
 void controlDevicesTableRefreshTimerUpdateWorker(Ui::MainWindow *ui)
@@ -420,4 +425,14 @@ void MainWindow::on_startSelectedControlDeviceLogButton_clicked()
         ControlDevice *controlDevice = controlDevicesMap[selectedControlDeviceId];
         controlDevice->setLogging(true);
     }
+}
+
+void MainWindow::refreshControlDeviceTableWidget()
+{
+    refreshControlDeviceTableWorker(ui);
+}
+
+void MainWindow::refreshControlDeviceTableWidgetWorker()
+{
+    refreshControlDeviceTableWidget();
 }
