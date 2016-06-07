@@ -97,7 +97,12 @@ void BodyControlP1::processMessagesQueueWorker()
 
                 processControlDeviceResponse(response);
 
-                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+                bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+                if (!successfullySent)
+                {
+                    stopAll();
+                    getTcpInterface()->setConnected(false);
+                }
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }

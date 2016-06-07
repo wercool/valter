@@ -1,7 +1,7 @@
 #ifndef WORKITEM_H
 #define WORKITEM_H
 
-#include "tcpinterface.h"
+#include "tcpstream.h"
 
 class WorkItem
 {

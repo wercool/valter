@@ -44,6 +44,7 @@ PlatformManipulatorAndIRBumper *PlatformManipulatorAndIRBumper::getInstance()
 
 void PlatformManipulatorAndIRBumper::stopAll()
 {
+    getTcpInterface()->setConnected(false);
     if (this->controlDeviceIsSet)
     {
         Valter::log(Valter::format_string("STOP ALL sent to %s", PlatformManipulatorAndIRBumper::controlDeviceId.c_str()));
@@ -125,7 +126,12 @@ void PlatformManipulatorAndIRBumper::processMessagesQueueWorker()
 
                 processControlDeviceResponse(response);
 
-                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+                bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+                if (!successfullySent)
+                {
+                    stopAll();
+                    getTcpInterface()->setConnected(false);
+                }
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }

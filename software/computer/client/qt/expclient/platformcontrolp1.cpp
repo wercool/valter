@@ -57,12 +57,14 @@ void PlatformControlP1::stopAll()
     if (this->controlDeviceIsSet)
     {
         Valter::log(Valter::format_string("STOP ALL sent to %s", PlatformControlP1::controlDeviceId.c_str()));
+        setModuleInitialState();
     }
 }
 
 void PlatformControlP1::setModuleInitialState()
 {
-
+    setPlatformEmergencyStop(true);
+    setTurretEmergencyStop(true);
 }
 
 void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
@@ -99,7 +101,12 @@ void PlatformControlP1::processMessagesQueueWorker()
 
                 processControlDeviceResponse(response);
 
-                getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+                bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+                if (!successfullySent)
+                {
+                    stopAll();
+                    getTcpInterface()->setConnected(false);
+                }
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
             }

@@ -86,6 +86,7 @@ private:
     int centralCommandHostIPPort;
 
     bool connected;
+
 };
 
 #endif // TCPINTERFACE_H

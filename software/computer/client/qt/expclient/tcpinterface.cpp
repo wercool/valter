@@ -243,9 +243,13 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
 
                 return true;
             }
+            else
+            {
+                return false;
+            }
         }
     }
-    return false;
+    return true;
 }
 
 int TCPInterface::getCommandHostPort() const

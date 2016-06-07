@@ -67,16 +67,16 @@ SOURCES += main.cpp\
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
             tasks/delaytask.cpp \
             tcphandlers/taskmanager.tcphandler.cpp \
-    tasks/setmoduleinitialstatetask.cpp
+            tasks/setmoduleinitialstatetask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
             valter.h \
+            ivaltermodule.h \
             serial/include/serial/impl/unix.h \
             serial/include/serial/serial.h \
             serial/include/serial/v8stdint.h \
             platformcontrolp1.h \
-            ivaltermodule.h \
             platformlocationp1.h \
             platformcontrolp2.h \
             platformmanipulatorandirbumper.h \
@@ -111,7 +111,7 @@ HEADERS  += mainwindow.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
             tasks/delaytask.h \
-    tasks/setmoduleinitialstatetask.h
+            tasks/setmoduleinitialstatetask.h
 
 FORMS    += mainwindow.ui
 

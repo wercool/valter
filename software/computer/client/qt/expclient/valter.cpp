@@ -155,8 +155,14 @@ void Valter::prepareShutdown()
     for(it_type iterator = valterModulesMap.begin(); iterator != valterModulesMap.end(); iterator++)
     {
         IValterModule *valterModule = valterModulesMap[iterator->first];
+        if (valterModule->getControlDeviceIsSet())
+        {
+            valterModule->getControlDevice()->clearMessageQueue();
+            valterModule->sendCommand("WDINTENTIONALRESETOFF");
+        }
         valterModule->stopAllProcesses = true;
         valterModule->getTcpInterface()->getConnectionAcceptor()->setListening(false);
+        valterModule->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
         valterModule->getTcpInterface()->setConnected(false);
     }
     TaskManager::getInstance()->setQueueStopped(true);
