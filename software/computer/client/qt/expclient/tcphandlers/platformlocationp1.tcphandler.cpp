@@ -93,13 +93,13 @@ class PlatformLocationP1TCPConnectionHandler : public Thread
             mainWindow->on_loadDefaultsPlatformLocationP1Button_clicked();
             return;
         }
-        if (cmd.find("on_platformLocationP1RedrawGUICheckBox_clicked") != std::string::npos)
-        {
-            int substr_pos = cmd.find("@") + 1;
-            string value_str = cmd.substr(substr_pos);
-            ui->platformLocationP1RedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
-            return;
-        }
+//        if (cmd.find("on_platformLocationP1RedrawGUICheckBox_clicked") != std::string::npos)
+//        {
+//            int substr_pos = cmd.find("@") + 1;
+//            string value_str = cmd.substr(substr_pos);
+//            ui->platformLocationP1RedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
+//            return;
+//        }
         if (cmd.find("on_platformLocationP1EnableSensorsButton_clicked") != std::string::npos)
         {
             mainWindow->on_platformLocationP1EnableSensorsButton_clicked();

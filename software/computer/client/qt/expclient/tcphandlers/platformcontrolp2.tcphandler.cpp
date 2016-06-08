@@ -93,13 +93,13 @@ class PlatformControlP2TCPConnectionHandler : public Thread
             mainWindow->on_loadDefaultsPlatfromControlP2Button_clicked();
             return;
         }
-        if (cmd.find("on_platfromControlP2RedrawGUICheckBox_clicked") != std::string::npos)
-        {
-            int substr_pos = cmd.find("@") + 1;
-            string value_str = cmd.substr(substr_pos);
-            ui->platfromControlP2RedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
-            return;
-        }
+//        if (cmd.find("on_platfromControlP2RedrawGUICheckBox_clicked") != std::string::npos)
+//        {
+//            int substr_pos = cmd.find("@") + 1;
+//            string value_str = cmd.substr(substr_pos);
+//            ui->platfromControlP2RedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
+//            return;
+//        }
         if (cmd.find("on_platformControlP2LeftWheelEncoderCheckBox_clicked") != std::string::npos)
         {
             int substr_pos = cmd.find("@") + 1;

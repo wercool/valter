@@ -93,13 +93,13 @@ class BodyControlP1TCPConnectionHandler : public Thread
             mainWindow->on_bodyControlP1LoadDefaultsButton_clicked();
             return;
         }
-        if (cmd.find("on_bodyControlP1CheckBox_clicked") != std::string::npos)
-        {
-            int substr_pos = cmd.find("@") + 1;
-            string value_str = cmd.substr(substr_pos);
-            ui->bodyControlP1CheckBox->setChecked((value_str.compare("true")) ? true : false);
-            return;
-        }
+//        if (cmd.find("on_bodyControlP1CheckBox_clicked") != std::string::npos)
+//        {
+//            int substr_pos = cmd.find("@") + 1;
+//            string value_str = cmd.substr(substr_pos);
+//            ui->bodyControlP1CheckBox->setChecked((value_str.compare("true")) ? true : false);
+//            return;
+//        }
         if (cmd.find("on_bodyPitchUpButton_pressed") != std::string::npos)
         {
             mainWindow->on_bodyPitchUpButton_pressed();

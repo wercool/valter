@@ -99,6 +99,13 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             mainWindow->on_platformControlP1LoadDefaultsButton_clicked();
             return;
         }
+//        if (cmd.find("on_platformControlP1RedrawGUICheckBox_clicked") != std::string::npos)
+//        {
+//            int substr_pos = cmd.find("@") + 1;
+//            string value_str = cmd.substr(substr_pos);
+//            ui->platformControlP1RedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
+//            return;
+//        }
         if (cmd.find("on_platformMoveForwardButton_pressed") != std::string::npos)
         {
             mainWindow->on_platformMoveForwardButton_pressed();
@@ -496,13 +503,6 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             item->setCheckState((checked) ? Qt::Checked: Qt::Unchecked);
             ui->platformControlP1ReadingsTable->viewport()->update();
             mainWindow->on_platformControlP1ReadingsTable_itemClicked(item);
-            return;
-        }
-        if (cmd.find("on_platformControlP1RedrawGUICheckBox_clicked") != std::string::npos)
-        {
-            int substr_pos = cmd.find("@") + 1;
-            string value_str = cmd.substr(substr_pos);
-            ui->platformControlP1RedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
             return;
         }
         if (cmd.find("on_platformControlP1UntrackAllAdditionalReadingsButton_clicked") != std::string::npos)

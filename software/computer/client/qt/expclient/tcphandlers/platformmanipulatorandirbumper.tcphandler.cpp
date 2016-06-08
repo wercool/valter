@@ -93,13 +93,13 @@ class PlatformManipulatorAndIRBumperTCPConnectionHandler : public Thread
             mainWindow->on_platformManipulatorAndIRBumperLoadDefaultsButton_clicked();
             return;
         }
-        if (cmd.find("on_platformManipulatorAndIRBumperRedrawGUICheckBox_clicked") != std::string::npos)
-        {
-            int substr_pos = cmd.find("@") + 1;
-            string value_str = cmd.substr(substr_pos);
-            ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
-            return;
-        }
+//        if (cmd.find("on_platformManipulatorAndIRBumperRedrawGUICheckBox_clicked") != std::string::npos)
+//        {
+//            int substr_pos = cmd.find("@") + 1;
+//            string value_str = cmd.substr(substr_pos);
+//            ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
+//            return;
+//        }
         if (cmd.find("on_powerOnOff24VPlatfromManipulatorAndIRBumperButton_clicked") != std::string::npos)
         {
             mainWindow->on_powerOnOff24VPlatfromManipulatorAndIRBumperButton_clicked();

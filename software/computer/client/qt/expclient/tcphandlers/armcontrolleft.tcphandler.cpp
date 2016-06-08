@@ -93,13 +93,13 @@ class ArmControlLeftTCPConnectionHandler : public Thread
             mainWindow->on_armControlLeftLoadDefaultsButton_clicked();
             return;
         }
-        if (cmd.find("on_armControlLeftRedrawGUICheckBox_clicked") != std::string::npos)
-        {
-            int substr_pos = cmd.find("@") + 1;
-            string value_str = cmd.substr(substr_pos);
-            ui->armControlLeftRedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
-            return;
-        }
+//        if (cmd.find("on_armControlLeftRedrawGUICheckBox_clicked") != std::string::npos)
+//        {
+//            int substr_pos = cmd.find("@") + 1;
+//            string value_str = cmd.substr(substr_pos);
+//            ui->armControlLeftRedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
+//            return;
+//        }
         if (cmd.find("on_armControlLeftStopAllWatchersButton_clicked") != std::string::npos)
         {
             mainWindow->on_armControlLeftStopAllWatchersButton_clicked();

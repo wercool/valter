@@ -10,7 +10,7 @@ TrasnslatePlatformLinearlyTask::TrasnslatePlatformLinearlyTask()
 
 bool TrasnslatePlatformLinearlyTask::checkFeasibility()
 {
-
+    return true;
 }
 
 bool TrasnslatePlatformLinearlyTask::initialize()
