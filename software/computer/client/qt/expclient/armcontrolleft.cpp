@@ -1,7 +1,7 @@
 #include "valter.h"
 #include "armcontrolleft.h"
 
-#include "armcontrolleft.utils.cpp"
+#include "mainclassesutils/armcontrolleft.utils.cpp"
 #include "tcphandlers/armcontrolleft.tcphandler.cpp"
 
 ArmControlLeft *ArmControlLeft::pArmControlLeft = NULL;

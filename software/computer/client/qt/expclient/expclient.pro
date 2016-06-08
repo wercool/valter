@@ -31,11 +31,11 @@ SOURCES += main.cpp\
            armcontrolright.cpp \
            valter3d.cpp \
 #service code
-           platformcontrolp1.utils.cpp \
-           bodycontrolp1.utils.cpp \
-           armcontrolleft.utils.cpp \
-           armcontrolright.utils.cpp \
-           platformmanipulatorandirbumper.utils.cpp \
+           mainclassesutils/platformcontrolp1.utils.cpp \
+           mainclassesutils/bodycontrolp1.utils.cpp \
+           mainclassesutils/armcontrolleft.utils.cpp \
+           mainclassesutils/armcontrolright.utils.cpp \
+           mainclassesutils/platformmanipulatorandirbumper.utils.cpp \
 #mainwindow gui service code
            mainwindow/mainwindow.control.devices.utils.cpp \
            mainwindow/mainwindow.platformcontrolp1.cpp \
@@ -67,7 +67,14 @@ SOURCES += main.cpp\
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
             tasks/delaytask.cpp \
             tcphandlers/taskmanager.tcphandler.cpp \
-            tasks/setmoduleinitialstatetask.cpp
+            tasks/setmoduleinitialstatetask.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setgripperrotationposition.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setgrippergrasperposition.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setlink1motordynamics.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setlink2motordynamics.cpp \
+    tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.cpp \
+    tasks/platform-control-p1/trasnslateplatformlinearlytask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -111,7 +118,14 @@ HEADERS  += mainwindow.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
             tasks/delaytask.h \
-            tasks/setmoduleinitialstatetask.h
+            tasks/setmoduleinitialstatetask.h \
+    tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.h \
+    tasks/platform-manipulator-and-ir-bumper/setgripperrotationposition.h \
+    tasks/platform-manipulator-and-ir-bumper/setgrippergrasperposition.h \
+    tasks/platform-manipulator-and-ir-bumper/setlink1motordynamics.h \
+    tasks/platform-manipulator-and-ir-bumper/setlink2motordynamics.h \
+    tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.h \
+    tasks/platform-control-p1/trasnslateplatformlinearlytask.h
 
 FORMS    += mainwindow.ui
 

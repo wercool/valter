@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "tasks/itask.h"
 #include "ivaltermodule.h"
 
 using namespace std;
@@ -595,6 +596,9 @@ private:
     int additionalReadingsDelayPresetMin;
     int additionalReadingsDelayPresetMax;
     int additionalReadingsDelayCur;
+
+    /**************************************************** TASKS ******************************************************/
+    std::map<std::string, function<ITask*(void)>> tasks;
 };
 
 #endif // PLATFORMCONTROLP1_H

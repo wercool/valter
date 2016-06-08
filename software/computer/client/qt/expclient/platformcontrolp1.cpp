@@ -5,7 +5,7 @@
 #include "valter.h"
 #include "platformcontrolp1.h"
 
-#include "platformcontrolp1.utils.cpp"
+#include "mainclassesutils/platformcontrolp1.utils.cpp"
 #include "tcphandlers/platformcontrolp1.tcphandler.cpp"
 
 
@@ -19,6 +19,9 @@ PlatformControlP1::PlatformControlP1()
     Valter::log(PlatformControlP1::controlDeviceId + " singleton initialized");
 
     controlDeviceIsSet = false;
+
+    /********************************* TASKS **************************************/
+    tasks["TrasnslatePlatformLinearlyTask"] = &TrasnslatePlatformLinearlyTask::create;
 
     initTcpInterface();
 
@@ -117,6 +120,24 @@ void PlatformControlP1::processMessagesQueueWorker()
         }
         getControlDevice()->addMsgToDataExchangeLog("PlatformControlP1 Module process messages queue worker stopped!");
     }
+}
+
+
+unsigned int PlatformControlP1::executeTask(string taskScriptLine)
+{
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    if (tasks.find(taskName) != tasks.end())
+    {
+        if (taskName.compare("TrasnslatePlatformLinearlyTask") == 0)
+        {
+            float distance = atof(((string)taskInitiationParts[1]).c_str());
+            ITask *task = tasks[taskName]();
+            ((TrasnslatePlatformLinearlyTask*)task)->setDistance(distance);
+            return TaskManager::getInstance()->addTask(task);
+        }
+    }
+    return 0;
 }
 
 void PlatformControlP1::processControlDeviceResponse(string response)
@@ -476,11 +497,6 @@ void PlatformControlP1::processControlDeviceResponse(string response)
         Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
         return;
     }
-}
-
-unsigned int PlatformControlP1::executeTask(string taskScriptLine)
-{
-    return 0;
 }
 
 void PlatformControlP1::scanFor220VACAvailable()

@@ -505,5 +505,10 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             ui->platformControlP1RedrawGUICheckBox->setChecked((value_str.compare("true")) ? true : false);
             return;
         }
+        if (cmd.find("on_platformControlP1UntrackAllAdditionalReadingsButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_platformControlP1UntrackAllAdditionalReadingsButton_clicked();
+            return;
+        }
     }
 };

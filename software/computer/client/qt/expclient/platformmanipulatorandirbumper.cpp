@@ -5,7 +5,7 @@
 #include "valter.h"
 #include "platformmanipulatorandirbumper.h"
 
-#include "platformmanipulatorandirbumper.utils.cpp"
+#include "mainclassesutils/platformmanipulatorandirbumper.utils.cpp"
 #include "tcphandlers/platformmanipulatorandirbumper.tcphandler.cpp"
 
 PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
@@ -15,7 +15,13 @@ PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
 
     /********************************* TASKS **************************************/
     tasks["SetLink1PositionTask"] = &SetLink1PositionTask::create;
+    tasks["SetLink1MotorDynamics"] = &SetLink1MotorDynamics::create;
     tasks["SetLink2PositionTask"] = &SetLink2PositionTask::create;
+    tasks["SetLink2MotorDynamics"] = &SetLink2MotorDynamics::create;
+    tasks["SetGripperTiltPositionTask"] = &SetGripperTiltPositionTask::create;
+    tasks["SetGripperRotationPosition"] = &SetGripperRotationPosition::create;
+    tasks["SetGripperRotationMotorDynamics"] = &SetGripperRotationMotorDynamics::create;
+    tasks["SetGripperGrasperPosition"] = &SetGripperGrasperPosition::create;
 
     initTcpInterface();
 
@@ -68,6 +74,10 @@ void PlatformManipulatorAndIRBumper::setModuleInitialState()
     manGripperStop();
 }
 
+/******************************************************************************/
+/********************************* TASKS **************************************/
+/******************************************************************************/
+
 unsigned int PlatformManipulatorAndIRBumper::executeTask(string taskScriptLine)
 {
     std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
@@ -81,11 +91,61 @@ unsigned int PlatformManipulatorAndIRBumper::executeTask(string taskScriptLine)
             ((SetLink1PositionTask*)task)->setAngle(angle);
             return TaskManager::getInstance()->addTask(task);
         }
+        if (taskName.compare("SetLink1MotorDynamics") == 0)
+        {
+            ITask *task = tasks[taskName]();
+            unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
+            ((SetLink1MotorDynamics*)task)->setMotorDutyMax(motorDutyMax);
+            unsigned int motorDeceleration = atoi(((string)taskInitiationParts[2]).c_str());
+            ((SetLink1MotorDynamics*)task)->setMotorDeceleration(motorDeceleration);
+            unsigned int motorAcceleration = atoi(((string)taskInitiationParts[3]).c_str());
+            ((SetLink1MotorDynamics*)task)->setMotorAcceleration(motorAcceleration);
+            return TaskManager::getInstance()->addTask(task);
+        }
         if (taskName.compare("SetLink2PositionTask") == 0)
         {
             float angle = atof(((string)taskInitiationParts[1]).c_str());
             ITask *task = tasks[taskName]();
             ((SetLink2PositionTask*)task)->setAngle(angle);
+            return TaskManager::getInstance()->addTask(task);
+        }
+        if (taskName.compare("SetLink2MotorDynamics") == 0)
+        {
+            ITask *task = tasks[taskName]();
+            unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
+            ((SetLink2MotorDynamics*)task)->setMotorDutyMax(motorDutyMax);
+            unsigned int motorDeceleration = atoi(((string)taskInitiationParts[2]).c_str());
+            ((SetLink2MotorDynamics*)task)->setMotorDeceleration(motorDeceleration);
+            unsigned int motorAcceleration = atoi(((string)taskInitiationParts[3]).c_str());
+            ((SetLink2MotorDynamics*)task)->setMotorAcceleration(motorAcceleration);
+            return TaskManager::getInstance()->addTask(task);
+        }
+        if (taskName.compare("SetGripperTiltPositionTask") == 0)
+        {
+            float angle = atof(((string)taskInitiationParts[1]).c_str());
+            ITask *task = tasks[taskName]();
+            ((SetGripperTiltPositionTask*)task)->setAngle(angle);
+            return TaskManager::getInstance()->addTask(task);
+        }
+        if (taskName.compare("SetGripperRotationPosition") == 0)
+        {
+            float angle = atof(((string)taskInitiationParts[1]).c_str());
+            ITask *task = tasks[taskName]();
+            ((SetGripperRotationPosition*)task)->setAngle(angle);
+            return TaskManager::getInstance()->addTask(task);
+        }
+        if (taskName.compare("SetGripperRotationMotorDynamics") == 0)
+        {
+            ITask *task = tasks[taskName]();
+            unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
+            ((SetGripperRotationMotorDynamics*)task)->setMotorDutyMax(motorDutyMax);
+            return TaskManager::getInstance()->addTask(task);
+        }
+        if (taskName.compare("SetGripperGrasperPosition") == 0)
+        {
+            float position = atof(((string)taskInitiationParts[1]).c_str());
+            ITask *task = tasks[taskName]();
+            ((SetGripperGrasperPosition*)task)->setPosition(position);
             return TaskManager::getInstance()->addTask(task);
         }
     }

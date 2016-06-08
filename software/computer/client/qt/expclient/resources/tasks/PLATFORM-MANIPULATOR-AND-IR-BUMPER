@@ -1,5 +1,15 @@
-T_PMIB_SetLink1PositionTask_{%d = target angle}
-T_PMIB_SetLink2PositionTask_{%d = target angle}
+T_PMIB_SetLink1PositionTask_{%f = target angle}
+T_PMIB_SetLink1MotorDynamics_{%d = MotorDutyMax}_{%d = MotorDeceleration}_{%d = MotorAcceleration}
+
+T_PMIB_SetLink2PositionTask_{%f = target angle}
+T_PMIB_SetLink2MotorDynamics_{%d = MotorDutyMax}_{%d = MotorDeceleration}_{%d = MotorAcceleration}
+
+T_PMIB_SetGripperTiltPositionTask_{%f = target angle}
+T_PMIB_SetGripperRotationPosition_{%f = target angle}
+T_PMIB_SetGripperRotationMotorDynamics_{%d = MotorDutyMax}
+
+T_PMIB_SetGripperGrasperPosition_{%f = target angle}
+
 
 /*
 DELAY_2000
@@ -7,26 +17,14 @@ T_PMIB_SetLink1PositionTask_0
 DELAY_6000
 T_PMIB_SetLink2PositionTask_10
 DELAY_5000
+T_PMIB_SetGripperTiltPositionTask_40
+DELAY_5000
+T_PMIB_SetGripperRotationPosition_20
+DELAY_5000
+*/
 
-DELAY_2000
-T_PMIB_SetLink2PositionTask_10
-DELAY_1500
-T_PMIB_SetLink2PositionTask_20
-DELAY_1500
-T_PMIB_SetLink2PositionTask_30
-DELAY_1500
-T_PMIB_SetLink2PositionTask_40
-DELAY_1500
-T_PMIB_SetLink2PositionTask_50
-DELAY_1500
-T_PMIB_SetLink1PositionTask_30
-DELAY_1500
-T_PMIB_SetLink2PositionTask_60
-DELAY_1500
-T_PMIB_SetLink2PositionTask_70
-DELAY_1500
-T_PMIB_SetLink2PositionTask_80
-DELAY_1500
-T_PMIB_SetLink2PositionTask_90
-DELAY_2000
+/*
+T_PMIB_SetLink1MotorDynamics_20_5_1
+T_PMIB_SetLink2MotorDynamics_20_5_1
+T_PMIB_SetGripperRotationMotorDynamics_20
 */

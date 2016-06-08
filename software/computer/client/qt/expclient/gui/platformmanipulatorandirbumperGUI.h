@@ -107,66 +107,66 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
         }
         if (platformManipulatorAndIRBumper->getGripperForceSensor1Track())
         {
-            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            QTableWidgetItem* gripperGripperForceSensor1QWidgetItem = new QTableWidgetItem;
             if (platformManipulatorAndIRBumper->getGripperForceSensor1ADC()) // show ADC value
             {
-                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor1ADCValue()).c_str());
+                gripperGripperForceSensor1QWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor1ADCValue()).c_str());
             }
-            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(7, 2, gripperPositionQWidgetItem);
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(7, 2, gripperGripperForceSensor1QWidgetItem);
         }
         if (platformManipulatorAndIRBumper->getGripperForceSensor2Track())
         {
-            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            QTableWidgetItem* gripperGripperForceSensor2QWidgetItem = new QTableWidgetItem;
             if (platformManipulatorAndIRBumper->getGripperForceSensor2ADC()) // show ADC value
             {
-                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor2ADCValue()).c_str());
+                gripperGripperForceSensor2QWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor2ADCValue()).c_str());
             }
-            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(8, 2, gripperPositionQWidgetItem);
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(8, 2, gripperGripperForceSensor2QWidgetItem);
         }
         if (platformManipulatorAndIRBumper->getGripperForceSensor3Track())
         {
-            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            QTableWidgetItem* gripperGripperForceSensor3QWidgetItem = new QTableWidgetItem;
             if (platformManipulatorAndIRBumper->getGripperForceSensor3ADC()) // show ADC value
             {
-                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor3ADCValue()).c_str());
+                gripperGripperForceSensor3QWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperForceSensor3ADCValue()).c_str());
             }
-            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(9, 2, gripperPositionQWidgetItem);
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(9, 2, gripperGripperForceSensor3QWidgetItem);
         }
         if (platformManipulatorAndIRBumper->getGripperObjectDetectorTrack())
         {
-            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            QTableWidgetItem* gripperObjectDetectorQWidgetItem = new QTableWidgetItem;
             if (platformManipulatorAndIRBumper->getGripperObjectDetectorADC()) // show ADC value
             {
-                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperObjectDetectorADCValue()).c_str());
+                gripperObjectDetectorQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperObjectDetectorADCValue()).c_str());
             }
-            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(10, 2, gripperPositionQWidgetItem);
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(10, 2, gripperObjectDetectorQWidgetItem);
         }
         if (platformManipulatorAndIRBumper->getGripperTiltMotorCurrentTrack())
         {
-            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            QTableWidgetItem* gripperTiltMotorCurrentQWidgetItem = new QTableWidgetItem;
             if (platformManipulatorAndIRBumper->getGripperTiltMotorCurrentADC()) // show ADC value
             {
-                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperTiltMotorCurrentADCValue()).c_str());
+                gripperTiltMotorCurrentQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperTiltMotorCurrentADCValue()).c_str());
             }
-            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(11, 2, gripperPositionQWidgetItem);
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(11, 2, gripperTiltMotorCurrentQWidgetItem);
         }
         if (platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentTrack())
         {
-            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            QTableWidgetItem* gripperOpenCloseMotorCurrentQWidgetItem = new QTableWidgetItem;
             if (platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentADC()) // show ADC value
             {
-                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentADCValue()).c_str());
+                gripperOpenCloseMotorCurrentQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperOpenCloseMotorCurrentADCValue()).c_str());
             }
-            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(12, 2, gripperPositionQWidgetItem);
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(12, 2, gripperOpenCloseMotorCurrentQWidgetItem);
         }
         if (platformManipulatorAndIRBumper->getGripperRotationMotorCurrentTrack())
         {
-            QTableWidgetItem* gripperPositionQWidgetItem = new QTableWidgetItem;
+            QTableWidgetItem* gripperRotationMotorCurrentQWidgetItem = new QTableWidgetItem;
             if (platformManipulatorAndIRBumper->getGripperRotationMotorCurrentADC()) // show ADC value
             {
-                gripperPositionQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperRotationMotorCurrentADCValue()).c_str());
+                gripperRotationMotorCurrentQWidgetItem->setText(Valter::format_string("%d", platformManipulatorAndIRBumper->getGripperRotationMotorCurrentADCValue()).c_str());
             }
-            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(13, 2, gripperPositionQWidgetItem);
+            ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->setItem(13, 2, gripperRotationMotorCurrentQWidgetItem);
         }
 
         if (platformManipulatorAndIRBumper->getIRBumperTracked())
@@ -178,6 +178,18 @@ void platformManipulatorAndIRBumperRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 ui->irBumperReadingsTable->setItem(i, 2, irBumperReadingsTableQWidgetItem);
             }
         }
+    }
+    if (ui->platformManipulatorAndIRBumperUpdateGUICheckBox->isChecked())
+    {
+        ui->manipulatorLiknk1MotorDutyScroller->setValue(platformManipulatorAndIRBumper->getLink1MotorDutyMax());
+        ui->manipulatorLiknk1DecelerationScroller->setValue(platformManipulatorAndIRBumper->getLink1MotorDeceleration());
+        ui->manipulatorLiknk1AccelerationScroller->setValue(platformManipulatorAndIRBumper->getLink1MotorAcceleration());
+
+        ui->manipulatorLiknk2MotorDutyScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorDutyMax());
+        ui->manipulatorLiknk2DecelerationScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorDeceleration());
+        ui->manipulatorLiknk2AccelerationScroller->setValue(platformManipulatorAndIRBumper->getLink2MotorAcceleration());
+
+        ui->manGripperRotationMotorDutyScroller->setValue(platformManipulatorAndIRBumper->getManGripperRotationMotorDuty());
     }
 }
 

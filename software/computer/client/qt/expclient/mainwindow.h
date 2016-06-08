@@ -139,7 +139,7 @@ public slots:
     void on_startSelectedControlDeviceLogButton_clicked();
     void refreshControlDeviceTableWidgetWorker();
 
-    //platfrom control p1
+    //platfrom-control-p1
     void initPlatfromControlP1(Ui::MainWindow *ui);
     void platformControlP1TabRefreshTimerUpdate();
     void delayedGUIActionsProcessingTimerUpdate();
@@ -216,6 +216,7 @@ public slots:
     void on_turretPositionReadCheckBox_clicked(bool checked);
     void on_chargerVoltageADCCheckBox_clicked(bool checked);
     void on_platformControlP1RedrawGUICheckBox_clicked(bool checked);
+    void on_platformControlP1UntrackAllAdditionalReadingsButton_clicked();
 
     //platform-location-p1
     void initPlatfromLocationP1(Ui::MainWindow *ui);

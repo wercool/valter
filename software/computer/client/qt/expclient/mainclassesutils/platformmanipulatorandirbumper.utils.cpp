@@ -763,6 +763,8 @@ int PlatformManipulatorAndIRBumper::getGripperADCTilt() const
 void PlatformManipulatorAndIRBumper::setGripperADCTilt(int value)
 {
     gripperADCTilt = value;
+    double degressValue = (754 - gripperADCTilt) / 15.93; //max 51, min 1023, 61deg max., 1023-51=972 -> 972/61 = 15.93
+    setGripperTilt(degressValue);
 }
 
 bool PlatformManipulatorAndIRBumper::getGripperTiltADC() const
@@ -890,6 +892,8 @@ int PlatformManipulatorAndIRBumper::getGripperADCPosition() const
 void PlatformManipulatorAndIRBumper::setGripperADCPosition(int value)
 {
     gripperADCPosition = value;
+    double mmValue = (765 - gripperADCPosition) / 4.43; //max 765, min 300, 105mm max., 765-300=465 -> 465/105 = 4.43
+    setGripperPosition(mmValue);
 }
 
 int PlatformManipulatorAndIRBumper::getGripperADCRotation() const
@@ -900,6 +904,8 @@ int PlatformManipulatorAndIRBumper::getGripperADCRotation() const
 void PlatformManipulatorAndIRBumper::setGripperADCRotation(int value)
 {
     gripperADCRotation = value;
+    double degressValue = (gripperADCRotation - 355) / 3.875; //max 0, min 1023, 264deg max., 1023-0=1023 -> 1023/264 = 3.875
+    setGripperRotation(degressValue);
 }
 
 bool PlatformManipulatorAndIRBumper::getGripperPositionADC() const

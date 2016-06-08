@@ -860,3 +860,18 @@ void MainWindow::on_platformControlP1RedrawGUICheckBox_clicked(bool checked)
         platformControlP1->sendTCPCommand(Valter::format_string("on_platformControlP1RedrawGUICheckBox_clicked@%s", (!checked) ? "true" : "false"));
     }
 }
+
+void MainWindow::on_platformControlP1UntrackAllAdditionalReadingsButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_platformControlP1UntrackAllAdditionalReadingsButton_clicked");
+    }
+    for (int i = 0; i < ui->platformControlP1ReadingsTable->rowCount() - 1; i++)
+    {
+        QTableWidgetItem* item = ui->platformControlP1ReadingsTable->item(i, 3);
+        item->setCheckState(Qt::Unchecked);
+    }
+    ui->platformControlP1ReadingsTable->viewport()->update();
+}

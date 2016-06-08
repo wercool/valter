@@ -175,6 +175,24 @@ public:
                     double getLink2Current() const;
                     void setLink2Current(double value);
 
+                    bool getGripperTiltTrack() const;
+                    void setGripperTiltTrack(bool value);
+
+                    bool getGripperTiltADC() const;
+                    void setGripperTiltADC(bool value);
+
+                    bool getGripperRotationTrack() const;
+                    void setGripperRotationTrack(bool value);
+
+                    bool getGripperRotationADC() const;
+                    void setGripperRotationADC(bool value);
+
+                    bool getGripperPositionTrack() const;
+                    void setGripperPositionTrack(bool value);
+
+                    bool getGripperPositionADC() const;
+                    void setGripperPositionADC(bool value);
+
     int getLink1ADCPosition() const;
     void setLink1ADCPosition(int value);
 
@@ -187,38 +205,20 @@ public:
     int getLink2ADCCurrent() const;
     void setLink2ADCCurrent(int value);
 
-    bool getGripperTiltTrack() const;
-    void setGripperTiltTrack(bool value);
-
-    bool getGripperTiltADC() const;
-    void setGripperTiltADC(bool value);
-
     int getGripperADCTilt() const;
     void setGripperADCTilt(int value);
 
     double getGripperTilt() const;
     void setGripperTilt(double value);
 
-    bool getGripperRotationTrack() const;
-    void setGripperRotationTrack(bool value);
-
-    bool getGripperRotationADC() const;
-    void setGripperRotationADC(bool value);
-
-    bool getGripperPositionTrack() const;
-    void setGripperPositionTrack(bool value);
-
-    bool getGripperPositionADC() const;
-    void setGripperPositionADC(bool value);
-
     int getGripperADCRotation() const;
     void setGripperADCRotation(int value);
 
-    int getGripperADCPosition() const;
-    void setGripperADCPosition(int value);
-
     double getGripperRotation() const;
     void setGripperRotation(double value);
+
+    int getGripperADCPosition() const;
+    void setGripperADCPosition(int value);
 
     double getGripperPosition() const;
     void setGripperPosition(double value);

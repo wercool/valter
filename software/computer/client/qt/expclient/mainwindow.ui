@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -52,9 +52,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-532</y>
              <width>874</width>
-             <height>1040</height>
+             <height>1047</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -398,6 +398,13 @@
                       </property>
                       <property name="text">
                        <string>[...]</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="platformControlP1UntrackAllAdditionalReadingsButton">
+                      <property name="text">
+                       <string>Untrack All</string>
                       </property>
                      </widget>
                     </item>
@@ -8010,6 +8017,20 @@ border-color: rgb(140, 140, 140);</string>
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="platformManipulatorAndIRBumperUpdateGUICheckBox">
+            <property name="text">
+             <string>update GUI</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_76">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QPushButton" name="platformManipulatorAndIRBumperLoadDefaultsButton">
             <property name="text">
              <string>Load Defaults</string>
@@ -8065,7 +8086,7 @@ border-color: rgb(140, 140, 140);</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-90</y>
              <width>874</width>
              <height>1514</height>
             </rect>
