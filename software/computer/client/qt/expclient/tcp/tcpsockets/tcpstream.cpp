@@ -24,7 +24,8 @@
 #include <arpa/inet.h>
 #include "tcpstream.h"
 
-TCPStream::TCPStream(int sd, struct sockaddr_in* address) : m_sd(sd) {
+TCPStream::TCPStream(int sd, struct sockaddr_in* address) : m_sd(sd)
+{
     char ip[50];
     inet_ntop(PF_INET, (struct in_addr*)&(address->sin_addr.s_addr), ip, sizeof(ip)-1);
     m_peerIP = ip;
@@ -43,14 +44,21 @@ ssize_t TCPStream::send(const char* buffer, size_t len)
 
 ssize_t TCPStream::receive(char* buffer, size_t len, int timeout) 
 {
-    if (timeout <= 0) return read(m_sd, buffer, len);
 
-    if (waitForReadEvent(timeout) == true)
+    if (this != nullptr)
     {
-        return read(m_sd, buffer, len);
-    }
-    return connectionTimedOut;
+        if (timeout <= 0) return read(m_sd, buffer, len);
 
+        if (waitForReadEvent(timeout) == true)
+        {
+            return read(m_sd, buffer, len);
+        }
+        return connectionTimedOut;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 string TCPStream::getPeerIP() 

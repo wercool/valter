@@ -9,7 +9,7 @@ description "expclient"
 start on runlevel [2345]
 
 # Start job via the daemon control script. Replace "__username__" with your username.
-exec su -l __username__ -c  'export DISPLAY=:0; cd /home/pi/projects/build-expclient-Desktop-Debug; ./expclient'
+exec su -l __username__ -c  'export DISPLAY=:0; cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug; ./expclient'
 
 # Restart the process if it dies with a signal
 # or exit code not given by the 'normal exit' stanza.
