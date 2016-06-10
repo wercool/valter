@@ -29,9 +29,9 @@ protected:
     void executionWorker();
 
 private:
-    unsigned int motorDutyMax = 0;
-    unsigned int motorDeceleration = 0;
-    unsigned int motorAcceleration = 0;
+    unsigned int motorDutyMax;
+    unsigned int motorDeceleration;
+    unsigned int motorAcceleration;
 };
 
 #endif // SETLINK2MOTORDYNAMICS_H

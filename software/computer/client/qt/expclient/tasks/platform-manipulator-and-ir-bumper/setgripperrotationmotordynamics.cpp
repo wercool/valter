@@ -3,10 +3,11 @@
 
 SetGripperRotationMotorDynamics::SetGripperRotationMotorDynamics()
 {
+    motorDutyMax = 0;
+
     qDebugOn = true;
     taskName = "SetGripperRotationMotorDynamics";
     blocking = false;
-    checkFeasibility();
 }
 
 bool SetGripperRotationMotorDynamics::checkFeasibility()

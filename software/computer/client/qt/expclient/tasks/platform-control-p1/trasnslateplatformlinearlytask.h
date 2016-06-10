@@ -23,11 +23,15 @@ public:
 
     void setDistance(float value);
 
+    void setDirection(signed int value); // -1 = not defined, 1 = forward, 0 = backward
+
 protected:
     void executionWorker();
 
 private:
     float distance; //translate a distance in meters
+    int direction; // -1 = not defined, 1 = forward, 0 = backward
+    static signed int prevDirection;
 };
 
 #endif // TRASNSLATEPLATFORMLINEARLYTASK_H

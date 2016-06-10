@@ -6,7 +6,6 @@ SetGripperTiltPositionTask::SetGripperTiltPositionTask()
     qDebugOn = true;
     taskName = "SetGripperTiltPositionTask";
     blocking = false;
-    checkFeasibility();
 }
 
 bool SetGripperTiltPositionTask::checkFeasibility()

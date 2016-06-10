@@ -6,7 +6,6 @@ SetGripperRotationPosition::SetGripperRotationPosition()
     qDebugOn = true;
     taskName = "SetGripperRotationPosition";
     blocking = false;
-    checkFeasibility();
 }
 
 bool SetGripperRotationPosition::checkFeasibility()

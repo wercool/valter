@@ -6,7 +6,6 @@ SetLink1PositionTask::SetLink1PositionTask()
     qDebugOn = true;
     taskName = "SetLink1PositionTask";
     blocking = false;
-    checkFeasibility();
 }
 
 bool SetLink1PositionTask::checkFeasibility()

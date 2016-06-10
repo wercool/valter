@@ -27,7 +27,7 @@ protected:
     void executionWorker();
 
 private:
-    unsigned int motorDutyMax = 0;
+    unsigned int motorDutyMax;
 };
 
 #endif // SETGRIPPERROTATIONMOTORDYNAMICS_H

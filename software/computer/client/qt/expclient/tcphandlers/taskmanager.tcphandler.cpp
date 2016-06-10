@@ -42,7 +42,10 @@ class TaskManagerTCPConnectionHandler : public Thread
 
             std::string script(input);
 
-            executeScript(script);
+            if (script.length() > 0)
+            {
+                executeScript(script);
+            }
         }
 
         // Should never get here

@@ -3,10 +3,13 @@
 
 SetLink2MotorDynamics::SetLink2MotorDynamics()
 {
+    motorDutyMax = 0;
+    motorDeceleration = 0;
+    motorAcceleration = 0;
+
     qDebugOn = true;
     taskName = "SetLink2MotorDynamics";
     blocking = false;
-    checkFeasibility();
 }
 
 bool SetLink2MotorDynamics::checkFeasibility()

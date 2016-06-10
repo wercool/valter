@@ -131,8 +131,10 @@ unsigned int PlatformControlP1::executeTask(string taskScriptLine)
     {
         if (taskName.compare("TrasnslatePlatformLinearlyTask") == 0)
         {
-            float distance = atof(((string)taskInitiationParts[1]).c_str());
+            signed int direction = atoi(((string)taskInitiationParts[1]).c_str()); //1 - forward; initial -1 - undefined
+            float distance = atof(((string)taskInitiationParts[2]).c_str()); //meters
             ITask *task = tasks[taskName]();
+            ((TrasnslatePlatformLinearlyTask*)task)->setDirection(direction);
             ((TrasnslatePlatformLinearlyTask*)task)->setDistance(distance);
             return TaskManager::getInstance()->addTask(task);
         }

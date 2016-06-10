@@ -6,7 +6,6 @@ SetGripperGrasperPosition::SetGripperGrasperPosition()
     qDebugOn = true;
     taskName = "SetGripperGrasperPosition";
     blocking = false;
-    checkFeasibility();
 }
 
 bool SetGripperGrasperPosition::checkFeasibility()

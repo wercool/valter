@@ -117,6 +117,7 @@ void TaskManager::processScript(string script)
     setIncomingScriptProcessing(true);
     qDebug("processScript:\n=====================SCRIPT============start\n%s\n=====================SCRIPT============end\n", script.c_str());
     std::vector<std::string> scriptInstructions = Valter::split(script, '\n');
+    qDebug("\n=====================SCRIPT============processing started\n");
     for (int i = 0; i < static_cast<int>(scriptInstructions.size()); i++)
     {
         if (((string)scriptInstructions[i]).length() > 0)
@@ -229,6 +230,8 @@ void TaskManager::tasksQueueWorker()
                         {
                             if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
                             {
+                                //ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
+                                //qDebug("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now...", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                 continue;
                             }
                             executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
