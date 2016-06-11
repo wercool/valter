@@ -578,7 +578,7 @@ bool PlatformControlP1::preparePlatformMovement()
     canMove &= !getPower220VACAvailable();
     canMove &= !getMainAccumulatorRelayOnState();
 
-    setScan220ACAvailable(false);
+//    setScan220ACAvailable(false);
 
     if (getLeftWheelEncoderAutoreset())
     {
@@ -647,48 +647,60 @@ void PlatformControlP1::platformMovementDynamics()
     if (!getLeftMotorStop())
     {
         int curLeftMotorDuty = getLeftMotorDuty();
-        bool acceleration, decceleration;
+        bool acceleratingL, decceleratingL;
+        static bool steadyL = false; //steady - accelerated and running
         if (getLeftMotorActivated())
         {
-            acceleration = getLeftMotorAccelerating();
-            if (curLeftMotorDuty + getPlatformAcceleration() < getLeftMotorDutyMax())
+            acceleratingL = getLeftMotorAccelerating();
+            if (curLeftMotorDuty + ((!steadyL) ? getPlatformAcceleration() : 0) < getLeftMotorDutyMax())
             {
-                curLeftMotorDuty += getPlatformAcceleration();
-                acceleration = true;
+                curLeftMotorDuty += ((!steadyL) ? getPlatformAcceleration() : 1);
+                acceleratingL = true;
             }
             else
             {
-                curLeftMotorDuty = getLeftMotorDutyMax();
-                acceleration = false;
+                if(acceleratingL) //motor was activated and is running after activation, MotorDutyMax is reached
+                {
+                    curLeftMotorDuty = getLeftMotorDutyMax();
+                    acceleratingL = false;
+                }
+                else //motor was running (it has reached MotorDutyMax) but MotorDutyMax was decreased (for example for sycn with other motor for drift compensation)
+                {
+                    if (curLeftMotorDuty > getLeftMotorDutyMax())
+                    {
+                        curLeftMotorDuty -= 1;
+                        setLeftMotorDuty(curLeftMotorDuty);
+                    }
+                }
+                steadyL = true;
             }
             if (getLeftMotorAccelerating())
             {
                 setLeftMotorDuty(curLeftMotorDuty);
-                sendCommand(Valter::format_string("SETLEFTMOTORPWMDUTY#%d", curLeftMotorDuty));
             }
-            setLeftMotorAccelerating(acceleration);
+            setLeftMotorAccelerating(acceleratingL);
         }
         else
         {
-            decceleration = getLeftMotorDecelerating();
+            steadyL = false;
+            decceleratingL = getLeftMotorDecelerating();
             if (curLeftMotorDuty - getPlatformDeceleration() > 1)
             {
                 curLeftMotorDuty -= getPlatformDeceleration();
-                decceleration = true;
+                decceleratingL = true;
             }
             else
             {
                 curLeftMotorDuty = 1;
-                decceleration = false;
+                decceleratingL = false;
                 setLeftMotorStop(true);
             }
 
             if (getLeftMotorDecelerating())
             {
                 setLeftMotorDuty(curLeftMotorDuty);
-                sendCommand(Valter::format_string("SETLEFTMOTORPWMDUTY#%d", curLeftMotorDuty));
             }
-            setLeftMotorDecelerating(decceleration);
+            setLeftMotorDecelerating(decceleratingL);
             if (getLeftMotorStop())
             {
                 sendCommand("LEFTMOTORSTOP");
@@ -699,48 +711,60 @@ void PlatformControlP1::platformMovementDynamics()
     if (!getRightMotorStop())
     {
         int curRightMotorDuty = getRightMotorDuty();
-        bool acceleration, decceleration;
+        bool acceleratingR, decceleratingR;
+        static bool steadyR = false; //steady - accelerated and running
         if (getRightMotorActivated())
         {
-            acceleration = getRightMotorAccelerating();
-            if (curRightMotorDuty + getPlatformAcceleration() < getRightMotorDutyMax())
+            acceleratingR = getRightMotorAccelerating();
+            if (curRightMotorDuty + ((!steadyR) ? getPlatformAcceleration() : 0) < getRightMotorDutyMax())
             {
-                curRightMotorDuty += getPlatformAcceleration();
-                acceleration = true;
+                curRightMotorDuty += ((!steadyR) ? getPlatformAcceleration() : 1);
+                acceleratingR = true;
             }
             else
             {
-                curRightMotorDuty = getRightMotorDutyMax();
-                acceleration = false;
+                if(acceleratingR) //motor was activated and is running after activation, MotorDutyMax is reached
+                {
+                    curRightMotorDuty = getRightMotorDutyMax();
+                    acceleratingR = false;
+                }
+                else //motor was running (it has reached MotorDutyMax) but MotorDutyMax was decreased (for example for sycn with other motor for drift compensation)
+                {
+                    if (curRightMotorDuty - 1 > getRightMotorDutyMax())
+                    {
+                        curRightMotorDuty -= 1;
+                        setRightMotorDuty(curRightMotorDuty);
+                    }
+                }
+                steadyR = true;
             }
             if (getRightMotorAccelerating())
             {
                 setRightMotorDuty(curRightMotorDuty);
-                sendCommand(Valter::format_string("SETRIGHTMOTORPWMDUTY#%d", curRightMotorDuty));
             }
-            setRightMotorAccelerating(acceleration);
+            setRightMotorAccelerating(acceleratingR);
         }
         else
         {
-            decceleration = getRightMotorDecelerating();
+            steadyR = false;
+            decceleratingR = getRightMotorDecelerating();
             if (curRightMotorDuty - getPlatformDeceleration() > 1)
             {
                 curRightMotorDuty -= getPlatformDeceleration();
-                decceleration = true;
+                decceleratingR = true;
             }
             else
             {
                 curRightMotorDuty = 1;
-                decceleration = false;
+                decceleratingR = false;
                 setRightMotorStop(true);
             }
 
             if (getRightMotorDecelerating())
             {
                 setRightMotorDuty(curRightMotorDuty);
-                sendCommand(Valter::format_string("SETRIGHTMOTORPWMDUTY#%d", curRightMotorDuty));
             }
-            setRightMotorDecelerating(decceleration);
+            setRightMotorDecelerating(decceleratingR);
             if (getRightMotorStop())
             {
                 sendCommand("RIGHTMOTORSTOP");

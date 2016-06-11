@@ -868,10 +868,11 @@ void MainWindow::on_platformControlP1UntrackAllAdditionalReadingsButton_clicked(
     {
         platformControlP1->sendTCPCommand("on_platformControlP1UntrackAllAdditionalReadingsButton_clicked");
     }
-    for (int i = 0; i < ui->platformControlP1ReadingsTable->rowCount() - 1; i++)
+    for (int i = 0; i < ui->platformControlP1ReadingsTable->rowCount(); i++)
     {
         QTableWidgetItem* item = ui->platformControlP1ReadingsTable->item(i, 3);
         item->setCheckState(Qt::Unchecked);
+        setPlatfromControlP1AdditionalReadings(item);
     }
     ui->platformControlP1ReadingsTable->viewport()->update();
 }

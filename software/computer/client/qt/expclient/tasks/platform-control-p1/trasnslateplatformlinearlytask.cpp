@@ -56,7 +56,10 @@ void TrasnslatePlatformLinearlyTask::execute()
 
 void TrasnslatePlatformLinearlyTask::stopExecution()
 {
-
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
+    stopped = true;
 }
 
 void TrasnslatePlatformLinearlyTask::reportCompletion()
@@ -71,15 +74,70 @@ ITask *TrasnslatePlatformLinearlyTask::create()
 
 void TrasnslatePlatformLinearlyTask::executionWorker()
 {
+    /************************************ emulation *********************start***************************/
+    int lwen, rwen;
+    lwen = 0;
+    rwen = 0;
+    /************************************ emulation *********************finish**************************/
+    int cutOffDistanceTicks = (int)round(47 * distance * 0.98);
+    //1m ~ 47 vague encoder ticks
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     while (!stopped)
     {
         if (!executing)
         {
-            //temp
-            this_thread::sleep_for(std::chrono::milliseconds(5000));
+            if (true)//(platformControlP1->preparePlatformMovement())
+            {
+                if (direction == 1)
+                {
+                    //left and right forward
+                    if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
+                    {
+                        platformControlP1->setLeftMotorActivated(true);
+                        platformControlP1->setRightMotorActivated(true);
+                    }
+                    else
+                    {
+                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction.", getTaskId(), getTaskName().c_str());
+                        stopExecution();
+                    }
+                }
+                else if (direction == 0)
+                {
+                    //left and right forward
+                    if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(false))
+                    {
+                        platformControlP1->setLeftMotorActivated(true);
+                        platformControlP1->setRightMotorActivated(true);
+                    }
+                    else
+                    {
+                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction.", getTaskId(), getTaskName().c_str());
+                        stopExecution();
+                    }
+                }
+            }
+            executing = true;
+        }
+        else
+        {
+            /************************************ emulation *********************start***************************/
+            lwen++;
+            rwen++;
+            this_thread::sleep_for(std::chrono::milliseconds(50));
+            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", lwen, rwen, cutOffDistanceTicks);
+            /************************************ emulation *********************finish**************************/
 
-            setCompleted();
-            return;
+            //if (platformControlP1->getLeftWheelEncoder() >= cutOffDistance || platformControlP1->getRightWheelEncoder() >= cutOffDistance)
+            if (lwen >=  cutOffDistanceTicks || rwen >= cutOffDistanceTicks)
+            {
+                platformControlP1->setLeftMotorActivated(false);
+                platformControlP1->setRightMotorActivated(false);
+                setCompleted();
+                return;
+            }
+
+            //qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), (int)round((double)47 * cutOffDistance));
         }
     }
     qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());

@@ -564,6 +564,7 @@ int PlatformControlP1::getRightMotorDuty() const
 void PlatformControlP1::setRightMotorDuty(int value)
 {
     rightMotorDuty = value;
+    sendCommand(Valter::format_string("SETRIGHTMOTORPWMDUTY#%d", rightMotorDuty));
 }
 
 bool PlatformControlP1::getMainAccumulatorRelayOnState() const
@@ -1279,6 +1280,7 @@ int PlatformControlP1::getLeftMotorDuty() const
 void PlatformControlP1::setLeftMotorDuty(int value)
 {
     leftMotorDuty = value;
+    sendCommand(Valter::format_string("SETLEFTMOTORPWMDUTY#%d", leftMotorDuty));
 }
 
 void PlatformControlP1::loadDefaults()
