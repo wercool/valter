@@ -128,8 +128,10 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
             qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", lwen, rwen, cutOffDistanceTicks);
             /************************************ emulation *********************finish**************************/
 
-            //if (platformControlP1->getLeftWheelEncoder() >= cutOffDistance || platformControlP1->getRightWheelEncoder() >= cutOffDistance)
+            /************************************ emulation *********************start***************************/
             if (lwen >=  cutOffDistanceTicks || rwen >= cutOffDistanceTicks)
+            /************************************ emulation *********************finish**************************/
+//            if (platformControlP1->getLeftWheelEncoder() >= cutOffDistance || platformControlP1->getRightWheelEncoder() >= cutOffDistance)
             {
                 platformControlP1->setLeftMotorActivated(false);
                 platformControlP1->setRightMotorActivated(false);
@@ -137,7 +139,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                 return;
             }
 
-            //qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), (int)round((double)47 * cutOffDistance));
+//            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), cutOffDistanceTicks);
         }
     }
     qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
