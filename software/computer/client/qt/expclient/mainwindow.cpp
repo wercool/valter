@@ -317,6 +317,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (ui->platformControlP1RemoteControlCheckbox->isChecked())
     {
+        ui->platformControlP1RedrawGUICheckBox->setChecked(true);
         platformControlP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformControlP1->getTcpInterface()->getPort()));
         platformControlP1->loadDefaults();
         loadPlatformControlP1Defaults(ui);
@@ -325,6 +326,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
     if (ui->platformControlP2RemoteControlCheckbox->isChecked())
     {
+        ui->platfromControlP2RedrawGUICheckBox->setChecked(true);
         platformControlP2->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformControlP2->getTcpInterface()->getPort()));
         platformControlP2->loadDefaults();
         loadPlatformControlP2Defaults(ui);
@@ -333,6 +335,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
     if (ui->platformLocationP1RemoteControlCheckbox->isChecked())
     {
+        ui->platformLocationP1RedrawGUICheckBox->setChecked(true);
         platformLocationP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformLocationP1->getTcpInterface()->getPort()));
         platformLocationP1->loadDefaults();
         loadPlatformLocationP1Defaults(ui);
@@ -341,6 +344,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
     if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
     {
+        ui->platformManipulatorAndIRBumperRedrawGUICheckBox->setChecked(true);
         platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getPort()));
         platformManipulatorAndIRBumper->loadDefaults();
         loadPlatformManipulatorAndIRBumperDefaults(ui);
@@ -349,6 +353,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
+        ui->bodyControlP1CheckBox->setChecked(true);
         bodyControlP1->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), bodyControlP1->getTcpInterface()->getPort()));
         bodyControlP1->loadDefaults();
         loadBodyControlP1Defaults(ui);
@@ -357,6 +362,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
     if (ui->armControlRightRemoteControlCheckbox->isChecked())
     {
+        ui->armControlRightRedrawGUICheckBox->setChecked(true);
         armControlRight->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), armControlRight->getTcpInterface()->getPort()));
         armControlRight->loadDefaults();
         loadArmControlRightDefaults(ui);
@@ -365,6 +371,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
     if (ui->armControlLeftRemoteControlCheckbox->isChecked())
     {
+        ui->armControlLeftRedrawGUICheckBox->setChecked(true);
         armControlLeft->sendTCPCommand(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), armControlLeft->getTcpInterface()->getPort()));
         armControlLeft->loadDefaults();
         loadArmControlLeftDefaults(ui);

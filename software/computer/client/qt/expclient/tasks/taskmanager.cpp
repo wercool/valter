@@ -63,7 +63,7 @@ unsigned int TaskManager::addTask(ITask *task)
     this_thread::sleep_for(std::chrono::milliseconds(10));
     unsigned taskId = task->getTaskId();
     qDebug("Task [%d] has been queued...", taskId);
-    getTcpInterface()->sendCDRToCentralCommandHost("!!!!!!!!!!!");
+    getTcpInterface()->sendCDRToCentralCommandHost("TaskManager::addTask TODO: add task aknowledged message back");
     return taskId;
 }
 

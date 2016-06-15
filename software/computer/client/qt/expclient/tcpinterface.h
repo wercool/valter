@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string>
 #include <vector>
+#include <thread>
+#include <mutex>
 
 #include "tcp/threads/thread.h"
 #include "tcp/wqueue/wqueue.h"
@@ -66,6 +68,8 @@ public:
 
     TCPAcceptor *getConnectionAcceptor() const;
 
+    void setSentCDRsRectifierThreadWorkerStopped(bool value);
+
 private:
     string ip;
     int port;
@@ -86,6 +90,12 @@ private:
     int centralCommandHostIPPort;
 
     bool connected;
+
+    std::vector<string> sentCDRs;
+    std::mutex sentCDRs_mutex;
+    std::thread *sentCDRsRectifierThread;
+    bool sentCDRsRectifierThreadWorkerStopped;
+    void sentCDRsRectifierThreadWorker();
 
 };
 

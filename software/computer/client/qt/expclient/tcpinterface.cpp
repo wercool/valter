@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <ifaddrs.h>
+#include <algorithm>
 
 TCPInterface::TCPInterface(int port)
 {
@@ -15,6 +16,12 @@ TCPInterface::TCPInterface(int port)
     //set uninitialized from the beginning
     connected = false;
     centralCommandHostIP = "";
+
+    sentCDRs = {};
+
+    sentCDRsRectifierThreadWorkerStopped = false;
+
+    sentCDRsRectifierThread = new std::thread(&TCPInterface::sentCDRsRectifierThreadWorker, this);
 }
 
 string TCPInterface::getIp() const
@@ -188,6 +195,11 @@ void TCPInterface::tcpConnectionWorker()
     qDebug("STOPPED: TCPInterface::tcpConnectionWorker");
 }
 
+void TCPInterface::setSentCDRsRectifierThreadWorkerStopped(bool value)
+{
+    sentCDRsRectifierThreadWorkerStopped = value;
+}
+
 bool TCPInterface::getConnected() const
 {
     return connected;
@@ -229,23 +241,46 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
     {
         if (getCentralCommandHostIP().compare("") > 0)
         {
-            TCPStream* stream = getCommandInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
-            int length;
-            char response[256];
-            if (stream)
+            bool duplicate = false;
+            if (!sentCDRs.empty())
             {
-                //qDebug("sent - %s", command.c_str());
-                stream->send(command.c_str(), command.size());
-                length = stream->receive(response, sizeof(response));
-                response[length] = '\0';
-                //qDebug("received - %s", response);
-                delete stream;
+                for(vector<string>::const_iterator i = sentCDRs.begin(); i != sentCDRs.end(); ++i)
+                {
+                    if (((string)*i).compare(command) == 0)
+                    {
+                        duplicate = true;
+                    }
+                }
+            }
+            if (!duplicate) //ignore too often duplicates
+            {
+//                qDebug("CDR to be sent: %s", command.c_str());
+                std::lock_guard<std::mutex> guard(sentCDRs_mutex);
+                sentCDRs.push_back(command);
 
-                return true;
+                TCPStream* stream = getCommandInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
+                int length;
+                char response[256];
+                if (stream)
+                {
+                    //qDebug("sent - %s", command.c_str());
+                    stream->send(command.c_str(), command.size());
+                    length = stream->receive(response, sizeof(response));
+                    response[length] = '\0';
+                    //qDebug("received - %s", response);
+                    delete stream;
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
-                return false;
+                qDebug("Duplicate CDR detected within 100ms [%s]", command.c_str());
+                return true;
             }
         }
     }
@@ -271,4 +306,18 @@ void TCPInterface::setCommandHostIP(const string &value)
 {
     commandHostIP = value;
     Valter::getInstance()->addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(commandHostIP);
+}
+
+void TCPInterface::sentCDRsRectifierThreadWorker()
+{
+    while (!sentCDRsRectifierThreadWorkerStopped)
+    {
+        if (!sentCDRs.empty())
+        {
+            std::lock_guard<std::mutex> guard(sentCDRs_mutex);
+            sentCDRs.erase(sentCDRs.begin());
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+    qDebug("STOPPED: TCPInterface::sentCDRsRectifierThreadWorker");
 }

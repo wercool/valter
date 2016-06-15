@@ -52,7 +52,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-532</y>
+             <y>0</y>
              <width>874</width>
              <height>1047</height>
             </rect>
@@ -455,6 +455,16 @@
                  <widget class="QCheckBox" name="platformControlP1RedrawGUICheckBox">
                   <property name="text">
                    <string>redraw GUI</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="platformControlP1UpdateGUICheckBox">
+                  <property name="text">
+                   <string>update GUI</string>
                   </property>
                   <property name="checked">
                    <bool>true</bool>
@@ -8086,7 +8096,7 @@ border-color: rgb(140, 140, 140);</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-90</y>
+             <y>0</y>
              <width>874</width>
              <height>1514</height>
             </rect>

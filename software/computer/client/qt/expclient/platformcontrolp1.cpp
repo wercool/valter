@@ -145,8 +145,9 @@ unsigned int PlatformControlP1::executeTask(string taskScriptLine)
 void PlatformControlP1::processControlDeviceResponse(string response)
 {
     //execute identification of responses with priority
-    if (getLeftMotorStop() && getRightMotorStop() && getTurretMotorStop())
-    {
+//    if (getLeftMotorStop() && getRightMotorStop() && getTurretMotorStop())
+//    {
+
         if (response.compare("DC/DC 5V ENABLED") == 0)
         {
             setPower5VOnState(true);
@@ -292,9 +293,11 @@ void PlatformControlP1::processControlDeviceResponse(string response)
             }
             return;
         }
-    }
-    else
-    {
+
+//    }
+//    else
+//    {
+
         //response template
         //ALLCURREADINGS:IN1 CH#,READING;IN2 CH#,READING;TURRET POSITION;LEFT MOTOR CURRENT;RIGHT MOTOR CURRENT;TURRET MOTOR CURRENT;LEFT MOTOR COUNTER;RIGHT MOTOR COUNTER
         if (response.find("ALLCURREADINGS:") != std::string::npos) //composed readings
@@ -312,34 +315,42 @@ void PlatformControlP1::processControlDeviceResponse(string response)
             int leftWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[6]));
             int rightWheelEncoder = atoi(Valter::stringToCharPtr(value_str_values[7]));
 
-            if (!getLeftMotorStop())
-            {
-                setLeftMotorCurrentADC(leftMotorCurrent);
-            }
-            if (!getRightMotorStop())
-            {
-                setRightMotorCurrentADC(rightMotorCurrent);
-            }
-            if (!getTurretMotorStop())
-            {
-                setTurretMotorCurrentADC(turretMotorCurrent);
-            }
-            if (getLeftWheelEncoderRead())
-            {
-                setLeftWheelEncoder(leftWheelEncoder);
-            }
-            if (getRightWheelEncoderRead())
-            {
-                setRightWheelEncoder(rightWheelEncoder);
-            }
+//            if (!getLeftMotorStop())
+//            {
+//                setLeftMotorCurrentADC(leftMotorCurrent);
+//            }
+//            if (!getRightMotorStop())
+//            {
+//                setRightMotorCurrentADC(rightMotorCurrent);
+//            }
+//            if (!getTurretMotorStop())
+//            {
+//                setTurretMotorCurrentADC(turretMotorCurrent);
+//            }
+//            if (getLeftWheelEncoderRead())
+//            {
+//                setLeftWheelEncoder(leftWheelEncoder);
+//            }
+//            if (getRightWheelEncoderRead())
+//            {
+//                setRightWheelEncoder(rightWheelEncoder);
+//            }
 
-            if (getTurretPositionRead() && !getTurretMotorStop())
-            {
-                setTurretPositionADC(turretPosition);
-            }
+//            if (getTurretPositionRead() && !getTurretMotorStop())
+//            {
+//                setTurretPositionADC(turretPosition);
+//            }
+
+            setLeftMotorCurrentADC(leftMotorCurrent);
+            setRightMotorCurrentADC(rightMotorCurrent);
+            setTurretMotorCurrentADC(turretMotorCurrent);
+            setLeftWheelEncoder(leftWheelEncoder);
+            setRightWheelEncoder(rightWheelEncoder);
+            setTurretPositionADC(turretPosition);
+
             return;
         }
-    }
+//    }
     //get when requested inspite motors is not stopped
     if (getLeftWheelEncoderGetOnce())
     {
@@ -498,6 +509,18 @@ void PlatformControlP1::processControlDeviceResponse(string response)
         controlDevice->setRemoteStatus(value_str_values[4]);
         Valter::getInstance()->addControlDeviceToRemoteControlDevicesMap(controlDevice);
         return;
+    }
+    if (response.find("LEFTMOTORSTOPPED") != std::string::npos)
+    {
+        setLeftMotorCurrentADC(0);
+    }
+    if (response.find("RIGHTMOTORSTOPPED") != std::string::npos)
+    {
+        setRightMotorCurrentADC(0);
+    }
+    if (response.find("TURRETMOTORSTOPPED") != std::string::npos)
+    {
+        setTurretMotorCurrentADC(0);
     }
 }
 
@@ -704,6 +727,7 @@ void PlatformControlP1::platformMovementDynamics()
             if (getLeftMotorStop())
             {
                 sendCommand("LEFTMOTORSTOP");
+                getTcpInterface()->sendCDRToCentralCommandHost("CDR~LEFTMOTORSTOPPED");
             }
         }
     }
@@ -768,6 +792,7 @@ void PlatformControlP1::platformMovementDynamics()
             if (getRightMotorStop())
             {
                 sendCommand("RIGHTMOTORSTOP");
+                getTcpInterface()->sendCDRToCentralCommandHost("CDR~RIGHTMOTORSTOPPED");
             }
         }
     }
@@ -856,6 +881,7 @@ void PlatformControlP1::turretRotationDynamics()
             if (getTurretMotorStop())
             {
                 sendCommand("TURRETMOTORSTOP");
+                getTcpInterface()->sendCDRToCentralCommandHost("CDR~TURRETMOTORSTOPPED");
             }
         }
         if (getTurretMotorCurrentRead())

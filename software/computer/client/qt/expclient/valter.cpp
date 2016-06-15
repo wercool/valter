@@ -161,6 +161,7 @@ void Valter::prepareShutdown()
             valterModule->sendCommand("WDINTENTIONALRESETOFF");
         }
         valterModule->stopAllProcesses = true;
+        valterModule->getTcpInterface()->setSentCDRsRectifierThreadWorkerStopped(true);
         valterModule->getTcpInterface()->getConnectionAcceptor()->setListening(false);
         valterModule->getTcpInterface()->sendCommandMessage("stopCDTtoCentralCommandHost");
         valterModule->getTcpInterface()->setConnected(false);
