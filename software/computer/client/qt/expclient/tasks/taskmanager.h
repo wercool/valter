@@ -27,6 +27,8 @@ public:
 
     bool sendScriptToRemoteTaskManager(string script, string ipAddress);
 
+    bool sendMessageToCentralHostTaskManager(string message);
+
     unsigned int routeTaskRequest(std::string taskMessage); //returns TaskId
 
     TCPInterface *getTcpInterface() const;

@@ -6,6 +6,7 @@ signed int TrasnslatePlatformLinearlyTask::prevDirection = -1;
 TrasnslatePlatformLinearlyTask::TrasnslatePlatformLinearlyTask()
 {
     direction = -1;
+    distance  = -1;
 
     qDebugOn = true;
     taskName = "TrasnslatePlatformLinearlyTask";
@@ -25,6 +26,11 @@ bool TrasnslatePlatformLinearlyTask::checkFeasibility()
         qDebug("Task#%lu (%s) could not be performed. Direction is undefined.", getTaskId(), getTaskName().c_str());
         return false;
     }
+    if (distance < 0)
+    {
+        qDebug("Task#%lu (%s) could not be performed. Translation distance is undefined.", getTaskId(), getTaskName().c_str());
+        return false;
+    }
     if (direction == prevDirection)
     {
         if (platformControlP1->getRightMotorActivated() || platformControlP1->getLeftMotorActivated())
@@ -38,6 +44,22 @@ bool TrasnslatePlatformLinearlyTask::checkFeasibility()
 
 bool TrasnslatePlatformLinearlyTask::initialize()
 {
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (!platformControlP1->getPower5VOnState())
+    {
+        qDebug("Task#%lu (%s) could not be executed. 5V power is OFF", getTaskId(), getTaskName().c_str());
+        return false;
+    }
+    if (!platformControlP1->getLeftWheelEncoderRead())
+    {
+        qDebug("Task#%lu (%s) could not be executed. Left Wheel Encoder readings is OFF", getTaskId(), getTaskName().c_str());
+        return false;
+    }
+    if (!platformControlP1->getRightWheelEncoderRead())
+    {
+        qDebug("Task#%lu (%s) could not be executed. Right Wheel Encoder readings is OFF", getTaskId(), getTaskName().c_str());
+        return false;
+    }
     qDebug("Task#%lu (%s) direction = %s, distance = %f", getTaskId(), getTaskName().c_str(), (direction > 0 && direction != -1) ? "forward" : "backward", distance);
     return true;
 }
@@ -49,14 +71,12 @@ void TrasnslatePlatformLinearlyTask::execute()
         if (checkFeasibility())
         {
             new std::thread(&TrasnslatePlatformLinearlyTask::executionWorker, this);
-        }
-        else
-        {
-            this_thread::sleep_for(std::chrono::milliseconds(100));
-            stopExecution();
-            setCompleted();
+            return;
         }
     }
+    this_thread::sleep_for(std::chrono::milliseconds(100));
+    stopExecution();
+    setCompleted();
 }
 
 void TrasnslatePlatformLinearlyTask::stopExecution()
@@ -71,7 +91,7 @@ void TrasnslatePlatformLinearlyTask::stopExecution()
 
 void TrasnslatePlatformLinearlyTask::reportCompletion()
 {
-
+    qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
 }
 
 ITask *TrasnslatePlatformLinearlyTask::create()
@@ -94,7 +114,10 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
     {
         if (!executing)
         {
-            if (true)//(platformControlP1->preparePlatformMovement())
+            /************************************ emulation *********************start***************************/
+            if (true)
+            /************************************ emulation *********************finish**************************/
+            //if (platformControlP1->preparePlatformMovement())
             {
                 if (direction == 1)
                 {
@@ -106,7 +129,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                     }
                     else
                     {
-                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction.", getTaskId(), getTaskName().c_str());
+                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
                         stopExecution();
                     }
                 }
@@ -120,7 +143,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                     }
                     else
                     {
-                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction.", getTaskId(), getTaskName().c_str());
+                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
                         stopExecution();
                     }
                 }
@@ -174,7 +197,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                     {
                         platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
                         platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("CORRECT TO RIGHT RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        qDebug("RIGHT CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
                     /************************************ emulation *********************start***************************/
                     rwen++;
@@ -193,7 +216,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                     {
                         platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
                         platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("CORRECT TO LEFT RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        qDebug("LEFT CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
                     /************************************ emulation *********************start***************************/
                     lwen++;
@@ -213,10 +236,14 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
 //            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), cutOffDistanceTicks);
         }
     }
-    qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
-    setCompleted();
+
+    platformControlP1->setLeftMotorActivated(false);
+    platformControlP1->setRightMotorActivated(false);
     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
+
+    qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+    setCompleted();
 }
 
 void TrasnslatePlatformLinearlyTask::setDirection(signed int value)

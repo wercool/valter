@@ -1,3 +1,4 @@
+#include "valter.h"
 #include "setmoduleinitialstatetask.h"
 
 SetModuleInitialStateTask::SetModuleInitialStateTask()

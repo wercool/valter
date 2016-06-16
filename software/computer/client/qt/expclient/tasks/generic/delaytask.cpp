@@ -1,3 +1,4 @@
+#include "valter.h"
 #include "delaytask.h"
 
 DelayTask::DelayTask(unsigned int delay_ms_value)
@@ -33,6 +34,7 @@ void DelayTask::stopExecution()
 void DelayTask::reportCompletion()
 {
     qDebug("Task#%lu (%s) %dms completed.", getTaskId(), getTaskName().c_str(), delay_ms);
+    Valter::getInstance()->getTaskManager()->sendMessageToCentralHostTaskManager(Valter::format_string("RTMM~%lu~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", (completed) ? "completed" : ((executing) ? "executing" : "queued")));
 }
 
 void DelayTask::executionWorker()

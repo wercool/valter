@@ -22,7 +22,6 @@ public:
     static ITask *create();
 
     void setDistance(float value);
-
     void setDirection(signed int value); // -1 = not defined, 1 = forward, 0 = backward
 
 protected:

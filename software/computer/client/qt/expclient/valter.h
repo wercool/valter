@@ -156,6 +156,8 @@ public:
 
    static const string filePathPrefix;
 
+   TaskManager *getTaskManager() const;
+
 private:
    Valter();
    static Valter *pValter;      // Valter's singleton instance
@@ -174,6 +176,8 @@ private:
    vector<string> remoteControlDeviceTCPInterfacesIpAddressesVector;
 
    map<string, string> globalSettings;
+
+   TaskManager *taskManager;
 };
 
 

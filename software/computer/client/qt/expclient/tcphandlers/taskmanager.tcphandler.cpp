@@ -40,11 +40,23 @@ class TaskManagerTCPConnectionHandler : public Thread
             }
             delete item;
 
-            std::string script(input);
+            //RTMM - Remote Task Manager Message
+            char isRTMM[5];
+            strncpy(isRTMM, input, 4);
+            isRTMM[5] = '\0';
 
-            if (script.length() > 0)
+            if (strcmp(isRTMM, "RTMM") == 0)
             {
-                executeScript(script);
+                qDebug("RTMM");
+            }
+            else
+            {
+                std::string script(input);
+
+                if (script.length() > 0)
+                {
+                    executeScript(script);
+                }
             }
         }
 

@@ -45,14 +45,14 @@ SOURCES += main.cpp\
            mainwindow/mainwindow.bodycontrolp1.cpp \
            mainwindow/mainwindow.armcontrolleft.cpp \
            mainwindow/mainwindow.armcontrolright.cpp \
-#tcp handlers
-           tcphandlers/platformcontrolp1.tcphandler.cpp \
 #tcp
             tcpinterface.cpp \
             tcp/threads/thread.cpp \
             tcp/tcpsockets/tcpstream.cpp \
             tcp/tcpsockets/tcpacceptor.cpp \
             tcp/tcpsockets/tcpconnector.cpp \
+#tcp handlers
+            tcphandlers/platformcontrolp1.tcphandler.cpp \
             tcphandlers/platformcontrolp2.tcphandler.cpp \
             tcphandlers/platformlocationp1.tcphandler.cpp \
             tcphandlers/platformmanipulatorandirbumper.tcphandler.cpp \
@@ -63,9 +63,8 @@ SOURCES += main.cpp\
 #tasks
             tasks/itask.cpp \
             tasks/taskmanager.cpp \
-            tasks/delaytask.cpp \
-            tcphandlers/taskmanager.tcphandler.cpp \
-            tasks/setmoduleinitialstatetask.cpp \
+            tasks/generic/delaytask.cpp \
+            tasks/generic/setmoduleinitialstatetask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.cpp \
@@ -75,7 +74,7 @@ SOURCES += main.cpp\
             tasks/platform-manipulator-and-ir-bumper/setlink2motordynamics.cpp \
             tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.cpp \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.cpp \
-    tasks/platform-control-p1/rotateplatformtask.cpp
+            tasks/platform-control-p1/rotateplatformtask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -116,8 +115,8 @@ HEADERS  += mainwindow.h \
             tasks/itask.h \
             tasks/tasks.h \
             tasks/taskmanager.h \
-            tasks/delaytask.h \
-            tasks/setmoduleinitialstatetask.h \
+            tasks/generic/delaytask.h \
+            tasks/generic/setmoduleinitialstatetask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.h \
@@ -127,7 +126,7 @@ HEADERS  += mainwindow.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2motordynamics.h \
             tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.h \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.h \
-    tasks/platform-control-p1/rotateplatformtask.h
+            tasks/platform-control-p1/rotateplatformtask.h
 
 FORMS    += mainwindow.ui
 

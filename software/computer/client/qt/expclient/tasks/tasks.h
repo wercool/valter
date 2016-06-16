@@ -2,8 +2,10 @@
 #define TASKS_H
 
 #include "valter.h"
-#include "tasks/delaytask.h"
-#include "tasks/setmoduleinitialstatetask.h"
+
+// GENERIC
+#include "tasks/generic/delaytask.h"
+#include "tasks/generic/setmoduleinitialstatetask.h"
 
 // PLATFORM-MANIPULATOR-AND-IR-BUMPER
 #include "tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h"

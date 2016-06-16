@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -20945,68 +20945,89 @@ image: url(:/hand-left.png);</string>
        <attribute name="title">
         <string>Tasks</string>
        </attribute>
-       <widget class="QPushButton" name="clearTasksQueueButton">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>90</y>
-          <width>211</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Stop and Clear Tasks Queue</string>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>20</y>
-          <width>171</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>execute script locally</string>
-        </property>
-       </widget>
-       <widget class="QPlainTextEdit" name="taskScriptTextEdit">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>50</y>
-          <width>371</width>
-          <height>231</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="executeScriptButton">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>60</y>
-          <width>161</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Execute Script</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="forcefullyCompleteTaskButton">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>120</y>
-          <width>281</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Forcefully Complete Queue Top Task</string>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_30">
+        <item row="3" column="0">
+         <widget class="QPushButton" name="clearTasksQueueButton">
+          <property name="text">
+           <string>Stop and Clear Tasks Queue</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QTableWidget" name="tasksTableWidget">
+          <column>
+           <property name="text">
+            <string>Task ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Task Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Task Type</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Task Status</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPlainTextEdit" name="taskScriptTextEdit">
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QPushButton" name="forcefullyCompleteTaskButton">
+          <property name="text">
+           <string>Forcefully Complete Queue Top Task</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="executeScriptButton">
+          <property name="text">
+           <string>Execute Script</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
+          <property name="text">
+           <string>execute script locally</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Stop Selected Task</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="Line" name="line_77">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="utilitiesTab">
        <attribute name="title">

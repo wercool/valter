@@ -52,7 +52,7 @@ Valter::Valter()
     valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("ACR", ArmControlRight::getInstance()));
     valterModuleShortNameMap.insert(pair<std::string, IValterModule*>("ACL", ArmControlLeft::getInstance()));
 
-    TaskManager::getInstance();
+    taskManager = TaskManager::getInstance();
 
     remoteControlDeviceTCPInterfacesIpAddressesVector = {};
 }
@@ -410,4 +410,9 @@ void Valter::closeAllControlDevicePorts()
             controlDevice->getControlDevicePort()->close();
         }
     }
+}
+
+TaskManager *Valter::getTaskManager() const
+{
+    return taskManager;
 }

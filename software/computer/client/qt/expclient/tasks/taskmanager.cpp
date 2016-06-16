@@ -29,6 +29,7 @@ TaskManager::TaskManager()
 {
     initTcpInterface();
     qDebug("Task Manager initialized");
+    Valter::log("Task Manager singleton initialized");
     queueStopped = false;
     incomingScriptProcessing = false;
     stopTopTask = false;
@@ -171,6 +172,30 @@ bool TaskManager::sendScriptToRemoteTaskManager(string script, string ipAddress)
     {
         //qDebug("sent - %s", command.c_str());
         stream->send(script.c_str(), script.size());
+        length = stream->receive(response, sizeof(response));
+        response[length] = '\0';
+        //qDebug("received - %s", response);
+        delete stream;
+
+        return true;
+    }
+    return false;
+}
+
+bool TaskManager::sendMessageToCentralHostTaskManager(string message)
+{
+    //FORMAT
+    //RTMM~{task id}~{task name}~{task type}~{task status}
+    TCPStream* stream = getTcpInterface()->getCommandInterfaceConnector()->connect(getTcpInterface()->getCentralCommandHostIP().c_str(), getTcpInterface()->getCentralCommandHostIPPort());
+    int length;
+    char response[256];
+
+    message = "RTMM~" + message;
+
+    if (stream)
+    {
+        //qDebug("sent - %s", command.c_str());
+        stream->send(message.c_str(), message.size());
         length = stream->receive(response, sizeof(response));
         response[length] = '\0';
         //qDebug("received - %s", response);

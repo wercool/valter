@@ -20,6 +20,12 @@ bool SetLink2PositionTask::checkFeasibility()
 
 bool SetLink2PositionTask::initialize()
 {
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (!platformControlP1->getPower5VOnState())
+    {
+        qDebug("Task#%lu (%s) could not be executed. 5V power is OFF", getTaskId(), getTaskName().c_str());
+        return false;
+    }
     return true;
 }
 
@@ -31,13 +37,10 @@ void SetLink2PositionTask::execute()
         {
             new std::thread(&SetLink2PositionTask::executionWorker, this);
         }
-        else
-        {
-            this_thread::sleep_for(std::chrono::milliseconds(100));
-            stopExecution();
-            setCompleted();
-        }
     }
+    this_thread::sleep_for(std::chrono::milliseconds(100));
+    stopExecution();
+    setCompleted();
 }
 
 void SetLink2PositionTask::stopExecution()
