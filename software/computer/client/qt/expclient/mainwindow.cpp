@@ -17,6 +17,7 @@
 #include <gui/bodycontrolp1GUI.h>
 #include <gui/armcontrolleftGUI.h>
 #include <gui/armcontrolrightGUI.h>
+#include <gui/taskstabgui.h>
 
 #include "mainwindow/mainwindow.control.devices.utils.cpp"
 #include "mainwindow/mainwindow.platformcontrolp1.cpp"
@@ -82,6 +83,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->stopAllButton5, SIGNAL(clicked()), this, SLOT(on_stopAllButton5_clicked()));
     connect(ui->stopAllButton6, SIGNAL(clicked()), this, SLOT(on_stopAllButton6_clicked()));
     connect(ui->stopAllButton7, SIGNAL(clicked()), this, SLOT(on_stopAllButton7_clicked()));
+
+
+    tasksTabRefreshTimer = new QTimer(this);
+    connect(tasksTabRefreshTimer, SIGNAL(timeout()), this, SLOT(tasksTabRefreshTimerUpdate()));
+    tasksTabRefreshTimer->start(100);
+
+    ui->tasksTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 }
 
 MainWindow::~MainWindow()
@@ -376,6 +384,12 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
         armControlLeft->loadDefaults();
         loadArmControlLeftDefaults(ui);
     }
+
+    vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
+    for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
+    {
+        TaskManager::getInstance()->sendScriptToRemoteTaskManager(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), 55555), remoteControlDeviceTCPInterfacesIpAdresses[i]);
+    }
 }
 
 void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked()
@@ -469,6 +483,10 @@ void MainWindow::on_executeScriptButton_clicked()
             TaskManager::getInstance()->sendScriptToRemoteTaskManager(ui->taskScriptTextEdit->toPlainText().toStdString(), remoteControlDeviceTCPInterfacesIpAdresses[i]);
         }
     }
+    if (ui->autoClearRTMMCheckBox->isChecked())
+    {
+        on_clearRemoteTaskManagerTasksMapButton_clicked();
+    }
 }
 
 void MainWindow::on_clearTasksQueueButton_clicked()
@@ -501,4 +519,14 @@ void MainWindow::on_forcefullyCompleteTaskButton_clicked()
             TaskManager::getInstance()->sendScriptToRemoteTaskManager("STOPTOPTASK", remoteControlDeviceTCPInterfacesIpAdresses[i]);
         }
     }
+}
+
+void MainWindow::tasksTabRefreshTimerUpdate()
+{
+    tasksTabRefreshTimerUpdateWorker(ui);
+}
+
+void MainWindow::on_clearRemoteTaskManagerTasksMapButton_clicked()
+{
+    TaskManager::getInstance()->clearRTMM();
 }

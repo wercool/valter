@@ -25,7 +25,7 @@ bool SetLink1MotorDynamics::initialize()
 void SetLink1MotorDynamics::execute()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
-
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
     if (motorDutyMax != 0)
     {
         platformManipulatorAndIRBumper->setLink1MotorDutyMax(motorDutyMax);
@@ -52,6 +52,7 @@ void SetLink1MotorDynamics::stopExecution()
 void SetLink1MotorDynamics::reportCompletion()
 {
     qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
 ITask *SetLink1MotorDynamics::create()

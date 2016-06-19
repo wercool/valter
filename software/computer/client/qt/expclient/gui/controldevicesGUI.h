@@ -27,7 +27,7 @@ void refreshControlDeviceTableWorker(Ui::MainWindow *ui)
         for(it_type iterator = controlDevicesMap.begin(); iterator != controlDevicesMap.end(); iterator++)
         {
             ControlDevice *controlDevice = controlDevicesMap[iterator->first];
-            ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort() .c_str()));
+            ui->controlDeviceTableWidget->setItem(i, 0, new QTableWidgetItem(controlDevice->getControlDevicePort()->getPort().c_str()));
             ui->controlDeviceTableWidget->setItem(i, 1, new QTableWidgetItem(controlDevice->getControlDeviceId().c_str()));
             ui->controlDeviceTableWidget->setItem(i, 2, new QTableWidgetItem((controlDevice->getControlDevicePort()->isOpen() ? "TRUE" :"FALSE")));
             ui->controlDeviceTableWidget->setItem(i, 3, new QTableWidgetItem(controlDevice->getIntentionalWDTimerResetOnAT91SAM7s() ? "ON" :"OFF"));

@@ -61,6 +61,7 @@ class PlatformManipulatorAndIRBumperTCPConnectionHandler : public Thread
             qDebug("TCP[%s] → %s", platformManipulatorAndIRBumper->getControlDeviceId().c_str(), cdr.c_str());
 
             platformManipulatorAndIRBumper->processControlDeviceResponse(cdr);
+            return;
         }
 
         //control/service messages

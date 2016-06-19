@@ -22,6 +22,7 @@ bool SetGripperRotationMotorDynamics::initialize()
 
 void SetGripperRotationMotorDynamics::execute()
 {
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
 
     if (motorDutyMax != 0)
@@ -40,6 +41,7 @@ void SetGripperRotationMotorDynamics::stopExecution()
 void SetGripperRotationMotorDynamics::reportCompletion()
 {
     qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
 ITask *SetGripperRotationMotorDynamics::create()

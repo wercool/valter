@@ -61,6 +61,7 @@ class PlatformControlP2TCPConnectionHandler : public Thread
             qDebug("TCP[%s] → %s", platformControlP2->getControlDeviceId().c_str(), cdr.c_str());
 
             platformControlP2->processControlDeviceResponse(cdr);
+            return;
         }
 
         //control/service messages

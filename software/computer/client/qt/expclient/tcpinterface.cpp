@@ -223,7 +223,6 @@ int TCPInterface::getCentralCommandHostIPPort() const
 void TCPInterface::setCentralCommandHostIPPort(const int &value)
 {
     centralCommandHostIPPort = value;
-    //Valter::getInstance()->getTaskManager()->getTcpInterface()->setCentralCommandHostIPPort(centralCommandHostIPPort);
 }
 
 string TCPInterface::getCentralCommandHostIP() const
@@ -234,7 +233,6 @@ string TCPInterface::getCentralCommandHostIP() const
 void TCPInterface::setCentralCommandHostIP(const string &value)
 {
     centralCommandHostIP = value;
-//    Valter::getInstance()->getTaskManager()->getTcpInterface()->setCentralCommandHostIP(centralCommandHostIP);
 }
 
 bool TCPInterface::sendCDRToCentralCommandHost(string command)

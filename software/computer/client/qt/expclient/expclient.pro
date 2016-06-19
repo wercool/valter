@@ -102,6 +102,7 @@ HEADERS  += mainwindow.h \
             gui/bodycontrolp1GUI.h \
             gui/armcontrolleftGUI.h \
             gui/armcontrolrightGUI.h \
+            gui/taskstabgui.h \
             valter3d.h \
 #tcp
             tcpinterface.h \
@@ -126,7 +127,7 @@ HEADERS  += mainwindow.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2motordynamics.h \
             tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.h \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.h \
-            tasks/platform-control-p1/rotateplatformtask.h
+            tasks/platform-control-p1/rotateplatformtask.h \
 
 FORMS    += mainwindow.ui
 

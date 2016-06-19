@@ -20946,15 +20946,11 @@ image: url(:/hand-left.png);</string>
         <string>Tasks</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_30">
-        <item row="3" column="0">
-         <widget class="QPushButton" name="clearTasksQueueButton">
-          <property name="text">
-           <string>Stop and Clear Tasks Queue</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="2">
          <widget class="QTableWidget" name="tasksTableWidget">
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>Task ID</string>
@@ -20975,6 +20971,16 @@ image: url(:/hand-left.png);</string>
             <string>Task Status</string>
            </property>
           </column>
+          <column>
+           <property name="text">
+            <string>Script Line</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Notes</string>
+           </property>
+          </column>
          </widget>
         </item>
         <item row="1" column="0">
@@ -20992,24 +20998,24 @@ image: url(:/hand-left.png);</string>
           </property>
          </widget>
         </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="clearRemoteTaskManagerTasksMapButton">
+          <property name="text">
+           <string>Clear Remote Task Manager Tasks Map</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="Line" name="line_77">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
         <item row="4" column="0">
          <widget class="QPushButton" name="forcefullyCompleteTaskButton">
           <property name="text">
            <string>Forcefully Complete Queue Top Task</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="executeScriptButton">
-          <property name="text">
-           <string>Execute Script</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
-          <property name="text">
-           <string>execute script locally</string>
           </property>
          </widget>
         </item>
@@ -21020,12 +21026,50 @@ image: url(:/hand-left.png);</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="Line" name="line_77">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
+          <property name="text">
+           <string>execute script locally</string>
           </property>
          </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="executeScriptButton">
+          <property name="text">
+           <string>Execute Script</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="clearTasksQueueButton">
+          <property name="text">
+           <string>Stop and Clear Tasks Queue</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_158">
+          <item>
+           <widget class="QCheckBox" name="tasksRTMMTableRefreshCheckBox">
+            <property name="text">
+             <string>refresh table</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoClearRTMMCheckBox">
+            <property name="text">
+             <string>auto clear</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

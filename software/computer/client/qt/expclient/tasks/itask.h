@@ -40,6 +40,9 @@ public:
     std::thread *getExecutionWorkerThread() const;
     void setExecutionWorkerThread(std::thread *value);
 
+    std::string getTaskScriptLine() const;
+    void setTaskScriptLine(const std::string &value);
+
 protected:
     bool stopped;
     bool blocking;
@@ -48,6 +51,7 @@ protected:
 
     unsigned long taskId;
     std::string taskName;
+    std::string taskScriptLine;
 
     bool qDebugOn;
 

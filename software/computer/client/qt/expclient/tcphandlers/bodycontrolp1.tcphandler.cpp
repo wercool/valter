@@ -61,6 +61,7 @@ class BodyControlP1TCPConnectionHandler : public Thread
             qDebug("TCP[%s] → %s", bodyControlP1->getControlDeviceId().c_str(), cdr.c_str());
 
             bodyControlP1->processControlDeviceResponse(cdr);
+            return;
         }
 
         //control/service messages

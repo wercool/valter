@@ -47,7 +47,9 @@ class TaskManagerTCPConnectionHandler : public Thread
 
             if (strcmp(isRTMM, "RTMM") == 0)
             {
-                qDebug("RTMM");
+                std::string rtmm(input);
+                qDebug("%s", rtmm.c_str());
+                TaskManager::getInstance()->addUpdateRTMM(rtmm);
             }
             else
             {
@@ -66,6 +68,19 @@ class TaskManagerTCPConnectionHandler : public Thread
 
     void executeScript(string script)
     {
+        if (script.find("setCentralCommandHostInfo") != std::string::npos)
+        {
+            TaskManager *taskManager = TaskManager::getInstance();
+            int substr_pos = script.find("@") + 1;
+            string value_str = script.substr(substr_pos);
+            vector<string>value_str_values = Valter::split(value_str, '@');
+
+            taskManager->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
+            taskManager->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
+            qDebug("[TaskManager] Central Command Host IP Address:%s Port:%d", taskManager->getTcpInterface()->getCentralCommandHostIP().c_str(), taskManager->getTcpInterface()->getCentralCommandHostIPPort());
+            return;
+        }
+
         TaskManager::getInstance()->processScript(script);
     }
 };

@@ -581,6 +581,10 @@ public slots:
     void on_armControlRightFinger3PositionScoller_valueChanged(int value);
     void on_armControlRightFinger4PositionScoller_valueChanged(int value);
     void on_armControlRightFinger5PositionScoller_valueChanged(int value);
+
+    //Tasks Tab
+    void tasksTabRefreshTimerUpdate();
+
     //Utilities
 
     //Valter 3D
@@ -626,6 +630,9 @@ private:
     //arm-control-right
     QTimer *armControlRightTabRefreshTimer;
 
+    //tasks tab
+    QTimer *tasksTabRefreshTimer;
+
     // QWidget interface
 protected:
 
@@ -638,10 +645,11 @@ private slots:
     void on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked();
     void on_tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton_clicked();
 
-    //Utils
+    //Tasks
     void on_executeScriptButton_clicked();
     void on_clearTasksQueueButton_clicked();
     void on_forcefullyCompleteTaskButton_clicked();
+    void on_clearRemoteTaskManagerTasksMapButton_clicked();
 };
 
 #endif // MAINWINDOW_H

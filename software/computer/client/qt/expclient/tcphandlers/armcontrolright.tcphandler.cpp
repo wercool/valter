@@ -61,6 +61,7 @@ class ArmControlRightTCPConnectionHandler : public Thread
             qDebug("TCP[%s] → %s", armControlRight->getControlDeviceId().c_str(), cdr.c_str());
 
             armControlRight->processControlDeviceResponse(cdr);
+            return;
         }
 
         //control/service messages

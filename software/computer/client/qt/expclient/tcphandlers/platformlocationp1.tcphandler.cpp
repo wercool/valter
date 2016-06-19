@@ -61,6 +61,7 @@ class PlatformLocationP1TCPConnectionHandler : public Thread
             qDebug("TCP[%s] → %s", platformLocationP1->getControlDeviceId().c_str(), cdr.c_str());
 
             platformLocationP1->processControlDeviceResponse(cdr);
+            return;
         }
 
         //control/service messages

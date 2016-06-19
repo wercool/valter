@@ -61,6 +61,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             qDebug("TCP[%s] → %s", platformControlP1->getControlDeviceId().c_str(), cdr.c_str());
 
             platformControlP1->processControlDeviceResponse(cdr);
+            return;
         }
 
         //control/service messages
@@ -344,6 +345,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             int substr_pos = cmd.find("@") + 1;
             string value_str = cmd.substr(substr_pos);
             ui->platformControlP1LeftWheelEncoderCheckBox->setChecked((value_str.compare("true")) ? true : false);
+            platformControlP1->setLeftWheelEncoderRead((value_str.compare("true")) ? true : false);
             return;
         }
         if (cmd.find("on_platformControlP1RightWheelEncoderCheckBox_clicked") != std::string::npos)
@@ -351,6 +353,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             int substr_pos = cmd.find("@") + 1;
             string value_str = cmd.substr(substr_pos);
             ui->platformControlP1RightWheelEncoderCheckBox->setChecked((value_str.compare("true")) ? true : false);
+            platformControlP1->setRightWheelEncoderRead((value_str.compare("true")) ? true : false);
             return;
         }
         if (cmd.find("on_platformControlP1LeftWheelEncoderAutoresetCheckBox_clicked") != std::string::npos)

@@ -61,12 +61,22 @@ void ITask::setExecutionWorkerThread(std::thread *value)
     executionWorkerThread = value;
 }
 
+std::string ITask::getTaskScriptLine() const
+{
+    return taskScriptLine;
+}
+
+void ITask::setTaskScriptLine(const std::string &value)
+{
+    taskScriptLine = value;
+}
+
 void ITask::setCompleted()
 {
     TaskManager::getInstance()->wipeQueuedCompletedTaskFromQueue(this->getTaskId());
-    reportCompletion();
     completed = true;
     executing = false;
+    reportCompletion();
 }
 
 void ITask::setBlocking(bool value)

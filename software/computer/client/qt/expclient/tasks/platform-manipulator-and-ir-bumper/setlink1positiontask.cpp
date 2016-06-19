@@ -12,7 +12,10 @@ bool SetLink1PositionTask::checkFeasibility()
 {
     if (angle < 0 || angle > 71)
     {
-        qDebug("Task#%lu target Link1 angle %f in unreachable.", getTaskId(), angle);
+        string msg = Valter::format_string("Task#%lu target Link1 angle %f in unreachable.", getTaskId(), angle);
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
         return false;
     }
     return true;
@@ -36,6 +39,8 @@ void SetLink1PositionTask::execute()
         if (checkFeasibility())
         {
             new std::thread(&SetLink1PositionTask::executionWorker, this);
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
             return;
         }
     }
@@ -55,6 +60,7 @@ void SetLink1PositionTask::stopExecution()
 void SetLink1PositionTask::reportCompletion()
 {
     qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
 ITask *SetLink1PositionTask::create()
@@ -102,7 +108,10 @@ void SetLink1PositionTask::executionWorker()
                 }
                 else
                 {
-                    qDebug("Task#%lu could not be completed; reason platformManipulatorAndIRBumper->prepareManLink1Movement()", getTaskId());
+                    string msg = Valter::format_string("Task#%lu could not be completed; reason platformManipulatorAndIRBumper->prepareManLink1Movement()", getTaskId());
+                    qDebug("%s", msg.c_str());
+                    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
                     stopExecution();
                     return;
                 }
@@ -120,7 +129,10 @@ void SetLink1PositionTask::executionWorker()
                 }
                 else
                 {
-                    qDebug("Task#%lu could not be completed; reason platformManipulatorAndIRBumper->prepareManLink1Movement()", getTaskId());
+                    string msg = Valter::format_string("Task#%lu could not be completed; reason platformManipulatorAndIRBumper->prepareManLink1Movement()", getTaskId());
+                    qDebug("%s", msg.c_str());
+                    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
                     stopExecution();
                     return;
                 }
@@ -159,7 +171,12 @@ void SetLink1PositionTask::executionWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+
+    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+    qDebug("%s", msg.c_str());
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
+
     setCompleted();
 }
 

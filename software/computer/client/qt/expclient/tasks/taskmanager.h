@@ -43,6 +43,12 @@ public:
     bool getStopTopTask() const;
     void setStopTopTask(bool value);
 
+    void addUpdateRTMM(string rtmm);
+    std::string getRTMMDesc(int taskId);
+    void removeRTMM(int taskId);
+    std::map<int, string> getRtmms() const;
+    void clearRTMM();
+
 private:
     TaskManager();
     static TaskManager *pTaskManager;      // TaskManager's singleton instance
@@ -61,6 +67,8 @@ private:
     void tasksQueueWorker(void);
 
     TCPInterface *tcpInterface;
+
+    std::map<int, string> rtmms;
 };
 
 #endif // TASKMANAGER_H

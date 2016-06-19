@@ -64,7 +64,7 @@ unsigned int TaskManager::addTask(ITask *task)
     this_thread::sleep_for(std::chrono::milliseconds(10));
     unsigned taskId = task->getTaskId();
     qDebug("Task [%d] has been queued...", taskId);
-    getTcpInterface()->sendCDRToCentralCommandHost("TaskManager::addTask TODO: add task aknowledged message back");
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", task->getTaskId(), task->getTaskName().c_str(), (task->getBlocking()) ? "blocking" : "non blocking", ((task->getCompleted()) ? "completed" : ((task->getExecuting()) ? "executing" : "queued")), task->getTaskScriptLine().c_str()));
     return taskId;
 }
 
@@ -116,9 +116,9 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
 void TaskManager::processScript(string script)
 {
     setIncomingScriptProcessing(true);
-    qDebug("processScript:\n=====================SCRIPT============start\n%s\n=====================SCRIPT============end\n", script.c_str());
+    qDebug("processScript:\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvTASKS SCRIPTvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n%s\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^TASKS SCRIPT^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n", script.c_str());
     std::vector<std::string> scriptInstructions = Valter::split(script, '\n');
-    qDebug("\n=====================SCRIPT============processing started\n");
+    qDebug("\nvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvTASKS SCRIPT PROCESSINGvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n");
     for (int i = 0; i < static_cast<int>(scriptInstructions.size()); i++)
     {
         if (((string)scriptInstructions[i]).length() > 0)
@@ -136,19 +136,23 @@ void TaskManager::processScript(string script)
             }
             if (((string)scriptInstructionParts[0]).compare("DELAY") == 0)
             {
-                TaskManager::getInstance()->addTask(new DelayTask(atoi(((string)scriptInstructionParts[1]).c_str())));
+                ITask *task = new DelayTask(atoi(((string)scriptInstructionParts[1]).c_str()));
+                task->setTaskScriptLine(scriptInstructions[i]);
+                TaskManager::getInstance()->addTask(task);
                 continue;
             }
             if (((string)scriptInstructionParts[0]).compare("INITIAL") == 0)
             {
-                TaskManager::getInstance()->addTask(new SetModuleInitialStateTask());
+                ITask *task = new SetModuleInitialStateTask();
+                task->setTaskScriptLine(scriptInstructions[i]);
+                TaskManager::getInstance()->addTask(task);
                 continue;
             }
 
             routeTaskRequest(scriptInstructions[i]);
         }
     }
-    qDebug("\n=====================SCRIPT============processing completed\n");
+    qDebug("\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^TASKS SCRIPT PROCESSING^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n");
     setIncomingScriptProcessing(false);
 }
 
@@ -185,7 +189,7 @@ bool TaskManager::sendScriptToRemoteTaskManager(string script, string ipAddress)
 bool TaskManager::sendMessageToCentralHostTaskManager(string message)
 {
     //FORMAT
-    //RTMM~{task id}~{task name}~{task type}~{task status}
+    //RTMM~{task id}~{task name}~{task type}~{task status}~{script line}~{notes}
     TCPStream* stream = getTcpInterface()->getCommandInterfaceConnector()->connect(getTcpInterface()->getCentralCommandHostIP().c_str(), getTcpInterface()->getCentralCommandHostIPPort());
     int length;
     char response[256];
@@ -303,6 +307,11 @@ void TaskManager::tasksQueueWorker()
     qDebug("STOPPED: TaskManager::tasksQueueWorker");
 }
 
+std::map<int, string> TaskManager::getRtmms() const
+{
+    return rtmms;
+}
+
 TCPInterface *TaskManager::getTcpInterface() const
 {
     return tcpInterface;
@@ -327,4 +336,54 @@ void TaskManager::initTcpCommandAcceptorInterface()
 {
     getTcpInterface()->setConnectionHandler((Thread*)new TaskManagerTCPConnectionHandler(getTcpInterface()->queue));
     getTcpInterface()->startListening();
+}
+
+void TaskManager::addUpdateRTMM(string rtmm)
+{
+    vector<string>rtmm_values = Valter::split(rtmm, '~');
+
+    //RTMM~{task id}~{notes}~{......}
+    if (((string)rtmm_values[2]).compare("notes") == 0)
+    {
+        int taskId = atoi(((string)rtmm_values[1]).c_str());
+        vector<string>existing_rtmm_values = Valter::split(getRTMMDesc(taskId), '~');
+        existing_rtmm_values[4] = (((string)existing_rtmm_values[4]).length() > 0) ? (existing_rtmm_values[4] + "\n" + rtmm_values[3]) : rtmm_values[3];
+        string taskDesc = existing_rtmm_values[0] + "~" + existing_rtmm_values[1] + "~" + existing_rtmm_values[2] + "~" + existing_rtmm_values[3] + "~" + existing_rtmm_values[4];
+        rtmms[taskId] = taskDesc;
+    }
+    else
+    {
+        int taskId = atoi(((string)rtmm_values[1]).c_str());
+        //RTMM~{task id}~{task name}~{task type}~{task status}~{script line}~{notes}
+        //stored as
+        //rtmms[{task id}] = {task name}~{task type}~{task status}~{script line}~{notes}
+        string storedTaskDesk = getRTMMDesc(taskId);
+        vector<string>existing_rtmm_values = Valter::split(storedTaskDesk, '~');
+
+        string taskDesc = rtmm_values[2] + "~" + rtmm_values[3] + "~" + rtmm_values[4] + "~" + rtmm_values[5] + "~" + ((rtmm_values.size() > 6) ? (((existing_rtmm_values.size() > 4) ? existing_rtmm_values[4] + "\n" + rtmm_values[6] : rtmm_values[6])) : ((existing_rtmm_values.size() > 4) ? existing_rtmm_values[4] : ""));
+        rtmms[taskId] = taskDesc;
+    }
+}
+
+string TaskManager::getRTMMDesc(int taskId)
+{
+    if (rtmms.find(taskId) != rtmms.end())
+    {
+        return rtmms[taskId];
+    }
+    return "";
+}
+
+void TaskManager::removeRTMM(int taskId)
+{
+    std::mutex rtmms_mutex;
+    std::lock_guard<std::mutex> guard(rtmms_mutex);
+    rtmms.erase(taskId);
+}
+
+void TaskManager::clearRTMM()
+{
+    std::mutex rtmms_mutex;
+    std::lock_guard<std::mutex> guard(rtmms_mutex);
+    rtmms.clear();
 }

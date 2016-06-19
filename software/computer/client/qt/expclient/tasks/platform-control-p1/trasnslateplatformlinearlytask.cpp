@@ -23,19 +23,27 @@ bool TrasnslatePlatformLinearlyTask::checkFeasibility()
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (direction < 0)
     {
-        qDebug("Task#%lu (%s) could not be performed. Direction is undefined.", getTaskId(), getTaskName().c_str());
+        string msg = Valter::format_string("Task#%lu (%s) could not be performed. Direction is undefined.", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
         return false;
     }
     if (distance < 0)
     {
-        qDebug("Task#%lu (%s) could not be performed. Translation distance is undefined.", getTaskId(), getTaskName().c_str());
+        string msg = Valter::format_string("Task#%lu (%s) could not be performed. Translation distance is undefined.", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
         return false;
     }
     if (direction == prevDirection)
     {
         if (platformControlP1->getRightMotorActivated() || platformControlP1->getLeftMotorActivated())
         {
-            qDebug("Task#%lu (%s) could not be performed. Saltatory inversion of movement direction.", getTaskId(), getTaskName().c_str());
+            string msg = Valter::format_string("Task#%lu (%s) could not be performed. Saltatory inversion of movement direction.", getTaskId(), getTaskName().c_str());
+            qDebug("%s", msg.c_str());
+            TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
             return false;
         }
     }
@@ -47,17 +55,25 @@ bool TrasnslatePlatformLinearlyTask::initialize()
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getPower5VOnState())
     {
-        qDebug("Task#%lu (%s) could not be executed. 5V power is OFF", getTaskId(), getTaskName().c_str());
+        string msg = Valter::format_string("Task#%lu (%s) could not be executed. 5V power is OFF", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
         return false;
     }
     if (!platformControlP1->getLeftWheelEncoderRead())
     {
-        qDebug("Task#%lu (%s) could not be executed. Left Wheel Encoder readings is OFF", getTaskId(), getTaskName().c_str());
+        string msg = Valter::format_string("Task#%lu (%s) could not be executed. Left Wheel Encoder readings is OFF", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
         return false;
     }
     if (!platformControlP1->getRightWheelEncoderRead())
     {
-        qDebug("Task#%lu (%s) could not be executed. Right Wheel Encoder readings is OFF", getTaskId(), getTaskName().c_str());
+        string msg = Valter::format_string("Task#%lu (%s) could not be executed. Right Wheel Encoder readings is OFF", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
         return false;
     }
     qDebug("Task#%lu (%s) direction = %s, distance = %f", getTaskId(), getTaskName().c_str(), (direction > 0 && direction != -1) ? "forward" : "backward", distance);
@@ -71,6 +87,8 @@ void TrasnslatePlatformLinearlyTask::execute()
         if (checkFeasibility())
         {
             new std::thread(&TrasnslatePlatformLinearlyTask::executionWorker, this);
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
             return;
         }
     }
@@ -92,6 +110,7 @@ void TrasnslatePlatformLinearlyTask::stopExecution()
 void TrasnslatePlatformLinearlyTask::reportCompletion()
 {
     qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
 ITask *TrasnslatePlatformLinearlyTask::create()
@@ -129,7 +148,10 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                     }
                     else
                     {
-                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
+                        string msg = Valter::format_string("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
+                        qDebug("%s", msg.c_str());
+                        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
                         stopExecution();
                     }
                 }
@@ -143,7 +165,10 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                     }
                     else
                     {
-                        qDebug("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
+                        string msg = Valter::format_string("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
+                        qDebug("%s", msg.c_str());
+                        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
                         stopExecution();
                     }
                 }
@@ -242,7 +267,10 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
 
-    qDebug("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+    qDebug("%s", msg.c_str());
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
     setCompleted();
 }
 
