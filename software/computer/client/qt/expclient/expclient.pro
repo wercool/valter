@@ -74,7 +74,8 @@ SOURCES += main.cpp\
             tasks/platform-manipulator-and-ir-bumper/setlink2motordynamics.cpp \
             tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.cpp \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.cpp \
-            tasks/platform-control-p1/rotateplatformtask.cpp
+            tasks/platform-control-p1/rotateplatformtask.cpp \
+            tasks/platform-control-p1/rotatebodytask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -128,6 +129,7 @@ HEADERS  += mainwindow.h \
             tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.h \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.h \
             tasks/platform-control-p1/rotateplatformtask.h \
+            tasks/platform-control-p1/rotatebodytask.h
 
 FORMS    += mainwindow.ui
 
