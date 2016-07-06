@@ -21,6 +21,13 @@ RotatePlatformTask::RotatePlatformTask()
 bool RotatePlatformTask::checkFeasibility()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (!platformControlP1->getPower5VOnState())
+    {
+        string msg = Valter::format_string("Task#%lu (%s) could not be executed. 5V power is OFF", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+        return false;
+    }
     if (direction < 0)
     {
         string msg = Valter::format_string("Task#%lu (%s) could not be performed. Rotation direction is undefined.", getTaskId(), getTaskName().c_str());
@@ -35,7 +42,7 @@ bool RotatePlatformTask::checkFeasibility()
         TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
         return false;
     }
-    if (direction == prevDirection)
+    if (direction != prevDirection)
     {
         if (platformControlP1->getRightMotorActivated() || platformControlP1->getLeftMotorActivated())
         {
@@ -112,6 +119,17 @@ void RotatePlatformTask::reportCompletion()
 ITask *RotatePlatformTask::create()
 {
     return (ITask*)new RotatePlatformTask();
+}
+
+void RotatePlatformTask::setAngle(float value)
+{
+    angle = value;
+}
+
+void RotatePlatformTask::setDirection(int value)
+{
+    direction = value;
+    prevDirection = direction;
 }
 
 void RotatePlatformTask::executionWorker()
@@ -267,15 +285,4 @@ void RotatePlatformTask::executionWorker()
     qDebug("%s", msg.c_str());
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
     setCompleted();
-}
-
-void RotatePlatformTask::setAngle(float value)
-{
-    angle = value;
-}
-
-void RotatePlatformTask::setDirection(int value)
-{
-    direction = value;
-    prevDirection = direction;
 }

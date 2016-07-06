@@ -62,8 +62,8 @@ unsigned int TaskManager::addTask(ITask *task)
     queuedTasksMap.insert(pair<unsigned long, ITask*>(task->getTaskId(), task));
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
     this_thread::sleep_for(std::chrono::milliseconds(10));
-    unsigned taskId = task->getTaskId();
-    qDebug("Task [%d] has been queued...", taskId);
+    unsigned long taskId = task->getTaskId();
+    qDebug("Task [%lu] has been queued...", taskId);
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", task->getTaskId(), task->getTaskName().c_str(), (task->getBlocking()) ? "blocking" : "non blocking", ((task->getCompleted()) ? "completed" : ((task->getExecuting()) ? "executing" : "queued")), task->getTaskScriptLine().c_str()));
     return taskId;
 }
@@ -190,22 +190,25 @@ bool TaskManager::sendMessageToCentralHostTaskManager(string message)
 {
     //FORMAT
     //RTMM~{task id}~{task name}~{task type}~{task status}~{script line}~{notes}
-    TCPStream* stream = getTcpInterface()->getCommandInterfaceConnector()->connect(getTcpInterface()->getCentralCommandHostIP().c_str(), getTcpInterface()->getCentralCommandHostIPPort());
-    int length;
-    char response[256];
-
-    message = "RTMM~" + message;
-
-    if (stream)
+    if (getTcpInterface()->getCentralCommandHostIP().compare("") != 0)
     {
-        //qDebug("sent - %s", command.c_str());
-        stream->send(message.c_str(), message.size());
-        length = stream->receive(response, sizeof(response));
-        response[length] = '\0';
-        //qDebug("received - %s", response);
-        delete stream;
+        TCPStream* stream = getTcpInterface()->getCommandInterfaceConnector()->connect(getTcpInterface()->getCentralCommandHostIP().c_str(), getTcpInterface()->getCentralCommandHostIPPort());
+        int length;
+        char response[256];
 
-        return true;
+        message = "RTMM~" + message;
+
+        if (stream)
+        {
+            //qDebug("sent - %s", command.c_str());
+            stream->send(message.c_str(), message.size());
+            length = stream->receive(response, sizeof(response));
+            response[length] = '\0';
+            //qDebug("received - %s", response);
+            delete stream;
+
+            return true;
+        }
     }
     return false;
 }
@@ -255,6 +258,12 @@ void TaskManager::tasksQueueWorker()
                     for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
                     {
                         processingTask = it->second;
+                        if (processingTask->getCompleted())
+                        {
+                            wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId());
+                            processingTask->reportCompletion();
+                            break;
+                        }
                         if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
                         {
                             if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())

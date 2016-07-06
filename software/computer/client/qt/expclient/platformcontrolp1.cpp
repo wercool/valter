@@ -23,6 +23,8 @@ PlatformControlP1::PlatformControlP1()
     /********************************* TASKS **************************************/
     tasks["TrasnslatePlatformLinearlyTask"] = &TrasnslatePlatformLinearlyTask::create;
     tasks["RotatePlatformTask"] = &RotatePlatformTask::create;
+    tasks["RotateBodyTask"] = &RotateBodyTask::create;
+
 
     initTcpInterface();
 
@@ -148,6 +150,16 @@ unsigned int PlatformControlP1::executeTask(string taskScriptLine)
             float angle = atof(((string)taskInitiationParts[2]).c_str()); //degrees
             ((RotatePlatformTask*)task)->setDirection(direction);
             ((RotatePlatformTask*)task)->setAngle(angle);
+            return TaskManager::getInstance()->addTask(task);
+        }
+        if (taskName.compare("RotateBodyTasks") == 0)
+        {
+            ITask *task = tasks[taskName]();
+            task->setTaskScriptLine(taskScriptLine);
+            signed int direction = atoi(((string)taskInitiationParts[1]).c_str()); //1 - right; initial -1 - undefined
+            float angle = atof(((string)taskInitiationParts[2]).c_str()); //degrees
+            ((RotateBodyTask*)task)->setDirection(direction);
+            ((RotateBodyTask*)task)->setAngle(angle);
             return TaskManager::getInstance()->addTask(task);
         }
     }

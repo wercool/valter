@@ -1,8 +1,9 @@
 T_PCP1_TrasnslatePlatformLinearlyTask_{%d = direction [-1 undefined, 1 - forward, 0 - backward]}_{%f = translation in meters}
 T_PCP1_RotatePlatformTask_{%d = direction [-1 undefined, 1 - right, 0 - left]}_{%f = rotation in degrees}
-
+T_PCP1_RotateBodyTasks_{%d = direction [-1 undefined, 1 - right, 0 - left]}_{%f = rotation in degrees}
 
 
 
 T_PCP1_TrasnslatePlatformLinearlyTask_1_0.5
 T_PCP1_RotatePlatformTask_1_30
+T_PCP1_RotateBodyTasks_1_30

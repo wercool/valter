@@ -21,6 +21,13 @@ TrasnslatePlatformLinearlyTask::TrasnslatePlatformLinearlyTask()
 bool TrasnslatePlatformLinearlyTask::checkFeasibility()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (!platformControlP1->getPower5VOnState())
+    {
+        string msg = Valter::format_string("Task#%lu (%s) could not be executed. 5V power is OFF", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+        return false;
+    }
     if (direction < 0)
     {
         string msg = Valter::format_string("Task#%lu (%s) could not be performed. Direction is undefined.", getTaskId(), getTaskName().c_str());
@@ -36,7 +43,7 @@ bool TrasnslatePlatformLinearlyTask::checkFeasibility()
 
         return false;
     }
-    if (direction == prevDirection)
+    if (direction != prevDirection)
     {
         if (platformControlP1->getRightMotorActivated() || platformControlP1->getLeftMotorActivated())
         {

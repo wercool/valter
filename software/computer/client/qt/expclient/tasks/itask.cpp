@@ -73,10 +73,8 @@ void ITask::setTaskScriptLine(const std::string &value)
 
 void ITask::setCompleted()
 {
-    TaskManager::getInstance()->wipeQueuedCompletedTaskFromQueue(this->getTaskId());
     completed = true;
     executing = false;
-    reportCompletion();
 }
 
 void ITask::setBlocking(bool value)

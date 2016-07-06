@@ -31,6 +31,7 @@ private:
     int direction; // -1 = not defined, 1 = CW (right), 0 = CCW (left)
     float angle;
     static signed int prevDirection;
+    int initialTurretMotorMaxDuty;
 };
 
 #endif // ROTATEBODYTASKS_H
