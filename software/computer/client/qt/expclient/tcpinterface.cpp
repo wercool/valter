@@ -48,7 +48,8 @@ void TCPInterface::readIP()
             sa = (struct sockaddr_in *) ifa->ifa_addr;
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
-            if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
+            //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
+            if (strcmp(ifa->ifa_name, "eth0") == 0)
             {
                 std::string str(addr);
                 ip = str;
@@ -73,7 +74,8 @@ string TCPInterface::getLocalHostIP()
             sa = (struct sockaddr_in *) ifa->ifa_addr;
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
-            if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "enp0s25") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
+            //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "enp0s25") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
+            if (strcmp(ifa->ifa_name, "eth0") == 0)
             {
                 std::string localhostIPAddress(addr);
                 freeifaddrs(ifap);
