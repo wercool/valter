@@ -630,12 +630,15 @@ void MainWindow::on_bodyControlP1ShiftRegEnableButton_clicked()
 
 void MainWindow::on_bodyControlP1ShiftRegDisableButton_clicked()
 {
-    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    if (QMessageBox::Yes == QMessageBox(QMessageBox::Information, "Cofirmation", "Are you sure you want to disable/enable BODY-CONTROL-P1 SR?", QMessageBox::Yes|QMessageBox::No, this, Qt::WindowStaysOnTopHint).exec())
     {
-        bodyControlP1->sendTCPCommand("on_bodyControlP1ShiftRegDisableButton_clicked");
+        BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+        if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_bodyControlP1ShiftRegDisableButton_clicked");
+        }
+        bodyControlP1->shiftRegDisable();
     }
-    bodyControlP1->shiftRegDisable();
 }
 
 void MainWindow::on_bodyControlP1ShiftRegResetButton_clicked()

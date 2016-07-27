@@ -60,7 +60,10 @@ void BodyControlP1::stopAll()
 
 void BodyControlP1::setModuleInitialState()
 {
-
+    stopShiftRegReset();
+    shiftRegReset();
+    shiftRegEnable();
+    setWifiPowerOnOff(true);
 }
 
 void BodyControlP1::spawnProcessMessagesQueueWorkerThread()
