@@ -11256,7 +11256,7 @@ border-color: rgb(140, 140, 140);</string>
                      <number>100</number>
                     </property>
                     <property name="value">
-                     <number>5000</number>
+                     <number>8000</number>
                     </property>
                    </widget>
                   </item>
@@ -12072,7 +12072,7 @@ border-color: rgb(140, 140, 140);</string>
                      <number>100</number>
                     </property>
                     <property name="value">
-                     <number>2500</number>
+                     <number>4000</number>
                     </property>
                    </widget>
                   </item>

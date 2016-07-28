@@ -374,6 +374,9 @@ void ControlDevice::controlDeviceThreadWorker()
 
     wdTimerNotResetCnt = 0;
 
+    static string prevReading = "";
+    static int filter = 0;
+
     if (Valter::getInstance()->getGlobalSetting("wdrIntent").compare("true") == 0)
     {
         this->getControlDevicePort()->write("WDINTENTIONALRESETON");
@@ -425,7 +428,25 @@ void ControlDevice::controlDeviceThreadWorker()
             {
                 response = this->getControlDevicePort()->readline();
                 sanitizeConrtolDeviceResponse(response);
-                addResponse(response);
+                if ((filter > 500) || (response.find_first_of(":") == string::npos))
+                {
+                    addResponse(response);
+                    filter = 0;
+                }
+                else
+                {
+                    int value_str_pos = response.find_first_of(":");
+                    if (response.substr(0, value_str_pos).compare(prevReading) != 0 || filter > 100)
+                    {
+                        addResponse(response);
+                        filter = 0;
+                        prevReading = response.substr(0, value_str_pos);
+                    }
+                    else
+                    {
+                        qDebug("%s filtered", response.c_str());
+                    }
+                }
                 if (Valter::getInstance()->getLogControlDeviceMessages())
                 {
                     this->addMsgToDataExchangeLog(Valter::format_string("%s → %s", this->getControlDeviceId().c_str(), response.c_str()));
@@ -439,6 +460,7 @@ void ControlDevice::controlDeviceThreadWorker()
             }
 
             this_thread::sleep_for(std::chrono::milliseconds(1));
+            filter++;
 
             WDRESETTIMER++;
 

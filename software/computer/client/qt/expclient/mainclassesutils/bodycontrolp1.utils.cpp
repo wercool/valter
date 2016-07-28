@@ -16,14 +16,14 @@ void BodyControlP1::resetToDefault()
 
     headYawDirection            = false;  //true - turn right, false - turn left
     headYawMotorActivated       = false;
-    headYawStepDelay            = 2500;
+    headYawStepDelay            = 8000;
     headYawStepSwitchDelay      = 100;
     headYawADCPosition          = 0;
     headYawStepPostion          = 0;
 
     headPitchDirection          = true;  //true - pitch down, false - pitch up
     headPitchMotorActivated     = false;
-    headPitchStepDelay          = 2500; //us
+    headPitchStepDelay          = 4000; //us
     headPitchStepSwitchDelay    = 100; //us
     headPitchADCPosition        = 0;
     headPitchStepPosition       = 0;
@@ -905,6 +905,21 @@ int BodyControlP1::getHeadPitchADCPosition() const
 
 void BodyControlP1::setHeadPitchADCPosition(int value)
 {
+//    static int averagerCnt = 0;
+//    static int averager = 0;
+
+//    if (averagerCnt < 10)
+//    {
+//        averager += value;
+//        averagerCnt++;
+//    }
+//    else
+//    {
+//        headPitchADCPosition = round((double)averager / (double)10);
+//        averagerCnt = 0;
+//        averager = 0;
+//        //qDebug("headPitchADCPosition = %d", headPitchADCPosition);
+//    }
     headPitchADCPosition = value;
 }
 int BodyControlP1::getRightArmYawADCCurrent() const

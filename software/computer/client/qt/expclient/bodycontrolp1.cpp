@@ -180,6 +180,7 @@ void BodyControlP1::processControlDeviceResponse(string response)
     {
         if (response.find("HPP:") != std::string::npos) //head pitch position
         {
+            //qDebug("response.find(\"HPP:\")");
             int value_str_pos = response.find_first_of(":") + 1;
             string value_str = response.substr(value_str_pos);
             setHeadPitchADCPosition(atoi(value_str.c_str()));
@@ -364,7 +365,7 @@ void BodyControlP1::headYawWorker()
             {
                 setHeadYawStepPostion(--headYawStepPostion);
             }
-            this_thread::sleep_for(std::chrono::microseconds(getHeadYawStepDelay()));
+            this_thread::sleep_for(std::chrono::microseconds(getHeadYawStepDelay() + getHeadYawStepSwitchDelay() * 2));
         }
         else
         {
@@ -390,7 +391,7 @@ void BodyControlP1::headPitchWorker()
             {
                 setHeadPitchStepPosition(--headPitchStepPostion);
             }
-            this_thread::sleep_for(std::chrono::microseconds(getHeadPitchStepDelay()));
+            this_thread::sleep_for(std::chrono::microseconds(getHeadPitchStepDelay() + getHeadPitchStepSwitchDelay() * 2));
         }
         else
         {
