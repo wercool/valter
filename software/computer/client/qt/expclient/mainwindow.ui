@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -21190,6 +21190,7 @@ image: url(:/hand-left.png);</string>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
+  <tabstop>centralCommandHostIPLineEdit</tabstop>
   <tabstop>platformControlP1CommandHostLineEdit</tabstop>
   <tabstop>platformControlP2CommandHostLineEdit</tabstop>
   <tabstop>platformLocationP1CommandHostLineEdit</tabstop>
@@ -21197,7 +21198,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>bodyControlP1CommandHostLineEdit</tabstop>
   <tabstop>armControlRightCommandHostLineEdit</tabstop>
   <tabstop>armControlLeftCommandHostLineEdit</tabstop>
-  <tabstop>onRightAccumulatorPlatformControlP1Button</tabstop>
   <tabstop>offRightAccumulatorPlatformControlP1Button</tabstop>
   <tabstop>scan220VAOnCButton</tabstop>
   <tabstop>scan220VAOffCButton</tabstop>
@@ -21554,7 +21554,7 @@ image: url(:/hand-left.png);</string>
   <tabstop>connectAllPushButton</tabstop>
   <tabstop>resetControlDeviceButton</tabstop>
   <tabstop>controlDeviceTCPInterfaceTable</tabstop>
-  <tabstop>centralCommandHostIPLineEdit</tabstop>
+  <tabstop>onRightAccumulatorPlatformControlP1Button</tabstop>
   <tabstop>updateCentralCommandHostConnectionInfoOnAllSlavesButton</tabstop>
   <tabstop>platformControlP1RemoteControlCheckbox</tabstop>
   <tabstop>platformControlP1LoadDefaultsButton</tabstop>
@@ -21580,6 +21580,55 @@ image: url(:/hand-left.png);</string>
   <tabstop>armControlLeftRemoteControlCheckbox</tabstop>
   <tabstop>tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton</tabstop>
   <tabstop>valter3dOpenButton</tabstop>
+  <tabstop>mainTabWidget</tabstop>
+  <tabstop>platformControlP1UntrackAllAdditionalReadingsButton</tabstop>
+  <tabstop>platformControlP1UpdateGUICheckBox</tabstop>
+  <tabstop>stopAllButton1</tabstop>
+  <tabstop>stopAllButton2</tabstop>
+  <tabstop>stopAllButton3</tabstop>
+  <tabstop>platformManipulatorAndIRBumperUpdateGUICheckBox</tabstop>
+  <tabstop>stopAllButton4</tabstop>
+  <tabstop>bodyCameraReleaseButton</tabstop>
+  <tabstop>stopAllButton5</tabstop>
+  <tabstop>stopAllButton6</tabstop>
+  <tabstop>stopAllButton7</tabstop>
+  <tabstop>leftFinger6TipLineEdit</tabstop>
+  <tabstop>leftFinger7PhalanxLineEdit</tabstop>
+  <tabstop>leftFinger11TipLineEdit</tabstop>
+  <tabstop>leftFinger6PhalanxLineEdit</tabstop>
+  <tabstop>leftFinger10PhalanxLineEdit</tabstop>
+  <tabstop>leftFinger9PhalanxLineEdit</tabstop>
+  <tabstop>leftFinger8PhalanxLineEdit</tabstop>
+  <tabstop>leftFinger11PhalanxLineEdit</tabstop>
+  <tabstop>leftFinger7TipLineEdit</tabstop>
+  <tabstop>leftFinger10TipLineEdit</tabstop>
+  <tabstop>leftPalmUpperLineEdit</tabstop>
+  <tabstop>leftPalmLowerLineEdit</tabstop>
+  <tabstop>leftPalmJambLineEdit</tabstop>
+  <tabstop>armControlLeftFinger6ReleaseButton</tabstop>
+  <tabstop>armControlLeftFinger7ReleaseButton</tabstop>
+  <tabstop>armControlLeftFinger9ReleaseButton</tabstop>
+  <tabstop>armControlLeftFinger8ReleaseButton</tabstop>
+  <tabstop>armControlLeftFinger10ReleaseButton</tabstop>
+  <tabstop>armControlLeftFinger11ReleaseButton</tabstop>
+  <tabstop>armControlLeftPalmReleaseButton</tabstop>
+  <tabstop>armControlLeftPalmActivatedButton</tabstop>
+  <tabstop>armControlLeftPalmGraspButton</tabstop>
+  <tabstop>armControlLeftPalmSqueezeButton</tabstop>
+  <tabstop>startSelectedControlDeviceLogButton</tabstop>
+  <tabstop>stopSelectedControlDeviceLogButton</tabstop>
+  <tabstop>tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton</tabstop>
+  <tabstop>tcpInterfaceRemoteControlCheckAllAsRemoteControlledButton</tabstop>
+  <tabstop>tasksTableWidget</tabstop>
+  <tabstop>taskScriptTextEdit</tabstop>
+  <tabstop>clearRemoteTaskManagerTasksMapButton</tabstop>
+  <tabstop>forcefullyCompleteTaskButton</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>executeTasksScriptLocallyCheckBox</tabstop>
+  <tabstop>executeScriptButton</tabstop>
+  <tabstop>clearTasksQueueButton</tabstop>
+  <tabstop>tasksRTMMTableRefreshCheckBox</tabstop>
+  <tabstop>autoClearRTMMCheckBox</tabstop>
  </tabstops>
  <resources/>
  <connections/>
