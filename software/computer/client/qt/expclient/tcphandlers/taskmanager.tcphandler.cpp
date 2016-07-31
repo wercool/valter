@@ -38,6 +38,7 @@ class TaskManagerTCPConnectionHandler : public Thread
                 stream->send(output.c_str(), (sizeof(output.c_str())-1));
                 //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
             }
+
             delete item;
 
             //RTMM - Remote Task Manager Message

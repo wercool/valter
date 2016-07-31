@@ -166,21 +166,27 @@ void TCPInterface::setCommandInterfaceStream(TCPStream *value)
 
 bool TCPInterface::sendCommandMessage(string command)
 {
-    TCPStream* stream = getCommandInterfaceConnector()->connect(getCommandHostIP().c_str(), getCommandHostPort());
-    int length;
-    char response[256];
-    if (stream)
+    try
     {
-        //qDebug("sent - %s", command.c_str());
-        stream->send(command.c_str(), command.size());
-        length = stream->receive(response, sizeof(response));
-        response[length] = '\0';
-        //qDebug("received - %s", response);
-        delete stream;
+        TCPStream* stream = getCommandInterfaceConnector()->connect(getCommandHostIP().c_str(), getCommandHostPort());
+        int length;
+        char response[256];
+        if (stream)
+        {
+            //qDebug("sent - %s", command.c_str());
+            stream->send(command.c_str(), command.size());
+            length = stream->receive(response, sizeof(response));
+            response[length] = '\0';
+            //qDebug("received - %s", response);
+            delete stream;
 
-        return true;
+            return true;
+        }
     }
-    return false;
+    catch (...)
+    {
+        return false;
+    }
 }
 
 void TCPInterface::tcpConnectionWorker()
@@ -263,22 +269,28 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
 //                qDebug("CDR to be sent: %s", command.c_str());
                 std::lock_guard<std::mutex> guard(sentCDRs_mutex);
                 sentCDRs.push_back(command);
-
-                TCPStream* stream = getCommandInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
-                int length;
-                char response[256];
-                if (stream)
+                try
                 {
-                    //qDebug("sent - %s", command.c_str());
-                    stream->send(command.c_str(), command.size());
-                    length = stream->receive(response, sizeof(response));
-                    response[length] = '\0';
-                    //qDebug("received - %s", response);
-                    delete stream;
+                    TCPStream* stream = getCommandInterfaceConnector()->connect(getCentralCommandHostIP().c_str(), getCentralCommandHostIPPort());
+                    int length;
+                    char response[256];
+                    if (stream)
+                    {
+                        //qDebug("sent - %s", command.c_str());
+                        stream->send(command.c_str(), command.size());
+                        length = stream->receive(response, sizeof(response));
+                        response[length] = '\0';
+                        //qDebug("received - %s", response);
+                        delete stream;
 
-                    return true;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
-                else
+                catch (...)
                 {
                     return false;
                 }

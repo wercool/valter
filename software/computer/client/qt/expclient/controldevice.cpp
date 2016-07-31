@@ -374,8 +374,8 @@ void ControlDevice::controlDeviceThreadWorker()
 
     wdTimerNotResetCnt = 0;
 
-    static string prevReading = "";
-    static int filter = 0;
+    string prevReading = "";
+    int filter = 0;
 
     if (Valter::getInstance()->getGlobalSetting("wdrIntent").compare("true") == 0)
     {
@@ -438,9 +438,9 @@ void ControlDevice::controlDeviceThreadWorker()
                     int value_str_pos = response.find_first_of(":");
                     if (response.substr(0, value_str_pos).compare(prevReading) != 0 || filter > 100)
                     {
+                        prevReading = response.substr(0, value_str_pos);
                         addResponse(response);
                         filter = 0;
-                        prevReading = response.substr(0, value_str_pos);
                     }
                     else
                     {

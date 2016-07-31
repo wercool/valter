@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     }
     catch (const exception &ex)
     {
-        qDebug("Fatal esception: %s", ex.what());
+        qDebug("Fatal exception: %s", ex.what());
     }
 
     return r;
