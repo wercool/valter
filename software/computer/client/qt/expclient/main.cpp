@@ -31,6 +31,12 @@ int main(int argc, char *argv[])
     int r = 0;
     try
     {
+        if (argc > 1)
+        {
+            TCPInterface::defaultNetworkInterface = string(argv[1]);
+            qDebug("TCPInterface::defaultNetworkInterface: %s", TCPInterface::defaultNetworkInterface.c_str());
+        }
+
         QApplication application(argc, argv);
         application.setStyle("gtk+");
 
@@ -39,6 +45,7 @@ int main(int argc, char *argv[])
         mainGUIWindow->show();
 
         Valter::getInstance();
+
         Valter::log(Valter::format_string("Valter Exp Client V.%s", Valter::getVersion().c_str()));
         Valter::getInstance()->autoInitialization();
 
