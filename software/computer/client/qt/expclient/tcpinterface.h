@@ -70,6 +70,8 @@ public:
 
     void setSentCDRsRectifierThreadWorkerStopped(bool value);
 
+    static string preferredNetworkInterface;
+
 private:
     string ip;
     int port;

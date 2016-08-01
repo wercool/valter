@@ -6,6 +6,8 @@
 #include <ifaddrs.h>
 #include <algorithm>
 
+string TCPInterface::preferredNetworkInterface = "";
+
 TCPInterface::TCPInterface(int port)
 {
     setPort(port);
@@ -49,10 +51,21 @@ void TCPInterface::readIP()
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
             //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
-            if (strcmp(ifa->ifa_name, "eth0") == 0)
+            if (TCPInterface::preferredNetworkInterface.compare("") == 0)
             {
-                std::string str(addr);
-                ip = str;
+                if (strcmp(ifa->ifa_name, "eth0") == 0)
+                {
+                    std::string str(addr);
+                    ip = str;
+                }
+            }
+            else
+            {
+                if (strcmp(ifa->ifa_name, TCPInterface::preferredNetworkInterface.c_str()) == 0)
+                {
+                    std::string str(addr);
+                    ip = str;
+                }
             }
         }
     }
@@ -75,15 +88,27 @@ string TCPInterface::getLocalHostIP()
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
             //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "enp0s25") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
-            if (strcmp(ifa->ifa_name, "eth0") == 0)
+            if (TCPInterface::preferredNetworkInterface.compare("") == 0)
             {
-                std::string localhostIPAddress(addr);
-                freeifaddrs(ifap);
-                return localhostIPAddress;
+                if (strcmp(ifa->ifa_name, "eth0") == 0)
+                {
+                    std::string localhostIPAddress(addr);
+                    freeifaddrs(ifap);
+                    return localhostIPAddress;
+                }
+                else
+                {
+                    qDebug("!!!!!!!!%s NETWORK INTERFACE IS NOT PROCESSED!!!!!", ifa->ifa_name);
+                }
             }
             else
             {
-                qDebug("!!!!!!!!%s NETWORK INTERFACE IS NOT PROCESSED!!!!!", ifa->ifa_name);
+                if (strcmp(ifa->ifa_name, TCPInterface::preferredNetworkInterface.c_str()) == 0)
+                {
+                    std::string localhostIPAddress(addr);
+                    freeifaddrs(ifap);
+                    return localhostIPAddress;
+                }
             }
         }
     }
@@ -187,6 +212,7 @@ bool TCPInterface::sendCommandMessage(string command)
     {
         return false;
     }
+    return false;
 }
 
 void TCPInterface::tcpConnectionWorker()
@@ -302,7 +328,7 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
             }
         }
     }
-    return true;
+    return false;
 }
 
 int TCPInterface::getCommandHostPort() const
