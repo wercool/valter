@@ -6,11 +6,7 @@
 #include <ifaddrs.h>
 #include <algorithm>
 
-<<<<<<< HEAD
 string TCPInterface::defaultNetworkInterface = "";
-=======
-string TCPInterface::preferredNetworkInterface = "";
->>>>>>> branch 'master' of https://github.com/wercool/valter.git
 
 TCPInterface::TCPInterface(int port)
 {
@@ -55,11 +51,7 @@ void TCPInterface::readIP()
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
             //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
-<<<<<<< HEAD
             if (TCPInterface::defaultNetworkInterface.compare("") == 0)
-=======
-            if (TCPInterface::preferredNetworkInterface.compare("") == 0)
->>>>>>> branch 'master' of https://github.com/wercool/valter.git
             {
                 if (strcmp(ifa->ifa_name, "eth0") == 0)
                 {
@@ -69,18 +61,11 @@ void TCPInterface::readIP()
             }
             else
             {
-<<<<<<< HEAD
+                qDebug("Selected Network Interface: %s", TCPInterface::defaultNetworkInterface.c_str());
                 if (strcmp(ifa->ifa_name, TCPInterface::defaultNetworkInterface.c_str()) == 0)
                 {
                     std::string str(addr);
                     ip = str;
-                    qDebug("Selected Network Interface: %s", TCPInterface::defaultNetworkInterface.c_str());
-=======
-                if (strcmp(ifa->ifa_name, TCPInterface::preferredNetworkInterface.c_str()) == 0)
-                {
-                    std::string str(addr);
-                    ip = str;
->>>>>>> branch 'master' of https://github.com/wercool/valter.git
                 }
             }
         }
@@ -104,23 +89,7 @@ string TCPInterface::getLocalHostIP()
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
             //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "enp0s25") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
-<<<<<<< HEAD
-//            if (strcmp(ifa->ifa_name, "eth0") == 0)
-//            {
-//                std::string localhostIPAddress(addr);
-//                freeifaddrs(ifap);
-//                return localhostIPAddress;
-//            }
-//            else
-//            {
-//                qDebug("!!!!!!!!%s NETWORK INTERFACE IS NOT PROCESSED!!!!!", ifa->ifa_name);
-//            }
-
-
             if (TCPInterface::defaultNetworkInterface.compare("") == 0)
-=======
-            if (TCPInterface::preferredNetworkInterface.compare("") == 0)
->>>>>>> branch 'master' of https://github.com/wercool/valter.git
             {
                 if (strcmp(ifa->ifa_name, "eth0") == 0)
                 {
@@ -135,22 +104,14 @@ string TCPInterface::getLocalHostIP()
             }
             else
             {
-<<<<<<< HEAD
                 if (strcmp(ifa->ifa_name, TCPInterface::defaultNetworkInterface.c_str()) == 0)
                 {
+                    qDebug("(static call) getLocalHostIP() Selected Network Interface: %s", TCPInterface::defaultNetworkInterface.c_str());
                     std::string localhostIPAddress(addr);
                     freeifaddrs(ifap);
-                    qDebug("(static call) Selected Network Interface: %s", TCPInterface::defaultNetworkInterface.c_str());
-=======
-                if (strcmp(ifa->ifa_name, TCPInterface::preferredNetworkInterface.c_str()) == 0)
-                {
-                    std::string localhostIPAddress(addr);
-                    freeifaddrs(ifap);
->>>>>>> branch 'master' of https://github.com/wercool/valter.git
                     return localhostIPAddress;
                 }
             }
-
         }
     }
     return "";
@@ -253,7 +214,6 @@ bool TCPInterface::sendCommandMessage(string command)
     {
         return false;
     }
-    return false;
 }
 
 void TCPInterface::tcpConnectionWorker()
@@ -369,7 +329,7 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
             }
         }
     }
-    return false;
+    return true;
 }
 
 int TCPInterface::getCommandHostPort() const
