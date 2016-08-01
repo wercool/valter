@@ -40,6 +40,12 @@ int main(int argc, char *argv[])
         QApplication application(argc, argv);
         application.setStyle("gtk+");
 
+        if (argc > 1)
+        {
+            TCPInterface::preferredNetworkInterface = argv[1];
+            qDebug("TCPInterface::preferredNetworkInterface = %s", TCPInterface::preferredNetworkInterface.c_str());
+        }
+
         mainGUIWindow = MainWindow::getInstance();
         mainGUIWindow->setWindowFlags(Qt::WindowStaysOnTopHint);
         mainGUIWindow->show();

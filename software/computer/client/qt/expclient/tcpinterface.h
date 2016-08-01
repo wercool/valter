@@ -70,7 +70,11 @@ public:
 
     void setSentCDRsRectifierThreadWorkerStopped(bool value);
 
+<<<<<<< HEAD
     static string defaultNetworkInterface;
+=======
+    static string preferredNetworkInterface;
+>>>>>>> branch 'master' of https://github.com/wercool/valter.git
 
 private:
     string ip;
