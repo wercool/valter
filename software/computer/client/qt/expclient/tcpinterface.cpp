@@ -214,6 +214,7 @@ bool TCPInterface::sendCommandMessage(string command)
     {
         return false;
     }
+    return false;
 }
 
 void TCPInterface::tcpConnectionWorker()
