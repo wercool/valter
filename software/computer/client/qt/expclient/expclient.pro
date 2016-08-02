@@ -50,7 +50,6 @@ SOURCES += main.cpp\
             tcp/threads/thread.cpp \
             tcp/tcpsockets/tcpstream.cpp \
             tcp/tcpsockets/tcpacceptor.cpp \
-            tcp/tcpsockets/tcpconnector.cpp \
 #tcp handlers
             tcphandlers/platformcontrolp1.tcphandler.cpp \
             tcphandlers/platformcontrolp2.tcphandler.cpp \
@@ -75,7 +74,8 @@ SOURCES += main.cpp\
             tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.cpp \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.cpp \
             tasks/platform-control-p1/rotateplatformtask.cpp \
-            tasks/platform-control-p1/rotatebodytask.cpp
+            tasks/platform-control-p1/rotatebodytask.cpp \
+    tcp/tcpsockets/tcpconnector.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -111,7 +111,6 @@ HEADERS  += mainwindow.h \
             tcp/wqueue/wqueue.h \
             tcp/tcpsockets/tcpstream.h \
             tcp/tcpsockets/tcpacceptor.h \
-            tcp/tcpsockets/tcpconnector.h \
             tcp/tcpsockets/workitem.h \
 #tasks
             tasks/itask.h \
@@ -129,7 +128,8 @@ HEADERS  += mainwindow.h \
             tasks/platform-manipulator-and-ir-bumper/setgripperrotationmotordynamics.h \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.h \
             tasks/platform-control-p1/rotateplatformtask.h \
-            tasks/platform-control-p1/rotatebodytask.h
+            tasks/platform-control-p1/rotatebodytask.h \
+    tcp/tcpsockets/tcpconnector.h
 
 FORMS    += mainwindow.ui
 
