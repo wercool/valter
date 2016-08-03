@@ -482,7 +482,8 @@ Serial::SerialImpl::available ()
   }
   int count = 0;
   if (-1 == ioctl (fd_, TIOCINQ, &count)) {
-      THROW (IOException, errno);
+      //THROW (IOException, errno);
+      return 0;
   } else {
       return static_cast<size_t> (count);
   }
