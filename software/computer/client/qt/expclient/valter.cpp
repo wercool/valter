@@ -134,9 +134,15 @@ IValterModule *Valter::getValterModule(string controlDeviceId)
 void Valter::executeUscCmdMaestroLinux(string cmdArgs)
 {
     string cmd = maestoServoControllerUscCmdPathPrefix + " " + cmdArgs;
-    qDebug("SERVO CONTROLLER ← [%s]", cmd.c_str());
-    string result = Valter::exec_shell(cmd);
-    qDebug("SERVO CONTROLLER → %s", result.c_str());
+    std::thread shellExecuteIndistinctThread(&Valter::shellExecuteIndistinctThreadWorker, this, cmd, "SERVO CONTROLLER");
+    shellExecuteIndistinctThread.detach();
+}
+
+void Valter::shellExecuteIndistinctThreadWorker(string cmd, string qDebugMsg)
+{
+    qDebug("%s ← [%s]",qDebugMsg.c_str(), cmd.c_str());
+    string result = exec_shell(cmd);
+    qDebug("%s → %s",qDebugMsg.c_str(), result.c_str());
 }
 
 void Valter::stopAllModules()

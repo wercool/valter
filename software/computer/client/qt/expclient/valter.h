@@ -167,6 +167,9 @@ private:
    bool logControlDeviceMessages;
    static const string cmdFilesPath;
    static const string maestoServoControllerUscCmdPathPrefix;
+
+   void shellExecuteIndistinctThreadWorker(string cmd, string qDebugMsg);
+
    map<string, ControlDevice*> controlDevicesMap;
    map<string, ControlDevice*> remoteControlDevicesMap;
 
