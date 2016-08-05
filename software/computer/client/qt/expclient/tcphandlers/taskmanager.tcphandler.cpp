@@ -44,7 +44,7 @@ class TaskManagerTCPConnectionHandler : public Thread
             //RTMM - Remote Task Manager Message
             char isRTMM[5];
             strncpy(isRTMM, input, 4);
-            isRTMM[5] = '\0';
+            isRTMM[4] = '\0';
 
             if (strcmp(isRTMM, "RTMM") == 0)
             {
