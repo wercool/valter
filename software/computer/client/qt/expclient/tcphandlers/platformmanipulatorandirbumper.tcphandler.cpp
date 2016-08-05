@@ -74,7 +74,7 @@ class PlatformManipulatorAndIRBumperTCPConnectionHandler : public Thread
             platformManipulatorAndIRBumper->getTcpInterface()->setCentralCommandHostIP(value_str_values[0]);
             platformManipulatorAndIRBumper->getTcpInterface()->setCentralCommandHostIPPort(atoi(Valter::stringToCharPtr(value_str_values[1])));
             platformManipulatorAndIRBumper->getTcpInterface()->setConnected(true);
-            platformManipulatorAndIRBumper->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~REMOTECD:%s:%s:%d:%s", platformManipulatorAndIRBumper->getControlDeviceId().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIP().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIPPort(), platformManipulatorAndIRBumper->getControlDevice()->getStatus().c_str()));
+            platformManipulatorAndIRBumper->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~REMOTECD:%s:%s:%d:%s", platformManipulatorAndIRBumper->getControlDeviceId().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getLocalHostIP().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getPort(), platformManipulatorAndIRBumper->getControlDevice()->getStatus().c_str()));
             qDebug("[%s] Central Command Host IP Address:%s Port:%d", platformManipulatorAndIRBumper->getControlDeviceId().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIP().c_str(), platformManipulatorAndIRBumper->getTcpInterface()->getCentralCommandHostIPPort());
             return;
         }
