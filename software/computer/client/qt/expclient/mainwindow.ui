@@ -20646,13 +20646,6 @@ image: url(:/hand-left.png);</string>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="updateCentralCommandHostConnectionInfoOnAllSlavesButton">
-            <property name="text">
-             <string>Update on All Slaves Central Command Host IP Address</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <spacer name="horizontalSpacer_2">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -21583,7 +21576,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>resetControlDeviceButton</tabstop>
   <tabstop>controlDeviceTCPInterfaceTable</tabstop>
   <tabstop>onRightAccumulatorPlatformControlP1Button</tabstop>
-  <tabstop>updateCentralCommandHostConnectionInfoOnAllSlavesButton</tabstop>
   <tabstop>platformControlP1RemoteControlCheckbox</tabstop>
   <tabstop>platformControlP1LoadDefaultsButton</tabstop>
   <tabstop>platformControlP1CommandPortLineEdit</tabstop>
