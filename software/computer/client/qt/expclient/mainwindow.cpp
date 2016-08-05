@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(delayedGUIActionsProcessingTimer, SIGNAL(timeout()), this, SLOT(delayedGUIActionsProcessingTimerUpdate()));
     delayedGUIActionsProcessingTimer->start(250);
 
-    ui->mainTabWidget->setCurrentIndex(7);
+    ui->mainTabWidget->setCurrentIndex(8);
 
     //controlDeviceTableWidget
     initControlDevices(ui);
