@@ -654,6 +654,7 @@ void PlatformControlP1::toggle5VSource(bool state)
     if (state)
     {
         sendCommand("DCDC5VENABLEON");
+        PlatformControlP2::getInstance()->setModuleInitialState();
     }
     else
     {

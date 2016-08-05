@@ -305,6 +305,16 @@ class PlatformManipulatorAndIRBumperTCPConnectionHandler : public Thread
             mainWindow->on_manipulatorAndIRBumperManipulatorReadingsTableWidget_itemClicked(item);
             return;
         }
+        if (cmd.find("on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked();
+            return;
+        }
+        if (cmd.find("on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked();
+            return;
+        }
         if (cmd.find("on_irBumperReadingsTable_itemClicked") != std::string::npos)
         {
             int substr_pos = cmd.find("@") + 1;

@@ -366,6 +366,8 @@ public slots:
     void on_platformManipulatorAngleBSpinBox_valueChanged(double value);
     void on_platformManipulatorAngleGSpinBox_valueChanged(double value);
     void on_irBumperReadingsTable_itemClicked(QTableWidgetItem *item);
+    void on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked();
+    void on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked();
 
     //body-control-p1
     void initBodyControlP1(Ui::MainWindow *ui);

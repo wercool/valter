@@ -681,3 +681,37 @@ void MainWindow::on_irBumperReadingsTable_itemClicked(QTableWidgetItem *item)
         platformManipulatorAndIRBumper->sendTCPCommand(Valter::format_string("on_irBumperReadingsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
     }
 }
+
+void MainWindow::on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked");
+    }
+    for (int i = 0 ; i < 14; i++)
+    {
+        QTableWidgetItem* item = ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(i, 0);
+        item->setCheckState(Qt::Checked);
+        ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->viewport()->update();
+
+        setPlatformManipulatorReadingsPresets(item);
+    }
+}
+
+void MainWindow::on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked()
+{
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
+    {
+        platformManipulatorAndIRBumper->sendTCPCommand("on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked");
+    }
+    for (int i = 0 ; i < 14; i++)
+    {
+        QTableWidgetItem* item = ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(i, 0);
+        item->setCheckState(Qt::Unchecked);
+        ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->viewport()->update();
+
+        setPlatformManipulatorReadingsPresets(item);
+    }
+}

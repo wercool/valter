@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1037</height>
+             <width>874</width>
+             <height>1047</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2879,8 +2879,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>232</width>
-             <height>569</height>
+             <width>231</width>
+             <height>575</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -4029,7 +4029,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>893</width>
+             <width>892</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8097,8 +8097,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1512</height>
+             <width>874</width>
+             <height>1514</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -10067,17 +10067,45 @@ border-color: rgb(140, 140, 140);</string>
                </widget>
               </item>
               <item>
-               <spacer name="horizontalSpacer_14">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
+               <layout class="QVBoxLayout" name="verticalLayout_68">
+                <property name="leftMargin">
+                 <number>0</number>
                 </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_156">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="platformManipulatorAndIRBumperTrackAllReadingsButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="platformManipulatorAndIRBumperTrackNoneReadingsButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
@@ -10666,7 +10694,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>800</height>
             </rect>
            </property>
@@ -13665,8 +13693,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -17024,8 +17052,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -20677,7 +20705,7 @@ image: url(:/hand-left.png);</string>
           <item row="6" column="1">
            <widget class="QLineEdit" name="armControlRightCommandHostLineEdit">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.101.101</string>
             </property>
            </widget>
           </item>
@@ -20712,7 +20740,7 @@ image: url(:/hand-left.png);</string>
           <item row="3" column="1">
            <widget class="QLineEdit" name="platformLocationP1CommandHostLineEdit">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.101.101</string>
             </property>
            </widget>
           </item>
@@ -20743,7 +20771,7 @@ image: url(:/hand-left.png);</string>
           <item row="4" column="1">
            <widget class="QLineEdit" name="platformManipulatorAndIRBumperCommandHostLineEdit">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.101.101</string>
             </property>
            </widget>
           </item>
@@ -20823,7 +20851,7 @@ image: url(:/hand-left.png);</string>
           <item row="7" column="1">
            <widget class="QLineEdit" name="armControlLeftCommandHostLineEdit">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.101.101</string>
             </property>
            </widget>
           </item>
@@ -20846,14 +20874,14 @@ image: url(:/hand-left.png);</string>
           <item row="1" column="1">
            <widget class="QLineEdit" name="platformControlP1CommandHostLineEdit">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.101.101</string>
             </property>
            </widget>
           </item>
           <item row="5" column="1">
            <widget class="QLineEdit" name="bodyControlP1CommandHostLineEdit">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.101.101</string>
             </property>
            </widget>
           </item>
@@ -20888,7 +20916,7 @@ image: url(:/hand-left.png);</string>
           <item row="2" column="1">
            <widget class="QLineEdit" name="platformControlP2CommandHostLineEdit">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.101.101</string>
             </property>
            </widget>
           </item>
