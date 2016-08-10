@@ -635,13 +635,15 @@ private:
     //tasks tab
     QTimer *tasksTabRefreshTimer;
 
+    //TCP Interface
+    void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
+
     // QWidget interface
 protected:
 
 private slots:
 
     //TCP Interface
-    void on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clicked();
     void on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked();
     void on_armControlLeftRedrawGUICheckBox_clicked(bool checked);
     void on_tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton_clicked();
