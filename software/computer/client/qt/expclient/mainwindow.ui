@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -16397,6 +16397,27 @@ image: url(:/hand.png);</string>
                  </widget>
                 </item>
                 <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_144">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="rightHandSensorsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="rightHandSensorsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <widget class="QTableWidget" name="rightHandSensorsTable">
                   <property name="minimumSize">
                    <size>
@@ -16594,27 +16615,6 @@ image: url(:/hand.png);</string>
                   </item>
                  </widget>
                 </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_144">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QPushButton" name="rightHandSensorsTrackAllButton">
-                    <property name="text">
-                     <string>Track All</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="rightHandSensorsTrackNoneButton">
-                    <property name="text">
-                     <string>Track None</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
                </layout>
               </item>
               <item>
@@ -16642,6 +16642,27 @@ image: url(:/hand.png);</string>
                    <string>Right Arm Readings</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_145">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="rightArmReadingsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="rightArmReadingsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <widget class="QTableWidget" name="rightArmReadingsTable">
@@ -16922,27 +16943,6 @@ image: url(:/hand.png);</string>
                    </property>
                   </item>
                  </widget>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_145">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QPushButton" name="rightArmReadingsTrackAllButton">
-                    <property name="text">
-                     <string>Track All</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="rightArmReadingsTrackNoneButton">
-                    <property name="text">
-                     <string>Track None</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
                 </item>
                </layout>
               </item>
@@ -20642,6 +20642,9 @@ image: url(:/hand-left.png);</string>
               <width>200</width>
               <height>16777215</height>
              </size>
+            </property>
+            <property name="maxLength">
+             <number>300</number>
             </property>
            </widget>
           </item>

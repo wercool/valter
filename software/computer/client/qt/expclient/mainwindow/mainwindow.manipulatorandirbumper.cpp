@@ -685,6 +685,21 @@ void MainWindow::on_irBumperReadingsTable_itemClicked(QTableWidgetItem *item)
 void MainWindow::on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setLink1PositionTrack(true);
+    platformManipulatorAndIRBumper->setLink2PositionTrack(true);
+    platformManipulatorAndIRBumper->setLink1CurrentTrack(true);
+    platformManipulatorAndIRBumper->setLink2CurrentTrack(true);
+    platformManipulatorAndIRBumper->setGripperTiltTrack(true);
+    platformManipulatorAndIRBumper->setGripperRotationTrack(true);
+    platformManipulatorAndIRBumper->setGripperPositionTrack(true);
+    platformManipulatorAndIRBumper->setGripperForceSensor1Track(true);
+    platformManipulatorAndIRBumper->setGripperForceSensor2Track(true);
+    platformManipulatorAndIRBumper->setGripperForceSensor3Track(true);
+    platformManipulatorAndIRBumper->setGripperObjectDetectorTrack(true);
+    platformManipulatorAndIRBumper->setGripperTiltMotorCurrentTrack(true);
+    platformManipulatorAndIRBumper->setGripperOpenCloseMotorCurrentTrack(true);
+    platformManipulatorAndIRBumper->setGripperRotationMotorCurrentTrack(true);
+
     if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
     {
         platformManipulatorAndIRBumper->sendTCPCommand("on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked");
@@ -693,15 +708,29 @@ void MainWindow::on_platformManipulatorAndIRBumperTrackAllReadingsButton_clicked
     {
         QTableWidgetItem* item = ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(i, 0);
         item->setCheckState(Qt::Checked);
-        ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->viewport()->update();
-
         setPlatformManipulatorReadingsPresets(item);
     }
+    ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->viewport()->update();
 }
 
 void MainWindow::on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked()
 {
     PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+    platformManipulatorAndIRBumper->setLink1PositionTrack(false);
+    platformManipulatorAndIRBumper->setLink2PositionTrack(false);
+    platformManipulatorAndIRBumper->setLink1CurrentTrack(false);
+    platformManipulatorAndIRBumper->setLink2CurrentTrack(false);
+    platformManipulatorAndIRBumper->setGripperTiltTrack(false);
+    platformManipulatorAndIRBumper->setGripperRotationTrack(false);
+    platformManipulatorAndIRBumper->setGripperPositionTrack(false);
+    platformManipulatorAndIRBumper->setGripperForceSensor1Track(false);
+    platformManipulatorAndIRBumper->setGripperForceSensor2Track(false);
+    platformManipulatorAndIRBumper->setGripperForceSensor3Track(false);
+    platformManipulatorAndIRBumper->setGripperObjectDetectorTrack(false);
+    platformManipulatorAndIRBumper->setGripperTiltMotorCurrentTrack(false);
+    platformManipulatorAndIRBumper->setGripperOpenCloseMotorCurrentTrack(false);
+    platformManipulatorAndIRBumper->setGripperRotationMotorCurrentTrack(false);
+
     if (ui->platformManipulatorAndIRBumperRemoteControlCheckbox->isChecked())
     {
         platformManipulatorAndIRBumper->sendTCPCommand("on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked");
@@ -710,8 +739,7 @@ void MainWindow::on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicke
     {
         QTableWidgetItem* item = ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(i, 0);
         item->setCheckState(Qt::Unchecked);
-        ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->viewport()->update();
-
         setPlatformManipulatorReadingsPresets(item);
     }
+    ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->viewport()->update();
 }
