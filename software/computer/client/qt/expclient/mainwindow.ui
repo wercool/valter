@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -52,7 +52,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-539</y>
              <width>874</width>
              <height>1047</height>
             </rect>
@@ -345,6 +345,15 @@
                   <item row="8" column="0">
                    <property name="text">
                     <string>Charger Voltage</string>
+                   </property>
+                   <property name="background">
+                    <brush brushstyle="Dense7Pattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>145</green>
+                      <blue>9</blue>
+                     </color>
+                    </brush>
                    </property>
                   </item>
                   <item row="8" column="2">
