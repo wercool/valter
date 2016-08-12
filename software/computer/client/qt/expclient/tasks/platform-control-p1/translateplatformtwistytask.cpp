@@ -39,7 +39,7 @@ void TranslatePlatformTwistyTask::execute()
         {
             new std::thread(&TranslatePlatformTwistyTask::executionWorker, this);
             this_thread::sleep_for(std::chrono::milliseconds(100));
-            TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s,%s~%s~%s",
+            TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s, %s~%s~%s",
                                                                                                   getTaskId(),
                                                                                                   getTaskName().c_str(),
                                                                                                   (blocking) ? "blocking" : "non blocking",
@@ -56,12 +56,18 @@ void TranslatePlatformTwistyTask::execute()
 
 void TranslatePlatformTwistyTask::stopExecution()
 {
-
+    stopped = true;
 }
 
 void TranslatePlatformTwistyTask::reportCompletion()
 {
-
+    qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s",
+                                                                                          getTaskId(),
+                                                                                          getTaskName().c_str(),
+                                                                                          (blocking) ? "blocking" : "non blocking",
+                                                                                          ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))),
+                                                                                          getTaskScriptLine().c_str()));
 }
 
 ITask *TranslatePlatformTwistyTask::create()
