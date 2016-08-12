@@ -152,7 +152,7 @@ unsigned int PlatformControlP1::executeTask(string taskScriptLine)
             ((RotatePlatformTask*)task)->setAngle(angle);
             return TaskManager::getInstance()->addTask(task);
         }
-        if (taskName.compare("RotateBodyTasks") == 0)
+        if (taskName.compare("RotateBodyTask") == 0)
         {
             ITask *task = tasks[taskName]();
             task->setTaskScriptLine(taskScriptLine);
