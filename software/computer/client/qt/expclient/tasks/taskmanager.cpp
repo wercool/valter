@@ -149,6 +149,7 @@ void TaskManager::processScript(string script)
                 continue;
             }
 
+            //Task for particular Control Device
             routeTaskRequest(scriptInstructions[i]);
         }
     }
@@ -268,8 +269,8 @@ void TaskManager::tasksQueueWorker()
                         {
                             if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
                             {
-                                //ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
-                                //qDebug("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now...", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
+                                qDebug("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now...", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                 continue;
                             }
                             executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
