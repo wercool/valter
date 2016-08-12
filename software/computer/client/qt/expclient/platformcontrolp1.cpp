@@ -24,6 +24,7 @@ PlatformControlP1::PlatformControlP1()
     tasks["TrasnslatePlatformLinearlyTask"] = &TrasnslatePlatformLinearlyTask::create;
     tasks["RotatePlatformTask"] = &RotatePlatformTask::create;
     tasks["RotateBodyTask"] = &RotateBodyTask::create;
+    tasks["TranslatePlatformTwistyTask"] = &TranslatePlatformTwistyTask::create;
 
 
     initTcpInterface();

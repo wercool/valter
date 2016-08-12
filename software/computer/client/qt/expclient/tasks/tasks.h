@@ -19,6 +19,7 @@
 
 //PLATFORM-CONTROL-P1
 #include "tasks/platform-control-p1/trasnslateplatformlinearlytask.h"
+#include "tasks/platform-control-p1/translateplatformtwistytask.h"
 #include "tasks/platform-control-p1/rotateplatformtask.h"
 #include "tasks/platform-control-p1/rotatebodytask.h"
 

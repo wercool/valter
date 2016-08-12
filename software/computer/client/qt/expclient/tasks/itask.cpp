@@ -10,6 +10,7 @@ ITask::ITask()
     executing = false;
     completed = false;
     blocking = false;
+    attachable = false;
 
     qDebugOn = true;
 
@@ -69,6 +70,16 @@ std::string ITask::getTaskScriptLine() const
 void ITask::setTaskScriptLine(const std::string &value)
 {
     taskScriptLine = value;
+}
+
+bool ITask::getAttachable() const
+{
+    return attachable;
+}
+
+void ITask::setAttachable(bool value)
+{
+    attachable = value;
 }
 
 void ITask::setCompleted()

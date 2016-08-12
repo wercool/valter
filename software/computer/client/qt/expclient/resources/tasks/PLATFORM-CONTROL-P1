@@ -1,9 +1,14 @@
-T_PCP1_TrasnslatePlatformLinearlyTask_{%d = direction [-1 undefined, 1 - forward, 0 - backward]}_{%f = translation in meters}
-T_PCP1_RotatePlatformTask_{%d = direction [-1 undefined, 1 - right, 0 - left]}_{%f = rotation in degrees}
-T_PCP1_RotateBodyTask_{%d = direction [-1 undefined, 1 - right, 0 - left]}_{%f = rotation in degrees}
+FORMAT: T_PCP1_TrasnslatePlatformLinearlyTask_{%d = direction [-1 undefined, 1 - forward, 0 - backward]}_{%f = translation in meters}
 
+FORMAT: T_PCP1_RotatePlatformTask_{%d = direction [-1 undefined, 1 - right, 0 - left]}_{%f = rotation in degrees}
+
+FORMAT: T_PCP1_RotateBodyTask_{%d = direction [-1 undefined, 1 - right, 0 - left]}_{%f = rotation in degrees}
+
+FORMAT: T_PCP1_TranslatePlatformTwistyTask_{%f = linear velocity, m/s}_{%f = rotation velocity rad/sec [+%f - CW, -%f - CCW]}
+DESC: if linear velocity and rotation velocity ~0 task is completed
 
 
 T_PCP1_TrasnslatePlatformLinearlyTask_1_0.5
 T_PCP1_RotatePlatformTask_1_30
 T_PCP1_RotateBodyTask_1_30
+T_PCP1_TranslatePlatformTwistyTask_0.1_0.0

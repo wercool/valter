@@ -75,7 +75,8 @@ SOURCES += main.cpp\
             tasks/platform-control-p1/trasnslateplatformlinearlytask.cpp \
             tasks/platform-control-p1/rotateplatformtask.cpp \
             tasks/platform-control-p1/rotatebodytask.cpp \
-    tcp/tcpsockets/tcpconnector.cpp
+    tcp/tcpsockets/tcpconnector.cpp \
+    tasks/platform-control-p1/translateplatformtwistytask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -129,7 +130,8 @@ HEADERS  += mainwindow.h \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.h \
             tasks/platform-control-p1/rotateplatformtask.h \
             tasks/platform-control-p1/rotatebodytask.h \
-    tcp/tcpsockets/tcpconnector.h
+    tcp/tcpsockets/tcpconnector.h \
+    tasks/platform-control-p1/translateplatformtwistytask.h
 
 FORMS    += mainwindow.ui
 

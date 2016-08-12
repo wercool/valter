@@ -30,6 +30,9 @@ public:
     void setBlocking(bool value);
     bool getBlocking() const;
 
+    bool getAttachable() const;
+    void setAttachable(bool value);
+
     bool getQDebugOn() const;
     void setQDebugOn(bool value);
 
@@ -46,6 +49,7 @@ public:
 protected:
     bool stopped;
     bool blocking;
+    bool attachable;
     bool executing;
     bool completed;
 
