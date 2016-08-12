@@ -117,5 +117,10 @@ void RotateBodyTask::setAngle(float value)
 
 void RotateBodyTask::executionWorker()
 {
-
+    //TODO: logic
+    //temp stub
+    this_thread::sleep_for(std::chrono::milliseconds(500));
+    stopExecution();
+    this_thread::sleep_for(std::chrono::milliseconds(100));
+    setCompleted();
 }
