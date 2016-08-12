@@ -132,36 +132,9 @@ unsigned int PlatformControlP1::executeTask(string taskScriptLine)
     std::string taskName = taskInitiationParts[0];
     if (tasks.find(taskName) != tasks.end())
     {
-        if (taskName.compare("TrasnslatePlatformLinearlyTask") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            signed int direction = atoi(((string)taskInitiationParts[1]).c_str()); //1 - forward; initial -1 - undefined
-            float distance = atof(((string)taskInitiationParts[2]).c_str()); //meters
-            ((TrasnslatePlatformLinearlyTask*)task)->setDirection(direction);
-            ((TrasnslatePlatformLinearlyTask*)task)->setDistance(distance);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("RotatePlatformTask") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            signed int direction = atoi(((string)taskInitiationParts[1]).c_str()); //1 - right; initial -1 - undefined
-            float angle = atof(((string)taskInitiationParts[2]).c_str()); //degrees
-            ((RotatePlatformTask*)task)->setDirection(direction);
-            ((RotatePlatformTask*)task)->setAngle(angle);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("RotateBodyTask") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            signed int direction = atoi(((string)taskInitiationParts[1]).c_str()); //1 - right; initial -1 - undefined
-            float angle = atof(((string)taskInitiationParts[2]).c_str()); //degrees
-            ((RotateBodyTask*)task)->setDirection(direction);
-            ((RotateBodyTask*)task)->setAngle(angle);
-            return TaskManager::getInstance()->addTask(task);
-        }
+        ITask *task = tasks[taskName]();
+        task->setTaskScriptLine(taskScriptLine);
+        return TaskManager::getInstance()->addTask(task);
     }
     return 0;
 }

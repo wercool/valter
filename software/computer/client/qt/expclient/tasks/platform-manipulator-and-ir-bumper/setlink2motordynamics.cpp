@@ -19,6 +19,15 @@ bool SetLink2MotorDynamics::checkFeasibility()
 
 bool SetLink2MotorDynamics::initialize()
 {
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
+    setMotorDutyMax(motorDutyMax);
+    unsigned int motorDeceleration = atoi(((string)taskInitiationParts[2]).c_str());
+    setMotorDeceleration(motorDeceleration);
+    unsigned int motorAcceleration = atoi(((string)taskInitiationParts[3]).c_str());
+    setMotorAcceleration(motorAcceleration);
+
     return true;
 }
 

@@ -56,6 +56,14 @@ bool RotateBodyTask::checkFeasibility()
 
 bool RotateBodyTask::initialize()
 {
+    //script line parsing
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    signed int direction = atoi(((string)taskInitiationParts[1]).c_str()); //1 - right; initial -1 - undefined
+    float angle = atof(((string)taskInitiationParts[2]).c_str()); //degrees
+    setDirection(direction);
+    setAngle(angle);
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getTurretPositionRead())
     {

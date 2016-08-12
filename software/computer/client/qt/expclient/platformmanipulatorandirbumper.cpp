@@ -84,78 +84,9 @@ unsigned int PlatformManipulatorAndIRBumper::executeTask(string taskScriptLine)
     std::string taskName = taskInitiationParts[0];
     if (tasks.find(taskName) != tasks.end())
     {
-        if (taskName.compare("SetLink1PositionTask") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            float angle = atof(((string)taskInitiationParts[1]).c_str());
-            ((SetLink1PositionTask*)task)->setAngle(angle);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("SetLink1MotorDynamics") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
-            ((SetLink1MotorDynamics*)task)->setMotorDutyMax(motorDutyMax);
-            unsigned int motorDeceleration = atoi(((string)taskInitiationParts[2]).c_str());
-            ((SetLink1MotorDynamics*)task)->setMotorDeceleration(motorDeceleration);
-            unsigned int motorAcceleration = atoi(((string)taskInitiationParts[3]).c_str());
-            ((SetLink1MotorDynamics*)task)->setMotorAcceleration(motorAcceleration);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("SetLink2PositionTask") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            float angle = atof(((string)taskInitiationParts[1]).c_str());
-            ((SetLink2PositionTask*)task)->setAngle(angle);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("SetLink2MotorDynamics") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
-            ((SetLink2MotorDynamics*)task)->setMotorDutyMax(motorDutyMax);
-            unsigned int motorDeceleration = atoi(((string)taskInitiationParts[2]).c_str());
-            ((SetLink2MotorDynamics*)task)->setMotorDeceleration(motorDeceleration);
-            unsigned int motorAcceleration = atoi(((string)taskInitiationParts[3]).c_str());
-            ((SetLink2MotorDynamics*)task)->setMotorAcceleration(motorAcceleration);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("SetGripperTiltPositionTask") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            float angle = atof(((string)taskInitiationParts[1]).c_str());
-            ((SetGripperTiltPositionTask*)task)->setAngle(angle);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("SetGripperRotationPosition") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            float angle = atof(((string)taskInitiationParts[1]).c_str());
-            ((SetGripperRotationPosition*)task)->setAngle(angle);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("SetGripperRotationMotorDynamics") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
-            ((SetGripperRotationMotorDynamics*)task)->setMotorDutyMax(motorDutyMax);
-            return TaskManager::getInstance()->addTask(task);
-        }
-        if (taskName.compare("SetGripperGrasperPosition") == 0)
-        {
-            ITask *task = tasks[taskName]();
-            task->setTaskScriptLine(taskScriptLine);
-            float position = atof(((string)taskInitiationParts[1]).c_str());
-            ((SetGripperGrasperPosition*)task)->setPosition(position);
-            return TaskManager::getInstance()->addTask(task);
-        }
+        ITask *task = tasks[taskName]();
+        task->setTaskScriptLine(taskScriptLine);
+        return TaskManager::getInstance()->addTask(task);
     }
     return 0;
 }

@@ -17,6 +17,12 @@ bool SetGripperRotationMotorDynamics::checkFeasibility()
 
 bool SetGripperRotationMotorDynamics::initialize()
 {
+    //script line parsing
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    unsigned int motorDutyMax = atoi(((string)taskInitiationParts[1]).c_str());
+    setMotorDutyMax(motorDutyMax);
+
     return true;
 }
 

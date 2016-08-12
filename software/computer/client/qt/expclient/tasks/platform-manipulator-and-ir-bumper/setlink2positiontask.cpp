@@ -23,6 +23,12 @@ bool SetLink2PositionTask::checkFeasibility()
 
 bool SetLink2PositionTask::initialize()
 {
+    //script line parsing
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    float angle = atof(((string)taskInitiationParts[1]).c_str());
+    setAngle(angle);
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getPower5VOnState())
     {

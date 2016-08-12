@@ -59,6 +59,14 @@ bool TrasnslatePlatformLinearlyTask::checkFeasibility()
 
 bool TrasnslatePlatformLinearlyTask::initialize()
 {
+    //script line parsing
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    signed int direction = atoi(((string)taskInitiationParts[1]).c_str()); //1 - forward; initial -1 - undefined
+    float distance = atof(((string)taskInitiationParts[2]).c_str()); //meters
+    setDirection(direction);
+    setDistance(distance);
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getPower5VOnState())
     {
