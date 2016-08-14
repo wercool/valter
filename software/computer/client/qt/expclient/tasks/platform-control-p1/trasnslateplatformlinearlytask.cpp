@@ -265,7 +265,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                 /************************************ emulation *********************start***************************/
 //                if (rwen == lwen)
                 /************************************ emulation *********************finish**************************/
-                if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
+                if (platformControlP1->getRightWheelEncoder() == platformControlP1->getLeftWheelEncoder())
                 {
                     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
                     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
