@@ -136,9 +136,9 @@ ITask *TrasnslatePlatformLinearlyTask::create()
 void TrasnslatePlatformLinearlyTask::executionWorker()
 {
     /************************************ emulation *********************start***************************/
-    int lwen, rwen;
-    lwen = 0;
-    rwen = 0;
+//    int lwen, rwen;
+//    lwen = 0;
+//    rwen = 0;
     /************************************ emulation *********************finish**************************/
     int cutOffDistanceTicks = (int)round(47 * distance * 0.98);
     //1m ~ 47 vague encoder ticks
@@ -149,9 +149,9 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
         if (!executing)
         {
             /************************************ emulation *********************start***************************/
-            if (true)
+//            if (true)
             /************************************ emulation *********************finish**************************/
-            //if (platformControlP1->preparePlatformMovement())
+            if (platformControlP1->preparePlatformMovement())
             {
                 if (direction == 1)
                 {
@@ -193,27 +193,27 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
         else
         {
             /************************************ emulation *********************start***************************/
-            int randNum = rand() % 3; // Generate a random number between 0 and 1
-            if (randNum == 0)
-            {
-                lwen++;
-            }
-            if (randNum == 1)
-            {
-                rwen++;
-            }
-            if (randNum == 2)
-            {
-                rwen += 2;
-            }
-            this_thread::sleep_for(std::chrono::milliseconds(50));
-            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d, rand = %d", lwen, rwen, cutOffDistanceTicks, randNum);
+//            int randNum = rand() % 3; // Generate a random number between 0 and 1
+//            if (randNum == 0)
+//            {
+//                lwen++;
+//            }
+//            if (randNum == 1)
+//            {
+//                rwen++;
+//            }
+//            if (randNum == 2)
+//            {
+//                rwen += 2;
+//            }
+//            this_thread::sleep_for(std::chrono::milliseconds(50));
+//            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d, rand = %d", lwen, rwen, cutOffDistanceTicks, randNum);
             /************************************ emulation *********************finish**************************/
 
             /************************************ emulation *********************start***************************/
-            if (lwen >=  cutOffDistanceTicks || rwen >= cutOffDistanceTicks)
+//            if (lwen >=  cutOffDistanceTicks || rwen >= cutOffDistanceTicks)
             /************************************ emulation *********************finish**************************/
-//            if (platformControlP1->getLeftWheelEncoder() >= cutOffDistance || platformControlP1->getRightWheelEncoder() >= cutOffDistance)
+            if (platformControlP1->getLeftWheelEncoder() >= cutOffDistanceTicks || platformControlP1->getRightWheelEncoder() >= cutOffDistanceTicks)
             {
                 platformControlP1->setLeftMotorActivated(false);
                 platformControlP1->setRightMotorActivated(false);
@@ -225,9 +225,9 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
             else
             {
                 /************************************ emulation *********************start***************************/
-                if (lwen > rwen)
+//                if (lwen > rwen)
                 /************************************ emulation *********************finish**************************/
-                //if (platformControlP1->getLeftWheelEncoder() > platformControlP1->getRightWheelEncoder())
+                if (platformControlP1->getLeftWheelEncoder() > platformControlP1->getRightWheelEncoder())
                 {
                     int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
                     int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
@@ -240,13 +240,13 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                         qDebug("RIGHT CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
                     /************************************ emulation *********************start***************************/
-                    rwen++;
+//                    rwen++;
                     /************************************ emulation *********************finish**************************/
                 }
                 /************************************ emulation *********************start***************************/
-                if (rwen > lwen)
+//                if (rwen > lwen)
                 /************************************ emulation *********************finish**************************/
-                //if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
+                if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
                 {
                     int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
                     int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
@@ -259,13 +259,13 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                         qDebug("LEFT CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
                     /************************************ emulation *********************start***************************/
-                    lwen++;
+//                    lwen++;
                     /************************************ emulation *********************finish**************************/
                 }
                 /************************************ emulation *********************start***************************/
-                if (rwen == lwen)
+//                if (rwen == lwen)
                 /************************************ emulation *********************finish**************************/
-                //if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
+                if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
                 {
                     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
                     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
@@ -273,7 +273,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                 }
             }
 
-//            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), cutOffDistanceTicks);
+            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), cutOffDistanceTicks);
         }
     }
 

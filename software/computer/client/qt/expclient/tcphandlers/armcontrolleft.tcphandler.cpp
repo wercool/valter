@@ -275,7 +275,7 @@ class ArmControlLeftTCPConnectionHandler : public Thread
         }
         if (cmd.find("on_leftHandPitchDownButton_pressed") != std::string::npos)
         {
-            mainWindow->on_leftHandPitchUpButton_released();
+            mainWindow->on_leftHandPitchDownButton_pressed();
             return;
         }
         if (cmd.find("on_leftHandPitchDownButton_released") != std::string::npos)
