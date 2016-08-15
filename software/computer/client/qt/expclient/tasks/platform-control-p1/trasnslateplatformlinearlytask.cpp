@@ -140,7 +140,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
 //    lwen = 0;
 //    rwen = 0;
     /************************************ emulation *********************finish**************************/
-    int cutOffDistanceTicks = (int)round(47 * distance * 0.98);
+    int cutOffDistanceTicks = (int)round(PlatformControlP1::vagueEncoderTicksPerMeter * distance * 0.98);
     //1m ~ 47 vague encoder ticks
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
 
@@ -188,6 +188,12 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                     }
                 }
             }
+            else
+            {
+                string msg = Valter::format_string("Task#%lu (%s)has been terminated. preparePlatformMovement() returns FALSE.", getTaskId(), getTaskName().c_str());
+                qDebug("%s", msg.c_str());
+                stopExecution();
+            }
             executing = true;
         }
         else
@@ -207,7 +213,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
 //                rwen += 2;
 //            }
 //            this_thread::sleep_for(std::chrono::milliseconds(50));
-//            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d, rand = %d", lwen, rwen, cutOffDistanceTicks, randNum);
+//            qDebug("LEN:%d, REN:%d, (int)round((double)PlatformControlP1::vagueEncoderTicksPerMeter * cutOffDistance) = %d, rand = %d", lwen, rwen, cutOffDistanceTicks, randNum);
             /************************************ emulation *********************finish**************************/
 
             /************************************ emulation *********************start***************************/

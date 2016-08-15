@@ -25,6 +25,8 @@ vector<string> Valter::controlDeviceIds = {"PLATFORM-CONTROL-P1",               
                                            "ARM-CONTROL-RIGHT",                    //idx 6
                                            "ARM-CONTROL-LEFT"};                    //idx 7
 
+const int Valter::wheelBase = 385; //mm
+
 Valter::Valter()
 {
     globalSettings = {};

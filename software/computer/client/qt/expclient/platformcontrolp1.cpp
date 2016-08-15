@@ -14,6 +14,8 @@ bool PlatformControlP1::instanceFlag = false;
 const string PlatformControlP1::controlDeviceId = "PLATFORM-CONTROL-P1";
 const string PlatformControlP1::defaultsFilePath = "settings/platform-control-p1-defaults";
 
+const int PlatformControlP1::vagueEncoderTicksPerMeter = 47;
+
 PlatformControlP1::PlatformControlP1()
 {
     Valter::log(PlatformControlP1::controlDeviceId + " singleton initialized");

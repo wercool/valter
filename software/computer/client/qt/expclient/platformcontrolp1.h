@@ -430,6 +430,9 @@ public:
     int getAdditionalReadingsDelayCur() const;
     void setAdditionalReadingsDelayCur(int value);
 
+    //Valter base platform characteristics
+    static const int vagueEncoderTicksPerMeter;
+
 private:
     PlatformControlP1();
     static PlatformControlP1* pPlatformControlP1;       // PLATFORM-CONTROL-P1's singleton instance

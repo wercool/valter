@@ -21,8 +21,20 @@ public:
 
     static ITask *create();
 
+    float getLinearVelocity() const;
+    void setLinearVelocity(float value);
+
+    float getAngularVelocity() const;
+    void setAngularVelocity(float value);
+
 protected:
     void executionWorker();
+
+private:
+    float linearVelocity;   //in m/s; along X;   1m ~ 47 vague encoder ticks
+    float angularVelocity;  //in rad/s; about Z;
+    int initialLeftMotorMaxDuty;
+    int initialRightMotorMaxDuty;
 };
 
 #endif // TRANSLATEPLATFORMTWISTYTASK_H

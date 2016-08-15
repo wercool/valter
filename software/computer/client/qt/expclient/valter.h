@@ -158,6 +158,8 @@ public:
 
    TaskManager *getTaskManager() const;
 
+   static const int wheelBase;
+
 private:
    Valter();
    static Valter *pValter;      // Valter's singleton instance
