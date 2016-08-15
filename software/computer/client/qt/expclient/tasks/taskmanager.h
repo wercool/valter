@@ -15,6 +15,8 @@ public:
     unsigned int addTask(ITask *task);
     ITask* getTaskById(unsigned long id);
 
+    unsigned int routeTaskRequest(std::string taskMessage); //returns TaskId
+
     ITask *getProcessingTask();
 
     bool getQueueStopped() const;
@@ -28,8 +30,6 @@ public:
     bool sendScriptToRemoteTaskManager(string script, string ipAddress);
 
     bool sendMessageToCentralHostTaskManager(string message);
-
-    unsigned int routeTaskRequest(std::string taskMessage); //returns TaskId
 
     TCPInterface *getTcpInterface() const;
     void setTcpInterface(TCPInterface *value);

@@ -265,6 +265,7 @@ void TaskManager::tasksQueueWorker()
                             processingTask->reportCompletion();
                             break;
                         }
+                        //getExecuting() has a major impact (if not executed right now - just start it if no concurrent [same command] is still running)
                         if (!processingTask->getExecuting() && !processingTask->getCompleted()  && !processingTask->getStopped())
                         {
                             if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
@@ -283,7 +284,7 @@ void TaskManager::tasksQueueWorker()
                                 break;
                             }
                         }
-                        else
+                        else //processing task is being executed or completed or stopped
                         {
                             if (processingTask->getExecuting())
                             {
@@ -291,11 +292,21 @@ void TaskManager::tasksQueueWorker()
                                 {
                                     processingTask->stopExecution();
                                     setStopTopTask(false);
+                                    continue;
+                                }
+                                if (processingTask->getAttachable())
+                                {
+                                    ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
+                                    runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
                                 }
                                 if (processingTask->getBlocking())
                                 {
                                     break;
                                 }
+                            }
+                            else if (processingTask->getStopped())
+                            {
+                                processingTask->stopExecution();
                             }
                         }
                     }
