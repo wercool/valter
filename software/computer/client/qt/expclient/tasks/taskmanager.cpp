@@ -95,15 +95,18 @@ void TaskManager::setQueueStopped(bool value)
     queueStopped = value;
 }
 
-void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id)
+void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id, bool onlyFromQueuedTasks)
 {
     ITask *task = getTaskById(id);
     if (task != NULL)
     {
         std::lock_guard<std::mutex> guard(tasks_mutex);
-        if (executingTasksMap.find(task->getTaskName()) != executingTasksMap.end())
+        if (!onlyFromQueuedTasks)
         {
-            executingTasksMap.erase(task->getTaskName());
+            if (executingTasksMap.find(task->getTaskName()) != executingTasksMap.end())
+            {
+                executingTasksMap.erase(task->getTaskName());
+            }
         }
         if (queuedTasksMap.find(id) != queuedTasksMap.end())
         {
@@ -261,7 +264,7 @@ void TaskManager::tasksQueueWorker()
                         processingTask = it->second;
                         if (processingTask->getCompleted())
                         {
-                            wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId());
+                            wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), false);
                             processingTask->reportCompletion();
                             break;
                         }
@@ -277,7 +280,7 @@ void TaskManager::tasksQueueWorker()
                                     {
                                         qDebug("Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                         runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
-                                        wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId());
+                                        wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), true);
                                     }
                                     else
                                     {

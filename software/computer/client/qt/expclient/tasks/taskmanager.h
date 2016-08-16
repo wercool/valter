@@ -22,7 +22,7 @@ public:
     bool getQueueStopped() const;
     void setQueueStopped(bool value);
 
-    void  wipeQueuedCompletedTaskFromQueue(unsigned long id);
+    void  wipeQueuedCompletedTaskFromQueue(unsigned long id, bool onlyFromQueuedTasks);
 
     void processScript(std::string script);
     void clearQueue();
