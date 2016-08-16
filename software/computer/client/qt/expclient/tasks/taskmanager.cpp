@@ -277,7 +277,7 @@ void TaskManager::tasksQueueWorker()
                                     {
                                         qDebug("Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                         runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
-                                        processingTask->setCompleted();
+                                        wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId());
                                     }
                                     else
                                     {
