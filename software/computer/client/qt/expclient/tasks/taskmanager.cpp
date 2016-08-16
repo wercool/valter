@@ -273,7 +273,14 @@ void TaskManager::tasksQueueWorker()
                                 ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
                                 if (processingTask->getTaskId() != runningTask->getTaskId())
                                 {
-                                    qDebug("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now...", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                    if (runningTask->getAttachable())
+                                    {
+                                        qDebug("Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                    }
+                                    else
+                                    {
+                                        qDebug("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now...", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                    }
                                 }
                                 continue;
                             }
@@ -296,8 +303,12 @@ void TaskManager::tasksQueueWorker()
                                 }
                                 if (processingTask->getAttachable())
                                 {
-                                    ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
-                                    runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
+                                    if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
+                                    {
+                                        ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
+                                        runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
+                                        processingTask->setCompleted();
+                                    }
                                 }
                                 if (processingTask->getBlocking())
                                 {
