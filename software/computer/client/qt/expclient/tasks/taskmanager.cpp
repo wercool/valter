@@ -276,6 +276,8 @@ void TaskManager::tasksQueueWorker()
                                     if (runningTask->getAttachable())
                                     {
                                         qDebug("Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                        runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
+                                        processingTask->setCompleted();
                                     }
                                     else
                                     {
@@ -300,15 +302,6 @@ void TaskManager::tasksQueueWorker()
                                     processingTask->stopExecution();
                                     setStopTopTask(false);
                                     continue;
-                                }
-                                if (processingTask->getAttachable())
-                                {
-                                    if (executingTasksMap.find(processingTask->getTaskName()) != executingTasksMap.end())
-                                    {
-                                        ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
-                                        runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
-                                        processingTask->setCompleted();
-                                    }
                                 }
                                 if (processingTask->getBlocking())
                                 {
@@ -342,7 +335,7 @@ void TaskManager::tasksQueueWorker()
     qDebug("STOPPED: TaskManager::tasksQueueWorker");
 }
 
-std::map<int, string> TaskManager::getRtmms() const
+std::map<long, string> TaskManager::getRtmms() const
 {
     return rtmms;
 }
@@ -380,7 +373,7 @@ void TaskManager::addUpdateRTMM(string rtmm)
     //RTMM~{task id}~{notes}~{......}
     if (((string)rtmm_values[2]).compare("notes") == 0)
     {
-        int taskId = atoi(((string)rtmm_values[1]).c_str());
+        long taskId = atol(((string)rtmm_values[1]).c_str());
         vector<string>existing_rtmm_values = Valter::split(getRTMMDesc(taskId), '~');
         existing_rtmm_values[4] = (((string)existing_rtmm_values[4]).length() > 0) ? (existing_rtmm_values[4] + "\n" + rtmm_values[3]) : rtmm_values[3];
         string taskDesc = existing_rtmm_values[0] + "~" + existing_rtmm_values[1] + "~" + existing_rtmm_values[2] + "~" + existing_rtmm_values[3] + "~" + existing_rtmm_values[4];
@@ -388,7 +381,7 @@ void TaskManager::addUpdateRTMM(string rtmm)
     }
     else
     {
-        int taskId = atoi(((string)rtmm_values[1]).c_str());
+        long taskId = atol(((string)rtmm_values[1]).c_str());
         //RTMM~{task id}~{task name}~{task type}~{task status}~{script line}~{notes}
         //stored as
         //rtmms[{task id}] = {task name}~{task type}~{task status}~{script line}~{notes}
@@ -400,7 +393,7 @@ void TaskManager::addUpdateRTMM(string rtmm)
     }
 }
 
-string TaskManager::getRTMMDesc(int taskId)
+string TaskManager::getRTMMDesc(long taskId)
 {
     if (rtmms.find(taskId) != rtmms.end())
     {
@@ -409,7 +402,7 @@ string TaskManager::getRTMMDesc(int taskId)
     return "";
 }
 
-void TaskManager::removeRTMM(int taskId)
+void TaskManager::removeRTMM(long taskId)
 {
     std::mutex rtmms_mutex;
     std::lock_guard<std::mutex> guard(rtmms_mutex);

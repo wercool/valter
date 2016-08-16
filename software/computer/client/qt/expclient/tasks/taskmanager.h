@@ -44,9 +44,9 @@ public:
     void setStopTopTask(bool value);
 
     void addUpdateRTMM(string rtmm);
-    std::string getRTMMDesc(int taskId);
-    void removeRTMM(int taskId);
-    std::map<int, string> getRtmms() const;
+    std::string getRTMMDesc(long taskId);
+    void removeRTMM(long taskId);
+    std::map<long, string> getRtmms() const;
     void clearRTMM();
 
 private:
@@ -68,7 +68,7 @@ private:
 
     TCPInterface *tcpInterface;
 
-    std::map<int, string> rtmms;
+    std::map<long, string> rtmms;
 };
 
 #endif // TASKMANAGER_H
