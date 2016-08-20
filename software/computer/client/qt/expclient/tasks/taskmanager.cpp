@@ -63,11 +63,15 @@ unsigned int TaskManager::addTask(ITask *task)
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
     this_thread::sleep_for(std::chrono::milliseconds(10));
     unsigned long taskId = task->getTaskId();
-    qDebug("Task [%lu] has been queued...", taskId);
-    if (!task->getAttachable())
+    if (task->getAttachable())
     {
-        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", task->getTaskId(), task->getTaskName().c_str(), (task->getBlocking()) ? "blocking" : "non blocking", ((task->getCompleted()) ? "completed" : ((task->getExecuting()) ? "executing" : "queued")), task->getTaskScriptLine().c_str()));
+        if (executingTasksMap.find(task->getTaskName()) != executingTasksMap.end())
+        {
+            return taskId;
+        }
     }
+    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", task->getTaskId(), task->getTaskName().c_str(), (task->getBlocking()) ? "blocking" : "non blocking", ((task->getCompleted()) ? "completed" : ((task->getExecuting()) ? "executing" : "queued")), task->getTaskScriptLine().c_str()));
+    qDebug("Task [%lu] has been queued...", taskId);
     return taskId;
 }
 
