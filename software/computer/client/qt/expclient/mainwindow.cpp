@@ -518,3 +518,8 @@ void MainWindow::on_clearRemoteTaskManagerTasksMapButton_clicked()
 {
     TaskManager::getInstance()->clearRTMM();
 }
+
+void MainWindow::on_stopSelectedTaskButton_clicked()
+{
+
+}

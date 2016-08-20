@@ -654,6 +654,7 @@ private slots:
     void on_clearTasksQueueButton_clicked();
     void on_forcefullyCompleteTaskButton_clicked();
     void on_clearRemoteTaskManagerTasksMapButton_clicked();
+    void on_stopSelectedTaskButton_clicked();
 };
 
 #endif // MAINWINDOW_H

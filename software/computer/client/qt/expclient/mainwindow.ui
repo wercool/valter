@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>9</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -52,9 +52,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-539</y>
-             <width>874</width>
-             <height>1047</height>
+             <y>0</y>
+             <width>875</width>
+             <height>1037</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2888,8 +2888,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>231</width>
-             <height>575</height>
+             <width>232</width>
+             <height>569</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -4038,7 +4038,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>892</width>
+             <width>893</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8106,8 +8106,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1514</height>
+             <width>875</width>
+             <height>1512</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -10703,7 +10703,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
+             <width>875</width>
              <height>800</height>
             </rect>
            </property>
@@ -13702,8 +13702,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1100</height>
+             <width>875</width>
+             <height>1081</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -17061,8 +17061,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1100</height>
+             <width>875</width>
+             <height>1081</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -20991,8 +20991,21 @@ image: url(:/hand-left.png);</string>
         <string>Tasks</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_30">
+        <item row="4" column="2">
+         <widget class="QPushButton" name="clearTasksQueueButton">
+          <property name="text">
+           <string>Stop and Clear Tasks Queue</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="2">
          <widget class="QTableWidget" name="tasksTableWidget">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::ExtendedSelection</enum>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
@@ -21028,7 +21041,66 @@ image: url(:/hand-left.png);</string>
           </column>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="3" column="2">
+         <widget class="QPushButton" name="clearRemoteTaskManagerTasksMapButton">
+          <property name="text">
+           <string>Clear Remote Task Manager Tasks Map</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QPushButton" name="stopSelectedTaskButton">
+          <property name="text">
+           <string>Stop Selected Task</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
+          <property name="text">
+           <string>execute script locally</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_158">
+          <item>
+           <widget class="QCheckBox" name="tasksRTMMTableRefreshCheckBox">
+            <property name="text">
+             <string>refresh table (redraw GUI)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoClearRTMMCheckBox">
+            <property name="text">
+             <string>auto clear</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="2">
+         <widget class="QPushButton" name="forcefullyCompleteTaskButton">
+          <property name="text">
+           <string>Forcefully Complete Queue Top Task</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QPushButton" name="executeScriptButton">
+          <property name="text">
+           <string>Execute Script</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" rowspan="4">
          <widget class="QPlainTextEdit" name="taskScriptTextEdit">
           <property name="maximumSize">
            <size>
@@ -21043,78 +21115,12 @@ image: url(:/hand-left.png);</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
-         <widget class="QPushButton" name="clearRemoteTaskManagerTasksMapButton">
-          <property name="text">
-           <string>Clear Remote Task Manager Tasks Map</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
+        <item row="1" column="1" rowspan="5">
          <widget class="Line" name="line_77">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
          </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QPushButton" name="forcefullyCompleteTaskButton">
-          <property name="text">
-           <string>Forcefully Complete Queue Top Task</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="pushButton">
-          <property name="text">
-           <string>Stop Selected Task</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
-          <property name="text">
-           <string>execute script locally</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="executeScriptButton">
-          <property name="text">
-           <string>Execute Script</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QPushButton" name="clearTasksQueueButton">
-          <property name="text">
-           <string>Stop and Clear Tasks Queue</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_158">
-          <item>
-           <widget class="QCheckBox" name="tasksRTMMTableRefreshCheckBox">
-            <property name="text">
-             <string>refresh table</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="autoClearRTMMCheckBox">
-            <property name="text">
-             <string>auto clear</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
        </layout>
       </widget>
@@ -21612,7 +21618,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>armControlLeftRemoteControlCheckbox</tabstop>
   <tabstop>tcpInterfaceRemoteControlDevicesHostsDisconnectAllButton</tabstop>
   <tabstop>valter3dOpenButton</tabstop>
-  <tabstop>mainTabWidget</tabstop>
   <tabstop>platformControlP1UntrackAllAdditionalReadingsButton</tabstop>
   <tabstop>platformControlP1UpdateGUICheckBox</tabstop>
   <tabstop>stopAllButton1</tabstop>
@@ -21654,11 +21659,8 @@ image: url(:/hand-left.png);</string>
   <tabstop>tasksTableWidget</tabstop>
   <tabstop>taskScriptTextEdit</tabstop>
   <tabstop>clearRemoteTaskManagerTasksMapButton</tabstop>
-  <tabstop>forcefullyCompleteTaskButton</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>stopSelectedTaskButton</tabstop>
   <tabstop>executeTasksScriptLocallyCheckBox</tabstop>
-  <tabstop>executeScriptButton</tabstop>
-  <tabstop>clearTasksQueueButton</tabstop>
   <tabstop>tasksRTMMTableRefreshCheckBox</tabstop>
   <tabstop>autoClearRTMMCheckBox</tabstop>
  </tabstops>

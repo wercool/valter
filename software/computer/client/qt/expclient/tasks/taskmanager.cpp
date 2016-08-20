@@ -387,7 +387,8 @@ void TaskManager::addUpdateRTMM(string rtmm)
     if (((string)rtmm_values[2]).compare("notes") == 0)
     {
         long taskId = atol(((string)rtmm_values[1]).c_str());
-        vector<string>existing_rtmm_values = Valter::split(getRTMMDesc(taskId), '~');
+        string storedTaskDesk = getRTMMDesc(taskId);
+        vector<string>existing_rtmm_values = Valter::split(storedTaskDesk, '~');
         existing_rtmm_values[4] = (((string)existing_rtmm_values[4]).length() > 0) ? (existing_rtmm_values[4] + "\n" + rtmm_values[3]) : rtmm_values[3];
         string taskDesc = existing_rtmm_values[0] + "~" + existing_rtmm_values[1] + "~" + existing_rtmm_values[2] + "~" + existing_rtmm_values[3] + "~" + existing_rtmm_values[4];
         rtmms[taskId] = taskDesc;
