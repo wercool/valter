@@ -64,7 +64,10 @@ unsigned int TaskManager::addTask(ITask *task)
     this_thread::sleep_for(std::chrono::milliseconds(10));
     unsigned long taskId = task->getTaskId();
     qDebug("Task [%lu] has been queued...", taskId);
-    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", task->getTaskId(), task->getTaskName().c_str(), (task->getBlocking()) ? "blocking" : "non blocking", ((task->getCompleted()) ? "completed" : ((task->getExecuting()) ? "executing" : "queued")), task->getTaskScriptLine().c_str()));
+    if (!task->getAttachable())
+    {
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", task->getTaskId(), task->getTaskName().c_str(), (task->getBlocking()) ? "blocking" : "non blocking", ((task->getCompleted()) ? "completed" : ((task->getExecuting()) ? "executing" : "queued")), task->getTaskScriptLine().c_str()));
+    }
     return taskId;
 }
 
@@ -281,9 +284,9 @@ void TaskManager::tasksQueueWorker()
                                         qDebug("Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                         runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
                                         wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), true);
-//                                        string msg = Valter::format_string("Task#%lu (%s) has been attached [%s]", processingTask->getTaskId(), processingTask->getTaskName().c_str(), processingTask->getTaskScriptLine().c_str());
-//                                        qDebug("%s", msg.c_str());
-//                                        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", runningTask->getTaskId(), msg.c_str()));
+                                        string msg = Valter::format_string("%s has been attached [%s]", processingTask->getTaskName().c_str(), processingTask->getTaskScriptLine().c_str());
+                                        qDebug("%s", msg.c_str());
+                                        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", runningTask->getTaskId(), msg.c_str()));
                                     }
                                     else
                                     {
