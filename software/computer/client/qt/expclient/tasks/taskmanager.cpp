@@ -157,7 +157,7 @@ void TaskManager::processScript(string script)
             }
             if (((string)scriptInstructionParts[0]).compare("STOPTASK") == 0)
             {
-                unsigned long taskid = atol(((string)scriptInstructionParts[1]).c_str());
+                unsigned long taskid = atoll(((string)scriptInstructionParts[1]).c_str());
                 qDebug(">>>>>>>>>>> STOP TASK >>>>>>> [(string)%s = %lu]", ((string)scriptInstructionParts[1]).c_str(), taskid);
                 TaskManager::getInstance()->stopTask(taskid);
                 continue;
