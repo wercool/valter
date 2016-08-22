@@ -519,7 +519,19 @@ void MainWindow::on_clearRemoteTaskManagerTasksMapButton_clicked()
     TaskManager::getInstance()->clearRTMM();
 }
 
-void MainWindow::on_stopSelectedTaskButton_clicked()
+void MainWindow::on_stopSelectedTaskButton_toggled(bool checked)
 {
+    if (checked)
+    {
+        ui->stopSelectedTaskButton->setStyleSheet("background-color: rgb(255, 247, 0)");
+    }
+    else
+    {
+        ui->stopSelectedTaskButton->setStyleSheet("");
+    }
+}
 
+void MainWindow::on_tasksTableWidget_itemClicked(QTableWidgetItem *item)
+{
+    qDebug("%s", Valter::format_string("%s", ui->tasksTableWidget->item(item->row(), 0)->text()).c_str());
 }

@@ -220,6 +220,10 @@ bool TaskManager::sendMessageToCentralHostTaskManager(string message)
 
             return true;
         }
+        else
+        {
+            clearQueue();
+        }
     }
     return false;
 }
@@ -258,6 +262,9 @@ unsigned int TaskManager::routeTaskRequest(string taskMessage)
 
 void TaskManager::tasksQueueWorker()
 {
+    int msgCnt = 0;
+    string debugMsg = "";
+
     while (!queueStopped)
     {
         if (!getIncomingScriptProcessing())
@@ -294,7 +301,23 @@ void TaskManager::tasksQueueWorker()
                                     }
                                     else
                                     {
-                                        qDebug("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now...", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                        string msg = Valter::format_string("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now. Treated as BLOCKING task.", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                        if (debugMsg.compare(msg) == 0)
+                                        {
+                                            msgCnt++;
+                                            if (msgCnt > 100)
+                                            {
+                                                msgCnt = 0;
+                                                qDebug("%s", msg.c_str());
+                                            }
+                                        }
+                                        else
+                                        {
+                                            msgCnt = 0;
+                                            debugMsg = msg;
+                                            qDebug("%s", msg.c_str());
+                                        }
+                                        break;
                                     }
                                 }
                                 continue;

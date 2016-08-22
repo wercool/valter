@@ -654,7 +654,8 @@ private slots:
     void on_clearTasksQueueButton_clicked();
     void on_forcefullyCompleteTaskButton_clicked();
     void on_clearRemoteTaskManagerTasksMapButton_clicked();
-    void on_stopSelectedTaskButton_clicked();
+    void on_stopSelectedTaskButton_toggled(bool checked);
+    void on_tasksTableWidget_itemClicked(QTableWidgetItem *item);
 };
 
 #endif // MAINWINDOW_H

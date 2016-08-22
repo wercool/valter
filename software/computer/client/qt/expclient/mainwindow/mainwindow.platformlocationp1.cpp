@@ -773,5 +773,3 @@ void MainWindow::on_disableAllUSSensorsButton_clicked()
     }
     ui->usSensorsPresetsTable->viewport()->update();
 }
-
-
