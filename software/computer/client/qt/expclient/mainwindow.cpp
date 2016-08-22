@@ -467,6 +467,7 @@ void MainWindow::on_executeScriptButton_clicked()
     {
         on_clearRemoteTaskManagerTasksMapButton_clicked();
     }
+    ui->tasksRTMMTableRefreshCheckBox->setChecked(true);
 }
 
 void MainWindow::on_clearTasksQueueButton_clicked()
@@ -512,6 +513,7 @@ void MainWindow::on_stopSelectedTaskButton_toggled(bool checked)
     if (checked)
     {
         ui->stopSelectedTaskButton->setStyleSheet("background-color: rgb(255, 247, 0)");
+        ui->tasksRTMMTableRefreshCheckBox->setChecked(false);
     }
     else
     {
@@ -521,7 +523,14 @@ void MainWindow::on_stopSelectedTaskButton_toggled(bool checked)
 
 void MainWindow::on_tasksTableWidget_itemClicked(QTableWidgetItem *item)
 {
-    long selectedTaskId = atol(ui->tasksTableWidget->item(item->row(), 0)->text().toStdString().c_str());
-    TaskManager::getInstance()->sendScript(Valter::format_string("STOPTASK_%lu", selectedTaskId));
-    qDebug("stop task %lu request sent", selectedTaskId);
+    if (ui->stopSelectedTaskButton->isChecked())
+    {
+        long selectedTaskId = atol(ui->tasksTableWidget->item(item->row(), 0)->text().toStdString().c_str());
+        TaskManager::getInstance()->sendScript(Valter::format_string("STOPTASK_%lu", selectedTaskId));
+        qDebug("stop task %lu request sent", selectedTaskId);
+
+        ui->tasksRTMMTableRefreshCheckBox->setChecked(true);
+        ui->stopSelectedTaskButton->setStyleSheet("");
+        ui->stopSelectedTaskButton->setChecked(false);
+    }
 }

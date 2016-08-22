@@ -98,6 +98,7 @@ void TaskManager::stopTask(unsigned long taskId)
     {
         if (((ITask*)it->second)->getTaskId() == taskId)
         {
+            qDebug("Task [%s %lu] will be stopped...", ((ITask*)it->second)->getTaskName().c_str(), ((ITask*)it->second)->getTaskId());
             ((ITask*)it->second)->stopExecution();
             return;
         }
