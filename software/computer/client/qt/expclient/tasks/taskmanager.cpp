@@ -94,12 +94,13 @@ ITask *TaskManager::getProcessingTask()
 
 void TaskManager::stopTask(unsigned long taskId)
 {
+    qDebug("Task [%lu] will be stopped...", taskId);
     for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
     {
         if (((ITask*)it->second)->getTaskId() == taskId)
         {
-            qDebug("Task [%s %lu] will be stopped...", ((ITask*)it->second)->getTaskName().c_str(), ((ITask*)it->second)->getTaskId());
             ((ITask*)it->second)->stopExecution();
+            qDebug("Task [%s %lu] has been stopped...", ((ITask*)it->second)->getTaskName().c_str(), ((ITask*)it->second)->getTaskId());
             return;
         }
     }
