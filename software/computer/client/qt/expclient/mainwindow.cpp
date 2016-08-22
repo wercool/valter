@@ -401,11 +401,7 @@ void MainWindow::on_updateCentralCommandHostConnectionInfoOnAllSlavesButton_clic
         loadArmControlLeftDefaults(ui);
     }
 
-    vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
-    for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
-    {
-        TaskManager::getInstance()->sendScriptToRemoteTaskManager(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), 55555), remoteControlDeviceTCPInterfacesIpAdresses[i]);
-    }
+    TaskManager::getInstance()->sendScript(Valter::format_string("setCentralCommandHostInfo@%s@%d", centralCommandHostIp.c_str(), 55555));
 }
 
 void MainWindow::on_tcpInterfaceRemoteControlDevicesHostsUpdateSettingsButton_clicked()
@@ -465,11 +461,7 @@ void MainWindow::on_executeScriptButton_clicked()
     }
     else
     {
-        vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
-        for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
-        {
-            TaskManager::getInstance()->sendScriptToRemoteTaskManager(ui->taskScriptTextEdit->toPlainText().toStdString(), remoteControlDeviceTCPInterfacesIpAdresses[i]);
-        }
+        TaskManager::getInstance()->sendScript(ui->taskScriptTextEdit->toPlainText().toStdString());
     }
     if (ui->autoClearRTMMCheckBox->isChecked())
     {
@@ -501,11 +493,7 @@ void MainWindow::on_forcefullyCompleteTaskButton_clicked()
     }
     else
     {
-        vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
-        for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
-        {
-            TaskManager::getInstance()->sendScriptToRemoteTaskManager("STOPTOPTASK", remoteControlDeviceTCPInterfacesIpAdresses[i]);
-        }
+        TaskManager::getInstance()->sendScript("STOPTOPTASK");
     }
 }
 
@@ -534,5 +522,6 @@ void MainWindow::on_stopSelectedTaskButton_toggled(bool checked)
 void MainWindow::on_tasksTableWidget_itemClicked(QTableWidgetItem *item)
 {
     long selectedTaskId = atol(ui->tasksTableWidget->item(item->row(), 0)->text().toStdString().c_str());
-    qDebug("%lu", selectedTaskId);
+    TaskManager::getInstance()->sendScript(Valter::format_string("STOPTASK_%lu", selectedTaskId));
+    qDebug("stop task %lu request sent", selectedTaskId);
 }

@@ -19,7 +19,7 @@ public:
 
     ITask *getProcessingTask();
 
-    void stopTask(long taskId);
+    void stopTask(unsigned long taskId);
 
     bool getQueueStopped() const;
     void setQueueStopped(bool value);
@@ -29,6 +29,7 @@ public:
     void processScript(std::string script);
     void clearQueue();
 
+    void sendScript(string script);
     bool sendScriptToRemoteTaskManager(string script, string ipAddress);
 
     bool sendMessageToCentralHostTaskManager(string message);

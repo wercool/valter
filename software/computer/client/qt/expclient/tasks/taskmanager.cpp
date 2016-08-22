@@ -92,13 +92,14 @@ ITask *TaskManager::getProcessingTask()
     return processingTask;
 }
 
-void TaskManager::stopTask(long taskId)
+void TaskManager::stopTask(unsigned long taskId)
 {
     for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
     {
         if (((ITask*)it->second)->getTaskId() == taskId)
         {
             ((ITask*)it->second)->stopExecution();
+            return;
         }
     }
 }
@@ -194,6 +195,15 @@ void TaskManager::clearQueue()
     std::lock_guard<std::mutex> guard(tasks_mutex);
     executingTasksMap.clear();
     queuedTasksMap.clear();
+}
+
+void TaskManager::sendScript(string script)
+{
+    vector<string> remoteControlDeviceTCPInterfacesIpAdresses = Valter::getInstance()->getRemoteControlDeviceTCPInterfacesIpAddressesVector();
+    for(std::vector<string>::size_type i = 0; i != remoteControlDeviceTCPInterfacesIpAdresses.size(); i++)
+    {
+        sendScriptToRemoteTaskManager(script, remoteControlDeviceTCPInterfacesIpAdresses[i]);
+    }
 }
 
 bool TaskManager::sendScriptToRemoteTaskManager(string script, string ipAddress)
