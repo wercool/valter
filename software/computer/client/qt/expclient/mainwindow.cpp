@@ -525,7 +525,7 @@ void MainWindow::on_tasksTableWidget_itemClicked(QTableWidgetItem *item)
 {
     if (ui->stopSelectedTaskButton->isChecked())
     {
-        long selectedTaskId = atol(ui->tasksTableWidget->item(item->row(), 0)->text().toStdString().c_str());
+        unsigned long selectedTaskId = atoll(ui->tasksTableWidget->item(item->row(), 0)->text().toStdString().c_str());
         TaskManager::getInstance()->sendScript(Valter::format_string("STOPTASK_%lu", selectedTaskId));
         qDebug("stop task %lu request sent [%s]", selectedTaskId, Valter::format_string("STOPTASK_%lu", selectedTaskId).c_str());
 

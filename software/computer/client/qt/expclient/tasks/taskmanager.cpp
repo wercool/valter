@@ -441,7 +441,7 @@ void TaskManager::addUpdateRTMM(string rtmm)
     //RTMM~{task id}~{notes}~{......}
     if (((string)rtmm_values[2]).compare("notes") == 0)
     {
-        long taskId = atol(((string)rtmm_values[1]).c_str());
+        unsigned long taskId = atoll(((string)rtmm_values[1]).c_str());
         string storedTaskDesk = getRTMMDesc(taskId);
         vector<string>existing_rtmm_values = Valter::split(storedTaskDesk, '~');
         existing_rtmm_values[4] = (((string)existing_rtmm_values[4]).length() > 0) ? (existing_rtmm_values[4] + "\n" + rtmm_values[3]) : rtmm_values[3];
@@ -450,7 +450,7 @@ void TaskManager::addUpdateRTMM(string rtmm)
     }
     else
     {
-        long taskId = atol(((string)rtmm_values[1]).c_str());
+        unsigned long taskId = atoll(((string)rtmm_values[1]).c_str());
         //RTMM~{task id}~{task name}~{task type}~{task status}~{script line}~{notes}
         //stored as
         //rtmms[{task id}] = {task name}~{task type}~{task status}~{script line}~{notes}
