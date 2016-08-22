@@ -157,7 +157,7 @@ void TaskManager::processScript(string script)
             }
             if (((string)scriptInstructionParts[0]).compare("STOPTASK") == 0)
             {
-                TaskManager::getInstance()->stopTask(atol(((string)scriptInstructionParts[1]).c_str()));
+                TaskManager::getInstance()->stopTask((unsigned long)atol(((string)scriptInstructionParts[1]).c_str()));
                 continue;
             }
             if (((string)scriptInstructionParts[0]).compare("STOPTOPTASK") == 0)
