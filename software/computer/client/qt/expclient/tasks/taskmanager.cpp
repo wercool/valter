@@ -92,6 +92,17 @@ ITask *TaskManager::getProcessingTask()
     return processingTask;
 }
 
+void TaskManager::stopTask(long taskId)
+{
+    for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
+    {
+        if (((ITask*)it->second)->getTaskId() == taskId)
+        {
+            ((ITask*)it->second)->stopExecution();
+        }
+    }
+}
+
 bool TaskManager::getQueueStopped() const
 {
     return queueStopped;
@@ -133,10 +144,17 @@ void TaskManager::processScript(string script)
     {
         if (((string)scriptInstructions[i]).length() > 0)
         {
+            //task start from scriptInstructionParts[0]
             std::vector<std::string> scriptInstructionParts = Valter::split(scriptInstructions[i], '_');
+
             if (((string)scriptInstructionParts[0]).compare("CLEARQUEUE") == 0)
             {
                 TaskManager::getInstance()->clearQueue();
+                continue;
+            }
+            if (((string)scriptInstructionParts[0]).compare("STOPTASK") == 0)
+            {
+                TaskManager::getInstance()->stopTask(atol(((string)scriptInstructionParts[1]).c_str()));
                 continue;
             }
             if (((string)scriptInstructionParts[0]).compare("STOPTOPTASK") == 0)

@@ -533,5 +533,6 @@ void MainWindow::on_stopSelectedTaskButton_toggled(bool checked)
 
 void MainWindow::on_tasksTableWidget_itemClicked(QTableWidgetItem *item)
 {
-    qDebug("%s", Valter::format_string("%s", ui->tasksTableWidget->item(item->row(), 0)->text()).c_str());
+    long selectedTaskId = atol(ui->tasksTableWidget->item(item->row(), 0)->text().toStdString().c_str());
+    qDebug("%lu", selectedTaskId);
 }

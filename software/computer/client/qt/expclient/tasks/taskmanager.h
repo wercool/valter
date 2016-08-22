@@ -19,6 +19,8 @@ public:
 
     ITask *getProcessingTask();
 
+    void stopTask(long taskId);
+
     bool getQueueStopped() const;
     void setQueueStopped(bool value);
 
