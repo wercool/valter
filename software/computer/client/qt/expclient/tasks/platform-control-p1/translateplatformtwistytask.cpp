@@ -137,16 +137,41 @@ void TranslatePlatformTwistyTask::executionWorker()
         }
         else
         {
+            /************************************ emulation *********************start***************************/
+            int lwen, rwen;
+            lwen = 0;
+            rwen = 0;
+            /************************************ emulation *********************finish**************************/
             if (!platformControlP1->getLeftMotorAccelerating()  &&
                 !platformControlP1->getRightMotorAccelerating() &&
                 !platformControlP1->getLeftMotorDecelerating()  &&
                 !platformControlP1->getRightMotorDecelerating())
                 //motors steady mode
             {
+                /************************************ emulation *********************start***************************/
+                int randNum = rand() % 3; // Generate a random number between 0 and 2
+                if (randNum == 0)
+                {
+                    lwen++;
+                }
+                if (randNum == 1)
+                {
+                    rwen++;
+                }
+                if (randNum == 2)
+                {
+                    rwen += 2;
+                }
+                /************************************ emulation *********************finish**************************/
                 if (dTime > 1000)
                 {
-                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
-                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
+//                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
+//                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
+
+                    /************************************ emulation *********************start***************************/
+                    curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
+                    curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
+                    /************************************ emulation *********************finish**************************/
 
                     targetVelocityL = linearVelocity + angularVelocity * (Valter::wheelBase / 1000) / 2;
                     targetVelocityR = linearVelocity - angularVelocity * (Valter::wheelBase / 1000) / 2;
@@ -179,13 +204,17 @@ void TranslatePlatformTwistyTask::executionWorker()
                         }
                     }
 
-                    prevLeftWheelEncoder  = platformControlP1->getLeftWheelEncoder();
-                    prevRightWheelEncoder = platformControlP1->getRightWheelEncoder();
+                    /************************************ emulation *********************start***************************/
+                    prevLeftWheelEncoder  = lwen;
+                    prevRightWheelEncoder = rwen;
+                    /************************************ emulation *********************finish**************************/
+//                    prevLeftWheelEncoder  = platformControlP1->getLeftWheelEncoder();
+//                    prevRightWheelEncoder = platformControlP1->getRightWheelEncoder();
                     prevTime = curTime;
                 }
             }
 
-            qDebug("LEN:%d, REN:%d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder());
+            qDebug("[%lu, %s] LEN:%d, REN:%d", taskId, taskName.c_str(), platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder());
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
