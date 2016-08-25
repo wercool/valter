@@ -167,16 +167,13 @@ if (randNum == 2)
 {
     rwen += 2;
 }
+platformControlP1->setLeftWheelEncoder(lwen);
+platformControlP1->setRightWheelEncoder(rwen);
 /************************************ emulation *********************finish**************************/
                 if (dTime > 1000)
                 {
-//                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
-//                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
-
-/************************************ emulation *********************start***************************/
-curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
-curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
- /************************************ emulation *********************finish**************************/
+                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
+                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
 
                     targetVelocityL = linearVelocity + angularVelocity * (Valter::wheelBase / 1000) / 2;
                     targetVelocityR = linearVelocity - angularVelocity * (Valter::wheelBase / 1000) / 2;
