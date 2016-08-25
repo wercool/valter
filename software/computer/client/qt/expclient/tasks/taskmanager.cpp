@@ -326,6 +326,7 @@ void TaskManager::tasksQueueWorker()
                                     {
                                         qDebug("Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                         runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
+                                        runningTask->initialize();
                                         wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), true);
                                         string msg = Valter::format_string("%s has been attached [%s]", processingTask->getTaskName().c_str(), processingTask->getTaskScriptLine().c_str());
                                         qDebug("%s", msg.c_str());
