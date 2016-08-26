@@ -89,6 +89,8 @@ void TranslatePlatformTwistyTask::executionWorker()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
 
+    int maxAllowedDuty = 36;
+
     float curVelocityL = 0.0;
     float curVelocityR = 0.0;
 
@@ -98,17 +100,19 @@ void TranslatePlatformTwistyTask::executionWorker()
     int prevLeftWheelEncoder = 0;
     int prevRightWheelEncoder = 0;
 
-    unsigned long curTime = 0;
-    unsigned long prevTime = 0;
-    unsigned long dTime = 0;
+    int sleepTime = 500;
+
+    string stopExecutionReason = "";
+    int assumedStoppedCnt = 0;
+
+/************************************ emulation *********************start***************************/
+int lwen, rwen;
+lwen = 0;
+rwen = 0;
+/************************************ emulation *********************finish**************************/
 
     while (!stopped)
     {
-        curTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-        if (prevTime > 0)
-        {
-            dTime = curTime - prevTime;
-        }
         if (!executing)
         {
             if (platformControlP1->preparePlatformMovement())
@@ -138,15 +142,9 @@ void TranslatePlatformTwistyTask::executionWorker()
                 stopExecution();
             }
             executing = true;
-            prevTime = curTime;
         }
         else
         {
-            /************************************ emulation *********************start***************************/
-int lwen, rwen;
-lwen = 0;
-rwen = 0;
-            /************************************ emulation *********************finish**************************/
             if (!platformControlP1->getLeftMotorAccelerating()  &&
                 !platformControlP1->getRightMotorAccelerating() &&
                 !platformControlP1->getLeftMotorDecelerating()  &&
@@ -154,7 +152,7 @@ rwen = 0;
                 //motors steady mode
             {
 /************************************ emulation *********************start***************************/
-int randNum = rand() % 3; // Generate a random number between 0 and 2
+int randNum = rand() % 10;
 if (randNum == 0)
 {
     lwen++;
@@ -163,61 +161,150 @@ if (randNum == 1)
 {
     rwen++;
 }
-if (randNum == 2)
-{
-    rwen += 2;
-}
-platformControlP1->setLeftWheelEncoder(lwen);
-platformControlP1->setRightWheelEncoder(rwen);
 /************************************ emulation *********************finish**************************/
-                if (dTime > 1000)
+
+                float lv = getLinearVelocity();
+                float av = getAngularVelocity();
+                float av_b = ((double)Valter::wheelBase / 1000) / 2;
+                double t = (1000 / (double)sleepTime);
+
+/************************************ emulation *********************start***************************/
+curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+/************************************ emulation *********************finish**************************/
+//                curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+//                curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+
+                targetVelocityL = lv + av * av_b;
+                targetVelocityR = lv - av * av_b;
+
+                if (lv == 0 && abs(av) > 0)
                 {
-                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
-                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * (1000 / (double)dTime);
+                    platformControlP1->setLeftMotorActivated(false);
+                    platformControlP1->setRightMotorActivated(false);
+                    continue;
+                }
 
-                    targetVelocityL = linearVelocity + angularVelocity * (Valter::wheelBase / 1000) / 2;
-                    targetVelocityR = linearVelocity - angularVelocity * (Valter::wheelBase / 1000) / 2;
+                int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
+                int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
 
-                    if (curVelocityL < targetVelocityL || curVelocityR > targetVelocityR)
+                if (curVelocityL < targetVelocityL && curVelocityR > targetVelocityR)
+                {
+                    if (correctedRightMotorDuty > 1 && correctedLeftMotorDuty < maxAllowedDuty)
                     {
-                        int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
-                        int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
                         ++correctedLeftMotorDuty;
                         --correctedRightMotorDuty;
-                        if (correctedRightMotorDuty > 0)
-                        {
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("LEFT CORRECTION [left motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
+                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                        qDebug("LEFT CORRECTION [left motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
+                }
 
-                    if (curVelocityR < targetVelocityR || curVelocityL > targetVelocityL)
+                if (curVelocityR < targetVelocityR && curVelocityL > targetVelocityL)
+                {
+                    if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty < maxAllowedDuty)
                     {
-                        int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
-                        int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
                         --correctedLeftMotorDuty;
                         ++correctedRightMotorDuty;
-                        if (correctedLeftMotorDuty > 0)
-                        {
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("RIGHT CORRECTION [right motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
+                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                        qDebug("RIGHT CORRECTION [right motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
+                }
+
+                if (curVelocityR < targetVelocityR && curVelocityL < targetVelocityL)
+                {
+                    if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty < maxAllowedDuty)
+                    {
+                        ++correctedLeftMotorDuty;
+                        ++correctedRightMotorDuty;
+                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                        qDebug("(+)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                    }
+                }
+
+                if (curVelocityR > targetVelocityR && curVelocityL > targetVelocityL)
+                {
+                    if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty > 1)
+                    {
+                        --correctedLeftMotorDuty;
+                        --correctedRightMotorDuty;
+                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                        qDebug("(-)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                    }
+                }
 
 /************************************ emulation *********************start***************************/
 prevLeftWheelEncoder  = lwen;
 prevRightWheelEncoder = rwen;
 /************************************ emulation *********************finish**************************/
-//                    prevLeftWheelEncoder  = platformControlP1->getLeftWheelEncoder();
-//                    prevRightWheelEncoder = platformControlP1->getRightWheelEncoder();
-                    prevTime = curTime;
-                }
-            }
+//                prevLeftWheelEncoder  = platformControlP1->getLeftWheelEncoder();
+//                prevRightWheelEncoder = platformControlP1->getRightWheelEncoder();
 
-            qDebug("[%lu, %s] LEN:%d, REN:%d", taskId, taskName.c_str(), platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder());
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+
+
+                //check fault conditions
+                if (platformControlP1->getLeftMotorDuty() < 15 && platformControlP1->getRightMotorDuty() > 25)
+                {
+                    stopExecutionReason = "getLeftMotorDuty() has reached duty < 15 while getRightMotorDuty() > 25 - which is a fault condition.";
+                    stopExecution();
+                    break;
+                }
+                if (platformControlP1->getRightMotorDuty() < 15 && platformControlP1->getLeftMotorDuty() > 25)
+                {
+                    stopExecutionReason = "getRightMotorDuty() has reached duty < 15 while getLeftMotorDuty() > 25 - which is a fault condition.";
+                    stopExecution();
+                    break;
+                }
+                if (platformControlP1->getRightMotorDuty() > maxAllowedDuty)
+                {
+                    stopExecutionReason = "getRightMotorDuty() has reached duty > maxAllowedDuty - which is a fault condition, too fast.";
+                    stopExecution();
+                    break;
+                }
+                if (platformControlP1->getLeftMotorDuty() > maxAllowedDuty)
+                {
+                    stopExecutionReason = "getLeftMotorDuty() has reached duty < maxAllowedDuty - which is a fault condition, too fast.";
+                    stopExecution();
+                    break;
+                }
+                if (linearVelocity < 0.005 && abs(angularVelocity) < 0.01)
+                {
+                    stopExecutionReason = "linearVelocity < 0.005 AND abs(angularVelocity) < 0.01 condition means platform is stopped.";
+                    stopExecution();
+                    break;
+                }
+                if (!platformControlP1->getLeftMotorAccelerating() && !platformControlP1->getRightMotorAccelerating())
+                {
+                    if (platformControlP1->getLeftMotorDuty() < 17 && platformControlP1->getRightMotorDuty() < 17)
+                    {
+                        assumedStoppedCnt++;
+                        if (assumedStoppedCnt > 10)
+                        {
+                            stopExecutionReason = "getLeftMotorDuty() and getRightMotorDuty() < 17 means platoform is stopped.";
+                            stopExecution();
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        assumedStoppedCnt = 0;
+                    }
+                }
+
+
+/************************************ emulation *********************start***************************/
+qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocityR:%f/targetVelocityR:%f", taskId, taskName.c_str(), lwen, rwen, curVelocityL, targetVelocityL, curVelocityR, targetVelocityR);
+/************************************ emulation *********************finish**************************/
+                //qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocityR:%f/targetVelocityR:%f", taskId, taskName.c_str(), platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), curVelocityL, targetVelocityL, curVelocityR, targetVelocityR);
+                this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
+            }
+            else
+            {
+                this_thread::sleep_for(std::chrono::milliseconds(10));
+            }
         }
     }
 
@@ -226,7 +313,7 @@ prevRightWheelEncoder = rwen;
     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
 
-    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal.%s", getTaskId(), ((stopExecutionReason.length() > 0) ? Valter::format_string(" REASON: %s", stopExecutionReason.c_str()).c_str() : ""));
     qDebug("%s", msg.c_str());
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -240,6 +327,7 @@ float TranslatePlatformTwistyTask::getAngularVelocity() const
 
 void TranslatePlatformTwistyTask::setAngularVelocity(float value)
 {
+    std::lock_guard<std::mutex> lock(_mutex);
     angularVelocity = value;
 }
 
@@ -250,5 +338,6 @@ float TranslatePlatformTwistyTask::getLinearVelocity() const
 
 void TranslatePlatformTwistyTask::setLinearVelocity(float value)
 {
+    std::lock_guard<std::mutex> lock(_mutex);
     linearVelocity = value;
 }

@@ -5,6 +5,7 @@
 
 #include "tasks/itask.h"
 #include <thread>
+#include <mutex>
 
 class TranslatePlatformTwistyTask : public ITask
 {
@@ -35,6 +36,8 @@ private:
     float angularVelocity;  //in rad/s; about Z;
     int initialLeftMotorMaxDuty;
     int initialRightMotorMaxDuty;
+
+    std::mutex _mutex;
 };
 
 #endif // TRANSLATEPLATFORMTWISTYTASK_H

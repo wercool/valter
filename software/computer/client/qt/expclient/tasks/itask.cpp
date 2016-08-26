@@ -86,7 +86,7 @@ void ITask::setCompleted()
 {
     completed = true;
     executing = false;
-    reportCompletion();
+    //reportCompletion();
 }
 
 void ITask::setBlocking(bool value)

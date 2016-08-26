@@ -174,8 +174,11 @@ void platformControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
             ui->charger120Ah14v7RadioButton->setEnabled(true);
         }
 
+        ui->leftMotorCurDutyBar->setInvertedAppearance(!platformControlP1->getLeftMotorDirection());
+        ui->rightMotorCurDutyBar->setInvertedAppearance(!platformControlP1->getRightMotorDirection());
         ui->leftMotorCurDutyBar->setValue(platformControlP1->getLeftMotorDuty());
         ui->rightMotorCurDutyBar->setValue(platformControlP1->getRightMotorDuty());
+
         ui->turretMotorCurDutyBar->setValue(platformControlP1->getTurretMotorDuty());
 
         ui->powerSource5VRadioButton->setChecked(platformControlP1->getPower5VOnState());

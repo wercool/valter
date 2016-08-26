@@ -296,6 +296,7 @@ void TaskManager::tasksQueueWorker()
 {
     int msgCnt = 0;
     string debugMsg = "";
+    int msgNumInQueue = 0;
 
     while (!queueStopped)
     {
@@ -305,13 +306,15 @@ void TaskManager::tasksQueueWorker()
             {
                 if (!queuedTasksMap.empty())
                 {
+                    msgNumInQueue = 0;
                     for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
                     {
+                        msgNumInQueue++;
                         processingTask = it->second;
                         if (processingTask->getCompleted())
                         {
-                            wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), false);
                             processingTask->reportCompletion();
+                            wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), false);
                             break;
                         }
                         //getExecuting() has a major impact (if not executed right now - just start it if no concurrent [same command] is still running)
@@ -322,9 +325,9 @@ void TaskManager::tasksQueueWorker()
                                 ITask *runningTask = executingTasksMap[processingTask->getTaskName()];
                                 if (processingTask->getTaskId() != runningTask->getTaskId())
                                 {
-                                    if (runningTask->getAttachable())
+                                    if (runningTask->getAttachable() && !runningTask->getStopped())
                                     {
-                                        qDebug("Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
+                                        qDebug("(ATTACH)Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                         runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
                                         runningTask->initialize();
                                         wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), true);
@@ -334,11 +337,16 @@ void TaskManager::tasksQueueWorker()
                                     }
                                     else
                                     {
+                                        if (runningTask->getStopped())
+                                        {
+                                            break;
+                                        }
+                                        //filter "task postponed" message
                                         string msg = Valter::format_string("Task#%lu (%s) is postponed because the concurent Task#%lu (%s) is beeing executed right now. Treated as BLOCKING task.", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                         if (debugMsg.compare(msg) == 0)
                                         {
                                             msgCnt++;
-                                            if (msgCnt > 100)
+                                            if (msgCnt > 500)
                                             {
                                                 msgCnt = 0;
                                                 qDebug("%s", msg.c_str());
@@ -355,11 +363,17 @@ void TaskManager::tasksQueueWorker()
                                 }
                                 continue;
                             }
-                            executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
-                            processingTask->execute();
-                            if (processingTask->getBlocking())
+                            //blocking task is executed only if it placed at the top of the task list
+                            if (msgNumInQueue == 1 && processingTask->getBlocking())
                             {
+                                executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
+                                processingTask->execute();
                                 break;
+                            }
+                            else if (!processingTask->getBlocking())
+                            {
+                                executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
+                                processingTask->execute();
                             }
                         }
                         else //processing task is being executed or completed or stopped
