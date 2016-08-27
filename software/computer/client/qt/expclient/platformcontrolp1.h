@@ -432,6 +432,7 @@ public:
 
     //Valter base platform characteristics
     static const int vagueEncoderTicksPerMeter;
+    static const int vagueEncoderTicksPer360Turn;
 
 private:
     PlatformControlP1();

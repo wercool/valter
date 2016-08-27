@@ -14,7 +14,16 @@ bool PlatformControlP1::instanceFlag = false;
 const string PlatformControlP1::controlDeviceId = "PLATFORM-CONTROL-P1";
 const string PlatformControlP1::defaultsFilePath = "settings/platform-control-p1-defaults";
 
+//Valter base platform characteristics
+
+//1m ~ 47 vague encoder ticks
 const int PlatformControlP1::vagueEncoderTicksPerMeter = 47;
+
+//left encoder 360 deg ~ 63 vague encoder ticks
+//right encoder 360 deg ~ 57 vague encoder ticks
+//360 deg(left encoder + right encoder) / 2 = (63 + 57) / 2 = 60;
+//360 deg(left encoder + right encoder) / 2 = ((~l)63 + (~r)57) / 2 = 60;
+const int PlatformControlP1::vagueEncoderTicksPer360Turn = 60;
 
 PlatformControlP1::PlatformControlP1()
 {

@@ -28,6 +28,9 @@ public:
     float getAngularVelocity() const;
     void setAngularVelocity(float value);
 
+    bool initLinearMovement();
+    bool initRotation();
+
 protected:
     void executionWorker();
 

@@ -105,6 +105,14 @@ void TranslatePlatformTwistyTask::executionWorker()
     string stopExecutionReason = "";
     int assumedStoppedCnt = 0;
 
+    bool rotationMode = false;
+    bool movementInitialized = false;
+
+    bool prevRotationDirection = true;
+
+    double t = (1000 / (double)sleepTime);
+    float av_b = ((double)Valter::wheelBase / 1000) / 2;
+
 /************************************ emulation *********************start***************************/
 int lwen, rwen;
 lwen = 0;
@@ -118,21 +126,25 @@ rwen = 0;
             if (platformControlP1->preparePlatformMovement())
             {
                 //left and right forward (in twisty mode platform moves only forward or turns on the spot)
-                if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
+                if (getLinearVelocity() > 0)
                 {
-                    platformControlP1->resetLeftWheelEncoder();
-                    platformControlP1->resetRightWheelEncoder();
-
-                    platformControlP1->setLeftMotorActivated(true);
-                    platformControlP1->setRightMotorActivated(true);
+                    rotationMode = false;
                 }
+                if (abs(getAngularVelocity()) > 0 && getLinearVelocity() == 0)
+                {
+                    rotationMode = true;
+                }
+
+                //linear movement
+                if (!rotationMode)
+                {
+                    movementInitialized = initLinearMovement();
+                }
+                //rotation
                 else
                 {
-                    string msg = Valter::format_string("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
-                    qDebug("%s", msg.c_str());
-                    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
-
-                    stopExecution();
+                    prevRotationDirection = (getAngularVelocity() > 0) ? true : false;
+                    movementInitialized = initRotation();
                 }
             }
             else
@@ -145,12 +157,6 @@ rwen = 0;
         }
         else
         {
-            if (!platformControlP1->getLeftMotorAccelerating()  &&
-                !platformControlP1->getRightMotorAccelerating() &&
-                !platformControlP1->getLeftMotorDecelerating()  &&
-                !platformControlP1->getRightMotorDecelerating())
-                //motors steady mode
-            {
 /************************************ emulation *********************start***************************/
 int randNum = rand() % 10;
 if (randNum == 0)
@@ -162,77 +168,157 @@ if (randNum == 1)
     rwen++;
 }
 /************************************ emulation *********************finish**************************/
-
-                float lv = getLinearVelocity();
-                float av = getAngularVelocity();
-                float av_b = ((double)Valter::wheelBase / 1000) / 2;
-                double t = (1000 / (double)sleepTime);
-
-/************************************ emulation *********************start***************************/
-curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
-curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
-/************************************ emulation *********************finish**************************/
-//                curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
-//                curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
-
-                targetVelocityL = lv + av * av_b;
-                targetVelocityR = lv - av * av_b;
-
-                if (lv == 0 && abs(av) > 0)
+            if (!platformControlP1->getLeftMotorAccelerating()  &&
+                !platformControlP1->getRightMotorAccelerating() &&
+                !platformControlP1->getLeftMotorDecelerating()  &&
+                !platformControlP1->getRightMotorDecelerating())
+                //motors steady mode
+            {
+                bool curRotationDirection = prevRotationDirection;
+                if (abs(getAngularVelocity()) > 0)
                 {
+                    curRotationDirection = (getAngularVelocity() > 0) ? true : false;
+                }
+
+
+                if ((getLinearVelocity() == 0 && abs(getAngularVelocity()) > 0 && !rotationMode)
+                 || (getLinearVelocity() == 0 && prevRotationDirection != curRotationDirection))
+                {
+                    movementInitialized = false;
                     platformControlP1->setLeftMotorActivated(false);
                     platformControlP1->setRightMotorActivated(false);
+                    this_thread::sleep_for(std::chrono::milliseconds(100));
+                    prevRotationDirection = curRotationDirection;
+                    rotationMode = true;
+                    continue;
+                }
+
+                if (getLinearVelocity() > 0 && rotationMode)
+                {
+                    movementInitialized = false;
+                    platformControlP1->setLeftMotorActivated(false);
+                    platformControlP1->setRightMotorActivated(false);
+                    this_thread::sleep_for(std::chrono::milliseconds(100));
+                    rotationMode = false;
                     continue;
                 }
 
                 int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
                 int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
 
-                if (curVelocityL < targetVelocityL && curVelocityR > targetVelocityR)
+                //linear movement
+                if (!rotationMode)
                 {
-                    if (correctedRightMotorDuty > 1 && correctedLeftMotorDuty < maxAllowedDuty)
+                    if (!movementInitialized)
                     {
-                        ++correctedLeftMotorDuty;
-                        --correctedRightMotorDuty;
-                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("LEFT CORRECTION [left motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        movementInitialized = initLinearMovement();
+                        continue;
+                    }
+
+                    float lv = getLinearVelocity();
+                    float av = getAngularVelocity();
+
+                    targetVelocityL = lv + av * av_b;
+                    targetVelocityR = lv - av * av_b;
+
+/************************************ emulation *********************start***************************/
+curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+/************************************ emulation *********************finish**************************/
+//                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+//                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+
+                    if (curVelocityL < targetVelocityL && curVelocityR > targetVelocityR)
+                    {
+                        if (correctedRightMotorDuty > 1 && correctedLeftMotorDuty < maxAllowedDuty)
+                        {
+                            ++correctedLeftMotorDuty;
+                            --correctedRightMotorDuty;
+                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                            qDebug("LEFT CORRECTION [left motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        }
+                    }
+
+                    if (curVelocityR < targetVelocityR && curVelocityL > targetVelocityL)
+                    {
+                        if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty < maxAllowedDuty)
+                        {
+                            --correctedLeftMotorDuty;
+                            ++correctedRightMotorDuty;
+                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                            qDebug("RIGHT CORRECTION [right motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        }
+                    }
+
+                    if (curVelocityR < targetVelocityR && curVelocityL < targetVelocityL)
+                    {
+                        if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty < maxAllowedDuty)
+                        {
+                            ++correctedLeftMotorDuty;
+                            ++correctedRightMotorDuty;
+                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                            qDebug("(+)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        }
+                    }
+
+                    if (curVelocityR > targetVelocityR && curVelocityL > targetVelocityL)
+                    {
+                        if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty > 1)
+                        {
+                            --correctedLeftMotorDuty;
+                            --correctedRightMotorDuty;
+                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                            qDebug("(-)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        }
                     }
                 }
-
-                if (curVelocityR < targetVelocityR && curVelocityL > targetVelocityL)
+                //rotation
+                else
                 {
-                    if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty < maxAllowedDuty)
+                    if (!movementInitialized)
                     {
-                        --correctedLeftMotorDuty;
-                        ++correctedRightMotorDuty;
-                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("RIGHT CORRECTION [right motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        movementInitialized = initRotation();
+                        continue;
                     }
-                }
 
-                if (curVelocityR < targetVelocityR && curVelocityL < targetVelocityL)
-                {
-                    if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty < maxAllowedDuty)
+                    float av = getAngularVelocity();
+
+                    targetVelocityL = targetVelocityR = av / (2 * M_PI);
+
+
+/************************************ emulation *********************start***************************/
+curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+/************************************ emulation *********************finish**************************/
+//                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+//                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+
+                    if (curVelocityR < targetVelocityR && curVelocityL < targetVelocityL)
                     {
-                        ++correctedLeftMotorDuty;
-                        ++correctedRightMotorDuty;
-                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("(+)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty < maxAllowedDuty)
+                        {
+                            ++correctedLeftMotorDuty;
+                            ++correctedRightMotorDuty;
+                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                            qDebug("(+)L&R ANGULAR CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        }
                     }
-                }
 
-                if (curVelocityR > targetVelocityR && curVelocityL > targetVelocityL)
-                {
-                    if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty > 1)
+                    if (curVelocityR > targetVelocityR && curVelocityL > targetVelocityL)
                     {
-                        --correctedLeftMotorDuty;
-                        --correctedRightMotorDuty;
-                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("(-)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty > 1)
+                        {
+                            --correctedLeftMotorDuty;
+                            --correctedRightMotorDuty;
+                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                            qDebug("(-)L&R ANGULAR CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
+                        }
                     }
                 }
 
@@ -303,7 +389,8 @@ qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocit
             }
             else
             {
-                this_thread::sleep_for(std::chrono::milliseconds(10));
+                this_thread::sleep_for(std::chrono::milliseconds(100));
+                qDebug("Task#%lu (%s) motors are not in steady mode...", getTaskId(), getTaskName().c_str());
             }
         }
     }
@@ -318,6 +405,65 @@ qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocit
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
     setCompleted();
+}
+
+
+bool TranslatePlatformTwistyTask::initLinearMovement()
+{
+    qDebug("Task#%lu (%s) initLinearMovement()", getTaskId(), getTaskName().c_str());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(true))
+    {
+        platformControlP1->resetLeftWheelEncoder();
+        platformControlP1->resetRightWheelEncoder();
+
+        platformControlP1->setLeftMotorDutyMax(20);
+        platformControlP1->setRightMotorDutyMax(20);
+
+        platformControlP1->setLeftMotorActivated(true);
+        platformControlP1->setRightMotorActivated(true);
+
+        return true;
+    }
+    else
+    {
+        string msg = Valter::format_string("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
+        stopExecution();
+
+        return false;
+    }
+}
+
+bool TranslatePlatformTwistyTask::initRotation()
+{
+    qDebug("Task#%lu (%s) initRotation()", getTaskId(), getTaskName().c_str());
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (platformControlP1->setLeftMotorDirection(((getAngularVelocity() > 0) ? true : false)) && platformControlP1->setRightMotorDirection(((getAngularVelocity() > 0) ? false : true)))
+    {
+        platformControlP1->resetLeftWheelEncoder();
+        platformControlP1->resetRightWheelEncoder();
+
+        platformControlP1->setLeftMotorDutyMax(20);
+        platformControlP1->setRightMotorDutyMax(20);
+
+        platformControlP1->setLeftMotorActivated(true);
+        platformControlP1->setRightMotorActivated(true);
+
+        return true;
+    }
+    else
+    {
+        string msg = Valter::format_string("Task#%lu (%s)has been terminated. Saltatory inversion of movement direction while execution.", getTaskId(), getTaskName().c_str());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
+        stopExecution();
+
+        return false;
+    }
 }
 
 float TranslatePlatformTwistyTask::getAngularVelocity() const

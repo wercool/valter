@@ -131,7 +131,7 @@ ITask *RotatePlatformTask::create()
 
 void RotatePlatformTask::setAngle(float value)
 {
-    angle = value;
+    angle = (value * M_PI) / 180;
 }
 
 void RotatePlatformTask::setDirection(int value)
@@ -142,31 +142,29 @@ void RotatePlatformTask::setDirection(int value)
 
 void RotatePlatformTask::executionWorker()
 {
-    /************************************ emulation *********************start***************************/
-    int lwen, rwen;
-    lwen = 0;
-    rwen = 0;
-    /************************************ emulation *********************finish**************************/
-    int cutOffDistanceTicks = (int)round(0.17 * angle * 0.98);
-    //left encoder 360 deg ~ 63 vague encoder ticks
-    //right encoder 360 deg ~ 57 vague encoder ticks
-    //360 deg(left encoder + right encoder) / 2 = (63 + 57) / 2 = 60;
+/************************************ emulation *********************start***************************/
+//int lwen, rwen;
+//lwen = 0;
+//rwen = 0;
+/************************************ emulation *********************finish**************************/
+    int cutOffDistanceTicks = (int)round((((double)PlatformControlP1::vagueEncoderTicksPer360Turn * angle) / (2 * M_PI)) * 0.98);
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
 
     while (!stopped)
     {
         if (!executing)
         {
-            /************************************ emulation *********************start***************************/
-            if (true)
-            /************************************ emulation *********************finish**************************/
-            //if (platformControlP1->preparePlatformMovement())
+            if (platformControlP1->preparePlatformMovement())
             {
                 if (direction == 1) //turn right
                 {
                     //left forward, right backward
                     if (platformControlP1->setLeftMotorDirection(true) && platformControlP1->setRightMotorDirection(false))
                     {
+                        platformControlP1->resetLeftWheelEncoder();
+                        platformControlP1->resetRightWheelEncoder();
+
                         platformControlP1->setLeftMotorActivated(true);
                         platformControlP1->setRightMotorActivated(true);
                     }
@@ -183,6 +181,9 @@ void RotatePlatformTask::executionWorker()
                     //left backward, right forward
                     if (platformControlP1->setLeftMotorDirection(false) && platformControlP1->setRightMotorDirection(true))
                     {
+                        platformControlP1->resetLeftWheelEncoder();
+                        platformControlP1->resetRightWheelEncoder();
+
                         platformControlP1->setLeftMotorActivated(true);
                         platformControlP1->setRightMotorActivated(true);
                     }
@@ -199,28 +200,27 @@ void RotatePlatformTask::executionWorker()
         }
         else
         {
-            /************************************ emulation *********************start***************************/
-            int randNum = rand() % 3; // Generate a random number between 0 and 1
-            if (randNum == 0)
-            {
-                lwen++;
-            }
-            if (randNum == 1)
-            {
-                rwen++;
-            }
-            if (randNum == 2)
-            {
-                rwen += 2;
-            }
-            this_thread::sleep_for(std::chrono::milliseconds(50));
-            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d, rand = %d", lwen, rwen, cutOffDistanceTicks, randNum);
-            /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+//int randNum = rand() % 3; // Generate a random number between 0 and 1
+//if (randNum == 0)
+//{
+//    lwen++;
+//}
+//if (randNum == 1)
+//{
+//    rwen++;
+//}
+//if (randNum == 2)
+//{
+//    rwen += 2;
+//}
+//this_thread::sleep_for(std::chrono::milliseconds(50));
+/************************************ emulation *********************finish**************************/
 
-            /************************************ emulation *********************start***************************/
-            if (lwen >=  cutOffDistanceTicks || rwen >= cutOffDistanceTicks)
-            /************************************ emulation *********************finish**************************/
-//            if (platformControlP1->getLeftWheelEncoder() >= cutOffDistance || platformControlP1->getRightWheelEncoder() >= cutOffDistance)
+/************************************ emulation *********************start***************************/
+//if (lwen >=  cutOffDistanceTicks || rwen >= cutOffDistanceTicks)
+/************************************ emulation *********************finish**************************/
+            if (platformControlP1->getLeftWheelEncoder() >= cutOffDistanceTicks || platformControlP1->getRightWheelEncoder() >= cutOffDistanceTicks)
             {
                 platformControlP1->setLeftMotorActivated(false);
                 platformControlP1->setRightMotorActivated(false);
@@ -231,13 +231,13 @@ void RotatePlatformTask::executionWorker()
             }
             else
             {
-                /************************************ emulation *********************start***************************/
-                if (lwen > rwen)
-                /************************************ emulation *********************finish**************************/
-                //if (platformControlP1->getLeftWheelEncoder() > platformControlP1->getRightWheelEncoder())
+                int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
+                int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
+/************************************ emulation *********************start***************************/
+//if (lwen > rwen)
+/************************************ emulation *********************finish**************************/
+                if (platformControlP1->getLeftWheelEncoder() > platformControlP1->getRightWheelEncoder())
                 {
-                    int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
-                    int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
                     --correctedLeftMotorDuty;
                     ++correctedRightMotorDuty;
                     if (correctedLeftMotorDuty > 0)
@@ -246,17 +246,15 @@ void RotatePlatformTask::executionWorker()
                         platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
                         qDebug("RIGHT CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
-                    /************************************ emulation *********************start***************************/
-                    rwen++;
-                    /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+//rwen++;
+/************************************ emulation *********************finish**************************/
                 }
-                /************************************ emulation *********************start***************************/
-                if (rwen > lwen)
-                /************************************ emulation *********************finish**************************/
-                //if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
+/************************************ emulation *********************start***************************/
+//if (rwen > lwen)
+/************************************ emulation *********************finish**************************/
+                if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
                 {
-                    int correctedLeftMotorDuty = platformControlP1->getLeftMotorDutyMax();
-                    int correctedRightMotorDuty = platformControlP1->getRightMotorDutyMax();
                     ++correctedLeftMotorDuty;
                     --correctedRightMotorDuty;
                     if (correctedRightMotorDuty > 0)
@@ -265,22 +263,24 @@ void RotatePlatformTask::executionWorker()
                         platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
                         qDebug("LEFT CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
                     }
-                    /************************************ emulation *********************start***************************/
-                    lwen++;
-                    /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+//lwen++;
+/************************************ emulation *********************finish**************************/
                 }
-                /************************************ emulation *********************start***************************/
-                if (rwen == lwen)
-                /************************************ emulation *********************finish**************************/
-                //if (platformControlP1->getRightWheelEncoder() > platformControlP1->getLeftWheelEncoder())
+/************************************ emulation *********************start***************************/
+//if (rwen == lwen)
+/************************************ emulation *********************finish**************************/
+                if (platformControlP1->getRightWheelEncoder() == platformControlP1->getLeftWheelEncoder())
                 {
                     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
                     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
                     qDebug("CORRECTED RightWheelEncoder = LeftWheelEncoder");
                 }
             }
-
-//            qDebug("LEN:%d, REN:%d, (int)round((double)47 * cutOffDistance) = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), cutOffDistanceTicks);
+/************************************ emulation *********************start***************************/
+//qDebug("LEN:%d, REN:%d, cutOffDistanceTicks = %d", lwen, rwen, cutOffDistanceTicks);
+/************************************ emulation *********************finish**************************/
+            qDebug("LEN:%d, REN:%d, cutOffDistanceTicks = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), cutOffDistanceTicks);
         }
     }
 
