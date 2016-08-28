@@ -6,7 +6,7 @@ signed int RotateBodyTask::prevDirection = -1;
 RotateBodyTask::RotateBodyTask()
 {
     qDebugOn = true;
-    taskName = "RotateBodyTasks";
+    taskName = "RotateBodyTask";
     blocking = false;
 
     direction = -1; //1- CW (right), 2 - CCW (left)
