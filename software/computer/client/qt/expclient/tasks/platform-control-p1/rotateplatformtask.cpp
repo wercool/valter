@@ -281,6 +281,7 @@ void RotatePlatformTask::executionWorker()
 //qDebug("LEN:%d, REN:%d, cutOffDistanceTicks = %d", lwen, rwen, cutOffDistanceTicks);
 /************************************ emulation *********************finish**************************/
             qDebug("LEN:%d, REN:%d, cutOffDistanceTicks = %d", platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), cutOffDistanceTicks);
+            this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 
