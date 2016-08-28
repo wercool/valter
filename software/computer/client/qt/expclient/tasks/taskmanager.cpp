@@ -370,8 +370,12 @@ void TaskManager::tasksQueueWorker()
                                 processingTask->execute();
                                 break;
                             }
-                            else if (!processingTask->getBlocking())
+                            else
                             {
+                                if (msgNumInQueue > 1 && processingTask->getBlocking())
+                                {
+                                    break;
+                                }
                                 executingTasksMap.insert(pair<std::string, ITask*>(processingTask->getTaskName(), processingTask));
                                 processingTask->execute();
                             }
