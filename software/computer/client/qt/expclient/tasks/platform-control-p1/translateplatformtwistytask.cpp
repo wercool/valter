@@ -241,7 +241,7 @@ curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControl
 
                     float av = getAngularVelocity();
 
-                    targetVelocityL = targetVelocityR = av / (2 * M_PI);
+                    targetVelocityL = targetVelocityR = av * av_b;
 
 
 /************************************ emulation *********************start***************************/
