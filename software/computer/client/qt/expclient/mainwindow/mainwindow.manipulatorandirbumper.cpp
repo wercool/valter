@@ -735,7 +735,7 @@ void MainWindow::on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicke
     {
         platformManipulatorAndIRBumper->sendTCPCommand("on_platformManipulatorAndIRBumperTrackNoneReadingsButton_clicked");
     }
-    for (int i = 0 ; i < 14; i++)
+    for (int i = 0 ; i < 13; i++)
     {
         QTableWidgetItem* item = ui->manipulatorAndIRBumperManipulatorReadingsTableWidget->item(i, 0);
         item->setCheckState(Qt::Unchecked);

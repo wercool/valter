@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1037</height>
+             <width>874</width>
+             <height>1047</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2888,8 +2888,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>232</width>
-             <height>569</height>
+             <width>231</width>
+             <height>575</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -4038,7 +4038,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>893</width>
+             <width>892</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8106,8 +8106,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
-             <height>1512</height>
+             <width>874</width>
+             <height>1514</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -10703,7 +10703,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>875</width>
+             <width>874</width>
              <height>800</height>
             </rect>
            </property>
@@ -13701,9 +13701,9 @@ border-color: rgb(140, 140, 140);</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <y>-5</y>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -17060,9 +17060,9 @@ image: url(:/hand.png);</string>
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
-             <width>875</width>
-             <height>1081</height>
+             <y>-607</y>
+             <width>874</width>
+             <height>1100</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -19618,6 +19618,27 @@ image: url(:/hand-left.png);</string>
                  </widget>
                 </item>
                 <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_90">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="leftHandSensorsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="leftHandSensorsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <widget class="QTableWidget" name="leftHandSensorsTable">
                   <property name="minimumSize">
                    <size>
@@ -19815,27 +19836,6 @@ image: url(:/hand-left.png);</string>
                   </item>
                  </widget>
                 </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_90">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QPushButton" name="leftHandSensorsTrackAllButton">
-                    <property name="text">
-                     <string>Track All</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="leftHandSensorsTrackNoneButton">
-                    <property name="text">
-                     <string>Track None</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
                </layout>
               </item>
               <item>
@@ -19863,6 +19863,27 @@ image: url(:/hand-left.png);</string>
                    <string>Left Arm Readings</string>
                   </property>
                  </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_143">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="leftArmReadingsTrackAllButton">
+                    <property name="text">
+                     <string>Track All</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="leftArmReadingsTrackNoneButton">
+                    <property name="text">
+                     <string>Track None</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <widget class="QTableWidget" name="leftArmReadingsTable">
@@ -20143,27 +20164,6 @@ image: url(:/hand-left.png);</string>
                    </property>
                   </item>
                  </widget>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_143">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <widget class="QPushButton" name="leftArmReadingsTrackAllButton">
-                    <property name="text">
-                     <string>Track All</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="leftArmReadingsTrackNoneButton">
-                    <property name="text">
-                     <string>Track None</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
                 </item>
                </layout>
               </item>
