@@ -158,14 +158,16 @@ rwen = 0;
         else
         {
 /************************************ emulation *********************start***************************/
-int randNum = rand() % 10;
+lwen++;
+rwen++;
+int randNum = rand() % 4;
 if (randNum == 0)
 {
-    lwen++;
+    lwen += 2;
 }
 if (randNum == 1)
 {
-    rwen++;
+    rwen += 2;
 }
 /************************************ emulation *********************finish**************************/
             if (!platformControlP1->getLeftMotorAccelerating()  &&
