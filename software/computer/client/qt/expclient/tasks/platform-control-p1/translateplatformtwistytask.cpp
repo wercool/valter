@@ -90,6 +90,7 @@ void TranslatePlatformTwistyTask::executionWorker()
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
 
     int maxAllowedDuty = 36;
+    int minAllowedDuty = 18;
 
     float curVelocityL = 0.0;
     float curVelocityR = 0.0;
@@ -103,7 +104,6 @@ void TranslatePlatformTwistyTask::executionWorker()
     int sleepTime = 500;
 
     string stopExecutionReason = "";
-    int assumedStoppedCnt = 0;
 
     bool rotationMode = false;
     bool movementInitialized = false;
@@ -181,8 +181,8 @@ if (randNum == 1)
                 }
 
 
-                if ((getLinearVelocity() == 0 && abs(getAngularVelocity()) > 0 && !rotationMode)
-                 || (getLinearVelocity() == 0 && prevRotationDirection != curRotationDirection))
+                if ((getLinearVelocity() == 0 && abs(getAngularVelocity()) > 0 && !rotationMode) //platform is moving twisty and has to be rotated at a spot
+                 || (getLinearVelocity() == 0 && prevRotationDirection != curRotationDirection)) //platform rotation direction has been changed
                 {
                     movementInitialized = false;
                     platformControlP1->setLeftMotorActivated(false);
@@ -193,7 +193,7 @@ if (randNum == 1)
                     continue;
                 }
 
-                if (getLinearVelocity() > 0 && rotationMode)
+                if (getLinearVelocity() > 0 && rotationMode) //platform has to move twisty
                 {
                     movementInitialized = false;
                     platformControlP1->setLeftMotorActivated(false);
@@ -227,56 +227,8 @@ curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControl
 /************************************ emulation *********************finish**************************/
 //                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
 //                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
-
-                    if (curVelocityL < targetVelocityL && curVelocityR > targetVelocityR)
-                    {
-                        if (correctedRightMotorDuty > 1 && correctedLeftMotorDuty < maxAllowedDuty)
-                        {
-                            ++correctedLeftMotorDuty;
-                            --correctedRightMotorDuty;
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("LEFT CORRECTION [left motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
-                    }
-
-                    if (curVelocityR < targetVelocityR && curVelocityL > targetVelocityL)
-                    {
-                        if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty < maxAllowedDuty)
-                        {
-                            --correctedLeftMotorDuty;
-                            ++correctedRightMotorDuty;
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("RIGHT CORRECTION [right motor duty increased] RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
-                    }
-
-                    if (curVelocityR < targetVelocityR && curVelocityL < targetVelocityL)
-                    {
-                        if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty < maxAllowedDuty)
-                        {
-                            ++correctedLeftMotorDuty;
-                            ++correctedRightMotorDuty;
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("(+)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
-                    }
-
-                    if (curVelocityR > targetVelocityR && curVelocityL > targetVelocityL)
-                    {
-                        if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty > 1)
-                        {
-                            --correctedLeftMotorDuty;
-                            --correctedRightMotorDuty;
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("(-)L&R CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
-                    }
                 }
-                //rotation
+                //rotation mode (wheels rotate in opposite directions)
                 else
                 {
                     if (!movementInitialized)
@@ -296,31 +248,29 @@ curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControl
 /************************************ emulation *********************finish**************************/
 //                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
 //                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+                }
 
-                    if (curVelocityR < targetVelocityR && curVelocityL < targetVelocityL)
+                if (curVelocityL != targetVelocityL)
+                {
+                    if (correctedLeftMotorDuty < maxAllowedDuty && correctedLeftMotorDuty > minAllowedDuty)
                     {
-                        if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty < maxAllowedDuty)
-                        {
-                            ++correctedLeftMotorDuty;
-                            ++correctedRightMotorDuty;
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("(+)L&R ANGULAR CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
-                    }
-
-                    if (curVelocityR > targetVelocityR && curVelocityL > targetVelocityL)
-                    {
-                        if (correctedLeftMotorDuty > 1 && correctedRightMotorDuty > 1)
-                        {
-                            --correctedLeftMotorDuty;
-                            --correctedRightMotorDuty;
-                            platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                            platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                            qDebug("(-)L&R ANGULAR CORRECTION RDuty=%d, LDuty=%d", correctedRightMotorDuty, correctedLeftMotorDuty);
-                        }
+                        correctedLeftMotorDuty += (curVelocityL > targetVelocityL) ? -1 : 1;
+                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                        qDebug("LEFT CORRECTION LDuty=%d", correctedLeftMotorDuty);
                     }
                 }
+
+                if (curVelocityR != targetVelocityR)
+                {
+                    if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty > minAllowedDuty)
+                    {
+                        correctedRightMotorDuty += (curVelocityR > targetVelocityR) ? -1 : 1;
+                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                        qDebug("RIGHT CORRECTION RDuty=%d", correctedRightMotorDuty);
+                    }
+                }
+
 
 /************************************ emulation *********************start***************************/
 prevLeftWheelEncoder  = lwen;
@@ -332,15 +282,15 @@ prevRightWheelEncoder = rwen;
 
 
                 //check fault conditions
-                if (platformControlP1->getLeftMotorDuty() < 15 && platformControlP1->getRightMotorDuty() > 25)
+                if (platformControlP1->getLeftMotorDuty() < minAllowedDuty)
                 {
-                    stopExecutionReason = "getLeftMotorDuty() has reached duty < 15 while getRightMotorDuty() > 25 - which is a fault condition.";
+                    stopExecutionReason = "getLeftMotorDuty() has reached duty < minAllowedDuty - which is a fault condition.";
                     stopExecution();
                     break;
                 }
-                if (platformControlP1->getRightMotorDuty() < 15 && platformControlP1->getLeftMotorDuty() > 25)
+                if (platformControlP1->getRightMotorDuty() < minAllowedDuty)
                 {
-                    stopExecutionReason = "getRightMotorDuty() has reached duty < 15 while getLeftMotorDuty() > 25 - which is a fault condition.";
+                    stopExecutionReason = "getRightMotorDuty() has reached duty < minAllowedDuty - which is a fault condition.";
                     stopExecution();
                     break;
                 }
@@ -361,23 +311,6 @@ prevRightWheelEncoder = rwen;
                     stopExecutionReason = "linearVelocity < 0.005 AND abs(angularVelocity) < 0.01 condition means platform is stopped.";
                     stopExecution();
                     break;
-                }
-                if (!platformControlP1->getLeftMotorAccelerating() && !platformControlP1->getRightMotorAccelerating())
-                {
-                    if (platformControlP1->getLeftMotorDuty() < 17 && platformControlP1->getRightMotorDuty() < 17)
-                    {
-                        assumedStoppedCnt++;
-                        if (assumedStoppedCnt > 10)
-                        {
-                            stopExecutionReason = "getLeftMotorDuty() and getRightMotorDuty() < 17 means platoform is stopped.";
-                            stopExecution();
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        assumedStoppedCnt = 0;
-                    }
                 }
 
 
