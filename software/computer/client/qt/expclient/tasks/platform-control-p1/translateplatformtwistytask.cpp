@@ -256,7 +256,9 @@ curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControl
                     {
                         correctedLeftMotorDuty += (curVelocityL > targetVelocityL) ? -1 : 1;
                         platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                        qDebug("LEFT CORRECTION LDuty=%d", correctedLeftMotorDuty);
+                        qDebug("LEFT CORRECTION LDuty = %d", correctedLeftMotorDuty);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        continue;
                     }
                 }
 
@@ -267,7 +269,9 @@ curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControl
                         correctedRightMotorDuty += (curVelocityR > targetVelocityR) ? -1 : 1;
                         platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
                         platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("RIGHT CORRECTION RDuty=%d", correctedRightMotorDuty);
+                        qDebug("RIGHT CORRECTION RDuty = %d", correctedRightMotorDuty);
+                        this_thread::sleep_for(std::chrono::milliseconds(100));
+                        continue;
                     }
                 }
 
