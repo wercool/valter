@@ -23,4 +23,9 @@
 #include "tasks/platform-control-p1/rotateplatformtask.h"
 #include "tasks/platform-control-p1/rotatebodytask.h"
 
+//ARM-CONTROL-RIGHT
+#include "tasks/arm-control-right/setrightforearmpositiontask.h"
+#include "tasks/arm-control-right/setrightarmpositiontask.h"
+#include "tasks/arm-control-right/setrightlimbpositiontask.h"
+
 #endif // TASKS_H

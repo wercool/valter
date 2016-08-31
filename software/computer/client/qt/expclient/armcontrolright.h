@@ -1,6 +1,7 @@
 #ifndef ARMCONTROLRIGHT_H
 #define ARMCONTROLRIGHT_H
 
+#include "tasks/itask.h"
 #include "ivaltermodule.h"
 
 using namespace std;
@@ -641,6 +642,9 @@ private:
     float palmUpperReadingRelative;
     float palmLowerReadingRelative;
     float palmJambReadingRelative;
+
+    /**************************************************** TASKS ******************************************************/
+    std::map<std::string, function<ITask*(void)>> tasks;
 };
 
 #endif // ARMCONTROLRIGHT_H

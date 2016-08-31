@@ -14,6 +14,11 @@ ArmControlRight::ArmControlRight()
     Valter::log(ArmControlRight::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
 
+    /********************************* TASKS **************************************/
+    tasks["SetRightForearmPositionTask"] = &SetRightForearmPositionTask::create;
+    tasks["SetRightArmPositionTask"] = &SetRightArmPositionTask::create;
+    tasks["SetRightLimbPositionTask"] = &SetRightLimbPositionTask::create;
+
     initTcpInterface();
 
     resetToDefault();
@@ -306,6 +311,14 @@ void ArmControlRight::processControlDeviceResponse(string response)
 
 unsigned int ArmControlRight::executeTask(string taskScriptLine)
 {
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    if (tasks.find(taskName) != tasks.end())
+    {
+        ITask *task = tasks[taskName]();
+        task->setTaskScriptLine(taskScriptLine);
+        return TaskManager::getInstance()->addTask(task);
+    }
     return 0;
 }
 

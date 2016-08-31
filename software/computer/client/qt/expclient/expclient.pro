@@ -76,7 +76,10 @@ SOURCES += main.cpp\
             tasks/platform-control-p1/rotateplatformtask.cpp \
             tasks/platform-control-p1/rotatebodytask.cpp \
     tcp/tcpsockets/tcpconnector.cpp \
-    tasks/platform-control-p1/translateplatformtwistytask.cpp
+    tasks/platform-control-p1/translateplatformtwistytask.cpp \
+    tasks/arm-control-right/setrightforearmpositiontask.cpp \
+    tasks/arm-control-right/setrightarmpositiontask.cpp \
+    tasks/arm-control-right/setrightlimbpositiontask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -131,7 +134,10 @@ HEADERS  += mainwindow.h \
             tasks/platform-control-p1/rotateplatformtask.h \
             tasks/platform-control-p1/rotatebodytask.h \
     tcp/tcpsockets/tcpconnector.h \
-    tasks/platform-control-p1/translateplatformtwistytask.h
+    tasks/platform-control-p1/translateplatformtwistytask.h \
+    tasks/arm-control-right/setrightforearmpositiontask.h \
+    tasks/arm-control-right/setrightarmpositiontask.h \
+    tasks/arm-control-right/setrightlimbpositiontask.h
 
 FORMS    += mainwindow.ui
 
