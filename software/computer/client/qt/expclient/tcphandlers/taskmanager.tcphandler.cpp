@@ -41,16 +41,26 @@ class TaskManagerTCPConnectionHandler : public Thread
 
             delete item;
 
-            //RTMM - Remote Task Manager Message
-            char isRTMM[5];
-            strncpy(isRTMM, input, 4);
-            isRTMM[4] = '\0';
+            //taskPrefix - Remote Task Manager Message, HOP task
+            char taskPrefix[5];
+            strncpy(taskPrefix, input, 4);
+            taskPrefix[4] = '\0';
 
-            if (strcmp(isRTMM, "RTMM") == 0)
+            if (strcmp(taskPrefix, "RTMM") == 0)
             {
                 std::string rtmm(input);
                 qDebug("%s", rtmm.c_str());
                 TaskManager::getInstance()->addUpdateRTMM(rtmm);
+                continue;
+            }
+            else if (strcmp(taskPrefix, "HOP_") == 0)
+            {
+                std::string hoptaskmsg(input);
+                qDebug("%s", hoptaskmsg.c_str());
+
+                TaskManager::getInstance()->sendScript(hoptaskmsg.substr(4));
+
+                continue;
             }
             else
             {
