@@ -11,6 +11,7 @@ void ArmControlRight::resetToDefault()
         getControlDevice()->clearDataExchangeLog();
     }
 
+    //---------------forearm
     rightForearmMotorDuty                = 1;
     rightForearmMotorDutyMax             = 40;
     rightForearmMotorAcceleration        = 2;
@@ -22,9 +23,6 @@ void ArmControlRight::resetToDefault()
     rightForearmMotorMovementDirection   = true;        //true - down, false - up
     rightForearmMotorActivated           = false;
     rightForearmMotorStop                = true;
-
-    rightForearmADCPosition              = 0;
-    rightForearmADCCurrent               = 0;
 
     //presets
     rightForearmMotorDutyPresetCur       = 40;
@@ -44,9 +42,6 @@ void ArmControlRight::resetToDefault()
     rightArmMotorActivated               = false;
     rightArmMotorStop                    = true;
 
-    rightArmADCPosition                  = 0;
-    rightArmADCCurrent                   = 0;
-
     //presets
     rightArmMotorDutyPresetCur           = 40;
     rightArmMotorDutyPresetMin           = 1;
@@ -64,9 +59,6 @@ void ArmControlRight::resetToDefault()
     rightLimbMotorMovementDirection      = true;        //true - down, false - up
     rightLimbMotorActivated              = false;
     rightLimbMotorStop                   = true;
-
-    rightLimbADCPosition                 = 0;
-    rightLimbADCCurrent                  = 0;
 
     //presets
     rightLimbMotorDutyPresetCur          = 40;
@@ -509,26 +501,6 @@ void ArmControlRight::setRightLimbMotorDutyPresetCur(int value)
     rightLimbMotorDutyPresetCur = value;
 }
 
-int ArmControlRight::getRightLimbADCCurrent() const
-{
-    return rightLimbADCCurrent;
-}
-
-void ArmControlRight::setRightLimbADCCurrent(int value)
-{
-    rightLimbADCCurrent = value;
-}
-
-int ArmControlRight::getRightLimbADCPosition() const
-{
-    return rightLimbADCPosition;
-}
-
-void ArmControlRight::setRightLimbADCPosition(int value)
-{
-    rightLimbADCPosition = value;
-}
-
 bool ArmControlRight::getRightLimbMotorStop() const
 {
     return rightLimbMotorStop;
@@ -744,6 +716,12 @@ void ArmControlRight::setLimbADCPosition(int value)
     limbADCPosition = value;
 }
 
+float ArmControlRight::getLimbPosition() const
+{
+    float degPosition = (double)getLimbADCPosition();
+    return degPosition;
+}
+
 int ArmControlRight::getArmADCPosition() const
 {
     return armADCPosition;
@@ -754,6 +732,12 @@ void ArmControlRight::setArmADCPosition(int value)
     armADCPosition = value;
 }
 
+float ArmControlRight::getArmPosition() const
+{
+    float degPosition = (double)getArmADCPosition();
+    return degPosition;
+}
+
 int ArmControlRight::getForearmADCPosition() const
 {
     return forearmADCPosition;
@@ -762,6 +746,12 @@ int ArmControlRight::getForearmADCPosition() const
 void ArmControlRight::setForearmADCPosition(int value)
 {
     forearmADCPosition = value;
+}
+
+float ArmControlRight::getForearmPosition() const
+{
+    float degPosition = (double)getForearmADCPosition();
+    return degPosition;
 }
 
 bool ArmControlRight::getHandPitchMotorCurrentADC() const
@@ -1114,26 +1104,6 @@ void ArmControlRight::setRightArmMotorDutyPresetCur(int value)
     rightArmMotorDutyPresetCur = value;
 }
 
-int ArmControlRight::getRightArmADCCurrent() const
-{
-    return rightArmADCCurrent;
-}
-
-void ArmControlRight::setRightArmADCCurrent(int value)
-{
-    rightArmADCCurrent = value;
-}
-
-int ArmControlRight::getRightArmADCPosition() const
-{
-    return rightArmADCPosition;
-}
-
-void ArmControlRight::setRightArmADCPosition(int value)
-{
-    rightArmADCPosition = value;
-}
-
 bool ArmControlRight::getRightArmMotorStop() const
 {
     return rightArmMotorStop;
@@ -1238,26 +1208,6 @@ int ArmControlRight::getRightForearmMotorDutyPresetCur() const
 void ArmControlRight::setRightForearmMotorDutyPresetCur(int value)
 {
     rightForearmMotorDutyPresetCur = value;
-}
-
-int ArmControlRight::getRightForearmADCCurrent() const
-{
-    return rightForearmADCCurrent;
-}
-
-void ArmControlRight::setRightForearmADCCurrent(int value)
-{
-    rightForearmADCCurrent = value;
-}
-
-int ArmControlRight::getRightForearmADCPosition() const
-{
-    return rightForearmADCPosition;
-}
-
-void ArmControlRight::setRightForearmADCPosition(int value)
-{
-    rightForearmADCPosition = value;
 }
 
 bool ArmControlRight::getRightForearmMotorStop() const

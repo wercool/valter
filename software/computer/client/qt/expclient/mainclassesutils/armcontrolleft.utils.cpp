@@ -21,9 +21,6 @@ void ArmControlLeft::resetToDefault()
     leftForearmMotorActivated           = false;
     leftForearmMotorStop                = true;
 
-    leftForearmADCPosition              = 0;
-    leftForearmADCCurrent               = 0;
-
     //presets
     leftForearmMotorDutyPresetCur       = 40;
     leftForearmMotorDutyPresetMin       = 1;
@@ -42,9 +39,6 @@ void ArmControlLeft::resetToDefault()
     leftArmMotorActivated               = false;
     leftArmMotorStop                    = true;
 
-    leftArmADCPosition                  = 0;
-    leftArmADCCurrent                   = 0;
-
     //presets
     leftArmMotorDutyPresetCur           = 40;
     leftArmMotorDutyPresetMin           = 1;
@@ -62,9 +56,6 @@ void ArmControlLeft::resetToDefault()
     leftLimbMotorMovementDirection      = true;        //true - down, false - up
     leftLimbMotorActivated              = false;
     leftLimbMotorStop                   = true;
-
-    leftLimbADCPosition                 = 0;
-    leftLimbADCCurrent                  = 0;
 
     //presets
     leftLimbMotorDutyPresetCur          = 40;
@@ -649,6 +640,12 @@ void ArmControlLeft::setLimbADCPosition(int value)
     limbADCPosition = value;
 }
 
+int ArmControlLeft::getLimbPosition() const
+{
+    float degPosition = (double)getLimbADCPosition();
+    return degPosition;
+}
+
 int ArmControlLeft::getArmADCPosition() const
 {
     return armADCPosition;
@@ -659,6 +656,12 @@ void ArmControlLeft::setArmADCPosition(int value)
     armADCPosition = value;
 }
 
+float ArmControlLeft::getArmPosition() const
+{
+    float degPosition = (double)getArmADCPosition();
+    return degPosition;
+}
+
 int ArmControlLeft::getForearmADCPosition() const
 {
     return forearmADCPosition;
@@ -667,6 +670,12 @@ int ArmControlLeft::getForearmADCPosition() const
 void ArmControlLeft::setForearmADCPosition(int value)
 {
     forearmADCPosition = value;
+}
+
+float ArmControlLeft::getForearmPosition() const
+{
+    float degPosition = (double)getForearmADCPosition();
+    return degPosition;
 }
 
 bool ArmControlLeft::getHandPitchMotorCurrentADC() const
@@ -977,26 +986,6 @@ void ArmControlLeft::setLeftLimbMotorDutyPresetCur(int value)
     leftLimbMotorDutyPresetCur = value;
 }
 
-int ArmControlLeft::getLeftLimbADCCurrent() const
-{
-    return leftLimbADCCurrent;
-}
-
-void ArmControlLeft::setLeftLimbADCCurrent(int value)
-{
-    leftLimbADCCurrent = value;
-}
-
-int ArmControlLeft::getLeftLimbADCPosition() const
-{
-    return leftLimbADCPosition;
-}
-
-void ArmControlLeft::setLeftLimbADCPosition(int value)
-{
-    leftLimbADCPosition = value;
-}
-
 bool ArmControlLeft::getLeftLimbMotorStop() const
 {
     return leftLimbMotorStop;
@@ -1095,26 +1084,6 @@ void ArmControlLeft::setLeftArmMotorDutyPresetCur(int value)
     leftArmMotorDutyPresetCur = value;
 }
 
-int ArmControlLeft::getLeftArmADCCurrent() const
-{
-    return leftArmADCCurrent;
-}
-
-void ArmControlLeft::setLeftArmADCCurrent(int value)
-{
-    leftArmADCCurrent = value;
-}
-
-int ArmControlLeft::getLeftArmADCPosition() const
-{
-    return leftArmADCPosition;
-}
-
-void ArmControlLeft::setLeftArmADCPosition(int value)
-{
-    leftArmADCPosition = value;
-}
-
 bool ArmControlLeft::getLeftArmMotorStop() const
 {
     return leftArmMotorStop;
@@ -1211,26 +1180,6 @@ int ArmControlLeft::getLeftForearmMotorDutyPresetCur() const
 void ArmControlLeft::setLeftForearmMotorDutyPresetCur(int value)
 {
     leftForearmMotorDutyPresetCur = value;
-}
-
-int ArmControlLeft::getLeftForearmADCCurrent() const
-{
-    return leftForearmADCCurrent;
-}
-
-void ArmControlLeft::setLeftForearmADCCurrent(int value)
-{
-    leftForearmADCCurrent = value;
-}
-
-int ArmControlLeft::getLeftForearmADCPosition() const
-{
-    return leftForearmADCPosition;
-}
-
-void ArmControlLeft::setLeftForearmADCPosition(int value)
-{
-    leftForearmADCPosition = value;
 }
 
 bool ArmControlLeft::getLeftForearmMotorStop() const

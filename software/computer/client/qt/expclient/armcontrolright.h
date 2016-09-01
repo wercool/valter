@@ -52,12 +52,6 @@ public:
     bool getRightForearmMotorStop() const;
     void setRightForearmMotorStop(bool value);
 
-    int getRightForearmADCPosition() const;
-    void setRightForearmADCPosition(int value);
-
-    int getRightForearmADCCurrent() const;
-    void setRightForearmADCCurrent(int value);
-
     int getRightForearmMotorDutyPresetCur() const;
     void setRightForearmMotorDutyPresetCur(int value);
 
@@ -93,12 +87,6 @@ public:
 
     bool getRightArmMotorStop() const;
     void setRightArmMotorStop(bool value);
-
-    int getRightArmADCPosition() const;
-    void setRightArmADCPosition(int value);
-
-    int getRightArmADCCurrent() const;
-    void setRightArmADCCurrent(int value);
 
     int getRightArmMotorDutyPresetCur() const;
     void setRightArmMotorDutyPresetCur(int value);
@@ -219,12 +207,15 @@ public:
 
     int getForearmADCPosition() const;
     void setForearmADCPosition(int value);
+    float getForearmPosition() const;
 
     int getArmADCPosition() const;
     void setArmADCPosition(int value);
+    float getArmPosition() const;
 
     int getLimbADCPosition() const;
     void setLimbADCPosition(int value);
+    float getLimbPosition() const;
 
     int getForearmMotorADCCurrent() const;
     void setForearmMotorADCCurrent(int value);
@@ -288,12 +279,6 @@ public:
 
     bool getRightLimbMotorStop() const;
     void setRightLimbMotorStop(bool value);
-
-    int getRightLimbADCPosition() const;
-    void setRightLimbADCPosition(int value);
-
-    int getRightLimbADCCurrent() const;
-    void setRightLimbADCCurrent(int value);
 
     int getRightLimbMotorDutyPresetCur() const;
     void setRightLimbMotorDutyPresetCur(int value);
@@ -481,9 +466,6 @@ private:
     bool rightForearmMotorActivated;
     bool rightForearmMotorStop;
 
-    int rightForearmADCPosition;
-    int rightForearmADCCurrent;
-
     //presets
     int rightForearmMotorDutyPresetCur;
     int rightForearmMotorDutyPresetMin;
@@ -502,9 +484,6 @@ private:
     bool rightArmMotorActivated;
     bool rightArmMotorStop;
 
-    int rightArmADCPosition;
-    int rightArmADCCurrent;
-
     //presets
     int rightArmMotorDutyPresetCur;
     int rightArmMotorDutyPresetMin;
@@ -522,9 +501,6 @@ private:
     bool rightLimbMotorMovementDirection;        //true - down, false - up
     bool rightLimbMotorActivated;
     bool rightLimbMotorStop;
-
-    int rightLimbADCPosition;
-    int rightLimbADCCurrent;
 
     //presets
     int rightLimbMotorDutyPresetCur;
