@@ -436,6 +436,22 @@ public:
     float getPalmJambReadingRelative();
     void setPalmJambReadingRelative(float value);
 
+    //right arm parameters
+    static const int forearmAngleADCMin;
+    static const int forearmAngleADCMax;
+    static const int forearmAngleADCZero;
+    static const float forearmMaxAngle;
+
+    static const int armAngleADCMin;
+    static const int armAngleADCMax;
+    static const int armAngleADCZero;
+    static const float armMaxAngle;
+
+    static const int limbAngleADCMin;
+    static const int limbAngleADCMax;
+    static const int limbAngleADCZero;
+    static const float limbMaxAngle;
+
 private:
     ArmControlRight();
     static ArmControlRight* pArmControlRight;       // ARM-CONTROL-RIGHT's singleton instance

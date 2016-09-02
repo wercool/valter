@@ -9,6 +9,22 @@ bool ArmControlRight::instanceFlag = false;
 const string ArmControlRight::controlDeviceId = "ARM-CONTROL-RIGHT";
 const string ArmControlRight::defaultsFilePath = "settings/arm-control-right-defaults";
 
+//right arm parameters
+const int ArmControlRight::forearmAngleADCMin       = 0;
+const int ArmControlRight::forearmAngleADCMax       = 0;
+const int ArmControlRight::forearmAngleADCZero      = 0;
+const float ArmControlRight::forearmMaxAngle        = 0;
+
+const int ArmControlRight::armAngleADCMin           = 0;
+const int ArmControlRight::armAngleADCMax           = 0;
+const int ArmControlRight::armAngleADCZero          = 0;
+const float ArmControlRight::armMaxAngle            = 0;
+
+const int ArmControlRight::limbAngleADCMin          = 0;
+const int ArmControlRight::limbAngleADCMax          = 0;
+const int ArmControlRight::limbAngleADCZero         = 0;
+const float ArmControlRight::limbMaxAngle           = 0;
+
 ArmControlRight::ArmControlRight()
 {
     Valter::log(ArmControlRight::controlDeviceId + " singleton initialized");

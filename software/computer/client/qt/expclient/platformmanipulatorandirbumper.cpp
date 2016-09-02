@@ -8,6 +8,37 @@
 #include "mainclassesutils/platformmanipulatorandirbumper.utils.cpp"
 #include "tcphandlers/platformmanipulatorandirbumper.tcphandler.cpp"
 
+//manipulator parameters
+const int PlatformManipulatorAndIRBumper::link1AngleADCMin       = 20;
+const int PlatformManipulatorAndIRBumper::link1AngleADCMax       = 1023;
+const int PlatformManipulatorAndIRBumper::link1AngleADCZero      = 1023;
+const float PlatformManipulatorAndIRBumper::link1MaxAngle        = 71; //degrees
+const float PlatformManipulatorAndIRBumper::link1DegreesDiv      = (float)(PlatformManipulatorAndIRBumper::link1AngleADCMax - PlatformManipulatorAndIRBumper::link1AngleADCMin) / PlatformManipulatorAndIRBumper::link1MaxAngle;
+
+const int PlatformManipulatorAndIRBumper::link2AngleADCMin       = 278;
+const int PlatformManipulatorAndIRBumper::link2AngleADCMax       = 1023;
+const int PlatformManipulatorAndIRBumper::link2AngleADCZero      = 278;
+const float PlatformManipulatorAndIRBumper::link2MaxAngle        = 90; //degrees
+const float PlatformManipulatorAndIRBumper::link2DegreesDiv      = (float)(PlatformManipulatorAndIRBumper::link2AngleADCMax - PlatformManipulatorAndIRBumper::link2AngleADCMin) / PlatformManipulatorAndIRBumper::link2MaxAngle;
+
+const int PlatformManipulatorAndIRBumper::gripperTiltAngleADCMin    = 51;
+const int PlatformManipulatorAndIRBumper::gripperTiltAngleADCMax    = 1023;
+const int PlatformManipulatorAndIRBumper::gripperTiltAngleADCZero   = 754;
+const float PlatformManipulatorAndIRBumper::gripperTiltMaxAngle     = 61; //degrees
+const float PlatformManipulatorAndIRBumper::gripperTiltDegreesDiv   = (float)(PlatformManipulatorAndIRBumper::gripperTiltAngleADCMax - PlatformManipulatorAndIRBumper::gripperTiltAngleADCMin) / PlatformManipulatorAndIRBumper::gripperTiltMaxAngle;
+
+const int PlatformManipulatorAndIRBumper::gripperRotationAngleADCMin    = 0;
+const int PlatformManipulatorAndIRBumper::gripperRotationAngleADCMax    = 1023;
+const int PlatformManipulatorAndIRBumper::gripperRotationAngleADCZero   = 355;
+const float PlatformManipulatorAndIRBumper::gripperRotationMaxAngle     = 264; //degrees
+const float PlatformManipulatorAndIRBumper::gripperRotationDegreesDiv   = (float)(PlatformManipulatorAndIRBumper::gripperRotationAngleADCMax - PlatformManipulatorAndIRBumper::gripperRotationAngleADCMin) / PlatformManipulatorAndIRBumper::gripperRotationMaxAngle;
+
+const int PlatformManipulatorAndIRBumper::gripperPositionADCMin             = 300;
+const int PlatformManipulatorAndIRBumper::gripperPositionADCMax             = 765;
+const int PlatformManipulatorAndIRBumper::gripperPositionADCZero            = 765;
+const float PlatformManipulatorAndIRBumper::gripperPositionMaxPosition      = 105; //mm
+const float PlatformManipulatorAndIRBumper::gripperPositionDiv              = (float)(PlatformManipulatorAndIRBumper::gripperPositionADCMax - PlatformManipulatorAndIRBumper::gripperPositionADCMin) / PlatformManipulatorAndIRBumper::gripperPositionMaxPosition;
+
 PlatformManipulatorAndIRBumper::PlatformManipulatorAndIRBumper()
 {
     Valter::log(PlatformManipulatorAndIRBumper::controlDeviceId + " singleton initialized");

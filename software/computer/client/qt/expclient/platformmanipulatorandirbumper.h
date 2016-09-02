@@ -308,6 +308,37 @@ public:
     int getGripperRotationMotorCurrentADCValue() const;
     void setGripperRotationMotorCurrentADCValue(int value);
 
+    //manipulator parameters
+    static const int link1AngleADCMin;
+    static const int link1AngleADCMax;
+    static const int link1AngleADCZero;
+    static const float link1MaxAngle;
+    static const float link1DegreesDiv;
+
+    static const int link2AngleADCMin;
+    static const int link2AngleADCMax;
+    static const int link2AngleADCZero;
+    static const float link2MaxAngle;
+    static const float link2DegreesDiv;
+
+    static const int gripperTiltAngleADCMin;
+    static const int gripperTiltAngleADCMax;
+    static const int gripperTiltAngleADCZero;
+    static const float gripperTiltMaxAngle;
+    static const float gripperTiltDegreesDiv;
+
+    static const int gripperRotationAngleADCMin;
+    static const int gripperRotationAngleADCMax;
+    static const int gripperRotationAngleADCZero;
+    static const float gripperRotationMaxAngle;
+    static const float gripperRotationDegreesDiv;
+
+    static const int gripperPositionADCMin;
+    static const int gripperPositionADCMax;
+    static const int gripperPositionADCZero;
+    static const float gripperPositionMaxPosition;
+    static const float gripperPositionDiv;
+
 private:
     PlatformManipulatorAndIRBumper();
     static PlatformManipulatorAndIRBumper* pPlatformManipulatorAndIRBumper;         // PLATFORM-MANIPULATOR-AND-IR-BUMPER's singleton instance

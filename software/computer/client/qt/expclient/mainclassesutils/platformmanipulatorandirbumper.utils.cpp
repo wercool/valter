@@ -763,7 +763,7 @@ int PlatformManipulatorAndIRBumper::getGripperADCTilt() const
 void PlatformManipulatorAndIRBumper::setGripperADCTilt(int value)
 {
     gripperADCTilt = value;
-    double degressValue = (754 - gripperADCTilt) / 15.93; //max 51, min 1023, 61deg max., 1023-51=972 -> 972/61 = 15.93
+    double degressValue = (double)(PlatformManipulatorAndIRBumper::gripperTiltAngleADCZero - gripperADCTilt) / PlatformManipulatorAndIRBumper::gripperTiltDegreesDiv;
     setGripperTilt(degressValue);
 }
 
@@ -815,8 +815,8 @@ int PlatformManipulatorAndIRBumper::getLink2ADCPosition() const
 void PlatformManipulatorAndIRBumper::setLink2ADCPosition(int value)
 {
     link2ADCPosition = value;
-    double degressValue = ((double)link2ADCPosition - 278) / 8.28; //max 1023, min 278, 90deg max. 278 ~ 0 deg, 1023-278=745 -> 745/90 deg = 8.28
-    setLink2Position(degressValue);
+    double degreesValue = ((double)(link2ADCPosition - PlatformManipulatorAndIRBumper::link2AngleADCZero)) / PlatformManipulatorAndIRBumper::link2DegreesDiv;
+    setLink2Position(degreesValue);
 }
 
 int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
@@ -827,8 +827,8 @@ int PlatformManipulatorAndIRBumper::getLink1ADCPosition() const
 void PlatformManipulatorAndIRBumper::setLink1ADCPosition(int value)
 {
     link1ADCPosition = value;
-    double degressValue = (1023 - link1ADCPosition) / 14.13; //max 20, min 1023, 71deg max. 1023 ~ 0, 1023-20=1003 -> 1003/71 = 14.13
-    setLink1Position(degressValue);
+    double degreesValue = ((double)(PlatformManipulatorAndIRBumper::link1AngleADCZero - link1ADCPosition)) / PlatformManipulatorAndIRBumper::link1DegreesDiv;
+    setLink1Position(degreesValue);
 }
 
 double PlatformManipulatorAndIRBumper::getGripperPosition() const
@@ -892,7 +892,7 @@ int PlatformManipulatorAndIRBumper::getGripperADCPosition() const
 void PlatformManipulatorAndIRBumper::setGripperADCPosition(int value)
 {
     gripperADCPosition = value;
-    double mmValue = (765 - gripperADCPosition) / 4.43; //max 765, min 300, 105mm max., 765-300=465 -> 465/105 = 4.43
+    double mmValue = (double)(PlatformManipulatorAndIRBumper::gripperPositionADCZero - gripperADCPosition) / PlatformManipulatorAndIRBumper::gripperPositionDiv;
     setGripperPosition(mmValue);
 }
 
@@ -904,8 +904,8 @@ int PlatformManipulatorAndIRBumper::getGripperADCRotation() const
 void PlatformManipulatorAndIRBumper::setGripperADCRotation(int value)
 {
     gripperADCRotation = value;
-    double degressValue = (gripperADCRotation - 355) / 3.875; //max 0, min 1023, 264deg max., 1023-0=1023 -> 1023/264 = 3.875
-    setGripperRotation(degressValue);
+    double degreesValue = (double)(gripperADCRotation - PlatformManipulatorAndIRBumper::gripperRotationAngleADCZero) / PlatformManipulatorAndIRBumper::gripperRotationDegreesDiv;
+    setGripperRotation(degreesValue);
 }
 
 bool PlatformManipulatorAndIRBumper::getGripperPositionADC() const
