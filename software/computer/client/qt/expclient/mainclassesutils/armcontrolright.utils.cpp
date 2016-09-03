@@ -182,6 +182,10 @@ void ArmControlRight::resetToDefault()
     palmUpperReadingRelative        = 0;
     palmLowerReadingRelative        = 0;
     palmJambReadingRelative         = 0;
+
+    forearmPosition     = 0;
+    armPosition         = 0;
+    limbPosition        = 0;
 }
 
 void ArmControlRight::loadDefaults()
@@ -714,12 +718,18 @@ int ArmControlRight::getLimbADCPosition() const
 void ArmControlRight::setLimbADCPosition(int value)
 {
     limbADCPosition = value;
+    double degreesValue = ((double)(limbADCPosition - ArmControlRight::limbAngleADCZero)) / ArmControlRight::limbDegreesDiv;
+    setLimbPosition(degreesValue);
 }
 
-float ArmControlRight::getLimbPosition() const
+double ArmControlRight::getLimbPosition() const
 {
-    float degPosition = (double)getLimbADCPosition();
-    return degPosition;
+    return limbPosition;
+}
+
+void ArmControlRight::setLimbPosition(double value)
+{
+    limbPosition = value;
 }
 
 int ArmControlRight::getArmADCPosition() const
@@ -730,12 +740,18 @@ int ArmControlRight::getArmADCPosition() const
 void ArmControlRight::setArmADCPosition(int value)
 {
     armADCPosition = value;
+    double degreesValue = ((double)(ArmControlRight::armAngleADCZero - armADCPosition)) / ArmControlRight::armDegreesDiv;
+    setArmPosition(degreesValue);
 }
 
-float ArmControlRight::getArmPosition() const
+double ArmControlRight::getArmPosition() const
 {
-    float degPosition = (double)getArmADCPosition();
-    return degPosition;
+    return armPosition;
+}
+
+void ArmControlRight::setArmPosition(double value)
+{
+    armPosition = value;
 }
 
 int ArmControlRight::getForearmADCPosition() const
@@ -745,13 +761,19 @@ int ArmControlRight::getForearmADCPosition() const
 
 void ArmControlRight::setForearmADCPosition(int value)
 {
-    forearmADCPosition = value;
+    forearmADCPosition = value;    
+    double degreesValue = ((double)(forearmADCPosition - ArmControlRight::forearmAngleADCZero)) / ArmControlRight::forearmDegreesDiv;
+    setForearmPosition(degreesValue);
 }
 
-float ArmControlRight::getForearmPosition() const
+double ArmControlRight::getForearmPosition() const
 {
-    float degPosition = (double)getForearmADCPosition();
-    return degPosition;
+    return forearmPosition;
+}
+
+void ArmControlRight::setForearmPosition(double value)
+{
+    forearmPosition = value;
 }
 
 bool ArmControlRight::getHandPitchMotorCurrentADC() const

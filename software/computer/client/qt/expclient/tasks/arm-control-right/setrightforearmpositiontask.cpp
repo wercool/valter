@@ -20,7 +20,7 @@ bool SetRightForearmPositionTask::checkFeasibility()
 
         return false;
     }
-    if (angle < 0 || angle > 71)
+    if (angle < -30 || angle > 60)
     {
         string msg = Valter::format_string("Task#%lu target Right Forearm angle %f in unreachable.", getTaskId(), angle);
         qDebug("%s", msg.c_str());
@@ -90,7 +90,7 @@ void SetRightForearmPositionTask::executionWorker()
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
 
     /************************************ emulation *********************start***************************/
-//    armControlRight->setForearmADCPosition(512);
+//    armControlRight->setForearmADCPosition(327);
     /************************************ emulation *********************finish**************************/
 
     float sigma = 1.0; //precision in degrees

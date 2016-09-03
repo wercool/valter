@@ -207,15 +207,18 @@ public:
 
     int getForearmADCPosition() const;
     void setForearmADCPosition(int value);
-    float getForearmPosition() const;
+    double getForearmPosition() const;
+    void setForearmPosition(double value);
 
     int getArmADCPosition() const;
     void setArmADCPosition(int value);
-    float getArmPosition() const;
+    double getArmPosition() const;
+    void setArmPosition(double value);
 
     int getLimbADCPosition() const;
     void setLimbADCPosition(int value);
-    float getLimbPosition() const;
+    double getLimbPosition() const;
+    void setLimbPosition(double value);
 
     int getForearmMotorADCCurrent() const;
     void setForearmMotorADCCurrent(int value);
@@ -441,16 +444,19 @@ public:
     static const int forearmAngleADCMax;
     static const int forearmAngleADCZero;
     static const float forearmMaxAngle;
+    static const float forearmDegreesDiv;
 
     static const int armAngleADCMin;
     static const int armAngleADCMax;
     static const int armAngleADCZero;
     static const float armMaxAngle;
+    static const float armDegreesDiv;
 
     static const int limbAngleADCMin;
     static const int limbAngleADCMax;
     static const int limbAngleADCZero;
     static const float limbMaxAngle;
+    static const float limbDegreesDiv;
 
 private:
     ArmControlRight();
@@ -634,6 +640,10 @@ private:
     float palmUpperReadingRelative;
     float palmLowerReadingRelative;
     float palmJambReadingRelative;
+
+    double forearmPosition;
+    double armPosition;
+    double limbPosition;
 
     /**************************************************** TASKS ******************************************************/
     std::map<std::string, function<ITask*(void)>> tasks;
