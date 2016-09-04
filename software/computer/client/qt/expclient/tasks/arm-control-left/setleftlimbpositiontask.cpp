@@ -1,28 +1,27 @@
 #include "valter.h"
-#include "setrightarmpositiontask.h"
+#include "setleftlimbpositiontask.h"
 
-
-SetRightArmPositionTask::SetRightArmPositionTask()
+SetLeftLimbPositionTask::SetLeftLimbPositionTask()
 {
     qDebugOn = true;
-    taskName = "SetRightArmPositionTask";
+    taskName = "SetLeftLimbPositionTask";
     blocking = false;
 }
 
-bool SetRightArmPositionTask::checkFeasibility()
+bool SetLeftLimbPositionTask::checkFeasibility()
 {
-    ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    if (!armControlRight->prepareRightArmMovement())
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (!armControlLeft->prepareLeftLimbMovement())
     {
-        string msg = Valter::format_string("Task#%lu prepareRightArmMovement() returned false in checkFeasibility().", getTaskId());
+        string msg = Valter::format_string("Task#%lu prepareLeftLimbMovement() returned false in checkFeasibility().", getTaskId());
         qDebug("%s", msg.c_str());
         TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
         return false;
     }
-    if (angle < 0 || angle > 90)
+    if (angle < -40 || angle > 85)
     {
-        string msg = Valter::format_string("Task#%lu target Right Arm angle %f in unreachable.", getTaskId(), angle);
+        string msg = Valter::format_string("Task#%lu target Left Limb angle %f in unreachable.", getTaskId(), angle);
         qDebug("%s", msg.c_str());
         TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -31,7 +30,7 @@ bool SetRightArmPositionTask::checkFeasibility()
     return true;
 }
 
-bool SetRightArmPositionTask::initialize()
+bool SetLeftLimbPositionTask::initialize()
 {
     //script line parsing
     std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
@@ -48,13 +47,13 @@ bool SetRightArmPositionTask::initialize()
     return true;
 }
 
-void SetRightArmPositionTask::execute()
+void SetLeftLimbPositionTask::execute()
 {
     if (initialize())
     {
         if (checkFeasibility())
         {
-            new std::thread(&SetRightArmPositionTask::executionWorker, this);
+            new std::thread(&SetLeftLimbPositionTask::executionWorker, this);
             this_thread::sleep_for(std::chrono::milliseconds(100));
             TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
             return;
@@ -65,42 +64,42 @@ void SetRightArmPositionTask::execute()
     setCompleted();
 }
 
-void SetRightArmPositionTask::stopExecution()
+void SetLeftLimbPositionTask::stopExecution()
 {
-    ArmControlRight *armControlRight = ArmControlRight::getInstance();
-    armControlRight->setRightArmMotorActivated(false);
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    armControlLeft->setLeftLimbMotorActivated(false);
     stopped = true;
     qDebug("Task#%lu (%s) stopExecution()", getTaskId(), getTaskName().c_str());
 }
 
-void SetRightArmPositionTask::reportCompletion()
+void SetLeftLimbPositionTask::reportCompletion()
 {
     qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
-ITask *SetRightArmPositionTask::create()
+ITask *SetLeftLimbPositionTask::create()
 {
-    return (ITask*)new SetRightArmPositionTask();
+    return (ITask*)new SetLeftLimbPositionTask();
 }
 
-void SetRightArmPositionTask::executionWorker()
+void SetLeftLimbPositionTask::executionWorker()
 {
     qDebug("Task#%lu %s started", getTaskId(), taskName.c_str());
-    ArmControlRight *armControlRight = ArmControlRight::getInstance();
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
 
     /************************************ emulation *********************start***************************/
-//    armControlRight->setArmADCPosition(765);
+//    armControlLeft->setLimbADCPosition(405);
     /************************************ emulation *********************finish**************************/
 
     float sigma = 1.0; //precision in degrees
 
     //move up (angle increased) - true
-    bool direction = (angle > armControlRight->getArmPosition()) ? true : false;
+    bool direction = (angle > armControlLeft->getLimbPosition()) ? true : false;
 
     float cutoffAngle = (direction) ? (angle * 0.98) : (angle / 0.98); //<<<<<<<<<<<<<<< dynamic parameter
 
-    if (abs(angle - armControlRight->getArmPosition()) < sigma)
+    if (abs(angle - armControlLeft->getLimbPosition()) < sigma)
     {
         this_thread::sleep_for(std::chrono::milliseconds(100));
         setCompleted();
@@ -111,20 +110,20 @@ void SetRightArmPositionTask::executionWorker()
     {
         if (!executing)
         {
-            if (direction) //move Right Arm up
+            if (direction) //move Limb up
             {
-                if (armControlRight->prepareRightArmMovement())
+                if (armControlLeft->prepareLeftLimbMovement())
                 {
                     //move up
-                    if (armControlRight->setRightArmMotorMovementDirection(false))
+                    if (armControlLeft->setLeftLimbMotorMovementDirection(false))
                     {
-                        armControlRight->setRightArmMotorActivated(true);
+                        armControlLeft->setLeftLimbMotorActivated(true);
                         executing = true;
                     }
                 }
                 else
                 {
-                    string msg = Valter::format_string("Task#%lu could not be completed; reason armControlRight->prepareRightArmMovement()", getTaskId());
+                    string msg = Valter::format_string("Task#%lu could not be completed; reason armControlLeft->prepareLeftLimbMovement()", getTaskId());
                     qDebug("%s", msg.c_str());
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -134,18 +133,18 @@ void SetRightArmPositionTask::executionWorker()
             }
             else
             {
-                if (armControlRight->prepareRightArmMovement())
+                if (armControlLeft->prepareLeftLimbMovement())
                 {
                     //down
-                    if (armControlRight->setRightArmMotorMovementDirection(true))
+                    if (armControlLeft->setLeftLimbMotorMovementDirection(true))
                     {
-                        armControlRight->setRightArmMotorActivated(true);
+                        armControlLeft->setLeftLimbMotorActivated(true);
                         executing = true;
                     }
                 }
                 else
                 {
-                    string msg = Valter::format_string("Task#%lu could not be completed; reason armControlRight->prepareRightArmMovement()", getTaskId());
+                    string msg = Valter::format_string("Task#%lu could not be completed; reason armControlLeft->prepareLeftLimbMovement()", getTaskId());
                     qDebug("%s", msg.c_str());
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -159,18 +158,18 @@ void SetRightArmPositionTask::executionWorker()
 
             if (qDebugOn)
             {
-                qDebug("Task#%lu: getArmPosition() (deg) = %f, target (deg) = %f, cutoffAngle = %f, dSigma = %f ? %f, direction: %s", getTaskId(), armControlRight->getArmPosition(), angle, cutoffAngle, abs(angle - armControlRight->getArmPosition()), sigma, (armControlRight->getRightArmMotorMovementDirection() ? "down" : "up"));
+                qDebug("Task#%lu: getLimbPosition (deg) = %f, target (deg) = %f, cutoffAngle = %f, dSigma = %f ? %f, direction: %s", getTaskId(), armControlLeft->getLimbPosition(), angle, cutoffAngle, abs(angle - armControlLeft->getLimbPosition()), sigma, (armControlLeft->getLeftLimbMotorMovementDirection() ? "down" : "up"));
             }
 
-            if ((abs(angle - armControlRight->getArmPosition()) < sigma))
+            if ((abs(angle - armControlLeft->getLimbPosition()) < sigma))
             {
-                armControlRight->setRightArmMotorActivated(false);
+                armControlLeft->setLeftLimbMotorActivated(false);
                 setCompleted();
                 return;
             }
 
             /************************************ emulation *********************start***************************/
-//            int positionADC = armControlRight->getArmADCPosition();
+//            int positionADC = armControlLeft->getLimbADCPosition();
 //            if (direction)
 //            {
 //                positionADC -= 5;
@@ -179,7 +178,7 @@ void SetRightArmPositionTask::executionWorker()
 //            {
 //                positionADC += 5;
 //            }
-//            armControlRight->setArmADCPosition(positionADC);
+//            armControlLeft->setLimbADCPosition(positionADC);
             /************************************ emulation *********************finish**************************/
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
@@ -193,12 +192,12 @@ void SetRightArmPositionTask::executionWorker()
     setCompleted();
 }
 
-float SetRightArmPositionTask::getAngle() const
+float SetLeftLimbPositionTask::getAngle() const
 {
     return angle;
 }
 
-void SetRightArmPositionTask::setAngle(float value)
+void SetLeftLimbPositionTask::setAngle(float value)
 {
     angle = value;
 }

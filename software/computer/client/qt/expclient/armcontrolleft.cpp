@@ -9,10 +9,38 @@ bool ArmControlLeft::instanceFlag = false;
 const string ArmControlLeft::controlDeviceId = "ARM-CONTROL-LEFT";
 const string ArmControlLeft::defaultsFilePath = "settings/arm-control-left-defaults";
 
+//left arm parameters
+const int ArmControlLeft::forearmAngleADCMin       = 100;
+const int ArmControlLeft::forearmAngleADCMax       = 820;
+const int ArmControlLeft::forearmAngleADCZero      = 450;
+const float ArmControlLeft::forearmMaxAngle        = 90; //degrees
+const float ArmControlLeft::forearmDegreesDiv      = (float)(ArmControlLeft::forearmAngleADCMax - ArmControlLeft::forearmAngleADCMin) / ArmControlLeft::forearmMaxAngle;
+
+const int ArmControlLeft::armAngleADCMin           = 150;
+const int ArmControlLeft::armAngleADCMax           = 750;
+const int ArmControlLeft::armAngleADCZero          = 750;
+const float ArmControlLeft::armMaxAngle            = 90;
+const float ArmControlLeft::armDegreesDiv          = (float)(ArmControlLeft::armAngleADCMax - ArmControlLeft::armAngleADCMin) / ArmControlLeft::armMaxAngle;
+
+const int ArmControlLeft::limbAngleADCMin          = 160;
+const int ArmControlLeft::limbAngleADCMax          = 975;
+const int ArmControlLeft::limbAngleADCZero         = 405;
+const float ArmControlLeft::limbMaxAngle           = 125;
+const float ArmControlLeft::limbDegreesDiv         = (float)(ArmControlLeft::limbAngleADCMax - ArmControlLeft::limbAngleADCMin) / ArmControlLeft::limbMaxAngle;
+
+
+
+
+
 ArmControlLeft::ArmControlLeft()
 {
     Valter::log(ArmControlLeft::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
+
+    /********************************* TASKS **************************************/
+    tasks["SetLeftForearmPositionTask"] = &SetLeftForearmPositionTask::create;
+    tasks["SetLeftArmPositionTask"] = &SetLeftArmPositionTask::create;
+    tasks["SetLeftLimbPositionTask"] = &SetLeftLimbPositionTask::create;
 
     initTcpInterface();
 
@@ -307,6 +335,14 @@ void ArmControlLeft::processControlDeviceResponse(string response)
 
 unsigned int ArmControlLeft::executeTask(string taskScriptLine)
 {
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    if (tasks.find(taskName) != tasks.end())
+    {
+        ITask *task = tasks[taskName]();
+        task->setTaskScriptLine(taskScriptLine);
+        return TaskManager::getInstance()->addTask(task);
+    }
     return 0;
 }
 

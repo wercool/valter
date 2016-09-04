@@ -22,8 +22,8 @@ const int ArmControlRight::armAngleADCZero          = 765;
 const float ArmControlRight::armMaxAngle            = 90;
 const float ArmControlRight::armDegreesDiv          = (float)(ArmControlRight::armAngleADCMax - ArmControlRight::armAngleADCMin) / ArmControlRight::armMaxAngle;
 
-const int ArmControlRight::limbAngleADCMin          = 145;
-const int ArmControlRight::limbAngleADCMax          = 985;
+const int ArmControlRight::limbAngleADCMin          = 160;
+const int ArmControlRight::limbAngleADCMax          = 975;
 const int ArmControlRight::limbAngleADCZero         = 405;
 const float ArmControlRight::limbMaxAngle           = 125;
 const float ArmControlRight::limbDegreesDiv         = (float)(ArmControlRight::limbAngleADCMax - ArmControlRight::limbAngleADCMin) / ArmControlRight::limbMaxAngle;

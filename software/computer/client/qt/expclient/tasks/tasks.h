@@ -28,4 +28,9 @@
 #include "tasks/arm-control-right/setrightarmpositiontask.h"
 #include "tasks/arm-control-right/setrightlimbpositiontask.h"
 
+//ARM-CONTROL-LEFT
+#include "tasks/arm-control-left/setleftforearmpositiontask.h"
+#include "tasks/arm-control-left/setleftarmpositiontask.h"
+#include "tasks/arm-control-left/setleftlimbpositiontask.h"
+
 #endif // TASKS_H

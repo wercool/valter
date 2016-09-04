@@ -114,9 +114,9 @@ void TranslatePlatformTwistyTask::executionWorker()
     float av_b = ((double)Valter::wheelBase / 1000) / 2;
 
 /************************************ emulation *********************start***************************/
-int lwen, rwen;
-lwen = 0;
-rwen = 0;
+//int lwen, rwen;
+//lwen = 0;
+//rwen = 0;
 /************************************ emulation *********************finish**************************/
 
     while (!stopped)
@@ -158,17 +158,17 @@ rwen = 0;
         else
         {
 /************************************ emulation *********************start***************************/
-lwen++;
-rwen++;
-int randNum = rand() % 4;
-if (randNum == 0)
-{
-    lwen += 2;
-}
-if (randNum == 1)
-{
-    rwen += 2;
-}
+//lwen++;
+//rwen++;
+//int randNum = rand() % 4;
+//if (randNum == 0)
+//{
+//    lwen += 2;
+//}
+//if (randNum == 1)
+//{
+//    rwen += 2;
+//}
 /************************************ emulation *********************finish**************************/
             if (!platformControlP1->getLeftMotorAccelerating()  &&
                 !platformControlP1->getRightMotorAccelerating() &&
@@ -224,11 +224,11 @@ if (randNum == 1)
                     targetVelocityR = lv - av * av_b;
 
 /************************************ emulation *********************start***************************/
-curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
-curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+//curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+//curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
 /************************************ emulation *********************finish**************************/
-//                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
-//                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
+                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPerMeter) * t;
                 }
                 //rotation mode (wheels rotate in opposite directions)
                 else
@@ -245,11 +245,11 @@ curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControl
 
 
 /************************************ emulation *********************start***************************/
-curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
-curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+//curVelocityL = ((double)(lwen - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+//curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
 /************************************ emulation *********************finish**************************/
-//                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
-//                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+                    curVelocityL = ((double)(platformControlP1->getLeftWheelEncoder() - prevLeftWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
+                    curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
                 }
 
                 if (curVelocityL != targetVelocityL)
@@ -279,11 +279,11 @@ curVelocityR = ((double)(rwen - prevRightWheelEncoder) / (double)PlatformControl
 
 
 /************************************ emulation *********************start***************************/
-prevLeftWheelEncoder  = lwen;
-prevRightWheelEncoder = rwen;
+//prevLeftWheelEncoder  = lwen;
+//prevRightWheelEncoder = rwen;
 /************************************ emulation *********************finish**************************/
-//                prevLeftWheelEncoder  = platformControlP1->getLeftWheelEncoder();
-//                prevRightWheelEncoder = platformControlP1->getRightWheelEncoder();
+                prevLeftWheelEncoder  = platformControlP1->getLeftWheelEncoder();
+                prevRightWheelEncoder = platformControlP1->getRightWheelEncoder();
 
 
 
@@ -321,9 +321,9 @@ prevRightWheelEncoder = rwen;
 
 
 /************************************ emulation *********************start***************************/
-qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocityR:%f/targetVelocityR:%f", taskId, taskName.c_str(), lwen, rwen, curVelocityL, targetVelocityL, curVelocityR, targetVelocityR);
+//qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocityR:%f/targetVelocityR:%f", taskId, taskName.c_str(), lwen, rwen, curVelocityL, targetVelocityL, curVelocityR, targetVelocityR);
 /************************************ emulation *********************finish**************************/
-                //qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocityR:%f/targetVelocityR:%f", taskId, taskName.c_str(), platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), curVelocityL, targetVelocityL, curVelocityR, targetVelocityR);
+                qDebug("[%lu, %s] LEN:%d, REN:%d, curVelocityL:%f/targetVelocityL:%f, curVelocityR:%f/targetVelocityR:%f", taskId, taskName.c_str(), platformControlP1->getLeftWheelEncoder(), platformControlP1->getRightWheelEncoder(), curVelocityL, targetVelocityL, curVelocityR, targetVelocityR);
                 this_thread::sleep_for(std::chrono::milliseconds(sleepTime));
             }
             else

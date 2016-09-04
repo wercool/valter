@@ -1,3 +1,3 @@
-T_ACR_SetRightForearmPositionTask_{%f = target angle}
-T_ACR_SetRightArmPositionTask_{%f = target angle}
-T_ACR_SetRightLimbPositionTask_{%f = target angle}
+T_ACR_SetRightForearmPositionTask_{%f = target angle} [-30 - 0 - 60 degrees]
+T_ACR_SetRightArmPositionTask_{%f = target angle} [0 - 90 degrees]
+T_ACR_SetRightLimbPositionTask_{%f = target angle} [-40 - 0 - 80 degrees]

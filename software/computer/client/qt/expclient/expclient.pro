@@ -79,7 +79,10 @@ SOURCES += main.cpp\
     tasks/platform-control-p1/translateplatformtwistytask.cpp \
     tasks/arm-control-right/setrightforearmpositiontask.cpp \
     tasks/arm-control-right/setrightarmpositiontask.cpp \
-    tasks/arm-control-right/setrightlimbpositiontask.cpp
+    tasks/arm-control-right/setrightlimbpositiontask.cpp \
+    tasks/arm-control-left/setleftforearmpositiontask.cpp \
+    tasks/arm-control-left/setleftarmpositiontask.cpp \
+    tasks/arm-control-left/setleftlimbpositiontask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -137,7 +140,10 @@ HEADERS  += mainwindow.h \
     tasks/platform-control-p1/translateplatformtwistytask.h \
     tasks/arm-control-right/setrightforearmpositiontask.h \
     tasks/arm-control-right/setrightarmpositiontask.h \
-    tasks/arm-control-right/setrightlimbpositiontask.h
+    tasks/arm-control-right/setrightlimbpositiontask.h \
+    tasks/arm-control-left/setleftforearmpositiontask.h \
+    tasks/arm-control-left/setleftarmpositiontask.h \
+    tasks/arm-control-left/setleftlimbpositiontask.h
 
 FORMS    += mainwindow.ui
 
