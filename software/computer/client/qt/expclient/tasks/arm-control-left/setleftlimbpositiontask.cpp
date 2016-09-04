@@ -181,7 +181,7 @@ void SetLeftLimbPositionTask::executionWorker()
 //            armControlLeft->setLimbADCPosition(positionADC);
             /************************************ emulation *********************finish**************************/
         }
-        this_thread::sleep_for(std::chrono::milliseconds(50));
+        this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
     string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
