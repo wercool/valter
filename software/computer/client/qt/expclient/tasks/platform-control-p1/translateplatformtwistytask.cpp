@@ -129,9 +129,6 @@ lwen++;
 rwen++;
 platformControlP1->setLeftWheelEncoder(lwen);
 platformControlP1->setRightWheelEncoder(rwen);
-executing = true;
-this_thread::sleep_for(std::chrono::milliseconds(100));
-continue;
 /************************************ emulation *********************finish**************************/
         if (!executing)
         {
