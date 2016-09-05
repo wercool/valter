@@ -38,6 +38,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             while ((len = stream->receive(input, sizeof(input)-1)) > 0 )
             {
                 std::string request(input);
+                qDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %s", request.c_str());
                 if (request.find("GVR~") != std::string::npos)
                 {
                     isGVR = true;
