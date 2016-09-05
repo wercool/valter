@@ -39,12 +39,12 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             {
                 std::string request(input);
                 qDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %s", request.c_str());
-                if (request.find("GVR~") != std::string::npos)
+                if (request.find("GVR~") == 0)
                 {
                     isGVR = true;
                     int gvr_pos = request.find("~") + 1;
                     string gvr = request.substr(gvr_pos);
-                    output = platformControlP1->values[gvr];
+                    output = platformControlP1->getValue(gvr);
                 }
                 else
                 {
