@@ -59,6 +59,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             if (!isGVR)
             {
                 std::string cmd(input);
+                qDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %s", cmd.c_str());
                 executeCommand(cmd);
             }
         }
