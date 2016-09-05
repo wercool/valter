@@ -122,19 +122,6 @@ void TranslatePlatformTwistyTask::executionWorker()
     while (!stopped)
     {
         stopped = !checkFeasibility();
-/************************************ emulation *********************start***************************/
-int lwen = platformControlP1->getLeftWheelEncoder();
-int rwen = platformControlP1->getRightWheelEncoder();
-lwen++;
-rwen++;
-platformControlP1->setLeftWheelEncoderGetOnce(true);
-platformControlP1->setRightWheelEncoderGetOnce(true);
-platformControlP1->getControlDevice()->addResponse(Valter::format_string("LEFT MOTOR COUNTER: %d", lwen));
-platformControlP1->getControlDevice()->addResponse(Valter::format_string("RIGHT MOTOR COUNTER: %d", rwen));
-executing = true;
-this_thread::sleep_for(std::chrono::milliseconds(250));
-continue;
-/************************************ emulation *********************finish**************************/
         if (!executing)
         {
             if (platformControlP1->preparePlatformMovement())
