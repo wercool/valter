@@ -166,7 +166,7 @@ void TCPInterface::setListening(bool value)
 
         if (!connectionAcceptor || connectionAcceptor->start() != 0)
         {
-            Valter::log(Valter::format_string("Could not create an connection acceptor on the %s:%d", ip.c_str(), port));
+            Valter::log(Valter::format_string("Could not create a connection acceptor on the %s:%d", ip.c_str(), port));
         }
     }
 }
