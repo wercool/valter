@@ -430,6 +430,10 @@ public:
     int getAdditionalReadingsDelayCur() const;
     void setAdditionalReadingsDelayCur(int value);
 
+    /**************************************************** VALUES MAP ******************************************************/
+    std::map<std::string, std::string> values;
+    string getValue(string key);
+
     //Valter base platform characteristics
     static const int vagueEncoderTicksPerMeter;
     static const int vagueEncoderTicksPer360Turn;

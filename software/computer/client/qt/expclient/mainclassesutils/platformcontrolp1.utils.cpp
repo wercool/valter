@@ -140,6 +140,21 @@ void PlatformControlP1::resetToDefault()
     {
         getControlDevice()->addMsgToDataExchangeLog(Valter::format_string("%s Module Reset to default!", PlatformControlP1::controlDeviceId.c_str()));
     }
+
+    values["leftWheelEncoder"] = "0";
+    values["rightWheelEncoder"] = "0";
+}
+
+string PlatformControlP1::getValue(string key)
+{
+    if (values.find(key) == values.end())
+    {
+        return "undefined";
+    }
+    else
+    {
+        return values[key];
+    }
 }
 
 int PlatformControlP1::getAdditionalReadingsDelayCur() const
@@ -1065,6 +1080,7 @@ int PlatformControlP1::getRightWheelEncoder() const
 void PlatformControlP1::setRightWheelEncoder(int value)
 {
     rightWheelEncoder = value;
+    values["rightWheelEncoder"] = Valter::format_string("%d", rightWheelEncoder);
 }
 
 int PlatformControlP1::getLeftWheelEncoder() const
@@ -1075,6 +1091,7 @@ int PlatformControlP1::getLeftWheelEncoder() const
 void PlatformControlP1::setLeftWheelEncoder(int value)
 {
     leftWheelEncoder = value;
+    values["leftWheelEncoder"] = Valter::format_string("%d", leftWheelEncoder);
 }
 bool PlatformControlP1::getTurretMotorCurrentRead() const
 {

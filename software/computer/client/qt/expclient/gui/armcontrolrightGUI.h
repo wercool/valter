@@ -61,6 +61,12 @@ void armControlRightTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 ui->rightArmReadingsTable->setItem(0, 2, forearmPositionQWidgetItem);
                 ui->rightForearmPositionLcdNumber->display(armControlRight->getForearmADCPosition());
             }
+            else
+            {
+                forearmPositionQWidgetItem->setText(Valter::format_string("%.2f", armControlRight->getForearmPosition()).c_str());
+                ui->rightArmReadingsTable->setItem(0, 2, forearmPositionQWidgetItem);
+                ui->rightForearmPositionLcdNumber->display(armControlRight->getForearmPosition());
+            }
         }
         if (armControlRight->getArmPositionTrack())
         {
@@ -71,6 +77,12 @@ void armControlRightTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 ui->rightArmReadingsTable->setItem(1, 2, armPositionQWidgetItem);
                 ui->rightArmPositionLcdNumber->display(armControlRight->getArmADCPosition());
             }
+            else
+            {
+                armPositionQWidgetItem->setText(Valter::format_string("%.2f", armControlRight->getArmPosition()).c_str());
+                ui->rightArmReadingsTable->setItem(1, 2, armPositionQWidgetItem);
+                ui->rightArmPositionLcdNumber->display(armControlRight->getArmPosition());
+            }
         }
         if (armControlRight->getLimbPositionTrack())
         {
@@ -80,6 +92,12 @@ void armControlRightTabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 limbPositionQWidgetItem->setText(Valter::format_string("%d", armControlRight->getLimbADCPosition()).c_str());
                 ui->rightArmReadingsTable->setItem(2, 2, limbPositionQWidgetItem);
                 ui->rightLimbPositionLcdNumber->display(armControlRight->getLimbADCPosition());
+            }
+            else
+            {
+                limbPositionQWidgetItem->setText(Valter::format_string("%.2f", armControlRight->getLimbPosition()).c_str());
+                ui->rightArmReadingsTable->setItem(2, 2, limbPositionQWidgetItem);
+                ui->rightLimbPositionLcdNumber->display(armControlRight->getLimbPosition());
             }
         }
         if (armControlRight->getForearmMotorCurrentTrack())

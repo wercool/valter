@@ -14,6 +14,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
     {
         // Remove 1 item at a time and process it. Blocks if no items are
         // available to process.
+        PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
         for (int i = 0;; i++)
         {
             //qDebug("thread %lu, loop %d - waiting for item...", (long unsigned int)self(), i);
@@ -32,17 +33,33 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             string output;
             int len;
 
+            bool isGVR = false;
+
             while ((len = stream->receive(input, sizeof(input)-1)) > 0 )
             {
-                output = "OK";
+                std::string request(input);
+                if (request.find("GVR~") != std::string::npos)
+                {
+                    isGVR = true;
+                    int gvr_pos = request.find("~") + 1;
+                    string gvr = request.substr(gvr_pos);
+                    output = platformControlP1->values[gvr];
+                }
+                else
+                {
+                    isGVR = false;
+                    output = "OK";
+                }
                 stream->send(output.c_str(), (sizeof(output.c_str())-1));
                 //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
             }
             delete item;
 
-            std::string cmd(input);
-
-            executeCommand(cmd);
+            if (!isGVR)
+            {
+                std::string cmd(input);
+                executeCommand(cmd);
+            }
         }
 
         // Should never get here

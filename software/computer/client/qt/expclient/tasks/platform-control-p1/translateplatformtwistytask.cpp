@@ -101,7 +101,7 @@ void TranslatePlatformTwistyTask::executionWorker()
     int prevLeftWheelEncoder = 0;
     int prevRightWheelEncoder = 0;
 
-    int sleepTime = 500;
+    int sleepTime = 1000;
 
     string stopExecutionReason = "";
 
@@ -121,6 +121,17 @@ void TranslatePlatformTwistyTask::executionWorker()
 
     while (!stopped)
     {
+        stopped = !checkFeasibility();
+/************************************ emulation *********************start***************************/
+int lwen = platformControlP1->getLeftWheelEncoder();
+int rwen = platformControlP1->getRightWheelEncoder();
+lwen++;
+rwen++;
+platformControlP1->setLeftWheelEncoder(lwen);
+platformControlP1->setRightWheelEncoder(rwen);
+this_thread::sleep_for(std::chrono::milliseconds(100));
+continue;
+/************************************ emulation *********************finish**************************/
         if (!executing)
         {
             if (platformControlP1->preparePlatformMovement())
@@ -252,31 +263,6 @@ void TranslatePlatformTwistyTask::executionWorker()
                     curVelocityR = ((double)(platformControlP1->getRightWheelEncoder() - prevRightWheelEncoder) / (double)PlatformControlP1::vagueEncoderTicksPer360Turn) * t;
                 }
 
-                if (curVelocityL != targetVelocityL)
-                {
-                    if (correctedLeftMotorDuty < maxAllowedDuty && correctedLeftMotorDuty > minAllowedDuty)
-                    {
-                        correctedLeftMotorDuty += (curVelocityL > targetVelocityL) ? -1 : 1;
-                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                        qDebug("LEFT CORRECTION LDuty = %d", correctedLeftMotorDuty);
-                        this_thread::sleep_for(std::chrono::milliseconds(100));
-                        continue;
-                    }
-                }
-
-                if (curVelocityR != targetVelocityR)
-                {
-                    if (correctedLeftMotorDuty < maxAllowedDuty && correctedRightMotorDuty > minAllowedDuty)
-                    {
-                        correctedRightMotorDuty += (curVelocityR > targetVelocityR) ? -1 : 1;
-                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
-                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
-                        qDebug("RIGHT CORRECTION RDuty = %d", correctedRightMotorDuty);
-                        this_thread::sleep_for(std::chrono::milliseconds(100));
-                        continue;
-                    }
-                }
-
 
 /************************************ emulation *********************start***************************/
 //prevLeftWheelEncoder  = lwen;
@@ -284,6 +270,25 @@ void TranslatePlatformTwistyTask::executionWorker()
 /************************************ emulation *********************finish**************************/
                 prevLeftWheelEncoder  = platformControlP1->getLeftWheelEncoder();
                 prevRightWheelEncoder = platformControlP1->getRightWheelEncoder();
+
+                if (curVelocityL != targetVelocityL)
+                {
+                    if (correctedLeftMotorDuty < maxAllowedDuty && correctedLeftMotorDuty > minAllowedDuty)
+                    {
+                        correctedLeftMotorDuty += (curVelocityL > targetVelocityL) ? -5 : 5;
+                        platformControlP1->setLeftMotorDutyMax(correctedLeftMotorDuty);
+                        qDebug("LEFT CORRECTION LDuty = %d", correctedLeftMotorDuty);
+                    }
+                }
+                if (curVelocityR != targetVelocityR)
+                {
+                    if (correctedRightMotorDuty < maxAllowedDuty && correctedRightMotorDuty > minAllowedDuty)
+                    {
+                        correctedRightMotorDuty += (curVelocityR > targetVelocityR) ? -5 : 5;
+                        platformControlP1->setRightMotorDutyMax(correctedRightMotorDuty);
+                        qDebug("RIGHT CORRECTION RDuty = %d", correctedRightMotorDuty);
+                    }
+                }
 
 
 
