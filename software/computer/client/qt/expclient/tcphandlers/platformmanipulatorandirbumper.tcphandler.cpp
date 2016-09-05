@@ -37,12 +37,11 @@ class PlatformManipulatorAndIRBumperTCPConnectionHandler : public Thread
                 output = "OK";
                 stream->send(output.c_str(), (sizeof(output.c_str())-1));
                 //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
+                std::string cmd(input);
+                executeCommand(cmd);
             }
             delete item;
 
-            std::string cmd(input);
-
-            executeCommand(cmd);
         }
 
         // Should never get here

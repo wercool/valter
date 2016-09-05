@@ -37,40 +37,40 @@ class TaskManagerTCPConnectionHandler : public Thread
                 output = "OK";
                 stream->send(output.c_str(), (sizeof(output.c_str())-1));
                 //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
+
+                //taskPrefix - Remote Task Manager Message, HOP task
+                char taskPrefix[5];
+                strncpy(taskPrefix, input, 4);
+                taskPrefix[4] = '\0';
+
+                if (strcmp(taskPrefix, "RTMM") == 0)
+                {
+                    std::string rtmm(input);
+                    qDebug("%s", rtmm.c_str());
+                    TaskManager::getInstance()->addUpdateRTMM(rtmm);
+                    continue;
+                }
+                else if (strcmp(taskPrefix, "HOP_") == 0)
+                {
+                    std::string hoptaskmsg(input);
+                    qDebug("%s", hoptaskmsg.c_str());
+
+                    TaskManager::getInstance()->sendScript(hoptaskmsg.substr(4));
+
+                    continue;
+                }
+                else
+                {
+                    std::string script(input);
+
+                    if (script.length() > 0)
+                    {
+                        executeScript(script);
+                    }
+                }
             }
 
             delete item;
-
-            //taskPrefix - Remote Task Manager Message, HOP task
-            char taskPrefix[5];
-            strncpy(taskPrefix, input, 4);
-            taskPrefix[4] = '\0';
-
-            if (strcmp(taskPrefix, "RTMM") == 0)
-            {
-                std::string rtmm(input);
-                qDebug("%s", rtmm.c_str());
-                TaskManager::getInstance()->addUpdateRTMM(rtmm);
-                continue;
-            }
-            else if (strcmp(taskPrefix, "HOP_") == 0)
-            {
-                std::string hoptaskmsg(input);
-                qDebug("%s", hoptaskmsg.c_str());
-
-                TaskManager::getInstance()->sendScript(hoptaskmsg.substr(4));
-
-                continue;
-            }
-            else
-            {
-                std::string script(input);
-
-                if (script.length() > 0)
-                {
-                    executeScript(script);
-                }
-            }
         }
 
         // Should never get here
