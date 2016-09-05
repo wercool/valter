@@ -225,6 +225,8 @@ public:
 
     int getRightArmYawADCPosition() const;
     void setRightArmYawADCPosition(int value);
+    double getRightArmYawPosition() const;
+    void setRightArmYawPosition(double value);
 
     int getLeftArmYawADCPosition() const;
     void setLeftArmYawADCPosition(int value);
@@ -316,6 +318,13 @@ public:
 
     int getBodyCameraUpperPosition() const;
     void setBodyCameraUpperPosition(int value);
+
+    //body joints parameters
+    static const int rightArmYawAngleADCMin;
+    static const int rightArmYawAngleADCMax;
+    static const int rightArmYawAngleADCZero;
+    static const float rightArmYawMaxAngle;
+    static const float rightArmYawDegreesDiv;
 
 private:
     BodyControlP1();
@@ -464,6 +473,11 @@ private:
     int bodyCameraLowerPosition;
     int bodyCameraCenterPosition;
     int bodyCameraUpperPosition;
+
+    double rightArmYawPosition;
+
+    /**************************************************** TASKS ******************************************************/
+    std::map<std::string, function<ITask*(void)>> tasks;
 };
 
 

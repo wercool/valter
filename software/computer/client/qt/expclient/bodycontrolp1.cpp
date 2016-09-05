@@ -13,10 +13,20 @@ bool BodyControlP1::instanceFlag = false;
 const string BodyControlP1::controlDeviceId = "BODY-CONTROL-P1";
 const string BodyControlP1::defaultsFilePath = "settings/body-control-p1-defaults";
 
+//body joints parameters
+const int BodyControlP1::rightArmYawAngleADCMin     = 0;
+const int BodyControlP1::rightArmYawAngleADCMax     = 0;
+const int BodyControlP1::rightArmYawAngleADCZero    = 0;
+const float BodyControlP1::rightArmYawMaxAngle      = 0;
+const float BodyControlP1::rightArmYawDegreesDiv    = 0;
+
 BodyControlP1::BodyControlP1()
 {
     Valter::log(BodyControlP1::controlDeviceId + " singleton initialized");
     this->controlDeviceIsSet = false;
+
+    /********************************* TASKS **************************************/
+    tasks["SetRightArmYawPositionTask"] = &SetRightArmYawPositionTask::create;
 
     initTcpInterface();
 
@@ -346,6 +356,14 @@ void BodyControlP1::processControlDeviceResponse(string response)
 
 unsigned int BodyControlP1::executeTask(string taskScriptLine)
 {
+    std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
+    std::string taskName = taskInitiationParts[0];
+    if (tasks.find(taskName) != tasks.end())
+    {
+        ITask *task = tasks[taskName]();
+        task->setTaskScriptLine(taskScriptLine);
+        return TaskManager::getInstance()->addTask(task);
+    }
     return 0;
 }
 

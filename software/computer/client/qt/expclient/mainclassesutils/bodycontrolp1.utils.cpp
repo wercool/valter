@@ -135,6 +135,8 @@ void BodyControlP1::resetToDefault()
     bodyCameraLowerPosition     = 1650;
     bodyCameraCenterPosition    = 1460;
     bodyCameraUpperPosition     = 1020;
+
+    rightArmYawPosition     = 0;
 }
 
 void BodyControlP1::loadDefaults()
@@ -701,6 +703,16 @@ int BodyControlP1::getRightArmYawADCPosition() const
 void BodyControlP1::setRightArmYawADCPosition(int value)
 {
     rightArmYawADCPosition = value;
+}
+
+double BodyControlP1::getRightArmYawPosition() const
+{
+
+}
+
+void BodyControlP1::setRightArmYawPosition(double value)
+{
+    rightArmYawPosition = value;
 }
 
 int BodyControlP1::getBodyPitchADCPosition() const

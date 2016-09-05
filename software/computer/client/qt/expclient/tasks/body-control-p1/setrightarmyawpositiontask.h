@@ -1,7 +1,6 @@
 #ifndef SETRIGHTARMYAWPOSITIONTASK_H
 #define SETRIGHTARMYAWPOSITIONTASK_H
 
-
 #include <QtDebug>
 
 #include "tasks/itask.h"
