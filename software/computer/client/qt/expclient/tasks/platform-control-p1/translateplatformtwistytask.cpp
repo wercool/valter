@@ -127,6 +127,8 @@ int lwen = platformControlP1->getLeftWheelEncoder();
 int rwen = platformControlP1->getRightWheelEncoder();
 lwen++;
 rwen++;
+platformControlP1->setLeftWheelEncoderGetOnce(true);
+platformControlP1->setRightWheelEncoderGetOnce(true);
 platformControlP1->getControlDevice()->addResponse(Valter::format_string("LEFT MOTOR COUNTER: %d", lwen));
 platformControlP1->getControlDevice()->addResponse(Valter::format_string("RIGHT MOTOR COUNTER: %d", rwen));
 executing = true;
