@@ -177,13 +177,6 @@ void MainWindow::addMsgToLog(string msg)
         msg = Valter::format_string("%s: %s", currentTime, msg.c_str());
     }
 
-    try
-    {
-        ui->loggingTextEdit->moveCursor(QTextCursor::End);
-    }catch(std::exception& e)
-    {
-        qDebug("EXECPTION in MainWindow::addMsgToLog");
-    }
     ui->loggingTextEdit->appendPlainText(msg.c_str());
     logLength++;
     if (ui->autoclearLogBox->isChecked())
