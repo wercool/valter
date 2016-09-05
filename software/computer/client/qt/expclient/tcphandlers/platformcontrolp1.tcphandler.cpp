@@ -50,9 +50,11 @@ class PlatformControlP1TCPConnectionHandler : public Thread
                     isGVR = false;
                     output = "OK";
                 }
-                output = "OK";
+
                 stream->send(output.c_str(), (sizeof(output.c_str())-1));
-//                //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
+
+                //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
+
                 if (!isGVR)
                 {
                     std::string cmd(input);
