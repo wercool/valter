@@ -53,15 +53,14 @@ class PlatformControlP1TCPConnectionHandler : public Thread
                 }
                 stream->send(output.c_str(), (sizeof(output.c_str())-1));
                 //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
+                if (!isGVR)
+                {
+                    std::string cmd(input);
+                    qDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %s", cmd.c_str());
+                    executeCommand(cmd);
+                }
             }
             delete item;
-
-            if (!isGVR)
-            {
-                std::string cmd(input);
-                qDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %s", cmd.c_str());
-                executeCommand(cmd);
-            }
         }
 
         // Should never get here
