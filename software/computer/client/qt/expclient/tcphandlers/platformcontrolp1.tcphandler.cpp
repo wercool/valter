@@ -12,6 +12,8 @@ class PlatformControlP1TCPConnectionHandler : public Thread
 
     void* run()
     {
+        PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+
         // Remove 1 item at a time and process it. Blocks if no items are
         // available to process.
         for (int i = 0;; i++)
@@ -42,7 +44,6 @@ class PlatformControlP1TCPConnectionHandler : public Thread
                     isGVR = true;
                     int gvr_pos = request.find("~") + 1;
                     string gvr = request.substr(gvr_pos);
-                    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
                     output = platformControlP1->getValue(gvr);
                 }
                 else

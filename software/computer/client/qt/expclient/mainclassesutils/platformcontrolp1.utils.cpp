@@ -147,6 +147,11 @@ void PlatformControlP1::resetToDefault()
 
 string PlatformControlP1::getValue(string key)
 {
+    if (key[key.length()-1] == '\n')
+    {
+        key.erase(key.length()-1);
+    }
+
     if (values.find(key) == values.end())
     {
         return "undefined";
