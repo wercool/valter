@@ -1,0 +1,2 @@
+T_BCP1_SetRightArmYawPositionTask_{%f = target angle} [0 - ? degrees]
+T_BCP1_SetLeftArmYawPositionTask_{%f = target angle} [0 - ? degrees]

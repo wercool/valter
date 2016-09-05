@@ -82,7 +82,8 @@ SOURCES += main.cpp\
     tasks/arm-control-right/setrightlimbpositiontask.cpp \
     tasks/arm-control-left/setleftforearmpositiontask.cpp \
     tasks/arm-control-left/setleftarmpositiontask.cpp \
-    tasks/arm-control-left/setleftlimbpositiontask.cpp
+    tasks/arm-control-left/setleftlimbpositiontask.cpp \
+    tasks/body-control-p1/setrightarmyawpositiontask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -143,7 +144,8 @@ HEADERS  += mainwindow.h \
     tasks/arm-control-right/setrightlimbpositiontask.h \
     tasks/arm-control-left/setleftforearmpositiontask.h \
     tasks/arm-control-left/setleftarmpositiontask.h \
-    tasks/arm-control-left/setleftlimbpositiontask.h
+    tasks/arm-control-left/setleftlimbpositiontask.h \
+    tasks/body-control-p1/setrightarmyawpositiontask.h
 
 FORMS    += mainwindow.ui
 
