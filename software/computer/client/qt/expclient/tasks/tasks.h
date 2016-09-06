@@ -35,5 +35,6 @@
 
 //BODY-CONTROL-P1
 #include "tasks/body-control-p1/setrightarmyawpositiontask.h"
+#include "tasks/body-control-p1/setleftarmyawpositiontask.h"
 
 #endif // TASKS_H

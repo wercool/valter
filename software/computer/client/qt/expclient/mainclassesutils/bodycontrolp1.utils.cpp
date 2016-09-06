@@ -137,6 +137,7 @@ void BodyControlP1::resetToDefault()
     bodyCameraUpperPosition     = 1020;
 
     rightArmYawPosition     = 0;
+    leftArmYawPosition      = 0;
 }
 
 void BodyControlP1::loadDefaults()
@@ -693,6 +694,18 @@ int BodyControlP1::getLeftArmYawADCPosition() const
 void BodyControlP1::setLeftArmYawADCPosition(int value)
 {
     leftArmYawADCPosition = value;
+    double degreesValue = ((double)(BodyControlP1::leftArmYawAngleADCZero - leftArmYawADCPosition)) / BodyControlP1::leftArmYawDegreesDiv;
+    setLeftArmYawPosition(degreesValue);
+}
+
+double BodyControlP1::getLeftArmYawPosition() const
+{
+    return leftArmYawPosition;
+}
+
+void BodyControlP1::setLeftArmYawPosition(double value)
+{
+    leftArmYawPosition = value;
 }
 
 int BodyControlP1::getRightArmYawADCPosition() const
@@ -703,11 +716,13 @@ int BodyControlP1::getRightArmYawADCPosition() const
 void BodyControlP1::setRightArmYawADCPosition(int value)
 {
     rightArmYawADCPosition = value;
+    double degreesValue = ((double)(BodyControlP1::rightArmYawAngleADCZero - rightArmYawADCPosition)) / BodyControlP1::rightArmYawDegreesDiv;
+    setRightArmYawPosition(degreesValue);
 }
 
 double BodyControlP1::getRightArmYawPosition() const
 {
-
+    return rightArmYawPosition;
 }
 
 void BodyControlP1::setRightArmYawPosition(double value)

@@ -230,6 +230,8 @@ public:
 
     int getLeftArmYawADCPosition() const;
     void setLeftArmYawADCPosition(int value);
+    double getLeftArmYawPosition() const;
+    void setLeftArmYawPosition(double value);
 
     int getHeadPitchADCPosition() const;
     void setHeadPitchADCPosition(int value);
@@ -481,6 +483,7 @@ private:
     int bodyCameraUpperPosition;
 
     double rightArmYawPosition;
+    double leftArmYawPosition;
 
     /**************************************************** TASKS ******************************************************/
     std::map<std::string, function<ITask*(void)>> tasks;

@@ -92,6 +92,8 @@ void SetLeftArmPositionTask::executionWorker()
 //    armControlLeft->setArmADCPosition(750);
     /************************************ emulation *********************finish**************************/
 
+    int setPositionAttempt = 0;
+
     float sigma = 1.0; //precision in degrees
 
     //move up (angle increased) - true
@@ -161,11 +163,25 @@ void SetLeftArmPositionTask::executionWorker()
                 qDebug("Task#%lu: getArmPosition() (deg) = %f, target (deg) = %f, cutoffAngle = %f, dSigma = %f ? %f, direction: %s", getTaskId(), armControlLeft->getArmPosition(), angle, cutoffAngle, abs(angle - armControlLeft->getArmPosition()), sigma, (armControlLeft->getLeftArmMotorMovementDirection() ? "down" : "up"));
             }
 
-            if ((abs(angle - armControlLeft->getArmPosition()) < sigma))
+            if ((direction && armControlLeft->getArmPosition() >= cutoffAngle) || (!direction && armControlLeft->getArmPosition() <= cutoffAngle) || (abs(angle - armControlLeft->getArmPosition()) < sigma))
             {
                 armControlLeft->setLeftArmMotorActivated(false);
-                setCompleted();
-                return;
+                this_thread::sleep_for(std::chrono::milliseconds(500));
+                qDebug("Task#%lu(%s): Position approximation stop", getTaskId(), getTaskName().c_str());
+
+                if ((abs(angle - armControlLeft->getArmPosition()) < sigma) || setPositionAttempt > 3)
+                {
+                    setCompleted();
+                    return;
+                }
+                else
+                {
+                    direction = !direction;
+                    executing = false;
+                    qDebug("Task#%lu(%s): Movement direction has been changed. Setting position...", getTaskId(), getTaskName().c_str());
+                    setPositionAttempt++;
+                    continue;
+                }
             }
 
             /************************************ emulation *********************start***************************/

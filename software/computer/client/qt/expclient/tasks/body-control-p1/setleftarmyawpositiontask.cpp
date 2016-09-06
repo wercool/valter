@@ -1,19 +1,19 @@
 #include "valter.h"
-#include "setrightarmyawpositiontask.h"
+#include "setleftarmyawpositiontask.h"
 
-SetRightArmYawPositionTask::SetRightArmYawPositionTask()
+SetLeftArmYawPositionTask::SetLeftArmYawPositionTask()
 {
     qDebugOn = true;
-    taskName = "SetRightArmYawPositionTask";
+    taskName = "SetLeftArmYawPositionTask";
     blocking = false;
 }
 
-bool SetRightArmYawPositionTask::checkFeasibility()
+bool SetLeftArmYawPositionTask::checkFeasibility()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-    if (!bodyControlP1->prepareRightArmYawMovement())
+    if (!bodyControlP1->prepareLeftArmYawMovement())
     {
-        string msg = Valter::format_string("Task#%lu bodyControlP1->prepareRightArmYawMovement() returned false in checkFeasibility().", getTaskId());
+        string msg = Valter::format_string("Task#%lu bodyControlP1->prepareLeftArmYawMovement() returned false in checkFeasibility().", getTaskId());
         qDebug("%s", msg.c_str());
         TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -21,7 +21,7 @@ bool SetRightArmYawPositionTask::checkFeasibility()
     }
     if (angle < 0 || angle > 55)
     {
-        string msg = Valter::format_string("Task#%lu target Right Arm Yaw angle %f in unreachable.", getTaskId(), angle);
+        string msg = Valter::format_string("Task#%lu target Left Arm Yaw angle %f in unreachable.", getTaskId(), angle);
         qDebug("%s", msg.c_str());
         TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -30,7 +30,7 @@ bool SetRightArmYawPositionTask::checkFeasibility()
     return true;
 }
 
-bool SetRightArmYawPositionTask::initialize()
+bool SetLeftArmYawPositionTask::initialize()
 {
     //script line parsing
     std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
@@ -47,13 +47,13 @@ bool SetRightArmYawPositionTask::initialize()
     return true;
 }
 
-void SetRightArmYawPositionTask::execute()
+void SetLeftArmYawPositionTask::execute()
 {
     if (initialize())
     {
         if (checkFeasibility())
         {
-            new std::thread(&SetRightArmYawPositionTask::executionWorker, this);
+            new std::thread(&SetLeftArmYawPositionTask::executionWorker, this);
             this_thread::sleep_for(std::chrono::milliseconds(100));
             TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
             return;
@@ -64,42 +64,42 @@ void SetRightArmYawPositionTask::execute()
     setCompleted();
 }
 
-void SetRightArmYawPositionTask::stopExecution()
+void SetLeftArmYawPositionTask::stopExecution()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-    bodyControlP1->setRightArmYawMotorActivated(false);
+    bodyControlP1->setLeftArmYawMotorActivated(false);
     stopped = true;
     qDebug("Task#%lu (%s) stopExecution()", getTaskId(), getTaskName().c_str());
 }
 
-void SetRightArmYawPositionTask::reportCompletion()
+void SetLeftArmYawPositionTask::reportCompletion()
 {
     qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
-ITask *SetRightArmYawPositionTask::create()
+ITask *SetLeftArmYawPositionTask::create()
 {
-    return (ITask*)new SetRightArmYawPositionTask();
+    return (ITask*)new SetLeftArmYawPositionTask();
 }
 
-void SetRightArmYawPositionTask::executionWorker()
+void SetLeftArmYawPositionTask::executionWorker()
 {
     qDebug("Task#%lu %s started", getTaskId(), taskName.c_str());
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
 
 /************************************ emulation *********************start***************************/
-//    bodyControlP1->setRightArmYawADCPosition(900);
+//    bodyControlP1->setLeftArmYawADCPosition(580);
 /************************************ emulation *********************finish**************************/
 
     float sigma = 1.0; //precision in degrees
 
     //move to open - true
-    bool direction = (angle > bodyControlP1->getRightArmYawPosition()) ? true : false;
+    bool direction = (angle > bodyControlP1->getLeftArmYawPosition()) ? true : false;
 
     float cutoffAngle = (direction) ? (angle * 0.98) : (angle / 0.98); //<<<<<<<<<<<<<<< dynamic parameter
 
-    if (abs(angle - bodyControlP1->getRightArmYawPosition()) < sigma)
+    if (abs(angle - bodyControlP1->getLeftArmYawPosition()) < sigma)
     {
         this_thread::sleep_for(std::chrono::milliseconds(100));
         setCompleted();
@@ -110,20 +110,20 @@ void SetRightArmYawPositionTask::executionWorker()
     {
         if (!executing)
         {
-            if (direction) //move Right Arm Yaw (open)
+            if (direction) //move Left Arm Yaw (open)
             {
-                if (bodyControlP1->prepareRightArmYawMovement())
+                if (bodyControlP1->prepareLeftArmYawMovement())
                 {
                     //move to open (CCW)
-                    if (bodyControlP1->setRightArmYawMovementDirection(true))
+                    if (bodyControlP1->setLeftArmYawMovementDirection(true))
                     {
-                        bodyControlP1->setRightArmYawMotorActivated(true);
+                        bodyControlP1->setLeftArmYawMotorActivated(true);
                         executing = true;
                     }
                 }
                 else
                 {
-                    string msg = Valter::format_string("Task#%lu could not be completed; reason bodyControlP1->prepareRightArmYawMovement()", getTaskId());
+                    string msg = Valter::format_string("Task#%lu could not be completed; reason bodyControlP1->prepareLeftArmYawMovement()", getTaskId());
                     qDebug("%s", msg.c_str());
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -133,18 +133,18 @@ void SetRightArmYawPositionTask::executionWorker()
             }
             else
             {
-                if (bodyControlP1->prepareRightArmYawMovement())
+                if (bodyControlP1->prepareLeftArmYawMovement())
                 {
                     //closing (CW)
-                    if (bodyControlP1->setRightArmYawMovementDirection(false))
+                    if (bodyControlP1->setLeftArmYawMovementDirection(false))
                     {
-                        bodyControlP1->setRightArmYawMotorActivated(true);
+                        bodyControlP1->setLeftArmYawMotorActivated(true);
                         executing = true;
                     }
                 }
                 else
                 {
-                    string msg = Valter::format_string("Task#%lu could not be completed; reason bodyControlP1->prepareRightArmYawMovement()", getTaskId());
+                    string msg = Valter::format_string("Task#%lu could not be completed; reason bodyControlP1->prepareLeftArmYawMovement()", getTaskId());
                     qDebug("%s", msg.c_str());
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
@@ -158,18 +158,18 @@ void SetRightArmYawPositionTask::executionWorker()
 
             if (qDebugOn)
             {
-                qDebug("Task#%lu: getRightArmYawPosition() (deg) = %f, target (deg) = %f, cutoffAngle = %f, dSigma = %f ? %f, direction: %s", getTaskId(), bodyControlP1->getRightArmYawPosition(), angle, cutoffAngle, abs(angle - bodyControlP1->getRightArmYawPosition()), sigma, (bodyControlP1->getRightArmYawMovementDirection() ? "opening" : "closing"));
+                qDebug("Task#%lu: getLeftArmYawPosition() (deg) = %f, target (deg) = %f, cutoffAngle = %f, dSigma = %f ? %f, direction: %s", getTaskId(), bodyControlP1->getLeftArmYawPosition(), angle, cutoffAngle, abs(angle - bodyControlP1->getLeftArmYawPosition()), sigma, (bodyControlP1->getLeftArmYawMovementDirection() ? "opening" : "closing"));
             }
 
-            if ((abs(angle - bodyControlP1->getRightArmYawPosition()) < sigma))
+            if ((abs(angle - bodyControlP1->getLeftArmYawPosition()) < sigma))
             {
-                bodyControlP1->setRightArmYawMotorActivated(false);
+                bodyControlP1->setLeftArmYawMotorActivated(false);
                 setCompleted();
                 return;
             }
 
 /************************************ emulation *********************start***************************/
-//            int positionADC = bodyControlP1->getRightArmYawADCPosition();
+//            int positionADC = bodyControlP1->getLeftArmYawADCPosition();
 //            if (direction)
 //            {
 //                positionADC -= 5;
@@ -178,7 +178,7 @@ void SetRightArmYawPositionTask::executionWorker()
 //            {
 //                positionADC += 5;
 //            }
-//            bodyControlP1->setRightArmYawADCPosition(positionADC);
+//            bodyControlP1->setLeftArmYawADCPosition(positionADC);
 /************************************ emulation *********************finish**************************/
         }
         this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -192,12 +192,12 @@ void SetRightArmYawPositionTask::executionWorker()
     setCompleted();
 }
 
-float SetRightArmYawPositionTask::getAngle() const
+float SetLeftArmYawPositionTask::getAngle() const
 {
     return angle;
 }
 
-void SetRightArmYawPositionTask::setAngle(float value)
+void SetLeftArmYawPositionTask::setAngle(float value)
 {
     angle = value;
 }
