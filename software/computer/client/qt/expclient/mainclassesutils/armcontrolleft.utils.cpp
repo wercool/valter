@@ -690,8 +690,8 @@ void ArmControlLeft::setArmPosition(double value)
     }
     else
     {
-        filteredValueCnt = 0;
         armPosition = filteredValue / (double)filteredValueCnt;
+        filteredValueCnt = 0;
     }
     //armPosition = value;
 }
