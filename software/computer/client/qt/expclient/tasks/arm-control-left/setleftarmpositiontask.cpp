@@ -130,7 +130,6 @@ void SetLeftArmPositionTask::executionWorker()
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                     stopExecution();
-                    return;
                 }
             }
             else
@@ -151,7 +150,6 @@ void SetLeftArmPositionTask::executionWorker()
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                     stopExecution();
-                    return;
                 }
             }
         }
@@ -172,7 +170,6 @@ void SetLeftArmPositionTask::executionWorker()
                 if ((abs(angle - armControlLeft->getArmPosition()) < sigma) || setPositionAttempt > 3)
                 {
                     setCompleted();
-                    return;
                 }
                 else
                 {
