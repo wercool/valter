@@ -153,6 +153,7 @@ void TranslatePlatformTwistyTask::executionWorker()
                 string msg = Valter::format_string("Task#%lu (%s)has been terminated. preparePlatformMovement() returns FALSE.", getTaskId(), getTaskName().c_str());
                 qDebug("%s", msg.c_str());
                 stopExecution();
+                continue;
             }
             executing = true;
         }
@@ -334,11 +335,14 @@ void TranslatePlatformTwistyTask::executionWorker()
     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
 
-    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal.%s", getTaskId(), ((stopExecutionReason.length() > 0) ? Valter::format_string(" REASON: %s", stopExecutionReason.c_str()).c_str() : ""));
-    qDebug("%s", msg.c_str());
-    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+    if (!getCompleted())
+    {
+        string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal.%s", getTaskId(), ((stopExecutionReason.length() > 0) ? Valter::format_string(" REASON: %s", stopExecutionReason.c_str()).c_str() : ""));
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
-    setCompleted();
+        setCompleted();
+    }
 }
 
 

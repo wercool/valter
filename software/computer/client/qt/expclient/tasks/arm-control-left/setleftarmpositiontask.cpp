@@ -130,6 +130,7 @@ void SetLeftArmPositionTask::executionWorker()
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                     stopExecution();
+                    continue;
                 }
             }
             else
@@ -150,6 +151,7 @@ void SetLeftArmPositionTask::executionWorker()
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                     stopExecution();
+                    continue;
                 }
             }
         }
@@ -167,9 +169,10 @@ void SetLeftArmPositionTask::executionWorker()
                 this_thread::sleep_for(std::chrono::milliseconds(1000));
                 qDebug("Task#%lu(%s): Position approximation stop", getTaskId(), getTaskName().c_str());
 
-                if ((abs(angle - armControlLeft->getArmPosition()) < sigma) || setPositionAttempt > 3)
+                if ((abs(angle - armControlLeft->getArmPosition()) < sigma) || setPositionAttempt > 2)
                 {
                     setCompleted();
+                    break;
                 }
                 else
                 {
@@ -197,12 +200,15 @@ void SetLeftArmPositionTask::executionWorker()
         this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 
-    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
-    qDebug("%s", msg.c_str());
-    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+    if (!getCompleted())
+    {
+        string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
 
-    setCompleted();
+        setCompleted();
+    }
 }
 
 float SetLeftArmPositionTask::getAngle() const

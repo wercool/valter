@@ -119,7 +119,7 @@ void SetLink1PositionTask::executionWorker()
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                     stopExecution();
-                    return;
+                    continue;
                 }
             }
             else
@@ -140,7 +140,7 @@ void SetLink1PositionTask::executionWorker()
                     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                     stopExecution();
-                    return;
+                    continue;
                 }
             }
         }
@@ -158,7 +158,7 @@ void SetLink1PositionTask::executionWorker()
                 {
                     platformManipulatorAndIRBumper->setLink1MotorActivated(false);
                     setCompleted();
-                    return;
+                    break;
                 }
             }
 
@@ -178,12 +178,15 @@ void SetLink1PositionTask::executionWorker()
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
-    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
-    qDebug("%s", msg.c_str());
-    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+    if (!getCompleted())
+    {
+        string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
 
-    setCompleted();
+        setCompleted();
+    }
 }
 
 float SetLink1PositionTask::getAngle() const

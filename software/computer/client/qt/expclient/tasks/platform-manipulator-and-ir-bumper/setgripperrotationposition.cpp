@@ -135,7 +135,7 @@ void SetGripperRotationPosition::executionWorker()
             {
                 platformManipulatorAndIRBumper->manGripperRotateStop();
                 setCompleted();
-                return;
+                break;
             }
 
             /************************************ emulation *********************start***************************/
@@ -153,9 +153,13 @@ void SetGripperRotationPosition::executionWorker()
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
-    qDebug("%s", msg.c_str());
-    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
-    setCompleted();
+    if (!getCompleted())
+    {
+        string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
+        setCompleted();
+    }
 }

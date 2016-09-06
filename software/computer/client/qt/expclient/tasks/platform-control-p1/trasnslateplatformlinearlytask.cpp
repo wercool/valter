@@ -168,6 +168,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                         TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                         stopExecution();
+                        continue;
                     }
                 }
                 else if (direction == 0)
@@ -185,6 +186,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                         TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
                         stopExecution();
+                        continue;
                     }
                 }
             }
@@ -193,6 +195,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                 string msg = Valter::format_string("Task#%lu (%s)has been terminated. preparePlatformMovement() returns FALSE.", getTaskId(), getTaskName().c_str());
                 qDebug("%s", msg.c_str());
                 stopExecution();
+                continue;
             }
             executing = true;
         }
@@ -226,7 +229,7 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
                 platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
                 platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
                 setCompleted();
-                return;
+                break;
             }
             else
             {
@@ -289,11 +292,14 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
     platformControlP1->setLeftMotorDutyMax(initialLeftMotorMaxDuty);
     platformControlP1->setRightMotorDutyMax(initialRightMotorMaxDuty);
 
-    string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
-    qDebug("%s", msg.c_str());
-    TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+    if (!getCompleted())
+    {
+        string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
 
-    setCompleted();
+        setCompleted();
+    }
 }
 
 void TrasnslatePlatformLinearlyTask::setDirection(signed int value)
