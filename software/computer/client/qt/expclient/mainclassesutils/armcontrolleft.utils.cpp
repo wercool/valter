@@ -681,7 +681,7 @@ void ArmControlLeft::setArmPosition(double value)
 
     if (filteredValueCnt < 10)
     {
-        if (abs(abs(value) - abs(prevValue)) < 5)
+        if (abs(abs(value) - abs(prevValue)) < 5 || prevValue == 0)
         {
             filteredValue += value;
             filteredValueCnt++;
