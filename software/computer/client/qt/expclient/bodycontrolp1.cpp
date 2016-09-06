@@ -14,11 +14,17 @@ const string BodyControlP1::controlDeviceId = "BODY-CONTROL-P1";
 const string BodyControlP1::defaultsFilePath = "settings/body-control-p1-defaults";
 
 //body joints parameters
-const int BodyControlP1::rightArmYawAngleADCMin     = 0;
-const int BodyControlP1::rightArmYawAngleADCMax     = 0;
-const int BodyControlP1::rightArmYawAngleADCZero    = 0;
-const float BodyControlP1::rightArmYawMaxAngle      = 0;
+const int BodyControlP1::rightArmYawAngleADCMin     = 40;
+const int BodyControlP1::rightArmYawAngleADCMax     = 900;
+const int BodyControlP1::rightArmYawAngleADCZero    = 900;
+const float BodyControlP1::rightArmYawMaxAngle      = 55;
 const float BodyControlP1::rightArmYawDegreesDiv    = 0;
+
+const int BodyControlP1::leftArmYawAngleADCMin     = 300;
+const int BodyControlP1::leftArmYawAngleADCMax     = 580;
+const int BodyControlP1::leftArmYawAngleADCZero    = 580;
+const float BodyControlP1::leftArmYawMaxAngle      = 55;
+const float BodyControlP1::leftArmYawDegreesDiv    = 0;
 
 BodyControlP1::BodyControlP1()
 {

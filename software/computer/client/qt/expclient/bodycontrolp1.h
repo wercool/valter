@@ -326,6 +326,12 @@ public:
     static const float rightArmYawMaxAngle;
     static const float rightArmYawDegreesDiv;
 
+    static const int leftArmYawAngleADCMin;
+    static const int leftArmYawAngleADCMax;
+    static const int leftArmYawAngleADCZero;
+    static const float leftArmYawMaxAngle;
+    static const float leftArmYawDegreesDiv;
+
 private:
     BodyControlP1();
     static BodyControlP1* pBodyControlP1;         // BODY-CONTROL-P1's singleton instance
