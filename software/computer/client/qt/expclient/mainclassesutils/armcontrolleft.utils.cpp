@@ -675,21 +675,7 @@ double ArmControlLeft::getArmPosition() const
 
 void ArmControlLeft::setArmPosition(double value)
 {
-    static double filteredValue = 0;
-    static int filteredValueCnt = 0;
-
-    if (filteredValueCnt < 5)
-    {
-        filteredValue += value;
-        filteredValueCnt++;
-    }
-    else
-    {
-        armPosition = filteredValue / (double)filteredValueCnt;
-        filteredValueCnt = 0;
-        filteredValue = 0;
-    }
-    //armPosition = value;
+    armPosition = value;
 }
 
 int ArmControlLeft::getForearmADCPosition() const
