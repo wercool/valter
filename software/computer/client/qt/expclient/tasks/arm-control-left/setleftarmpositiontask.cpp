@@ -69,7 +69,7 @@ void SetLeftArmPositionTask::stopExecution()
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
     armControlLeft->setLeftArmMotorActivated(false);
     stopped = true;
-    qDebug("Task#%lu (%s) stopExecution()", getTaskId(), getTaskName().c_str());
+    qDebug("Task#%lu (%s) SetLeftArmPositionTask::stopExecution()", getTaskId(), getTaskName().c_str());
 }
 
 void SetLeftArmPositionTask::reportCompletion()
@@ -166,7 +166,7 @@ void SetLeftArmPositionTask::executionWorker()
             if ((direction && armControlLeft->getArmPosition() >= cutoffAngle) || (!direction && armControlLeft->getArmPosition() <= cutoffAngle) || (abs(angle - armControlLeft->getArmPosition()) < sigma))
             {
                 armControlLeft->setLeftArmMotorActivated(false);
-                this_thread::sleep_for(std::chrono::milliseconds(500));
+                this_thread::sleep_for(std::chrono::milliseconds(1000));
                 qDebug("Task#%lu(%s): Position approximation stop", getTaskId(), getTaskName().c_str());
 
                 if ((abs(angle - armControlLeft->getArmPosition()) < sigma) || setPositionAttempt > 3)
