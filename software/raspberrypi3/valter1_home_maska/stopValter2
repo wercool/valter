@@ -1,1 +1,3 @@
+#!/bin/bash
 gpio write 27 1
+echo "gpio write 27 1 [valter2 OFF]"
