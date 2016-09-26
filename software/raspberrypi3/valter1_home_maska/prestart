@@ -1,0 +1,10 @@
+./configureWiPi
+
+# PLATFORM-CONTROL-P1
+gpio write 11 1
+
+# BODY-CONTROL-P1
+# directly connected through USB hub
+#gpio write 6 1
+
+sudo ifconfig eth0 down

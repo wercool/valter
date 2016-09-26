@@ -1,0 +1,37 @@
+./configureWiPi
+
+# PLATFORM-CONTROL-P1
+gpio write 11 0
+sleep 0.5
+gpio write 11 1
+
+# PLATFORM-MANIPULATOR-AND-IR-BUMPER
+gpio write 10 0
+sleep 0.5
+gpio write 10 1
+
+# BODY-CONTROL-P1
+# directly connected through USB hub
+#gpio write 6 1
+
+# ARM-CONTROL-LEFT
+gpio write 5  0
+sleep 0.5
+gpio write 5  1
+
+# ARM-CONTROL-RIGHT
+gpio write 4  0
+sleep 0.5
+gpio write 4  1
+
+# AUDIO (loudspeakers and microphone)
+# directly connected through USB hub
+#gpio write 25 1
+
+#gpio write 24 0
+
+#gpio write 23 0
+
+
+#cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug/
+#DISPLAY=:0 ./expclient

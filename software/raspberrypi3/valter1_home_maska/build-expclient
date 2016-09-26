@@ -1,0 +1,6 @@
+#!/bin/bash
+cd /home/maska/git/valter
+git pull
+/usr/lib/arm-linux-gnueabihf/qt5/bin/qmake /home/maska/git/valter/software/computer/client/qt/expclient/expclient.pro -r -spec linux-g++ CONFIG+=debug CONFIG+=declarative_debug CONFIG+=qml_debug
+cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug
+make
