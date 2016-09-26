@@ -639,10 +639,12 @@ void PlatformControlP1::toggle5VSource(bool state)
     if (state)
     {
         sendCommand("DCDC5VENABLEON");
+        Valter::exec_shell("/home/maska/actionsOn5VOn");
         PlatformControlP2::getInstance()->setModuleInitialState();
     }
     else
     {
+        Valter::exec_shell("/home/maska/actionsOn5VOff");
         sendCommand("DCDC5VENABLEOFF");
     }
 }
