@@ -1,0 +1,7 @@
+<launch>
+  <node ns="camera" pkg="image_proc" type="image_proc" name="debayer" args="load image_proc/debayer">
+    <remap from="image_raw"   to="rgb/image_raw" />
+    <remap from="image_mono"  to="rgb/image_mono" />
+    <remap from="image_color" to="rgb/image_color" />
+  </node>
+</launch>

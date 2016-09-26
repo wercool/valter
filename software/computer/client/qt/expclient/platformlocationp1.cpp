@@ -144,6 +144,7 @@ void PlatformLocationP1::setModuleInitialState()
     setRedLedState(0, false);
     setGreenLedState(0, false);
     setAllLEDsOff();
+    setAllSonarsLedsState(false);
 }
 
 void PlatformLocationP1::spawnProcessMessagesQueueWorkerThread()

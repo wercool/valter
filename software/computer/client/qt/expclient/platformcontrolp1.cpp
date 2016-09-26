@@ -641,6 +641,7 @@ void PlatformControlP1::toggle5VSource(bool state)
         sendCommand("DCDC5VENABLEON");
         Valter::exec_shell("/bin/bash /home/maska/actionsOn5VOn");
         PlatformControlP2::getInstance()->setModuleInitialState();
+        PlatformLocationP1::getInstance()->setModuleInitialState();
     }
     else
     {
