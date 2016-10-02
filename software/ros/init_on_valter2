@@ -1,5 +1,2 @@
 export ROS_MASTER_URI=http://192.168.0.232:11311
 export ROS_IP=`hostname -I`
-
-
-roslaunch freenect_launch freenect.launch

@@ -1,0 +1,1 @@
+roslaunch freenect_launch kinect1.launch
