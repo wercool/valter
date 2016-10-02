@@ -646,6 +646,7 @@ void PlatformControlP1::toggle5VSource(bool state)
     else
     {
         Valter::exec_shell("/bin/bash /home/maska/actionsOn5VOff");
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         sendCommand("DCDC5VENABLEOFF");
     }
 }
