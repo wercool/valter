@@ -1,0 +1,4 @@
+<launch>
+  <node name="ir0_scan" pkg="valter" type="ir0_scan" respawn="false" output="screen"/>
+  <node name="ir1_scan" pkg="valter" type="ir1_scan" respawn="false" output="screen"/>
+</launch>
