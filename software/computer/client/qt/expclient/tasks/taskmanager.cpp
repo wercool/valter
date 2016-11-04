@@ -119,7 +119,7 @@ void TaskManager::setQueueStopped(bool value)
 void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id, bool onlyFromQueuedTasks)
 {
     ITask *task = getTaskById(id);
-    if (task != NULL)
+    if (task != nullptr)
     {
         std::lock_guard<std::mutex> guard(tasks_mutex);
         if (!onlyFromQueuedTasks)
@@ -133,6 +133,7 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id, bool onlyFr
         {
             queuedTasksMap.erase(id);
         }
+        qDebug("Tasks %lu wiped from queue", id);
     }
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
 }
@@ -311,6 +312,10 @@ void TaskManager::tasksQueueWorker()
                     {
                         msgNumInQueue++;
                         processingTask = it->second;
+                        if (processingTask == nullptr)
+                        {
+                            continue;
+                        }
                         if (processingTask->getCompleted())
                         {
                             processingTask->reportCompletion();
@@ -330,10 +335,14 @@ void TaskManager::tasksQueueWorker()
                                         qDebug("(ATTACH)Task#%lu (%s) will be attached to Task#%lu (%s)", processingTask->getTaskId(), processingTask->getTaskName().c_str(), runningTask->getTaskId(), runningTask->getTaskName().c_str());
                                         runningTask->setTaskScriptLine(processingTask->getTaskScriptLine());
                                         runningTask->initialize();
+
                                         wipeQueuedCompletedTaskFromQueue(processingTask->getTaskId(), true);
                                         string msg = Valter::format_string("%s has been attached [%s]", processingTask->getTaskName().c_str(), processingTask->getTaskScriptLine().c_str());
                                         qDebug("%s", msg.c_str());
-                                        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", runningTask->getTaskId(), msg.c_str()));
+
+                                        break;
+
+                                        //TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", runningTask->getTaskId(), msg.c_str()));
                                     }
                                     else
                                     {

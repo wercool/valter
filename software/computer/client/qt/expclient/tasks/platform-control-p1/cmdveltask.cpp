@@ -31,7 +31,7 @@ bool CmdVelTask::initialize()
     //script line parsing
     std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
     std::string taskName = taskInitiationParts[0];
-    //T_PCP1_TranslatePlatformTwistyTask_0.1_0.0
+    //T_PCP1_CmdVelTask_0.1_0.0
     float _linearVelocity = atof(((string)taskInitiationParts[1]).c_str());
     float _angularVelocity = atof(((string)taskInitiationParts[2]).c_str());
     setLinearVelocity(_linearVelocity);
@@ -123,11 +123,21 @@ void CmdVelTask::executionWorker()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
 
-    int maxAllowedDuty = 25;
+    bool leftMotorDirection  = true; //forward
+    bool rightMotorDirection = true; //forward
+
+    int maxAllowedDuty = 35;
     int minAllowedDuty = 15;
 
     int leftMotorDuty  = minAllowedDuty;
     int rightMotorDuty = minAllowedDuty;
+
+    //******************************************************************************************experimental timings based
+    //robot spins 2*pi at the duty of [maxAllowedDuty = 35] about [st] seconds, so the maxAngVel = (2*pi)/st (rad/sec)
+    double maxAngVel = (2 * M_PI) / 10.7; //0.587196262
+
+    //robot linear speed at the duty of [maxAllowedDuty = 35] maxLinVel = x(m/s)
+    double maxLinVel = 0.12;
 
 
     //******************************************************************************************encoder based
@@ -173,19 +183,43 @@ void CmdVelTask::executionWorker()
             }
             else
             {
-                float linVel = getLinearVelocity();
-                float angVel = getAngularVelocity();
+                double linVel = (double)getLinearVelocity();
+                double angVel = (double)getAngularVelocity();
 
-                //******************************************************************************************experimental
-                //robot spins 2*pi at the duty of [maxAllowedDuty] about [st] seconds, so the maxAngVel = (2*pi)/st (rad/sec)
-                //robot linear speed at the duty of [maxAllowedDuty] maxLinVel = x(m/s)
+                //******************************************************************************************experimental timings based
+                double angVelDuty = (angVel * maxAllowedDuty) / maxAngVel;
+                double linVelDuty = (linVel * maxAllowedDuty) / maxLinVel;
 
-                //angVelDuty = (abs(angVel) * maxAllowedDuty) / maxAngVel;
-                //linVelDuty = (abs(linVel) * maxAllowedDuty) / maxLinVel;
+                leftMotorDuty  = round(linVelDuty - angVelDuty);
+                rightMotorDuty = round(linVelDuty + angVelDuty);
 
-                //leftMotorDuty  = round(linVelDuty - angVelDuty);
-                //rightMotorDuty = round(linVelDuty + angVelDuty);
+                leftMotorDirection  = (leftMotorDuty > 0)  ? true : false;
+                rightMotorDirection = (rightMotorDuty > 0) ? true : false;
 
+                if (platformControlP1->setLeftMotorDirection(leftMotorDirection))
+                {
+                    platformControlP1->setLeftMotorActivated(true);
+                }
+                else
+                {
+                    platformControlP1->setLeftMotorActivated(false);
+                    continue;
+                }
+
+                if (platformControlP1->setRightMotorDirection(rightMotorDirection))
+                {
+                    platformControlP1->setRightMotorActivated(true);
+                }
+                else
+                {
+                    platformControlP1->setRightMotorActivated(false);
+                    continue;
+                }
+
+                platformControlP1->setLeftMotorDutyMax(abs(leftMotorDuty));
+                platformControlP1->setRightMotorDutyMax(abs(rightMotorDuty));
+
+                qDebug("[%s] leftMotorDuty=%d[%s], rightMotorDuty=%d[%s]", getTaskName().c_str(), abs(platformControlP1->getLeftMotorDuty()), ((platformControlP1->getLeftMotorDuty() > 0) ? "↑" : "↓"), abs(platformControlP1->getRightMotorDuty()), ((platformControlP1->getRightMotorDuty() > 0) ? "↑" : "↓"));
 
                 //******************************************************************************************encoder based
                 /*
@@ -206,7 +240,7 @@ void CmdVelTask::executionWorker()
                 prevRightEncoder = getRightWheelEncoderReading();
                 */
             }
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            this_thread::sleep_for(std::chrono::milliseconds(50));
         }
     }
 
