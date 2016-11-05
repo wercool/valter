@@ -532,5 +532,15 @@ class PlatformControlP1TCPConnectionHandler : public Thread
             mainWindow->on_platformControlP1UntrackAllAdditionalReadingsButton_clicked();
             return;
         }
+        if (cmd.find("on_valter2OnPushButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_valter2OnPushButton_clicked();
+            return;
+        }
+        if (cmd.find("on_valter2OffPushButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_valter2OffPushButton_clicked();
+            return;
+        }
     }
 };

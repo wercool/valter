@@ -217,6 +217,8 @@ public slots:
     void on_chargerVoltageADCCheckBox_clicked(bool checked);
     void on_platformControlP1RedrawGUICheckBox_clicked(bool checked);
     void on_platformControlP1UntrackAllAdditionalReadingsButton_clicked();
+    void on_valter2OnPushButton_clicked();
+    void on_valter2OffPushButton_clicked();
 
     //platform-location-p1
     void initPlatfromLocationP1(Ui::MainWindow *ui);

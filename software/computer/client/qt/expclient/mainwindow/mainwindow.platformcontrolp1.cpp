@@ -876,3 +876,23 @@ void MainWindow::on_platformControlP1UntrackAllAdditionalReadingsButton_clicked(
     }
     ui->platformControlP1ReadingsTable->viewport()->update();
 }
+
+void MainWindow::on_valter2OnPushButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_valter2OnPushButton_clicked");
+    }
+    platformControlP1->toggleValter2Power(true);
+}
+
+void MainWindow::on_valter2OffPushButton_clicked()
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    if (ui->platformControlP1RemoteControlCheckbox->isChecked())
+    {
+        platformControlP1->sendTCPCommand("on_valter2OffPushButton_clicked");
+    }
+    platformControlP1->toggleValter2Power(false);
+}

@@ -45,15 +45,15 @@ private:
   
   ros::NodeHandle nh_;
 
-  int linear_, angular_;
   float prevLin, prevAng;
   ros::Subscriber joy_sub_;
-  
+  ros::Time prevSentTime;
 };
 
 ValterJoyTeleop::ValterJoyTeleop()
 {
-  prevLin = prevAng = -1;
+  prevLin = prevAng = 0;
+  prevSentTime = ros::Time::now();
   joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &ValterJoyTeleop::joyCallback, this);
 }
 
@@ -61,43 +61,48 @@ ValterJoyTeleop::ValterJoyTeleop()
 void ValterJoyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
   float linVel = joy->axes[1];
-  float angVel = joy->axes[0];
+  float angVel = joy->axes[2];
 
   linVel = linVel * 0.12;
   angVel = angVel * 0.587;
 
-  if (fabs(prevLin - linVel) > 0.01 || fabs(prevAng - angVel) > 0.01)
+  if (fabs(prevLin - linVel) > 0.005 || fabs(prevAng - angVel) > 0.005 || (joy->axes[0] == 0 && joy->axes[1] == 0 && joy->axes[2] == 0 && joy->axes[3] == 0 && joy->axes[4] == 0 && joy->axes[5] == 0))
   {
 
+    //ROS_INFO("TIME: %f", (ros::Time::now().toNSec() * 1e-6) - (prevSentTime.toNSec() * 1e-6));
     //ROS_INFO("linVel = %f, angVel = %f", linVel, angVel);
 
-    std::string cmdVelTaskScriptLine = format("T_PCP1_CmdVelTask_%.2f_%.2f", linVel, angVel);
-
-    ROS_INFO("%s", cmdVelTaskScriptLine.c_str());
-
-    int sock = socket(AF_INET , SOCK_STREAM , 0);
-    struct sockaddr_in server;
-    server.sin_addr.s_addr = inet_addr( "192.168.0.247" );
-    server.sin_family = AF_INET;
-    server.sin_port = htons( 55555 );
-
-    //Connect to remote server
-    if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
+    if ((ros::Time::now().toNSec() * 1e-6 - prevSentTime.toNSec() * 1e-6) > 50 || (joy->axes[0] == 0 && joy->axes[1] == 0 && joy->axes[2] == 0 && joy->axes[3] == 0 && joy->axes[4] == 0 && joy->axes[5] == 0))
     {
-      perror("connect failed. Error");
-    }
-    else
-    {
-      //Send some data
-      if( send(sock , cmdVelTaskScriptLine.c_str() , strlen( cmdVelTaskScriptLine.c_str() ) , 0) < 0)
+      std::string cmdVelTaskScriptLine = format("T_PCP1_CmdVelTask_%.2f_%.2f", linVel, angVel);
+
+      ROS_INFO("%s", cmdVelTaskScriptLine.c_str());
+
+      int sock = socket(AF_INET , SOCK_STREAM , 0);
+      struct sockaddr_in server;
+      server.sin_addr.s_addr = inet_addr("192.168.0.248");
+      server.sin_family = AF_INET;
+      server.sin_port = htons(55555);
+
+      //Connect to remote server
+      if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
       {
-          perror("Send failed : ");
+        perror("connect failed. Error");
       }
-      close(sock);
-    }
+      else
+      {
+        //Send some data
+        if( send(sock , cmdVelTaskScriptLine.c_str() , strlen( cmdVelTaskScriptLine.c_str() ) , 0) < 0)
+        {
+            perror("Send failed : ");
+        }
+        close(sock);
+      }
 
-    prevLin = linVel;
-    prevAng = angVel;
+      prevSentTime = ros::Time::now();
+      prevLin = linVel;
+      prevAng = angVel;
+    }
   }
 }
 

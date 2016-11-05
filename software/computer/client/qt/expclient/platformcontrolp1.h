@@ -430,6 +430,8 @@ public:
     int getAdditionalReadingsDelayCur() const;
     void setAdditionalReadingsDelayCur(int value);
 
+    void toggleValter2Power(bool state);
+
     /**************************************************** VALUES MAP ******************************************************/
     std::map<std::string, std::string> values;
     string getValue(string key);

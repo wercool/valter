@@ -165,7 +165,6 @@ void CmdVelTask::executionWorker()
     string stopExecutionReason = "";
 
     bool justStarted = false;
-    int stopTaskDumper = 0;
 
     while (!stopped)
     {
@@ -200,54 +199,76 @@ void CmdVelTask::executionWorker()
                 leftMotorDuty  = round(linVelDuty - angVelDuty);
                 rightMotorDuty = round(linVelDuty + angVelDuty);
 
-                leftMotorDirection  = (leftMotorDuty > 0)  ? true : false;
-                rightMotorDirection = (rightMotorDuty > 0) ? true : false;
-
-                if (leftMotorDirection != prevLeftMotorDirection || rightMotorDirection != prevRightMotorDirection || justStarted)
+                if (leftMotorDuty != 0 || rightMotorDuty != 0)
                 {
-                    justStarted = false;
-                    if (platformControlP1->setLeftMotorDirection(leftMotorDirection) && platformControlP1->setRightMotorDirection(rightMotorDirection))
+                    leftMotorDirection  = (leftMotorDuty > 0)  ? true : false;
+                    rightMotorDirection = (rightMotorDuty > 0) ? true : false;
+
+                    if (leftMotorDirection != prevLeftMotorDirection || rightMotorDirection != prevRightMotorDirection || justStarted)
                     {
-                        prevLeftMotorDirection  = leftMotorDirection;
-                        prevRightMotorDirection = rightMotorDirection;
-                        platformControlP1->setLeftMotorActivated(true);
-                        platformControlP1->setRightMotorActivated(true);
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
-                    }
-                    else
-                    {
-                        platformControlP1->setLeftMotorActivated(false);
-                        platformControlP1->setRightMotorActivated(false);
-                        this_thread::sleep_for(std::chrono::milliseconds(50));
-                        qDebug("[%s] DECELERATION leftMotorDuty=%d[%s], rightMotorDuty=%d[%s]", getTaskName().c_str(), platformControlP1->getLeftMotorDuty(), ((platformControlP1->getLeftMotorDirection() > 0) ? "↑" : "↓"), platformControlP1->getRightMotorDuty(), ((platformControlP1->getRightMotorDirection() > 0) ? "↑" : "↓"));
-                        continue;
+                        justStarted = false;
+                        if (platformControlP1->setLeftMotorDirection(leftMotorDirection) && platformControlP1->setRightMotorDirection(rightMotorDirection))
+                        {
+                            prevLeftMotorDirection  = leftMotorDirection;
+                            prevRightMotorDirection = rightMotorDirection;
+                            platformControlP1->setLeftMotorActivated(true);
+                            platformControlP1->setRightMotorActivated(true);
+                            qDebug("[%s] motors activated", getTaskName().c_str());
+                            this_thread::sleep_for(std::chrono::milliseconds(5));
+                        }
+                        else
+                        {
+                            platformControlP1->setLeftMotorActivated(false);
+                            platformControlP1->setRightMotorActivated(false);
+                            this_thread::sleep_for(std::chrono::milliseconds(5));
+                            qDebug("[%s] DECELERATION leftMotorDuty=%d[%s], rightMotorDuty=%d[%s]", getTaskName().c_str(), platformControlP1->getLeftMotorDuty(), ((platformControlP1->getLeftMotorDirection() > 0) ? "↑" : "↓"), platformControlP1->getRightMotorDuty(), ((platformControlP1->getRightMotorDirection() > 0) ? "↑" : "↓"));
+                            continue;
+                        }
                     }
                 }
 
-                if (abs(leftMotorDuty) <= minAllowedDuty || abs(rightMotorDuty) <= minAllowedDuty)
+                if (leftMotorDuty == 0)
                 {
+                    leftMotorDuty = 1;
                     platformControlP1->setLeftMotorActivated(false);
-                    platformControlP1->setRightMotorActivated(false);
-                    this_thread::sleep_for(std::chrono::milliseconds(100));
-                    /*
-                    qDebug("[%s] leftMotorDuty OR rightMotorDuty reached minAllowedDuty=%d, stopTaskDumper=%d/100", getTaskName().c_str(), minAllowedDuty, stopTaskDumper++);
-                    if (stopTaskDumper >= 100)
-                    {
-                        stopExecutionReason = Valter::format_string("leftMotorDuty OR rightMotorDuty reached minAllowedDuty=%d, stopTaskDumper=%d/100", minAllowedDuty, stopTaskDumper);
-                        stopExecution();
-                        break;
-                    }
-                    */
-                    continue;
                 }
                 else
                 {
-                    stopTaskDumper = 0;
-                    platformControlP1->setLeftMotorDutyMax(abs(leftMotorDuty));
-                    platformControlP1->setRightMotorDutyMax(abs(rightMotorDuty));
+                    if (leftMotorDuty > 1)
+                    {
+                        platformControlP1->setLeftMotorActivated(true);
+                    }
                 }
 
-                qDebug("[%s] leftMotorDuty=%d[%s], rightMotorDuty=%d[%s]", getTaskName().c_str(), platformControlP1->getLeftMotorDuty(), ((platformControlP1->getLeftMotorDirection() > 0) ? "↑" : "↓"), platformControlP1->getRightMotorDuty(), ((platformControlP1->getRightMotorDirection() > 0) ? "↑" : "↓"));
+                if (rightMotorDuty == 0)
+                {
+                    rightMotorDuty = 1;
+                    platformControlP1->setRightMotorActivated(false);
+                }
+                else
+                {
+                    if (rightMotorDuty > 1)
+                    {
+                        platformControlP1->setRightMotorActivated(true);
+                    }
+                }
+
+                if (abs(leftMotorDuty) > maxAllowedDuty)
+                {
+                    leftMotorDuty = maxAllowedDuty;
+                }
+                if (abs(rightMotorDuty) > maxAllowedDuty)
+                {
+                    rightMotorDuty = maxAllowedDuty;
+                }
+
+                platformControlP1->setLeftMotorDutyMax(abs(leftMotorDuty));
+                platformControlP1->setRightMotorDutyMax(abs(rightMotorDuty));
+
+                if (platformControlP1->getLeftMotorDuty() > 1 || platformControlP1->getRightMotorDuty() > 1)
+                {
+                    qDebug("[%s] linVel=%f, angVel=%f, leftMotorDuty=%d[%s], rightMotorDuty=%d[%s]", getTaskName().c_str(), linVel, angVel, platformControlP1->getLeftMotorDuty(), ((platformControlP1->getLeftMotorDirection() > 0) ? "↑" : "↓"), platformControlP1->getRightMotorDuty(), ((platformControlP1->getRightMotorDirection() > 0) ? "↑" : "↓"));
+                }
 
                 //******************************************************************************************encoder based
                 /*

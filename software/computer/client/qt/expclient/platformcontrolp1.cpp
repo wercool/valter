@@ -640,14 +640,11 @@ void PlatformControlP1::toggle5VSource(bool state)
     if (state)
     {
         sendCommand("DCDC5VENABLEON");
-        Valter::exec_shell("/bin/bash /home/maska/actionsOn5VOn");
         PlatformControlP2::getInstance()->setModuleInitialState();
         PlatformLocationP1::getInstance()->setModuleInitialState();
     }
     else
     {
-        Valter::exec_shell("/bin/bash /home/maska/actionsOn5VOff");
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
         sendCommand("DCDC5VENABLEOFF");
     }
 }
@@ -1346,3 +1343,16 @@ void PlatformControlP1::toggleLeftAccumulator(bool state)
         sendCommand("LEFTACCUMULATORDISCONNECT");
     }
 }
+
+void PlatformControlP1::toggleValter2Power(bool state)
+{
+    if (state)
+    {
+        Valter::exec_shell("/bin/bash /home/maska/actionsOn5VOn");
+    }
+    else
+    {
+        Valter::exec_shell("/bin/bash /home/maska/actionsOn5VOff");
+    }
+}
+

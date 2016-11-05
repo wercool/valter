@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1047</height>
+             <width>877</width>
+             <height>1033</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2334,6 +2334,27 @@ border-color: rgb(140, 140, 140);</string>
                  </layout>
                 </item>
                 <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_157">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QPushButton" name="valter2OnPushButton">
+                    <property name="text">
+                     <string>Valter 2 ON</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="valter2OffPushButton">
+                    <property name="text">
+                     <string>Valter 2 OFF</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <widget class="QRadioButton" name="leftAccumulatorConnectedRadioButton">
                   <property name="text">
                    <string>Left Acc Connected</string>
@@ -2888,8 +2909,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>231</width>
-             <height>575</height>
+             <width>234</width>
+             <height>561</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -4038,7 +4059,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>892</width>
+             <width>895</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8106,8 +8127,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1514</height>
+             <width>877</width>
+             <height>1515</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -10703,7 +10724,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
+             <width>877</width>
              <height>800</height>
             </rect>
            </property>
@@ -13702,8 +13723,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1100</height>
+             <width>877</width>
+             <height>1104</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -17061,8 +17082,8 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>874</width>
-             <height>1100</height>
+             <width>877</width>
+             <height>1104</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
