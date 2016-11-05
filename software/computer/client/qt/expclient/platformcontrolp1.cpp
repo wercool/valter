@@ -769,7 +769,7 @@ void PlatformControlP1::platformMovementDynamics()
                 }
                 else //motor was running (it has reached MotorDutyMax) but MotorDutyMax was decreased (for example for sycn with other motor for drift compensation)
                 {
-                    if (curRightMotorDuty - 1 > getRightMotorDutyMax())
+                    if (curRightMotorDuty > getRightMotorDutyMax())
                     {
                         curRightMotorDuty -= 1;
                         setRightMotorDuty(curRightMotorDuty);

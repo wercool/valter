@@ -40,3 +40,6 @@ include_directories(${Eigen_INCLUDE_DIRS})
 
 #add_executable(moveit_frame_tf src/moveit_frame_tf.cpp)
 #target_link_libraries(moveit_frame_tf ${catkin_LIBRARIES})
+
+add_executable(valter_joy_teleop src/valter_joy_teleop.cpp)
+target_link_libraries(valter_joy_teleop ${catkin_LIBRARIES})

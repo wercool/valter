@@ -444,7 +444,7 @@ void ControlDevice::controlDeviceThreadWorker()
                     }
                     else
                     {
-                        qDebug("%s filtered", response.c_str());
+                        //qDebug("%s filtered", response.c_str());
                     }
                 }
                 if (Valter::getInstance()->getLogControlDeviceMessages())
