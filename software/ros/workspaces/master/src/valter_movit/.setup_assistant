@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: valter
+    relative_path: robots/valter.URDF
+  SRDF:
+    relative_path: config/valter.srdf
+  CONFIG:
+    generated_timestamp: 1446724234

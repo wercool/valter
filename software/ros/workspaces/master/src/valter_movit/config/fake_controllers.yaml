@@ -1,0 +1,25 @@
+controller_list:
+  - name: fake_left_arm_controller
+    joints:
+      - LTorsoJoint
+      - LShoulderJoint
+      - LArmJoint
+      - LArmElbowJoint
+      - LForearmYawJoint
+      - LForearmRollJoint
+      - LHandPitchJoint
+  - name: fake_left_arm_roll_controller
+    joints:
+      - LForearmYawJoint
+      - LForearmRollJoint
+  - name: fake_left_arm_liftup_controller
+    joints:
+      - LTorsoJoint
+      - LShoulderJoint
+      - LArmJoint
+  - name: fake_manipulator_controller
+    joints:
+      - ManipulatorLink1Joint
+      - ManipulatorLink2Joint
+      - ManipulatorLink3Joint
+      - ManipulatorLink4Joint
