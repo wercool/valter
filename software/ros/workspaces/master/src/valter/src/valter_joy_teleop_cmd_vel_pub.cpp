@@ -40,6 +40,8 @@ class ValterJoyTeleop
 {
 public:
   ValterJoyTeleop();
+  geometry_msgs::Twist cmd_vel;
+  ros::Publisher cmd_vel_pub;
 
 private:
   void joyCallback(const sensor_msgs::Joy::ConstPtr& joy);
@@ -48,24 +50,31 @@ private:
 
   float prevLin, prevAng;
   ros::Subscriber joy_sub_;
-  ros::Time prevSentTime;
+  ros::Time prevSentTime, prevTime;
+  float linVel, angVel;
 };
 
 ValterJoyTeleop::ValterJoyTeleop()
 {
+  linVel = angVel = 0;
   prevLin = prevAng = 0;
   prevSentTime = ros::Time::now();
   joy_sub_ = nh_.subscribe<sensor_msgs::Joy>("joy", 10, &ValterJoyTeleop::joyCallback, this);
+  cmd_vel_pub = nh_.advertise<geometry_msgs::Twist>("/cmd_vel", 10);
 }
 
 
 void ValterJoyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 {
-  float linVel = joy->axes[1];
-  float angVel = joy->axes[2];
+  linVel = joy->axes[1];
+  angVel = joy->axes[2];
 
   linVel = linVel * 0.12;
   angVel = angVel * 0.587;
+
+  cmd_vel.linear.x = linVel;
+  cmd_vel.linear.y = 0;
+  cmd_vel.angular.z = angVel;
 
   if (fabs(prevLin - linVel) > 0.005 || fabs(prevAng - angVel) > 0.005 || (joy->axes[0] == 0 && joy->axes[1] == 0 && joy->axes[2] == 0 && joy->axes[3] == 0 && joy->axes[4] == 0 && joy->axes[5] == 0))
   {
@@ -75,7 +84,7 @@ void ValterJoyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
 
     if ((ros::Time::now().toNSec() * 1e-6 - prevSentTime.toNSec() * 1e-6) > 50 || (joy->axes[0] == 0 && joy->axes[1] == 0 && joy->axes[2] == 0 && joy->axes[3] == 0 && joy->axes[4] == 0 && joy->axes[5] == 0))
     {
-
+/*
       std::string cmdVelTaskScriptLine = format("T_PCP1_CmdVelTask_%.2f_%.2f", linVel, angVel);
 
       ROS_INFO("%s", cmdVelTaskScriptLine.c_str());
@@ -100,7 +109,10 @@ void ValterJoyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
         }
         close(sock);
       }
+*/
 
+      // Send the new velocities to the robot...
+      cmd_vel_pub.publish(cmd_vel);
 
       prevSentTime = ros::Time::now();
       prevLin = linVel;
@@ -109,11 +121,25 @@ void ValterJoyTeleop::joyCallback(const sensor_msgs::Joy::ConstPtr& joy)
   }
 }
 
-
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "valter_joy_teleop");
-  ValterJoyTeleop valter_joy_teleop;
+  ros::init(argc, argv, "valter_joy_teleop_cmd_vel_pub");
+  ValterJoyTeleop valter_joy_teleop_cmd_vel_pub;
+
+  ros::Rate r(5);
+
+  geometry_msgs::Twist prev_cmd_vel;
+
+  while (ros::ok())
+  {
+    if (valter_joy_teleop_cmd_vel_pub.cmd_vel.linear.x != prev_cmd_vel.linear.x || valter_joy_teleop_cmd_vel_pub.cmd_vel.angular.z != prev_cmd_vel.angular.z)
+    {
+      valter_joy_teleop_cmd_vel_pub.cmd_vel_pub.publish(valter_joy_teleop_cmd_vel_pub.cmd_vel);
+      prev_cmd_vel = valter_joy_teleop_cmd_vel_pub.cmd_vel;
+    }
+    ros::spinOnce();
+    r.sleep();
+  }
 
   ros::spin();
 }
