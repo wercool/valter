@@ -1,2 +1,11 @@
-export ROS_MASTER_URI=http://192.168.0.232:11311
+export ROS_MASTER_URI=http://192.168.0.252:11311
 export ROS_IP=`hostname -I`
+hostname -I
+export ROS_IP=
+
+export ROS_IP=192.168.0.252
+
+syncTime
+
+source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
+source /home/maska/git/valter/software/ros/workspaces/valter1/devel/setup.sh
