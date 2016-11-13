@@ -9,3 +9,45 @@ syncTime
 
 source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
 source /home/maska/git/valter/software/ros/workspaces/valter1/devel/setup.sh
+
+
+rostopic pub /move_base/cancel actionlib_msgs/GoalID -- {}
+
+
+
+===========ROS initialization================
+on master expclient start from
+~/git/valter/software/computer/client/qt/build-expclient-Desktop_Qt_5_7_0_GCC_64bit-Debug
+./expclient wlan0
+1) 5v
+2) valter2
+3) ssh 192.168.101.102
+4) kinect (1 or 2) on
+===========master
+0)export ROS_IP=
+0)roscore
+
+3)
+source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
+roslaunch freenect_launch freenect_master.launch
+4)
+source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
+roslaunch valter_movit valter.launch
+5)
+source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
+roslaunch rtabmap_ros valter.launch localization:=true
+
+6)
+source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
+cd ~/git/valter/software/ros/launch/master
+roslaunch move_base_and_planner.launch
+
+
+==========valter2
+1) ./syncTime
+2) hostname -I
+3) export ROS_IP= (first from hostname -I)
+4) export ROS_MASTER_URI=http://192.168.0.252:11311
+5) screen
+6) verify kinect power is on
+7) roslaunch freenect_launch kinect2.launch

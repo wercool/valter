@@ -4,22 +4,26 @@
   <arg name="base_frame_id"   default="Base"/>
   <arg name="global_frame_id" default="map"/>
   <arg name="odom_topic" default="odom" />
+  <arg name="laser_topic" default="kinect_scan" />
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <remap from="/rtabmap/odom"    to="/planner/odom"/> 
-    <remap from="scan" to="/base_scan"/>
-    <remap from="obstacles_cloud" to="/obstacles_cloud"/>
-    <remap from="ground_cloud" to="/ground_cloud"/>
-    <remap from="map" to="/map"/>
-    <remap from="move_base_simple/goal" to="/planner_goal"/>
+    <rosparam file="$(find valter_movit)/config/planner/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find valter_movit)/config/planner/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find valter_movit)/config/planner/local_costmap_params.yaml" command="load" />   
+    <rosparam file="$(find valter_movit)/config/planner/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find valter_movit)/config/planner/dwa_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find valter_movit)/config/planner/move_base_params.yaml" command="load" />
+    <rosparam file="$(find valter_movit)/config/planner/global_planner_params.yaml" command="load" />
+    <rosparam file="$(find valter_movit)/config/planner/navfn_global_planner_params.yaml" command="load" />
 
-    <rosparam file="$(find valter_movit)config/planner/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find valter_movit)config/planner/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find valter_movit)config/planner/local_costmap_params_3d.yaml" command="load" />
-    <rosparam file="$(find valter_movit)config/planner/global_costmap_params.yaml" command="load" ns="global_costmap"/>
-    <rosparam file="$(find valter_movit)config/planner/base_local_planner_params.yaml" command="load" />
+    <param name="global_costmap/global_frame" value="$(arg global_frame_id)"/>
+    <param name="global_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+    <param name="local_costmap/global_frame" value="$(arg odom_frame_id)"/>
+    <param name="local_costmap/robot_base_frame" value="$(arg base_frame_id)"/>
+    <param name="DWAPlannerROS/global_frame_id" value="$(arg odom_frame_id)"/>
 
-    <param name="cmd_vel/abtr_priority" value="10"/>
+    <remap from="odom" to="$(arg odom_topic)"/>
+    <remap from="scan" to="$(arg laser_topic)"/>
 
   </node>
 

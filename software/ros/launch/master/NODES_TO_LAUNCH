@@ -2,6 +2,9 @@ roslaunch rtabmap_ros rgbd_mapping.launch rtabmap_args:="--delete_db_on_start" r
 
 roslaunch rtabmap_ros rgbd_mapping.launch rviz:=true rtabmapviz:=false localization:=true
 
+roslaunch rtabmap_ros valter.launch rtabmap_args:="--delete_db_on_start" localization:=false
+roslaunch rtabmap_ros valter.launch localization:=true
+
 rosservice call /rtabmap/reset_odom
 rosservice call /rtabmap/reset
 rosservice call rtabmap/set_mode_mapping

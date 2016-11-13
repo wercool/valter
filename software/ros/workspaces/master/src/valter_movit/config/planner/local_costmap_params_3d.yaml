@@ -16,7 +16,7 @@ local_costmap:
 
   laser_scan_sensor: {
     data_type: LaserScan, 
-    topic: base_scan, 
+    topic: kinect_scan, 
     expected_update_rate: 0.2, 
     marking: true, 
     clearing: true}
