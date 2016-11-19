@@ -46,3 +46,6 @@ target_link_libraries(valter_joy_teleop ${catkin_LIBRARIES})
 
 add_executable(valter_joy_teleop_cmd_vel_pub src/valter_joy_teleop_cmd_vel_pub.cpp)
 target_link_libraries(valter_joy_teleop_cmd_vel_pub ${catkin_LIBRARIES})
+
+add_executable(test_cmd_vel_subscriber src/test_cmd_vel_subscriber.cpp)
+target_link_libraries(test_cmd_vel_subscriber ${catkin_LIBRARIES})

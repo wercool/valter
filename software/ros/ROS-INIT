@@ -42,6 +42,8 @@ source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
 cd ~/git/valter/software/ros/launch/master
 roslaunch move_base_and_planner.launch
 
+====joystick
+rosrun joy joy_node
 
 ==========valter2
 1) ./syncTime
