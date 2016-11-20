@@ -1,0 +1,829 @@
+Panels:
+  - Class: rviz/Displays
+    Help Height: 0
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Global Options1
+        - /TF1/Frames1
+        - /Map2/Status1
+        - /Path1
+      Splitter Ratio: 0.438953
+    Tree Height: 501
+  - Class: rviz/Selection
+    Name: Selection
+  - Class: rviz/Tool Properties
+    Expanded:
+      - /2D Pose Estimate1
+      - /2D Nav Goal1
+    Name: Tool Properties
+    Splitter Ratio: 0.588679
+  - Class: rviz/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: PointCloud2
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 1
+      Class: rviz/Grid
+      Color: 160; 160; 164
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 10
+      Reference Frame: map
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 2.02684
+        Min Value: -1.12646
+        Value: true
+      Axis: Z
+      Channel Name: rgb
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 2.34177e-38
+      Min Color: 0; 0; 0
+      Min Intensity: 9.21942e-41
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Points
+      Topic: /voxel_cloud
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rviz/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: false
+        Base:
+          Value: true
+        GripperL:
+          Value: true
+        GripperR:
+          Value: true
+        Head:
+          Value: true
+        LArm:
+          Value: true
+        LArmElbow:
+          Value: true
+        LFinger0:
+          Value: true
+        LFinger1:
+          Value: true
+        LFinger2:
+          Value: true
+        LFinger3:
+          Value: true
+        LFinger4:
+          Value: true
+        LFinger5:
+          Value: true
+        LForearmRoll:
+          Value: true
+        LForearmYaw:
+          Value: true
+        LHandPitch:
+          Value: true
+        LHandYaw:
+          Value: true
+        LShoulder:
+          Value: true
+        LTorso:
+          Value: true
+        LWheel:
+          Value: true
+        ManipulatorBase:
+          Value: true
+        ManipulatorLink1:
+          Value: true
+        ManipulatorLink2:
+          Value: true
+        ManipulatorLink3:
+          Value: true
+        ManipulatorLink4:
+          Value: true
+        Neck:
+          Value: true
+        RArm:
+          Value: true
+        RArmElbow:
+          Value: true
+        RFinger0:
+          Value: true
+        RFinger1:
+          Value: true
+        RFinger2:
+          Value: true
+        RFinger3:
+          Value: true
+        RFinger4:
+          Value: true
+        RFinger5:
+          Value: true
+        RForearmRoll:
+          Value: true
+        RForearmYaw:
+          Value: true
+        RHandPitch:
+          Value: true
+        RHandYaw:
+          Value: true
+        RShoulder:
+          Value: true
+        RTorso:
+          Value: true
+        RWheel:
+          Value: true
+        Torso:
+          Value: true
+        Trunk:
+          Value: true
+        camera_depth_frame:
+          Value: true
+        camera_depth_optical_frame:
+          Value: true
+        camera_link:
+          Value: true
+        camera_rgb_frame:
+          Value: true
+        camera_rgb_optical_frame:
+          Value: true
+        camera_to_base_tf:
+          Value: true
+        lwheel_centers:
+          Value: true
+        map:
+          Value: true
+        odom:
+          Value: true
+        rwheel_centers:
+          Value: true
+        support_wheels:
+          Value: true
+        support_wheels_centers:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        map:
+          odom:
+            camera_link:
+              Base:
+                LWheel:
+                  lwheel_centers:
+                    {}
+                ManipulatorBase:
+                  ManipulatorLink1:
+                    ManipulatorLink2:
+                      ManipulatorLink3:
+                        ManipulatorLink4:
+                          GripperL:
+                            {}
+                          GripperR:
+                            {}
+                RWheel:
+                  rwheel_centers:
+                    {}
+                Trunk:
+                  Torso:
+                    LTorso:
+                      LShoulder:
+                        LArm:
+                          LArmElbow:
+                            LForearmYaw:
+                              LForearmRoll:
+                                LHandPitch:
+                                  LHandYaw:
+                                    LFinger0:
+                                      {}
+                                    LFinger1:
+                                      {}
+                                    LFinger2:
+                                      {}
+                                    LFinger3:
+                                      {}
+                                    LFinger4:
+                                      {}
+                                    LFinger5:
+                                      {}
+                    Neck:
+                      Head:
+                        {}
+                    RTorso:
+                      RShoulder:
+                        RArm:
+                          RArmElbow:
+                            RForearmYaw:
+                              RForearmRoll:
+                                RHandPitch:
+                                  RHandYaw:
+                                    RFinger0:
+                                      {}
+                                    RFinger1:
+                                      {}
+                                    RFinger2:
+                                      {}
+                                    RFinger3:
+                                      {}
+                                    RFinger4:
+                                      {}
+                                    RFinger5:
+                                      {}
+                camera_to_base_tf:
+                  {}
+                support_wheels:
+                  support_wheels_centers:
+                    {}
+              camera_depth_frame:
+                camera_depth_optical_frame:
+                  {}
+              camera_rgb_frame:
+                camera_rgb_optical_frame:
+                  {}
+      Update Interval: 0
+      Value: true
+    - Class: rviz/Image
+      Enabled: true
+      Image Topic: /camera/rgb/image_rect_color
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Queue Size: 2
+      Transport Hint: raw
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rtabmap_ros/MapCloud
+      Cloud decimation: 4
+      Cloud max depth (m): 4
+      Cloud min depth (m): 0
+      Cloud voxel size (m): 0.01
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Download graph: false
+      Download map: false
+      Enabled: true
+      Filter ceiling (m): 0
+      Filter floor (m): 0
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: MapCloud
+      Node filtering angle (degrees): 30
+      Node filtering radius (m): 0.1
+      Position Transformer: XYZ
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Points
+      Topic: /rtabmap/mapData
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Class: rtabmap_ros/Info
+      Enabled: true
+      Name: Info
+      Topic: /rtabmap/info
+      Unreliable: false
+      Value: true
+    - Class: moveit_rviz_plugin/MotionPlanning
+      Enabled: false
+      Move Group Namespace: ""
+      MoveIt_Goal_Tolerance: 0
+      MoveIt_Planning_Attempts: 10
+      MoveIt_Planning_Time: 5
+      MoveIt_Use_Constraint_Aware_IK: true
+      MoveIt_Warehouse_Host: 127.0.0.1
+      MoveIt_Warehouse_Port: 33829
+      MoveIt_Workspace:
+        Center:
+          X: 0
+          Y: 0
+          Z: 0
+        Size:
+          X: 2
+          Y: 2
+          Z: 2
+      Name: MotionPlanning
+      Planned Path:
+        Interrupt Display: false
+        Links:
+          All Links Enabled: true
+          Expand Joint Details: false
+          Expand Link Details: false
+          Expand Tree: false
+          Link Tree Style: Links in Alphabetic Order
+        Loop Animation: false
+        Robot Alpha: 0.5
+        Show Robot Collision: false
+        Show Robot Visual: true
+        Show Trail: false
+        State Display Time: 0.05 s
+        Trajectory Topic: /move_group/display_planned_path
+      Planning Metrics:
+        Payload: 1
+        Show Joint Torques: false
+        Show Manipulability: false
+        Show Manipulability Index: false
+        Show Weight Limit: false
+        TextHeight: 0.08
+      Planning Request:
+        Colliding Link Color: 255; 0; 0
+        Goal State Alpha: 1
+        Goal State Color: 250; 128; 0
+        Interactive Marker Size: 0
+        Joint Violation Color: 255; 0; 255
+        Planning Group: left_arm
+        Query Goal State: true
+        Query Start State: true
+        Show Workspace: false
+        Start State Alpha: 1
+        Start State Color: 0; 255; 0
+      Planning Scene Topic: planning_scene
+      Robot Description: robot_description
+      Scene Geometry:
+        Scene Alpha: 0.9
+        Scene Color: 50; 230; 50
+        Scene Display Time: 0.2
+        Show Scene Geometry: true
+        Voxel Coloring: Z-Axis
+        Voxel Rendering: Occupied Voxels
+      Scene Robot:
+        Attached Body Color: 150; 50; 150
+        Links:
+          All Links Enabled: true
+          Expand Joint Details: false
+          Expand Link Details: false
+          Expand Tree: false
+          Link Tree Style: Links in Alphabetic Order
+        Robot Alpha: 1
+        Show Robot Collision: false
+        Show Robot Visual: true
+      Value: false
+    - Attached Body Color: 150; 50; 150
+      Class: moveit_rviz_plugin/RobotState
+      Collision Enabled: false
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Base:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        GripperL:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        GripperR:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Head:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LArm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LArmElbow:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LFinger0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LFinger1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LFinger2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LFinger3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LFinger4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LFinger5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LForearmRoll:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LForearmYaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LHandPitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LHandYaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LShoulder:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LTorso:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        LWheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Link Tree Style: Links in Alphabetic Order
+        ManipulatorBase:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ManipulatorLink1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ManipulatorLink2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ManipulatorLink3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ManipulatorLink4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Neck:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RArm:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RArmElbow:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RFinger0:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RFinger1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RFinger2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RFinger3:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RFinger4:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RFinger5:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RForearmRoll:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RForearmYaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RHandPitch:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RHandYaw:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RShoulder:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RTorso:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        RWheel:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Torso:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        Trunk:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lwheel_centers:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        rwheel_centers:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        support_wheels:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        support_wheels_centers:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+      Name: RobotState
+      Robot Alpha: 1
+      Robot Description: robot_description
+      Robot State Topic: display_robot_state
+      Show All Links: true
+      Show Highlights: true
+      Value: true
+      Visual Enabled: true
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: false
+      Name: Map
+      Topic: /map
+      Unreliable: false
+      Value: false
+    - Alpha: 1
+      Axes Length: 1
+      Axes Radius: 0.1
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.3
+      Head Radius: 0.1
+      Name: Pose
+      Shaft Length: 1
+      Shaft Radius: 0.05
+      Shape: Arrow
+      Topic: /move_base_simple/goal
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Class: rviz/Polygon
+      Color: 25; 255; 0
+      Enabled: false
+      Name: Polygon
+      Topic: /move_base/global_costmap/footprint
+      Unreliable: false
+      Value: false
+    - Alpha: 0.7
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /move_base/global_costmap/costmap
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: RGB8
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /rtabmap/cloud_map
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: x
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 1.25283
+      Min Color: 0; 0; 0
+      Min Intensity: -0.414378
+      Name: LaserScan
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /kinect_scan
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Line Style: Lines
+      Line Width: 0.03
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Topic: /move_base/DWAPlannerROS/global_plan
+      Unreliable: false
+      Value: true
+  Enabled: true
+  Global Options:
+    Background Color: 48; 48; 48
+    Fixed Frame: map
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz/Interact
+      Hide Inactive Objects: true
+    - Class: rviz/MoveCamera
+    - Class: rviz/Select
+    - Class: rviz/Measure
+    - Class: rviz/SetInitialPose
+      Topic: /initialpose
+    - Class: rviz/SetGoal
+      Topic: /move_base_simple/goal
+  Value: true
+  Views:
+    Current:
+      Class: rviz/Orbit
+      Distance: 5.12921
+      Enable Stereo Rendering:
+        Stereo Eye Separation: 0.06
+        Stereo Focal Distance: 1
+        Swap Stereo Eyes: false
+        Value: false
+      Focal Point:
+        X: -0.742698
+        Y: 0.140903
+        Z: 0.487226
+      Name: Current View
+      Near Clip Distance: 0.01
+      Pitch: 0.749798
+      Target Frame: base_link
+      Value: Orbit (rviz)
+      Yaw: 5.16417
+    Saved: ~
+Window Geometry:
+  Displays:
+    collapsed: false
+  Height: 1056
+  Hide Left Dock: false
+  Hide Right Dock: false
+  Image:
+    collapsed: false
+  Motion Planning:
+    collapsed: false
+  QMainWindow State: 000000ff00000000fd0000000400000000000001c3000003dafc0200000008fb0000001200530065006c0065006300740069006f006e00000001e10000009b0000006400fffffffb0000001e0054006f006f006c002000500072006f007000650072007400690065007302000001ed000001df00000185000000a3fb000000120056006900650077007300200054006f006f02000001df000002110000018500000122fb000000200054006f006f006c002000500072006f0070006500720074006900650073003203000002880000011d000002210000017afb000000100044006900730070006c006100790073010000002800000236000000dd00fffffffb0000000a0049006d00610067006501000001b50000010e0000000000000000fb0000000a0049006d00610067006501000002640000019e0000001600fffffffb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670000000228000001da000001cc00ffffff000000010000010f00000312fc0200000003fb0000001e0054006f006f006c002000500072006f00700065007200740069006500730100000041000000780000000000000000fb0000000a00560069006500770073000000000000000312000000b000fffffffb0000001200530065006c0065006300740069006f006e010000025a000000b200000000000000000000000200000490000000a9fc0100000001fb0000000a00560069006500770073030000004e00000080000002e10000019700000003000004a00000003efc0100000002fb0000000800540069006d00650000000000000004a0000002f600fffffffb0000000800540069006d0065010000000000000450000000000000000000000576000003da00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: false
+  Width: 1855
+  X: 65
+  Y: 24

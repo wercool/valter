@@ -1,4 +1,4 @@
-export ROS_MASTER_URI=http://192.168.0.252:11311
+export ROS_MASTER_URI=http://192.168.0.100:11311
 export ROS_IP=`hostname -I`
 hostname -I
 export ROS_IP=
@@ -27,18 +27,10 @@ on master expclient start from
 0)export ROS_IP=
 0)roscore
 
-3)
-source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
-roslaunch freenect_launch freenect_master.launch
-4)
-source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
-roslaunch valter_movit valter.launch
-5)
-source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
-roslaunch rtabmap_ros valter.launch localization:=true
-
+3)roslaunch freenect_launch freenect_master.launch
+4)roslaunch valter_movit valter.launch
+5)roslaunch rtabmap_ros valter.launch localization:=true
 6)
-source /home/maska/git/valter/software/ros/workspaces/master/devel/setup.sh
 cd ~/git/valter/software/ros/launch/master
 roslaunch move_base_and_planner.launch
 

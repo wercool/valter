@@ -1,0 +1,133 @@
+[ INFO] [1479662736.386981717]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ WARN] [1479662737.242573402]: Costmap2DROS transform timeout. Current time: 1479662737.2425, global_pose stamp: 1479662735.2338, tolerance: 2.0000
+[ WARN] [1479662737.247104410]: Could not get robot pose, cancelling pose reconfiguration
+[ INFO] [1479662737.355560199]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662738.750024664]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662740.143887241]: Resizing costmap to 147 X 85 at 0.050000 m/pix
+[ INFO] [1479662741.473111336]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662742.355888883]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662743.635798102]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662751.418410213]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662752.478548764]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662753.544037818]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662754.514345432]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662755.757466778]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662757.140829389]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ WARN] [1479662761.347702637]: Costmap2DROS transform timeout. Current time: 1479662761.3476, global_pose stamp: 1479662759.2600, tolerance: 2.0000
+[ WARN] [1479662761.347745573]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662762.407420074]: Costmap2DROS transform timeout. Current time: 1479662762.4073, global_pose stamp: 1479662759.6405, tolerance: 2.0000
+[ WARN] [1479662762.447486740]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662763.442583256]: Costmap2DROS transform timeout. Current time: 1479662763.4425, global_pose stamp: 1479662761.0972, tolerance: 2.0000
+[ WARN] [1479662763.547915079]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662764.447541474]: Costmap2DROS transform timeout. Current time: 1479662764.4475, global_pose stamp: 1479662761.8300, tolerance: 2.0000
+[ WARN] [1479662764.647363402]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662765.447561150]: Costmap2DROS transform timeout. Current time: 1479662765.4475, global_pose stamp: 1479662762.9301, tolerance: 2.0000
+[ WARN] [1479662765.647481212]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662766.547745730]: Costmap2DROS transform timeout. Current time: 1479662766.5477, global_pose stamp: 1479662764.3975, tolerance: 2.0000
+[ WARN] [1479662766.747564267]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662767.547860416]: Costmap2DROS transform timeout. Current time: 1479662767.5478, global_pose stamp: 1479662765.1317, tolerance: 2.0000
+[ WARN] [1479662767.947731190]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662768.642566418]: Costmap2DROS transform timeout. Current time: 1479662768.6425, global_pose stamp: 1479662766.6330, tolerance: 2.0000
+[ WARN] [1479662769.047622934]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662769.647143992]: Costmap2DROS transform timeout. Current time: 1479662769.6471, global_pose stamp: 1479662767.0059, tolerance: 2.0000
+[ WARN] [1479662770.047853001]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662770.647214404]: Costmap2DROS transform timeout. Current time: 1479662770.6472, global_pose stamp: 1479662767.7354, tolerance: 2.0000
+[ WARN] [1479662771.247085622]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662771.647758601]: Costmap2DROS transform timeout. Current time: 1479662771.6477, global_pose stamp: 1479662769.5700, tolerance: 2.0000
+[ WARN] [1479662772.347481869]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662772.747079609]: Costmap2DROS transform timeout. Current time: 1479662772.7470, global_pose stamp: 1479662770.3069, tolerance: 2.0000
+[ WARN] [1479662775.347346789]: Costmap2DROS transform timeout. Current time: 1479662775.3473, global_pose stamp: 1479662773.2743, tolerance: 2.0000
+[ WARN] [1479662775.347408825]: Could not get robot pose, cancelling pose reconfiguration
+[ INFO] [1479662776.415137205]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662777.474870952]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662778.511974742]: Resizing costmap to 147 X 85 at 0.050000 m/pix
+[ INFO] [1479662779.964156204]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662780.725093780]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662782.182460071]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ WARN] [1479662782.642499821]: Costmap2DROS transform timeout. Current time: 1479662782.6424, global_pose stamp: 1479662780.6156, tolerance: 2.0000
+[ WARN] [1479662782.646890258]: Could not get robot pose, cancelling pose reconfiguration
+[ INFO] [1479662783.160330477]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662784.388117562]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662785.206798849]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662786.457866452]: Resizing costmap to 147 X 85 at 0.050000 m/pix
+[ INFO] [1479662787.738005036]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662788.620499933]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662789.651238898]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662790.905180792]: Resizing costmap to 148 X 85 at 0.050000 m/pix
+[ INFO] [1479662790.956766654]: Got new plan
+[ INFO] [1479662791.956770418]: Got new plan
+[ INFO] [1479662792.241441200]: Resizing costmap to 147 X 85 at 0.050000 m/pix
+[ INFO] [1479662792.956782118]: Got new plan
+[ WARN] [1479662793.642501784]: Costmap2DROS transform timeout. Current time: 1479662793.6424, global_pose stamp: 1479662791.6281, tolerance: 2.0000
+[ WARN] [1479662793.647744006]: Could not get robot pose, cancelling pose reconfiguration
+[ERROR] [1479662793.756782738]: Could not get robot pose
+[ERROR] [1479662793.756864608]: Could not get robot pose
+[ WARN] [1479662793.756946911]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662794.024649122]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ INFO] [1479662794.156754365]: Got new plan
+[ERROR] [1479662794.156815093]: Could not get robot pose
+[ERROR] [1479662794.156858176]: Could not get robot pose
+[ WARN] [1479662794.156963088]: Unable to get starting pose of robot, unable to create global plan
+[ WARN] [1479662794.356793886]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662794.756757151]: Got new plan
+[ INFO] [1479662794.851573532]: Resizing costmap to 149 X 85 at 0.050000 m/pix
+[ WARN] [1479662795.547651407]: Costmap2DROS transform timeout. Current time: 1479662795.5476, global_pose stamp: 1479662793.4623, tolerance: 2.0000
+[ WARN] [1479662795.547699936]: Could not get robot pose, cancelling pose reconfiguration
+[ERROR] [1479662795.556730960]: Could not get robot pose
+[ERROR] [1479662795.556771028]: Could not get robot pose
+[ WARN] [1479662795.556854746]: Unable to get starting pose of robot, unable to create global plan
+[ WARN] [1479662795.756847419]: Unable to get starting pose of robot, unable to create global plan
+[ WARN] [1479662795.956867966]: Unable to get starting pose of robot, unable to create global plan
+[ WARN] [1479662796.156894864]: Unable to get starting pose of robot, unable to create global plan
+[ WARN] [1479662796.356865550]: Unable to get starting pose of robot, unable to create global plan
+[ WARN] [1479662796.547830583]: Costmap2DROS transform timeout. Current time: 1479662796.5478, global_pose stamp: 1479662793.8305, tolerance: 2.0000
+[ WARN] [1479662796.547874552]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479662796.556778071]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662796.825187636]: Resizing costmap to 147 X 85 at 0.050000 m/pix
+[ INFO] [1479662796.956759609]: Got new plan
+[ERROR] [1479662796.956826106]: Could not get robot pose
+[ERROR] [1479662796.956857772]: Could not get robot pose
+[ WARN] [1479662796.956939794]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662797.356802511]: Got new plan
+[ERROR] [1479662797.356852335]: Could not get robot pose
+[ERROR] [1479662797.356876196]: Could not get robot pose
+[ WARN] [1479662797.356969329]: Unable to get starting pose of robot, unable to create global plan
+[ WARN] [1479662797.556755288]: Costmap2DROS transform timeout. Current time: 1479662797.5567, global_pose stamp: 1479662795.2985, tolerance: 2.0000
+[ WARN] [1479662797.556849385]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662797.909217670]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662797.956796399]: Got new plan
+[ INFO] [1479662798.956756118]: Got new plan
+[ INFO] [1479662799.956763708]: Got new plan
+[ INFO] [1479662800.242859368]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ WARN] [1479662800.607373963]: Costmap2DROS transform timeout. Current time: 1479662800.6073, global_pose stamp: 1479662798.6013, tolerance: 2.0000
+[ INFO] [1479662800.956737808]: Got new plan
+[ WARN] [1479662801.047564040]: Could not get robot pose, cancelling pose reconfiguration
+[ERROR] [1479662801.156800993]: Could not get robot pose
+[ERROR] [1479662801.156851529]: Could not get robot pose
+[ WARN] [1479662801.156931700]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662801.556762927]: Got new plan
+[ INFO] [1479662801.562946212]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ WARN] [1479662801.747599389]: Costmap2DROS transform timeout. Current time: 1479662801.7475, global_pose stamp: 1479662799.7036, tolerance: 2.0000
+[ INFO] [1479662802.556737385]: Got new plan
+[ INFO] [1479662802.876456608]: Resizing costmap to 147 X 85 at 0.050000 m/pix
+[ INFO] [1479662803.556843064]: Got new plan
+[ INFO] [1479662804.479218132]: Resizing costmap to 145 X 85 at 0.050000 m/pix
+[ INFO] [1479662804.556858515]: Got new plan
+[ INFO] [1479662805.556769471]: Got new plan
+[ INFO] [1479662806.556767050]: Got new plan
+[ WARN] [1479662806.842541369]: Costmap2DROS transform timeout. Current time: 1479662806.8425, global_pose stamp: 1479662804.8421, tolerance: 2.0000
+[ WARN] [1479662806.847078197]: Could not get robot pose, cancelling pose reconfiguration
+[ERROR] [1479662806.956814961]: Could not get robot pose
+[ERROR] [1479662806.956859711]: Could not get robot pose
+[ WARN] [1479662806.956926207]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662807.356734038]: Got new plan
+[ INFO] [1479662807.686718833]: Resizing costmap to 146 X 85 at 0.050000 m/pix
+[ WARN] [1479662807.947994174]: Costmap2DROS transform timeout. Current time: 1479662807.9479, global_pose stamp: 1479662805.9423, tolerance: 2.0000
+[ WARN] [1479662807.948050850]: Could not get robot pose, cancelling pose reconfiguration
+[ERROR] [1479662807.956748516]: Could not get robot pose
+[ERROR] [1479662807.956793100]: Could not get robot pose
+[ WARN] [1479662807.956858811]: Unable to get starting pose of robot, unable to create global plan
+[ INFO] [1479662808.356740885]: Got new plan
+[ERROR] [1479662808.356791175]: Could not get robot pose
+[ERROR] [1479662808.356811217]: Could not get robot pose
+[ WARN] [1479662808.356861850]: Unable to get starting pose of robot, unable to create global plan

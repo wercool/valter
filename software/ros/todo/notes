@@ -1,0 +1,13 @@
+1)RVIZ
+Map <- /move_base/global_costmap/costmap
+error[Update area outside of original map area.]
+
+2) figure out reset visual odom
+
+3)
+[ WARN] [1479657257.494897159]: Could not get robot pose, cancelling pose reconfiguration
+[ WARN] [1479657258.494998065]: Costmap2DROS transform timeout. Current time: 1479657258.4949, global_pose stamp: 1479657255.8375, tolerance: 2.0000
+
+4) review move_base.log
+
+5) move_base max thetha velocity appears time to time = 1.0 (!!!)
