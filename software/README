@@ -1,0 +1,29 @@
+Valter ROS demo
+
+1) Turn on WiFi "valterstation2.4GHz"
+2) Turn on Valter
+   (otional) 2.1) ping 192.168.101.101
+   (otional) 2.2) ssh 192.168.101.101
+3) valter1 (ssh 192.168.101.101)
+   (reminder) 3.0) cat ~/.bashrc
+   (otional)  3.10) cd ~/git/valter/software/ros/workspaces/valter1
+   (otional)  3.20) source devel/setup.sh
+4) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
+   (reminder) 4.0) cat ~/.bashrc
+   (otional)  4.10) cd ~/git/valter/software/ros/workspaces/master
+   (otional)  4.20) source devel/setup.sh
+ 5) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
+   5.10) roscore
+   (manual action) 5.19) connect USB joystick
+   5.20) rosrun joy joy_node
+   (optional) 5.30) rqt_graph
+   5.40) rosrun valter valter_joy_teleop_cmd_vel_pub
+6) valter1 (ssh 192.168.101.101)
+   6.10) rosrun valter cmd_vel_subscriber
+7) Launch expclient 
+   7.10) (TCP Interface) -> set Central Host IP Address (Valter workshop 192.168.101.100)
+   7.20) (TCP Interface) -> press button "Update Settings / Connect All"
+   7.30) (TCP Interface) -> Control Mode column -> Uncheck All except [PLATFORM-CONTROL-P1]
+   7.40) (TCP Interface) -> press button "Disconnect All"
+   7.50) (TCP Interface) -> press button "Update Settings / Connect All"
+   
