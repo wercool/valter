@@ -30,7 +30,7 @@
         android:layout_above="@+id/rescanBT"/>
 
     <Button
-        android:text="Rescan BT in range"
+        android:text="Re-scan BT in range"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +18,10 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +37,7 @@ public class BluetoothConnect extends AppCompatActivity {
     ListView pairedBTDevicesListView;
     SimpleAdapter btDevicesListAdapter;
     List<BluetoothDevice> btDevices = new ArrayList<BluetoothDevice>(){};
+    ConnectedThread mConnectedThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +54,7 @@ public class BluetoothConnect extends AppCompatActivity {
                 BluetoothDevice device = btDevices.get(position);
 //                pairDevice(device);
                 ConnectThread connection = new ConnectThread(device);
-                connection.run();
+                connection.start();
             }
 
         });
@@ -219,7 +224,10 @@ public class BluetoothConnect extends AppCompatActivity {
             try {
                 // Get a BluetoothSocket to connect with the given BluetoothDevice.
                 // MY_UUID is the app's UUID string, also used in the server code.
-                tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("107a805c-ec87-11e6-b006-92361f002671"));
+                // Hint: If you are connecting to a Bluetooth serial board then try
+                // using the well-known SPP UUID 00001101-0000-1000-8000-00805F9B34FB.
+                // However if you are connecting to an Android peer then please generate your own unique UUID.
+                tmp = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
             } catch (IOException e) {
                 Log.e("ValterClient BT", "Socket's create() method failed", e);
             }
@@ -236,17 +244,27 @@ public class BluetoothConnect extends AppCompatActivity {
                 mmSocket.connect();
             } catch (IOException connectException) {
                 // Unable to connect; close the socket and return.
+                Log.e("ValterClient BT", "Unable to connect ", connectException);
                 try {
                     mmSocket.close();
                 } catch (IOException closeException) {
-                    Log.e("ValterClient BT", "Could not close the client socket", closeException);
+                    Log.e("ValterClient BT", "Could not close the client socket ", closeException);
                 }
                 return;
             }
 
             // The connection attempt succeeded. Perform work associated with
             // the connection in a separate thread.
-//            manageMyConnectedSocket(mmSocket);
+
+            // Cancel any thread currently running a connection
+            if (mConnectedThread != null) {
+                mConnectedThread.cancel();
+                mConnectedThread = null;
+            }
+
+            mConnectedThread = new ConnectedThread(mmSocket);
+            mConnectedThread.start();
+
             Log.d("ValterClient BT", "BT Connected");
         }
 
@@ -256,6 +274,90 @@ public class BluetoothConnect extends AppCompatActivity {
                 mmSocket.close();
             } catch (IOException e) {
                 Log.e("ValterClient BT", "Could not close the client socket", e);
+            }
+        }
+    }
+
+    private class ConnectedThread extends Thread {
+        private static final String TAG = "Valter Client BT Conn";
+        private final BluetoothSocket mmSocket;
+        private final InputStream mmInStream;
+        private final OutputStream mmOutStream;
+        private byte[] mmBuffer; // mmBuffer store for the stream
+
+        public ConnectedThread(BluetoothSocket socket) {
+            mmSocket = socket;
+            InputStream tmpIn = null;
+            OutputStream tmpOut = null;
+
+            // Get the input and output streams; using temp objects because
+            // member streams are final.
+            try {
+                tmpIn = socket.getInputStream();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when creating input stream", e);
+            }
+            try {
+                tmpOut = socket.getOutputStream();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when creating output stream", e);
+            }
+
+            mmInStream = tmpIn;
+            mmOutStream = tmpOut;
+        }
+
+        public void run() {
+            mmBuffer = new byte[1024];
+            int numBytes; // bytes returned from read()
+
+            // Keep listening to the InputStream until an exception occurs.
+            while (true) {
+                try {
+                    // Read from the InputStream.
+                    numBytes = mmInStream.read(mmBuffer);
+                    // Send the obtained bytes to the UI activity.
+//                    Message readMsg = mHandler.obtainMessage(
+//                            MessageConstants.MESSAGE_READ, numBytes, -1,
+//                            mmBuffer);
+//                    readMsg.sendToTarget();
+                    Log.d("ValterClient BT IN", new String( mmBuffer, Charset.forName("UTF-8") ));
+                } catch (IOException e) {
+                    Log.d(TAG, "Input stream was disconnected", e);
+                    break;
+                }
+            }
+        }
+
+        // Call this from the main activity to send data to the remote device.
+        public void write(byte[] bytes) {
+            try {
+                mmOutStream.write(bytes);
+
+                // Share the sent message with the UI activity.
+//                Message writtenMsg = mHandler.obtainMessage(
+//                        MessageConstants.MESSAGE_WRITE, -1, -1, mmBuffer);
+//                writtenMsg.sendToTarget();
+            } catch (IOException e) {
+                Log.e(TAG, "Error occurred when sending data", e);
+
+                // Send a failure message back to the activity.
+//                Message writeErrorMsg =
+//                        mHandler.obtainMessage(MessageConstants.MESSAGE_TOAST);
+//                Bundle bundle = new Bundle();
+//                bundle.putString("toast",
+//                        "Couldn't send data to the other device");
+//                writeErrorMsg.setData(bundle);
+//                mHandler.sendMessage(writeErrorMsg);
+            }
+        }
+
+        // Call this method from the main activity to shut down the connection.
+        public void cancel() {
+            try {
+                mmSocket.close();
+            } catch (IOException e) {
+                Log.e(TAG, "Could not close the connect socket", e);
             }
         }
     }
