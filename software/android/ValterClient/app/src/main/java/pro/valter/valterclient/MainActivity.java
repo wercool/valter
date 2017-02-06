@@ -18,5 +18,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void bluetoothConnectBtnClicked(View view) {
+        Intent intent = new Intent(this, BluetoothConnect.class);
+        startActivity(intent);
+    }
+
 
 }
