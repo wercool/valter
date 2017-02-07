@@ -16,3 +16,6 @@ include_directories(${Eigen_INCLUDE_DIRS})
 
 add_executable(cmd_vel_subscriber src/cmd_vel_subscriber.cpp)
 target_link_libraries(cmd_vel_subscriber ${catkin_LIBRARIES})
+
+add_executable(bluetooth_server src/bluetooth_server.cpp)
+target_link_libraries(bluetooth_server ${catkin_LIBRARIES} bluetooth)

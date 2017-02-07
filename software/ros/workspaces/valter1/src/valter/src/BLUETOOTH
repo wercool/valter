@@ -1,0 +1,7 @@
+sudo hciconfig hci0 piscan
+
+sudo apt-get install libbluetooth-dev
+sudo apt-get install bluetooth bluez blueman
+
+
+http://raspberrypi.stackexchange.com/questions/55850/rpi-bluetooth-headless-communication-with-android-phone-no-pairing/55884
