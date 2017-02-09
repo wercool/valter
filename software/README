@@ -30,7 +30,9 @@ Valter ROS demo
    7.30) (TCP Interface) -> Control Mode column -> Uncheck All except [PLATFORM-CONTROL-P1]
    7.40) (TCP Interface) -> press button "Disconnect All"
    7.50) (TCP Interface) -> press button "Update Settings / Connect All"
-   7.51) Enable back 192.168.0.* (wired interdafce)
+   7.51) Enable back 192.168.0.* (wired interface)
+   
+
    
    
 KNOWN PROBLEMS

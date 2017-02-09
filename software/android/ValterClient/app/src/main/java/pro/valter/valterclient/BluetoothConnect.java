@@ -143,8 +143,8 @@ public class BluetoothConnect extends AppCompatActivity {
             // There are paired devices. Get the name and address of each paired device.
             for (BluetoothDevice device : pairedDevices)
             {
-                unpairDevice(device);
-                //addBTDeviceToList(device);
+//                unpairDevice(device);
+                addBTDeviceToList(device);
             }
         }
         mBluetoothAdapter.startDiscovery();
