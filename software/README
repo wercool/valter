@@ -33,6 +33,32 @@ Valter ROS demo
    7.51) Enable back 192.168.0.* (wired interdafce)
    
    
+KNOWN PROBLEMS
+
+https://www.bitpi.co/2015/02/11/how-to-change-raspberry-pis-swapfile-size-on-rasbian/
+[
+sudo nano /etc/dphys-swapfile
+The default value in Raspbian is:
+
+CONF_SWAPSIZE=100
+We will need to change this to:
+
+CONF_SWAPSIZE=1024
+Then you will need to stop and start the service that manages the swapfile own Rasbian:
+
+sudo /etc/init.d/dphys-swapfile stop
+sudo /etc/init.d/dphys-swapfile start
+You can then verify the amount of memory + swap by issuing the following command:
+
+free -m
+The output should look like:
+
+total     used     free   shared  buffers   cached
+Mem:           435       56      379        0        3       16
+-/+ buffers/cache:       35      399
+Swap:         1023        0     1023
+]
+   
 =================================================================================
 valter1
 sudo vi /etc/rc.local

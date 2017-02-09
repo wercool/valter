@@ -1,4 +1,6 @@
 systemctl status bluetooth
+sudo hciconfig hci0 up
+sudo hciconfig hci0 sspmode 1
 sudo hciconfig hci0 piscan
 
 sudo apt-get install libbluetooth-dev
@@ -6,3 +8,38 @@ sudo apt-get install bluetooth bluez blueman
 
 
 http://raspberrypi.stackexchange.com/questions/55850/rpi-bluetooth-headless-communication-with-android-phone-no-pairing/55884
+=================
+Alright, I found a solution to my own problem. I post it here in case of somebody running into the same problem.
+
+I am using bluez and installed libbluetooth-dev to get the necessary libraries for the C++ code.
+
+I used the code for the rfcomm-server.c from the example https://people.csail.mit.edu/albert/bluez-intro/x502.html.
+
+After copying the code, I made some small alterations in the code. I added the
+
+str2ba( address, &loc_addr.rc_bdaddr);
+instead of the line
+
+loc_addr.rc_bdaddr = *BDADDR_ANY;
+where address is the MAC address of the bluetooth device on the RPi in a char-array, like this:
+
+char address[18] = "XX:XX:XX:XX:XX:XX";
+After this I changed the file dbus-org.bluez.service found in the directory /etc/systemd/system/.
+
+I changed the line:
+
+ExecStart=/usr/lib/bluetooth/bluetoothd
+to
+
+ExecStart=/usr/lib/bluetooth/bluetoothd -C
+and added this line under it:
+
+ExecStartPost=/usr/bin/sdptool add sp
+I saved the file and rebooted the RPi.
+
+Now i could run the code and it would wait for a connection from the android app. I used the app "Bluetooth Terminal". When i connected the phone to the RPi the code outputs the MacAddress of the phone and waits for the app on the phone to write something. You can now send anything you want from the app and the RPi will then output it on the screen and terminate the program.
+
+This means that you now can connect from any phone to the RPi.
+
+This may be a bit confusing, but let me know if I need to clarify anything.
+======================
