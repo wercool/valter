@@ -1,3 +1,4 @@
+systemctl status bluetooth
 sudo hciconfig hci0 piscan
 
 sudo apt-get install libbluetooth-dev

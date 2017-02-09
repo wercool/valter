@@ -5,9 +5,10 @@ Valter ROS demo
    (otional) 2.1) ping 192.168.101.101
    (otional) 2.2) ssh 192.168.101.101
 3) valter1 (ssh 192.168.101.101)
-   (reminder) 3.0) cat ~/.bashrc
-   (otional)  3.10) cd ~/git/valter/software/ros/workspaces/valter1
-   (otional)  3.20) source devel/setup.sh
+   3.1) sudo hciconfig hci0 piscan
+	    (reminder) 3.0) cat ~/.bashrc
+	    (otional)  3.10) cd ~/git/valter/software/ros/workspaces/valter1
+	    (otional)  3.20) source devel/setup.sh
 4) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
    (reminder) 4.0) cat ~/.bashrc
    (otional)  4.10) cd ~/git/valter/software/ros/workspaces/master
@@ -21,9 +22,18 @@ Valter ROS demo
 6) valter1 (ssh 192.168.101.101)
    6.10) rosrun valter cmd_vel_subscriber
 7) Launch expclient 
+   7.0.0) (not from Qt) cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop_Qt_5_7_0_GCC_64bit-Debug
+   7.0.0) ./expclient wlan0
+   7.1.0) (from Qt)  Disable 192.168.0.* (wired interdafce)
    7.10) (TCP Interface) -> set Central Host IP Address (Valter workshop 192.168.101.100)
    7.20) (TCP Interface) -> press button "Update Settings / Connect All"
    7.30) (TCP Interface) -> Control Mode column -> Uncheck All except [PLATFORM-CONTROL-P1]
    7.40) (TCP Interface) -> press button "Disconnect All"
    7.50) (TCP Interface) -> press button "Update Settings / Connect All"
+   7.51) Enable back 192.168.0.* (wired interdafce)
    
+   
+=================================================================================
+valter1
+sudo vi /etc/rc.local
+exec su -l maska -c '/home/maska/start; sleep 15; cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug; export DISPLAY=:0; ./expclient wlan0'

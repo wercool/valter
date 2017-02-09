@@ -77,7 +77,7 @@ int main(int argc, char** argv)
     // local bluetooth adapter
     loc_addr.rc_family = AF_BLUETOOTH;
 
-    char address[18] = "B8:27:EB:B1:FD:6D";
+    char address[18] = "B8:27:EB:B6:79:B1";
 
 //    loc_addr.rc_bdaddr = *BDADDR_ANY;
     str2ba( address, &loc_addr.rc_bdaddr);
