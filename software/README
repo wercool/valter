@@ -9,6 +9,8 @@ Valter ROS demo
 	    (reminder) 3.0) cat ~/.bashrc
 	    (otional)  3.10) cd ~/git/valter/software/ros/workspaces/valter1
 	    (otional)  3.20) source devel/setup.sh
+   3.2) (optional) sudo bluetoothctl
+      3.2.1) 
 4) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
    (reminder) 4.0) cat ~/.bashrc
    (otional)  4.10) cd ~/git/valter/software/ros/workspaces/master
