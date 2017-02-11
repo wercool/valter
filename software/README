@@ -1,5 +1,5 @@
 Valter ROS demo
-
+=============================================LEVEL 1
 1) Turn on WiFi "valterstation2.4GHz"
 2) Turn on Valter
    (otional) 2.1) ping 192.168.101.101
@@ -10,7 +10,7 @@ Valter ROS demo
 	    (otional)  3.10) cd ~/git/valter/software/ros/workspaces/valter1
 	    (otional)  3.20) source devel/setup.sh
    3.2) (optional) sudo bluetoothctl
-      3.2.1) 
+      3.2.1) LEVEL 2
 4) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
    (reminder) 4.0) cat ~/.bashrc
    (otional)  4.10) cd ~/git/valter/software/ros/workspaces/master
@@ -34,8 +34,21 @@ Valter ROS demo
    7.50) (TCP Interface) -> press button "Update Settings / Connect All"
    7.51) Enable back 192.168.0.* (wired interface)
    
-
    
+=============================================LEVEL 2
+1) valter1
+   1.1) rosrun valter bluetooth_server
+   1.2) (new termial tab) ssh 192.168.101.101
+   1.3) rosrun valter cmd_vel_subscriber
+   
+
+=============================================LEVEL 3
+
+1) (optional ROS master) cat /home/maska/git/valter/software/ros/launch/master
+	2) (ROS master) roslaunch freenect_master.launch
+3) (valter2) ./initROS
+
+
    
 KNOWN PROBLEMS
 
