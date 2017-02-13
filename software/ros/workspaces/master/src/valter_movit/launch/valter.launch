@@ -15,10 +15,6 @@
   <!-- pitch(y) 0.1 rad -->
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0.23 0 -1.025 0 -0.1 0 /camera_link /Base 100" />
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 /Base /camera_to_base_tf 100" />
-<!--
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0.23 0 -1.025 0 0 0 camera_link camera_to_base_tf 100" />
--->
-
 
   <!-- We do not have a robot connected, so publish fake joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
@@ -36,34 +32,5 @@
     <arg name="info" value="true"/>
     <arg name="debug" value="$(arg debug)"/>
   </include>
-
-  <!-- Run Rviz and load the default config to see the state of the move_group node -->
-<!--
-  <include file="$(find valter_movit)/launch/moveit_rviz.launch">
-    <arg name="config" value="true"/>
-    <arg name="debug" value="$(arg debug)"/>
-  </include>
--->
-
-
-  <!-- If database loading was enabled, start mongodb as well -->
-  <!--<include file="$(find valter_movit)/launch/default_warehouse_db.launch" if="$(arg db)"/>-->
-
-<!--
-  <node
-    name="odometry"
-    pkg="valter"
-    type="odometry"/>
-  <node
-    name="move_base_simple"
-    pkg="valter"
-    type="move_base_simple"/>
--->
-<!--
-  <include file="$(find rtabmap_ros)/launch/rgbd_mapping.launch">
-    <arg name="rviz" value="true"/>
-    <arg name="rtabmapviz" value="false"/>
-  </include>
--->
 
 </launch>

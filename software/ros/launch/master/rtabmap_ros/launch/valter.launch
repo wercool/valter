@@ -52,23 +52,23 @@
     <arg name="namespace"               value="$(arg namespace)"/>
     <arg name="database_path"           value="$(arg database_path)"/>
     <arg name="wait_for_transform"      value="$(arg wait_for_transform)"/>
-    <arg name="rtabmap_args"            value="$(arg rtabmap_args)"/>  
-    <arg name="launch_prefix"           value="$(arg launch_prefix)"/>          
+    <arg name="rtabmap_args"            value="$(arg rtabmap_args)"/>
+    <arg name="launch_prefix"           value="$(arg launch_prefix)"/>
     <arg name="approx_sync"             value="$(arg approx_sync)"/>
 
     <arg name="rgb_topic"               value="$(arg rgb_topic)" />
     <arg name="depth_topic"             value="$(arg depth_registered_topic)" />
     <arg name="camera_info_topic"       value="$(arg camera_info_topic)" />
-    <arg name="compressed"              value="$(arg compressed)"/>                                                                                
-   
+    <arg name="compressed"              value="$(arg compressed)"/>
+
     <arg name="subscribe_scan"          value="$(arg subscribe_scan)"/>
     <arg name="scan_topic"              value="$(arg scan_topic)"/>
   
     <arg name="subscribe_scan_cloud"    value="$(arg subscribe_scan_cloud)"/>
     <arg name="scan_cloud_topic"        value="$(arg scan_cloud_topic)"/>
    
-    <arg name="visual_odometry"         value="$(arg visual_odometry)"/>          
-    <arg name="odom_topic"              value="$(arg odom_topic)"/>         
+    <arg name="visual_odometry"         value="$(arg visual_odometry)"/>
+    <arg name="odom_topic"              value="$(arg odom_topic)"/>
     <arg name="odom_args"               value="$(arg rtabmap_args)"/>
   </include>
 
@@ -79,5 +79,7 @@
     <remap from="scan" to="/kinect_scan"/>
     <param name="range_max" type="double" value="4"/>
   </node>
+
+  <!--<node pkg="tf" type="static_transform_publisher" name="odom_camera_tf" args="0.23 0 -1.025 0 -0.1 0 /camera_link /Base 100" />-->
 
 </launch>
