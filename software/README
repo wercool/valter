@@ -42,7 +42,7 @@ Valter ROS demo
    
 
 =============================================LEVEL 3
-
+0) (ROS master) (if not started) roscore
 1) (optional) (ROS master) cat /home/maska/git/valter/software/ros/launch/master
 2) (ROS master) roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch
 3) (valter2) ssh 192.168.101.102
