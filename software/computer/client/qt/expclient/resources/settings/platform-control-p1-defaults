@@ -7,9 +7,9 @@ motorsAcceleration:1,15,5
 turretMotorDuty:1,100,10
 turretMotorDeceleration:1,15,5
 turretMotorAcceleration:1,10,2
-trackLeftMotorCurrent:1
-trackRightMotorCurrent:1
-trackTurretMotorCurrent:1
+trackLeftMotorCurrent:0
+trackRightMotorCurrent:0
+trackTurretMotorCurrent:0
 trackLeftWheelEncoder:1
 trackRightWheelEncoder:1
 leftWheelEncoderAutoreset:1
