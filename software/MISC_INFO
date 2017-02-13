@@ -1,0 +1,44 @@
+KNOWN PROBLEMS
+
+=================
+(valter 2) 
+
+/etc/udev/rules.d/51-kinect.rules
+
+# ATTR{product}=="Xbox NUI Motor" 
+SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02b0", MODE="0666", OWNER:="root", GROUP:="video"
+# ATTR{product}=="Xbox NUI Audio" 
+SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ad", MODE="0666", OWNER:="root", GROUP:="video"
+# ATTR{product}=="Xbox NUI Camera" 
+SUBSYSTEM=="usb", ATTR{idVendor}=="045e", ATTR{idProduct}=="02ae", MODE="0666", OWNER:="root", GROUP:="video"
+=============================
+
+
+https://www.bitpi.co/2015/02/11/how-to-change-raspberry-pis-swapfile-size-on-rasbian/
+[
+sudo nano /etc/dphys-swapfile
+The default value in Raspbian is:
+
+CONF_SWAPSIZE=100
+We will need to change this to:
+
+CONF_SWAPSIZE=1024
+Then you will need to stop and start the service that manages the swapfile own Rasbian:
+
+sudo /etc/init.d/dphys-swapfile stop
+sudo /etc/init.d/dphys-swapfile start
+You can then verify the amount of memory + swap by issuing the following command:
+
+free -m
+The output should look like:
+
+total     used     free   shared  buffers   cached
+Mem:           435       56      379        0        3       16
+-/+ buffers/cache:       35      399
+Swap:         1023        0     1023
+]
+   
+=================================================================================
+valter1
+sudo vi /etc/rc.local
+exec su -l maska -c '/home/maska/start; sleep 15; cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug; export DISPLAY=:0; ./expclient wlan0'

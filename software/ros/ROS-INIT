@@ -32,7 +32,7 @@ on master expclient start from
 5)roslaunch rtabmap_ros valter.launch localization:=true
 6)
 cd ~/git/valter/software/ros/launch/master
-roslaunch move_base_and_planner.launch
+roslaunch /home//git/valter/software/ros/launch/master/move_base_and_planner.launch
 
 ====joystick
 rosrun joy joy_node
