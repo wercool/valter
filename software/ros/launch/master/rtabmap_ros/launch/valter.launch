@@ -12,13 +12,14 @@
   <arg name="rtabmapviz"              default="false" /> 
   
   <!-- Localization-only mode -->
-  <arg name="localization"            default="false"/>
+  <arg name="localization"            default="true"/>
   
   <!-- Corresponding config files -->
   <arg name="rtabmapviz_cfg"          default="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" />
   <arg name="rviz_cfg"                default="-d $(find rtabmap_ros)/launch/config/rgbd.rviz" />
   
-  <arg name="frame_id"                default="camera_link"/>   <!-- Fixed frame id, you may set "base_link" or "base_footprint" if they are published -->
+  <!-- Fixed frame id, you may set "base_link" or "base_footprint" if they are published -->
+  <arg name="frame_id"                default="camera_link"/>
   <arg name="database_path"           default="~/.ros/rtabmap.db"/>
   <arg name="rtabmap_args"            default=""/>              <!-- delete_db_on_start, udebug -->
   <arg name="launch_prefix"           default=""/>              <!-- for debugging purpose, it fills launch-prefix tag of the nodes -->
@@ -79,7 +80,6 @@
     <remap from="scan" to="/kinect_scan"/>
     <param name="range_max" type="double" value="4"/>
   </node>
-
-  <!--<node pkg="tf" type="static_transform_publisher" name="odom_camera_tf" args="0.23 0 -1.025 0 -0.1 0 /camera_link /Base 100" />-->
+ 
 
 </launch>

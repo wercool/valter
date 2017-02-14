@@ -11,11 +11,6 @@
     <arg name="load_robot_description" value="true"/>
   </include>
 
-  <!-- If needed, broadcast static tf for robot root -->
-  <!-- pitch(y) 0.1 rad -->
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0.23 0 -1.025 0 -0.1 0 /camera_link /Base 100" />
-  <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_1" args="0 0 0 0 0 0 /Base /camera_to_base_tf 100" />
-
   <!-- We do not have a robot connected, so publish fake joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="/use_gui" value="true"/> 

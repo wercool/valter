@@ -36,7 +36,7 @@ TrajectoryPlannerROS:
   publish_cost_grid_pc: false
 
 #move_base
-controller_frequency: 0.5 #The robot can move faster when higher.
+controller_frequency: 0.2 #The robot can move faster when higher.
 
 #global planner 
 NavfnROS:
