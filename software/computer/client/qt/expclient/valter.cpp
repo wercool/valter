@@ -98,10 +98,14 @@ void Valter::autoInitialization()
         for(it_type iterator = valterModulesMap.begin(); iterator != valterModulesMap.end(); iterator++)
         {
             IValterModule *valterModule = valterModulesMap[iterator->first];
-            if (valterModule->getControlDeviceIsSet())
+
+            if (Valter::getInstance()->getGlobalSetting("wdrIntent").compare("true") == 0)
             {
-                valterModule->sendCommand("WDINTENTIONALRESETON");
-                valterModule->getControlDevice()->setResetWDTimer(true);
+                if (valterModule->getControlDeviceIsSet())
+                {
+                    valterModule->sendCommand("WDINTENTIONALRESETON");
+                    valterModule->getControlDevice()->setResetWDTimer(true);
+                }
             }
         }
     }
