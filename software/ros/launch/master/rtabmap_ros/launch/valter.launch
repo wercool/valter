@@ -16,7 +16,7 @@
   
   <!-- Corresponding config files -->
   <arg name="rtabmapviz_cfg"          default="-d $(find rtabmap_ros)/launch/config/rgbd_gui.ini" />
-  <arg name="rviz_cfg"                default="-d $(find rtabmap_ros)/launch/config/rgbd.rviz" />
+  <arg name="rviz_cfg"                default="-d /home/maska/git/valter/software/ros/rviz/valter.rviz" />
   
   <!-- Fixed frame id, you may set "base_link" or "base_footprint" if they are published -->
   <arg name="frame_id"                default="camera_link"/>
