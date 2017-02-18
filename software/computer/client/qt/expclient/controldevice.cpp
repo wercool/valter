@@ -379,9 +379,14 @@ void ControlDevice::controlDeviceThreadWorker()
 
     if (Valter::getInstance()->getGlobalSetting("wdrIntent").compare("true") == 0)
     {
+        Valter::log("\n\nAUTONOMOUS MODE\n\nwdrIntent = true\n\n");
         this->getControlDevicePort()->write("WDINTENTIONALRESETON");
         intentionalWDTimerResetOnAT91SAM7s = true;
         setResetWDTimer(true);
+    }
+    else
+    {
+        Valter::log("\n\nSUPERVISED MODE\n\nwdrIntent = false\n\n");
     }
 
     while (this->getStatus() == ControlDevice::StatusActive)
