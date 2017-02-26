@@ -17,8 +17,8 @@ include_directories(${Eigen_INCLUDE_DIRS})
 #add_executable(move_base_simple src/move_base_simple.cpp)
 #target_link_libraries(move_base_simple ${catkin_LIBRARIES})
 
-#add_executable(odometry src/odometry.cpp)
-#target_link_libraries(odometry ${catkin_LIBRARIES})
+add_executable(odometry src/odometry.cpp)
+target_link_libraries(odometry ${catkin_LIBRARIES})
 
 #add_executable(ir0_scan src/ir0_scan.cpp)
 #target_link_libraries(ir0_scan ${catkin_LIBRARIES})
