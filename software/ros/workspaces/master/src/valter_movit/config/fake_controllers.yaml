@@ -1,4 +1,22 @@
 controller_list:
+  - name: fake_right_arm_controller
+    joints:
+      - RTorsoJoint
+      - RShoulderJoint
+      - RArmJoint
+      - RArmElbowJoint
+      - RForearmYawJoint
+      - RForearmRollJoint
+      - RHandPitchJoint
+  - name: fake_right_arm_roll_controller
+    joints:
+      - RForearmYawJoint
+      - RForearmRollJoint
+  - name: fake_right_arm_liftup_controller
+    joints:
+      - RTorsoJoint
+      - RShoulderJoint
+      - RArmJoint
   - name: fake_left_arm_controller
     joints:
       - LTorsoJoint
