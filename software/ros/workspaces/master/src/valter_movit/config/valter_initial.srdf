@@ -18,18 +18,15 @@
         <joint name="LForearmRollJoint" />
         <joint name="LHandPitchJoint" />
     </group>
-
     <group name="left_arm_roll">
-        <link name="LArmElbow" />
+        <link name="LForearmYaw" />
         <link name="LForearmRoll" />
     </group>
-
     <group name="left_arm_liftup">
         <link name="LTorso" />
         <link name="LShoulder" />
         <link name="LArm" />
     </group>
-
     <group name="right_arm">
         <joint name="RTorsoJoint" />
         <joint name="RShoulderJoint" />
@@ -55,7 +52,6 @@
         <joint name="ManipulatorLink3Joint" />
         <joint name="ManipulatorLink4Joint" />
     </group>
-
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="left_arm_eef" parent_link="LHandPitch" group="left_arm" />
     <end_effector name="left_arm_roll" parent_link="LForearmRoll" group="left_arm_roll" />
@@ -66,10 +62,8 @@
     <end_effector name="right_arm_liftup_eef" parent_link="RArm" group="right_arm_liftup" />
 
     <end_effector name="manipulator_eef" parent_link="ManipulatorLink4" group="manipulator" />
-
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="base_joint" type="planar" parent_frame="base_virtual_joint_tf" child_link="Base" />
-
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
     <disable_collisions link1="Base" link2="GripperL" reason="Never" />
     <disable_collisions link1="Base" link2="GripperR" reason="Never" />

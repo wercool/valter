@@ -1,0 +1,11 @@
+controller_list:
+  - name: right_arm_controller
+    joints:
+      - RTorsoJoint
+      - RShoulderJoint
+      - RArmJoint
+      - RArmElbowJoint
+      - RForearmYawJoint
+      - RForearmRollJoint
+      - RHandPitchJoint
+    type: "position_controllers/JointTrajectoryController"

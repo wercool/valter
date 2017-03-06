@@ -40,25 +40,7 @@
     <arg name="debug" value="$(arg debug)"/>
   </include>
 
-
   <!-- If database loading was enabled, start mongodb as well -->
   <!--<include file="$(find valter_movit)/launch/default_warehouse_db.launch" if="$(arg db)"/>-->
-
-<!--
-  <node
-    name="odometry"
-    pkg="valter"
-    type="odometry"/>
-  <node
-    name="move_base_simple"
-    pkg="valter"
-    type="move_base_simple"/>
--->
-<!--
-  <include file="$(find rtabmap_ros)/launch/rgbd_mapping.launch">
-    <arg name="rviz" value="true"/>
-    <arg name="rtabmapviz" value="false"/>
-  </include>
--->
 
 </launch>

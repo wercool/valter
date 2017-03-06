@@ -1309,14 +1309,9 @@
       </geometry>
     </collision>
   </link>
-<!--
   <joint
     name="LForearmYawJoint"
     type="revolute">
--->
-  <joint
-    name="LForearmYawJoint"
-    type="fixed">
     <origin
       xyz="-0.036 0 0"
       rpy="1.5708 1.5708 0" />
@@ -1326,13 +1321,11 @@
       link="LForearmYaw" />
     <axis
       xyz="0 -1 0" />
-<!--
     <limit
       lower="-0.1"
       upper="0.4"
       effort="0"
       velocity="0" />
--->
   </joint>
   <link
     name="LForearmRoll">
@@ -1436,14 +1429,9 @@
       </geometry>
     </collision>
   </link>
-<!--
   <joint
     name="LHandPitchJoint"
     type="revolute">
--->
-  <joint
-    name="LHandPitchJoint"
-    type="fixed">
     <origin
       xyz="-0.23422 -0.005 0"
       rpy="0 1.5708 0" />
@@ -1501,14 +1489,9 @@
       </geometry>
     </collision>
   </link>
-<!--
   <joint
     name="LHandYawJoint"
     type="revolute">
--->
-  <joint
-    name="LHandYawJoint"
-    type="fixed">
     <origin
       xyz="0.0002314 0 -0.015731"
       rpy="0 1.5708 0" />

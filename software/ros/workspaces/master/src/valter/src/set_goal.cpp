@@ -11,19 +11,19 @@ bool target_pose_set = false;
 // Process incoming planning markers update
 void control_goalCb(const visualization_msgs::InteractiveMarkerUpdateConstPtr &update)
 {
-	if (update->poses.size()!=0)
-	{
-		ROS_INFO("UPDATE");
-	}
+    if (update->poses.size()!=0)
+    {
+        ROS_INFO("UPDATE");
+    }
 }
 
 void eefFeedBack(const visualization_msgs::InteractiveMarkerFeedbackConstPtr &feedback)
 {
-	if (feedback->event_type == feedback->MOUSE_UP)
-	{
-		target_pose = feedback->pose;
-		target_pose_set = true;
-	}
+    if (feedback->event_type == feedback->MOUSE_UP)
+    {
+        target_pose = feedback->pose;
+        target_pose_set = true;
+    }
 }
 
 int main(int argc, char **argv)
@@ -52,14 +52,14 @@ int main(int argc, char **argv)
     ROS_INFO("LOOP...");
     if (target_pose_set)
     {
-	ROS_INFO("Visualizing plan...");
+        ROS_INFO("Visualizing plan...");
         group.setPoseTarget(target_pose);
-  	ros::AsyncSpinner spinner(1);
-  	spinner.start();
-  	moveit::planning_interface::MoveGroup::Plan my_plan;
-  	bool success = group.plan(my_plan);
-  	ROS_INFO("Visualizing plan 1 (pose goal) %s",success?"":"FAILED");
-	target_pose_set = false;
+        ros::AsyncSpinner spinner(1);
+        spinner.start();
+        moveit::planning_interface::MoveGroup::Plan my_plan;
+        bool success = group.plan(my_plan);
+        ROS_INFO("Visualizing plan 1 (pose goal) %s",success?"":"FAILED");
+        target_pose_set = false;
     }
     ros::spinOnce();                   // Handle ROS events
     r.sleep();
