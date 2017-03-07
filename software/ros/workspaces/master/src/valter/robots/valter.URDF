@@ -84,9 +84,14 @@
       </geometry>
     </collision>
   </link>
+<!--
   <joint
     name="RWheelJoint"
     type="continuous">
+-->
+  <joint
+    name="RWheelJoint"
+    type="fixed">
     <origin
       xyz="0.000341577688738742 -0.153675665570238 0.14"
       rpy="-6.12303176911189E-17 0 0" />
@@ -194,9 +199,14 @@
       </geometry>
     </collision>
   </link>
+<!--
   <joint
     name="LWheelJoint"
     type="continuous">
+-->
+  <joint
+    name="LWheelJoint"
+    type="fixed">
     <origin
       xyz="0.000341577688738742 0.154324334429763 0.14"
       rpy="6.6286088844449E-17 0.39309481042652 -3.14159265358979" />
@@ -2166,9 +2176,14 @@
       </geometry>
     </collision>
   </link>
+<!--
   <joint
     name="RForearmYawJoint"
     type="revolute">
+-->
+  <joint
+    name="RForearmYawJoint"
+    type="fixed">
     <origin
       xyz="-0.035987 0 0"
       rpy="4.0616E-07 1.5708 -1.5708" />
@@ -2286,9 +2301,14 @@
       </geometry>
     </collision>
   </link>
+<!--
   <joint
     name="RHandPitchJoint"
     type="revolute">
+-->
+  <joint
+    name="RHandPitchJoint"
+    type="fixed">
     <origin
       xyz="-0.23422 -0.005 0"
       rpy="-0.00030678 1.5708 1.9045E-08" />
@@ -2346,9 +2366,14 @@
       </geometry>
     </collision>
   </link>
+<!--
   <joint
     name="RHandYawJoint"
     type="revolute">
+-->
+  <joint
+    name="RHandYawJoint"
+    type="fixed">
     <origin
       xyz="0.0002314 0 -0.015731"
       rpy="3.1416 1.5708 3.1416" />

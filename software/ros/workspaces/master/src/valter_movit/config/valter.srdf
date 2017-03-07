@@ -9,6 +9,12 @@
     <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
     <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
     <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
+
+    <group name="body">
+        <joint name="TrunkJoint" />
+        <joint name="TorsoJoint" />
+    </group>
+
     <group name="left_arm">
         <joint name="LTorsoJoint" />
         <joint name="LShoulderJoint" />
@@ -39,15 +45,18 @@
         <joint name="RForearmRollJoint" />
         <joint name="RHandPitchJoint" />
     </group>
+
     <group name="right_arm_roll">
-        <link name="RForearmYaw" />
+        <link name="RArmElbow" />
         <link name="RForearmRoll" />
     </group>
+
     <group name="right_arm_liftup">
         <link name="RTorso" />
         <link name="RShoulder" />
         <link name="RArm" />
     </group>
+
     <group name="manipulator">
         <joint name="ManipulatorBaseFixed" />
         <joint name="ManipulatorLink1Joint" />
@@ -66,6 +75,8 @@
     <end_effector name="right_arm_liftup_eef" parent_link="RArm" group="right_arm_liftup" />
 
     <end_effector name="manipulator_eef" parent_link="ManipulatorLink4" group="manipulator" />
+
+    <end_effector name="body_eef" parent_link="Torso" group="body" />
 
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="base_joint" type="planar" parent_frame="base_virtual_joint_tf" child_link="Base" />

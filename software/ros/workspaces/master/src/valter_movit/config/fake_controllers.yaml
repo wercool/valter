@@ -41,3 +41,7 @@ controller_list:
       - ManipulatorLink2Joint
       - ManipulatorLink3Joint
       - ManipulatorLink4Joint
+  - name: fake_body_controller
+    joints:
+      - TrunkJoint
+      - TorsoJoint

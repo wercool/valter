@@ -1,3 +1,6 @@
 rostopic pub -1 /move_group/fake_controller_joint_states sensor_msgs/JointState '{header: auto, name: ['LArmJoint'], position: [-1.5], velocity: [], effort: []}'
 
+rostopic echo /move_group/display_planned_path
+rostopic pub -1 /move_group/fake_controller_joint_states sensor_msgs/JointState '{header: auto, name: ['LTorsoJoint', 'LShoulderJoint', 'LArmJoint', 'LArmElbowJoint', 'LForearmRollJoint'], position: [0.0012864272280779308, 0.49990054050905164, -0.36455515452768517, -0.42745238245364575, -3.3554192631291744], velocity: [], effort: []}'
+
 http://wiki.ros.org/joint_trajectory_controller
