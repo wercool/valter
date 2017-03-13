@@ -647,7 +647,7 @@ void ArmControlLeft::leftForearmRollWorker()
 
 void ArmControlLeft::leftArmSensorReadingsWorker()
 {
-    int wait_ms = 1;
+    int wait_ms = 5;
     while (!stopAllProcesses)
     {
         bool leftArmReadingActive = false;
@@ -757,7 +757,7 @@ void ArmControlLeft::leftArmSensorReadingsWorker()
 
         if (leftArmReadingActive)
         {
-            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
+            this_thread::sleep_for(std::chrono::milliseconds(50));
         }
         else
         {

@@ -325,7 +325,7 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
             }
             else
             {
-                qDebug("Duplicate CDR detected within 100ms [%s]", command.c_str());
+                //qDebug("Duplicate CDR detected within 100ms [%s]", command.c_str());
                 return true;
             }
         }
