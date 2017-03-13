@@ -19,7 +19,7 @@ const float ArmControlLeft::forearmDegreesDiv      = (float)(ArmControlLeft::for
 const int ArmControlLeft::armAngleADCMin           = 150;
 const int ArmControlLeft::armAngleADCMax           = 750;
 const int ArmControlLeft::armAngleADCZero          = 750;
-const float ArmControlLeft::armMaxAngle            = 90;
+const float ArmControlLeft::armMaxAngle            = 85;
 const float ArmControlLeft::armDegreesDiv          = (float)(ArmControlLeft::armAngleADCMax - ArmControlLeft::armAngleADCMin) / ArmControlLeft::armMaxAngle;
 
 const int ArmControlLeft::limbAngleADCMin          = 160;

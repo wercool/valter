@@ -34,38 +34,60 @@ class TaskManagerTCPConnectionHandler : public Thread
 
             while ((len = stream->receive(input, sizeof(input)-1)) > 0 )
             {
-                output = "OK";
-                stream->send(output.c_str(), (sizeof(output.c_str())-1));
-                //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
+                bool executeCMD = false;
+                std::string cmd(input);
 
-                //taskPrefix - Remote Task Manager Message, HOP task
-                char taskPrefix[5];
-                strncpy(taskPrefix, input, 4);
-                taskPrefix[4] = '\0';
-
-                if (strcmp(taskPrefix, "RTMM") == 0)
+                //ROS Communication
+                if (cmd.find("MOVEITLEFTARMGROUP") != std::string::npos)
                 {
-                    std::string rtmm(input);
-                    qDebug("%s", rtmm.c_str());
-                    TaskManager::getInstance()->addUpdateRTMM(rtmm);
-                    continue;
-                }
-                else if (strcmp(taskPrefix, "HOP_") == 0)
-                {
-                    std::string hoptaskmsg(input);
-                    qDebug("%s", hoptaskmsg.c_str());
-
-                    TaskManager::getInstance()->sendScript(hoptaskmsg.substr(4));
-
-                    continue;
+                    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+                    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+                    output = Valter::format_string("%.2f,%.2f,%.2f,%.2f",
+                                                   armControlLeft->getForearmPosition(),
+                                                   armControlLeft->getArmPosition(),
+                                                   armControlLeft->getLimbPosition(),
+                                                   bodyControlP1->getLeftArmYawPosition());
                 }
                 else
                 {
-                    std::string script(input);
+                    executeCMD = true;
+                    output = "OK";
+                }
 
-                    if (script.length() > 0)
+                stream->send(output.c_str(), output.length());
+                //qDebug("thread %lu, sent '%s' back to the client", (long unsigned int)self(), output.c_str());
+
+                if (executeCMD)
+                {
+                    //taskPrefix - Remote Task Manager Message, HOP task
+                    char taskPrefix[5];
+                    strncpy(taskPrefix, input, 4);
+                    taskPrefix[4] = '\0';
+
+                    if (strcmp(taskPrefix, "RTMM") == 0)
                     {
-                        executeScript(script);
+                        std::string rtmm(input);
+                        qDebug("%s", rtmm.c_str());
+                        TaskManager::getInstance()->addUpdateRTMM(rtmm);
+                        continue;
+                    }
+                    else if (strcmp(taskPrefix, "HOP_") == 0)
+                    {
+                        std::string hoptaskmsg(input);
+                        qDebug("%s", hoptaskmsg.c_str());
+
+                        TaskManager::getInstance()->sendScript(hoptaskmsg.substr(4));
+
+                        continue;
+                    }
+                    else
+                    {
+                        std::string script(input);
+
+                        if (script.length() > 0)
+                        {
+                            executeScript(script);
+                        }
                     }
                 }
             }

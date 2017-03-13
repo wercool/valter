@@ -35,8 +35,9 @@ class ArmControlLeftTCPConnectionHandler : public Thread
             while ((len = stream->receive(input, sizeof(input)-1)) > 0 )
             {
                 output = "OK";
-                stream->send(output.c_str(), (sizeof(output.c_str())-1));
-                //qDebug("thread %lu, echoed '%s' back to the client", (long unsigned int)self(), input);
+                stream->send(output.c_str(), output.length());
+                //qDebug("thread %lu, sent '%s' back to the client", (long unsigned int)self(), output.c_str());
+
                 std::string cmd(input);
                 executeCommand(cmd);
             }

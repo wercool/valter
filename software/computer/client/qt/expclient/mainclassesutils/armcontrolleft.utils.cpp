@@ -694,8 +694,8 @@ void ArmControlLeft::setArmADCPosition(int value)
     }
     else
     {
-        string msg = Valter::format_string("IGNORE ArmControlLeft::setArmADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
-        qDebug("%s", msg.c_str());
+//        string msg = Valter::format_string("IGNORE ArmControlLeft::setArmADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
+//        qDebug("%s", msg.c_str());
     }
 }
 

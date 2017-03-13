@@ -19,3 +19,6 @@ target_link_libraries(cmd_vel_subscriber ${catkin_LIBRARIES})
 
 add_executable(bluetooth_server src/bluetooth_server.cpp)
 target_link_libraries(bluetooth_server ${catkin_LIBRARIES} bluetooth)
+
+add_executable(valter_joint_states_publisher src/valter_joint_states_publisher.cpp)
+target_link_libraries(valter_joint_states_publisher ${catkin_LIBRARIES})
