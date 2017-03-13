@@ -675,7 +675,7 @@ void ArmControlLeft::setArmADCPosition(int value)
         prevValue = degreesValue;
     }
 
-    if (abs(prevValue - degreesValue) < 2.5)
+    if (abs(prevValue - degreesValue) < 10.0)
     {
         if (avgValueCnt < 10)
         {
