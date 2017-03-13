@@ -663,9 +663,40 @@ int ArmControlLeft::getArmADCPosition() const
 
 void ArmControlLeft::setArmADCPosition(int value)
 {
+    static double prevValue = -180;
+    static double avgValue = 0;
+    static int avgValueCnt = 0;
+
     armADCPosition = value;
     double degreesValue = ((double)(ArmControlLeft::armAngleADCZero - armADCPosition)) / ArmControlLeft::armDegreesDiv;
-    setArmPosition(degreesValue);
+
+    if (prevValue == -180)
+    {
+        prevValue = degreesValue;
+    }
+
+    if (abs(prevValue - degreesValue) < 2.5)
+    {
+        if (avgValueCnt < 10)
+        {
+            avgValue += degreesValue;
+            avgValueCnt++;
+        }
+        else
+        {
+            double avgResult = avgValue / (double) avgValueCnt;
+            qDebug("Left Arm Position (avg) %.2f", avgResult);
+            setArmPosition(degreesValue);
+            avgValueCnt = 0;
+            avgValue = 0;
+        }
+        prevValue = degreesValue;
+    }
+    else
+    {
+        string msg = Valter::format_string("IGNORE ArmControlLeft::setArmADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
+        qDebug("%s", msg.c_str());
+    }
 }
 
 double ArmControlLeft::getArmPosition() const

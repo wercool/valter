@@ -197,7 +197,7 @@ void SetLeftArmPositionTask::executionWorker()
 //            armControlLeft->setArmADCPosition(positionADC);
             /************************************ emulation *********************finish**************************/
         }
-        this_thread::sleep_for(std::chrono::milliseconds(10));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
     if (!getCompleted())

@@ -647,6 +647,7 @@ void ArmControlLeft::leftForearmRollWorker()
 
 void ArmControlLeft::leftArmSensorReadingsWorker()
 {
+    int wait_ms = 1;
     while (!stopAllProcesses)
     {
         bool leftArmReadingActive = false;
@@ -654,91 +655,91 @@ void ArmControlLeft::leftArmSensorReadingsWorker()
         if (getForearmPositionTrack())
         {
             sendCommand("GETFOREARMPOS");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getArmPositionTrack())
         {
             sendCommand("GETARMPOS");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getLimbPositionTrack())
         {
             sendCommand("GETLIMBPOS");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getForearmMotorCurrentTrack())
         {
             sendCommand("SENSORCH5");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getArmMotorCurrentTrack())
         {
             sendCommand("SENSORCH4");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getLimbMotorCurrentTrack())
         {
             sendCommand("SENSORCH3");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getHandYawPositionTrack())
         {
             sendCommand("SENSORCH0");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getHandPitchPositionTrack())
         {
             sendCommand("SENSORCH1");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getForearmYawPositionTrack())
         {
             sendCommand("SENSORCH2");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getForearmYawMotorCurrentTrack())
         {
             sendCommand("SENSORCH6");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getHandYawMotorCurrentTrack())
         {
             sendCommand("SENSORCH7");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
         if (getHandPitchMotorCurrentTrack())
         {
             sendCommand("SENSORCH8");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             leftArmReadingActive = true;
         }
 
@@ -747,16 +748,16 @@ void ArmControlLeft::leftArmSensorReadingsWorker()
             if (getHandSensorsTrack(idx))
             {
                 sendCommand(Valter::format_string("ARMCH%d", idx));
-                this_thread::sleep_for(std::chrono::milliseconds(10));
+                this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
                 sendCommand("GETHANDSENSOR");
-                this_thread::sleep_for(std::chrono::milliseconds(10));
+                this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
                 leftArmReadingActive = true;
             }
         }
 
         if (leftArmReadingActive)
         {
-            this_thread::sleep_for(std::chrono::milliseconds(25));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
         }
         else
         {
