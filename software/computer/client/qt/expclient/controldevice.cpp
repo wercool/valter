@@ -408,7 +408,8 @@ void ControlDevice::controlDeviceThreadWorker()
                 request = pullRequest();
                 if (request.length() == 0)
                 {
-                    this_thread::sleep_for(std::chrono::milliseconds(1));
+//                    this_thread::sleep_for(std::chrono::milliseconds(1));
+                    this_thread::sleep_for(std::chrono::microseconds(500));
                     continue;
                 }
                 if (request.compare("WDINTENTIONALRESETON") == 0)
@@ -464,7 +465,8 @@ void ControlDevice::controlDeviceThreadWorker()
                 }
             }
 
-            this_thread::sleep_for(std::chrono::milliseconds(1));
+//            this_thread::sleep_for(std::chrono::milliseconds(1));
+            this_thread::sleep_for(std::chrono::microseconds(500));
             filter++;
 
             WDRESETTIMER++;

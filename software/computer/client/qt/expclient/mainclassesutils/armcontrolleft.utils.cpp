@@ -150,7 +150,7 @@ void ArmControlLeft::resetToDefault()
     finger6TipReading       = 0;
     finger6PhalanxReading   = 0;
     finger7PhalanxReading   = 0;
-    finger7TipReading       = 0 ;
+    finger7TipReading       = 0;
     finger8PhalanxReading   = 0;
     finger9PhalanxReading   = 0;
     finger10TipReading      = 0;

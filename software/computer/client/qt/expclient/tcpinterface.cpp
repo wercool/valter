@@ -325,7 +325,7 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
             }
             else
             {
-                //qDebug("Duplicate CDR detected within 100ms [%s]", command.c_str());
+                qDebug("Duplicate CDR detected within 250 ms [%s]", command.c_str());
                 return true;
             }
         }
@@ -363,7 +363,7 @@ void TCPInterface::sentCDRsRectifierThreadWorker()
             std::lock_guard<std::mutex> guard(sentCDRs_mutex);
             sentCDRs.erase(sentCDRs.begin());
         }
-        this_thread::sleep_for(std::chrono::milliseconds(100));
+        this_thread::sleep_for(std::chrono::milliseconds(250));
     }
     qDebug("STOPPED: TCPInterface::sentCDRsRectifierThreadWorker");
 }
