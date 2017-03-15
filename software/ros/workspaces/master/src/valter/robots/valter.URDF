@@ -1210,10 +1210,10 @@
     <child
       link="LArm" />
     <axis
-      xyz="0 0 -1" />
+      xyz="0 0 1" />
     <limit
-      lower="-1.5"
-      upper="0"
+      lower="0"
+      upper="1.5"
       effort="0"
       velocity="0" />
   </joint>

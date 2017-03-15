@@ -757,7 +757,7 @@ void ArmControlLeft::leftArmSensorReadingsWorker()
 
         if (leftArmReadingActive)
         {
-            this_thread::sleep_for(std::chrono::milliseconds(50));
+            this_thread::sleep_for(std::chrono::milliseconds(25));
         }
         else
         {
