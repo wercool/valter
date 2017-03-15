@@ -40,13 +40,18 @@ class TaskManagerTCPConnectionHandler : public Thread
                 //ROS Communication
                 if (cmd.find("MOVEITLEFTARMGROUP") != std::string::npos)
                 {
+                    ArmControlRight *armControlRight = ArmControlRight::getInstance();
                     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
                     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-                    output = Valter::format_string("%.2f,%.2f,%.2f,%.2f",
+                    output = Valter::format_string("%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
                                                    armControlLeft->getForearmPosition(),
                                                    armControlLeft->getArmPosition(),
                                                    armControlLeft->getLimbPosition(),
-                                                   bodyControlP1->getLeftArmYawPosition());
+                                                   bodyControlP1->getLeftArmYawPosition(),
+                                                   armControlRight->getForearmPosition(),
+                                                   armControlRight->getArmPosition(),
+                                                   armControlRight->getLimbPosition(),
+                                                   bodyControlP1->getRightArmYawPosition());
                 }
                 else
                 {

@@ -717,9 +717,57 @@ int ArmControlRight::getLimbADCPosition() const
 
 void ArmControlRight::setLimbADCPosition(int value)
 {
+    static double prevValue = -180;
+    static double avgValue = 0;
+    static int avgValueCnt = 0;
+    static int resetPositionCnt = 0;
+
+    limbADCPosition = value;
+    double degreesValue = ((double)(limbADCPosition - ArmControlRight::limbAngleADCZero)) / ArmControlRight::limbDegreesDiv;
+
+    if (prevValue == -180)
+    {
+        prevValue = degreesValue;
+    }
+
+    if (abs(prevValue - degreesValue) < 10.0)
+    {
+        if (avgValueCnt < 5)
+        {
+            avgValue += degreesValue;
+            avgValueCnt++;
+        }
+        else
+        {
+            double avgResult = avgValue / (double) avgValueCnt;
+            qDebug("Right Limb Position (avg) %.2f", avgResult);
+            setLimbPosition(degreesValue);
+            avgValueCnt = 0;
+            avgValue = 0;
+            resetPositionCnt = 0;
+        }
+        prevValue = degreesValue;
+    }
+    else
+    {
+        resetPositionCnt++;
+        if (resetPositionCnt > 5)
+        {
+            setLimbPosition(degreesValue);
+            prevValue = degreesValue;
+            avgValueCnt = 0;
+            avgValue = 0;
+            resetPositionCnt = 0;
+        }
+//        string msg = Valter::format_string("IGNORE ArmControlRight::setLimbADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
+//        qDebug("%s", msg.c_str());
+    }
+
+    /*
     limbADCPosition = value;
     double degreesValue = ((double)(limbADCPosition - ArmControlRight::limbAngleADCZero)) / ArmControlRight::limbDegreesDiv;
     setLimbPosition(degreesValue);
+    */
 }
 
 double ArmControlRight::getLimbPosition() const
@@ -739,9 +787,57 @@ int ArmControlRight::getArmADCPosition() const
 
 void ArmControlRight::setArmADCPosition(int value)
 {
+    static double prevValue = -180;
+    static double avgValue = 0;
+    static int avgValueCnt = 0;
+    static int resetPositionCnt = 0;
+
+    armADCPosition = value;
+    double degreesValue = ((double)(ArmControlRight::armAngleADCZero - armADCPosition)) / ArmControlRight::armDegreesDiv;
+
+    if (prevValue == -180)
+    {
+        prevValue = degreesValue;
+    }
+
+    if (abs(prevValue - degreesValue) < 10.0)
+    {
+        if (avgValueCnt < 5)
+        {
+            avgValue += degreesValue;
+            avgValueCnt++;
+        }
+        else
+        {
+            double avgResult = avgValue / (double) avgValueCnt;
+            qDebug("Right Arm Position (avg) %.2f", avgResult);
+            setArmPosition(degreesValue);
+            avgValueCnt = 0;
+            avgValue = 0;
+            resetPositionCnt = 0;
+        }
+        prevValue = degreesValue;
+    }
+    else
+    {
+        resetPositionCnt++;
+        if (resetPositionCnt > 5)
+        {
+            setArmPosition(degreesValue);
+            prevValue = degreesValue;
+            avgValueCnt = 0;
+            avgValue = 0;
+            resetPositionCnt = 0;
+        }
+//        string msg = Valter::format_string("IGNORE ArmControlRight::setArmADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
+//        qDebug("%s", msg.c_str());
+    }
+
+    /*
     armADCPosition = value;
     double degreesValue = ((double)(ArmControlRight::armAngleADCZero - armADCPosition)) / ArmControlRight::armDegreesDiv;
     setArmPosition(degreesValue);
+    */
 }
 
 double ArmControlRight::getArmPosition() const
@@ -761,9 +857,57 @@ int ArmControlRight::getForearmADCPosition() const
 
 void ArmControlRight::setForearmADCPosition(int value)
 {
+    static double prevValue = -180;
+    static double avgValue = 0;
+    static int avgValueCnt = 0;
+    static int resetPositionCnt = 0;
+
+    forearmADCPosition = value;
+    double degreesValue = ((double)(forearmADCPosition - ArmControlRight::forearmAngleADCZero)) / ArmControlRight::forearmDegreesDiv;
+
+    if (prevValue == -180)
+    {
+        prevValue = degreesValue;
+    }
+
+    if (abs(prevValue - degreesValue) < 10.0)
+    {
+        if (avgValueCnt < 5)
+        {
+            avgValue += degreesValue;
+            avgValueCnt++;
+        }
+        else
+        {
+            double avgResult = avgValue / (double) avgValueCnt;
+            qDebug("Right Forearm Position (avg) %.2f", avgResult);
+            setForearmPosition(degreesValue);
+            avgValueCnt = 0;
+            avgValue = 0;
+            resetPositionCnt = 0;
+        }
+        prevValue = degreesValue;
+    }
+    else
+    {
+        resetPositionCnt++;
+        if (resetPositionCnt > 5)
+        {
+            setForearmPosition(degreesValue);
+            prevValue = degreesValue;
+            avgValueCnt = 0;
+            avgValue = 0;
+            resetPositionCnt = 0;
+        }
+//        string msg = Valter::format_string("IGNORE ArmControlRight::setArmADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
+//        qDebug("%s", msg.c_str());
+    }
+
+    /*
     forearmADCPosition = value;    
     double degreesValue = ((double)(forearmADCPosition - ArmControlRight::forearmAngleADCZero)) / ArmControlRight::forearmDegreesDiv;
     setForearmPosition(degreesValue);
+    */
 }
 
 double ArmControlRight::getForearmPosition() const

@@ -19,7 +19,7 @@ const float ArmControlRight::forearmDegreesDiv      = (float)(ArmControlRight::f
 const int ArmControlRight::armAngleADCMin           = 145;
 const int ArmControlRight::armAngleADCMax           = 765;
 const int ArmControlRight::armAngleADCZero          = 765;
-const float ArmControlRight::armMaxAngle            = 90;
+const float ArmControlRight::armMaxAngle            = 85;
 const float ArmControlRight::armDegreesDiv          = (float)(ArmControlRight::armAngleADCMax - ArmControlRight::armAngleADCMin) / ArmControlRight::armMaxAngle;
 
 const int ArmControlRight::limbAngleADCMin          = 160;
@@ -596,6 +596,7 @@ void ArmControlRight::rightForearmRollWorker()
 
 void ArmControlRight::rightArmSensorReadingsWorker()
 {
+    int wait_ms = 5;
     while (!stopAllProcesses)
     {
         bool rightArmReadingActive = false;
@@ -603,91 +604,91 @@ void ArmControlRight::rightArmSensorReadingsWorker()
         if (getForearmPositionTrack())
         {
             sendCommand("GETFOREARMPOS");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getArmPositionTrack())
         {
             sendCommand("GETARMPOS");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getLimbPositionTrack())
         {
             sendCommand("GETLIMBPOS");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getForearmMotorCurrentTrack())
         {
             sendCommand("SENSORCH5");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getArmMotorCurrentTrack())
         {
             sendCommand("SENSORCH4");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getLimbMotorCurrentTrack())
         {
             sendCommand("SENSORCH3");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getHandYawPositionTrack())
         {
             sendCommand("SENSORCH0");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getHandPitchPositionTrack())
         {
             sendCommand("SENSORCH1");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getForearmYawPositionTrack())
         {
             sendCommand("SENSORCH2");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getForearmYawMotorCurrentTrack())
         {
             sendCommand("SENSORCH6");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getHandYawMotorCurrentTrack())
         {
             sendCommand("SENSORCH7");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
         if (getHandPitchMotorCurrentTrack())
         {
             sendCommand("SENSORCH8");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             sendCommand("GETSENSOR");
-            this_thread::sleep_for(std::chrono::milliseconds(10));
+            this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             rightArmReadingActive = true;
         }
 
@@ -696,15 +697,15 @@ void ArmControlRight::rightArmSensorReadingsWorker()
             if (getHandSensorsTrack(idx))
             {
                 sendCommand(Valter::format_string("ARMCH%d", idx));
-                this_thread::sleep_for(std::chrono::milliseconds(10));
+                this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
                 sendCommand("GETHANDSENSOR");
-                this_thread::sleep_for(std::chrono::milliseconds(10));
+                this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
             }
         }
 
         if (rightArmReadingActive)
         {
-            this_thread::sleep_for(std::chrono::milliseconds(25));
+            this_thread::sleep_for(std::chrono::milliseconds(10));
         }
         else
         {

@@ -95,16 +95,23 @@ int main(int argc, char** argv)
             std::string resultBuffer(buffer);
             std::vector<std::string> resultBufferElements = split(resultBuffer, ',');
 
-            ROS_INFO("%s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str());
+            ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(),
+                                                       resultBufferElements[4].c_str(), resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str());
 
             double LArmElbowJointPositionRad = atof(resultBufferElements[0].c_str()) * M_PI / 180;
             double LArmJointPositionRad = atof(resultBufferElements[1].c_str()) * M_PI / 180;
             double LShoulderJointPositionRad = atof(resultBufferElements[2].c_str()) * M_PI / 180;
             double LTorsoJointPositionRad = atof(resultBufferElements[3].c_str()) * M_PI / 180;
 
-            ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f", LArmElbowJointPositionRad, LArmJointPositionRad, LShoulderJointPositionRad, LTorsoJointPositionRad);
+            double RArmElbowJointPositionRad = atof(resultBufferElements[4].c_str()) * M_PI / 180;
+            double RArmJointPositionRad = atof(resultBufferElements[5].c_str()) * M_PI / 180;
+            double RShoulderJointPositionRad = atof(resultBufferElements[6].c_str()) * M_PI / 180;
+            double RTorsoJointPositionRad = atof(resultBufferElements[7].c_str()) * M_PI / 180;
 
-            //LArmElbowJointPositionRad = LArmJointPositionRad = LShoulderJointPositionRad = LTorsoJointPositionRad = 0;
+            ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f, RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f", 
+                      LArmElbowJointPositionRad, LArmJointPositionRad, LShoulderJointPositionRad, LTorsoJointPositionRad,
+                      RArmElbowJointPositionRad, RArmJointPositionRad, RShoulderJointPositionRad, RTorsoJointPositionRad);
+
 
             std::vector<std::string> joint_names;
             std::vector<double> joint_positions;
@@ -128,6 +135,26 @@ int main(int argc, char** argv)
 
             joint_names.push_back("LTorsoJoint");
             joint_positions.push_back(LTorsoJointPositionRad);
+            joint_velocities.push_back(0.0);
+            joint_efforts.push_back(0.0);
+
+            joint_names.push_back("RArmElbowJoint");
+            joint_positions.push_back(RArmElbowJointPositionRad);
+            joint_velocities.push_back(0.0);
+            joint_efforts.push_back(0.0);
+
+            joint_names.push_back("RArmJoint");
+            joint_positions.push_back(RArmJointPositionRad);
+            joint_velocities.push_back(0.0);
+            joint_efforts.push_back(0.0);
+
+            joint_names.push_back("RShoulderJoint");
+            joint_positions.push_back(RShoulderJointPositionRad);
+            joint_velocities.push_back(0.0);
+            joint_efforts.push_back(0.0);
+
+            joint_names.push_back("RTorsoJoint");
+            joint_positions.push_back(RTorsoJointPositionRad);
             joint_velocities.push_back(0.0);
             joint_efforts.push_back(0.0);
 
