@@ -94,12 +94,12 @@ void SetLeftArmPositionTask::executionWorker()
 
     int setPositionAttempt = 0;
 
-    float sigma = 1.0; //precision in degrees
+    float sigma = 2.0; //precision in degrees
 
     //move up (angle increased) - true
     bool direction = (angle > armControlLeft->getArmPosition()) ? true : false;
 
-    float cutoffAngle = (direction) ? (angle * 0.98) : (angle / 0.98); //<<<<<<<<<<<<<<< dynamic parameter
+    float cutoffAngle = (direction) ? (angle * 0.95) : (angle / 0.95); //<<<<<<<<<<<<<<< dynamic parameter
 
     if (abs(angle - armControlLeft->getArmPosition()) < sigma)
     {
