@@ -20,5 +20,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Opencv-2.4.9-5"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
