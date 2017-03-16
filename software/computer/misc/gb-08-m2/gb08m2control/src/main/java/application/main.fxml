@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.web.*?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<BorderPane id="BorderPane" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8.0.101" xmlns:fx="http://javafx.com/fxml/1">
   <center>
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
       <stylesheets>
@@ -24,8 +38,8 @@
             <AnchorPane id="Content" fx:id="manualControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-                  <expandedPane>
-                    <TitledPane fx:id="x1" animated="false" text="Front Camera">
+                  <panes>
+                    <TitledPane animated="false" text="Front Camera" fx:id="x1">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
                           <children>
@@ -39,9 +53,6 @@
                         </AnchorPane>
                       </content>
                     </TitledPane>
-                  </expandedPane>
-                  <panes>
-                    <fx:reference source="x1" />
                     <TitledPane animated="false" collapsible="true" text="Rear Camera">
                       <content>
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
@@ -61,12 +72,12 @@
                         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
                           <children>
                             <ImageView id="rearCameraImageView" fitHeight="480.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                            <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="9.0">
+                            <TitledPane id="" animated="false" collapsible="false" minWidth="-Infinity" prefHeight="120.0" prefWidth="140.0" text="Video Control" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="9.0">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
                                     <ToggleButton id="frontCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
-                                    <ToggleButton id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
+                                    <ToggleButton id="rearCamToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="45.0" />
                                   </children>
                                 </AnchorPane>
                               </content>
@@ -77,69 +88,69 @@
                     </TitledPane>
                   </panes>
                 </Accordion>
-                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="true" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="305.0" prefWidth="280.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
+                <TitledPane fx:id="driveControTitledPane" alignment="CENTER_LEFT" animated="false" collapsible="true" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="5.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="340.0" prefWidth="280.0" text="Drive Control" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
                   <content>
-                    <AnchorPane id="Content" fx:id="driveControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="288.0" prefWidth="276.0">
+                    <AnchorPane id="Content" fx:id="driveControlAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="301.0" prefWidth="278.0">
                       <children>
-                        <Button id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.topAnchor="2.0">
+                        <Button id="forwardBtn" cancelButton="false" defaultButton="false" focusTraversable="false" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↑" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="0.0">
                           <font>
                             <Font size="20.0" fx:id="x2" />
                           </font>
                         </Button>
-                        <Button id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.topAnchor="85.0" />
+                        <Button id="backwardBtn" defaultButton="false" focusTraversable="false" font="$x2" layoutX="98.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↓" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="90.0" />
                         <Button id="turnLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="←" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="45.0" />
-                        <Button id="turnRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="45.0" />
-                        <Button id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="2.0" />
-                        <Button id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="2.0" />
-                        <Button id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="85.0" />
-                        <Button id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="85.0" />
+                        <Button id="turnRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="→" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="forwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↗" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="0.0" />
+                        <Button id="forwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↖" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="0.0" />
+                        <Button id="backwardLeftBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↘" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="90.0" />
+                        <Button id="backwardRightBtn" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="↙" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="90.0" />
                         <Label text="Duty Left" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="130.0" />
                         <Slider fx:id="dutyLeftSlider" focusTraversable="false" majorTickUnit="10.0" max="100.0" min="1.0" minorTickCount="5" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="4.5" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="150.0" />
                         <Label layoutX="6.0" text="Duty Right" AnchorPane.topAnchor="175.0" />
                         <Slider fx:id="dutyRightSlider" focusTraversable="false" majorTickUnit="1.0" max="100.0" min="1.0" onMousePressed="#dutySliderMousePressed" prefWidth="-1.0" showTickLabels="false" showTickMarks="false" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="195.0" />
-                        <Button id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="45.0" />
+                        <Button id="stopBtn" cancelButton="false" defaultButton="false" focusTraversable="false" font="$x2" layoutX="98.0" layoutY="55.0" mnemonicParsing="false" onMousePressed="#btnMousePressed" onMouseReleased="#btnMouseReleased" prefHeight="39.0" prefWidth="45.0" text="S" textAlignment="CENTER" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="45.0" />
                         <CheckBox fx:id="dutySunchronizedCheckBox" mnemonicParsing="false" selected="false" text="Synchronized" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="171.0" />
-                        <ProgressBar id="" fx:id="leftMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" style="" AnchorPane.leftAnchor="-45.0" AnchorPane.topAnchor="55.0">
+                        <ProgressBar id="" fx:id="leftMotorsDutyProgressBar" layoutX="-37.0" layoutY="63.0" minHeight="10.0" minWidth="-Infinity" prefHeight="10.0" prefWidth="130.0" progress="0.0" rotate="-90.0" style="" AnchorPane.leftAnchor="-55.0" AnchorPane.topAnchor="55.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="rightMotorsDutyProgressBar" prefWidth="110.0" progress="0.0" rotate="-90.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="55.0">
+                        <ProgressBar id="" fx:id="rightMotorsDutyProgressBar" minHeight="10.0" prefHeight="10.0" prefWidth="130.0" progress="0.0" rotate="-90.0" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="55.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="frontLeftMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="25.0">
+                        <ProgressBar id="" fx:id="frontLeftMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="60.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="25.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="rearLeftMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="90.0">
+                        <ProgressBar id="" fx:id="rearLeftMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="60.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="90.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="frontRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="25.0">
+                        <ProgressBar id="" fx:id="frontRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="25.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
-                        <ProgressBar id="" fx:id="rearRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="90.0">
+                        <ProgressBar id="" fx:id="rearRightMotorCurrentProgressBar" minHeight="5.0" prefHeight="8.0" prefWidth="55.0" progress="0.0" rotate="-90.0" style="" styleClass="progressBarRed" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="90.0">
                           <stylesheets>
                             <URL value="@main.css" />
                           </stylesheets>
                         </ProgressBar>
                         <Slider id="" fx:id="cameraTiltSlider" layoutX="254.0" max="30.0" min="-30.0" minorTickCount="5" orientation="VERTICAL" value="0.0" AnchorPane.bottomAnchor="15.0" AnchorPane.topAnchor="5.0" />
-                        <Slider fx:id="cameraPanSlider" max="100.0" min="-100.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="25.0" />
-                        <Button id="" fx:id="resetCamBtn" layoutX="149.0" layoutY="220.0" mnemonicParsing="false" text="RESET CAM" />
-                        <ToggleButton id="z800TrackingToggleButton" layoutX="5.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" prefWidth="70.0" text="Z800" />
-                        <CheckBox fx:id="z800CursorMoveCheckBox" layoutY="211.0" mnemonicParsing="false" text="cursor" AnchorPane.leftAnchor="85.0" />
-                        <Button fx:id="z800ResetButton" layoutX="82.0" layoutY="230.0" minHeight="16.0" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" prefHeight="16.0" text="reset">
+                        <Slider fx:id="cameraPanSlider" layoutX="69.0" layoutY="256.0" max="100.0" min="-100.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="280.0" />
+                        <Button id="" fx:id="resetCamBtn" layoutX="149.0" layoutY="220.0" mnemonicParsing="false" text="RESET CAM" AnchorPane.topAnchor="250.0" />
+                        <ToggleButton id="z800TrackingToggleButton" layoutX="5.0" layoutY="213.0" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" prefWidth="70.0" text="Z800" AnchorPane.topAnchor="230.0" />
+                        <CheckBox fx:id="z800CursorMoveCheckBox" layoutX="165.0" layoutY="227.0" mnemonicParsing="false" text="cursor" AnchorPane.leftAnchor="165.0" AnchorPane.topAnchor="227.0" />
+                        <Button fx:id="z800ResetButton" layoutX="82.0" layoutY="230.0" minHeight="20.0" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" prefHeight="20.0" text="reset" AnchorPane.topAnchor="232.0">
                           <font>
                             <Font size="10.0" />
                           </font>
                         </Button>
-                        <CheckBox id="" fx:id="z800TrackingCheckBox" layoutX="4.0" layoutY="237.0" mnemonicParsing="false" text="tracking" />
+                        <CheckBox id="" fx:id="z800TrackingCheckBox" layoutX="19.0" layoutY="265.0" mnemonicParsing="false" text="tracking" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="260.0" />
                       </children>
                       <stylesheets>
                         <URL value="@main.css" />
@@ -147,7 +158,7 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="274.0" prefWidth="225.0" text="Other System Controls" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false" AnchorPane.leftAnchor="661.0" AnchorPane.topAnchor="337.0">
+                <TitledPane id="" alignment="CENTER_LEFT" animated="false" collapsible="false" contentDisplay="LEFT" disable="false" expanded="true" focusTraversable="true" graphicTextGap="4.0" layoutX="660.0" layoutY="356.0" maxWidth="-1.0" minHeight="-1.0" minWidth="-Infinity" prefHeight="274.0" prefWidth="225.0" text="Other System Controls" textAlignment="LEFT" textOverrun="ELLIPSIS" underline="false">
                   <content>
                     <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="300.0" prefWidth="230.0">
                       <children>
@@ -180,16 +191,16 @@
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefHeight="169.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="559.0">
+                <TitledPane animated="false" collapsible="false" prefHeight="150.0" prefWidth="350.0" text="Distance Scanner" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="570.0">
                   <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="111.0" prefWidth="348.0">
                       <children>
-                        <Label id="" fx:id="distanceScannerValueLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
-                        <Button id="getDistanceBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="7.0" />
-                        <Label id="distanceScannerDirectionValueLabel" fx:id="distanceScannerPositionLabel" text="Position:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="50.0" />
-                        <Slider fx:id="distanceScannerPositionSlider" blockIncrement="1.0" majorTickUnit="1.0" max="2100.0" min="820.0" minorTickCount="1" prefWidth="216.0" value="1460.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
-                        <Button id="releaseServoBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Center &amp; Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="110.0" />
-                        <ToggleButton id="distanceScanningToggleButton" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Scanning" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="110.0" />
+                        <Label id="" fx:id="distanceScannerValueLabel" text="Distance:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                        <Button id="getDistanceBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GET" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                        <Label id="distanceScannerDirectionValueLabel" fx:id="distanceScannerPositionLabel" text="Position:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0" />
+                        <Slider fx:id="distanceScannerPositionSlider" blockIncrement="1.0" majorTickUnit="1.0" max="2100.0" min="820.0" minorTickCount="1" prefWidth="216.0" value="1460.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="50.0" />
+                        <Button id="releaseServoBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Center &amp; Release Servo" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
+                        <ToggleButton id="distanceScanningToggleButton" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Scanning" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="80.0" />
                       </children>
                     </AnchorPane>
                   </content>
@@ -203,14 +214,14 @@
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <Accordion fx:id="automatedControlTabAccordion" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <expandedPane>
+                  <panes>
                     <TitledPane fx:id="automatedControlTabAutomatedNavigationTitledPane" animated="false" text="Automated Navigation">
                       <content>
                         <AnchorPane id="Content" fx:id="automatedNavigationAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                           <children>
                             <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
-                              <expandedPane>
-                                <TitledPane id="x1" fx:id="x3" animated="false" text="Front Camera">
+                              <panes>
+                                <TitledPane id="x1" animated="false" text="Front Camera" fx:id="x3">
                                   <content>
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="-1.0" prefWidth="-1.0">
                                       <children>
@@ -220,9 +231,6 @@
                                     </AnchorPane>
                                   </content>
                                 </TitledPane>
-                              </expandedPane>
-                              <panes>
-                                <fx:reference source="x3" />
                                 <TitledPane id="x3" animated="false" collapsible="true" text="Rear Camera">
                                   <content>
                                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
@@ -234,7 +242,7 @@
                                 </TitledPane>
                               </panes>
                             </Accordion>
-                            <TitledPane fx:id="selectedPatternTitledPane" animated="false" collapsible="false" graphicTextGap="4.0" layoutX="674.0" layoutY="5.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" text="Selected Pattern (ROI)" wrapText="false">
+                            <TitledPane fx:id="selectedPatternTitledPane" animated="false" collapsible="false" graphicTextGap="4.0" layoutX="710.0" layoutY="15.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" text="Selected Pattern (ROI)" wrapText="false">
                               <content>
                                 <AnchorPane id="Content" minHeight="100.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0">
                                   <children>
@@ -248,17 +256,17 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane id="" animated="false" collapsible="false" layoutX="7.0" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.bottomAnchor="40.0">
+                            <TitledPane id="" animated="false" collapsible="false" layoutX="7.0" minWidth="-Infinity" prefHeight="100.0" prefWidth="132.0" text="Video Control" AnchorPane.topAnchor="570.0">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <ToggleButton id="frontCamAutomatedControlToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="10.0" />
-                                    <ToggleButton id="rearCamAutomatedControlToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="40.0" />
+                                    <ToggleButton id="frontCamAutomatedControlToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Front Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="0.0" />
+                                    <ToggleButton id="rearCamAutomatedControlToggleBtn" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="Rear Camera" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="30.0" />
                                   </children>
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane id="" animated="false" collapsible="false" layoutX="145.0" minWidth="-Infinity" prefHeight="118.0" prefWidth="183.0" text="Navigation Control" AnchorPane.bottomAnchor="22.0">
+                            <TitledPane id="" animated="false" collapsible="false" layoutX="145.0" minWidth="-Infinity" prefHeight="100.0" prefWidth="183.0" text="Navigation Control" AnchorPane.topAnchor="570.0">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -267,7 +275,7 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane fx:id="positiveImagesAutomatedControlTitledPane" animated="false" layoutX="340.0" layoutY="545.0" prefHeight="-1.0" prefWidth="-1.0" text="Positive Images">
+                            <TitledPane fx:id="positiveImagesAutomatedControlTitledPane" animated="false" layoutX="340.0" layoutY="545.0" prefHeight="200.0" prefWidth="-1.0" text="Positive Images" AnchorPane.topAnchor="570.0">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
@@ -281,7 +289,7 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                            <TitledPane id="selectedPatternTitledPane" fx:id="detectedPatternTitledPane" animated="false" collapsible="true" graphicTextGap="4.0" layoutX="682.0" layoutY="284.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" text="Detected Pattern (ROI)" wrapText="false">
+                            <TitledPane id="selectedPatternTitledPane" fx:id="detectedPatternTitledPane" animated="false" collapsible="true" graphicTextGap="4.0" layoutX="711.0" layoutY="281.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="-1.0" prefWidth="-1.0" text="Detected Pattern (ROI)" wrapText="false">
                               <content>
                                 <AnchorPane id="Content" minHeight="100.0" minWidth="100.0" prefHeight="-1.0" prefWidth="-1.0">
                                   <children>
@@ -309,10 +317,7 @@
                         </AnchorPane>
                       </content>
                     </TitledPane>
-                  </expandedPane>
-                  <panes>
-                    <fx:reference source="automatedControlTabAutomatedNavigationTitledPane" />
-                    <TitledPane fx:id="x5" animated="false" text="SLAM">
+                    <TitledPane animated="false" text="SLAM" fx:id="x5">
                       <content>
                         <ScrollPane fx:id="automatedControlSLAMScrollPane" fitToHeight="true" fitToWidth="true" hbarPolicy="AS_NEEDED" pannable="true" prefHeight="-1.0" prefWidth="-1.0" vbarPolicy="AS_NEEDED">
                           <content>
@@ -335,7 +340,7 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
               </children>
             </AnchorPane>
           </content>
@@ -344,7 +349,7 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
               </children>
             </AnchorPane>
           </content>
@@ -353,37 +358,37 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
-                <Accordion expandedPane="$null" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                <Accordion AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
                 <TitledPane animated="false" collapsible="false" minWidth="-1.0" prefHeight="210.0" prefWidth="310.0" text="Initialization" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
                   <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="207.0" prefWidth="286.0">
+                    <AnchorPane id="Content" minHeight="220.0" minWidth="0.0" prefHeight="220.0" prefWidth="308.0">
                       <children>
                         <Label text="Host Address:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="15.0" />
-                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.0.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
+                        <TextField id="" fx:id="hostNameTextField" prefWidth="200.0" text="192.168.1.33" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" />
                         <Label text="Command Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="45.0" />
                         <TextField id="" fx:id="commandPortTextField" prefWidth="100.0" text="9001" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="40.0" />
                         <Label text="Front Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="75.0" />
                         <TextField id="" fx:id="frontCameraPortTextField" prefWidth="100.0" text="8080" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="70.0" />
                         <Label text="Rear Camera Port:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="105.0" />
-                        <TextField id="" fx:id="rearCameraPortTextField" layoutX="140.0" prefWidth="100.0" text="8081" AnchorPane.topAnchor="100.0" />
+                        <TextField id="" fx:id="rearCameraPortTextField" layoutX="140.0" prefWidth="100.0" text="8081" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="100.0" />
                         <Separator prefWidth="200.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="140.0" />
-                        <ToggleButton id="initializeGB08CoreToggleBtn" disable="false" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GB08M2 Core" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="150.0" />
-                        <Label text="Start/Stop GB08M2 Core:" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" />
+                        <ToggleButton id="initializeGB08CoreToggleBtn" disable="false" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="GB08M2 Core" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="163.0" />
+                        <Label text="Start/Stop GB08M2 Core:" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="5.0" />
                       </children>
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" collapsible="false" prefWidth="276.0" text="Automated Control Settings" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="5.0">
+                <TitledPane animated="false" collapsible="false" prefWidth="300.0" text="Automated Control Settings" AnchorPane.leftAnchor="330.0" AnchorPane.topAnchor="5.0">
                   <content>
-                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="220.0" prefHeight="180.0" prefWidth="220.0">
                       <children>
                         <ToggleButton id="slamVizualisationToggleButton" mnemonicParsing="false" onMouseClicked="#btnMouseClicked" text="SLAM Vizualisation" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
-                        <CheckBox fx:id="SLAMDebugModeCheckBox" layoutX="158.0" layoutY="8.0" mnemonicParsing="false" text="Debug mode" />
+                        <CheckBox fx:id="SLAMDebugModeCheckBox" layoutX="158.0" layoutY="8.0" mnemonicParsing="false" text="Debug mode" AnchorPane.leftAnchor="160.0" AnchorPane.topAnchor="8.0" />
                       </children>
                     </AnchorPane>
                   </content>
                 </TitledPane>
-                <TitledPane animated="false" collapsible="false" layoutX="7.0" layoutY="223.0" prefWidth="282.0" text="Drive Control Panel attached to:">
+                <TitledPane animated="false" collapsible="false" layoutX="9.0" layoutY="289.0" prefWidth="300.0" text="Drive Control Panel attached to:" AnchorPane.topAnchor="270.0">
                   <content>
                     <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <children>

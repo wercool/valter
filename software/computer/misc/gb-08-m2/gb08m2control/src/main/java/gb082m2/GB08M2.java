@@ -528,8 +528,8 @@ public class GB08M2
             // TODO Auto-generated catch block
             //e.printStackTrace();
         }
-        MainAppController.cameraPanSlider.setValue(0);
-        MainAppController.cameraTiltSlider.setValue(0);
+        MainAppController.instance.cameraPanSlider.setValue(0);
+        MainAppController.instance.cameraTiltSlider.setValue(0);
     }
 
     public static void resetFrontCamPan()
@@ -583,8 +583,8 @@ public class GB08M2
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        MainAppController.cameraPanSlider.setValue(0);
-        MainAppController.cameraTiltSlider.setValue(0);
+        MainAppController.instance.cameraPanSlider.setValue(0);
+        MainAppController.instance.cameraTiltSlider.setValue(0);
     }
 
     //Hardware

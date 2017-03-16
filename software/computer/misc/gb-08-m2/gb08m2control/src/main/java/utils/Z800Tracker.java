@@ -113,12 +113,12 @@ public class Z800Tracker implements Runnable
                                     @Override
                                     public void run()
                                     {
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() - 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() - 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() - 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() - 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() - 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() - 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() - 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() - 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() - 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() - 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() - 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() - 1);
                                     }
                                 });
                                 panLeft = 0;
@@ -135,12 +135,12 @@ public class Z800Tracker implements Runnable
                                     @Override
                                     public void run()
                                     {
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() + 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() + 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() + 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() + 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() + 1);
-                                        MainAppController.cameraPanSlider.setValue(MainAppController.cameraPanSlider.getValue() + 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() + 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() + 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() + 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() + 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() + 1);
+                                        MainAppController.instance.cameraPanSlider.setValue(MainAppController.instance.cameraPanSlider.getValue() + 1);
                                     }
                                 });
                                 panRight = 0;
@@ -161,10 +161,10 @@ public class Z800Tracker implements Runnable
                                     @Override
                                     public void run()
                                     {
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() + 1);
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() + 1);
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() + 1);
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() + 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() + 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() + 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() + 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() + 1);
                                     }
                                 });
                                 tiltUp = 0;
@@ -181,17 +181,17 @@ public class Z800Tracker implements Runnable
                                     @Override
                                     public void run()
                                     {
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() - 1);
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() - 1);
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() - 1);
-                                        MainAppController.cameraTiltSlider.setValue(MainAppController.cameraTiltSlider.getValue() - 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() - 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() - 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() - 1);
+                                        MainAppController.instance.cameraTiltSlider.setValue(MainAppController.instance.cameraTiltSlider.getValue() - 1);
                                     }
                                 });
                                 tiltDown = 0;
                             }
                         }
                     }
-                    if (MainAppController.z800CursorMoveCheckBox.isSelected())
+                    if (MainAppController.instance.z800CursorMoveCheckBox.isSelected())
                     {
                         robot.mouseMove(prevMouseX, prevMouseY);
                     }

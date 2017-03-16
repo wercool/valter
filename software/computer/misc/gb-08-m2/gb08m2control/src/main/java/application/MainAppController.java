@@ -45,120 +45,121 @@ import utils.Z800Tracker;
 
 public class MainAppController
 {
+	public static MainAppController instance;
     public static volatile boolean isActive = false;
     //Initialization & Settings tab's elements
     @FXML
-    TextField hostNameTextField;
+    public TextField hostNameTextField;
     @FXML
-    TextField commandPortTextField;
+    public TextField commandPortTextField;
     @FXML
-    TextField frontCameraPortTextField;
+    public TextField frontCameraPortTextField;
     @FXML
-    TextField rearCameraPortTextField;
+    public TextField rearCameraPortTextField;
     @FXML
-    CheckBox SLAMDebugModeCheckBox;
+    public CheckBox SLAMDebugModeCheckBox;
 
     //Manual Control tab's elements
     @FXML
-    public static Slider dutyLeftSlider;
+    public Slider dutyLeftSlider;
     @FXML
-    public static Slider dutyRightSlider;
+    public Slider dutyRightSlider;
     @FXML
-    Slider alarmBeepDurationSlider;
+    public Slider alarmBeepDurationSlider;
     @FXML
-    public static Slider distanceScannerPositionSlider;
+    public Slider distanceScannerPositionSlider;
     @FXML
-    CheckBox dutySunchronizedCheckBox;
+    public CheckBox dutySunchronizedCheckBox;
     @FXML
-    public static ProgressBar leftMotorsDutyProgressBar;
+    public ProgressBar leftMotorsDutyProgressBar;
     @FXML
-    public static ProgressBar rightMotorsDutyProgressBar;
+    public ProgressBar rightMotorsDutyProgressBar;
     @FXML
-    public static ProgressBar frontLeftMotorCurrentProgressBar;
+    public ProgressBar frontLeftMotorCurrentProgressBar;
     @FXML
-    public static ProgressBar rearLeftMotorCurrentProgressBar;
+    public ProgressBar rearLeftMotorCurrentProgressBar;
     @FXML
-    public static ProgressBar frontRightMotorCurrentProgressBar;
+    public ProgressBar frontRightMotorCurrentProgressBar;
     @FXML
-    public static ProgressBar rearRightMotorCurrentProgressBar;
+    public ProgressBar rearRightMotorCurrentProgressBar;
     @FXML
-    public static Label leftEncoderLabel;
+    public Label leftEncoderLabel;
     @FXML
-    public static Label rightEncoderLabel;
+    public Label rightEncoderLabel;
     @FXML
-    public static Label batteryVoltageLabel;
+    public Label batteryVoltageLabel;
     @FXML
-    public static Label distanceScannerValueLabel;
+    public Label distanceScannerValueLabel;
     @FXML
-    public static Label distanceScannerPositionLabel;
+    public Label distanceScannerPositionLabel;
     @FXML
-    public static ImageView frontCameraImageView;
+    public ImageView frontCameraImageView;
     @FXML
-    public static ImageView rearCameraImageView;
+    public ImageView rearCameraImageView;
     @FXML
-    public static ProgressIndicator frontCameraImageViewrearCameraImageViewIndicator;
+    public ProgressIndicator frontCameraImageViewrearCameraImageViewIndicator;
     @FXML
-    public static ProgressIndicator rearCameraImageViewIndicator;
+    public ProgressIndicator rearCameraImageViewIndicator;
     @FXML
-    public static AnchorPane manualControlAnchorPane;
+    public AnchorPane manualControlAnchorPane;
     @FXML
-    public static AnchorPane driveControlAnchorPane;
+    public AnchorPane driveControlAnchorPane;
     @FXML
-    public static Slider cameraTiltSlider;
+    public Slider cameraTiltSlider;
     @FXML
-    public static Slider cameraPanSlider;
+    public Slider cameraPanSlider;
     @FXML
-    public static Button resetCamBtn;
+    public Button resetCamBtn;
     @FXML
-    public static CheckBox z800CursorMoveCheckBox;
+    public CheckBox z800CursorMoveCheckBox;
     @FXML
-    public static CheckBox z800TrackingCheckBox;
-    public static ImageView fullscreenVideoImageView;
-    public static AnchorPane fullscreenVideoContainer;
+    public CheckBox z800TrackingCheckBox;
+    public ImageView fullscreenVideoImageView;
+    public AnchorPane fullscreenVideoContainer;
 
     //Automated Control tab's elements
     @FXML
-    public static Tab automatedControlTab;
+    public Tab automatedControlTab;
     @FXML
-    public static ScrollPane automatedControlSLAMScrollPane;
+    public ScrollPane automatedControlSLAMScrollPane;
     @FXML
-    public static Pane automatedControlSLAMPane;
+    public Pane automatedControlSLAMPane;
     @FXML
-    TitledPane automatedControlSLAMManagementTitledPane;
+    public TitledPane automatedControlSLAMManagementTitledPane;
     @FXML
-    public static TitledPane driveControTitledPane;
+    public TitledPane driveControTitledPane;
     @FXML
-    public static TitledPane selectedPatternTitledPane;
+    public TitledPane selectedPatternTitledPane;
     @FXML
-    public static ImageView frontCameraAutomatedControlImageView;
+    public ImageView frontCameraAutomatedControlImageView;
     @FXML
-    public static ImageView rearCameraAutomatedControlImageView;
+    public ImageView rearCameraAutomatedControlImageView;
     @FXML
-    public static Pane frontCameraAutomatedControlOverlayPane;
+    public Pane frontCameraAutomatedControlOverlayPane;
     @FXML
-    public static ImageView frontCameraAutomatedROIImageView;
+    public ImageView frontCameraAutomatedROIImageView;
     @FXML
-    public static ImageView frontCameraAutomatedROIGrayscaleImageView;
+    public ImageView frontCameraAutomatedROIGrayscaleImageView;
     @FXML
-    TitledPane automatedControlTabAutomatedNavigationTitledPane;
+    public TitledPane automatedControlTabAutomatedNavigationTitledPane;
     @FXML
-    static AnchorPane automatedNavigationAnchorPane;
+    public AnchorPane automatedNavigationAnchorPane;
     @FXML
     static Accordion automatedControlTabAccordion;
     @FXML
-    TitledPane positiveImagesAutomatedControlTitledPane;
+    public TitledPane positiveImagesAutomatedControlTitledPane;
     @FXML
-    public static VBox positiveImagesAutomatedControlVBox;
+    public VBox positiveImagesAutomatedControlVBox;
     @FXML
-    TitledPane detectedPatternTitledPane;
+    public TitledPane detectedPatternTitledPane;
     @FXML
-    public static ImageView frontCameraAutomatedROIDetectedImageView;
+    public ImageView frontCameraAutomatedROIDetectedImageView;
     @FXML
-    public static ImageView frontCameraAutomatedROIDetectedGrayscaleImageView;
+    public ImageView frontCameraAutomatedROIDetectedGrayscaleImageView;
     @FXML
-    public static ImageView frontCameraAutomatedSURFMatchesImageView;
+    public ImageView frontCameraAutomatedSURFMatchesImageView;
     @FXML
-    public static ImageView frontCameraAutomatedROIMatchWithTemplareImageView;
+    public ImageView frontCameraAutomatedROIMatchWithTemplareImageView;
 
     //TODO: Temporary for debug
     LeftEncoderIncrementTask leftEncoderIncrementTask;
@@ -176,6 +177,7 @@ public class MainAppController
         System.out.println("INFO: " + "Starting GB08M2MainAppController");
         this.primaryStage = primaryStage;
         this.primaryScene = primaryScene;
+        instance = this;
     }
 
     public void stop()
@@ -465,13 +467,13 @@ public class MainAppController
             {
                 if (!GB08M2AutomatedManager.isPatternTracking())
                 {
-                    if (!MainAppController.automatedNavigationAnchorPane.getChildren().contains(MainAppController.driveControTitledPane))
+                    if (!MainAppController.instance.automatedNavigationAnchorPane.getChildren().contains(MainAppController.instance.driveControTitledPane))
                     {
-                        MainAppController.automatedNavigationAnchorPane.getChildren().add(MainAppController.driveControTitledPane);
+                        MainAppController.instance.automatedNavigationAnchorPane.getChildren().add(MainAppController.instance.driveControTitledPane);
                     }
-                    MainAppController.driveControTitledPane.toFront();
-                    MainAppController.driveControTitledPane.setLayoutX(frontCameraAutomatedControlOverlayPane.getWidth() + 10);
-                    MainAppController.driveControTitledPane.setLayoutY(5);
+                    MainAppController.instance.driveControTitledPane.toFront();
+                    MainAppController.instance.driveControTitledPane.setLayoutX(frontCameraAutomatedControlOverlayPane.getWidth() + 10);
+                    MainAppController.instance.driveControTitledPane.setLayoutY(5);
                 }
             }
         });
@@ -504,18 +506,18 @@ public class MainAppController
                         fullscreenVideoImageView.setY((Screen.getPrimary().getVisualBounds().getMaxY() - videoHeight) / 2);
                         fullscreenVideoContainer = (AnchorPane) scene.lookup("#fullScreenVideoAnchorPane");
                         fullscreenVideoContainer.setStyle("-fx-background-color: #000000");
-                        MainAppController.driveControTitledPane.setOpacity(0.25);
-                        MainAppController.manualControlAnchorPane.getChildren().remove(MainAppController.driveControTitledPane);
-                        fullscreenVideoContainer.getChildren().add(MainAppController.driveControTitledPane);
+                        MainAppController.instance.driveControTitledPane.setOpacity(0.25);
+                        MainAppController.instance.manualControlAnchorPane.getChildren().remove(MainAppController.instance.driveControTitledPane);
+                        fullscreenVideoContainer.getChildren().add(MainAppController.instance.driveControTitledPane);
                         stage.setOnCloseRequest(new EventHandler<WindowEvent>()
                         {
                             @Override
                             public void handle(WindowEvent event)
                             {
                                 fullscreenVideoImageView = null;
-                                fullscreenVideoContainer.getChildren().remove(MainAppController.driveControTitledPane);
-                                MainAppController.manualControlAnchorPane.getChildren().add(MainAppController.driveControTitledPane);
-                                MainAppController.driveControTitledPane.setOpacity(1);
+                                fullscreenVideoContainer.getChildren().remove(MainAppController.instance.driveControTitledPane);
+                                MainAppController.instance.manualControlAnchorPane.getChildren().add(MainAppController.instance.driveControTitledPane);
+                                MainAppController.instance.driveControTitledPane.setOpacity(1);
                                 stage.close();
                             }
                         });
@@ -733,7 +735,7 @@ public class MainAppController
                                 @Override
                                 public void run()
                                 {
-                                    MainAppController.batteryVoltageLabel.setText("Battery Voltage: " + String.valueOf(GB08M2.getInstance().getBatteryVoltage()));
+                                    MainAppController.instance.batteryVoltageLabel.setText("Battery Voltage: " + String.valueOf(GB08M2.getInstance().getBatteryVoltage()));
                                 }
                             });
                         }
@@ -914,24 +916,24 @@ public class MainAppController
             switch (clickedradioBtn.getId())
             {
                 case "driveControlPaneLocation1":
-                    if (!MainAppController.manualControlAnchorPane.getChildren().contains(MainAppController.driveControTitledPane))
+                    if (!MainAppController.instance.manualControlAnchorPane.getChildren().contains(MainAppController.instance.driveControTitledPane))
                     {
-                        MainAppController.automatedControlSLAMPane.getChildren().remove(MainAppController.driveControTitledPane);
+                        MainAppController.instance.automatedControlSLAMPane.getChildren().remove(MainAppController.instance.driveControTitledPane);
 
-                        MainAppController.manualControlAnchorPane.getChildren().add(MainAppController.driveControTitledPane);
+                        MainAppController.instance.manualControlAnchorPane.getChildren().add(MainAppController.instance.driveControTitledPane);
                     }
-                    MainAppController.driveControTitledPane.toFront();
-                    MainAppController.driveControTitledPane.setLayoutX(660);
-                    MainAppController.driveControTitledPane.setLayoutY(5);
+                    MainAppController.instance.driveControTitledPane.toFront();
+                    MainAppController.instance.driveControTitledPane.setLayoutX(660);
+                    MainAppController.instance.driveControTitledPane.setLayoutY(5);
                 break;
                 case "driveControlPaneLocation2":
-                    if (!MainAppController.automatedControlSLAMPane.getChildren().contains(MainAppController.driveControTitledPane))
+                    if (!MainAppController.instance.automatedControlSLAMPane.getChildren().contains(MainAppController.instance.driveControTitledPane))
                     {
-                        MainAppController.manualControlAnchorPane.getChildren().remove(MainAppController.driveControTitledPane);
+                        MainAppController.instance.manualControlAnchorPane.getChildren().remove(MainAppController.instance.driveControTitledPane);
 
-                        MainAppController.automatedControlSLAMPane.getChildren().add(MainAppController.driveControTitledPane);
+                        MainAppController.instance.automatedControlSLAMPane.getChildren().add(MainAppController.instance.driveControTitledPane);
                     }
-                    MainAppController.driveControTitledPane.toFront();
+                    MainAppController.instance.driveControTitledPane.toFront();
                 break;
                 case "driveControlPaneLocation3":
 
@@ -952,17 +954,17 @@ public class MainAppController
     {
         if (automatedControlTab.isSelected())
         {
-            if (!MainAppController.automatedControlSLAMPane.getChildren().contains(MainAppController.driveControTitledPane))
+            if (!MainAppController.instance.automatedControlSLAMPane.getChildren().contains(MainAppController.instance.driveControTitledPane))
             {
-                MainAppController.manualControlAnchorPane.getChildren().remove(MainAppController.driveControTitledPane);
+                MainAppController.instance.manualControlAnchorPane.getChildren().remove(MainAppController.instance.driveControTitledPane);
 
-                MainAppController.automatedControlSLAMPane.getChildren().add(MainAppController.driveControTitledPane);
+                MainAppController.instance.automatedControlSLAMPane.getChildren().add(MainAppController.instance.driveControTitledPane);
             }
-            MainAppController.driveControTitledPane.toFront();
-            MainAppController.driveControTitledPane.setLayoutX(SLAMTask.getRobotX() + 100);
-            MainAppController.driveControTitledPane.setLayoutY(SLAMTask.getRobotY());
-            MainAppController.automatedControlSLAMScrollPane.setHvalue(MainAppController.driveControTitledPane.getLayoutX() / MainAppController.automatedControlSLAMPane.getWidth());
-            MainAppController.automatedControlSLAMScrollPane.setVvalue(MainAppController.driveControTitledPane.getLayoutY() / MainAppController.automatedControlSLAMPane.getHeight());
+            MainAppController.instance.driveControTitledPane.toFront();
+            MainAppController.instance.driveControTitledPane.setLayoutX(SLAMTask.getRobotX() + 100);
+            MainAppController.instance.driveControTitledPane.setLayoutY(SLAMTask.getRobotY());
+            MainAppController.instance.automatedControlSLAMScrollPane.setHvalue(MainAppController.instance.driveControTitledPane.getLayoutX() / MainAppController.instance.automatedControlSLAMPane.getWidth());
+            MainAppController.instance.automatedControlSLAMScrollPane.setVvalue(MainAppController.instance.driveControTitledPane.getLayoutY() / MainAppController.instance.automatedControlSLAMPane.getHeight());
         }
     }
 
@@ -1031,7 +1033,7 @@ public class MainAppController
         {
             while (!isStopped)
             {
-                GB08M2.getInstance().setLeftEncoderTicks(GB08M2.getInstance().getLeftEncoderTicks() + (int) Math.round(5 * (MainAppController.dutyLeftSlider.getValue() / 100)));
+                GB08M2.getInstance().setLeftEncoderTicks(GB08M2.getInstance().getLeftEncoderTicks() + (int) Math.round(5 * (MainAppController.instance.dutyLeftSlider.getValue() / 100)));
                 try
                 {
                     Thread.sleep(50);
@@ -1070,7 +1072,7 @@ public class MainAppController
         {
             while (!isStopped)
             {
-                GB08M2.getInstance().setRightEncoderTicks(GB08M2.getInstance().getRightEncoderTicks() + +(int) Math.round(5 * (MainAppController.dutyRightSlider.getValue() / 100)));
+                GB08M2.getInstance().setRightEncoderTicks(GB08M2.getInstance().getRightEncoderTicks() + +(int) Math.round(5 * (MainAppController.instance.dutyRightSlider.getValue() / 100)));
                 try
                 {
                     Thread.sleep(50);

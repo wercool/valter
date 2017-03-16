@@ -230,8 +230,8 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            MainAppController.leftMotorsDutyProgressBar.setProgress((double) GB08M2.getInstance().getLeftDuty() / 99);
-                            MainAppController.rightMotorsDutyProgressBar.setProgress((double) GB08M2.getInstance().getRightDuty() / 99);
+                            MainAppController.instance.leftMotorsDutyProgressBar.setProgress((double) GB08M2.getInstance().getLeftDuty() / 99);
+                            MainAppController.instance.rightMotorsDutyProgressBar.setProgress((double) GB08M2.getInstance().getRightDuty() / 99);
                         }
                     });
                     Thread.sleep(10);
@@ -264,10 +264,10 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            MainAppController.frontLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontLeftMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
-                            MainAppController.frontRightMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontRightMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
-                            MainAppController.rearLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getRearLeftMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
-                            MainAppController.rearRightMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getRearRightMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
+                            MainAppController.instance.frontLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontLeftMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
+                            MainAppController.instance.frontRightMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getFrontRightMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
+                            MainAppController.instance.rearLeftMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getRearLeftMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
+                            MainAppController.instance.rearRightMotorCurrentProgressBar.setProgress((double) GB08M2.getInstance().getRearRightMotorCurrent() / GB08M2.maxADCMotorCurrentValue);
                         }
                     });
                     Thread.sleep(25);
@@ -306,8 +306,8 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            MainAppController.leftEncoderLabel.setText("Left: " + String.valueOf(GB08M2.getInstance().getLeftEncoderTicks()));
-                            MainAppController.rightEncoderLabel.setText("Right: " + String.valueOf(GB08M2.getInstance().getRightEncoderTicks()));
+                            MainAppController.instance.leftEncoderLabel.setText("Left: " + String.valueOf(GB08M2.getInstance().getLeftEncoderTicks()));
+                            MainAppController.instance.rightEncoderLabel.setText("Right: " + String.valueOf(GB08M2.getInstance().getRightEncoderTicks()));
                         }
                     });
                     Thread.sleep(GB08M2.encoderReadingsDelay);
@@ -355,9 +355,9 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            MainAppController.distanceScannerValueLabel.setText("Distance: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance()) + ") = " + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance_cm()) + " cm" + (GB08M2.getInstance().getDistanceScannerDistance_cm() > 150 ? " = blank" : ""));
-                            MainAppController.distanceScannerPositionLabel.setText("Position: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerPosition() + ") = " + GB08M2.getInstance().getDistanceScannerPositionAngle() + "°"));
-                            MainAppController.distanceScannerPositionSlider.setValue(GB08M2.getInstance().getDistanceScannerPosition());
+                            MainAppController.instance.distanceScannerValueLabel.setText("Distance: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance()) + ") = " + String.valueOf(GB08M2.getInstance().getDistanceScannerDistance_cm()) + " cm" + (GB08M2.getInstance().getDistanceScannerDistance_cm() > 150 ? " = blank" : ""));
+                            MainAppController.instance.distanceScannerPositionLabel.setText("Position: (" + String.valueOf(GB08M2.getInstance().getDistanceScannerPosition() + ") = " + GB08M2.getInstance().getDistanceScannerPositionAngle() + "°"));
+                            MainAppController.instance.distanceScannerPositionSlider.setValue(GB08M2.getInstance().getDistanceScannerPosition());
                         }
                     });
                     Thread.sleep(10);
@@ -401,14 +401,14 @@ public class GB08M2ManualControlManager
                             {
                                 Image frame = null;
                                 frame = SwingFXUtils.toFXImage(GB08M2.getInstance().getFrontCameraFrameBufferedImage(), null);
-                                if (MainAppController.fullscreenVideoImageView != null)
+                                if (MainAppController.instance.fullscreenVideoImageView != null)
                                 {
-                                    MainAppController.fullscreenVideoImageView.setImage(frame);
-                                    MainAppController.fullscreenVideoImageView.setCache(false);
+                                    MainAppController.instance.fullscreenVideoImageView.setImage(frame);
+                                    MainAppController.instance.fullscreenVideoImageView.setCache(false);
                                 } else
                                 {
-                                    MainAppController.frontCameraImageView.setImage(frame);
-                                    MainAppController.frontCameraImageView.setCache(false);
+                                    MainAppController.instance.frontCameraImageView.setImage(frame);
+                                    MainAppController.instance.frontCameraImageView.setCache(false);
                                 }
                             }
                         }
@@ -419,10 +419,10 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            if (MainAppController.frontCameraImageViewrearCameraImageViewIndicator.getProgress() == 1)
-                                MainAppController.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
+                            if (MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.getProgress() == 1)
+                                MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
                             else
-                                MainAppController.frontCameraImageViewrearCameraImageViewIndicator.setProgress(1);
+                                MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(1);
                         }
                     });
                 } catch (InterruptedException e)
@@ -465,8 +465,8 @@ public class GB08M2ManualControlManager
                             {
                                 Image frame = null;
                                 frame = SwingFXUtils.toFXImage(GB08M2.getInstance().getRearCameraFrameBufferedImage(), null);
-                                MainAppController.rearCameraImageView.setImage(frame);
-                                MainAppController.rearCameraImageView.setCache(false);
+                                MainAppController.instance.rearCameraImageView.setImage(frame);
+                                MainAppController.instance.rearCameraImageView.setCache(false);
                             }
                         }
                     });
@@ -476,10 +476,10 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            if (MainAppController.rearCameraImageViewIndicator.getProgress() == 1)
-                                MainAppController.rearCameraImageViewIndicator.setProgress(-1);
+                            if (MainAppController.instance.rearCameraImageViewIndicator.getProgress() == 1)
+                                MainAppController.instance.rearCameraImageViewIndicator.setProgress(-1);
                             else
-                                MainAppController.rearCameraImageViewIndicator.setProgress(1);
+                                MainAppController.instance.rearCameraImageViewIndicator.setProgress(1);
                         }
                     });
                 } catch (InterruptedException e)

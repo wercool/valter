@@ -50,15 +50,15 @@ public class SLAMTask
 
     public SLAMTask()
     {
-        MainAppController.automatedControlSLAMPane.setMinWidth(slamResultsCanvasWidth);
-        MainAppController.automatedControlSLAMPane.setMinHeight(slamResultsCanvasHeight);
+        MainAppController.instance.automatedControlSLAMPane.setMinWidth(slamResultsCanvasWidth);
+        MainAppController.instance.automatedControlSLAMPane.setMinHeight(slamResultsCanvasHeight);
 
         slamResultsCanvas = new Canvas(slamResultsCanvasWidth, slamResultsCanvasHeight);
         slamResultsCanvas.cacheProperty().set(false);
         slamResultsCanvasGraphicsContext = slamResultsCanvas.getGraphicsContext2D();
         slamResultsCanvasGraphicsContext.setFill(Color.BLACK);
 
-        MainAppController.automatedControlSLAMPane.getChildren().add(slamResultsCanvas);
+        MainAppController.instance.automatedControlSLAMPane.getChildren().add(slamResultsCanvas);
 
         robot.setImage(new Image("application/robot.png"));
         startXPosition = slamResultsCanvasWidth / 2;
@@ -67,9 +67,9 @@ public class SLAMTask
 
         centerMarker = new Circle(startXPosition, startYPosition, 5);
         centerMarker.setFill(Color.RED);
-        MainAppController.automatedControlSLAMPane.getChildren().add(centerMarker);
+        MainAppController.instance.automatedControlSLAMPane.getChildren().add(centerMarker);
 
-        MainAppController.automatedControlSLAMPane.getChildren().add(robot);
+        MainAppController.instance.automatedControlSLAMPane.getChildren().add(robot);
         robotWidth = robot.getImage().getWidth();
         robotWidthSQR = Math.pow(robotWidth, 2);
         robotLength = robot.getImage().getHeight();
@@ -85,19 +85,19 @@ public class SLAMTask
         circumcircle.setFill(Color.TRANSPARENT);
         circumcircle.setStroke(Color.GREEN);
         circumcircle.getStrokeDashArray().addAll(2d);
-        MainAppController.automatedControlSLAMPane.getChildren().add(circumcircle);
+        MainAppController.instance.automatedControlSLAMPane.getChildren().add(circumcircle);
 
         distanceScannerArea = new Arc(startXPosition, startYPosition - robotCenterShiftY, 50, 50, 25, 130);
         distanceScannerArea.setType(ArcType.ROUND);
         distanceScannerArea.setStroke(Color.TRANSPARENT);
         distanceScannerArea.setFill(Color.GREY);
         distanceScannerArea.setOpacity(0.2);
-        MainAppController.automatedControlSLAMPane.getChildren().add(distanceScannerArea);
+        MainAppController.instance.automatedControlSLAMPane.getChildren().add(distanceScannerArea);
 
         scanLine = new Line(startXPosition, startYPosition - robotCenterShiftY, startXPosition, startYPosition - robotCenterShiftY - 10);
         scanLine.getStrokeDashArray().addAll(3d);
         scanLine.setOpacity(0.5);
-        MainAppController.automatedControlSLAMPane.getChildren().add(scanLine);
+        MainAppController.instance.automatedControlSLAMPane.getChildren().add(scanLine);
 
         slamResultsVisualizationTask = new SLAMresultsVisualizationTask();
     }
@@ -106,7 +106,7 @@ public class SLAMTask
     {
         for (int i = 0; i < gridLines.size(); i++)
         {
-            MainAppController.automatedControlSLAMPane.getChildren().remove(gridLines.get(i));
+            MainAppController.instance.automatedControlSLAMPane.getChildren().remove(gridLines.get(i));
         }
         gridLines.clear();
         int gridY = 0;
@@ -116,7 +116,7 @@ public class SLAMTask
             gridLine.setStroke(Color.GREEN);
             gridLine.setStrokeWidth(0.1);
             gridLines.add(gridLine);
-            MainAppController.automatedControlSLAMPane.getChildren().add(gridLine);
+            MainAppController.instance.automatedControlSLAMPane.getChildren().add(gridLine);
             gridY += 10;
         }
         int gridX = 0;
@@ -126,7 +126,7 @@ public class SLAMTask
             gridLine.setStroke(Color.GREEN);
             gridLine.setStrokeWidth(0.1);
             gridLines.add(gridLine);
-            MainAppController.automatedControlSLAMPane.getChildren().add(gridLine);
+            MainAppController.instance.automatedControlSLAMPane.getChildren().add(gridLine);
             gridX += 10;
         }
     }
