@@ -740,8 +740,8 @@ void ArmControlRight::setLimbADCPosition(int value)
         else
         {
             double avgResult = avgValue / (double) avgValueCnt;
-            qDebug("Right Limb Position (avg) %.2f", avgResult);
-            setLimbPosition(degreesValue);
+            //qDebug("Right Limb Position (avg) %.2f", avgResult);
+            setLimbPosition(avgResult);
             avgValueCnt = 0;
             avgValue = 0;
             resetPositionCnt = 0;
@@ -810,8 +810,8 @@ void ArmControlRight::setArmADCPosition(int value)
         else
         {
             double avgResult = avgValue / (double) avgValueCnt;
-            qDebug("Right Arm Position (avg) %.2f", avgResult);
-            setArmPosition(degreesValue);
+            //qDebug("Right Arm Position (avg) %.2f", avgResult);
+            setArmPosition(avgResult);
             avgValueCnt = 0;
             avgValue = 0;
             resetPositionCnt = 0;
@@ -880,8 +880,8 @@ void ArmControlRight::setForearmADCPosition(int value)
         else
         {
             double avgResult = avgValue / (double) avgValueCnt;
-            qDebug("Right Forearm Position (avg) %.2f", avgResult);
-            setForearmPosition(degreesValue);
+            //qDebug("Right Forearm Position (avg) %.2f", avgResult);
+            setForearmPosition(avgResult);
             avgValueCnt = 0;
             avgValue = 0;
             resetPositionCnt = 0;
