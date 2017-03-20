@@ -38,6 +38,10 @@ bool SetLeftArmPositionTask::initialize()
     float angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(angle);
 
+    /************************************ emulation *********************start***************************/
+    return true;
+    /************************************ emulation *********************finish**************************/
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getPower5VOnState())
     {
@@ -74,7 +78,7 @@ void SetLeftArmPositionTask::stopExecution()
 
 void SetLeftArmPositionTask::reportCompletion()
 {
-    qDebug("Task#%lu (%s) %s.", getTaskId(), getTaskName().c_str(), (stopped) ? "stopped" : "completed");
+    qDebug("Task#%lu (%s) [%s] %s.", getTaskId(), getTaskName().c_str(), taskScriptLine.c_str(), (stopped) ? "stopped" : "completed");
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
@@ -89,7 +93,7 @@ void SetLeftArmPositionTask::executionWorker()
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
 
     /************************************ emulation *********************start***************************/
-//    armControlLeft->setArmADCPosition(750);
+    armControlLeft->setArmADCPosition(715);
     /************************************ emulation *********************finish**************************/
 
     int setPositionAttempt = 0;
@@ -166,35 +170,51 @@ void SetLeftArmPositionTask::executionWorker()
             if ((direction && armControlLeft->getArmPosition() >= cutoffAngle) || (!direction && armControlLeft->getArmPosition() <= cutoffAngle) || (abs(angle - armControlLeft->getArmPosition()) < sigma))
             {
                 armControlLeft->setLeftArmMotorActivated(false);
-                this_thread::sleep_for(std::chrono::milliseconds(1000));
-                qDebug("Task#%lu(%s): Position approximation stop", getTaskId(), getTaskName().c_str());
-
-                if ((abs(angle - armControlLeft->getArmPosition()) < sigma) || setPositionAttempt > 2)
-                {
-                    setCompleted();
-                    break;
-                }
-                else
-                {
-                    direction = !direction;
-                    executing = false;
-                    qDebug("Task#%lu(%s): Movement direction has been changed. Setting position...", getTaskId(), getTaskName().c_str());
-                    setPositionAttempt++;
-                    continue;
-                }
+                setCompleted();
+                break;
             }
 
+//            if ((direction && armControlLeft->getArmPosition() >= cutoffAngle) || (!direction && armControlLeft->getArmPosition() <= cutoffAngle) || (abs(angle - armControlLeft->getArmPosition()) < sigma))
+//            {
+//                armControlLeft->setLeftArmMotorActivated(false);
+//                this_thread::sleep_for(std::chrono::milliseconds(1000));
+//                qDebug("Task#%lu(%s): Position approximation stop", getTaskId(), getTaskName().c_str());
+
+//                if ((abs(angle - armControlLeft->getArmPosition()) < sigma) || setPositionAttempt > 2)
+//                {
+//                    setCompleted();
+//                    break;
+//                }
+//                else
+//                {
+//                    direction = !direction;
+//                    executing = false;
+//                    qDebug("Task#%lu(%s): Movement direction has been changed. Setting position...", getTaskId(), getTaskName().c_str());
+//                    setPositionAttempt++;
+//                    continue;
+//                }
+//            }
+
             /************************************ emulation *********************start***************************/
-//            int positionADC = armControlLeft->getArmADCPosition();
-//            if (direction)
-//            {
-//                positionADC -= 5;
-//            }
-//            else
-//            {
-//                positionADC += 5;
-//            }
-//            armControlLeft->setArmADCPosition(positionADC);
+            int positionADC = armControlLeft->getArmADCPosition();
+            int noise = rand() % 10;
+            if (noise == 0)
+            {
+                positionADC += 200;
+            }
+            if (noise == 2)
+            {
+                positionADC -= 200;
+            }
+            if (direction)
+            {
+                positionADC -= 1;
+            }
+            else
+            {
+                positionADC += 1;
+            }
+            armControlLeft->setArmADCPosition(positionADC);
             /************************************ emulation *********************finish**************************/
         }
         this_thread::sleep_for(std::chrono::milliseconds(50));
