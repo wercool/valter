@@ -38,6 +38,10 @@ bool SetLeftLimbPositionTask::initialize()
     float angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(angle);
 
+/************************************ emulation *********************start***************************/
+    return true;
+/************************************ emulation *********************finish**************************/
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getPower5VOnState())
     {
@@ -88,11 +92,15 @@ void SetLeftLimbPositionTask::executionWorker()
     qDebug("Task#%lu %s started", getTaskId(), taskName.c_str());
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
 
-    /************************************ emulation *********************start***************************/
-//    armControlLeft->setLimbADCPosition(405);
-    /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+    for (int i = 0; i < 15; i++)
+    {
+        armControlLeft->setLimbADCPosition(ArmControlLeft::limbAngleADCZero);
+    }
+    qDebug("Current armControlLeft->getLimbPosition() = %.2f", armControlLeft->getLimbPosition());
+/************************************ emulation *********************finish**************************/
 
-    float sigma = 1.0; //precision in degrees
+    float sigma = 2.0; //precision in degrees
 
     //move up (angle increased) - true
     bool direction = (angle > armControlLeft->getLimbPosition()) ? true : false;
@@ -168,20 +176,41 @@ void SetLeftLimbPositionTask::executionWorker()
                 break;
             }
 
-            /************************************ emulation *********************start***************************/
-//            int positionADC = armControlLeft->getLimbADCPosition();
-//            if (direction)
-//            {
-//                positionADC -= 5;
-//            }
-//            else
-//            {
-//                positionADC += 5;
-//            }
-//            armControlLeft->setLimbADCPosition(positionADC);
-            /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+            int positionADC = ArmControlLeft::limbAngleADCZero + round(armControlLeft->getLimbPosition() * ArmControlLeft::limbDegreesDiv);
+            int noise = rand() % 15;
+            if (noise == 0)
+            {
+                qDebug("NOISE ++++++++++++++++++++++++++++++++++++++++++");
+                positionADC = 1023;
+            }
+            if (noise == 1)
+            {
+                positionADC = 0;
+                qDebug("NOISE ------------------------------------------");
+            }
+            if (noise == 2)
+            {
+                qDebug("NOISE +++++++++++");
+                positionADC += 100;
+            }
+            if (noise == 3)
+            {
+                positionADC -= 100;
+                qDebug("NOISE -----------");
+            }
+            if (direction)
+            {
+                positionADC += 10;
+            }
+            else
+            {
+                positionADC -= 10;
+            }
+            armControlLeft->setLimbADCPosition(positionADC);
+/************************************ emulation *********************finish**************************/
         }
-        this_thread::sleep_for(std::chrono::milliseconds(10));
+        this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 
     if (!getCompleted())

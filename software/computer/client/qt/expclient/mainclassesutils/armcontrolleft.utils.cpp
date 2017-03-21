@@ -675,13 +675,15 @@ void ArmControlLeft::setLimbADCPosition(int value)
     else
     {
         resetPositionCnt++;
-        if (resetPositionCnt > 5)
+        if (resetPositionCnt > 10)
         {
             setLimbPosition(degreesValue);
             prevValue = degreesValue;
             avgValueCnt = 0;
             avgValue = 0;
             resetPositionCnt = 0;
+            string msg = Valter::format_string("POSITION RESET ArmControlLeft::setLimbPosition(%.2f)", degreesValue);
+            qDebug("%s", msg.c_str());
         }
 //        string msg = Valter::format_string("IGNORE ArmControlLeft::setLimbADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
 //        qDebug("%s", msg.c_str());
@@ -745,13 +747,15 @@ void ArmControlLeft::setArmADCPosition(int value)
     else
     {
         resetPositionCnt++;
-        if (resetPositionCnt > 5)
+        if (resetPositionCnt > 10)
         {
             setArmPosition(degreesValue);
             prevValue = degreesValue;
             avgValueCnt = 0;
             avgValue = 0;
             resetPositionCnt = 0;
+            string msg = Valter::format_string("POSITION RESET ArmControlLeft::setArmPosition(%.2f)", degreesValue);
+            qDebug("%s", msg.c_str());
         }
 //        string msg = Valter::format_string("IGNORE ArmControlLeft::setArmADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
 //        qDebug("%s", msg.c_str());
@@ -803,7 +807,7 @@ void ArmControlLeft::setForearmADCPosition(int value)
         else
         {
             double avgResult = avgValue / (double) avgValueCnt;
-            //qDebug("Left Forearm Position (avg) %.2f", avgResult);
+//            qDebug("Left Forearm Position (avg) %.2f", avgResult);
             setForearmPosition(avgResult);
             avgValueCnt = 0;
             avgValue = 0;
@@ -814,13 +818,15 @@ void ArmControlLeft::setForearmADCPosition(int value)
     else
     {
         resetPositionCnt++;
-        if (resetPositionCnt > 5)
+        if (resetPositionCnt > 10)
         {
             setForearmPosition(degreesValue);
             prevValue = degreesValue;
             avgValueCnt = 0;
             avgValue = 0;
             resetPositionCnt = 0;
+            string msg = Valter::format_string("POSITION RESET ArmControlLeft::setForearmPosition(%.2f)", degreesValue);
+            qDebug("%s", msg.c_str());
         }
 //        string msg = Valter::format_string("IGNORE ArmControlLeft::setForearmADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
 //        qDebug("%s", msg.c_str());
