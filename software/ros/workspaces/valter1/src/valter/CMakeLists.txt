@@ -4,7 +4,7 @@ project(valter)
 
 ## Find catkin and any catkin packages
 find_package(cmake_modules REQUIRED)
-find_package(catkin REQUIRED COMPONENTS roscpp rospy tf std_msgs sensor_msgs nav_msgs move_base_msgs geometry_msgs moveit_msgs ) #moveit_ros_planning_interface)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy tf std_msgs sensor_msgs nav_msgs move_base_msgs geometry_msgs) #moveit_msgs moveit_ros_planning_interface)
 find_package(Eigen REQUIRED)
 
 ## Declare a catkin package

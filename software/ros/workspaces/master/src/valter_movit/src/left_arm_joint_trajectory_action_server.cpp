@@ -5,9 +5,53 @@
 #include <trajectory_msgs/JointTrajectory.h>
 #include <sensor_msgs/JointState.h>
 
+#include<iostream>    //cout
+#include<stdio.h> //printf
+#include<string.h>    //strlen
+#include<string>  //string
+#include<sys/socket.h>    //socket
+#include<arpa/inet.h> //inet_addr
+#include<netdb.h> //hostent
+#include <math.h>
+
 //https://github.com/tue-robotics/tue_manipulation/blob/master/src/torso_server.cpp
 
 using namespace std;
+
+//missing string printf
+//this is safe and convenient but not exactly efficient
+inline std::string format(const char* fmt, ...)
+{
+    int size = 512;
+    char* buffer = 0;
+    buffer = new char[size];
+    va_list vl;
+    va_start(vl, fmt);
+    int nsize = vsnprintf(buffer, size, fmt, vl);
+    if(size<=nsize){ //fail delete buffer and try again
+        delete[] buffer;
+        buffer = 0;
+        buffer = new char[nsize+1]; //+1 for /0
+        nsize = vsnprintf(buffer, size, fmt, vl);
+    }
+    std::string ret(buffer);
+    va_end(vl);
+    delete[] buffer;
+    return ret;
+}
+
+static std::vector<std::string> split(const std::string &text, char sep)
+{
+    std::vector<std::string> tokens;
+    std::size_t start = 0, end = 0;
+    while ((end = text.find(sep, start)) != std::string::npos)
+    {
+        tokens.push_back(text.substr(start, end - start));
+        start = end + 1;
+    }
+    tokens.push_back(text.substr(start));
+    return tokens;
+}
 
 static std::string& implode(const std::vector<std::string>& elems, char delim, std::string& s)
 {
@@ -62,17 +106,164 @@ public:
     std::string joints;
     implode(joint_names, ',', joints);
     ROS_INFO("JOINTS [%s]", joints.c_str());
+
+    //send ACL (Arm Control Left) tasks from MoveIt! [left_arm] group
+    int sock = socket(AF_INET , SOCK_STREAM , 0);
+    struct sockaddr_in server;
+    server.sin_addr.s_addr = inet_addr("192.168.101.113");
+    server.sin_family = AF_INET;
+    server.sin_port = htons(55555);
+
+    int LTorsoJoint_positions_idx = 0;
+    int LShoulderJoint_positions_idx = 0;
+    int LArmJoint_positions_idx = 0;
+    int LArmElbowJoint_positions_idx = 0;
+
+    vector<string>::iterator iter = joint_names.begin();
+    int idx = 0;
+    while( iter != joint_names.end() )
+    {
+        string jointName = *iter++;
+        if (jointName == "LTorsoJoint")
+        {
+            LTorsoJoint_positions_idx = idx;
+        }
+        if (jointName == "LShoulderJoint")
+        {
+            LShoulderJoint_positions_idx = idx;
+        }
+        if (jointName == "LArmJoint")
+        {
+            LArmJoint_positions_idx = idx;
+        }
+        if (jointName == "LArmElbowJoint")
+        {
+            LArmElbowJoint_positions_idx = idx;
+        }
+        idx++;
+    }
+
+    int pointVector_pos = pointVector.size() - 1;
+
+    double LArmElbowJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LArmElbowJoint_positions_idx] * 180 / M_PI;
+    double LArmJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LArmJoint_positions_idx] * 180 / M_PI;
+    double LShoulderJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LShoulderJoint_positions_idx] * 180 / M_PI;
+    double LTorsoJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LTorsoJoint_positions_idx] * 180 / M_PI;
+
+    //Connect to remote server
+    if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
+    {
+        perror("connect failed. Error");
+    }
+    else
+    {
+        int returnedBytes;
+
+        std::string request = format("T_ACL_SetLeftLimbPositionTask_%.2f\nT_ACL_SetLeftArmPositionTask_%.2f\nT_ACL_SetLeftForearmPositionTask_%.2f", 
+                                     LShoulderJointPositionDeg,
+                                     LArmJointPositionDeg,
+                                     LArmElbowJointPositionDeg);
+
+        char buffer[1024];
+
+        for (int i = 0; i < 1024; i++)
+        {
+            buffer[i] = '\0';
+        }
+
+        returnedBytes = send(sock , request.c_str() , strlen(request.c_str()) , 0);
+
+        ROS_INFO("Tasks script is  sent:\n==============================\n%s\n==============================\n", request.c_str());
+
+        if(returnedBytes < 0)
+        {
+            perror("Send failed : ");
+        }
+        else
+        {
+            int resultBytes = recv(sock, buffer, 1024, 0);
+            std::string resultBuffer(buffer);
+
+            for (int i = 0; i < 1024; i++)
+            {
+                buffer[i] = '\0';
+            }
+        }
+        close(sock);
+    }
+
+    control_msgs::FollowJointTrajectoryResult result;
+
+    int waitSec = 0;
+    while (waitSec < 30)// wait for goal achieved for 30 sec
+    {
+        int sock = socket(AF_INET , SOCK_STREAM , 0);
+        struct sockaddr_in server;
+        server.sin_addr.s_addr = inet_addr("192.168.101.113");
+        server.sin_family = AF_INET;
+        server.sin_port = htons(55555);
+
+        //Connect to remote server
+        if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
+        {
+            perror("connect failed. Error");
+        }
+        else
+        {
+            int returnedBytes;
+            std::string request = "MOVEITLEFTARMGROUP";
+            char buffer[1024];
+
+            for (int i = 0; i < 1024; i++)
+            {
+                buffer[i] = '\0';
+            }
+
+            returnedBytes = send(sock , request.c_str() , strlen(request.c_str()) , 0);
+
+            if(returnedBytes < 0)
+            {
+                perror("Send failed : ");
+            }
+            else
+            {
+                int resultBytes = recv(sock, buffer, 1024, 0);
+                std::string resultBuffer(buffer);
+                std::vector<std::string> resultBufferElements = split(resultBuffer, ',');
+
+                ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(),
+                                                           resultBufferElements[4].c_str(), resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str());
+
+                double LArmElbowJointCurrentPositionDeg = atof(resultBufferElements[0].c_str());
+                double LArmJointCurrentPositionDeg = atof(resultBufferElements[1].c_str());
+                double LShoulderJointCurrentPositionDeg = atof(resultBufferElements[2].c_str());
+                double LTorsoJointCurrentPositionDeg = atof(resultBufferElements[3].c_str());
+
+                double LArmElbowJointPositionRad = LArmElbowJointCurrentPositionDeg * M_PI / 180;
+                double LArmJointPositionRad = LArmJointCurrentPositionDeg * M_PI / 180;
+                double LShoulderJointPositionRad = LShoulderJointCurrentPositionDeg * M_PI / 180;
+                double LTorsoJointPositionRad = LTorsoJointCurrentPositionDeg * M_PI / 180;
+
+                ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f", 
+                          LArmElbowJointCurrentPositionDeg, LArmJointCurrentPositionDeg, LShoulderJointCurrentPositionDeg, LTorsoJointCurrentPositionDeg);
+
+                for (int i = 0; i < 1024; i++)
+                {
+                    buffer[i] = '\0';
+                }
+            }
+            close(sock);
+        }
+
+//        as.setSucceeded(result);
+        waitSec++;
+        ROS_INFO("Goal reaching, waiting %d sec", waitSec);
+        ros::Duration(1.0).sleep();
+    }
+    as.setAborted(result);
+
 /*
     control_msgs::FollowJointTrajectoryFeedback feedback;
-
-    sensor_msgs::JointState left_arm_joint_states;
-    left_arm_joint_states.header.stamp = ros::Time::now();
-    left_arm_joint_states.name = goal->trajectory.joint_names;
-    left_arm_joint_states.position = goal->trajectory.points[pointVector.size()].positions;
-    left_arm_joint_states.velocity = goal->trajectory.points[pointVector.size()].velocities;
-    left_arm_joint_states.effort = goal->trajectory.points[pointVector.size()].effort;
-    left_arm_joint_states_publisher.publish(left_arm_joint_states);
-
     // Publish feedback
     feedback.header.stamp = ros::Time::now();
     feedback.actual.positions = goal->trajectory.points[pointVector.size()];
@@ -80,8 +271,6 @@ public:
     // ToDo: error?
     as.publishFeedback(feedback);
 */
-    control_msgs::FollowJointTrajectoryResult result;
-    as.setSucceeded(result);
   }
 
   void preemptCB()
