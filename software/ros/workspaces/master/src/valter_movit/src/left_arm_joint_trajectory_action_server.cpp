@@ -196,6 +196,7 @@ public:
     control_msgs::FollowJointTrajectoryResult result;
 
     double goalToleranceDeg = 2.0;
+    bool goalReached = false;
 
     int waitSec = 0;
     while (waitSec < 30)// wait for goal achieved for 30 sec
@@ -279,13 +280,19 @@ LTorsoJointCompleted = true;
         {
             ROS_INFO("Goal reached in %d sec", waitSec);
             as.setSucceeded(result);
+            goalReached = true;
             break;
         }
         waitSec++;
         ROS_INFO("Goal reaching, waiting %d sec", waitSec);
         ros::Duration(1.0).sleep();
     }
-    as.setAborted(result);
+
+    if (!goalReached)
+    {
+        ROS_INFO("Goal reaching failed after %d sec of waiting", waitSec);
+        as.setAborted(result);
+    }
 
 /*
     control_msgs::FollowJointTrajectoryFeedback feedback;
