@@ -39,6 +39,10 @@ bool SetRightArmPositionTask::initialize()
     float angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(angle);
 
+/************************************ emulation *********************start***************************/
+    return true;
+/************************************ emulation *********************finish**************************/
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getPower5VOnState())
     {
@@ -89,16 +93,20 @@ void SetRightArmPositionTask::executionWorker()
     qDebug("Task#%lu %s started", getTaskId(), taskName.c_str());
     ArmControlRight *armControlRight = ArmControlRight::getInstance();
 
-    /************************************ emulation *********************start***************************/
-//    armControlRight->setArmADCPosition(765);
-    /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+    for (int i = 0; i < 15; i++)
+    {
+        armControlRight->setArmADCPosition(ArmControlRight::armAngleADCZero);
+    }
+    qDebug("Current armControlRight->getArmPosition() = %.2f", armControlRight->getArmPosition());
+/************************************ emulation *********************finish**************************/
 
-    float sigma = 1.0; //precision in degrees
+    float sigma = 2.0; //precision in degrees
 
     //move up (angle increased) - true
     bool direction = (angle > armControlRight->getArmPosition()) ? true : false;
 
-    float cutoffAngle = (direction) ? (angle * 0.98) : (angle / 0.98); //<<<<<<<<<<<<<<< dynamic parameter
+    float cutoffAngle = (direction) ? (angle * 0.95) : (angle / 0.95); //<<<<<<<<<<<<<<< dynamic parameter
 
     if (abs(angle - armControlRight->getArmPosition()) < sigma)
     {
@@ -169,18 +177,39 @@ void SetRightArmPositionTask::executionWorker()
                 break;
             }
 
-            /************************************ emulation *********************start***************************/
-//            int positionADC = armControlRight->getArmADCPosition();
-//            if (direction)
-//            {
-//                positionADC -= 5;
-//            }
-//            else
-//            {
-//                positionADC += 5;
-//            }
-//            armControlRight->setArmADCPosition(positionADC);
-            /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+            int positionADC = ArmControlRight::armAngleADCMax - round(armControlRight->getArmPosition() * ArmControlRight::armDegreesDiv);
+            int noise = rand() % 15;
+            if (noise == 0)
+            {
+                qDebug("NOISE ++++++++++++++++++++++++++++++++++++++++++");
+                positionADC = 1023;
+            }
+            if (noise == 1)
+            {
+                positionADC = 0;
+                qDebug("NOISE ------------------------------------------");
+            }
+            if (noise == 2)
+            {
+                qDebug("NOISE +++++++++++");
+                positionADC += 100;
+            }
+            if (noise == 3)
+            {
+                positionADC -= 100;
+                qDebug("NOISE -----------");
+            }
+            if (direction)
+            {
+                positionADC -= 5;
+            }
+            else
+            {
+                positionADC += 5;
+            }
+            armControlRight->setArmADCPosition(positionADC);
+/************************************ emulation *********************finish**************************/
         }
         this_thread::sleep_for(std::chrono::milliseconds(10));
     }

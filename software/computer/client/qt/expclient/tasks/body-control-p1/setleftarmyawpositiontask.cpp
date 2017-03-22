@@ -38,6 +38,10 @@ bool SetLeftArmYawPositionTask::initialize()
     float angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(angle);
 
+/************************************ emulation *********************start***************************/
+    return true;
+/************************************ emulation *********************finish**************************/
+
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     if (!platformControlP1->getPower5VOnState())
     {
@@ -89,10 +93,14 @@ void SetLeftArmYawPositionTask::executionWorker()
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
 
 /************************************ emulation *********************start***************************/
-//    bodyControlP1->setLeftArmYawADCPosition(580);
+    for (int i = 0; i < 15; i++)
+    {
+        bodyControlP1->setLeftArmYawADCPosition(BodyControlP1::leftArmYawAngleADCZero);
+    }
+    qDebug("Current bodyControlP1->getLeftArmYawPosition() = %.2f", bodyControlP1->getLeftArmYawPosition());
 /************************************ emulation *********************finish**************************/
 
-    float sigma = 1.0; //precision in degrees
+    float sigma = 2.0; //precision in degrees
 
     //move to open - true
     bool direction = (angle > bodyControlP1->getLeftArmYawPosition()) ? true : false;
@@ -169,16 +177,27 @@ void SetLeftArmYawPositionTask::executionWorker()
             }
 
 /************************************ emulation *********************start***************************/
-//            int positionADC = bodyControlP1->getLeftArmYawADCPosition();
-//            if (direction)
-//            {
-//                positionADC -= 5;
-//            }
-//            else
-//            {
-//                positionADC += 5;
-//            }
-//            bodyControlP1->setLeftArmYawADCPosition(positionADC);
+            int positionADC = BodyControlP1::leftArmYawAngleADCZero + round(bodyControlP1->getLeftArmYawPosition() * BodyControlP1::leftArmYawDegreesDiv);
+            int noise = rand() % 10;
+            if (noise == 0)
+            {
+                qDebug("NOISE ++++++++++++++++++++++++++++++++++++++++++");
+                positionADC += 2;
+            }
+            if (noise == 1)
+            {
+                positionADC -= 2;
+                qDebug("NOISE ------------------------------------------");
+            }
+            if (direction)
+            {
+                positionADC += 10;
+            }
+            else
+            {
+                positionADC -= 10;
+            }
+            bodyControlP1->setLeftArmYawADCPosition(positionADC);
 /************************************ emulation *********************finish**************************/
         }
         this_thread::sleep_for(std::chrono::milliseconds(10));

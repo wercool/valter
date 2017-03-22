@@ -159,10 +159,11 @@ public:
     {
         int returnedBytes;
 
-        std::string request = format("T_ACL_SetLeftLimbPositionTask_%.2f\nT_ACL_SetLeftArmPositionTask_%.2f\nT_ACL_SetLeftForearmPositionTask_%.2f", 
+        std::string request = format("T_ACL_SetLeftLimbPositionTask_%.2f\nT_ACL_SetLeftArmPositionTask_%.2f\nT_ACL_SetLeftForearmPositionTask_%.2f\nT_BCP1_SetLeftArmYawPositionTask_%.2f", 
                                      LShoulderJointPositionDeg,
                                      LArmJointPositionDeg,
-                                     LArmElbowJointPositionDeg);
+                                     LArmElbowJointPositionDeg,
+                                     LTorsoJointPositionDeg);
 
         char buffer[1024];
 
@@ -194,6 +195,8 @@ public:
 
     control_msgs::FollowJointTrajectoryResult result;
 
+    double goalToleranceDeg = 2.0;
+
     int waitSec = 0;
     while (waitSec < 30)// wait for goal achieved for 30 sec
     {
@@ -202,6 +205,16 @@ public:
         server.sin_addr.s_addr = inet_addr("192.168.101.101");
         server.sin_family = AF_INET;
         server.sin_port = htons(55555);
+
+        bool LArmElbowJointCompleted = false;
+        bool LArmJointCompleted = false;
+        bool LShoulderJointCompleted = false;
+        bool LTorsoJointCompleted = false;
+
+        double LArmElbowJointCurrentPositionDeg = 0.0;
+        double LArmJointCurrentPositionDeg = 0.0;
+        double LShoulderJointCurrentPositionDeg = 0.0;
+        double LTorsoJointCurrentPositionDeg = 0.0;
 
         //Connect to remote server
         if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
@@ -234,10 +247,10 @@ public:
                 ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(),
                                                            resultBufferElements[4].c_str(), resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str());
 
-                double LArmElbowJointCurrentPositionDeg = atof(resultBufferElements[0].c_str());
-                double LArmJointCurrentPositionDeg = atof(resultBufferElements[1].c_str());
-                double LShoulderJointCurrentPositionDeg = atof(resultBufferElements[2].c_str());
-                double LTorsoJointCurrentPositionDeg = atof(resultBufferElements[3].c_str());
+                LArmElbowJointCurrentPositionDeg = atof(resultBufferElements[0].c_str());
+                LArmJointCurrentPositionDeg = atof(resultBufferElements[1].c_str());
+                LShoulderJointCurrentPositionDeg = atof(resultBufferElements[2].c_str());
+                LTorsoJointCurrentPositionDeg = atof(resultBufferElements[3].c_str());
 
                 double LArmElbowJointPositionRad = LArmElbowJointCurrentPositionDeg * M_PI / 180;
                 double LArmJointPositionRad = LArmJointCurrentPositionDeg * M_PI / 180;
@@ -255,7 +268,19 @@ public:
             close(sock);
         }
 
-//        as.setSucceeded(result);
+        LArmElbowJointCompleted = (abs(LArmElbowJointCurrentPositionDeg - LArmElbowJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        LArmJointCompleted = (abs(LArmJointCurrentPositionDeg - LArmJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        LShoulderJointCompleted = (abs(LShoulderJointCurrentPositionDeg - LShoulderJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        LTorsoJointCompleted = (abs(LTorsoJointCurrentPositionDeg - LTorsoJointPositionDeg) <= goalToleranceDeg) ? true : false;
+//testing
+LTorsoJointCompleted = true;
+
+        if (LArmElbowJointCompleted && LArmJointCompleted && LShoulderJointCompleted && LTorsoJointCompleted)
+        {
+            ROS_INFO("Goal reached in %d sec", waitSec);
+            as.setSucceeded(result);
+            break;
+        }
         waitSec++;
         ROS_INFO("Goal reaching, waiting %d sec", waitSec);
         ros::Duration(1.0).sleep();
