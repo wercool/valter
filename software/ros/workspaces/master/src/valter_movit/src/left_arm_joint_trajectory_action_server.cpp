@@ -110,7 +110,7 @@ public:
     //send ACL (Arm Control Left) tasks from MoveIt! [left_arm] group
     int sock = socket(AF_INET , SOCK_STREAM , 0);
     struct sockaddr_in server;
-    server.sin_addr.s_addr = inet_addr("192.168.101.113");
+    server.sin_addr.s_addr = inet_addr("192.168.101.101");
     server.sin_family = AF_INET;
     server.sin_port = htons(55555);
 
@@ -199,7 +199,7 @@ public:
     {
         int sock = socket(AF_INET , SOCK_STREAM , 0);
         struct sockaddr_in server;
-        server.sin_addr.s_addr = inet_addr("192.168.101.113");
+        server.sin_addr.s_addr = inet_addr("192.168.101.101");
         server.sin_family = AF_INET;
         server.sin_port = htons(55555);
 
