@@ -10,3 +10,6 @@ install(DIRECTORY config DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 add_executable(left_arm_joint_trajectory_action_server src/left_arm_joint_trajectory_action_server.cpp)
 target_link_libraries(left_arm_joint_trajectory_action_server ${catkin_LIBRARIES})
+
+add_executable(right_arm_joint_trajectory_action_server src/right_arm_joint_trajectory_action_server.cpp)
+target_link_libraries(right_arm_joint_trajectory_action_server ${catkin_LIBRARIES})

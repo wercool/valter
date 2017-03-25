@@ -66,7 +66,7 @@ static std::string& implode(const std::vector<std::string>& elems, char delim, s
     return s;
 }
 
-class LeftArmTrajectoryFollower
+class RightArmTrajectoryFollower
 {
 protected:
 
@@ -76,18 +76,18 @@ protected:
 
 public:
 
-  LeftArmTrajectoryFollower(std::string name) :
+  RightArmTrajectoryFollower(std::string name) :
     as(nh, name, false),
     action_name(name)
   {
     //Register callback functions:
-    as.registerGoalCallback(boost::bind(&LeftArmTrajectoryFollower::jointTrajectoryAnglesCB, this));
-    as.registerPreemptCallback(boost::bind(&LeftArmTrajectoryFollower::preemptCB, this));
+    as.registerGoalCallback(boost::bind(&RightArmTrajectoryFollower::jointTrajectoryAnglesCB, this));
+    as.registerPreemptCallback(boost::bind(&RightArmTrajectoryFollower::preemptCB, this));
 
     as.start();
   }
 
-  ~LeftArmTrajectoryFollower(void)//Destructor
+  ~RightArmTrajectoryFollower(void)//Destructor
   {
   }
 
@@ -104,48 +104,48 @@ public:
     implode(joint_names, ',', joints);
     ROS_INFO("JOINTS [%s]", joints.c_str());
 
-    //send ACL (Arm Control Left) tasks from MoveIt! [left_arm] group
+    //send ACR (Arm Control Right) tasks from MoveIt! [right_arm] group
     int sock = socket(AF_INET , SOCK_STREAM , 0);
     struct sockaddr_in server;
     server.sin_addr.s_addr = inet_addr("192.168.101.101");
     server.sin_family = AF_INET;
     server.sin_port = htons(55555);
 
-    int LTorsoJoint_positions_idx = 0;
-    int LShoulderJoint_positions_idx = 0;
-    int LArmJoint_positions_idx = 0;
-    int LArmElbowJoint_positions_idx = 0;
+    int RTorsoJoint_positions_idx = 0;
+    int RShoulderJoint_positions_idx = 0;
+    int RArmJoint_positions_idx = 0;
+    int RArmElbowJoint_positions_idx = 0;
 
     vector<string>::iterator iter = joint_names.begin();
     int idx = 0;
     while( iter != joint_names.end() )
     {
         string jointName = *iter++;
-        if (jointName == "LTorsoJoint")
+        if (jointName == "RTorsoJoint")
         {
-            LTorsoJoint_positions_idx = idx;
+            RTorsoJoint_positions_idx = idx;
         }
-        if (jointName == "LShoulderJoint")
+        if (jointName == "RShoulderJoint")
         {
-            LShoulderJoint_positions_idx = idx;
+            RShoulderJoint_positions_idx = idx;
         }
-        if (jointName == "LArmJoint")
+        if (jointName == "RArmJoint")
         {
-            LArmJoint_positions_idx = idx;
+            RArmJoint_positions_idx = idx;
         }
-        if (jointName == "LArmElbowJoint")
+        if (jointName == "RArmElbowJoint")
         {
-            LArmElbowJoint_positions_idx = idx;
+            RArmElbowJoint_positions_idx = idx;
         }
         idx++;
     }
 
     int pointVector_pos = pointVector.size() - 1;
 
-    double LArmElbowJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LArmElbowJoint_positions_idx] * 180 / M_PI;
-    double LArmJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LArmJoint_positions_idx] * 180 / M_PI;
-    double LShoulderJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LShoulderJoint_positions_idx] * 180 / M_PI;
-    double LTorsoJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[LTorsoJoint_positions_idx] * 180 / M_PI;
+    double RArmElbowJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RArmElbowJoint_positions_idx] * 180 / M_PI;
+    double RArmJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RArmJoint_positions_idx] * 180 / M_PI;
+    double RShoulderJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RShoulderJoint_positions_idx] * 180 / M_PI;
+    double RTorsoJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RTorsoJoint_positions_idx] * 180 / M_PI;
 
     //Connect to remote server
     if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
@@ -156,11 +156,11 @@ public:
     {
         int returnedBytes;
 
-        std::string request = format("T_ACL_SetLeftLimbPositionTask_%.2f\nT_ACL_SetLeftArmPositionTask_%.2f\nT_ACL_SetLeftForearmPositionTask_%.2f\nT_BCP1_SetLeftArmYawPositionTask_%.2f", 
-                                     LShoulderJointPositionDeg,
-                                     LArmJointPositionDeg,
-                                     LArmElbowJointPositionDeg,
-                                     LTorsoJointPositionDeg);
+        std::string request = format("T_ACR_SetRightLimbPositionTask_%.2f\nT_ACR_SetRightArmPositionTask_%.2f\nT_ACR_SetRightForearmPositionTask_%.2f\nT_BCP1_SetRightArmYawPositionTask_%.2f", 
+                                     RShoulderJointPositionDeg,
+                                     RArmJointPositionDeg,
+                                     RArmElbowJointPositionDeg,
+                                     RTorsoJointPositionDeg);
 
         char buffer[1024];
 
@@ -204,15 +204,15 @@ public:
         server.sin_family = AF_INET;
         server.sin_port = htons(55555);
 
-        bool LArmElbowJointCompleted = false;
-        bool LArmJointCompleted = false;
-        bool LShoulderJointCompleted = false;
-        bool LTorsoJointCompleted = false;
+        bool RArmElbowJointCompleted = false;
+        bool RArmJointCompleted = false;
+        bool RShoulderJointCompleted = false;
+        bool RTorsoJointCompleted = false;
 
-        double LArmElbowJointCurrentPositionDeg = 0.0;
-        double LArmJointCurrentPositionDeg = 0.0;
-        double LShoulderJointCurrentPositionDeg = 0.0;
-        double LTorsoJointCurrentPositionDeg = 0.0;
+        double RArmElbowJointCurrentPositionDeg = 0.0;
+        double RArmJointCurrentPositionDeg = 0.0;
+        double RShoulderJointCurrentPositionDeg = 0.0;
+        double RTorsoJointCurrentPositionDeg = 0.0;
 
         //Connect to remote server
         if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
@@ -245,27 +245,27 @@ public:
                 ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(),
                                                            resultBufferElements[4].c_str(), resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str());
 
-                LArmElbowJointCurrentPositionDeg = atof(resultBufferElements[0].c_str());
-                LArmJointCurrentPositionDeg = atof(resultBufferElements[1].c_str());
-                LShoulderJointCurrentPositionDeg = atof(resultBufferElements[2].c_str());
-                LTorsoJointCurrentPositionDeg = atof(resultBufferElements[3].c_str());
+                RArmElbowJointCurrentPositionDeg = atof(resultBufferElements[4].c_str());
+                RArmJointCurrentPositionDeg = atof(resultBufferElements[5].c_str());
+                RShoulderJointCurrentPositionDeg = atof(resultBufferElements[6].c_str());
+                RTorsoJointCurrentPositionDeg = atof(resultBufferElements[7].c_str());
 
-                double LArmElbowJointPositionRad = LArmElbowJointCurrentPositionDeg * M_PI / 180;
-                double LArmJointPositionRad = LArmJointCurrentPositionDeg * M_PI / 180;
-                double LShoulderJointPositionRad = LShoulderJointCurrentPositionDeg * M_PI / 180;
-                double LTorsoJointPositionRad = LTorsoJointCurrentPositionDeg * M_PI / 180;
+                double RArmElbowJointPositionRad = RArmElbowJointCurrentPositionDeg * M_PI / 180;
+                double RArmJointPositionRad = RArmJointCurrentPositionDeg * M_PI / 180;
+                double RShoulderJointPositionRad = RShoulderJointCurrentPositionDeg * M_PI / 180;
+                double RTorsoJointPositionRad = RTorsoJointCurrentPositionDeg * M_PI / 180;
 
-                ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f", 
-                          LArmElbowJointCurrentPositionDeg, LArmJointCurrentPositionDeg, LShoulderJointCurrentPositionDeg, LTorsoJointCurrentPositionDeg);
+                ROS_INFO("RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f", 
+                          RArmElbowJointCurrentPositionDeg, RArmJointCurrentPositionDeg, RShoulderJointCurrentPositionDeg, RTorsoJointCurrentPositionDeg);
 
 /*
                 std::vector<double> actual_joint_positions;
 
-                actual_joint_positions.push_back(LArmElbowJointPositionRad);
-                actual_joint_positions.push_back(LArmJointPositionRad);
+                actual_joint_positions.push_back(RArmElbowJointPositionRad);
+                actual_joint_positions.push_back(RArmJointPositionRad);
                 actual_joint_positions.push_back(0.0);
-                actual_joint_positions.push_back(LShoulderJointPositionRad);
-                actual_joint_positions.push_back(LTorsoJointPositionRad);
+                actual_joint_positions.push_back(RShoulderJointPositionRad);
+                actual_joint_positions.push_back(RTorsoJointPositionRad);
 
                 trajectory_msgs::JointTrajectoryPoint actualTrajectoryPoint;
                 actualTrajectoryPoint.positions = actual_joint_positions;
@@ -287,12 +287,12 @@ public:
             close(sock);
         }
 
-        LArmElbowJointCompleted = (abs(LArmElbowJointCurrentPositionDeg - LArmElbowJointPositionDeg) <= goalToleranceDeg) ? true : false;
-        LArmJointCompleted = (abs(LArmJointCurrentPositionDeg - LArmJointPositionDeg) <= goalToleranceDeg) ? true : false;
-        LShoulderJointCompleted = (abs(LShoulderJointCurrentPositionDeg - LShoulderJointPositionDeg) <= goalToleranceDeg) ? true : false;
-        LTorsoJointCompleted = (abs(LTorsoJointCurrentPositionDeg - LTorsoJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        RArmElbowJointCompleted = (abs(RArmElbowJointCurrentPositionDeg - RArmElbowJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        RArmJointCompleted = (abs(RArmJointCurrentPositionDeg - RArmJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        RShoulderJointCompleted = (abs(RShoulderJointCurrentPositionDeg - RShoulderJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        RTorsoJointCompleted = (abs(RTorsoJointCurrentPositionDeg - RTorsoJointPositionDeg) <= goalToleranceDeg) ? true : false;
 
-        if (LArmElbowJointCompleted && LArmJointCompleted && LShoulderJointCompleted && LTorsoJointCompleted)
+        if (RArmElbowJointCompleted && RArmJointCompleted && RShoulderJointCompleted && RTorsoJointCompleted)
         {
             ROS_INFO("Goal reached in %d sec", waitSec);
             as.setSucceeded(result);
@@ -321,10 +321,10 @@ public:
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "left_arm_action_server");
-    ROS_INFO("left_arm_action_server node started");
+    ros::init(argc, argv, "right_arm_action_server");
+    ROS_INFO("right_arm_action_server node started");
 
-    LeftArmTrajectoryFollower LeftArmTrajectoryFollower("/left_arm_controller/joint_trajectory_action");
+    RightArmTrajectoryFollower RightArmTrajectoryFollower("/right_arm_controller/joint_trajectory_action");
     ros::spin();
 
     return 0;

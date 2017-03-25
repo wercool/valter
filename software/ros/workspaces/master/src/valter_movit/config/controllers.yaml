@@ -4,3 +4,7 @@ controller_list:
     action_ns: joint_trajectory_action
     type: FollowJointTrajectory
     joints: [LTorsoJoint, LShoulderJoint, LArmJoint, LArmElbowJoint, LForearmYawJoint, LForearmRollJoint, LHandPitchJoint]
+  - name: right_arm_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [RTorsoJoint, RShoulderJoint, RArmJoint, RArmElbowJoint, RForearmYawJoint, RForearmRollJoint, RHandPitchJoint]
