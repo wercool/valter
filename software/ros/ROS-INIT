@@ -17,20 +17,20 @@ Valter ROS demo
    (otional)  4.10) cd ~/git/valter/software/ros/workspaces/master
    (otional)  4.20) source devel/setup.sh
  5) (optional) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
-   5.10) roscore
+   5.10) (ROS master) roscore
    (manual action) 5.19) connect USB joystick
-   5.20) rosrun joy joy_node
+   5.20) (ROS master) rosrun joy joy_node
    (optional) 5.30) rqt_graph
-   5.40) rosrun valter valter_joy_teleop_cmd_vel_pub
+   5.40) (ROS master) rosrun valter valter_joy_teleop_cmd_vel_pub
 6) valter1 (ssh 192.168.101.101)
-   6.10) rosrun valter cmd_vel_subscriber
+   6.10) (valter1) rosrun valter cmd_vel_subscriber
 7) Launch expclient 
    7.0.0) cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop_Qt_5_7_0_GCC_64bit-Debug
    7.0.0) ./expclient wlan0
 	   7.1.0) (reminder) (from Qt)  Disable 192.168.0.* (wired interdafce)
 	   7.10) (TCP Interface) -> set Central Host IP Address (Valter workshop 192.168.101.100)
 	   7.20) (TCP Interface) -> press button "Update Settings / Connect All"
-	   7.30) (TCP Interface) -> Control Mode column -> Uncheck All except [PLATFORM-CONTROL-P1]
+	   7.30) (TCP Interface) -> Control Mode column -> Uncheck All except [PLATFORM-CONTROL-P1, BODY-CONTROL-P1]
 	   7.40) (TCP Interface) -> press button "Disconnect All"
 	   7.50) (TCP Interface) -> press button "Update Settings / Connect All"
 	   7.51) Enable back 192.168.0.* (wired interface)
@@ -43,9 +43,10 @@ Valter ROS demo
    
 
 =============================================LEVEL 3
-10) (valter2) screen or [screen -r] to restore
-20) (valter2) ./initROS
-30) (valter2) roslaunch freenect_launch kinect2.launch
+20) (expclient) turn ON Kinect2 on BODY-CONTROL-P1
+20) (valter2) screen or [screen -r] to restore
+30) (valter2) ./initROS
+40) (valter2) roslaunch freenect_launch kinect2.launch
 
 
 10) (valter1) screen or [screen -r] to restore
@@ -66,7 +67,8 @@ Valter ROS demo
 =============================================LEVEL 4 (MoveIt!)
 10) (valter1) screen or [screen -r] to restore
 20) (valter1) rosrun valter valter_joint_states_publisher
-30) (ROS master) (optional) roslaunch valter_moveit demo
+30) (ROS master) (optional) roslaunch valter_movit demo.launch
+40) (ROS master expclient) "Stop All Watchers" for ARM-CONTROL-LEFT, ARM-CONTROL-RIGHT
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

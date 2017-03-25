@@ -225,7 +225,7 @@ public:
         else
         {
             int returnedBytes;
-            std::string request = "MOVEITLEFTARMGROUP";
+            std::string request = "MOVEITJOINTSSTATE";
             char buffer[1024];
 
             for (int i = 0; i < 1024; i++)
@@ -261,6 +261,32 @@ public:
                 ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f", 
                           LArmElbowJointCurrentPositionDeg, LArmJointCurrentPositionDeg, LShoulderJointCurrentPositionDeg, LTorsoJointCurrentPositionDeg);
 
+/*
+                std::vector<std::string> joint_names;
+                std::vector<double> actual_joint_positions;
+
+                joint_names.push_back("LArmElbowJoint");
+                joint_names.push_back("LArmJoint");
+                joint_names.push_back("LForearmRollJoint,");
+                joint_names.push_back("LShoulderJoint");
+                joint_names.push_back("LTorsoJoint");
+
+                actual_joint_positions.push_back(LArmElbowJointPositionRad);
+                actual_joint_positions.push_back(LArmJointPositionRad);
+                actual_joint_positions.push_back(0.0);
+                actual_joint_positions.push_back(LShoulderJointPositionRad);
+                actual_joint_positions.push_back(LTorsoJointPositionRad);
+
+
+                control_msgs::FollowJointTrajectoryFeedback feedback;
+                // Publish feedback
+                feedback.header.stamp = ros::Time::now();
+                feedback.joint_names = joint_names;
+                feedback.actual.positions = actual_joint_positions;
+                feedback.desired.positions = goal->trajectory.points[pointVector_pos];
+                // ToDo: error?
+                as.publishFeedback(feedback);
+*/
                 for (int i = 0; i < 1024; i++)
                 {
                     buffer[i] = '\0';
@@ -273,8 +299,6 @@ public:
         LArmJointCompleted = (abs(LArmJointCurrentPositionDeg - LArmJointPositionDeg) <= goalToleranceDeg) ? true : false;
         LShoulderJointCompleted = (abs(LShoulderJointCurrentPositionDeg - LShoulderJointPositionDeg) <= goalToleranceDeg) ? true : false;
         LTorsoJointCompleted = (abs(LTorsoJointCurrentPositionDeg - LTorsoJointPositionDeg) <= goalToleranceDeg) ? true : false;
-//testing
-LTorsoJointCompleted = true;
 
         if (LArmElbowJointCompleted && LArmJointCompleted && LShoulderJointCompleted && LTorsoJointCompleted)
         {
@@ -293,16 +317,6 @@ LTorsoJointCompleted = true;
         ROS_INFO("Goal reaching failed after %d sec of waiting", waitSec);
         as.setAborted(result);
     }
-
-/*
-    control_msgs::FollowJointTrajectoryFeedback feedback;
-    // Publish feedback
-    feedback.header.stamp = ros::Time::now();
-    feedback.actual.positions = goal->trajectory.points[pointVector.size()];
-    feedback.desired = goal->trajectory.points[pointVector.size()];
-    // ToDo: error?
-    as.publishFeedback(feedback);
-*/
   }
 
   void preemptCB()

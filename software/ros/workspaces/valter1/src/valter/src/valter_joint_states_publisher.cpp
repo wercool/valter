@@ -75,7 +75,7 @@ int main(int argc, char** argv)
     else
     {
         int returnedBytes;
-        std::string request = "MOVEITLEFTARMGROUP";
+        std::string request = "MOVEITJOINTSSTATE";
         char buffer[1024];
 
         for (int i = 0; i < 1024; i++)

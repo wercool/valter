@@ -38,7 +38,7 @@ class TaskManagerTCPConnectionHandler : public Thread
                 std::string cmd(input);
 
                 //ROS Communication
-                if (cmd.find("MOVEITLEFTARMGROUP") != std::string::npos)
+                if (cmd.find("MOVEITJOINTSSTATE") != std::string::npos)
                 {
                     ArmControlRight *armControlRight = ArmControlRight::getInstance();
                     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
