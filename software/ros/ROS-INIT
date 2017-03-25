@@ -63,6 +63,11 @@ Valter ROS demo
 60) (ROS master) roslaunch /home/maska/git/valter/software/ros/launch/master/move_base_and_planner.launch
                  rostopic pub /move_base/cancel actionlib_msgs/GoalID -- {}
 
+=============================================LEVEL 4 (MoveIt!)
+10) (valter1) screen or [screen -r] to restore
+20) (valter1) rosrun valter valter_joint_states_publisher
+30) (ROS master) (optional) roslaunch valter_moveit demo
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 0) (ROS master) (if not started) roscore
