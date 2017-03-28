@@ -70,6 +70,13 @@ Valter ROS demo
 30) (ROS master) (optional) roslaunch valter_movit demo.launch
 40) (ROS master expclient) "Stop All Watchers" for ARM-CONTROL-LEFT, ARM-CONTROL-RIGHT
 
+=============================================LEVEL 5 (find_object_2d & ORK)
+10) (valter2) kinect1 or kinect2 rgb & depth publishing
+20) (ROS master) roslaunch find_object_2d find_object_3d.launch
+30) (ROS master)(optional if not running yet) roslaunch freenect_kinect2_master.launch
+40) (ROS master) rosrun object_recognition_core detection -c  `rospack find object_recognition_tabletop`/conf/detection.object.ros.ork
+ 
+
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 0) (ROS master) (if not started) roscore
