@@ -75,8 +75,18 @@ Valter ROS demo
 20) (ROS master) roslaunch find_object_2d find_object_3d.launch
 30) (ROS master)(optional if not running yet) roslaunch freenect_kinect2_master.launch
 40) (ROS master) rosrun object_recognition_core detection -c  `rospack find object_recognition_tabletop`/conf/detection.object.ros.ork
- 
 
+=============================================LEVEL 6 (object recosntruction)
+00) (ROS master) (before each command) source /home/maska/ork/install/setup.sh
+10) (ROS master) roslaunch freenect_launch freenect.launch depth_registration:=true
+20) (ROS master) rosrun rviz rviz
+30) (optional)(ROS master) rosrun object_recognition_capture capture --seg_z_min 0.01 -o <object-name>.bag --preview
+40) (capture)(ROS master) rosrun object_recognition_capture capture --seg_z_min 0.01 -o <object-name>
+50) (optional) ~/ork/src/capture/apps/bagscripts/concat.py <object-name.bag> <object-name-session-1.bag> 
+60) (optional)(upload captured)(ROS master) rosrun object_recognition_capture upload -a '<author>' -e '<email>' -i <object-name>.bag -n '<object-name>' -d '<object description>' --commit <descriptor1, descriptor2>
+70) (optional)(reconstruction) rosrun object_recognition_reconstruction mesh_object --all --visualize --commit
+80) (optional)(training) rosrun object_recognition_core training -c `rospack find object_recognition_tod`/conf/training.ork --visualize
+90) (ROS master)(tabletop recognition) rosrun object_recognition_core detection -c  `rospack find object_recognition_tabletop`/conf/detection.object.ros.ork
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 0) (ROS master) (if not started) roscore
@@ -102,7 +112,7 @@ Valter ROS demo
 
 
 
-
+https://github.com/iki-wgt/capture/tree/topic_capture
 
 
 
