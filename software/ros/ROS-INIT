@@ -55,6 +55,7 @@ Valter ROS demo
 10) (ROS master) roscore
 20) (ROS master) roslaunch /home/maska/git/valter/software/ros/launch/master/valter-tf.launch
 30) (ROS master) roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch
+39) (see Level 4)
 40) (ROS master) roslaunch valter_movit valter.launch
 50) (ROS master) roslaunch /home/maska/git/valter/software/ros/launch/master/rtabmap_ros/launch/valter.launch localization:=true
                  rosservice call /rtabmap/reset_odom
@@ -67,8 +68,10 @@ Valter ROS demo
 =============================================LEVEL 4 (MoveIt!)
 10) (valter1) screen or [screen -r] to restore
 20) (valter1) rosrun valter valter_joint_states_publisher
-30) (ROS master) (optional) roslaunch valter_movit demo.launch
-40) (ROS master expclient) "Stop All Watchers" for ARM-CONTROL-LEFT, ARM-CONTROL-RIGHT
+30) (ROS master) rosrun valter_movit left_arm_joint_trajectory_action_server
+40) (ROS master) rosrun valter_movit right_arm_joint_trajectory_action_server
+50) (ROS master) (optional) roslaunch valter_movit demo.launch
+60) (ROS master expclient) "Stop All Watchers" for ARM-CONTROL-LEFT, ARM-CONTROL-RIGHT
 
 =============================================LEVEL 5 (find_object_2d & ORK)
 10) (valter2) kinect1 or kinect2 rgb & depth publishing
