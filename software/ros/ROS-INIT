@@ -79,6 +79,7 @@ Valter ROS demo
 =============================================LEVEL 6 (object recosntruction)
 00)  (ROS master) (before each command) source /home/maska/ork/install/setup.sh
 10)  (ROS master) roslaunch freenect_launch freenect.launch depth_registration:=true
+11)  (ROS master)(optional) roslaunch freenect_launch freenect.launch depth_registration:=true
 20)  (ROS master) rosrun rviz rviz
 30)  (optional)(ROS master) rosrun object_recognition_capture capture --seg_z_min 0.01 -o <object-name>.bag --preview
 40)  (capture)(ROS master) rosrun object_recognition_capture capture --seg_z_min 0.01 -o <object-name>
@@ -87,7 +88,9 @@ Valter ROS demo
 70)  (optional)(reconstruction) rosrun object_recognition_reconstruction mesh_object --all --visualize --commit
 80)  (optional)(training) rosrun object_recognition_core training -c `rospack find object_recognition_tod`/conf/training.ork --visualize
 90)  (ROS master) rosrun object_recognition_core detection -c `rospack find object_recognition_tod`/conf/detection.ros.ork
-100) (ROS master)(tabletop recognition) rosrun object_recognition_core detection -c  `rospack find object_recognition_tabletop`/conf/detection.object.ros.ork
+100) (ROS master)(tabletop recognition) rosrun object_recognition_core detection -c `rospack find object_recognition_tabletop`/conf/detection.object.ros.ork
+110) (ROS master)(manually add object) rosrun object_recognition_core object_add.py -n 'foam-container' -d "A can with montage foam"  --commit
+120) (ROS master) rosrun object_recognition_core mesh_add.py <OBJECTID from (110)> <path to STL file with mesh> --commit
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 0) (ROS master) (if not started) roscore
