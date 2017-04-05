@@ -1,0 +1,16 @@
+#!/bin/sh
+
+function openTerminalTab
+{
+    WID=$(xprop -root | grep "_NET_ACTIVE_WINDOW(WINDOW)"| awk '{print $5}')
+    xdotool windowfocus $WID
+    xdotool key ctrl+shift+t
+    wmctrl -i -a $WID
+}
+
+openTerminalTab;
+
+#execute command
+sleep 1;
+xdotool type --delay 1 --clearmodifiers "ls -l";
+xdotool key Return;
