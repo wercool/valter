@@ -1,0 +1,4 @@
+https://github.com/yandex/speechkitcloud/tree/master/python
+sudo apt-get install python-pyaudio
+
+./asrclient-cli.py --key=069b6659-984b-4c5f-880e-aaedcfd84102 --callback-module advanced_callback_example --record --realtime --chunk-size=8192
