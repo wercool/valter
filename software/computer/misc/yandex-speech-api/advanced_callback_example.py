@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 from asrclient.voiceproxy_pb2 import AddDataResponse as AsrResponse
 import subprocess
 
@@ -16,8 +18,9 @@ def advanced_callback(asr_response, correction = 0):
     r_count = 0
     if len(asr_response.recognition) > 0:
         if recognized_text != "not-set" and recognized_text != asr_response.recognition[0].normalized.encode("utf-8"):
-            print asr_response.recognition[0].normalized.encode("utf-8")
-            if asr_response.recognition[0].normalized.encode("utf-8").rfind('.') > 0:
+            result = asr_response.recognition[0].normalized.encode("utf-8")
+            print result
+            if (result.rfind('.') > 0 or result.rfind('?') > 0 or result.rfind('!') > 0):
                 return_code = subprocess.call("/home/maska/speech.sh '" + asr_response.recognition[0].normalized.encode("utf-8") + "'", shell=True)
         recognized_text = asr_response.recognition[0].normalized.encode("utf-8")
     """
