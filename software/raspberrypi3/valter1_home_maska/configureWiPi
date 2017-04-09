@@ -8,8 +8,8 @@ gpio mode 24 out
 gpio mode 23 out
 
 #valter2
-gpio mode 27 out
-gpio write 27 1
+gpio mode 8 out
+gpio write 8 1
 
 
 # PLATFORM-CONTROL-P1

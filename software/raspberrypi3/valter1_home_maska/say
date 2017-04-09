@@ -7,5 +7,5 @@
 
 aplay -l
 
-aplay ~/Music/greeting.wav -D sysdefault:CARD=2
+aplay ~/Music/greeting.wav -D sysdefault:CARD=3
 

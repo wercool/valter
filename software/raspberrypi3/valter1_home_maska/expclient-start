@@ -1,0 +1,1 @@
+/home/maska/start; sleep 5; cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug; export DISPLAY=:0; ./expclient wlan0 > /home/maska/expclient.log 2>&1
