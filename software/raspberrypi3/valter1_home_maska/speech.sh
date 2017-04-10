@@ -15,12 +15,15 @@ fi
 
 echo $text_to_speech
 encoded_text=`python -c "import sys, urllib as ul; print ul.quote_plus('$text_to_speech')"`
-echo $encoded_text
+#echo $encoded_text
 
-wget "https://tts.voicetech.yandex.net/generate?text=$text_to_speech&format=wav&lang=ru-RU&speaker=ermil&emotion=good&key=069b6659-984b-4c5f-880e-aaedcfd84102" -O asr-result.wav
-aplay asr-result.wav -D sysdefault:CARD=4 -c2
+#wget "https://tts.voicetech.yandex.net/generate?text=$text_to_speech&format=wav&lang=ru-RU&speaker=ermil&emotion=good&key=069b6659-984b-4c5f-880e-aaedcfd84102" -O asr-result.wav
+#aplay asr-result.wav -D sysdefault:CARD=3 -c2
+
+#espeak -ven "$text_to_speech" --stdout | aplay -D sysdefault:CARD=3 -c2
+espeak -vru+m -a100 -s80 "$text_to_speech" --stdout | aplay -D sysdefault:CARD=3 -c2
 
 
-
+#problmatic solution (freezes USB sound device)
 #cvlc -q --play-and-exit "https://tts.voicetech.yandex.net/generate?text=$encoded_text&format=mp3&lang=ru-RU&speaker=ermil&emotion=good&key=069b6659-984b-4c5f-880e-aaedcfd84102"
 

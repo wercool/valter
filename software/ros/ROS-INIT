@@ -95,6 +95,12 @@ Valter ROS demo
 110) (ROS master)(manually add object) rosrun object_recognition_core object_add.py -n 'foam-container' -d "A can with montage foam"  --commit
 120) (ROS master) rosrun object_recognition_core mesh_add.py <OBJECTID from (110)> <path to STL file with mesh> --commit
 
+
+=============================================LEVEL 7 (face recognition http://wiki.ros.org/face_recognition)
+00) (valter2) roslaunch uvc_camera camera_right_node.launch
+10) (ROS master) rosrun face_recognition Fserver
+20) (ROS master) rosrun face_recognition Fclient
+30) (ROS master) rostopic pub -1 /fr_order face_recognition/FRClientGoal -- 1 "none"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 0) (ROS master) (if not started) roscore
 1) (optional) (ROS master) cat /home/maska/git/valter/software/ros/launch/master
