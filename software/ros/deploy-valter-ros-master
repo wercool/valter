@@ -1,0 +1,80 @@
+#!/bin/bash
+
+#ping -c1 -W1 -q $ROS_IP &>/dev/null
+fping -r 1 $ROS_IP &>/dev/null
+status=$( echo $? )
+if [[ $status == 0 ]] ; then
+    printf "ROS Master IP[$ROS_IP] is active :)\n"
+else
+    printf "ROS Master IP[$ROS_IP] is unreachable\n";
+    exit;
+fi
+
+WID=-1
+function openTerminalTab
+{
+    if [[ $WID == -1 ]] ; then
+        WID=$(xprop -root | grep "_NET_ACTIVE_WINDOW(WINDOW)"| awk '{print $5}')
+    fi
+    xdotool windowfocus $WID
+    xdotool key ctrl+shift+t
+    wmctrl -i -a $WID
+    sleep 1;
+}
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roscore";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop_Qt_5_7_0_GCC_64bit-Debug/";
+xdotool key Return;
+xdotool type --delay 1 --clearmodifiers "./expclient eth1";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "cd /home/maska/";
+xdotool key Return;
+xdotool type --delay 1 --clearmodifiers "rosrun joy joy_node";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "rosrun valter valter_joy_teleop_cmd_vel_pub";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/valter-tf.launch";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "rosrun valter_movit right_arm_joint_trajectory_action_server";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "rosrun valter_movit left_arm_joint_trajectory_action_server";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roslaunch valter_movit valter.launch";
+xdotool key Return;
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/rtabmap_ros/launch/valter.launch localization:=true";
+xdotool key Return;
+sleep 4;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "rosservice call /rtabmap/reset_odom";

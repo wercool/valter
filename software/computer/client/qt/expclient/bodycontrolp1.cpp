@@ -34,6 +34,7 @@ BodyControlP1::BodyControlP1()
     /********************************* TASKS **************************************/
     tasks["SetRightArmYawPositionTask"] = &SetRightArmYawPositionTask::create;
     tasks["SetLeftArmYawPositionTask"] = &SetLeftArmYawPositionTask::create;
+    tasks["SetRightArmRollPositionTask"] = &SetRightArmRollPositionTask::create;
 
     initTcpInterface();
 
