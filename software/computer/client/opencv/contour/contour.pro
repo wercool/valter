@@ -31,3 +31,6 @@ FORMS    += mainwindow.ui
 
 DISTFILES += \
     images/sample1.jpeg
+
+
+QMAKE_CXXFLAGS += -std=c++0x -D_GLIBCXX_USE_NANOSLEEP
