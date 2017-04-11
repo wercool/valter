@@ -6,7 +6,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     ui->imageLayout->setAlignment(Qt::AlignTop);
+}
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::loadImage()
+{
     // Create the processed image widget
     procImageWidget = new CVImageWidget();
     ui->imageLayout->insertWidget(0, procImageWidget);
@@ -24,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     imageManipulator = new ImageManipulator();
     // Load src image
-    cv::Mat srcImage = cv::imread("/home/maska/opencv_ws/contour/images/sample1.jpeg", true);
+    cv::Mat srcImage = cv::imread(fileName, true);
     imageManipulator->setSrcImage(srcImage);
     srcImageWidget->showImage(imageManipulator->getSrcImage());
 
@@ -32,12 +40,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     cv::Mat procImage = srcImage.clone();
     imageManipulator->setProcImage(procImage);
     procImageWidget->showImage(imageManipulator->getProcImage());
-
 }
 
-MainWindow::~MainWindow()
+void MainWindow::on_openFileButton_clicked()
 {
-    delete ui;
+    fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
+    loadImage();
 }
 
 void MainWindow::on_brightnessHorizontalSlider_valueChanged(int value)

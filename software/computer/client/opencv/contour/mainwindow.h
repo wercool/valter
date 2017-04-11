@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
 #include "cvimagewidget.h"
 #include "imagemanipulator.h"
 #include "utils.h"
@@ -19,6 +20,9 @@ public:
     ~MainWindow();
 
     ImageManipulator *imageManipulator;
+
+    std::string fileName;
+    void loadImage();
 
     CVImageWidget* srcImageWidget;
     CVImageWidget* procImageWidget;
@@ -43,6 +47,8 @@ private slots:
     void on_findContoursButton_clicked();
 
     void on_cannyThresholdSlider_valueChanged(int value);
+
+    void on_openFileButton_clicked();
 
 private:
     Ui::MainWindow *ui;
