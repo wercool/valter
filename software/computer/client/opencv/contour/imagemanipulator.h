@@ -65,6 +65,8 @@ public:
     void setFindContours(bool value);
     bool getContourProcess() const;
     void setContourProcess(bool value);
+    int getCannyThreshold() const;
+    void setCannyThreshold(int value);
 };
 
 #endif // IMAGEMANIPULATOR_H

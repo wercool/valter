@@ -42,6 +42,8 @@ private slots:
 
     void on_findContoursButton_clicked();
 
+    void on_cannyThresholdSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };

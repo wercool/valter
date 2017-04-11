@@ -70,7 +70,7 @@
         <item>
          <widget class="QToolBox" name="toolBox">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="page_1">
            <property name="geometry">
@@ -162,8 +162,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>366</width>
-             <height>184</height>
+             <width>380</width>
+             <height>224</height>
             </rect>
            </property>
            <attribute name="label">
@@ -258,12 +258,40 @@
            </layout>
           </widget>
           <widget class="QWidget" name="page">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>380</width>
+             <height>175</height>
+            </rect>
+           </property>
            <attribute name="label">
             <string>Contours</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_8">
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <widget class="QLabel" name="cannyThresholdLabel">
+                <property name="text">
+                 <string>Canny Threshold</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="cannyThresholdSlider">
+                <property name="maximum">
+                 <number>200</number>
+                </property>
+                <property name="value">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
               <item>
                <widget class="QPushButton" name="findContoursButton">
                 <property name="text">

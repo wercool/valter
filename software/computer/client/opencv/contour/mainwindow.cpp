@@ -88,6 +88,11 @@ void MainWindow::on_processButton_clicked()
     procImageWidget->showImage(imageManipulator->getProcImage());
 }
 
+void MainWindow::on_cannyThresholdSlider_valueChanged(int value)
+{
+    imageManipulator->setCannyThreshold(value);
+}
+
 void MainWindow::on_findContoursButton_clicked()
 {
     imageManipulator->findContours();

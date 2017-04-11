@@ -186,3 +186,13 @@ void ImageManipulator::setGrayscale(bool value)
 {
     grayscale = value;
 }
+
+int ImageManipulator::getCannyThreshold() const
+{
+    return cannyThreshold;
+}
+
+void ImageManipulator::setCannyThreshold(int value)
+{
+    cannyThreshold = value;
+}
