@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = contour
+TARGET = imagelab
 TEMPLATE = app
 
 #pkg-config --cflags opencv

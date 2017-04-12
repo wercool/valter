@@ -28,74 +28,76 @@ void ImageManipulator::captureVideoWorker()
         {
             videoCapture.read(videoFrame);
 
-            int minHessian = 400;
-            cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create(minHessian);
-            detector->detect(videoFrame, sceneKeypoints);
-            cv::drawKeypoints(videoFrame, sceneKeypoints, videoFrameWithKeypoints, cv::Scalar::all(-1), cv::DrawMatchesFlags::DEFAULT);
-
-            cv::Ptr<cv::xfeatures2d::SURF> extractor = cv::xfeatures2d::SURF::create(minHessian);
-
-            cv::Mat descriptorsObject, descriptorsScene;
-
-            extractor->compute(objectImage, keypoints, descriptorsObject);
-            extractor->compute(videoFrame, sceneKeypoints, descriptorsScene);
-
-            cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
-            std::vector<cv::DMatch> matches;
-            matcher->match(descriptorsObject, descriptorsScene, matches);
-
-            double max_dist = 0;
-            double min_dist = 100;
-
-            //-- Quick calculation of max and min distances between keypoints
-            for(int i = 0; i < descriptorsObject.rows; i++)
+            if (!objectImage.empty())
             {
-                double dist = matches[i].distance;
-                if(dist < min_dist) min_dist = dist;
-                if(dist > max_dist) max_dist = dist;
-            }
+                int minHessian = 400;
+                cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create(minHessian);
+                detector->detect(videoFrame, sceneKeypoints);
+                cv::drawKeypoints(videoFrame, sceneKeypoints, videoFrameWithKeypoints, cv::Scalar::all(-1), cv::DrawMatchesFlags::DEFAULT);
 
-            std::vector<cv::DMatch> goodMatches;
-            for(int i = 0; i < descriptorsObject.rows; i++)
-            {
-                if(matches[i].distance < 3*min_dist)
+                cv::Ptr<cv::xfeatures2d::SURF> extractor = cv::xfeatures2d::SURF::create(minHessian);
+
+                cv::Mat descriptorsObject, descriptorsScene;
+
+                extractor->compute(objectImage, keypoints, descriptorsObject);
+                extractor->compute(videoFrame, sceneKeypoints, descriptorsScene);
+
+                cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
+                std::vector<cv::DMatch> matches;
+                matcher->match(descriptorsObject, descriptorsScene, matches);
+
+                double max_dist = 0;
+                double min_dist = 200;
+
+                //-- Quick calculation of max and min distances between keypoints
+                for(int i = 0; i < descriptorsObject.rows; i++)
                 {
-                    goodMatches.push_back(matches[i]);
+                    double dist = matches[i].distance;
+                    if(dist < min_dist) min_dist = dist;
+                    if(dist > max_dist) max_dist = dist;
                 }
+
+                std::vector<cv::DMatch> goodMatches;
+                for(int i = 0; i < descriptorsObject.rows; i++)
+                {
+                    if(matches[i].distance < 3*min_dist)
+                    {
+                        goodMatches.push_back(matches[i]);
+                    }
+                }
+                std::vector<cv::Point2f> obj;
+                std::vector<cv::Point2f> scene;
+
+                for(unsigned int i = 0; i < goodMatches.size(); i++)
+                {
+                    //-- Get the keypoints from the good matches
+                    obj.push_back(keypoints[goodMatches[i].queryIdx].pt);
+                    scene.push_back(sceneKeypoints[goodMatches[i].trainIdx].pt);
+                }
+
+                cv::Mat H = cv::findHomography(obj, scene, CV_RANSAC);
+
+                if (!H.empty())
+                {
+                    //-- Get the corners from the image_1 ( the object to be "detected" )
+                    std::vector<cv::Point2f> objCorners(4);
+                    objCorners[0] = cv::Point(0, 0);
+                    objCorners[1] = cv::Point(objectImage.cols, 0);
+                    objCorners[2] = cv::Point(objectImage.cols, objectImage.rows);
+                    objCorners[3] = cv::Point(0, objectImage.rows);
+                    std::vector<cv::Point2f> sceneCorners(4);
+
+                    cv::perspectiveTransform(objCorners, sceneCorners, H);
+
+                    //-- Draw lines between the corners (the mapped object in the scene - image_2 )
+                    cv::line(videoFrame, sceneCorners[0] + cv::Point2f(objectImage.cols, 0), sceneCorners[1] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
+                    cv::line(videoFrame, sceneCorners[1] + cv::Point2f(objectImage.cols, 0), sceneCorners[2] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
+                    cv::line(videoFrame, sceneCorners[2] + cv::Point2f(objectImage.cols, 0), sceneCorners[3] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
+                    cv::line(videoFrame, sceneCorners[3] + cv::Point2f(objectImage.cols, 0), sceneCorners[0] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
+                }
+                cv::imshow("Video frames with SURF features", videoFrameWithKeypoints);
             }
-            std::vector<cv::Point2f> obj;
-            std::vector<cv::Point2f> scene;
-
-            for(unsigned int i = 0; i < goodMatches.size(); i++)
-            {
-                //-- Get the keypoints from the good matches
-                obj.push_back(keypoints[goodMatches[i].queryIdx].pt);
-                scene.push_back(sceneKeypoints[goodMatches[i].trainIdx].pt);
-            }
-
-            cv::Mat H = cv::findHomography(obj, scene, CV_RANSAC);
-
-            if (!H.empty())
-            {
-                //-- Get the corners from the image_1 ( the object to be "detected" )
-                std::vector<cv::Point2f> objCorners(4);
-                objCorners[0] = cv::Point(0, 0);
-                objCorners[1] = cv::Point(objectImage.cols, 0);
-                objCorners[2] = cv::Point(objectImage.cols, objectImage.rows);
-                objCorners[3] = cv::Point(0, objectImage.rows);
-                std::vector<cv::Point2f> sceneCorners(4);
-
-                cv::perspectiveTransform(objCorners, sceneCorners, H);
-
-                //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-                cv::line(videoFrame, sceneCorners[0] + cv::Point2f(objectImage.cols, 0), sceneCorners[1] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
-                cv::line(videoFrame, sceneCorners[1] + cv::Point2f(objectImage.cols, 0), sceneCorners[2] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
-                cv::line(videoFrame, sceneCorners[2] + cv::Point2f(objectImage.cols, 0), sceneCorners[3] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
-                cv::line(videoFrame, sceneCorners[3] + cv::Point2f(objectImage.cols, 0), sceneCorners[0] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
-            }
-
             cv::imshow("Video frames", videoFrame);
-            cv::imshow("Video frames with SURF features", videoFrameWithKeypoints);
         }
     }
     catch (const std::exception& e)
@@ -110,8 +112,8 @@ void ImageManipulator::captureVideo()
 
 void ImageManipulator::stopVideo()
 {
-    videoCaptured = false;
     videoCapture.release();
+    videoCaptured = false;
     cv::destroyWindow("Video frames");
     cv::destroyWindow("Video frames with SURF features");
 }
