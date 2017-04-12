@@ -78,3 +78,7 @@ sleep 4;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosservice call /rtabmap/reset_odom";
+sleep 2;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/move_base_and_planner.launch";
