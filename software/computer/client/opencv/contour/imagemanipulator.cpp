@@ -1,5 +1,6 @@
 #include "imagemanipulator.h"
 
+
 ImageManipulator::ImageManipulator()
 {
 
@@ -8,10 +9,111 @@ ImageManipulator::ImageManipulator()
 void ImageManipulator::preProcess()
 {
     changeBrightnessAndContrast();
+    applyNormalizedBoxBlur();
     applyHomogeneousBlur();
     applyGaussianBlur();
     applyMedianBlur();
     applyBilateralBlur();
+}
+
+void ImageManipulator::captureVideoWorker()
+{
+    try
+    {
+        videoCapture = cv::VideoCapture(0); // open the default camera
+        if(!videoCapture.isOpened())  // check if we succeeded
+            return;
+        videoCaptured = true;
+        while (videoCaptured)
+        {
+            videoCapture.read(videoFrame);
+
+            int minHessian = 400;
+            cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create(minHessian);
+            detector->detect(videoFrame, sceneKeypoints);
+            cv::drawKeypoints(videoFrame, sceneKeypoints, videoFrameWithKeypoints, cv::Scalar::all(-1), cv::DrawMatchesFlags::DEFAULT);
+
+            cv::Ptr<cv::xfeatures2d::SURF> extractor = cv::xfeatures2d::SURF::create(minHessian);
+
+            cv::Mat descriptorsObject, descriptorsScene;
+
+            extractor->compute(objectImage, keypoints, descriptorsObject);
+            extractor->compute(videoFrame, sceneKeypoints, descriptorsScene);
+
+            cv::Ptr<cv::FlannBasedMatcher> matcher = cv::FlannBasedMatcher::create();
+            std::vector<cv::DMatch> matches;
+            matcher->match(descriptorsObject, descriptorsScene, matches);
+
+            double max_dist = 0;
+            double min_dist = 100;
+
+            //-- Quick calculation of max and min distances between keypoints
+            for(int i = 0; i < descriptorsObject.rows; i++)
+            {
+                double dist = matches[i].distance;
+                if(dist < min_dist) min_dist = dist;
+                if(dist > max_dist) max_dist = dist;
+            }
+
+            std::vector<cv::DMatch> goodMatches;
+            for(int i = 0; i < descriptorsObject.rows; i++)
+            {
+                if(matches[i].distance < 3*min_dist)
+                {
+                    goodMatches.push_back(matches[i]);
+                }
+            }
+            std::vector<cv::Point2f> obj;
+            std::vector<cv::Point2f> scene;
+
+            for(unsigned int i = 0; i < goodMatches.size(); i++)
+            {
+                //-- Get the keypoints from the good matches
+                obj.push_back(keypoints[goodMatches[i].queryIdx].pt);
+                scene.push_back(sceneKeypoints[goodMatches[i].trainIdx].pt);
+            }
+
+            cv::Mat H = cv::findHomography(obj, scene, CV_RANSAC);
+
+            if (!H.empty())
+            {
+                //-- Get the corners from the image_1 ( the object to be "detected" )
+                std::vector<cv::Point2f> objCorners(4);
+                objCorners[0] = cv::Point(0, 0);
+                objCorners[1] = cv::Point(objectImage.cols, 0);
+                objCorners[2] = cv::Point(objectImage.cols, objectImage.rows);
+                objCorners[3] = cv::Point(0, objectImage.rows);
+                std::vector<cv::Point2f> sceneCorners(4);
+
+                cv::perspectiveTransform(objCorners, sceneCorners, H);
+
+                //-- Draw lines between the corners (the mapped object in the scene - image_2 )
+                cv::line(videoFrame, sceneCorners[0] + cv::Point2f(objectImage.cols, 0), sceneCorners[1] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
+                cv::line(videoFrame, sceneCorners[1] + cv::Point2f(objectImage.cols, 0), sceneCorners[2] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
+                cv::line(videoFrame, sceneCorners[2] + cv::Point2f(objectImage.cols, 0), sceneCorners[3] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
+                cv::line(videoFrame, sceneCorners[3] + cv::Point2f(objectImage.cols, 0), sceneCorners[0] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
+            }
+
+            cv::imshow("Video frames", videoFrame);
+            cv::imshow("Video frames with SURF features", videoFrameWithKeypoints);
+        }
+    }
+    catch (const std::exception& e)
+    {
+    }
+}
+
+void ImageManipulator::captureVideo()
+{
+    captureVideoThread = new std::thread(&ImageManipulator::captureVideoWorker, this);
+}
+
+void ImageManipulator::stopVideo()
+{
+    videoCaptured = false;
+    videoCapture.release();
+    cv::destroyWindow("Video frames");
+    cv::destroyWindow("Video frames with SURF features");
 }
 
 void ImageManipulator::changeBrightnessAndContrast()
@@ -38,6 +140,15 @@ void ImageManipulator::changeBrightnessAndContrast()
     }
 
     procImage = resultImage.clone();
+}
+
+void ImageManipulator::applyNormalizedBoxBlur()
+{
+    if (normalizedBoxFilter > 0)
+    {
+        cv::Mat resultImage = procImage.clone();
+        cv::blur(resultImage, procImage, cv::Size(normalizedBoxFilter, normalizedBoxFilter));
+    }
 }
 
 void ImageManipulator::applyHomogeneousBlur()
@@ -85,6 +196,7 @@ void ImageManipulator::findContours()
     preProcess();
     cv::Mat cannyResult;
     cv::Mat procImageGray;
+    cv::RNG rng(12345);
     if (!grayscale)
     {
         cv::cvtColor(procImage, procImageGray, cv::COLOR_BGR2GRAY);
@@ -94,7 +206,27 @@ void ImageManipulator::findContours()
         procImageGray = procImage.clone();
     }
     cv::Canny(procImageGray, cannyResult, cannyThreshold, cannyThreshold*2, 3);
-    cv::imshow("Contours", cannyResult);
+    cv::imshow("Canny result", cannyResult);
+
+    cv::addWeighted(cannyResult, 0.5, this->cannyResult, 0.5, 0, procAggregateImage);
+    cv::imshow("Canny aggregated result", procAggregateImage);
+
+    this->cannyResult = cannyResult.clone();
+
+    cv::findContours(cannyResult, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+    cv::Mat contoursImage = cv::Mat::zeros(cannyResult.size(), CV_8UC3);
+    processedContours.clear();
+    for( size_t i = 0; i < contours.size(); i++ )
+    {
+        qDebug("%s", format_string("contour [%d] length = %d%s", i, contours[i].size(), (contours[i].size() > contourLengthThreshold ? "    --included" : "")).c_str());
+        if (contours[i].size() > contourLengthThreshold)
+        {
+            cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+            cv::drawContours(contoursImage, contours, (int)i, color, 2, 8, hierarchy, 0, cv::Point());
+            processedContours.push_back(contours[i]);
+        }
+    }
+    cv::imshow("Contours", contoursImage);
 }
 
 int ImageManipulator::getProcImageBrightness() const
@@ -125,6 +257,8 @@ cv::Mat ImageManipulator::getProcImage() const
 void ImageManipulator::setProcImage(const cv::Mat &value)
 {
     procImage = value;
+    procAggregateImage = cv::Mat::zeros(procImage.size(), CV_8UC1);
+    cannyResult = cv::Mat::zeros(procImage.size(), CV_8UC1);
 }
 
 cv::Mat ImageManipulator::getSrcImage() const
@@ -135,6 +269,16 @@ cv::Mat ImageManipulator::getSrcImage() const
 void ImageManipulator::setSrcImage(const cv::Mat &value)
 {
     srcImage = value;
+}
+
+int ImageManipulator::getNormalizedBoxFilter() const
+{
+    return normalizedBoxFilter;
+}
+
+void ImageManipulator::setNormalizedBoxFilter(int value)
+{
+    normalizedBoxFilter = value;
 }
 
 int ImageManipulator::getBilateralBlur() const
@@ -195,4 +339,49 @@ int ImageManipulator::getCannyThreshold() const
 void ImageManipulator::setCannyThreshold(int value)
 {
     cannyThreshold = value;
+}
+
+unsigned ImageManipulator::getContourLengthThreshold() const
+{
+    return contourLengthThreshold;
+}
+
+void ImageManipulator::setContourLengthThreshold(int value)
+{
+    contourLengthThreshold = (unsigned int) value;
+}
+
+cv::Mat ImageManipulator::getObjectImage() const
+{
+    return objectImage;
+}
+
+void ImageManipulator::setObjectImage(const cv::Mat &value)
+{
+    /*
+    cv::Mat objectImageGray;
+    cv::cvtColor(value, objectImageGray, cv::COLOR_BGR2GRAY);
+    objectImage = objectImageGray.clone();
+    */
+    objectImage = value;
+    extractFeaturesFromObjectImage();
+}
+
+
+cv::Mat ImageManipulator::getObjectImageWithKeypoints() const
+{
+    return objectImageWithKeypoints;
+}
+
+void ImageManipulator::setObjectImageWithKeypoints(const cv::Mat &value)
+{
+    objectImageWithKeypoints = value;
+}
+
+void ImageManipulator::extractFeaturesFromObjectImage()
+{
+    int minHessian = 400;
+    cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create(minHessian);
+    detector->detect(objectImage, keypoints);
+    cv::drawKeypoints(objectImage, keypoints, objectImageWithKeypoints, cv::Scalar::all(-1), cv::DrawMatchesFlags::DEFAULT);
 }

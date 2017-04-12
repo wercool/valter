@@ -3,12 +3,28 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/features2d.hpp>
+#include <opencv2/xfeatures2d.hpp>
+#include <opencv2/xfeatures2d/nonfree.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+#include <QDebug>
+#include "utils.h"
+#include <unistd.h>
+#include <thread>
 
 class ImageManipulator
 {
 private:
     cv::Mat srcImage;
     cv::Mat procImage;
+    cv::Mat procAggregateImage;
+    cv::Mat videoFrame;
+    cv::Mat videoFrameWithKeypoints;
+    cv::Mat objectImage;
+    cv::Mat objectImageWithKeypoints;
+
+    cv::VideoCapture videoCapture;
 
     //Brightness, contrast, grayscale
     int procImageBrightness = 0;
@@ -16,6 +32,7 @@ private:
     bool grayscale = false;
 
     //Linear filters
+    int normalizedBoxFilter = 0;
     int homogeneousBlur = 0;
     int gaussianBlur = 0;
     int medianBlur = 0;
@@ -23,23 +40,40 @@ private:
 
     //Canny
     int cannyThreshold = 100;
+    unsigned int contourLengthThreshold = 0;
+    cv::Mat cannyResult;
 
     //Contrours
-    std::vector<std::vector<cv::Point> > contours;
+    std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
+    std::vector<std::vector<cv::Point>> processedContours;
 
+    //Video
+    bool videoCaptured = false;
+
+    std::thread *captureVideoThread;
+
+    //Features
+    std::vector<cv::KeyPoint> keypoints;
+    std::vector<cv::KeyPoint> sceneKeypoints;
 public:
     ImageManipulator();
 
     void preProcess();
 
+    void captureVideo();
+    void stopVideo();
+    void captureVideoWorker();
+
     void changeBrightnessAndContrast();
+    void applyNormalizedBoxBlur();
     void applyHomogeneousBlur();
     void applyGaussianBlur();
     void applyMedianBlur();
     void applyBilateralBlur();
 
     void findContours();
+    void extractFeaturesFromObjectImage();
 
     cv::Mat getSrcImage() const;
     void setSrcImage(const cv::Mat &value);
@@ -67,6 +101,14 @@ public:
     void setContourProcess(bool value);
     int getCannyThreshold() const;
     void setCannyThreshold(int value);
+    int getNormalizedBoxFilter() const;
+    void setNormalizedBoxFilter(int value);
+    unsigned int getContourLengthThreshold() const;
+    void setContourLengthThreshold(int value);
+    cv::Mat getObjectImage() const;
+    void setObjectImage(const cv::Mat &value);
+    cv::Mat getObjectImageWithKeypoints() const;
+    void setObjectImageWithKeypoints(const cv::Mat &value);
 };
 
 #endif // IMAGEMANIPULATOR_H

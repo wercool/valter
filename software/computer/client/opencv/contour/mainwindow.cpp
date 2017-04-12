@@ -5,16 +5,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
     ui->setupUi(this);
 
-    ui->imageLayout->setAlignment(Qt::AlignTop);
-}
+    imageManipulator = new ImageManipulator();
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-void MainWindow::loadImage()
-{
     // Create the processed image widget
     procImageWidget = new CVImageWidget();
     ui->imageLayout->insertWidget(0, procImageWidget);
@@ -30,7 +22,22 @@ void MainWindow::loadImage()
     srcImageWidget = new CVImageWidget();
     ui->imageLayout->insertWidget(2, srcImageWidget);
 
-    imageManipulator = new ImageManipulator();
+    ui->imageLayout->setAlignment(Qt::AlignTop);
+
+    objectImageWidget = new CVImageWidget();
+    ui->findObjectverticalLayout->insertWidget(1, objectImageWidget);
+
+    objectImageWithKeypointsWidget = new CVImageWidget();
+    ui->findObjectverticalLayout->insertWidget(2, objectImageWithKeypointsWidget);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::loadImage()
+{
     // Load src image
     cv::Mat srcImage = cv::imread(fileName, true);
     imageManipulator->setSrcImage(srcImage);
@@ -40,6 +47,16 @@ void MainWindow::loadImage()
     cv::Mat procImage = srcImage.clone();
     imageManipulator->setProcImage(procImage);
     procImageWidget->showImage(imageManipulator->getProcImage());
+}
+
+void MainWindow::loadObjectImage()
+{
+    // Load object image
+    cv::Mat objectImage = cv::imread(objectFileName, true);
+    imageManipulator->setObjectImage(objectImage);
+    objectImageWidget->showImage(imageManipulator->getObjectImage());
+
+    objectImageWithKeypointsWidget->showImage(imageManipulator->getObjectImageWithKeypoints());
 }
 
 void MainWindow::on_openFileButton_clicked()
@@ -64,6 +81,12 @@ void MainWindow::on_contrastHorizontalSlider_valueChanged(int value)
 void MainWindow::on_grayscaleCheckBox_clicked(bool checked)
 {
     imageManipulator->setGrayscale(checked);
+}
+
+void MainWindow::on_normalizedBoxFilterSlider_valueChanged(int value)
+{
+    ui->normalizedBoxFilterLabel->setText(format_string("Normalized Box Filter (kernel length = %d)", value).c_str());
+    imageManipulator->setNormalizedBoxFilter(value);
 }
 
 void MainWindow::on_homogeneousBlurHorizontalSlider_valueChanged(int value)
@@ -98,10 +121,37 @@ void MainWindow::on_processButton_clicked()
 
 void MainWindow::on_cannyThresholdSlider_valueChanged(int value)
 {
+    ui->cannyThresholdLabel->setText(format_string("Canny Threshold [%d]", value).c_str());
     imageManipulator->setCannyThreshold(value);
 }
 
 void MainWindow::on_findContoursButton_clicked()
 {
     imageManipulator->findContours();
+}
+
+void MainWindow::on_contourLengthSlider_valueChanged(int value)
+{
+    ui->contourLengthLabel->setText(format_string("Contour Length Threshold [%d]", value).c_str());
+    imageManipulator->setContourLengthThreshold(value);
+}
+
+void MainWindow::on_captureVideoButton_clicked()
+{
+    if (ui->captureVideoButton->isChecked())
+    {
+        ui->openFileButton->setEnabled(false);
+        imageManipulator->captureVideo();
+    }
+    else
+    {
+        ui->openFileButton->setEnabled(true);
+        imageManipulator->stopVideo();
+    }
+}
+
+void MainWindow::on_openFileWithObjectButton_clicked()
+{
+    objectFileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
+    loadObjectImage();
 }

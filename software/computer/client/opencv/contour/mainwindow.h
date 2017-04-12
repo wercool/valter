@@ -24,8 +24,13 @@ public:
     std::string fileName;
     void loadImage();
 
+    std::string objectFileName;
+    void loadObjectImage();
+
     CVImageWidget* srcImageWidget;
     CVImageWidget* procImageWidget;
+    CVImageWidget* objectImageWidget;
+    CVImageWidget* objectImageWithKeypointsWidget;
 
 private slots:
     void on_brightnessHorizontalSlider_valueChanged(int value);
@@ -49,6 +54,14 @@ private slots:
     void on_cannyThresholdSlider_valueChanged(int value);
 
     void on_openFileButton_clicked();
+
+    void on_normalizedBoxFilterSlider_valueChanged(int value);
+
+    void on_contourLengthSlider_valueChanged(int value);
+
+    void on_captureVideoButton_clicked();
+
+    void on_openFileWithObjectButton_clicked();
 
 private:
     Ui::MainWindow *ui;

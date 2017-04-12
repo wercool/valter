@@ -15,7 +15,11 @@ TEMPLATE = app
 INCLUDEPATH += /usr/local/include/opencv
 
 #pkg-config --libs opencv
-LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs -lopencv_highgui -lopencv_imgproc
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs\
+                         -lopencv_highgui -lopencv_imgproc\
+                         -lopencv_video -lopencv_videoio\
+                         -lopencv_objdetect -lopencv_features2d\
+                         -lopencv_xfeatures2d -lopencv_calib3d
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -30,7 +34,11 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui
 
 DISTFILES += \
-    images/sample1.jpeg
+    images/sample1.jpeg \
+    images/videocam.png
 
 
 QMAKE_CXXFLAGS += -std=c++0x -D_GLIBCXX_USE_NANOSLEEP
+
+RESOURCES += \
+    images.qrc
