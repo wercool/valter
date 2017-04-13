@@ -155,3 +155,10 @@ void MainWindow::on_openFileWithObjectButton_clicked()
     objectFileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
     loadObjectImage();
 }
+
+void MainWindow::on_minHessianSlider_valueChanged(int value)
+{
+    ui->minHessianLabel->setText(format_string("min Hessian [%d]", value).c_str());
+    imageManipulator->setMinHessian(value);
+    objectImageWithKeypointsWidget->showImage(imageManipulator->getObjectImageWithKeypoints());
+}

@@ -63,6 +63,8 @@ private slots:
 
     void on_openFileWithObjectButton_clicked();
 
+    void on_minHessianSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };

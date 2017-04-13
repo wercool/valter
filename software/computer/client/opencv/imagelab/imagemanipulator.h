@@ -56,6 +56,7 @@ private:
     //Features
     std::vector<cv::KeyPoint> keypoints;
     std::vector<cv::KeyPoint> sceneKeypoints;
+    int minHessian = 400;
 public:
     ImageManipulator();
 
@@ -109,6 +110,8 @@ public:
     void setObjectImage(const cv::Mat &value);
     cv::Mat getObjectImageWithKeypoints() const;
     void setObjectImageWithKeypoints(const cv::Mat &value);
+    int getMinHessian() const;
+    void setMinHessian(int value);
 };
 
 #endif // IMAGEMANIPULATOR_H

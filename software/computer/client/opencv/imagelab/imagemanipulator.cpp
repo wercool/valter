@@ -1,6 +1,5 @@
 #include "imagemanipulator.h"
 
-
 ImageManipulator::ImageManipulator()
 {
 
@@ -30,7 +29,7 @@ void ImageManipulator::captureVideoWorker()
 
             if (!objectImage.empty())
             {
-                int minHessian = 400;
+                int minHessian = getMinHessian();
                 cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create(minHessian);
                 detector->detect(videoFrame, sceneKeypoints);
                 cv::drawKeypoints(videoFrame, sceneKeypoints, videoFrameWithKeypoints, cv::Scalar::all(-1), cv::DrawMatchesFlags::DEFAULT);
@@ -60,7 +59,7 @@ void ImageManipulator::captureVideoWorker()
                 std::vector<cv::DMatch> goodMatches;
                 for(int i = 0; i < descriptorsObject.rows; i++)
                 {
-                    if(matches[i].distance < 3*min_dist)
+                    if(matches[i].distance < 3 * min_dist)
                     {
                         goodMatches.push_back(matches[i]);
                     }
@@ -90,10 +89,10 @@ void ImageManipulator::captureVideoWorker()
                     cv::perspectiveTransform(objCorners, sceneCorners, H);
 
                     //-- Draw lines between the corners (the mapped object in the scene - image_2 )
-                    cv::line(videoFrame, sceneCorners[0] + cv::Point2f(objectImage.cols, 0), sceneCorners[1] + cv::Point2f(objectImage.cols, 0), cv::Scalar(0, 255, 0), 4);
-                    cv::line(videoFrame, sceneCorners[1] + cv::Point2f(objectImage.cols, 0), sceneCorners[2] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
-                    cv::line(videoFrame, sceneCorners[2] + cv::Point2f(objectImage.cols, 0), sceneCorners[3] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
-                    cv::line(videoFrame, sceneCorners[3] + cv::Point2f(objectImage.cols, 0), sceneCorners[0] + cv::Point2f(objectImage.cols, 0), cv::Scalar( 0, 255, 0), 4);
+                    cv::line(videoFrame, sceneCorners[0], sceneCorners[1], cv::Scalar(0, 255, 0), 4);
+                    cv::line(videoFrame, sceneCorners[1], sceneCorners[2], cv::Scalar( 0, 255, 0), 4);
+                    cv::line(videoFrame, sceneCorners[2], sceneCorners[3], cv::Scalar( 0, 255, 0), 4);
+                    cv::line(videoFrame, sceneCorners[3], sceneCorners[0], cv::Scalar( 0, 255, 0), 4);
                 }
                 cv::imshow("Video frames with SURF features", videoFrameWithKeypoints);
             }
@@ -382,8 +381,18 @@ void ImageManipulator::setObjectImageWithKeypoints(const cv::Mat &value)
 
 void ImageManipulator::extractFeaturesFromObjectImage()
 {
-    int minHessian = 400;
-    cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create(minHessian);
+    cv::Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create(getMinHessian());
     detector->detect(objectImage, keypoints);
     cv::drawKeypoints(objectImage, keypoints, objectImageWithKeypoints, cv::Scalar::all(-1), cv::DrawMatchesFlags::DEFAULT);
+}
+
+int ImageManipulator::getMinHessian() const
+{
+    return minHessian;
+}
+
+void ImageManipulator::setMinHessian(int value)
+{
+    minHessian = value;
+    extractFeaturesFromObjectImage();
 }
