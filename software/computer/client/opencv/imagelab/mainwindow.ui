@@ -124,7 +124,7 @@ background-repeat: no-repeat;</string>
         <item>
          <widget class="QToolBox" name="toolBox">
           <property name="currentIndex">
-           <number>3</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="page_1">
            <property name="geometry">
@@ -132,7 +132,7 @@ background-repeat: no-repeat;</string>
              <x>0</x>
              <y>0</y>
              <width>380</width>
-             <height>436</height>
+             <height>440</height>
             </rect>
            </property>
            <attribute name="label">
@@ -188,9 +188,55 @@ background-repeat: no-repeat;</string>
                </widget>
               </item>
               <item>
+               <widget class="QLabel" name="colorReduceLabel">
+                <property name="text">
+                 <string>Color Reduce</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="colorReduceSlider">
+                <property name="minimum">
+                 <number>0</number>
+                </property>
+                <property name="maximum">
+                 <number>255</number>
+                </property>
+                <property name="singleStep">
+                 <number>64</number>
+                </property>
+                <property name="pageStep">
+                 <number>64</number>
+                </property>
+                <property name="tracking">
+                 <bool>true</bool>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="grayscaleCheckBox">
                 <property name="text">
                  <string>Grayscale</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="colorDenoisingLabel">
+                <property name="text">
+                 <string>Color Denoising</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSlider" name="colorDenoisingSlider">
+                <property name="maximum">
+                 <number>100</number>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>
@@ -217,7 +263,7 @@ background-repeat: no-repeat;</string>
              <x>0</x>
              <y>0</y>
              <width>380</width>
-             <height>436</height>
+             <height>440</height>
             </rect>
            </property>
            <attribute name="label">
@@ -355,7 +401,7 @@ background-repeat: no-repeat;</string>
              <x>0</x>
              <y>0</y>
              <width>380</width>
-             <height>436</height>
+             <height>440</height>
             </rect>
            </property>
            <attribute name="label">
@@ -431,7 +477,7 @@ background-repeat: no-repeat;</string>
              <x>0</x>
              <y>0</y>
              <width>380</width>
-             <height>436</height>
+             <height>440</height>
             </rect>
            </property>
            <attribute name="label">

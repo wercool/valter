@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // Create the src image widget
     srcImageWidget = new CVImageWidget();
+    srcImageWidget->setHasROI(true);
     ui->imageLayout->insertWidget(2, srcImageWidget);
 
     ui->imageLayout->setAlignment(Qt::AlignTop);
@@ -81,6 +82,15 @@ void MainWindow::on_contrastHorizontalSlider_valueChanged(int value)
 void MainWindow::on_grayscaleCheckBox_clicked(bool checked)
 {
     imageManipulator->setGrayscale(checked);
+    if (checked)
+    {
+        ui->colorDenoisingSlider->setValue(0);
+        ui->colorDenoisingSlider->setEnabled(false);
+    }
+    else
+    {
+        ui->colorDenoisingSlider->setEnabled(true);
+    }
 }
 
 void MainWindow::on_normalizedBoxFilterSlider_valueChanged(int value)
@@ -115,7 +125,9 @@ void MainWindow::on_bilateralBlurHorizontalSlider_valueChanged(int value)
 
 void MainWindow::on_processButton_clicked()
 {
+    imageManipulator->setROI(srcImageWidget->getRoiRect());
     imageManipulator->preProcess();
+    cv::imshow("Original", imageManipulator->getProcImage());
     procImageWidget->showImage(imageManipulator->getProcImage());
 }
 
@@ -161,4 +173,16 @@ void MainWindow::on_minHessianSlider_valueChanged(int value)
     ui->minHessianLabel->setText(format_string("min Hessian [%d]", value).c_str());
     imageManipulator->setMinHessian(value);
     objectImageWithKeypointsWidget->showImage(imageManipulator->getObjectImageWithKeypoints());
+}
+
+void MainWindow::on_colorReduceSlider_valueChanged(int value)
+{
+    ui->colorReduceLabel->setText(format_string("Color Reduce [%d]", value).c_str());
+    imageManipulator->setColorReduceFactor(value);
+}
+
+void MainWindow::on_colorDenoisingSlider_valueChanged(int value)
+{
+    imageManipulator->setColorDenoiserStrength(value);
+    ui->colorDenoisingLabel->setText(format_string("Color Denoising [%d]", imageManipulator->getColorDenoiserStrength()).c_str());
 }

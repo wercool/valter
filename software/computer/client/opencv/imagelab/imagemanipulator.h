@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
+#include <opencv2/photo.hpp>
 #include <opencv2/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>
 #include <opencv2/xfeatures2d/nonfree.hpp>
@@ -17,6 +18,7 @@ class ImageManipulator
 {
 private:
     cv::Mat srcImage;
+    cv::Mat nonModifiedImage;
     cv::Mat procImage;
     cv::Mat procAggregateImage;
     cv::Mat videoFrame;
@@ -30,6 +32,8 @@ private:
     int procImageBrightness = 0;
     double procImageContrast = 1.0;
     bool grayscale = false;
+    int colorReduceFactor = 0;
+    int colorDenoiserStrength = 0;
 
     //Linear filters
     int normalizedBoxFilter = 0;
@@ -61,12 +65,15 @@ public:
     ImageManipulator();
 
     void preProcess();
+    void setROI(cv::Rect roi);
 
     void captureVideo();
     void stopVideo();
     void captureVideoWorker();
 
     void changeBrightnessAndContrast();
+    void colorReduce();
+    void colorDenoising();
     void applyNormalizedBoxBlur();
     void applyHomogeneousBlur();
     void applyGaussianBlur();
@@ -112,6 +119,14 @@ public:
     void setObjectImageWithKeypoints(const cv::Mat &value);
     int getMinHessian() const;
     void setMinHessian(int value);
+    cv::Mat getNonModifiedImage() const;
+    void setNonModifiedImage(const cv::Mat &value);
+    int getColorReduce() const;
+    void setColorReduce(int value);
+    int getColorReduceFactor() const;
+    void setColorReduceFactor(int value);
+    int getColorDenoiserStrength() const;
+    void setColorDenoiserStrength(int value);
 };
 
 #endif // IMAGEMANIPULATOR_H

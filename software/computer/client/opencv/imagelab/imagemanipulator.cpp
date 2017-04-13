@@ -4,15 +4,28 @@ ImageManipulator::ImageManipulator()
 {
 
 }
+void ImageManipulator::setROI(cv::Rect roi)
+{
+    qDebug("ROI [%d, %d, %d, %d]", roi.x, roi.y, roi.width, roi.height);
+    if (roi.width > 0 && roi.height > 0)
+    {
+        cv::Mat nonModifiedImg = getSrcImage().clone();
+        cv::Mat imageROI = nonModifiedImg(roi);
+        setNonModifiedImage(imageROI.clone());
+    }
+}
 
 void ImageManipulator::preProcess()
 {
     changeBrightnessAndContrast();
+    colorReduce();
+    colorDenoising();
     applyNormalizedBoxBlur();
     applyHomogeneousBlur();
     applyGaussianBlur();
     applyMedianBlur();
     applyBilateralBlur();
+    setProcImage(procImage);
 }
 
 void ImageManipulator::captureVideoWorker()
@@ -120,7 +133,7 @@ void ImageManipulator::stopVideo()
 void ImageManipulator::changeBrightnessAndContrast()
 {
     // http://docs.opencv.org/2.4/doc/tutorials/core/basic_linear_transform/basic_linear_transform.html
-    cv::Mat resultImage = srcImage.clone();
+    cv::Mat resultImage = getNonModifiedImage().clone();
 
     for( int y = 0; y < resultImage.rows; y++ )
     {
@@ -128,7 +141,7 @@ void ImageManipulator::changeBrightnessAndContrast()
         {
             for( int c = 0; c < 3; c++ )
             {
-                resultImage.at<cv::Vec3b>(y,x)[c] = cv::saturate_cast<uchar>(procImageContrast * (srcImage.at<cv::Vec3b>(y,x)[c]) + procImageBrightness);
+                resultImage.at<cv::Vec3b>(y,x)[c] = cv::saturate_cast<uchar>(procImageContrast * (getNonModifiedImage().at<cv::Vec3b>(y,x)[c]) + procImageBrightness);
             }
         }
     }
@@ -141,6 +154,58 @@ void ImageManipulator::changeBrightnessAndContrast()
     }
 
     procImage = resultImage.clone();
+}
+
+inline uchar reduceVal(const uchar val)
+{
+    if (val < 192) return uchar(val / 64.0 + 0.5) * 64;
+    return 255;
+}
+
+void ImageManipulator::colorReduce()
+{
+    if (colorReduceFactor > 0)
+    {
+        cv::Mat resultImage = procImage.clone();
+        int nl = resultImage.rows;                          // number of lines
+        int nc = resultImage.cols * resultImage.channels(); // number of elements per line
+        for (int j = 0; j < nl; j++)
+        {
+            // get the address of row j
+            uchar* data = resultImage.ptr<uchar>(j);
+
+            for (int i = 0; i < nc; i++)
+            {
+                // process each pixel
+                data[i] = data[i] / colorReduceFactor * colorReduceFactor + colorReduceFactor / 2;
+            }
+        }
+
+        /*
+        cv::Mat resultImage = procImage.clone();
+        uchar* pixelPtr = resultImage.data;
+        for (int i = 0; i < resultImage.rows; i++)
+        {
+            for (int j = 0; j < resultImage.cols; j++)
+            {
+                const int pi = i * resultImage.cols * 3 + j * 3;
+                pixelPtr[pi + 0] = reduceVal(pixelPtr[pi + 0]); // B
+                pixelPtr[pi + 1] = reduceVal(pixelPtr[pi + 1]); // G
+                pixelPtr[pi + 2] = reduceVal(pixelPtr[pi + 2]); // R
+            }
+        }
+        */
+        procImage = resultImage.clone();
+    }
+}
+
+void ImageManipulator::colorDenoising()
+{
+    if (colorDenoiserStrength > 0)
+    {
+        cv::Mat resultImage = procImage.clone();
+        cv::fastNlMeansDenoisingColored(resultImage, procImage, colorDenoiserStrength, 3);
+    }
 }
 
 void ImageManipulator::applyNormalizedBoxBlur()
@@ -214,7 +279,8 @@ void ImageManipulator::findContours()
 
     this->cannyResult = cannyResult.clone();
 
-    cv::findContours(cannyResult, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+    //cv::findContours(cannyResult, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+    cv::findContours(cannyResult, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
     cv::Mat contoursImage = cv::Mat::zeros(cannyResult.size(), CV_8UC3);
     processedContours.clear();
     for( size_t i = 0; i < contours.size(); i++ )
@@ -270,6 +336,7 @@ cv::Mat ImageManipulator::getSrcImage() const
 void ImageManipulator::setSrcImage(const cv::Mat &value)
 {
     srcImage = value;
+    setNonModifiedImage(srcImage.clone());
 }
 
 int ImageManipulator::getNormalizedBoxFilter() const
@@ -395,4 +462,34 @@ void ImageManipulator::setMinHessian(int value)
 {
     minHessian = value;
     extractFeaturesFromObjectImage();
+}
+
+cv::Mat ImageManipulator::getNonModifiedImage() const
+{
+    return nonModifiedImage;
+}
+
+void ImageManipulator::setNonModifiedImage(const cv::Mat &value)
+{
+    nonModifiedImage = value;
+}
+
+int ImageManipulator::getColorReduceFactor() const
+{
+    return colorReduceFactor;
+}
+
+void ImageManipulator::setColorReduceFactor(int value)
+{
+    colorReduceFactor = value;
+}
+
+int ImageManipulator::getColorDenoiserStrength() const
+{
+    return colorDenoiserStrength;
+}
+
+void ImageManipulator::setColorDenoiserStrength(int value)
+{
+    colorDenoiserStrength = value;
 }

@@ -65,6 +65,10 @@ private slots:
 
     void on_minHessianSlider_valueChanged(int value);
 
+    void on_colorReduceSlider_valueChanged(int value);
+
+    void on_colorDenoisingSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };

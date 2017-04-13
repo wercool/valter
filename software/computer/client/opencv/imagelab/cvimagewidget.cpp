@@ -2,7 +2,7 @@
 
 CVImageWidget::CVImageWidget(QWidget *parent) : QWidget(parent)
 {
-
+    installEventFilter(this);
 }
 
 void CVImageWidget::showImage(const cv::Mat &image)
@@ -36,4 +36,58 @@ void CVImageWidget::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.drawImage(QPoint(0,0), _qimage);
     painter.end();
+}
+
+bool CVImageWidget::eventFilter(QObject *object, QEvent *event)
+{
+    if (hasROI)
+    {
+        if(object == this && event->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent *mouseEvent = (QMouseEvent *)event;
+            roiRect.x = mouseEvent->pos().x();
+            roiRect.y = mouseEvent->pos().y();
+            qDebug("Mouse pressed [%d, %d]", mouseEvent->pos().x(), mouseEvent->pos().y());
+        }
+        if(object == this && event->type() == QEvent::MouseMove)
+        {
+            QMouseEvent *mouseEvent = (QMouseEvent *)event;
+            qDebug("Mouse move [%d, %d]", mouseEvent->pos().x(), mouseEvent->pos().y());
+            roiRect.width = mouseEvent->pos().x() - roiRect.x;
+            roiRect.height = mouseEvent->pos().y() - roiRect.y;
+
+            QImage cur_qimage = QImage(_tmp.data, _tmp.cols, _tmp.rows, _tmp.cols*3, QImage::Format_RGB888);
+            _qimage = cur_qimage;
+            QPainter painter(&_qimage);
+            QPen myPen(((roiRect.width > 0 && roiRect.height > 0) ? Qt::green : Qt::red), 4, Qt::SolidLine);
+            painter.setPen(myPen);
+            painter.drawRect(QRect(roiRect.x, roiRect.y, roiRect.width, roiRect.height));
+            painter.end();
+            repaint();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}
+bool CVImageWidget::getHasROI() const
+{
+    return hasROI;
+}
+
+void CVImageWidget::setHasROI(bool value)
+{
+    hasROI = value;
+}
+
+
+cv::Rect CVImageWidget::getRoiRect() const
+{
+    return roiRect;
 }

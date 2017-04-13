@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QImage>
 #include <QPainter>
+#include <QEvent>
+#include <QMouseEvent>
 #include <opencv2/opencv.hpp>
 
 class CVImageWidget : public QWidget
@@ -15,13 +17,23 @@ public:
     QSize sizeHint() const { return _qimage.size(); }
     QSize minimumSizeHint() const { return _qimage.size(); }
 
+    bool getHasROI() const;
+    void setHasROI(bool value);
+
+    cv::Rect getRoiRect() const;
+
 signals:
 
 public slots:
     void showImage(const cv::Mat& image);
 
+private:
+    bool hasROI = false;
+    cv::Rect roiRect;
+
 protected:
     void paintEvent(QPaintEvent* /*event*/);
+    bool eventFilter(QObject *object, QEvent *event);
 
     QImage _qimage;
     cv::Mat _tmp;
