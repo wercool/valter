@@ -1,0 +1,1 @@
+find negative/ -name '*.jpg' > negatives.dat

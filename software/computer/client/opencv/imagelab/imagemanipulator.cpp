@@ -257,6 +257,7 @@ void ImageManipulator::applyBilateralBlur()
     }
 }
 
+//http://docs.opencv.org/2.4/doc/tutorials/imgproc/shapedescriptors/bounding_rects_circles/bounding_rects_circles.html
 void ImageManipulator::findContours()
 {
     preProcess();
@@ -288,7 +289,7 @@ void ImageManipulator::findContours()
         qDebug("%s", format_string("contour [%d] length = %d%s", i, contours[i].size(), (contours[i].size() > contourLengthThreshold ? "    --included" : "")).c_str());
         if (contours[i].size() > contourLengthThreshold)
         {
-            cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+            cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255));
             cv::drawContours(contoursImage, contours, (int)i, color, 2, 8, hierarchy, 0, cv::Point());
             processedContours.push_back(contours[i]);
         }

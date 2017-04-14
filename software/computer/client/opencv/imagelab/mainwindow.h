@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include "cvimagewidget.h"
 #include "imagemanipulator.h"
+#include "cascadeclassifier.h"
 #include "utils.h"
 
 namespace Ui {
@@ -20,6 +21,7 @@ public:
     ~MainWindow();
 
     ImageManipulator *imageManipulator;
+    CascadeClassifier *cascadeClassifier;
 
     std::string fileName;
     void loadImage();
@@ -68,6 +70,28 @@ private slots:
     void on_colorReduceSlider_valueChanged(int value);
 
     void on_colorDenoisingSlider_valueChanged(int value);
+
+    void on_positiveImagesFolderButton_clicked();
+
+    void on_negativeImagesFolderButton_clicked();
+
+    void on_captureAndSavePositiveImagesButton_clicked(bool checked);
+
+    void on_captureAndSaveNegativeImagesButton_clicked(bool checked);
+
+    void on_captureFramesButton_clicked(bool checked);
+
+    void on_contourImagePathLineEditOKButton_clicked();
+
+    void on_positiveImageFolderLineEditOKButton_clicked();
+
+    void on_negativeImageFolderLineEditOKButton_clicked();
+
+    void on_createCollectionFileFromPositiveImagesButton_clicked();
+
+    void on_delayPositiveImageProcessingSlider_valueChanged(int value);
+
+    void on_positiveImageProcessingThresholdSlider_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;

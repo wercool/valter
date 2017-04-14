@@ -25,12 +25,14 @@ LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs\
 SOURCES += main.cpp\
         mainwindow.cpp \
     cvimagewidget.cpp \
-    imagemanipulator.cpp
+    imagemanipulator.cpp \
+    cascadeclassifier.cpp
 
 HEADERS  += mainwindow.h \
     cvimagewidget.h \
     utils.h \
-    imagemanipulator.h
+    imagemanipulator.h \
+    cascadeclassifier.h
 
 FORMS    += mainwindow.ui
 

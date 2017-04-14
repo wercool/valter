@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     ui->setupUi(this);
 
     imageManipulator = new ImageManipulator();
+    cascadeClassifier = new CascadeClassifier();
 
     // Create the processed image widget
     procImageWidget = new CVImageWidget();
@@ -63,6 +64,14 @@ void MainWindow::loadObjectImage()
 void MainWindow::on_openFileButton_clicked()
 {
     fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
+    ui->contourImagePathLineEdit->setText(fileName.c_str());
+    loadImage();
+}
+
+
+void MainWindow::on_contourImagePathLineEditOKButton_clicked()
+{
+    fileName = ui->contourImagePathLineEdit->text().toStdString();
     loadImage();
 }
 
@@ -185,4 +194,90 @@ void MainWindow::on_colorDenoisingSlider_valueChanged(int value)
 {
     imageManipulator->setColorDenoiserStrength(value);
     ui->colorDenoisingLabel->setText(format_string("Color Denoising [%d]", imageManipulator->getColorDenoiserStrength()).c_str());
+}
+
+//Haar Cascade Classifiers
+void MainWindow::on_positiveImagesFolderButton_clicked()
+{
+    std::string positiveImagesFolder = QFileDialog::getExistingDirectory(this, tr("Open Positive Images Folder"), "/home/maska").toUtf8().constData();
+    if (!positiveImagesFolder.empty())
+    {
+        cascadeClassifier->setPositiveImagesFolder(positiveImagesFolder);
+        ui->positiveImageFolderLineEdit->setText(positiveImagesFolder.c_str());
+        qDebug("Positive Image Folder: %s", positiveImagesFolder.c_str());
+    }
+}
+
+void MainWindow::on_negativeImagesFolderButton_clicked()
+{
+    std::string negativeImagesFolder = QFileDialog::getExistingDirectory(this, tr("Open Negative Images Folder"), "/home/maska").toUtf8().constData();
+    if (!negativeImagesFolder.empty())
+    {
+        cascadeClassifier->setNegativeImagesFolder(negativeImagesFolder);
+        ui->negativeImageFolderLineEdit->setText(negativeImagesFolder.c_str());
+        qDebug("Negative Image Folder: %s", negativeImagesFolder.c_str());
+    }
+}
+
+void MainWindow::on_captureAndSavePositiveImagesButton_clicked(bool checked)
+{
+    cascadeClassifier->setCapturePositive(checked);
+    if (checked)
+    {
+        ui->captureAndSaveNegativeImagesButton->setChecked(false);
+        cascadeClassifier->setCaptureNegative(false);
+    }
+}
+
+void MainWindow::on_captureAndSaveNegativeImagesButton_clicked(bool checked)
+{
+    cascadeClassifier->setCaptureNegative(checked);
+    if (checked)
+    {
+        ui->captureAndSavePositiveImagesButton->setChecked(false);
+        cascadeClassifier->setCapturePositive(false);
+    }
+}
+
+void MainWindow::on_captureFramesButton_clicked(bool checked)
+{
+    if (checked)
+    {
+        cascadeClassifier->captureVideo();
+    }
+    else
+    {
+        cascadeClassifier->stopVideo();
+    }
+}
+
+void MainWindow::on_positiveImageFolderLineEditOKButton_clicked()
+{
+    std::string folderName = ui->positiveImageFolderLineEdit->text().toStdString();
+    cascadeClassifier->setPositiveImagesFolder(folderName);
+    qDebug("Positive images Folder: %s", folderName.c_str());
+}
+
+void MainWindow::on_negativeImageFolderLineEditOKButton_clicked()
+{
+    std::string folderName = ui->negativeImageFolderLineEdit->text().toStdString();
+    cascadeClassifier->setNegativeImagesFolder(folderName);
+    qDebug("Negative images Folder: %s", folderName.c_str());
+}
+
+
+void MainWindow::on_createCollectionFileFromPositiveImagesButton_clicked()
+{
+    cascadeClassifier->processPositiveImagesToCollectionFile();
+}
+
+void MainWindow::on_delayPositiveImageProcessingSlider_valueChanged(int value)
+{
+    cascadeClassifier->setPositiveImageProcessingDelay(value);
+}
+
+void MainWindow::on_positiveImageProcessingThresholdSlider_valueChanged(int value)
+{
+    ui->positiveImageProcessingThresholdLabel->setText(format_string("Threshold [%d]", value).c_str());
+    cascadeClassifier->setPositiveImageProcessingThreshold(value);
 }
