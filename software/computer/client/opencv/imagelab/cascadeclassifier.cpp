@@ -53,8 +53,23 @@ void CascadeClassifier::captureVideoWorker()
 
 void CascadeClassifier::processPositiveImagesToCollectionFile()
 {
-    ifstream positivesDescFile(positiveImagesFolder + "/positives.lst");
-    copy(istream_iterator<string>(positivesDescFile), istream_iterator<string>(), back_inserter(positiveFileNames));
+    //ifstream positivesDescFile(positiveImagesFolder + "/positives.lst");
+    //copy(istream_iterator<string>(positivesDescFile), istream_iterator<string>(), back_inserter(positiveFileNames));
+    DIR *dpdf;
+    struct dirent *epdf;
+    dpdf = opendir(positiveImagesFolder.c_str());
+    if (dpdf != NULL)
+    {
+       while ((epdf = readdir(dpdf)))
+       {
+          if (std::string(epdf->d_name) != "." && std::string(epdf->d_name) != ".." && std::string(epdf->d_name) != "collection.dat")
+          {
+            positiveFileNames.push_back(std::string(epdf->d_name));
+            qDebug("%s", std::string(epdf->d_name).c_str());
+          }
+       }
+    }
+    std::sort(positiveFileNames.begin(), positiveFileNames.end());
     positiveImagesProcessingThread = new std::thread(&CascadeClassifier::positiveImagesProcessingWorker, this);
 }
 
@@ -63,6 +78,7 @@ void CascadeClassifier::processPositiveImagesToCollectionFile()
 //http://docs.opencv.org/2.4/doc/tutorials/imgproc/shapedescriptors/bounding_rects_circles/bounding_rects_circles.html
 void CascadeClassifier::positiveImagesProcessingWorker()
 {
+    vector<string> positiveCollection;
     for(unsigned int i=0; i < positiveFileNames.size(); ++i)
     {
         cv::Mat src;
@@ -71,8 +87,9 @@ void CascadeClassifier::positiveImagesProcessingWorker()
         vector<vector<cv::Point>> contours;
         vector<cv::Vec4i> hierarchy;
 
-        qDebug("%s", ((string)positiveFileNames[i]).c_str());
-        src = cv::imread(positiveFileNames[i], true);
+        qDebug("%s/%s", positiveImagesFolder.c_str(), ((string)positiveFileNames[i]).c_str());
+        string positiveFilePath = positiveImagesFolder + "/" + positiveFileNames[i];
+        src = cv::imread(positiveFilePath, true);
         cv::cvtColor(src, positiveImage, CV_BGR2GRAY);
 
         /// Detect edges using Threshold
@@ -117,13 +134,33 @@ void CascadeClassifier::positiveImagesProcessingWorker()
             }
         }
 
-        cv::rectangle(positiveImage, boundRect[targetObjectContourindex].tl(), boundRect[targetObjectContourindex].br(), cv::Scalar(0, 255, 0), 2, cv::LINE_8, 0);
+        if (((cv::Rect)boundRect[targetObjectContourindex]).width < positiveImage.cols && ((cv::Rect)boundRect[targetObjectContourindex]).height < positiveImage.rows)
+        {
+            cv::rectangle(positiveImage, boundRect[targetObjectContourindex].tl(), boundRect[targetObjectContourindex].br(), cv::Scalar(0, 255, 0), 2, cv::LINE_8, 0);
 
+            string positiveCollectionElement = format_string("%s 1 %d %d %d %d",
+                                                             ((string)positiveFileNames[i]).c_str(),
+                                                             ((cv::Rect)boundRect[targetObjectContourindex]).x,
+                                                             ((cv::Rect)boundRect[targetObjectContourindex]).y,
+                                                             ((cv::Rect)boundRect[targetObjectContourindex]).width,
+                                                             ((cv::Rect)boundRect[targetObjectContourindex]).height);
+            positiveCollection.push_back(positiveCollectionElement);
+        }
         cv::imshow("Positive Image", positiveImage);
         cv::imshow("Positive Image Threshold", thresholdPositiveImage);
         cv::imshow("Positive Image Contours", drawing);
         std::this_thread::sleep_for(std::chrono::milliseconds(getPositiveImageProcessingDelay()));
     }
+    qDebug("Collection file:");
+    for(size_t i=0; i< positiveCollection.size(); i++)
+    {
+       qDebug("%s", ((string)positiveCollection[i]).c_str());
+    }
+    ofstream collectionFile;
+    collectionFile.open(positiveImagesFolder + "/collection.dat");
+    std::ostream_iterator<std::string> outputIterator(collectionFile, "\n");
+    std::copy(positiveCollection.begin(), positiveCollection.end(), outputIterator);
+    collectionFile.close();
 }
 
 void CascadeClassifier::captureVideo()

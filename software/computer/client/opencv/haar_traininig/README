@@ -1,1 +1,4 @@
-find negative/ -name '*.jpg' > negatives.dat
+find negative/ -name '*.jpg' > negatives.lst
+opencv_createsamples -info positive/collection.dat -bg negatives.lst -vec tomas.vec -w 50 -h 50 -num 128
+opencv_createsamples -vec tomas.vec
+opencv_traincascade -data cascade/ -vec samples.vec -bg negatives.lst -numPos 128 -w 50 -h 50

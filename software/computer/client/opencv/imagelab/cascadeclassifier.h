@@ -16,6 +16,9 @@
 #include <iterator>
 #include <algorithm>
 
+#include <sys/types.h>
+#include <dirent.h>
+
 
 using namespace std;
 
