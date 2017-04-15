@@ -4,6 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/videoio.hpp>
+#include "opencv2/objdetect.hpp"
 #include <QDebug>
 #include "utils.h"
 #include <unistd.h>
@@ -35,6 +36,9 @@ private:
     std::thread *positiveImagesProcessingThread;
     int positiveImageProcessingDelay = 500;
     int positiveImageProcessingThreshold = 100;
+    std::string cascadeClassifierFile;
+    cv::CascadeClassifier objectCascade;
+    std::thread *objectDetectionThread;
 
     //Video
     cv::Mat videoFrame;
@@ -53,6 +57,9 @@ public:
 
     void processPositiveImagesToCollectionFile();
     void positiveImagesProcessingWorker();
+    void startDetection();
+    void stopDetection();
+    void objectDetectionWorker();
 
     string getPositiveImagesFolder() const;
     void setPositiveImagesFolder(const string &value);
@@ -66,6 +73,8 @@ public:
     void setPositiveImageProcessingDelay(int value);
     int getPositiveImageProcessingThreshold() const;
     void setPositiveImageProcessingThreshold(int value);
+    std::string getCascadeClassifierFile() const;
+    void setCascadeClassifierFile(const std::string &value);
 };
 
 #endif // CASCADECLASSIFIER_H

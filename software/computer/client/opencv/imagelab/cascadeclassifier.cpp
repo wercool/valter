@@ -2,7 +2,7 @@
 
 CascadeClassifier::CascadeClassifier()
 {
-
+    
 }
 
 void CascadeClassifier::captureVideoWorker()
@@ -38,10 +38,10 @@ void CascadeClassifier::captureVideoWorker()
 
             if (capturePositive || captureNegative)
             {
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+                std::this_thread::sleep_for(std::chrono::milliseconds(10));
             }
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
             cv::imshow("Video frames", videoFrame);
         }
@@ -163,6 +163,53 @@ void CascadeClassifier::positiveImagesProcessingWorker()
     collectionFile.close();
 }
 
+void CascadeClassifier::startDetection()
+{
+    objectDetectionThread = new std::thread(&CascadeClassifier::objectDetectionWorker, this);
+}
+
+void CascadeClassifier::stopDetection()
+{
+    videoCapture.release();
+    videoCaptured = false;
+    cv::destroyWindow("Obejct detection");
+}
+
+void CascadeClassifier::objectDetectionWorker()
+{
+    try
+    {
+        videoCapture = cv::VideoCapture(0); // open the default camera
+        if(!videoCapture.isOpened())  // check if we succeeded
+            return;
+        videoCaptured = true;
+        while (videoCaptured)
+        {
+            cv::Mat frameGray;
+            cv::Mat displayResult;
+            videoCapture.read(displayResult);
+
+            cv::cvtColor(displayResult, frameGray, cv::COLOR_BGR2GRAY);
+            cv::equalizeHist(frameGray, frameGray);
+
+            std::vector<cv::Rect> foundObjects;
+
+            objectCascade.detectMultiScale(frameGray, foundObjects, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30));
+
+            for ( size_t i = 0; i < foundObjects.size(); i++ )
+            {
+               // cv::Mat objectROI = frameGray(foundObjects[i]);
+                cv::rectangle(displayResult, ((cv::Rect)foundObjects[i]).tl(), ((cv::Rect)foundObjects[i]).br(), cv::Scalar(0, 255, 0), 2, cv::LINE_8, 0);
+            }
+
+            cv::imshow("Obejct detection", displayResult);
+        }
+    }
+    catch (const std::exception& e)
+    {
+    }
+}
+
 void CascadeClassifier::captureVideo()
 {
     captureVideoThread = new std::thread(&CascadeClassifier::captureVideoWorker, this);
@@ -233,4 +280,15 @@ int CascadeClassifier::getPositiveImageProcessingThreshold() const
 void CascadeClassifier::setPositiveImageProcessingThreshold(int value)
 {
     positiveImageProcessingThreshold = value;
+}
+
+std::string CascadeClassifier::getCascadeClassifierFile() const
+{
+    return cascadeClassifierFile;
+}
+
+void CascadeClassifier::setCascadeClassifierFile(const std::string &value)
+{
+    cascadeClassifierFile = value;
+    if( !objectCascade.load(cascadeClassifierFile) ){ qDebug("--(!)Error loading face cascade\n"); };
 }

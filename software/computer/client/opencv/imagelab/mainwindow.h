@@ -93,6 +93,10 @@ private slots:
 
     void on_positiveImageProcessingThresholdSlider_valueChanged(int value);
 
+    void on_cascadeClassifierFileOpenOKButton_clicked();
+
+    void on_captureFrameObjectDetectionButton_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

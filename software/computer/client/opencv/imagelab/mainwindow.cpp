@@ -281,3 +281,22 @@ void MainWindow::on_positiveImageProcessingThresholdSlider_valueChanged(int valu
     ui->positiveImageProcessingThresholdLabel->setText(format_string("Threshold [%d]", value).c_str());
     cascadeClassifier->setPositiveImageProcessingThreshold(value);
 }
+
+void MainWindow::on_cascadeClassifierFileOpenOKButton_clicked()
+{
+    std::string cascadeClassifierFileName = ui->cascadeOfClassifiersFileLineEdit->text().toStdString();
+    cascadeClassifier->setCascadeClassifierFile(cascadeClassifierFileName);
+    qDebug("Cascade Classifier file name: %s", cascadeClassifierFileName.c_str());
+}
+
+void MainWindow::on_captureFrameObjectDetectionButton_clicked(bool checked)
+{
+    if (checked)
+    {
+        cascadeClassifier->startDetection();
+    }
+    else
+    {
+        cascadeClassifier->stopDetection();
+    }
+}
