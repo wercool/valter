@@ -2,7 +2,7 @@
 
 ImageManipulator::ImageManipulator()
 {
-
+    
 }
 void ImageManipulator::setROI(cv::Rect roi)
 {
@@ -26,6 +26,7 @@ void ImageManipulator::preProcess()
     applyMedianBlur();
     applyBilateralBlur();
     setProcImage(procImage);
+    thresholding();
 }
 
 void ImageManipulator::captureVideoWorker()
@@ -199,6 +200,12 @@ void ImageManipulator::colorReduce()
     }
 }
 
+void ImageManipulator::thresholding()
+{
+    cv::threshold(procImage, thresholdImage, getImageThreshold(), 255, cv::THRESH_BINARY);
+    cv::imshow("Thresolded Image", thresholdImage);
+}
+
 void ImageManipulator::colorDenoising()
 {
     if (colorDenoiserStrength > 0)
@@ -262,18 +269,24 @@ void ImageManipulator::findContours()
 {
     preProcess();
     cv::Mat cannyResult;
+    cv::Mat cannyResultFromThresholded;
     cv::Mat procImageGray;
+    cv::Mat thresholdImageGray;
     cv::RNG rng(12345);
     if (!grayscale)
     {
         cv::cvtColor(procImage, procImageGray, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(thresholdImage, thresholdImageGray, cv::COLOR_BGR2GRAY);
     }
     else
     {
         procImageGray = procImage.clone();
+        thresholdImageGray = thresholdImage.clone();
     }
     cv::Canny(procImageGray, cannyResult, cannyThreshold, cannyThreshold*2, 3);
+    cv::Canny(thresholdImageGray, cannyResultFromThresholded, cannyThreshold, cannyThreshold*2, 3);
     cv::imshow("Canny result", cannyResult);
+    cv::imshow("Canny result from thresholded image", cannyResultFromThresholded);
 
     cv::addWeighted(cannyResult, 0.5, this->cannyResult, 0.5, 0, procAggregateImage);
     cv::imshow("Canny aggregated result", procAggregateImage);
@@ -295,6 +308,21 @@ void ImageManipulator::findContours()
         }
     }
     cv::imshow("Contours", contoursImage);
+
+    cv::findContours(cannyResultFromThresholded, thresholdedContours, thresholdedContoursHierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+    cv::Mat contoursThresholdedImage = cv::Mat::zeros(cannyResultFromThresholded.size(), CV_8UC3);
+    thresholdedProcessedContours.clear();
+    for( size_t i = 0; i < thresholdedContours.size(); i++ )
+    {
+        qDebug("%s", format_string("contour [%d] length = %d%s", i, thresholdedContours[i].size(), (thresholdedContours[i].size() > contourLengthThreshold ? "    --included" : "")).c_str());
+        if (thresholdedContours[i].size() > contourLengthThreshold)
+        {
+            cv::Scalar color = cv::Scalar(rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255));
+            cv::drawContours(contoursThresholdedImage, thresholdedContours, (int)i, color, 2, 8, thresholdedContoursHierarchy, 0, cv::Point());
+            thresholdedProcessedContours.push_back(thresholdedContours[i]);
+        }
+    }
+    cv::imshow("Contours from thresholded image", contoursThresholdedImage);
 }
 
 int ImageManipulator::getProcImageBrightness() const
@@ -493,4 +521,14 @@ int ImageManipulator::getColorDenoiserStrength() const
 void ImageManipulator::setColorDenoiserStrength(int value)
 {
     colorDenoiserStrength = value;
+}
+
+int ImageManipulator::getImageThreshold() const
+{
+    return imageThreshold;
+}
+
+void ImageManipulator::setImageThreshold(int value)
+{
+    imageThreshold = value;
 }

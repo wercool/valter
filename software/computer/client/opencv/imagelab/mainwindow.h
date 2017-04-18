@@ -97,6 +97,10 @@ private slots:
 
     void on_captureFrameObjectDetectionButton_clicked(bool checked);
 
+    void on_openCascadeOfClassifiersButton_clicked();
+
+    void on_imageThresholdSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };

@@ -34,6 +34,8 @@ private:
     bool grayscale = false;
     int colorReduceFactor = 0;
     int colorDenoiserStrength = 0;
+    int imageThreshold = 100;
+    cv::Mat thresholdImage;
 
     //Linear filters
     int normalizedBoxFilter = 0;
@@ -51,6 +53,10 @@ private:
     std::vector<std::vector<cv::Point>> contours;
     std::vector<cv::Vec4i> hierarchy;
     std::vector<std::vector<cv::Point>> processedContours;
+
+    std::vector<std::vector<cv::Point>> thresholdedContours;
+    std::vector<cv::Vec4i> thresholdedContoursHierarchy;
+    std::vector<std::vector<cv::Point>> thresholdedProcessedContours;
 
     //Video
     bool videoCaptured = false;
@@ -73,6 +79,7 @@ public:
 
     void changeBrightnessAndContrast();
     void colorReduce();
+    void thresholding();
     void colorDenoising();
     void applyNormalizedBoxBlur();
     void applyHomogeneousBlur();
@@ -127,6 +134,8 @@ public:
     void setColorReduceFactor(int value);
     int getColorDenoiserStrength() const;
     void setColorDenoiserStrength(int value);
+    int getImageThreshold() const;
+    void setImageThreshold(int value);
 };
 
 #endif // IMAGEMANIPULATOR_H

@@ -39,6 +39,10 @@ private:
     std::string cascadeClassifierFile;
     cv::CascadeClassifier objectCascade;
     std::thread *objectDetectionThread;
+    bool cropPositiveImages = false;
+
+    int croppedWidth = 0;
+    int croppedHeight = 0;
 
     //Video
     cv::Mat videoFrame;
@@ -55,7 +59,7 @@ public:
     void stopVideo();
     void captureVideoWorker();
 
-    void processPositiveImagesToCollectionFile();
+    void processPositiveImagesToCollectionFile(bool crop);
     void positiveImagesProcessingWorker();
     void startDetection();
     void stopDetection();
@@ -75,6 +79,10 @@ public:
     void setPositiveImageProcessingThreshold(int value);
     std::string getCascadeClassifierFile() const;
     void setCascadeClassifierFile(const std::string &value);
+    int getCroppedWidth() const;
+    void setCroppedWidth(int value);
+    int getCroppedHeight() const;
+    void setCroppedHeight(int value);
 };
 
 #endif // CASCADECLASSIFIER_H

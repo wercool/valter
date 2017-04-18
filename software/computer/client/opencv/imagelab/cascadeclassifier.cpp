@@ -51,8 +51,9 @@ void CascadeClassifier::captureVideoWorker()
     }
 }
 
-void CascadeClassifier::processPositiveImagesToCollectionFile()
+void CascadeClassifier::processPositiveImagesToCollectionFile(bool crop)
 {
+    cropPositiveImages = crop;
     //ifstream positivesDescFile(positiveImagesFolder + "/positives.lst");
     //copy(istream_iterator<string>(positivesDescFile), istream_iterator<string>(), back_inserter(positiveFileNames));
     DIR *dpdf;
@@ -79,6 +80,7 @@ void CascadeClassifier::processPositiveImagesToCollectionFile()
 void CascadeClassifier::positiveImagesProcessingWorker()
 {
     vector<string> positiveCollection;
+    vector<string> positiveCroppedCollection;
     for(unsigned int i=0; i < positiveFileNames.size(); ++i)
     {
         cv::Mat src;
@@ -145,12 +147,51 @@ void CascadeClassifier::positiveImagesProcessingWorker()
                                                              ((cv::Rect)boundRect[targetObjectContourindex]).width,
                                                              ((cv::Rect)boundRect[targetObjectContourindex]).height);
             positiveCollection.push_back(positiveCollectionElement);
+
+            if (cropPositiveImages)
+            {
+                cv::Mat croppedPositiveImage = positiveImage(boundRect[targetObjectContourindex]);
+                string positiveCroppedFilePath = positiveImagesFolder + "/cropped_" + positiveFileNames[i];
+
+                if (getCroppedWidth() != 0 && getCroppedHeight() != 0)
+                {
+                    cv::Mat croppedPositiveResizedImage;
+                    cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), getCroppedHeight()), 0, 0, cv::INTER_CUBIC);
+                    cv::imwrite(positiveCroppedFilePath, croppedPositiveResizedImage);
+                    cv::imshow("Cropped Resized Positive Image", croppedPositiveResizedImage);
+
+                    string positiveCroppedCollectionElement = format_string("%s 1 %d %d %d %d",
+                                                                     ((string)("cropped_" + positiveFileNames[i])).c_str(),
+                                                                     0,
+                                                                     0,
+                                                                     getCroppedWidth(),
+                                                                     getCroppedHeight());
+                    positiveCroppedCollection.push_back(positiveCroppedCollectionElement);
+                }
+                else
+                {
+                    cv::imwrite(positiveCroppedFilePath, croppedPositiveImage);
+                    cv::imshow("Cropped Positive Image", croppedPositiveImage);
+                }
+            }
         }
         cv::imshow("Positive Image", positiveImage);
         cv::imshow("Positive Image Threshold", thresholdPositiveImage);
         cv::imshow("Positive Image Contours", drawing);
         std::this_thread::sleep_for(std::chrono::milliseconds(getPositiveImageProcessingDelay()));
     }
+
+    for(size_t i=0; i< positiveCroppedCollection.size(); i++)
+    {
+       qDebug("%s", ((string)positiveCroppedCollection[i]).c_str());
+    }
+    ofstream collectionCroppedFile;
+    collectionCroppedFile.open(positiveImagesFolder + "/collection_cropped.dat");
+    std::ostream_iterator<std::string> outputCroppedIterator(collectionCroppedFile, "\n");
+    std::copy(positiveCroppedCollection.begin(), positiveCroppedCollection.end(), outputCroppedIterator);
+    collectionCroppedFile.close();
+
+
     qDebug("Collection file:");
     for(size_t i=0; i< positiveCollection.size(); i++)
     {
@@ -291,4 +332,24 @@ void CascadeClassifier::setCascadeClassifierFile(const std::string &value)
 {
     cascadeClassifierFile = value;
     if( !objectCascade.load(cascadeClassifierFile) ){ qDebug("--(!)Error loading face cascade\n"); };
+}
+
+int CascadeClassifier::getCroppedWidth() const
+{
+    return croppedWidth;
+}
+
+void CascadeClassifier::setCroppedWidth(int value)
+{
+    croppedWidth = value;
+}
+
+int CascadeClassifier::getCroppedHeight() const
+{
+    return croppedHeight;
+}
+
+void CascadeClassifier::setCroppedHeight(int value)
+{
+    croppedHeight = value;
 }

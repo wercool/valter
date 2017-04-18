@@ -102,6 +102,13 @@ void MainWindow::on_grayscaleCheckBox_clicked(bool checked)
     }
 }
 
+
+void MainWindow::on_imageThresholdSlider_valueChanged(int value)
+{
+    ui->imageThresholdLabel->setText(format_string("Thresholding [%d]", value).c_str());
+    imageManipulator->setImageThreshold(value);
+}
+
 void MainWindow::on_normalizedBoxFilterSlider_valueChanged(int value)
 {
     ui->normalizedBoxFilterLabel->setText(format_string("Normalized Box Filter (kernel length = %d)", value).c_str());
@@ -268,7 +275,10 @@ void MainWindow::on_negativeImageFolderLineEditOKButton_clicked()
 
 void MainWindow::on_createCollectionFileFromPositiveImagesButton_clicked()
 {
-    cascadeClassifier->processPositiveImagesToCollectionFile();
+    cascadeClassifier->setCroppedWidth(std::atoi(ui->croppedSampleWidthEdit->text().toStdString().c_str()));
+    cascadeClassifier->setCroppedHeight(std::atoi(ui->croppedSampleHeightEdit->text().toStdString().c_str()));
+    qDebug("Cropped width, height = %d, %d", cascadeClassifier->getCroppedWidth(), cascadeClassifier->getCroppedHeight());
+    cascadeClassifier->processPositiveImagesToCollectionFile(ui->cropPositivesCheckBox->isChecked());
 }
 
 void MainWindow::on_delayPositiveImageProcessingSlider_valueChanged(int value)
@@ -300,3 +310,11 @@ void MainWindow::on_captureFrameObjectDetectionButton_clicked(bool checked)
         cascadeClassifier->stopDetection();
     }
 }
+
+void MainWindow::on_openCascadeOfClassifiersButton_clicked()
+{
+    std::string cascadeClassifierFileName = QFileDialog::getOpenFileName(this, tr("Cascade of Classifier file"), "/home/maska", tr("Cascade Files (*.xml)")).toUtf8().constData();
+    qDebug("Cascade Classifier file name: %s", cascadeClassifierFileName.c_str());
+    cascadeClassifier->setCascadeClassifierFile(cascadeClassifierFileName);
+}
+
