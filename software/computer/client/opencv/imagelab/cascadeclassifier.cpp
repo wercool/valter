@@ -131,8 +131,11 @@ void CascadeClassifier::positiveImagesProcessingWorker()
             double contourArea = cv::contourArea(contours[i]);
             if(contourArea > largestContourArea)
             {
-                largestContourArea = contourArea;
-                targetObjectContourindex = i;               //Store the index of largest contour
+                if (((cv::Rect)boundRect[i]).width < positiveImage.cols && ((cv::Rect)boundRect[i]).height < positiveImage.rows)
+                {
+                    largestContourArea = contourArea;
+                    targetObjectContourindex = i;               //Store the index of largest contour
+                }
             }
         }
 
@@ -155,18 +158,21 @@ void CascadeClassifier::positiveImagesProcessingWorker()
 
                 if (getCroppedWidth() != 0 && getCroppedHeight() != 0)
                 {
-                    cv::Mat croppedPositiveResizedImage;
-                    cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), getCroppedHeight()), 0, 0, cv::INTER_CUBIC);
-                    cv::imwrite(positiveCroppedFilePath, croppedPositiveResizedImage);
-                    cv::imshow("Cropped Resized Positive Image", croppedPositiveResizedImage);
+                    if (((cv::Rect)boundRect[targetObjectContourindex]).width > getCroppedWidth() / 2 || ((cv::Rect)boundRect[targetObjectContourindex]).height > getCroppedHeight() / 2)
+                    {
+                        cv::Mat croppedPositiveResizedImage;
+                        cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), getCroppedHeight()), 0, 0, cv::INTER_CUBIC);
+                        cv::imwrite(positiveCroppedFilePath, croppedPositiveResizedImage);
+                        cv::imshow("Cropped Resized Positive Image", croppedPositiveResizedImage);
 
-                    string positiveCroppedCollectionElement = format_string("%s 1 %d %d %d %d",
-                                                                     ((string)("cropped_" + positiveFileNames[i])).c_str(),
-                                                                     0,
-                                                                     0,
-                                                                     getCroppedWidth(),
-                                                                     getCroppedHeight());
-                    positiveCroppedCollection.push_back(positiveCroppedCollectionElement);
+                        string positiveCroppedCollectionElement = format_string("%s 1 %d %d %d %d",
+                                                                         ((string)("cropped_" + positiveFileNames[i])).c_str(),
+                                                                         0,
+                                                                         0,
+                                                                         getCroppedWidth(),
+                                                                         getCroppedHeight());
+                        positiveCroppedCollection.push_back(positiveCroppedCollectionElement);
+                    }
                 }
                 else
                 {
