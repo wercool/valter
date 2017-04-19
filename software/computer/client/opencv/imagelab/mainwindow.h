@@ -101,6 +101,26 @@ private slots:
 
     void on_imageThresholdSlider_valueChanged(int value);
 
+    void on_positiveImageProcessingThresholdPreviewCheckBox_clicked(bool checked);
+
+    void on_positiveImageProcessingGaussianBlurPreviewCheckBox_clicked(bool checked);
+
+    void on_positiveImageProcessingBrightnessPreviewCheckBox_clicked(bool checked);
+
+    void on_positiveImageProcessingGaussianBlurSlider_valueChanged(int value);
+
+    void on_positiveImageProcessingBrightnessSlider_valueChanged(int value);
+
+    void on_positiveImageProcessingContrastSlider_valueChanged(int value);
+
+    void on_positiveImageProcessingCannyThresholdSlider_valueChanged(int value);
+
+    void on_processingPositiveImagesMinControuAreaOkButton_clicked();
+
+    void on_cropPositivesInRealTimeCheckBox_clicked(bool checked);
+
+    void on_setCroppedWidthAndHeightButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

@@ -234,6 +234,10 @@ void MainWindow::on_captureAndSavePositiveImagesButton_clicked(bool checked)
         ui->captureAndSaveNegativeImagesButton->setChecked(false);
         cascadeClassifier->setCaptureNegative(false);
     }
+    else
+    {
+        cascadeClassifier->savePositiveCroppedInfo();
+    }
 }
 
 void MainWindow::on_captureAndSaveNegativeImagesButton_clicked(bool checked)
@@ -288,7 +292,7 @@ void MainWindow::on_delayPositiveImageProcessingSlider_valueChanged(int value)
 
 void MainWindow::on_positiveImageProcessingThresholdSlider_valueChanged(int value)
 {
-    ui->positiveImageProcessingThresholdLabel->setText(format_string("Threshold [%d]", value).c_str());
+    ui->positiveImageProcessingThresholdLabel->setText(format_string("Threshold: [%d]", value).c_str());
     cascadeClassifier->setPositiveImageProcessingThreshold(value);
 }
 
@@ -316,5 +320,66 @@ void MainWindow::on_openCascadeOfClassifiersButton_clicked()
     std::string cascadeClassifierFileName = QFileDialog::getOpenFileName(this, tr("Cascade of Classifier file"), "/home/maska", tr("Cascade Files (*.xml)")).toUtf8().constData();
     qDebug("Cascade Classifier file name: %s", cascadeClassifierFileName.c_str());
     cascadeClassifier->setCascadeClassifierFile(cascadeClassifierFileName);
+    ui->cascadeOfClassifiersFileLineEdit->setText(cascadeClassifierFileName.c_str());
 }
 
+
+void MainWindow::on_positiveImageProcessingThresholdPreviewCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setThresholdPreview(checked);
+}
+
+void MainWindow::on_positiveImageProcessingGaussianBlurPreviewCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setGaussianBlurPreview(checked);
+}
+
+void MainWindow::on_positiveImageProcessingBrightnessPreviewCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setBrightnessPreview(checked);
+}
+
+void MainWindow::on_positiveImageProcessingGaussianBlurSlider_valueChanged(int value)
+{
+    ui->positiveImageProcessingGaussianBlurLabel->setText(format_string("Gaussian Blur: [%d]", value).c_str());
+    cascadeClassifier->setPositiveImageProcessingGaussianBlur(value);
+}
+
+void MainWindow::on_positiveImageProcessingBrightnessSlider_valueChanged(int value)
+{
+    ui->positiveImageProcessingBrightnessLabel->setText(format_string("Brightness: [%d]", value).c_str());
+    cascadeClassifier->setPositiveImageProcessingBrightness(value);
+}
+
+void MainWindow::on_positiveImageProcessingContrastSlider_valueChanged(int value)
+{
+    double contrast = (double)value / 10;
+    ui->positiveImageProcessingContrastLabel->setText(format_string("Contrast: [%.2f]", contrast).c_str());
+    cascadeClassifier->setPositiveImageProcessingContrast(contrast);
+}
+
+void MainWindow::on_positiveImageProcessingCannyThresholdSlider_valueChanged(int value)
+{
+    ui->positiveImageProcessingCannyThresholdLabel->setText(format_string("Canny Threshold: [%d]", value).c_str());
+    cascadeClassifier->setPositiveImageProcessingCannyThreshold(value);
+}
+
+void MainWindow::on_processingPositiveImagesMinControuAreaOkButton_clicked()
+{
+    cascadeClassifier->setMinContourArea(std::atoi(ui->processingPositiveImagesMinControuAreaLineEdit->text().toStdString().c_str()));
+}
+
+void MainWindow::on_cropPositivesInRealTimeCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setCropPositiveImagesRealTime(checked);
+}
+
+void MainWindow::on_setCroppedWidthAndHeightButton_clicked()
+{
+    cascadeClassifier->setCroppedWidth(std::atoi(ui->croppedSampleWidthEdit->text().toStdString().c_str()));
+    cascadeClassifier->setCroppedHeight(std::atoi(ui->croppedSampleHeightEdit->text().toStdString().c_str()));
+    qDebug("Cropped width, height = %d, %d", cascadeClassifier->getCroppedWidth(), cascadeClassifier->getCroppedHeight());
+    int minContourArea = cascadeClassifier->getCroppedWidth() * cascadeClassifier->getCroppedHeight();
+    ui->processingPositiveImagesMinControuAreaLineEdit->setText(format_string("%d", minContourArea).c_str());
+    cascadeClassifier->setMinContourArea(minContourArea);
+}

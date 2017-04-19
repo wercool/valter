@@ -36,13 +36,22 @@ private:
     std::thread *positiveImagesProcessingThread;
     int positiveImageProcessingDelay = 500;
     int positiveImageProcessingThreshold = 100;
+    int positiveImageProcessingGaussianBlur = 0;
+    int positiveImageProcessingBrightness = 0;
+    double positiveImageProcessingContrast = 1.0;
+    int positiveImageProcessingCannyThreshold = 100;
+    int minContourArea = 0;
     std::string cascadeClassifierFile;
     cv::CascadeClassifier objectCascade;
     std::thread *objectDetectionThread;
     bool cropPositiveImages = false;
+    bool cropPositiveImagesRealTime = false;
 
-    int croppedWidth = 0;
-    int croppedHeight = 0;
+    int croppedWidth = 50;
+    int croppedHeight = 50;
+
+    vector<string> positiveCroppedInfo;
+
 
     //Video
     cv::Mat videoFrame;
@@ -51,6 +60,10 @@ private:
     bool videoCaptured = false;
     int positiveImageNum = 0;
     int negativeImageNum = 0;
+
+    bool thresholdPreview = false;
+    bool gaussianBlurPreview = true;
+    bool brightnessPreview = true;
 
 public:
     CascadeClassifier();
@@ -64,6 +77,8 @@ public:
     void startDetection();
     void stopDetection();
     void objectDetectionWorker();
+
+    void savePositiveCroppedInfo();
 
     string getPositiveImagesFolder() const;
     void setPositiveImagesFolder(const string &value);
@@ -83,6 +98,24 @@ public:
     void setCroppedWidth(int value);
     int getCroppedHeight() const;
     void setCroppedHeight(int value);
+    bool getThresholdPreview() const;
+    void setThresholdPreview(bool value);
+    bool getGaussianBlurPreview() const;
+    void setGaussianBlurPreview(bool value);
+    bool getBrightnessPreview() const;
+    void setBrightnessPreview(bool value);
+    int getPositiveImageProcessingBrightness() const;
+    void setPositiveImageProcessingBrightness(int value);
+    double getPositiveImageProcessingContrast() const;
+    void setPositiveImageProcessingContrast(double value);
+    int getPositiveImageProcessingGaussianBlur() const;
+    void setPositiveImageProcessingGaussianBlur(int value);
+    int getPositiveImageProcessingCannyThreshold() const;
+    void setPositiveImageProcessingCannyThreshold(int value);
+    int getMinContourArea() const;
+    void setMinContourArea(int value);
+    bool getCropPositiveImagesRealTime() const;
+    void setCropPositiveImagesRealTime(bool value);
 };
 
 #endif // CASCADECLASSIFIER_H

@@ -2,6 +2,16 @@
 #define UTILS_H
 
 #include <memory>
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/photo.hpp>
+#include <opencv2/features2d.hpp>
+#include <opencv2/xfeatures2d.hpp>
+#include <opencv2/xfeatures2d/nonfree.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
+#include <unistd.h>
+#include <thread>
 
 static __attribute__((unused)) std::string format_string(const std::string fmt_str, ...)
 {
@@ -22,6 +32,34 @@ static __attribute__((unused)) std::string format_string(const std::string fmt_s
             break;
     }
     return std::string(formatted.get());
+}
+
+static __attribute__((unused)) std::vector<cv::Point> contoursConvexHull(std::vector<std::vector<cv::Point>>contours)
+{
+    std::vector<cv::Point> result;
+    std::vector<cv::Point> pts;
+    for ( size_t i = 0; i < contours.size(); i++)
+    {
+        for ( size_t j = 0; j < contours[i].size(); j++)
+        {
+            pts.push_back(contours[i][j]);
+        }
+    }
+    cv::convexHull(pts, result);
+    return result;
+}
+
+static __attribute__((unused)) void createPOI(const cv::Mat& src, const cv::Mat& polyMat, cv::Mat& dst)
+{
+    std::vector<cv::Mat> array(3);
+
+    for (int i=0; i<3; i++)
+    {
+        cv::extractChannel(src, array[i], i);
+        cv::bitwise_and(array[i], polyMat, array[i]);
+    }
+
+    cv::merge(array, dst);
 }
 
 #endif // UTILS_H
