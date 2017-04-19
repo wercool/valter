@@ -40,15 +40,15 @@ private:
     int positiveImageProcessingBrightness = 0;
     double positiveImageProcessingContrast = 1.0;
     int positiveImageProcessingCannyThreshold = 100;
-    int minContourArea = 0;
+    int minContourArea = 500;
     std::string cascadeClassifierFile;
     cv::CascadeClassifier objectCascade;
     std::thread *objectDetectionThread;
     bool cropPositiveImages = false;
     bool cropPositiveImagesRealTime = false;
 
-    int croppedWidth = 50;
-    int croppedHeight = 50;
+    int croppedWidth = 100;
+    int croppedHeight = 100;
 
     vector<string> positiveCroppedInfo;
 

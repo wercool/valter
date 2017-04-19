@@ -90,16 +90,11 @@ void CascadeClassifier::captureVideoWorker()
                 }
             }
 
-            if (capturePositive || captureNegative)
-            {
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-
             vector<vector<cv::Point>> contours;
             vector<cv::Vec4i> hierarchy;
 
             /// Find contours
-            cv::findContours(cannyResultFromNonThresholded, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE, cv::Point(0, 0));
+            cv::findContours(cannyResultFromNonThresholded, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE, cv::Point(0, 0));
 
             /// Approximate contours to polygons + get bounding rects and circles
             vector<vector<cv::Point>> contoursPoly(contours.size());
@@ -166,29 +161,35 @@ void CascadeClassifier::captureVideoWorker()
                                 cv::Mat positiveImageMask = cv::Mat::zeros(grayFrame.size(), CV_8UC1);
                                 cv::fillConvexPoly(positiveImageMask, &ROIVertices[0], ROIVertices.size(), cv::Scalar(255, 255, 255), 8, 0);
 
-                                cv::Mat maskedPositiveImage = cv::Mat::zeros(grayFrame.size(), CV_8UC3);
+                                cv::Mat maskedPositiveImage = cv::Mat::zeros(grayFrame.size(), CV_8U);
                                 grayFrame.copyTo(maskedPositiveImage, positiveImageMask);
 
                                 cv::Mat croppedPositiveImage = maskedPositiveImage(majorContourBoundingRect);
 
+                                double aspectRatio = (double)croppedPositiveImage.cols / (double)croppedPositiveImage.rows;
+                                qDebug("Cropped aspcetRaio: %.2f", aspectRatio);
                                 cv::Mat croppedPositiveResizedImage;
-                                cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), getCroppedHeight()), 0, 0, cv::INTER_CUBIC);
+                                cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), round(getCroppedWidth() / aspectRatio)), 0, 0, cv::INTER_CUBIC);
 
-                                cv::imshow("Cropped Resized Positive Image", croppedPositiveResizedImage);
-                                cv::imshow("Cropped Positive Image", croppedPositiveImage);
+                                cv::Mat finalPositiveImage = cv::Mat::zeros(getCroppedWidth(), getCroppedWidth(), CV_8U);
+                                croppedPositiveResizedImage.copyTo(finalPositiveImage(cv::Rect((finalPositiveImage.cols - croppedPositiveResizedImage.cols)/2, (finalPositiveImage.rows - croppedPositiveResizedImage.rows)/2, croppedPositiveResizedImage.cols, croppedPositiveResizedImage.rows)));
 
-                                if (getCapturePositive())
+
+//                                cv::imshow("Cropped Resized Positive Image", finalPositiveImage);
+//                                cv::imshow("Cropped Positive Image", croppedPositiveImage);
+
+                                if (getCapturePositive() && !finalPositiveImage.empty())
                                 {
                                     string positiveCroppedFilePath = positiveImagesFolder + "/" + format_string("pos%05d.jpg", positiveCroppedInfo.size());
                                     string positiveCroppedInfoElement = format_string("positives/pos%05d.jpg 1 %d %d %d %d",
                                                                                      positiveCroppedInfo.size(),
                                                                                      0,
                                                                                      0,
-                                                                                     getCroppedWidth(),
-                                                                                     getCroppedHeight());
+                                                                                     finalPositiveImage.cols,
+                                                                                     finalPositiveImage.cols);
                                     positiveCroppedInfo.push_back(positiveCroppedInfoElement);
 
-                                    cv::imwrite(positiveCroppedFilePath, croppedPositiveResizedImage);
+                                    cv::imwrite(positiveCroppedFilePath, finalPositiveImage);
                                 }
                             }
                             else
@@ -206,10 +207,16 @@ void CascadeClassifier::captureVideoWorker()
                 }
             }
 
-            cv::imshow("Video frames", videoFrame);
-            cv::imshow("Processed video frames", preprocessedFrame);
+//            cv::imshow("Video frames", videoFrame);
+//            cv::imshow("Processed video frames", preprocessedFrame);
             cv::imshow("Canny result from non-thresholded", cannyResultFromNonThresholded);
-            cv::imshow("Canny result from non-thresholded (contours)", cannyResultFromNonThresholdedContours);
+//            cv::imshow("Canny result from non-thresholded (contours)", cannyResultFromNonThresholdedContours);
+
+
+            if (capturePositive || captureNegative)
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            }
         }
     }
     catch (const std::exception& e)

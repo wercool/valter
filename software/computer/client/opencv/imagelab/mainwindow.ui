@@ -47,7 +47,7 @@
                <x>0</x>
                <y>0</y>
                <width>370</width>
-               <height>532</height>
+               <height>529</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -161,8 +161,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>394</height>
+                 <width>129</width>
+                 <height>269</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>394</height>
+                 <width>167</width>
+                 <height>240</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -451,7 +451,7 @@ background-repeat: no-repeat;</string>
                  <x>0</x>
                  <y>0</y>
                  <width>369</width>
-                 <height>394</height>
+                 <height>379</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -526,8 +526,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>394</height>
+                 <width>102</width>
+                 <height>94</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -826,15 +826,18 @@ background-color: rgb(255, 0, 0);</string>
               </item>
               <item row="1" column="0">
                <widget class="QLineEdit" name="croppedSampleWidthEdit">
+                <property name="styleSheet">
+                 <string notr="true">background-color: rgb(211, 252, 163);</string>
+                </property>
                 <property name="text">
-                 <string>50</string>
+                 <string>100</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
                <widget class="QLineEdit" name="croppedSampleHeightEdit">
                 <property name="text">
-                 <string>50</string>
+                 <string>100</string>
                 </property>
                </widget>
               </item>
@@ -1009,7 +1012,7 @@ background-color: rgb(255, 0, 0);</string>
               <item>
                <widget class="QLineEdit" name="processingPositiveImagesMinControuAreaLineEdit">
                 <property name="text">
-                 <string>0</string>
+                 <string>500</string>
                 </property>
                </widget>
               </item>
