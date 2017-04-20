@@ -274,6 +274,7 @@ void MainWindow::on_negativeImageFolderLineEditOKButton_clicked()
     std::string folderName = ui->negativeImageFolderLineEdit->text().toStdString();
     cascadeClassifier->setNegativeImagesFolder(folderName);
     qDebug("Negative images Folder: %s", folderName.c_str());
+    cascadeClassifier->readNegativeImagesDir();
 }
 
 

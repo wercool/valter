@@ -1,21 +1,9 @@
 #!/usr/bin/perl
 use File::Basename;
 use strict;
-##########################################################################
-# Create samples from an image applying distortions repeatedly 
-# (create many many samples from many images applying distortions)
-#
-#  perl createtrainsamples.pl <positives.dat> <negatives.dat> <vec_output_dir>
-#      [<totalnum = 7000>] [<createsample_command_options = ./createsamples -w 20 -h 20...>]
-#  ex) perl createtrainsamples.pl positives.dat negatives.dat samples
-#
-# Author: Naotoshi Seo
-# Date  : 09/12/2008 Add <totalnum> and <createsample_command_options> options
-# Date  : 06/02/2007
-# Date  : 03/12/2006
-#########################################################################
-my $cmd = './createsamples -bgcolor 0 -bgthresh 0 -maxxangle 1.1 -maxyangle 1.1 maxzangle 0.5 -maxidev 40 -w 20 -h 20';
-my $totalnum = 7000;
+
+my $cmd = 'opencv_createsamples -bgcolor 0 -bgthresh 10 -maxxangle 1.1 -maxyangle 1.1 maxzangle 0.5 -maxidev 40 -w 50 -h 50';
+my $totalnum = 1000;
 my $tmpfile  = 'tmp';
 
 if ($#ARGV < 2) {

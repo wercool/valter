@@ -14,5 +14,6 @@ opencv_traincascade -data classifier -vec samples.vec -bg negatives.lst -numStag
 
 
 opencv_createsamples -info collection.dat -vec samples.vec -w 100 -h 30
+perl createsamples.pl positives1.lst negatives.lst samples 100
 python mergevec.py -v samples/ -o samples.vec
 find negatives/ -name '*.jpg' > negatives.lst

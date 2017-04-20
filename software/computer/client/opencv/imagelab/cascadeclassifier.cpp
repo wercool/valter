@@ -167,13 +167,21 @@ void CascadeClassifier::captureVideoWorker()
                                 cv::Mat croppedPositiveImage = maskedPositiveImage(majorContourBoundingRect);
 
                                 double aspectRatio = (double)croppedPositiveImage.cols / (double)croppedPositiveImage.rows;
-                                qDebug("Cropped aspcetRaio: %.2f", aspectRatio);
                                 cv::Mat croppedPositiveResizedImage;
                                 cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), round(getCroppedWidth() / aspectRatio)), 0, 0, cv::INTER_CUBIC);
 
                                 cv::Mat finalPositiveImage = cv::Mat::zeros(getCroppedWidth(), getCroppedWidth(), CV_8U);
+//                                if (negativeFileNames.size() > 0)
+//                                {
+//                                    cv::RNG rng(12345);
+//                                    int randNegativeImageFileIndex = rand() % negativeFileNames.size();
+//                                    string randNegativeImageFile = negativeFileNames[randNegativeImageFileIndex];
+//                                    cv::Mat negativeImage = cv::imread(randNegativeImageFile, CV_8U);
+//                                    cv::Rect negativeImageROIRect(rng.uniform(0, negativeImage.cols - getCroppedWidth()), rng.uniform(0, negativeImage.rows - getCroppedWidth()), getCroppedWidth(), getCroppedWidth());
+//                                    cv::Mat negativeImageROI = negativeImage(negativeImageROIRect);
+//                                    finalPositiveImage = negativeImageROI;
+//                                }
                                 croppedPositiveResizedImage.copyTo(finalPositiveImage(cv::Rect((finalPositiveImage.cols - croppedPositiveResizedImage.cols)/2, (finalPositiveImage.rows - croppedPositiveResizedImage.rows)/2, croppedPositiveResizedImage.cols, croppedPositiveResizedImage.rows)));
-
 
 //                                cv::imshow("Cropped Resized Positive Image", finalPositiveImage);
 //                                cv::imshow("Cropped Positive Image", croppedPositiveImage);
@@ -431,6 +439,25 @@ void CascadeClassifier::objectDetectionWorker()
     }
     catch (const std::exception& e)
     {
+    }
+}
+
+void CascadeClassifier::readNegativeImagesDir()
+{
+    DIR *dpdf;
+    struct dirent *epdf;
+    dpdf = opendir(negativeImagesFolder.c_str());
+    if (dpdf != NULL)
+    {
+       while ((epdf = readdir(dpdf)))
+       {
+          if (std::string(epdf->d_name) != "." && std::string(epdf->d_name) != "..")
+          {
+            string negativeFileName = negativeImagesFolder + "/" + std::string(epdf->d_name);
+            negativeFileNames.push_back(negativeFileName);
+            qDebug("Negative Image: %s", negativeFileName.c_str());
+          }
+       }
     }
 }
 

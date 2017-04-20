@@ -33,6 +33,7 @@ private:
     bool captureNegative = false;
 
     vector<string> positiveFileNames;
+    vector<string> negativeFileNames;
     std::thread *positiveImagesProcessingThread;
     int positiveImageProcessingDelay = 500;
     int positiveImageProcessingThreshold = 100;
@@ -78,6 +79,7 @@ public:
     void stopDetection();
     void objectDetectionWorker();
 
+    void readNegativeImagesDir();
     void savePositiveCroppedInfo();
 
     string getPositiveImagesFolder() const;
