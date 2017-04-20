@@ -54,6 +54,8 @@ private:
     vector<string> positiveCroppedInfo;
 
 
+    std::thread *trainingSamplesProcessingThread;
+
     //Video
     cv::Mat videoFrame;
     cv::VideoCapture videoCapture;
@@ -65,6 +67,10 @@ private:
     bool thresholdPreview = false;
     bool gaussianBlurPreview = true;
     bool brightnessPreview = true;
+    bool showCroppedPositives = false;
+    bool createTrainingSamplesPreview = true;
+
+    std::string samplesFolder;
 
 public:
     CascadeClassifier();
@@ -79,6 +85,10 @@ public:
     void stopDetection();
     void objectDetectionWorker();
 
+    void processTrainingSamples();
+    void trainingSamplesProcessingWorker();
+
+    void readPositiveImagesDir();
     void readNegativeImagesDir();
     void savePositiveCroppedInfo();
 
@@ -118,6 +128,16 @@ public:
     void setMinContourArea(int value);
     bool getCropPositiveImagesRealTime() const;
     void setCropPositiveImagesRealTime(bool value);
+    bool getShowCroppedPositives() const;
+    void setShowCroppedPositives(bool value);
+    bool getCreateTrainingSamplesPreview() const;
+    void setCreateTrainingSamplesPreview(bool value);
+    vector<string> getNegativeFileNames() const;
+    void setNegativeFileNames(const vector<string> &value);
+    vector<string> getPositiveFileNames() const;
+    void setPositiveFileNames(const vector<string> &value);
+    std::string getSamplesFolder() const;
+    void setSamplesFolder(const std::string &value);
 };
 
 #endif // CASCADECLASSIFIER_H

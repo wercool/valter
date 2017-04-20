@@ -26,13 +26,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     cvimagewidget.cpp \
     imagemanipulator.cpp \
-    cascadeclassifier.cpp
+    cascadeclassifier.cpp \
+    neuralnetwork.cpp
 
 HEADERS  += mainwindow.h \
     cvimagewidget.h \
     utils.h \
     imagemanipulator.h \
-    cascadeclassifier.h
+    cascadeclassifier.h \
+    neuralnetwork.h
 
 FORMS    += mainwindow.ui
 

@@ -3,9 +3,11 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QMessageBox>
 #include "cvimagewidget.h"
 #include "imagemanipulator.h"
 #include "cascadeclassifier.h"
+#include "neuralnetwork.h"
 #include "utils.h"
 
 namespace Ui {
@@ -22,6 +24,7 @@ public:
 
     ImageManipulator *imageManipulator;
     CascadeClassifier *cascadeClassifier;
+    NeuralNetwork *neuralNetwork;
 
     std::string fileName;
     void loadImage();
@@ -120,6 +123,32 @@ private slots:
     void on_cropPositivesInRealTimeCheckBox_clicked(bool checked);
 
     void on_setCroppedWidthAndHeightButton_clicked();
+
+    void on_showCroppedPositivesCheckBox_clicked(bool checked);
+
+    void on_createTrainingSamplesPreviewCheckBox_clicked(bool checked);
+
+    void on_createTrainingSamplesButton_clicked();
+
+    void on_samplesFolderButton_clicked();
+
+    void on_samplesFolderOKButton_clicked();
+
+    void on_nnOpenReferenceObjectButton_clicked();
+
+    void on_nnOpenReferenceObjectOKButton_clicked();
+
+    void on_nnOpenReferenceObjectsFolderButton_clicked();
+
+    void on_nnOpenReferenceObjectsFolderOKButton_clicked();
+
+    void on_nnOpenTrainingObjectsFolderButton_clicked();
+
+    void on_nnOpenTrainingObjectsFolderOKButton_clicked();
+
+    void on_createTrainingObjectsButton_clicked();
+
+    void on_createTrainingObjectsShowDelaySlider_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;

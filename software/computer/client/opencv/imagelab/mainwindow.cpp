@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     imageManipulator = new ImageManipulator();
     cascadeClassifier = new CascadeClassifier();
+    neuralNetwork = new NeuralNetwork();
 
     // Create the processed image widget
     procImageWidget = new CVImageWidget();
@@ -212,6 +213,7 @@ void MainWindow::on_positiveImagesFolderButton_clicked()
         cascadeClassifier->setPositiveImagesFolder(positiveImagesFolder);
         ui->positiveImageFolderLineEdit->setText(positiveImagesFolder.c_str());
         qDebug("Positive Image Folder: %s", positiveImagesFolder.c_str());
+        cascadeClassifier->readPositiveImagesDir();
     }
 }
 
@@ -223,6 +225,7 @@ void MainWindow::on_negativeImagesFolderButton_clicked()
         cascadeClassifier->setNegativeImagesFolder(negativeImagesFolder);
         ui->negativeImageFolderLineEdit->setText(negativeImagesFolder.c_str());
         qDebug("Negative Image Folder: %s", negativeImagesFolder.c_str());
+        cascadeClassifier->readNegativeImagesDir();
     }
 }
 
@@ -267,6 +270,7 @@ void MainWindow::on_positiveImageFolderLineEditOKButton_clicked()
     std::string folderName = ui->positiveImageFolderLineEdit->text().toStdString();
     cascadeClassifier->setPositiveImagesFolder(folderName);
     qDebug("Positive images Folder: %s", folderName.c_str());
+    cascadeClassifier->readPositiveImagesDir();
 }
 
 void MainWindow::on_negativeImageFolderLineEditOKButton_clicked()
@@ -383,4 +387,125 @@ void MainWindow::on_setCroppedWidthAndHeightButton_clicked()
     int minContourArea = cascadeClassifier->getCroppedWidth() * cascadeClassifier->getCroppedHeight();
     ui->processingPositiveImagesMinControuAreaLineEdit->setText(format_string("%d", minContourArea).c_str());
     cascadeClassifier->setMinContourArea(minContourArea);
+}
+
+void MainWindow::on_showCroppedPositivesCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setShowCroppedPositives(checked);
+}
+
+void MainWindow::on_createTrainingSamplesPreviewCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setCreateTrainingSamplesPreview(checked);
+}
+
+void MainWindow::on_createTrainingSamplesButton_clicked()
+{
+    if (cascadeClassifier->getNegativeFileNames().size() == 0)
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Provide Negative images folder path");
+        msgBox->exec();
+        return;
+    }
+
+    if (cascadeClassifier->getPositiveFileNames().size() == 0)
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Provide Positive images folder path");
+        msgBox->exec();
+        return;
+    }
+
+    cascadeClassifier->processTrainingSamples();
+}
+
+void MainWindow::on_samplesFolderButton_clicked()
+{
+    std::string samplesFolder = QFileDialog::getExistingDirectory(this, tr("Open Samples Folder"), "/home/maska").toUtf8().constData();
+    if (!samplesFolder.empty())
+    {
+        cascadeClassifier->setSamplesFolder(samplesFolder);
+        ui->samplesFolderEdit->setText(samplesFolder.c_str());
+        qDebug("SamplesFolder: %s", samplesFolder.c_str());
+    }
+}
+
+void MainWindow::on_samplesFolderOKButton_clicked()
+{
+    std::string samplesFolder = ui->samplesFolderEdit->text().toStdString();
+    if (!samplesFolder.empty())
+    {
+        cascadeClassifier->setSamplesFolder(samplesFolder);
+        qDebug("SamplesFolder: %s", samplesFolder.c_str());
+    }
+}
+
+void MainWindow::on_nnOpenReferenceObjectButton_clicked()
+{
+    std::string referenceObjectFileName = QFileDialog::getOpenFileName(this, tr("Reference Object for NN"), "/home/maska", tr("JPG Image (*.jpg *.jpeg)")).toUtf8().constData();
+    qDebug("Reference Object FileName: %s", referenceObjectFileName.c_str());
+    neuralNetwork->setReferenceObjectFileName(referenceObjectFileName);
+    ui->nnReferenceObjectLineEdit->setText(referenceObjectFileName.c_str());
+    neuralNetwork->readReferenceObjectMat();
+}
+
+void MainWindow::on_nnOpenReferenceObjectOKButton_clicked()
+{
+    std::string referenceObjectFileName = ui->nnReferenceObjectLineEdit->text().toStdString();
+    neuralNetwork->setReferenceObjectFileName(referenceObjectFileName);
+    neuralNetwork->readReferenceObjectMat();
+}
+
+void MainWindow::on_nnOpenReferenceObjectsFolderButton_clicked()
+{
+    std::string referenceObjectsFolder = QFileDialog::getExistingDirectory(this, tr("Reference Objects Folder"), "/home/maska").toUtf8().constData();
+    qDebug("Reference Object Folder: %s", referenceObjectsFolder.c_str());
+    neuralNetwork->setReferenceObjectsFolderName(referenceObjectsFolder);
+    ui->nnReferenceObjectsFolderLineEdit->setText(referenceObjectsFolder.c_str());
+}
+
+void MainWindow::on_nnOpenReferenceObjectsFolderOKButton_clicked()
+{
+    std::string referenceObjectsFolder = ui->nnReferenceObjectsFolderLineEdit->text().toStdString();
+    neuralNetwork->setReferenceObjectsFolderName(referenceObjectsFolder);
+}
+
+void MainWindow::on_nnOpenTrainingObjectsFolderButton_clicked()
+{
+    std::string trainingObjectsFolder = QFileDialog::getExistingDirectory(this, tr("Training Objects Folder"), "/home/maska").toUtf8().constData();
+    qDebug("Training Object Folder: %s", trainingObjectsFolder.c_str());
+    neuralNetwork->setTrainingObjectsFolderName(trainingObjectsFolder);
+    ui->nnTrainingObjectsFolderLineEdit->setText(trainingObjectsFolder.c_str());
+}
+
+void MainWindow::on_nnOpenTrainingObjectsFolderOKButton_clicked()
+{
+    std::string trainingObjectsFolder = ui->nnTrainingObjectsFolderLineEdit->text().toStdString();
+    neuralNetwork->setTrainingObjectsFolderName(trainingObjectsFolder);
+}
+
+void MainWindow::on_createTrainingObjectsButton_clicked()
+{
+    if (neuralNetwork->getReferenceObjectsFolderName().empty())
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Provide Reference Objects folder path");
+        msgBox->exec();
+        return;
+    }
+    if(neuralNetwork->getTrainingObjectsFolderName().empty())
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Provide Training Objects folder path");
+        msgBox->exec();
+        return;
+    }
+    neuralNetwork->setTrainingSamplesNumber(ui->trainingSamplesNumSpinBox->value());
+    neuralNetwork->createTrainingObjectsFromReferences();
+}
+
+void MainWindow::on_createTrainingObjectsShowDelaySlider_valueChanged(int value)
+{
+    neuralNetwork->setCreateTrainingObjectsShowDelay(value);
 }

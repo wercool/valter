@@ -171,33 +171,36 @@ void CascadeClassifier::captureVideoWorker()
                                 cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), round(getCroppedWidth() / aspectRatio)), 0, 0, cv::INTER_CUBIC);
 
                                 cv::Mat finalPositiveImage = cv::Mat::zeros(getCroppedWidth(), getCroppedWidth(), CV_8U);
-//                                if (negativeFileNames.size() > 0)
-//                                {
-//                                    cv::RNG rng(12345);
-//                                    int randNegativeImageFileIndex = rand() % negativeFileNames.size();
-//                                    string randNegativeImageFile = negativeFileNames[randNegativeImageFileIndex];
-//                                    cv::Mat negativeImage = cv::imread(randNegativeImageFile, CV_8U);
-//                                    cv::Rect negativeImageROIRect(rng.uniform(0, negativeImage.cols - getCroppedWidth()), rng.uniform(0, negativeImage.rows - getCroppedWidth()), getCroppedWidth(), getCroppedWidth());
-//                                    cv::Mat negativeImageROI = negativeImage(negativeImageROIRect);
-//                                    finalPositiveImage = negativeImageROI;
-//                                }
-                                croppedPositiveResizedImage.copyTo(finalPositiveImage(cv::Rect((finalPositiveImage.cols - croppedPositiveResizedImage.cols)/2, (finalPositiveImage.rows - croppedPositiveResizedImage.rows)/2, croppedPositiveResizedImage.cols, croppedPositiveResizedImage.rows)));
 
-//                                cv::imshow("Cropped Resized Positive Image", finalPositiveImage);
-//                                cv::imshow("Cropped Positive Image", croppedPositiveImage);
+                                double fitX = (finalPositiveImage.cols - croppedPositiveResizedImage.cols)/2;
+                                double fitY = (finalPositiveImage.rows - croppedPositiveResizedImage.rows)/2;
 
-                                if (getCapturePositive() && !finalPositiveImage.empty())
+                                if (fitX >= 0 &&
+                                    fitY >= 0 &&
+                                    (fitX + croppedPositiveResizedImage.cols <= finalPositiveImage.cols) &&
+                                    (fitY + croppedPositiveResizedImage.rows <= finalPositiveImage.rows))
                                 {
-                                    string positiveCroppedFilePath = positiveImagesFolder + "/" + format_string("pos%05d.jpg", positiveCroppedInfo.size());
-                                    string positiveCroppedInfoElement = format_string("positives/pos%05d.jpg 1 %d %d %d %d",
-                                                                                     positiveCroppedInfo.size(),
-                                                                                     0,
-                                                                                     0,
-                                                                                     finalPositiveImage.cols,
-                                                                                     finalPositiveImage.cols);
-                                    positiveCroppedInfo.push_back(positiveCroppedInfoElement);
+                                    croppedPositiveResizedImage.copyTo(finalPositiveImage(cv::Rect(fitX, fitY, croppedPositiveResizedImage.cols, croppedPositiveResizedImage.rows)));
 
-                                    cv::imwrite(positiveCroppedFilePath, finalPositiveImage);
+                                    if (getShowCroppedPositives())
+                                    {
+                                        cv::imshow("Cropped Resized Positive Image", finalPositiveImage);
+                                        cv::imshow("Cropped Positive Image", croppedPositiveImage);
+                                    }
+
+                                    if (getCapturePositive() && !finalPositiveImage.empty())
+                                    {
+                                        string positiveCroppedFilePath = positiveImagesFolder + "/" + format_string("pos%05d.jpg", positiveCroppedInfo.size());
+                                        string positiveCroppedInfoElement = format_string("positives/pos%05d.jpg 1 %d %d %d %d",
+                                                                                         positiveCroppedInfo.size(),
+                                                                                         0,
+                                                                                         0,
+                                                                                         finalPositiveImage.cols,
+                                                                                         finalPositiveImage.cols);
+                                        positiveCroppedInfo.push_back(positiveCroppedInfoElement);
+
+                                        cv::imwrite(positiveCroppedFilePath, finalPositiveImage);
+                                    }
                                 }
                             }
                             else
@@ -442,6 +445,135 @@ void CascadeClassifier::objectDetectionWorker()
     }
 }
 
+void CascadeClassifier::processTrainingSamples()
+{
+    trainingSamplesProcessingThread = new std::thread(&CascadeClassifier::trainingSamplesProcessingWorker, this);
+}
+
+void CascadeClassifier::trainingSamplesProcessingWorker()
+{
+    cv::Mat positiveImage;
+    cv::Mat negativeImageROI;
+    for(unsigned int i = 0; i < positiveFileNames.size(); ++i)
+    {
+        qDebug("%s", ((string)positiveFileNames[i]).c_str());
+        positiveImage = cv::imread(positiveFileNames[i], CV_8U);
+        cv::imshow("Source Positive Image", positiveImage);
+
+        cv::RNG rng(12345);
+        int randNegativeImageFileIndex = rand() % negativeFileNames.size();
+        string randNegativeImageFile = negativeFileNames[randNegativeImageFileIndex];
+        cv::Mat negativeImage = cv::imread(randNegativeImageFile, CV_8U);
+        int negativeImageROIWidth  = (int)round(positiveImage.cols * 1.25);
+        int negativeImageROIHeight = (int)round(positiveImage.rows * 1.25);
+        if (negativeImageROIWidth > negativeImage.cols || negativeImageROIHeight > negativeImage.rows)
+        {
+            i--;
+            continue;
+        }
+        cv::Rect negativeImageROIRect(rng.uniform(0, negativeImage.cols - negativeImageROIWidth), rng.uniform(0, negativeImage.rows - negativeImageROIHeight), negativeImageROIWidth, negativeImageROIHeight);
+        negativeImageROI = negativeImage(negativeImageROIRect);
+        cv::imshow("Source Negative Image ROI", negativeImageROI);
+
+        cv::Mat processedPositiveImage = positiveImage.clone();
+        for (int i = 1; i < getPositiveImageProcessingGaussianBlur(); i = i + 2)
+        {
+            cv::GaussianBlur(positiveImage, processedPositiveImage, cv::Size(i, i), 0, 0);
+        }
+        cv::imshow("Processed Positive Image", processedPositiveImage);
+
+        cv::Mat cannyResultProcessedPositiveImage;
+        cv::Canny(processedPositiveImage, cannyResultProcessedPositiveImage, getPositiveImageProcessingCannyThreshold(), getPositiveImageProcessingCannyThreshold()*2, 3);
+
+        cv::imshow("Canny Result from processed Positive Image", cannyResultProcessedPositiveImage);
+
+        /// Getting majour contour
+        vector<vector<cv::Point>> contours;
+        vector<cv::Vec4i> hierarchy;
+
+        /// Find contours
+        cv::findContours(cannyResultProcessedPositiveImage, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE, cv::Point(0, 0));
+
+        /// Approximate contours to polygons + get bounding rects and circles
+        vector<vector<cv::Point>> contoursPoly(contours.size());
+        vector<cv::Rect> boundRect(contours.size());
+
+        for(unsigned int i = 0; i < contours.size(); i++ )
+        {
+            cv::approxPolyDP(cv::Mat(contours[i]), contoursPoly[i], 1, true);
+            boundRect[i] = cv::boundingRect(cv::Mat(contoursPoly[i]));
+        }
+
+        vector<vector<cv::Point>> majorContours;
+        for(unsigned int i = 0; i < contours.size(); i++)
+        {
+            if (((cv::Rect)boundRect[i]).area() > getMinContourArea())
+            {
+                majorContours.push_back(contours[i]);
+            }
+        }
+
+        if (majorContours.size() > 0)
+        {
+            vector<cv::Point> convexHullPoints = contoursConvexHull(majorContours);
+            cv::Mat convexHullsImage = positiveImage.clone();
+            if (convexHullPoints.size() > 0)
+            {
+                vector<cv::Point> ROIVertices;
+                cv::approxPolyDP(convexHullPoints, ROIVertices, 0.1, false);
+
+                //cv::polylines(convexHullsImage, ROIVertices, true, cv::Scalar(255, 255, 255), 1);
+
+                cv::Rect majorContourBoundingRect = cv::boundingRect(cv::Mat(ROIVertices));
+                if (majorContourBoundingRect.area() > getMinContourArea())
+                {
+                    cv::Mat sampleImageMask = cv::Mat::zeros(positiveImage.size(), CV_8UC1);
+                    cv::fillConvexPoly(sampleImageMask, &ROIVertices[0], ROIVertices.size(), cv::Scalar(255, 255, 255), cv::LINE_8, 0);
+                    cv::erode(sampleImageMask, sampleImageMask, cv::Mat(), cv::Point(-1, -1), 2);
+
+                    cv::Mat finalSampleImage = negativeImageROI.clone();
+                    cv::Rect finalSamplePositiveROI = cv::Rect((negativeImageROI.cols - sampleImageMask.cols) / 2,
+                                                               (negativeImageROI.rows - sampleImageMask.rows) / 2,
+                                                                sampleImageMask.cols, sampleImageMask.rows);
+                    positiveImage.copyTo(finalSampleImage(finalSamplePositiveROI), sampleImageMask);
+
+                    cv::imshow("Final Sample Image", finalSampleImage);
+
+                    if (!getCreateTrainingSamplesPreview())
+                    {
+                        if (!getSamplesFolder().empty())
+                        {
+                            std::string sampleFileName = format_string("%s/sample%05d.jpg", samplesFolder.c_str(), i);
+                            cv::imwrite(sampleFileName, finalSampleImage);
+                        }
+                    }
+                }
+            }
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(getPositiveImageProcessingDelay()));
+    }
+}
+
+void CascadeClassifier::readPositiveImagesDir()
+{
+    DIR *dpdf;
+    struct dirent *epdf;
+    dpdf = opendir(positiveImagesFolder.c_str());
+    if (dpdf != NULL)
+    {
+       while ((epdf = readdir(dpdf)))
+       {
+          if (std::string(epdf->d_name) != "." && std::string(epdf->d_name) != "..")
+          {
+            string positiveFileName = positiveImagesFolder + "/" + std::string(epdf->d_name);
+            positiveFileNames.push_back(positiveFileName);
+            qDebug("Positive Image: %s", positiveFileName.c_str());
+          }
+       }
+    }
+}
+
 void CascadeClassifier::readNegativeImagesDir()
 {
     DIR *dpdf;
@@ -665,4 +797,54 @@ bool CascadeClassifier::getCropPositiveImagesRealTime() const
 void CascadeClassifier::setCropPositiveImagesRealTime(bool value)
 {
     cropPositiveImagesRealTime = value;
+}
+
+bool CascadeClassifier::getShowCroppedPositives() const
+{
+    return showCroppedPositives;
+}
+
+void CascadeClassifier::setShowCroppedPositives(bool value)
+{
+    showCroppedPositives = value;
+}
+
+bool CascadeClassifier::getCreateTrainingSamplesPreview() const
+{
+    return createTrainingSamplesPreview;
+}
+
+void CascadeClassifier::setCreateTrainingSamplesPreview(bool value)
+{
+    createTrainingSamplesPreview = value;
+}
+
+vector<string> CascadeClassifier::getNegativeFileNames() const
+{
+    return negativeFileNames;
+}
+
+void CascadeClassifier::setNegativeFileNames(const vector<string> &value)
+{
+    negativeFileNames = value;
+}
+
+vector<string> CascadeClassifier::getPositiveFileNames() const
+{
+    return positiveFileNames;
+}
+
+void CascadeClassifier::setPositiveFileNames(const vector<string> &value)
+{
+    positiveFileNames = value;
+}
+
+std::string CascadeClassifier::getSamplesFolder() const
+{
+    return samplesFolder;
+}
+
+void CascadeClassifier::setSamplesFolder(const std::string &value)
+{
+    samplesFolder = value;
 }
