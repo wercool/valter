@@ -219,7 +219,7 @@ void CascadeClassifier::captureVideoWorker()
             }
 
 //            cv::imshow("Video frames", videoFrame);
-//            cv::imshow("Processed video frames", preprocessedFrame);
+            cv::imshow("Processed video frames", preprocessedFrame);
             cv::imshow("Canny result from non-thresholded", cannyResultFromNonThresholded);
 //            cv::imshow("Canny result from non-thresholded (contours)", cannyResultFromNonThresholdedContours);
 
@@ -464,8 +464,8 @@ void CascadeClassifier::trainingSamplesProcessingWorker()
         int randNegativeImageFileIndex = rand() % negativeFileNames.size();
         string randNegativeImageFile = negativeFileNames[randNegativeImageFileIndex];
         cv::Mat negativeImage = cv::imread(randNegativeImageFile, CV_8U);
-        int negativeImageROIWidth  = (int)round(positiveImage.cols * 1.25);
-        int negativeImageROIHeight = (int)round(positiveImage.rows * 1.25);
+        int negativeImageROIWidth  = (int)round(positiveImage.cols * 1.15);
+        int negativeImageROIHeight = (int)round(positiveImage.rows * 1.15);
         if (negativeImageROIWidth > negativeImage.cols || negativeImageROIHeight > negativeImage.rows)
         {
             i--;

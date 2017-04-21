@@ -509,3 +509,70 @@ void MainWindow::on_createTrainingObjectsShowDelaySlider_valueChanged(int value)
 {
     neuralNetwork->setCreateTrainingObjectsShowDelay(value);
 }
+
+void MainWindow::on_nnCreateTrainingSamplesPreviewCheckBox_clicked(bool checked)
+{
+    neuralNetwork->setCreateTrainingSamplesPreview(checked);
+}
+
+void MainWindow::on_nnSetNeuralNetworkButton_clicked()
+{
+    if(neuralNetwork->getTrainingObjectsFolderName().empty())
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Provide Training Objects folder path");
+        msgBox->exec();
+        return;
+    }
+
+    std::vector<int> layers;
+    string layersStr = ui->nnLayersLineEdit->text().toStdString();
+
+    size_t pos = 0;
+    while ((pos = layersStr.find(",")) != std::string::npos)
+    {
+        layers.push_back(atoi(layersStr.substr(0, pos).c_str()));
+        layersStr.erase(0, pos + 1);
+    }
+    if (layersStr.size() > 0)
+    {
+        layers.push_back(atoi(layersStr.c_str()));
+    }
+
+    for (unsigned int i = 0; i < layers.size(); i++)
+    {
+        ui->nnLogTextEdit->appendPlainText(format_string("Layer%d size: %d neurons", i, layers[i]).c_str());
+    }
+
+    neuralNetwork->setLayers(layers);
+    neuralNetwork->setMiniBatchSize(ui->nnMiniBatchSizeSpinBox->value());
+    neuralNetwork->setEpochs(ui->nnEpochsSpinBox->value());
+    neuralNetwork->setEta(ui->nnEtaSpinBox->value());
+
+    neuralNetwork->readTrainingSamplesFileNames();
+
+    if (neuralNetwork->getTrainingSamplesFileName().size() == 0)
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Training Objects folder is empty");
+        msgBox->exec();
+        return;
+    }
+
+    neuralNetwork->initNetwork();
+
+    ui->nnLogTextEdit->appendPlainText(format_string("Mini Batch size: %d", neuralNetwork->getMiniBatchSize()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Epochs: %d", neuralNetwork->getEpochs()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Training Rate: %.2f", neuralNetwork->getEta()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Training samples number: %d", neuralNetwork->getTrainingSamplesFileName().size()).c_str());
+}
+
+void MainWindow::on_nnStartTrainingButton_clicked(bool checked)
+{
+    neuralNetwork->setTraining(checked);
+}
+
+void MainWindow::on_nnClearLogButton_clicked()
+{
+    ui->nnLogTextEdit->clear();
+}

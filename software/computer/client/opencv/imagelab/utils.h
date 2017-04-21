@@ -62,4 +62,34 @@ static __attribute__((unused)) void createPOI(const cv::Mat& src, const cv::Mat&
     cv::merge(array, dst);
 }
 
+static __attribute__((unused)) std::vector<double> getGrayscaleVectorFromMatFile(const std::string fileName)
+{
+    cv::Mat matRGB = cv::imread(fileName.c_str());
+    cv::Mat matGrayscale;
+    cv::cvtColor(matRGB, matGrayscale, CV_BGR2GRAY);
+
+    std::vector<double> grayscaleMatVector;
+
+    for(int y = 0; y < matRGB.rows; y++)
+    {
+        for(int x = 0; x < matRGB.cols; x++)
+        {
+            cv::Scalar intensity = matRGB.at<uchar>(y, x);
+            grayscaleMatVector.push_back(intensity[0] / 255.0);
+        }
+    }
+
+    return grayscaleMatVector;
+}
+
+static __attribute__((unused)) double dotProduct(std::vector<double> A, std::vector<double> B)
+{
+    double scalar;
+    for(unsigned int i=0; i < A.size(); i++)
+    {
+       scalar = scalar + (A[i] * B[i]);
+    }
+    return scalar;
+}
+
 #endif // UTILS_H

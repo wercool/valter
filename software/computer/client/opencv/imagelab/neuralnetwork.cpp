@@ -48,6 +48,7 @@ void NeuralNetwork::createTrainingObjectsFromReferences()
 
 void NeuralNetwork::trainingDataCreationWorker()
 {
+    unsigned int tsNum = 0;
     for (unsigned int i = 0; i < referenceObjectsFileName.size(); i++)
     {
         string referenceObjectFileName = getReferenceObjectsFolderName() + "/" + referenceObjectsFileName[i];
@@ -72,10 +73,210 @@ void NeuralNetwork::trainingDataCreationWorker()
 
                 cv::imshow("Transformed Reference Object", transformedReferenceObject);
 
+                if (!getCreateTrainingSamplesPreview())
+                {
+                    string referenceObjectFileNameWOExt = ((string)referenceObjectsFileName[i]).substr(0, ((string)referenceObjectsFileName[i]).find(".jpg"));
+                    string trainingSampleFileName = format_string("%s/%s-ts-%d.jpg", getTrainingObjectsFolderName().c_str(), referenceObjectFileNameWOExt.c_str(), tsNum++);
+                    qDebug("Training sample file: %s", trainingSampleFileName.c_str());
+                    cv::imwrite(trainingSampleFileName.c_str(), transformedReferenceObject);
+                }
+
                 std::this_thread::sleep_for(std::chrono::milliseconds(getCreateTrainingObjectsShowDelay()));
             }
             angle += 180 / getTrainingSamplesNumber();
         }
+    }
+}
+
+void NeuralNetwork::initNetwork()
+{
+    miniBatchQualifier.clear();
+
+    double randBiasScale = 2.0;
+    double randWeightScale = 2.0;
+    biases.clear();
+    for (unsigned int l = 1; l < layers.size(); l++)
+    {
+        vector<double> layerNeuronBiases;
+        for (int n = 0; n < layers[l]; n++)
+        {
+            double randBias = (((double)(rand() % 100)) / 100.0)*((rand() % 2) == 0 ? -1 : 1) * randBiasScale;
+            layerNeuronBiases.push_back(randBias);
+        }
+        biases.push_back(layerNeuronBiases);
+
+        vector<vector<double>> layerNeuronWeights;
+        for (int n = 0; n < layers[l]; n++)
+        {
+            vector<double> neuronWeights;
+            for (int w = 0; w < layers[l - 1]; w++)
+            {
+                double randWeight = (((double)(rand() % 100)) / 100.0)*((rand() % 2) == 0 ? -1 : 1) * randWeightScale;
+                neuronWeights.push_back(randWeight);
+            }
+            layerNeuronWeights.push_back(neuronWeights);
+        }
+        weights.push_back(layerNeuronWeights);
+    }
+}
+
+void NeuralNetwork::trainingWorker()
+{
+    SGD();
+}
+
+void NeuralNetwork::SGD()
+{
+    for (int e = 0; e < epochs; e++)
+    {
+        createMiniBatch();
+        //mbi = mini batch index
+        for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
+        {
+            singleSampleTraining(miniBatchData[mbi], miniBatchQualifier[mbi]);
+        }
+    }
+}
+
+void NeuralNetwork::createMiniBatch()
+{
+    miniBatchData.clear();
+    miniBatchQualifier.clear();
+
+    vector<int> trainingSampleFileVectorIndexes;
+    vector<string> trainingSampleFileNames;
+
+    //selecting random training samples
+    for (int i = 0; i < miniBatchSize; i++)
+    {
+        int trainingSampleFileVectorIndex = rand() % trainingSamplesFileName.size();
+
+        if(std::find(trainingSampleFileVectorIndexes.begin(), trainingSampleFileVectorIndexes.end(), trainingSampleFileVectorIndex) != trainingSampleFileVectorIndexes.end())
+        {
+            i--;
+            continue;
+        }
+
+        trainingSampleFileNames.push_back(trainingSamplesFileName[trainingSampleFileVectorIndex]);
+
+        trainingSampleFileVectorIndexes.push_back(trainingSampleFileVectorIndex);
+    }
+
+    for (int i = 0; i < miniBatchSize; i++)
+    {
+        string trainingSampleFileName = trainingSampleFileNames[i];
+        string trainingSampleFilePath = getTrainingObjectsFolderName() + "/" + trainingSampleFileName;
+        //getting sample grayscale vector
+        vector<double> trainingSampleVector = getGrayscaleVectorFromMatFile(trainingSampleFilePath);
+        miniBatchData.push_back(trainingSampleVector);
+
+        int sampleQualifierRespectiveNeuronIdx = atoi(trainingSampleFileName.substr(0, trainingSampleFileName.find('-')).c_str());
+        vector<double> sampleQualifier;
+        //oli - output layer neuron index
+        for (int oli = 0; oli < layers[layers.size() - 1]; oli++)
+        {
+            sampleQualifier.push_back((sampleQualifierRespectiveNeuronIdx == oli) ? 1.0 : 0.0);
+        }
+        miniBatchQualifier.push_back(sampleQualifier);
+    }
+}
+
+void NeuralNetwork::singleSampleTraining(std::vector<double> sampleData, std::vector<double> sampleQualifier)
+{
+    BIASES nabla_b;
+    WEIGHTS nabla_w;
+    zeroNablas(&nabla_b, &nabla_w);
+
+    BIASES d_nabla_b;
+    WEIGHTS d_nabla_w;
+    backpropagation(sampleData, sampleQualifier, &d_nabla_b, &d_nabla_w);
+}
+
+void NeuralNetwork::backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, NeuralNetwork::pBIASES d_nabla_b, NeuralNetwork::pWEIGHTS d_nabla_w)
+{
+    BIASES nabla_b;
+    WEIGHTS nabla_w;
+    zeroNablas(&nabla_b, &nabla_w);
+
+    vector<double> activation = sampleData;
+    ACTIVATIONS activations;
+    activations.push_back(activation);
+
+    vector<vector<double>> zs;
+
+    for (unsigned int l = 1; l < layers.size(); l++)
+    {
+        vector<vector<double>> neuronLayerWeights = weights[l];
+        vector<double> neuronLayerBiases = biases[l];
+        vector<double> z;
+        vector<double> a;
+        for (int n = 0; n < layers[l]; n++)
+        {
+            vector<double> neuronWeights = neuronLayerWeights[n];
+            double zn = dotProduct(activation, neuronWeights) + neuronLayerBiases[n];
+            z.push_back(zn);
+            a.push_back(sigmoid(zn));
+        }
+        zs.push_back(z);
+        activations.push_back(a);
+        activation = a;
+    }
+}
+
+double NeuralNetwork::sigmoid(double z)
+{
+    double s = 1.0 / (1.0 + exp(-z));
+    return s;
+}
+
+void NeuralNetwork::zeroNablas(NeuralNetwork::pBIASES nabla_b, NeuralNetwork::pWEIGHTS nabla_w)
+{
+    for (unsigned int l = 1; l < layers.size(); l++)
+    {
+        vector<double> layerNeuronBiases;
+        for (int n = 0; n < layers[l]; n++)
+        {
+            layerNeuronBiases.push_back(0.0);
+        }
+        nabla_b->push_back(layerNeuronBiases);
+
+        vector<vector<double>> layerNeuronWeights;
+        for (int n = 0; n < layers[l]; n++)
+        {
+            vector<double> neuronWeights;
+            for (int w = 0; w < layers[l - 1]; w++)
+            {
+                neuronWeights.push_back(0.0);
+            }
+            layerNeuronWeights.push_back(neuronWeights);
+        }
+        nabla_w->push_back(layerNeuronWeights);
+    }
+
+}
+
+void NeuralNetwork::readTrainingSamplesFileNames()
+{
+    trainingSamplesFileName.clear();
+
+    DIR *dpdf;
+    struct dirent *epdf;
+    dpdf = opendir(getTrainingObjectsFolderName().c_str());
+    if (dpdf != NULL)
+    {
+       while ((epdf = readdir(dpdf)))
+       {
+          if (std::string(epdf->d_name) != "." && std::string(epdf->d_name) != "..")
+          {
+            string trainingSampleFileName = std::string(epdf->d_name);
+            int outputNeuronNum = atoi(trainingSampleFileName.substr(0, trainingSampleFileName.find('-')).c_str());
+            if (outputNeuronNum < layers[layers.size() - 1])
+            {
+                trainingSamplesFileName.push_back(trainingSampleFileName);
+                qDebug("Training Sample: %s , Neuron: %d", trainingSampleFileName.c_str(), outputNeuronNum);
+            }
+          }
+       }
     }
 }
 
@@ -151,4 +352,77 @@ int NeuralNetwork::getTrainingSamplesNumber() const
 void NeuralNetwork::setTrainingSamplesNumber(int value)
 {
     trainingSamplesNumber = value;
+}
+
+bool NeuralNetwork::getCreateTrainingSamplesPreview() const
+{
+    return createTrainingSamplesPreview;
+}
+
+void NeuralNetwork::setCreateTrainingSamplesPreview(bool value)
+{
+    createTrainingSamplesPreview = value;
+}
+
+std::vector<int> NeuralNetwork::getLayers() const
+{
+    return layers;
+}
+
+void NeuralNetwork::setLayers(const std::vector<int> &value)
+{
+    layers = value;
+}
+
+int NeuralNetwork::getMiniBatchSize() const
+{
+    return miniBatchSize;
+}
+
+void NeuralNetwork::setMiniBatchSize(int value)
+{
+    miniBatchSize = value;
+}
+
+int NeuralNetwork::getEpochs() const
+{
+    return epochs;
+}
+
+void NeuralNetwork::setEpochs(int value)
+{
+    epochs = value;
+}
+
+double NeuralNetwork::getEta() const
+{
+    return eta;
+}
+
+void NeuralNetwork::setEta(double value)
+{
+    eta = value;
+}
+bool NeuralNetwork::getTraining() const
+{
+    return training;
+}
+
+void NeuralNetwork::setTraining(bool value)
+{
+    training = value;
+    if (training)
+    {
+        trainingThread = new std::thread(&NeuralNetwork::trainingWorker, this);
+    }
+}
+
+vector<string> NeuralNetwork::getTrainingSamplesFileName() const
+{
+    return trainingSamplesFileName;
+}
+
+void NeuralNetwork::setTrainingSamplesFileName(const vector<string> &value)
+{
+    trainingSamplesFileName = value;
 }

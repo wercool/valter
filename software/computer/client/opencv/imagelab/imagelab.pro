@@ -43,7 +43,8 @@ DISTFILES += \
     images/videocam.png
 
 
-QMAKE_CXXFLAGS += -std=c++0x -D_GLIBCXX_USE_NANOSLEEP
+QMAKE_CXXFLAGS += -D_GLIBCXX_USE_NANOSLEEP
+QMAKE_CXXFLAGS += -std=c++11
 
 RESOURCES += \
     images.qrc

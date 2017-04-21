@@ -150,6 +150,14 @@ private slots:
 
     void on_createTrainingObjectsShowDelaySlider_valueChanged(int value);
 
+    void on_nnCreateTrainingSamplesPreviewCheckBox_clicked(bool checked);
+
+    void on_nnSetNeuralNetworkButton_clicked();
+
+    void on_nnStartTrainingButton_clicked(bool checked);
+
+    void on_nnClearLogButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
