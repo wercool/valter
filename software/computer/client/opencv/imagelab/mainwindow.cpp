@@ -203,6 +203,16 @@ void MainWindow::on_colorDenoisingSlider_valueChanged(int value)
     imageManipulator->setColorDenoiserStrength(value);
     ui->colorDenoisingLabel->setText(format_string("Color Denoising [%d]", imageManipulator->getColorDenoiserStrength()).c_str());
 }
+void MainWindow::on_sharpenCheckBox_clicked(bool checked)
+{
+    imageManipulator->setSharpen(checked);
+}
+
+
+void MainWindow::on_sharpenSlider_valueChanged(int value)
+{
+    imageManipulator->setSharpenFactor((double)value / 1000.0);
+}
 
 //Haar Cascade Classifiers
 void MainWindow::on_positiveImagesFolderButton_clicked()
@@ -441,6 +451,19 @@ void MainWindow::on_samplesFolderOKButton_clicked()
     }
 }
 
+
+void MainWindow::on_ccSharpenCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setSharpen(checked);
+}
+
+void MainWindow::on_ccSharpenSlider_valueChanged(int value)
+{
+    cascadeClassifier->setSharpenFactor((double) value / 1000.0);
+}
+
+//Neural network
+
 void MainWindow::on_nnOpenReferenceObjectButton_clicked()
 {
     std::string referenceObjectFileName = QFileDialog::getOpenFileName(this, tr("Reference Object for NN"), "/home/maska", tr("JPG Image (*.jpg *.jpeg)")).toUtf8().constData();
@@ -576,3 +599,4 @@ void MainWindow::on_nnClearLogButton_clicked()
 {
     ui->nnLogTextEdit->clear();
 }
+

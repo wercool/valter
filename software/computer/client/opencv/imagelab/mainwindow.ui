@@ -46,8 +46,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>370</width>
-               <height>532</height>
+               <width>182</width>
+               <height>88</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -154,7 +154,7 @@ background-repeat: no-repeat;</string>
             <item>
              <widget class="QToolBox" name="toolBox">
               <property name="currentIndex">
-               <number>2</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="page_1">
                <property name="geometry">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>149</width>
-                 <height>225</height>
+                 <width>164</width>
+                 <height>292</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -429,6 +429,36 @@ background-repeat: no-repeat;</string>
                    </widget>
                   </item>
                   <item>
+                   <widget class="QLabel" name="sharpenLabel">
+                    <property name="text">
+                     <string>Sharpen</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="sharpenCheckBox">
+                    <property name="text">
+                     <string>Apply sharpen filter</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSlider" name="sharpenSlider">
+                    <property name="minimum">
+                     <number>-100</number>
+                    </property>
+                    <property name="maximum">
+                     <number>100</number>
+                    </property>
+                    <property name="pageStep">
+                     <number>1</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <spacer name="verticalSpacer_3">
                     <property name="orientation">
                      <enum>Qt::Vertical</enum>
@@ -450,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>394</height>
+                 <width>177</width>
+                 <height>130</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -526,7 +556,7 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>94</width>
+                 <width>98</width>
                  <height>88</height>
                 </rect>
                </property>
@@ -625,7 +655,7 @@ background-repeat: no-repeat;</string>
                <x>0</x>
                <y>0</y>
                <width>477</width>
-               <height>643</height>
+               <height>692</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1035,6 +1065,36 @@ background-color: rgb(255, 0, 0);</string>
                   </property>
                   <property name="value">
                    <number>100</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_19">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QCheckBox" name="ccSharpenCheckBox">
+                    <property name="text">
+                     <string>Sharpen</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QSlider" name="ccSharpenSlider">
+                  <property name="minimum">
+                   <number>-100</number>
+                  </property>
+                  <property name="maximum">
+                   <number>100</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>1</number>
                   </property>
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>

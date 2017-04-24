@@ -47,6 +47,8 @@ private:
     std::thread *objectDetectionThread;
     bool cropPositiveImages = false;
     bool cropPositiveImagesRealTime = false;
+    bool sharpen = false;
+    float sharpenFactor = 0.0;
 
     int croppedWidth = 100;
     int croppedHeight = 100;
@@ -138,6 +140,10 @@ public:
     void setPositiveFileNames(const vector<string> &value);
     std::string getSamplesFolder() const;
     void setSamplesFolder(const std::string &value);
+    bool getSharpen() const;
+    void setSharpen(bool value);
+    float getSharpenFactor() const;
+    void setSharpenFactor(float value);
 };
 
 #endif // CASCADECLASSIFIER_H

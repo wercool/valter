@@ -37,12 +37,12 @@ private:
     vector<string> trainingSamplesFileName;
 
     std::thread *trainingDataCreationProcessingThread;
-    int createTrainingObjectsShowDelay;
+    int createTrainingObjectsShowDelay = 250;
     int trainingSamplesNumber;
     bool createTrainingSamplesPreview = true;
 
     //Network Parameters
-    std::vector<int> layers;
+    std::vector<int> layers; //contains number of neurons in eash layer
     int miniBatchSize = 10;
     int epochs = 10;
     double eta = 0.15;
@@ -65,8 +65,10 @@ private:
     void backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, pBIASES d_nabla_b, pWEIGHTS d_nabla_w);
 
     double sigmoid(double z);
+    vector<double> sigmoidPrime(vector<double> z);
 
     void zeroNablas(pBIASES nabla_b, pWEIGHTS nabla_w);
+    vector<double> costDerivative(vector<double> outputActivations, vector<double>qualifier);
 
     void trainingWorker();
 

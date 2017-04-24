@@ -18,6 +18,7 @@ void ImageManipulator::setROI(cv::Rect roi)
 void ImageManipulator::preProcess()
 {
     changeBrightnessAndContrast();
+    applySharpenFilter();
     colorReduce();
     colorDenoising();
     applyNormalizedBoxBlur();
@@ -261,6 +262,18 @@ void ImageManipulator::applyBilateralBlur()
     for ( int i = 1; i < bilateralBlur; i = i + 2 )
     {
         cv::bilateralFilter(resultImage, procImage, i, i*2, i/2);
+    }
+}
+
+void ImageManipulator::applySharpenFilter()
+{
+    if (sharpen)
+    {
+        cv::Mat resultImage = procImage.clone();
+        float kdata[] = {0, (-1 + sharpenFactor), 0, (-1 + sharpenFactor), 5, (-1 + sharpenFactor), 0,  (-1 + sharpenFactor), 0};
+        cv::Mat kernel(3,3, CV_32F, kdata);
+        cv::filter2D(procImage, resultImage, -1, kernel);
+        procImage = resultImage.clone();
     }
 }
 
@@ -531,4 +544,24 @@ int ImageManipulator::getImageThreshold() const
 void ImageManipulator::setImageThreshold(int value)
 {
     imageThreshold = value;
+}
+
+bool ImageManipulator::getSharpen() const
+{
+    return sharpen;
+}
+
+void ImageManipulator::setSharpen(bool value)
+{
+    sharpen = value;
+}
+
+float ImageManipulator::getSharpenFactor() const
+{
+    return sharpenFactor;
+}
+
+void ImageManipulator::setSharpenFactor(float value)
+{
+    sharpenFactor = value;
 }

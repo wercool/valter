@@ -94,7 +94,7 @@ void CascadeClassifier::captureVideoWorker()
             vector<cv::Vec4i> hierarchy;
 
             /// Find contours
-            cv::findContours(cannyResultFromNonThresholded, contours, hierarchy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE, cv::Point(0, 0));
+            cv::findContours(cannyResultFromNonThresholded, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_NONE, cv::Point(0, 0));
 
             /// Approximate contours to polygons + get bounding rects and circles
             vector<vector<cv::Point>> contoursPoly(contours.size());
@@ -136,7 +136,7 @@ void CascadeClassifier::captureVideoWorker()
                 if (convexHullPoints.size() > 0)
                 {
                     vector<cv::Point> ROIVertices;
-                    cv::approxPolyDP(convexHullPoints, ROIVertices, 0.1, false);
+                    cv::approxPolyDP(convexHullPoints, ROIVertices, 0.25, false);
 
                     cv::polylines(convexHullsImage, ROIVertices, true, cv::Scalar(255, 255, 255), 1);
                     cv::Rect majorContourBoundingRect = cv::boundingRect(cv::Mat(ROIVertices));
@@ -160,6 +160,17 @@ void CascadeClassifier::captureVideoWorker()
 
                                 cv::Mat positiveImageMask = cv::Mat::zeros(grayFrame.size(), CV_8UC1);
                                 cv::fillConvexPoly(positiveImageMask, &ROIVertices[0], ROIVertices.size(), cv::Scalar(255, 255, 255), 8, 0);
+
+
+                                if (getSharpen())
+                                {
+                                    cv::Mat resultImage;
+                                    float kdata[] = {0, (-1 + sharpenFactor), 0, (-1 + sharpenFactor), 5, (-1 + sharpenFactor), 0,  (-1 + sharpenFactor), 0};
+                                    cv::Mat kernel(3,3, CV_32F, kdata);
+                                    cv::filter2D(grayFrame, resultImage, -1, kernel);
+                                    grayFrame = resultImage.clone();
+                                    //cv::erode(resultImage, croppedPositiveImage, cv::Mat(), cv::Point(-1, -1), 2);
+                                }
 
                                 cv::Mat maskedPositiveImage = cv::Mat::zeros(grayFrame.size(), CV_8U);
                                 grayFrame.copyTo(maskedPositiveImage, positiveImageMask);
@@ -847,4 +858,24 @@ std::string CascadeClassifier::getSamplesFolder() const
 void CascadeClassifier::setSamplesFolder(const std::string &value)
 {
     samplesFolder = value;
+}
+
+bool CascadeClassifier::getSharpen() const
+{
+    return sharpen;
+}
+
+void CascadeClassifier::setSharpen(bool value)
+{
+    sharpen = value;
+}
+
+float CascadeClassifier::getSharpenFactor() const
+{
+    return sharpenFactor;
+}
+
+void CascadeClassifier::setSharpenFactor(float value)
+{
+    sharpenFactor = value;
 }

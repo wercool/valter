@@ -36,6 +36,8 @@ private:
     int colorDenoiserStrength = 0;
     int imageThreshold = 100;
     cv::Mat thresholdImage;
+    bool sharpen = false;
+    float sharpenFactor = 0.0;
 
     //Linear filters
     int normalizedBoxFilter = 0;
@@ -86,6 +88,7 @@ public:
     void applyGaussianBlur();
     void applyMedianBlur();
     void applyBilateralBlur();
+    void applySharpenFilter();
 
     void findContours();
     void extractFeaturesFromObjectImage();
@@ -136,6 +139,10 @@ public:
     void setColorDenoiserStrength(int value);
     int getImageThreshold() const;
     void setImageThreshold(int value);
+    bool getSharpen() const;
+    void setSharpen(bool value);
+    float getSharpenFactor() const;
+    void setSharpenFactor(float value);
 };
 
 #endif // IMAGEMANIPULATOR_H

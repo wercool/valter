@@ -158,6 +158,15 @@ private slots:
 
     void on_nnClearLogButton_clicked();
 
+    void on_sharpenCheckBox_clicked(bool checked);
+
+    void on_sharpenSlider_valueChanged(int value);
+
+    void on_ccSharpenCheckBox_clicked(bool checked);
+
+    void on_ccSharpenSlider_valueChanged(int value);
+
+
 private:
     Ui::MainWindow *ui;
 };

@@ -85,11 +85,21 @@ static __attribute__((unused)) std::vector<double> getGrayscaleVectorFromMatFile
 static __attribute__((unused)) double dotProduct(std::vector<double> A, std::vector<double> B)
 {
     double scalar;
-    for(unsigned int i=0; i < A.size(); i++)
+    for(unsigned int i = 0; i < A.size(); i++)
     {
        scalar = scalar + (A[i] * B[i]);
     }
     return scalar;
+}
+
+static __attribute__((unused)) std::vector<double> HadamarProduct(std::vector<double> A, std::vector<double> B)
+{
+    std::vector<double> HadamarProduct;
+    for(unsigned int i = 0; i < A.size(); i++)
+    {
+       HadamarProduct.push_back(A[i] * B[i]);
+    }
+    return HadamarProduct;
 }
 
 #endif // UTILS_H
