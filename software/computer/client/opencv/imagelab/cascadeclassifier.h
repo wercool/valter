@@ -73,6 +73,11 @@ private:
     bool showCroppedPositives = false;
     bool createTrainingSamplesPreview = true;
 
+    bool applyFiltersToPositiveSamples = false;
+    bool applyFiltersRandomlyToPositiveSamples = false;
+
+    int rotateSamplesAngle = 0;
+
     std::string samplesFolder;
 
 public:
@@ -90,6 +95,7 @@ public:
 
     void processTrainingSamples();
     void trainingSamplesProcessingWorker();
+    void trainingSamplesApplyFilters(cv::Mat &finalSampleImage);
 
     void readPositiveImagesDir();
     void readNegativeImagesDir();
@@ -147,6 +153,12 @@ public:
     void setSharpenFactor(float value);
     bool getPositiveSampleBackgroundBlack() const;
     void setPositiveSampleBackgroundBlack(bool value);
+    bool getApplyFiltersToPositiveSamples() const;
+    void setApplyFiltersToPositiveSamples(bool value);
+    bool getApplyFiltersRandomlyToPositiveSamples() const;
+    void setApplyFiltersRandomlyToPositiveSamples(bool value);
+    int getRotateSamplesAngle() const;
+    void setRotateSamplesAngle(int value);
 };
 
 #endif // CASCADECLASSIFIER_H

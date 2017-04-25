@@ -47,7 +47,7 @@
                <x>0</x>
                <y>0</y>
                <width>370</width>
-               <height>529</height>
+               <height>532</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -154,15 +154,15 @@ background-repeat: no-repeat;</string>
             <item>
              <widget class="QToolBox" name="toolBox">
               <property name="currentIndex">
-               <number>1</number>
+               <number>0</number>
               </property>
               <widget class="QWidget" name="page_1">
                <property name="geometry">
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>129</width>
-                 <height>269</height>
+                 <width>369</width>
+                 <height>394</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>379</height>
+                 <width>164</width>
+                 <height>292</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -480,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>199</width>
-                 <height>139</height>
+                 <width>177</width>
+                 <height>130</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -556,8 +556,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>102</width>
-                 <height>94</height>
+                 <width>94</width>
+                 <height>88</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -655,12 +655,15 @@ background-repeat: no-repeat;</string>
                <x>0</x>
                <y>0</y>
                <width>534</width>
-               <height>767</height>
+               <height>689</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_9">
+                <property name="spacing">
+                 <number>4</number>
+                </property>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_10">
                   <property name="topMargin">
@@ -887,17 +890,10 @@ background-color: rgb(255, 0, 0);</string>
                     <property name="topMargin">
                      <number>0</number>
                     </property>
-                    <item row="0" column="0">
-                     <widget class="QLabel" name="label">
+                    <item row="2" column="0" colspan="2">
+                     <widget class="QPushButton" name="setCroppedWidthAndHeightButton">
                       <property name="text">
-                       <string>Width</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="1">
-                     <widget class="QLabel" name="label_2">
-                      <property name="text">
-                       <string>Height</string>
+                       <string>Set Cropped Width and Height</string>
                       </property>
                      </widget>
                     </item>
@@ -918,10 +914,17 @@ background-color: rgb(255, 0, 0);</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="2" column="0" colspan="2">
-                     <widget class="QPushButton" name="setCroppedWidthAndHeightButton">
+                    <item row="0" column="1">
+                     <widget class="QLabel" name="label_2">
                       <property name="text">
-                       <string>Set Cropped Width and Height</string>
+                       <string>Height</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label">
+                      <property name="text">
+                       <string>Width</string>
                       </property>
                      </widget>
                     </item>
@@ -983,11 +986,25 @@ background-color: rgb(255, 0, 0);</string>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_14">
                     <item>
-                     <widget class="QPushButton" name="samplesFolderButton">
-                      <property name="text">
-                       <string>Samples Folder</string>
+                     <layout class="QHBoxLayout" name="horizontalLayout_26">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                     </widget>
+                      <item>
+                       <widget class="QCheckBox" name="ccApplyFiltersCheckBox">
+                        <property name="text">
+                         <string>Apply filters</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QCheckBox" name="ccApplyFiltersRandomlyCheckBox">
+                        <property name="text">
+                         <string>Apply filters randomly</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -995,7 +1012,18 @@ background-color: rgb(255, 0, 0);</string>
                        <number>0</number>
                       </property>
                       <item>
-                       <widget class="QLineEdit" name="samplesFolderEdit"/>
+                       <widget class="QPushButton" name="samplesFolderButton">
+                        <property name="text">
+                         <string>Samples Folder</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="samplesFolderEdit">
+                        <property name="text">
+                         <string/>
+                        </property>
+                       </widget>
                       </item>
                       <item>
                        <widget class="QPushButton" name="samplesFolderOKButton">
@@ -1043,6 +1071,12 @@ background-color: rgb(255, 0, 0);</string>
                 </item>
                 <item>
                  <widget class="QSlider" name="positiveImageProcessingBrightnessSlider">
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="minimum">
                    <number>-200</number>
                   </property>
@@ -1193,6 +1227,40 @@ background-color: rgb(255, 0, 0);</string>
                 </item>
                 <item>
                  <widget class="Line" name="line_5">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_27">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="ccRotateSamplesLabel">
+                    <property name="text">
+                     <string>Rotate Samples</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSlider" name="ccRotateSamplesSlider">
+                    <property name="minimum">
+                     <number>-180</number>
+                    </property>
+                    <property name="maximum">
+                     <number>180</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_7">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>

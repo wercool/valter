@@ -471,6 +471,24 @@ void MainWindow::on_ccBackgroundWhiteRadioButton_clicked(bool checked)
 {
     cascadeClassifier->setPositiveSampleBackgroundBlack(!checked);
 }
+
+void MainWindow::on_ccApplyFiltersCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setApplyFiltersToPositiveSamples(checked);
+}
+
+void MainWindow::on_ccApplyFiltersRandomlyCheckBox_clicked(bool checked)
+{
+    cascadeClassifier->setApplyFiltersRandomlyToPositiveSamples(checked);
+}
+
+void MainWindow::on_ccRotateSamplesSlider_valueChanged(int value)
+{
+    ui->ccRotateSamplesLabel->setText(format_string("Rotate Samples: [%d]", value).c_str());
+    cascadeClassifier->setRotateSamplesAngle(value);
+}
+
+
 //Neural network
 
 void MainWindow::on_nnOpenReferenceObjectButton_clicked()
@@ -608,5 +626,6 @@ void MainWindow::on_nnClearLogButton_clicked()
 {
     ui->nnLogTextEdit->clear();
 }
+
 
 

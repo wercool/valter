@@ -171,6 +171,12 @@ private slots:
 
     void on_ccBackgroundWhiteRadioButton_clicked(bool checked);
 
+    void on_ccApplyFiltersCheckBox_clicked(bool checked);
+
+    void on_ccApplyFiltersRandomlyCheckBox_clicked(bool checked);
+
+    void on_ccRotateSamplesSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };

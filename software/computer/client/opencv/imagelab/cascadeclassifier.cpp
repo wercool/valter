@@ -1,14 +1,5 @@
 #include "cascadeclassifier.h"
 
-bool CascadeClassifier::getPositiveSampleBackgroundBlack() const
-{
-    return positiveSampleBackgroundBlack;
-}
-
-void CascadeClassifier::setPositiveSampleBackgroundBlack(bool value)
-{
-    positiveSampleBackgroundBlack = value;
-}
 
 CascadeClassifier::CascadeClassifier()
 {
@@ -481,20 +472,48 @@ void CascadeClassifier::processTrainingSamples()
 
 void CascadeClassifier::trainingSamplesProcessingWorker()
 {
+    int maxBoundingBoxWidth = 0.0;
+    int maxBoundingBoxHeight = 0.0;
     cv::Mat positiveImage;
     cv::Mat negativeImageROI;
+
     for(unsigned int i = 0; i < positiveFileNames.size(); ++i)
     {
         qDebug("%s", ((string)positiveFileNames[i]).c_str());
         positiveImage = cv::imread(positiveFileNames[i], CV_8U);
+
+        if (getRotateSamplesAngle() != 0)
+        {
+            // get rotation matrix for rotating the image around its center
+            cv::Point2f center(positiveImage.cols/2.0, positiveImage.rows/2.0);
+            cv::Mat rot = cv::getRotationMatrix2D(center, getRotateSamplesAngle(), 1.0);
+            // determine bounding rectangle
+            cv::Rect bbox = cv::RotatedRect(center, positiveImage.size(), getRotateSamplesAngle()).boundingRect();
+            // adjust transformation matrix
+            rot.at<double>(0,2) += bbox.width/2.0 - center.x;
+            rot.at<double>(1,2) += bbox.height/2.0 - center.y;
+
+            cv::Mat positiveImageRotated;
+            if (!getPositiveSampleBackgroundBlack())
+            {
+                cv::warpAffine(positiveImage, positiveImageRotated, rot, bbox.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT, cv::Scalar(255, 255, 255));
+            }
+            else
+            {
+                cv::warpAffine(positiveImage, positiveImageRotated, rot, bbox.size(), cv::INTER_LINEAR, cv::BORDER_CONSTANT);
+            }
+
+            positiveImage = positiveImageRotated.clone();
+        }
+
         cv::imshow("Source Positive Image", positiveImage);
 
         cv::RNG rng(12345);
         int randNegativeImageFileIndex = rand() % negativeFileNames.size();
         string randNegativeImageFile = negativeFileNames[randNegativeImageFileIndex];
         cv::Mat negativeImage = cv::imread(randNegativeImageFile, CV_8U);
-        int negativeImageROIWidth  = (int)round(positiveImage.cols * 1.15);
-        int negativeImageROIHeight = (int)round(positiveImage.rows * 1.15);
+        int negativeImageROIWidth  = (int)round(positiveImage.cols * 1.05);
+        int negativeImageROIHeight = (int)round(positiveImage.rows * 1.05);
         if (negativeImageROIWidth > negativeImage.cols || negativeImageROIHeight > negativeImage.rows)
         {
             i--;
@@ -562,11 +581,22 @@ void CascadeClassifier::trainingSamplesProcessingWorker()
 
                     cv::imshow("Sample Image Mask", sampleImageMask);
 
+                    if (getApplyFiltersToPositiveSamples())
+                    {
+                        trainingSamplesApplyFilters(positiveImage);
+                    }
+
                     cv::Mat finalSampleImage = negativeImageROI.clone();
                     cv::Rect finalSamplePositiveROI = cv::Rect((negativeImageROI.cols - sampleImageMask.cols) / 2,
                                                                (negativeImageROI.rows - sampleImageMask.rows) / 2,
                                                                 sampleImageMask.cols, sampleImageMask.rows);
+
                     positiveImage.copyTo(finalSampleImage(finalSamplePositiveROI), sampleImageMask);
+
+                    qDebug("Major Contour bouding box size: [%d, %d]", majorContourBoundingRect.width, majorContourBoundingRect.height);
+
+                    maxBoundingBoxWidth = (majorContourBoundingRect.width > maxBoundingBoxWidth) ? majorContourBoundingRect.width : maxBoundingBoxWidth;
+                    maxBoundingBoxHeight = (majorContourBoundingRect.height > maxBoundingBoxHeight) ? majorContourBoundingRect.height : maxBoundingBoxHeight;
 
                     cv::imshow("Final Sample Image", finalSampleImage);
 
@@ -584,6 +614,45 @@ void CascadeClassifier::trainingSamplesProcessingWorker()
 
         std::this_thread::sleep_for(std::chrono::milliseconds(getPositiveImageProcessingDelay()));
     }
+
+    qDebug("==============MAX Positive Sample Bounding==============");
+    qDebug("[W, H]: %d, %d", maxBoundingBoxWidth, maxBoundingBoxHeight);
+    qDebug("========================================================");
+}
+
+void CascadeClassifier::trainingSamplesApplyFilters(cv::Mat &finalSampleImage)
+{
+    // http://docs.opencv.org/2.4/doc/tutorials/core/basic_linear_transform/basic_linear_transform.html
+    cv::Mat resultImage = finalSampleImage.clone();
+
+    double positiveImageProcessingContrastVal = positiveImageProcessingContrast;
+    int positiveImageProcessingBrightnessVal = positiveImageProcessingBrightness;
+
+    if (applyFiltersRandomlyToPositiveSamples)
+    {
+        double contranstRNGSign = (double)(rand() % 2) - 1;
+        double contranstRNG = (double)(rand() % 100) / 100.0;
+        positiveImageProcessingContrastVal = positiveImageProcessingContrast + ((contranstRNGSign > 0) ? contranstRNG : -contranstRNG);
+
+//        double brightnessRNGSign = (double)(rand() % 2) - 1;
+//        int brightnessRNG = round((double)(rand() % 10));
+    }
+
+    for(int y = 0; y < resultImage.rows; y++)
+    {
+        for(int x = 0; x < resultImage.cols; x++)
+        {
+            resultImage.at<unsigned char>(y,x) = cv::saturate_cast<unsigned char>(positiveImageProcessingContrastVal * (resultImage.at<unsigned char>(y,x)) + positiveImageProcessingBrightnessVal);
+        }
+    }
+
+    finalSampleImage = resultImage.clone();
+
+    for ( int i = 1; i < positiveImageProcessingGaussianBlur; i = i + 2 )
+    {
+        cv::GaussianBlur(resultImage, finalSampleImage, cv::Size(i, i), 0, 0);
+    }
+
 }
 
 void CascadeClassifier::readPositiveImagesDir()
@@ -898,4 +967,44 @@ float CascadeClassifier::getSharpenFactor() const
 void CascadeClassifier::setSharpenFactor(float value)
 {
     sharpenFactor = value;
+}
+
+bool CascadeClassifier::getPositiveSampleBackgroundBlack() const
+{
+    return positiveSampleBackgroundBlack;
+}
+
+void CascadeClassifier::setPositiveSampleBackgroundBlack(bool value)
+{
+    positiveSampleBackgroundBlack = value;
+}
+
+bool CascadeClassifier::getApplyFiltersToPositiveSamples() const
+{
+    return applyFiltersToPositiveSamples;
+}
+
+void CascadeClassifier::setApplyFiltersToPositiveSamples(bool value)
+{
+    applyFiltersToPositiveSamples = value;
+}
+
+bool CascadeClassifier::getApplyFiltersRandomlyToPositiveSamples() const
+{
+    return applyFiltersRandomlyToPositiveSamples;
+}
+
+void CascadeClassifier::setApplyFiltersRandomlyToPositiveSamples(bool value)
+{
+    applyFiltersRandomlyToPositiveSamples = value;
+}
+
+int CascadeClassifier::getRotateSamplesAngle() const
+{
+    return rotateSamplesAngle;
+}
+
+void CascadeClassifier::setRotateSamplesAngle(int value)
+{
+    rotateSamplesAngle = value;
 }
