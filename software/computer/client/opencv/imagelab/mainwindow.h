@@ -167,6 +167,10 @@ private slots:
     void on_ccSharpenSlider_valueChanged(int value);
 
 
+    void on_ccBackgroundBlackRadioButton_clicked(bool checked);
+
+    void on_ccBackgroundWhiteRadioButton_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

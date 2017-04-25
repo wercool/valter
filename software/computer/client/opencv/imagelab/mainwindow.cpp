@@ -462,6 +462,15 @@ void MainWindow::on_ccSharpenSlider_valueChanged(int value)
     cascadeClassifier->setSharpenFactor((double) value / 1000.0);
 }
 
+void MainWindow::on_ccBackgroundBlackRadioButton_clicked(bool checked)
+{
+    cascadeClassifier->setPositiveSampleBackgroundBlack(checked);
+}
+
+void MainWindow::on_ccBackgroundWhiteRadioButton_clicked(bool checked)
+{
+    cascadeClassifier->setPositiveSampleBackgroundBlack(!checked);
+}
 //Neural network
 
 void MainWindow::on_nnOpenReferenceObjectButton_clicked()
@@ -599,4 +608,5 @@ void MainWindow::on_nnClearLogButton_clicked()
 {
     ui->nnLogTextEdit->clear();
 }
+
 

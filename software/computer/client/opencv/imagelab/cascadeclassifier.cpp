@@ -1,5 +1,15 @@
 #include "cascadeclassifier.h"
 
+bool CascadeClassifier::getPositiveSampleBackgroundBlack() const
+{
+    return positiveSampleBackgroundBlack;
+}
+
+void CascadeClassifier::setPositiveSampleBackgroundBlack(bool value)
+{
+    positiveSampleBackgroundBlack = value;
+}
+
 CascadeClassifier::CascadeClassifier()
 {
     
@@ -173,6 +183,10 @@ void CascadeClassifier::captureVideoWorker()
                                 }
 
                                 cv::Mat maskedPositiveImage = cv::Mat::zeros(grayFrame.size(), CV_8U);
+                                if (!getPositiveSampleBackgroundBlack())
+                                {
+                                    maskedPositiveImage.setTo(cv::Scalar(255, 255, 255));
+                                }
                                 grayFrame.copyTo(maskedPositiveImage, positiveImageMask);
 
                                 cv::Mat croppedPositiveImage = maskedPositiveImage(majorContourBoundingRect);
@@ -182,6 +196,10 @@ void CascadeClassifier::captureVideoWorker()
                                 cv::resize(croppedPositiveImage, croppedPositiveResizedImage, cv::Size(getCroppedWidth(), round(getCroppedWidth() / aspectRatio)), 0, 0, cv::INTER_CUBIC);
 
                                 cv::Mat finalPositiveImage = cv::Mat::zeros(getCroppedWidth(), getCroppedWidth(), CV_8U);
+                                if (!getPositiveSampleBackgroundBlack())
+                                {
+                                    finalPositiveImage.setTo(cv::Scalar(255, 255, 255));
+                                }
 
                                 double fitX = (finalPositiveImage.cols - croppedPositiveResizedImage.cols)/2;
                                 double fitY = (finalPositiveImage.rows - croppedPositiveResizedImage.rows)/2;
@@ -541,6 +559,8 @@ void CascadeClassifier::trainingSamplesProcessingWorker()
                     cv::Mat sampleImageMask = cv::Mat::zeros(positiveImage.size(), CV_8UC1);
                     cv::fillConvexPoly(sampleImageMask, &ROIVertices[0], ROIVertices.size(), cv::Scalar(255, 255, 255), cv::LINE_8, 0);
                     cv::erode(sampleImageMask, sampleImageMask, cv::Mat(), cv::Point(-1, -1), 2);
+
+                    cv::imshow("Sample Image Mask", sampleImageMask);
 
                     cv::Mat finalSampleImage = negativeImageROI.clone();
                     cv::Rect finalSamplePositiveROI = cv::Rect((negativeImageROI.cols - sampleImageMask.cols) / 2,

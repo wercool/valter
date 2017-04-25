@@ -49,6 +49,7 @@ private:
     bool cropPositiveImagesRealTime = false;
     bool sharpen = false;
     float sharpenFactor = 0.0;
+    bool positiveSampleBackgroundBlack = true;
 
     int croppedWidth = 100;
     int croppedHeight = 100;
@@ -144,6 +145,8 @@ public:
     void setSharpen(bool value);
     float getSharpenFactor() const;
     void setSharpenFactor(float value);
+    bool getPositiveSampleBackgroundBlack() const;
+    void setPositiveSampleBackgroundBlack(bool value);
 };
 
 #endif // CASCADECLASSIFIER_H

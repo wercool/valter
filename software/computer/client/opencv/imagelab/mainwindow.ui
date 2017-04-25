@@ -27,7 +27,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -46,8 +46,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>182</width>
-               <height>88</height>
+               <width>370</width>
+               <height>529</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -161,8 +161,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>115</width>
-                 <height>251</height>
+                 <width>129</width>
+                 <height>269</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>164</width>
-                 <height>292</height>
+                 <width>369</width>
+                 <height>379</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -480,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>177</width>
-                 <height>130</height>
+                 <width>199</width>
+                 <height>139</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -556,8 +556,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>88</height>
+                 <width>102</width>
+                 <height>94</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -642,7 +642,7 @@ background-repeat: no-repeat;</string>
            <widget class="QScrollArea" name="scrollArea_2">
             <property name="minimumSize">
              <size>
-              <width>485</width>
+              <width>550</width>
               <height>0</height>
              </size>
             </property>
@@ -654,8 +654,8 @@ background-repeat: no-repeat;</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>477</width>
-               <height>692</height>
+               <width>534</width>
+               <height>767</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -875,47 +875,96 @@ background-color: rgb(255, 0, 0);</string>
                  </widget>
                 </item>
                 <item>
-                 <layout class="QGridLayout" name="gridLayout_2">
+                 <layout class="QHBoxLayout" name="horizontalLayout_25">
                   <property name="topMargin">
                    <number>0</number>
                   </property>
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label">
-                    <property name="text">
-                     <string>Width</string>
+                  <property name="rightMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <layout class="QGridLayout" name="gridLayout_2">
+                    <property name="topMargin">
+                     <number>0</number>
                     </property>
-                   </widget>
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label">
+                      <property name="text">
+                       <string>Width</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QLabel" name="label_2">
+                      <property name="text">
+                       <string>Height</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLineEdit" name="croppedSampleWidthEdit">
+                      <property name="styleSheet">
+                       <string notr="true">background-color: rgb(211, 252, 163);</string>
+                      </property>
+                      <property name="text">
+                       <string>100</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QLineEdit" name="croppedSampleHeightEdit">
+                      <property name="text">
+                       <string>100</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="2" column="0" colspan="2">
+                     <widget class="QPushButton" name="setCroppedWidthAndHeightButton">
+                      <property name="text">
+                       <string>Set Cropped Width and Height</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
-                  <item row="0" column="1">
-                   <widget class="QLabel" name="label_2">
-                    <property name="text">
-                     <string>Height</string>
+                  <item>
+                   <layout class="QVBoxLayout" name="verticalLayout_24">
+                    <property name="rightMargin">
+                     <number>0</number>
                     </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLineEdit" name="croppedSampleWidthEdit">
-                    <property name="styleSheet">
-                     <string notr="true">background-color: rgb(211, 252, 163);</string>
-                    </property>
-                    <property name="text">
-                     <string>100</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1">
-                   <widget class="QLineEdit" name="croppedSampleHeightEdit">
-                    <property name="text">
-                     <string>100</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="2" column="0" colspan="2">
-                   <widget class="QPushButton" name="setCroppedWidthAndHeightButton">
-                    <property name="text">
-                     <string>Set Cropped Width and Height</string>
-                    </property>
-                   </widget>
+                    <item>
+                     <widget class="QGroupBox" name="groupBox">
+                      <property name="title">
+                       <string>Background</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_25">
+                       <item>
+                        <widget class="QRadioButton" name="ccBackgroundBlackRadioButton">
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
+                         <property name="text">
+                          <string>Black</string>
+                         </property>
+                         <property name="checked">
+                          <bool>true</bool>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QRadioButton" name="ccBackgroundWhiteRadioButton">
+                         <property name="styleSheet">
+                          <string notr="true"/>
+                         </property>
+                         <property name="text">
+                          <string>White</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                  </layout>
                 </item>
