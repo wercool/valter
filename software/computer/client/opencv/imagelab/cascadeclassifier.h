@@ -56,7 +56,8 @@ private:
 
     vector<string> positiveCroppedInfo;
 
-
+    //Muliply Objects detection
+    std::map<std::string, std::map<std::string, cv::CascadeClassifier>> objectCascades;
     std::thread *trainingSamplesProcessingThread;
 
     //Video
@@ -100,6 +101,9 @@ public:
     void readPositiveImagesDir();
     void readNegativeImagesDir();
     void savePositiveCroppedInfo();
+
+    //Muliply Objects detection
+    void readCascadeFolder(std::string folderPath);
 
     string getPositiveImagesFolder() const;
     void setPositiveImagesFolder(const string &value);
@@ -159,6 +163,7 @@ public:
     void setApplyFiltersRandomlyToPositiveSamples(bool value);
     int getRotateSamplesAngle() const;
     void setRotateSamplesAngle(int value);
+    std::map<std::string, std::map<std::string, cv::CascadeClassifier> > getObjectCascades() const;
 };
 
 #endif // CASCADECLASSIFIER_H

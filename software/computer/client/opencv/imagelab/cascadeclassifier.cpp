@@ -1,6 +1,5 @@
 #include "cascadeclassifier.h"
 
-
 CascadeClassifier::CascadeClassifier()
 {
     
@@ -706,6 +705,36 @@ void CascadeClassifier::savePositiveCroppedInfo()
     positiveCroppedInfoFile.close();
 }
 
+void CascadeClassifier::readCascadeFolder(string folderPath)
+{
+    std::string line;
+    std::ifstream descriptionFile(folderPath + "/description.txt");
+    int lineNum = 0;
+    std::string objectName;
+    std::map<std::string, cv::CascadeClassifier> cascadeClassifiers;
+    while(std::getline(descriptionFile, line))
+    {
+       if (lineNum++ > 0)
+       {
+           std::string cascadeFileName = line.substr(0, line.find_first_of('='));
+           std::string cascadeName = line.substr(line.find_first_of('=') + 1, line.size() - 1);
+           cv::CascadeClassifier cascade;
+           if( !cascade.load(folderPath + "/" + cascadeFileName) ){ qDebug("--(!)Error loading cascade\n"); };
+           cascadeClassifiers[cascadeName] = cascade;
+       }
+       else
+       {
+           objectName = line;
+       }
+    }
+    objectCascades[objectName] = cascadeClassifiers;
+}
+
+std::map<string, std::map<string, cv::CascadeClassifier> > CascadeClassifier::getObjectCascades() const
+{
+    return objectCascades;
+}
+
 void CascadeClassifier::captureVideo()
 {
     captureVideoThread = new std::thread(&CascadeClassifier::captureVideoWorker, this);
@@ -786,7 +815,7 @@ std::string CascadeClassifier::getCascadeClassifierFile() const
 void CascadeClassifier::setCascadeClassifierFile(const std::string &value)
 {
     cascadeClassifierFile = value;
-    if( !objectCascade.load(cascadeClassifierFile) ){ qDebug("--(!)Error loading face cascade\n"); };
+    if( !objectCascade.load(cascadeClassifierFile) ){ qDebug("--(!)Error loading cascade\n"); };
 }
 
 int CascadeClassifier::getCroppedWidth() const

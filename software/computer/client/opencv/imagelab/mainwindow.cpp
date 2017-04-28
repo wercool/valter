@@ -488,7 +488,53 @@ void MainWindow::on_ccRotateSamplesSlider_valueChanged(int value)
     cascadeClassifier->setRotateSamplesAngle(value);
 }
 
+void MainWindow::on_openFolderWithCascadeOfClassifiersOKButton_clicked()
+{
+    std::string cascadeClassifierFolder = ui->ccCascadeOfClassifiersFolderLineEdit->text().toStdString();
+    if (!cascadeClassifierFolder.empty())
+    {
+        ui->ccCascadeOfClassifiersFolderLineEdit->setText(cascadeClassifierFolder.c_str());
+        qDebug("Cascade of Classifiers Folder: %s", cascadeClassifierFolder.c_str());
+        cascadeClassifier->readCascadeFolder(cascadeClassifierFolder);
+        refreshCascadeClassifiersTreeView();
+    }
+}
 
+void MainWindow::on_openFolderWithCascadeOfClassifiersButton_clicked()
+{
+    std::string cascadeClassifierFolder = QFileDialog::getExistingDirectory(this, tr("Open Cascade of Classifiers Folder"), "/home/maska").toUtf8().constData();
+    if (!cascadeClassifierFolder.empty())
+    {
+        ui->ccCascadeOfClassifiersFolderLineEdit->setText(cascadeClassifierFolder.c_str());
+        qDebug("Cascade of Classifiers Folder: %s", cascadeClassifierFolder.c_str());
+        cascadeClassifier->readCascadeFolder(cascadeClassifierFolder);
+        refreshCascadeClassifiersTreeView();
+    }
+}
+
+void MainWindow::refreshCascadeClassifiersTreeView()
+{
+    ui->ccCascadesTreeWidget->clear();
+    QTreeWidgetItem *objects = new QTreeWidgetItem(ui->ccCascadesTreeWidget);
+    objects->setText(0, "Detection Obejcts");
+    std::map<std::string, std::map<std::string, cv::CascadeClassifier>> objectCascades = cascadeClassifier->getObjectCascades();
+    typedef std::map<std::string, std::map<std::string, cv::CascadeClassifier>>::iterator objectCascades_it_type;
+    typedef std::map<std::string, cv::CascadeClassifier>::iterator cascadesClassifiers_it_type;
+    for(objectCascades_it_type objIterator = objectCascades.begin(); objIterator != objectCascades.end(); objIterator++)
+    {
+        QTreeWidgetItem *objectItem = new QTreeWidgetItem(objects);
+        objectItem->setText(0, ((std::string)objIterator->first).c_str());
+
+        std::map<std::string, cv::CascadeClassifier> cascadeClassifiers = objIterator->second;
+        for(cascadesClassifiers_it_type cascadeIterator = cascadeClassifiers.begin(); cascadeIterator != cascadeClassifiers.end(); cascadeIterator++)
+        {
+            QTreeWidgetItem *objectSubItem = new QTreeWidgetItem(objectItem);
+            objectSubItem->setText(0, ((std::string)cascadeIterator->first).c_str());
+            objectItem->addChild(objectSubItem);
+        }
+    }
+    ui->ccCascadesTreeWidget->expandAll();
+}
 //Neural network
 
 void MainWindow::on_nnOpenReferenceObjectButton_clicked()
@@ -626,6 +672,4 @@ void MainWindow::on_nnClearLogButton_clicked()
 {
     ui->nnLogTextEdit->clear();
 }
-
-
 

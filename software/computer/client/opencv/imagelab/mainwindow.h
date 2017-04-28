@@ -177,6 +177,12 @@ private slots:
 
     void on_ccRotateSamplesSlider_valueChanged(int value);
 
+    void on_openFolderWithCascadeOfClassifiersOKButton_clicked();
+
+    void on_openFolderWithCascadeOfClassifiersButton_clicked();
+
+    void refreshCascadeClassifiersTreeView();
+
 private:
     Ui::MainWindow *ui;
 };

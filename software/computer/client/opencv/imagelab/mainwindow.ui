@@ -47,7 +47,7 @@
                <x>0</x>
                <y>0</y>
                <width>370</width>
-               <height>532</height>
+               <height>529</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -162,7 +162,7 @@ background-repeat: no-repeat;</string>
                  <x>0</x>
                  <y>0</y>
                  <width>369</width>
-                 <height>394</height>
+                 <height>379</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>164</width>
-                 <height>292</height>
+                 <width>369</width>
+                 <height>379</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -480,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>177</width>
-                 <height>130</height>
+                 <width>369</width>
+                 <height>379</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -556,8 +556,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>94</width>
-                 <height>88</height>
+                 <width>102</width>
+                 <height>94</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -646,6 +646,12 @@ background-repeat: no-repeat;</string>
               <height>0</height>
              </size>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>550</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="widgetResizable">
              <bool>true</bool>
             </property>
@@ -655,7 +661,7 @@ background-repeat: no-repeat;</string>
                <x>0</x>
                <y>0</y>
                <width>534</width>
-               <height>689</height>
+               <height>747</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1377,6 +1383,58 @@ background-color: rgb(255, 0, 0);</string>
                </widget>
               </item>
              </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="openFolderWithCascadeOfClassifiersButton">
+              <property name="text">
+               <string>Open Folder with Cascades</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_28">
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QLineEdit" name="ccCascadeOfClassifiersFolderLineEdit"/>
+              </item>
+              <item>
+               <widget class="QPushButton" name="openFolderWithCascadeOfClassifiersOKButton">
+                <property name="maximumSize">
+                 <size>
+                  <width>25</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>OK</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTreeWidget" name="ccCascadesTreeWidget">
+              <property name="columnCount">
+               <number>1</number>
+              </property>
+              <attribute name="headerVisible">
+               <bool>false</bool>
+              </attribute>
+              <column>
+               <property name="text">
+                <string notr="true">1</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="ccClearDetectionObjectsButton">
+              <property name="text">
+               <string>Clear Detection Objects</string>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QPushButton" name="captureFrameObjectDetectionButton">
