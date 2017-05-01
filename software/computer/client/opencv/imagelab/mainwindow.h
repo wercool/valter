@@ -183,6 +183,12 @@ private slots:
 
     void refreshCascadeClassifiersTreeView();
 
+    void on_ccClearDetectionObjectsButton_clicked();
+
+    void on_ccDetectionModePluralRadioButton_clicked(bool checked);
+
+    void on_ccDetectionModeSingleRadioButton_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

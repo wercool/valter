@@ -59,6 +59,7 @@ private:
     //Muliply Objects detection
     std::map<std::string, std::map<std::string, cv::CascadeClassifier>> objectCascades;
     std::thread *trainingSamplesProcessingThread;
+    bool detectionModePlural = true;
 
     //Video
     cv::Mat videoFrame;
@@ -104,6 +105,7 @@ public:
 
     //Muliply Objects detection
     void readCascadeFolder(std::string folderPath);
+    void clearDetectionObjectsMap();
 
     string getPositiveImagesFolder() const;
     void setPositiveImagesFolder(const string &value);
@@ -164,6 +166,8 @@ public:
     int getRotateSamplesAngle() const;
     void setRotateSamplesAngle(int value);
     std::map<std::string, std::map<std::string, cv::CascadeClassifier> > getObjectCascades() const;
+    bool getDetectionModePlural() const;
+    void setDetectionModePlural(bool value);
 };
 
 #endif // CASCADECLASSIFIER_H

@@ -535,6 +535,31 @@ void MainWindow::refreshCascadeClassifiersTreeView()
     }
     ui->ccCascadesTreeWidget->expandAll();
 }
+
+void MainWindow::on_ccClearDetectionObjectsButton_clicked()
+{
+    cascadeClassifier->clearDetectionObjectsMap();
+    std::string cascadeClassifierFolder = ui->ccCascadeOfClassifiersFolderLineEdit->text().toStdString();
+    if (!cascadeClassifierFolder.empty())
+    {
+        ui->ccCascadeOfClassifiersFolderLineEdit->setText(cascadeClassifierFolder.c_str());
+        qDebug("Cascade of Classifiers Folder: %s", cascadeClassifierFolder.c_str());
+        cascadeClassifier->readCascadeFolder(cascadeClassifierFolder);
+        refreshCascadeClassifiersTreeView();
+    }
+}
+
+void MainWindow::on_ccDetectionModePluralRadioButton_clicked(bool checked)
+{
+    if (checked) cascadeClassifier->setDetectionModePlural(true);
+}
+
+void MainWindow::on_ccDetectionModeSingleRadioButton_clicked(bool checked)
+{
+    if (checked) cascadeClassifier->setDetectionModePlural(false);
+}
+
+
 //Neural network
 
 void MainWindow::on_nnOpenReferenceObjectButton_clicked()
@@ -672,4 +697,5 @@ void MainWindow::on_nnClearLogButton_clicked()
 {
     ui->nnLogTextEdit->clear();
 }
+
 

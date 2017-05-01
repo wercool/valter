@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>379</height>
+                 <width>180</width>
+                 <height>313</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -480,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>379</height>
+                 <width>199</width>
+                 <height>139</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1354,6 +1354,51 @@ background-color: rgb(255, 0, 0);</string>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item>
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="title">
+               <string>Detection mode</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_27">
+               <property name="spacing">
+                <number>4</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_29">
+                 <item>
+                  <widget class="QRadioButton" name="ccDetectionModeSingleRadioButton">
+                   <property name="text">
+                    <string>single</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="ccDetectionModePluralRadioButton">
+                   <property name="text">
+                    <string>plural</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
             <item>
              <widget class="QPushButton" name="openCascadeOfClassifiersButton">
               <property name="text">

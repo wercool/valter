@@ -1,5 +1,6 @@
 #include "cascadeclassifier.h"
 
+
 CascadeClassifier::CascadeClassifier()
 {
     
@@ -439,21 +440,61 @@ void CascadeClassifier::objectDetectionWorker()
         videoCaptured = true;
         while (videoCaptured)
         {
+            cv::Mat videoFrame;
             cv::Mat frameGray;
             cv::Mat displayResult;
-            videoCapture.read(displayResult);
+            videoCapture.read(videoFrame);
+            displayResult = videoFrame.clone();
 
             cv::cvtColor(displayResult, frameGray, cv::COLOR_BGR2GRAY);
             cv::equalizeHist(frameGray, frameGray);
 
             std::vector<cv::Rect> foundObjects;
 
-            objectCascade.detectMultiScale(frameGray, foundObjects, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30));
-
-            for ( size_t i = 0; i < foundObjects.size(); i++ )
+            if (getDetectionModePlural())
             {
-               // cv::Mat objectROI = frameGray(foundObjects[i]);
-                cv::rectangle(displayResult, ((cv::Rect)foundObjects[i]).tl(), ((cv::Rect)foundObjects[i]).br(), cv::Scalar(0, 255, 0), 2, cv::LINE_8, 0);
+                int font = cv::FONT_HERSHEY_PLAIN;
+
+                std::map<std::string, std::map<std::string, cv::CascadeClassifier>> objectCascades = getObjectCascades();
+                typedef std::map<std::string, std::map<std::string, cv::CascadeClassifier>>::iterator objectCascades_it_type;
+                typedef std::map<std::string, cv::CascadeClassifier>::iterator cascadesClassifiers_it_type;
+
+                for(objectCascades_it_type objIterator = objectCascades.begin(); objIterator != objectCascades.end(); objIterator++)
+                {
+                    //object name name
+                    std::string objectName = (std::string)objIterator->first;
+
+                    std::map<std::string, cv::CascadeClassifier> cascadeClassifiers = objIterator->second;
+                    for(cascadesClassifiers_it_type cascadeIterator = cascadeClassifiers.begin(); cascadeIterator != cascadeClassifiers.end(); cascadeIterator++)
+                    {
+                        //object subitem name
+                        std::string objectSubItemName = (std::string)cascadeIterator->first;
+                        cv::CascadeClassifier objectSubItemcascade = (cv::CascadeClassifier) cascadeIterator->second;
+
+                        objectSubItemcascade.detectMultiScale(frameGray, foundObjects, 1.1, 2, 0|cv::CASCADE_DO_ROUGH_SEARCH, cv::Size(30, 30));
+
+                        for ( size_t i = 0; i < foundObjects.size(); i++ )
+                        {
+                            cv::rectangle(displayResult, ((cv::Rect)foundObjects[i]).tl(), ((cv::Rect)foundObjects[i]).br(), cv::Scalar(0, 255, 0), 1, cv::LINE_8, 0);
+                            //object, subitem name
+                            cv::Point label_point = cv::Point(((cv::Rect)foundObjects[i]).tl().x, ((cv::Rect)foundObjects[i]).tl().y - 10);
+                            cv::putText(displayResult, format_string("%s->%s", objectName.c_str(), objectSubItemName.c_str()).c_str(), label_point, font, 1.0, cv::Scalar(255, 255, 255), 0.5, cv::LINE_AA);
+                            //qDebug("Found Object: %s->%s", objectName.c_str(), objectSubItemName.c_str());
+                        }
+                    }
+                }
+            }
+            else
+            {
+                objectCascade.detectMultiScale(frameGray, foundObjects, 1.1, 2, 0|cv::CASCADE_SCALE_IMAGE, cv::Size(30, 30));
+
+                for ( size_t i = 0; i < foundObjects.size(); i++ )
+                {
+                    cv::Mat objectROI = videoFrame(foundObjects[i]);
+                    cv::rectangle(displayResult, ((cv::Rect)foundObjects[i]).tl(), ((cv::Rect)foundObjects[i]).br(), cv::Scalar(0, 255, 0), 2, cv::LINE_8, 0);
+
+                    cv::imshow("Found object", objectROI);
+                }
             }
 
             cv::imshow("Obejct detection", displayResult);
@@ -728,6 +769,11 @@ void CascadeClassifier::readCascadeFolder(string folderPath)
        }
     }
     objectCascades[objectName] = cascadeClassifiers;
+}
+
+void CascadeClassifier::clearDetectionObjectsMap()
+{
+    objectCascades.clear();
 }
 
 std::map<string, std::map<string, cv::CascadeClassifier> > CascadeClassifier::getObjectCascades() const
@@ -1036,4 +1082,14 @@ int CascadeClassifier::getRotateSamplesAngle() const
 void CascadeClassifier::setRotateSamplesAngle(int value)
 {
     rotateSamplesAngle = value;
+}
+
+bool CascadeClassifier::getDetectionModePlural() const
+{
+    return detectionModePlural;
+}
+
+void CascadeClassifier::setDetectionModePlural(bool value)
+{
+    detectionModePlural = value;
 }
