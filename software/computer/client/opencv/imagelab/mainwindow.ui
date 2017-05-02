@@ -27,7 +27,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -46,8 +46,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>370</width>
-               <height>529</height>
+               <width>182</width>
+               <height>88</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -161,8 +161,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>369</width>
-                 <height>379</height>
+                 <width>115</width>
+                 <height>251</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>180</width>
-                 <height>313</height>
+                 <width>164</width>
+                 <height>292</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -480,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>199</width>
-                 <height>139</height>
+                 <width>177</width>
+                 <height>130</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -556,8 +556,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>102</width>
-                 <height>94</height>
+                 <width>98</width>
+                 <height>88</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -661,7 +661,7 @@ background-repeat: no-repeat;</string>
                <x>0</x>
                <y>0</y>
                <width>534</width>
-               <height>747</height>
+               <height>689</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">

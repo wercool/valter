@@ -212,8 +212,8 @@ void NeuralNetwork::backpropagation(std::vector<double> sampleData,
     {
         vector<vector<double>> neuronLayerWeights = weights[l - 1];
         vector<double> neuronLayerBiases = biases[l - 1];
-        vector<double> zl; //input for sigmoid function of each neuron in the layer
-        vector<double> al; //output of neurons (zl passed through sigmoig) for the layer
+        vector<double> zl; //input for sigmoid function of each neuron in the layer (weighted input)
+        vector<double> al; //output of neurons (zl passed through sigmoig) for the layer, al=σ(zl)
         for (int n = 0; n < layers[l]; n++)
         {
             vector<double> neuronWeights = neuronLayerWeights[n];
@@ -226,9 +226,10 @@ void NeuralNetwork::backpropagation(std::vector<double> sampleData,
         activation = al;
     }
     //qDebug("Output layer size: %d", ((vector<double>)(activations[activations.size() - 1])).size());
+    //δ
     vector<double> delta = HadamarProduct(costDerivative(activations[activations.size() - 1], sampleQualifier), sigmoidPrime(zs[zs.size() - 1]));
     nabla_b[nabla_b.size() - 1] = delta;
-    vector<vector<double>> dw;
+    vector<vector<double>> dwl;
     for (unsigned i = 0; i < delta.size(); i++)
     {
         vector<double> dwn;
@@ -236,22 +237,25 @@ void NeuralNetwork::backpropagation(std::vector<double> sampleData,
         {
             dwn.push_back(delta[i] * ((vector<double>)activations[activations.size() - 2])[j]);
         }
-        dw.push_back(dwn);
+        dwl.push_back(dwn);
     }
-    nabla_w[nabla_w.size() - 1] = dw;
+    nabla_w[nabla_w.size() - 1] = dwl;  //∂C∂w=ain*δout
 
+    vector<vector<double>> dwl;
     for (unsigned int l = (layers.size() - 2); l > 0; l--)
     {
-        vector<double> z = zs[l - 1];
-        vector<double> sp = sigmoidPrime(z);
+        vector<double> zl = zs[l - 1];
+        vector<double> sp = sigmoidPrime(zl);
 
-        vector<vector<double>> weightsInPrevLayer = weights[l];
-        vector<double> deltaWeight;
-        for (unsigned int i = 0; i < weightsInPrevLayer.size(); i++)
-        {
-            deltaWeight.push_back(dotProduct(delta, weightsInPrevLayer[i]));
-        }
-        qDebug("%d %d", deltaWeight.size(), sp.size());
+        vector<double> dot_product;
+
+
+    //        vector<double> dwn;
+    //        vector<vector<double>> _weights = weights[l];
+    //        for (unsigned int i = 0; i < _weights.size(); i++)
+    //        {
+
+    //        }
     }
 }
 
