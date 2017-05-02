@@ -1,0 +1,5 @@
+Panasonic Wireless Phone
+cascade_r.xml=Right Oriented
+cascade_l.xml=Left Oriented
+cascade_t.xml=Top Oriented
+cascade_b.xml=Bottom Oriented
