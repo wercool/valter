@@ -210,13 +210,13 @@ void NeuralNetwork::saveNetworkToFile(string filepath)
         {
             double lnb = biases[l - 1][n];
             nnItializationFile << format_string("%e", lnb) << "\n";
-            string weightsStrigified;
+            string weightsStringified;
             for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
             {
-                weightsStrigified += format_string("%e,", weights[l - 1][n][w]);
+                weightsStringified += format_string("%e,", weights[l - 1][n][w]);
             }
-            weightsStrigified = weightsStrigified.substr(0, weightsStrigified.size() - 1);
-            nnItializationFile << weightsStrigified << "\n";
+            weightsStringified = weightsStringified.substr(0, weightsStringified.size() - 1);
+            nnItializationFile << weightsStringified << "\n";
         }
     }
 
@@ -229,7 +229,7 @@ void NeuralNetwork::recognizeReferenceObject()
     qDebug("Neural Network Output Vector");
     for (unsigned int o = 0; o < outputVector.size(); o++)
     {
-        qDebug("%.4f", outputVector[o]);
+        qDebug("%.10f", outputVector[o]);
     }
 }
 
@@ -328,6 +328,8 @@ void NeuralNetwork::createMiniBatch()
             sampleQualifier.push_back((sampleQualifierRespectiveNeuronIdx == oli) ? 1.0 : 0.0);
         }
         miniBatchQualifier.push_back(sampleQualifier);
+
+        //qDebug("Training sample [%d] with size %d", sampleQualifierRespectiveNeuronIdx, (int)trainingSampleVector.size());
     }
 }
 

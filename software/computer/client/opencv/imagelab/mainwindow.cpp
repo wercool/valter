@@ -662,7 +662,7 @@ void MainWindow::on_nnSetNeuralNetworkButton_clicked()
 
     for (unsigned int i = 0; i < layers.size(); i++)
     {
-        ui->nnLogTextEdit->appendPlainText(format_string("Layer%d size: %d neurons", i, layers[i]).c_str());
+        ui->nnLogTextEdit->appendPlainText(format_string("Layer %d size: %d neurons", i, layers[i]).c_str());
     }
 
     neuralNetwork->setLayers(layers);
@@ -693,7 +693,7 @@ void MainWindow::on_nnSetNeuralNetworkButton_clicked()
 
     ui->nnLogTextEdit->appendPlainText(format_string("Mini Batch size: %d", neuralNetwork->getMiniBatchSize()).c_str());
     ui->nnLogTextEdit->appendPlainText(format_string("Epochs: %d", neuralNetwork->getEpochs()).c_str());
-    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.2f", neuralNetwork->getEta()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.8f", neuralNetwork->getEta()).c_str());
     ui->nnLogTextEdit->appendPlainText(format_string("Training samples number: %d", neuralNetwork->getTrainingSamplesFileName().size()).c_str());
 }
 
@@ -735,7 +735,7 @@ void MainWindow::on_nnInitializeFromFileButton_clicked()
     ui->nnLogTextEdit->clear();
     ui->nnLogTextEdit->appendPlainText(format_string("Mini Batch size: %d", neuralNetwork->getMiniBatchSize()).c_str());
     ui->nnLogTextEdit->appendPlainText(format_string("Epochs: %d", neuralNetwork->getEpochs()).c_str());
-    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.2f", neuralNetwork->getEta()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.8f", neuralNetwork->getEta()).c_str());
 }
 
 void MainWindow::on_nnSaveToFileButton_clicked()
