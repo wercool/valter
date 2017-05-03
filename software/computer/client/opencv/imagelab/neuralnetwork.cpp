@@ -120,6 +120,119 @@ void NeuralNetwork::initNetwork()
     }
 }
 
+void NeuralNetwork::loadNetworkFromFile(string filepath)
+{
+    layers.clear();
+    biases.clear();
+    weights.clear();
+
+    ifstream nnItializationFile;
+    nnItializationFile.open(filepath);
+
+    string dummyLine;
+    std::getline(nnItializationFile, dummyLine);
+
+    string layersStringified;
+    std::getline(nnItializationFile, layersStringified);
+    vector<string> layersStringifiedSeparated = split(layersStringified, ',');
+    for (unsigned l = 0; l < layersStringifiedSeparated.size(); l++)
+    {
+        layers.push_back(atoi(stringToCharPtr(layersStringifiedSeparated[l])));
+    }
+
+    string miniBatchStringified;
+    std::getline(nnItializationFile, miniBatchStringified);
+    setMiniBatchSize(atoi(stringToCharPtr(miniBatchStringified)));
+
+    string epochsStringified;
+    std::getline(nnItializationFile, epochsStringified);
+    setEpochs(atoi(stringToCharPtr(epochsStringified)));
+
+    string etaStringified;
+    std::getline(nnItializationFile, etaStringified);
+    setEta(atof(stringToCharPtr(etaStringified)));
+
+    string costFunction;
+    std::getline(nnItializationFile, costFunction);
+    setCostFunction(costFunction);
+
+    std::getline(nnItializationFile, dummyLine);
+
+    for (unsigned l = 1; l < layers.size(); l++)
+    {
+        vector<double> lnb;
+        vector<vector<double>> lnw;
+        std::getline(nnItializationFile, dummyLine);
+        for (int n = 0; n < layers[l]; n++)
+        {
+            string lnbStringified;
+            std::getline(nnItializationFile, lnbStringified);
+            lnb.push_back(atof(stringToCharPtr(lnbStringified)));
+            string lnwStringified;
+            std::getline(nnItializationFile, lnwStringified);
+            vector<string> lnwStringifiedSeparated = split(lnwStringified, ',');
+            vector<double> nw;
+            for (unsigned int w = 0; w < lnwStringifiedSeparated.size(); w++)
+            {
+                nw.push_back(atof(stringToCharPtr(lnwStringifiedSeparated[w])));
+            }
+            lnw.push_back(nw);
+        }
+        biases.push_back(lnb);
+        weights.push_back(lnw);
+    }
+}
+
+void NeuralNetwork::saveNetworkToFile(string filepath)
+{
+    ofstream nnItializationFile;
+    nnItializationFile.open(filepath);
+
+    nnItializationFile << "# Neural network parameters";
+    nnItializationFile << "\n";
+    std::ostringstream layerOSS;
+    std::copy(layers.begin(), layers.end(), std::ostream_iterator<int>(layerOSS, ","));
+    string layersStrigified = layerOSS.str().substr(0, layerOSS.str().size() - 1);
+    nnItializationFile << layersStrigified << "\n";
+
+    nnItializationFile << format_string("%d", miniBatchSize) << "\n";
+    nnItializationFile << format_string("%d", epochs) << "\n";
+    nnItializationFile << format_string("%.4f", eta) << "\n";
+    nnItializationFile << format_string("%s", getCostFunction().c_str()) << "\n";
+
+    nnItializationFile << "# Biases and Weights distributed layer by layer neuron by neuron";
+    nnItializationFile << "\n";
+
+    for (unsigned int l = 1; l < layers.size(); l++)
+    {
+        nnItializationFile << format_string("#Layer %d\n", l);
+        for (int n = 0; n < layers[l]; n++)
+        {
+            double lnb = biases[l - 1][n];
+            nnItializationFile << format_string("%e", lnb) << "\n";
+            string weightsStrigified;
+            for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+            {
+                weightsStrigified += format_string("%e,", weights[l - 1][n][w]);
+            }
+            weightsStrigified = weightsStrigified.substr(0, weightsStrigified.size() - 1);
+            nnItializationFile << weightsStrigified << "\n";
+        }
+    }
+
+    nnItializationFile.close();
+}
+
+void NeuralNetwork::recognizeReferenceObject()
+{
+    vector<double> outputVector = feedForward(referenceObjectVector);
+    qDebug("Neural Network Output Vector");
+    for (unsigned int o = 0; o < outputVector.size(); o++)
+    {
+        qDebug("%.4f", outputVector[o]);
+    }
+}
+
 void NeuralNetwork::trainingWorker()
 {
     SGD();
@@ -160,9 +273,11 @@ void NeuralNetwork::SGD()
             {
                 for (int n = 0; n < layers[l]; n++)
                 {
+                    //bk → b′k = bk − (η/m)*∑∂CXj/∂bl
                     biases[l - 1][n] = biases[l - 1][n] - (eta / miniBatchData.size()) * nabla_b[l - 1][n];
                     for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
                     {
+                        //wk → w′k = wk − (η/m)*∑∂CXj/∂wk
                         weights[l - 1][n][w] = weights[l - 1][n][w] - (eta / miniBatchData.size()) * nabla_w[l - 1][n][w];
                     }
                 }
@@ -248,7 +363,16 @@ void NeuralNetwork::backpropagation(std::vector<double> sampleData,
 
     //backward pass
     //δL=∇aC⊙σ′(zL)
-    vector<double> delta = HadamarProduct(costDerivative(activations[(activations.size() - 1)], sampleQualifier), sigmoidPrime(zs[(zs.size() - 1)]));
+    vector<double> delta;
+    if (getCostFunction() == "QuadraticCost")
+    {
+        delta = QuadraticCost(activations[(activations.size() - 1)], sampleQualifier, zs[(zs.size() - 1)]);
+    }
+    if (getCostFunction() == "CrossEntropyCost")
+    {
+        delta = CrossEntropyCost(activations[(activations.size() - 1)], sampleQualifier);
+    }
+
     d_nabla_b[d_nabla_b.size() - 1] = delta;
     vector<vector<double>> dwl;
     for (unsigned i = 0; i < delta.size(); i++)
@@ -268,7 +392,7 @@ void NeuralNetwork::backpropagation(std::vector<double> sampleData,
         vector<double> sp = sigmoidPrime(zl);
 
         vector<vector<double>> weightsT = matrix2dTranspose(weights[l]);
-        vector<double> weightsDotDelta = dotProduct(weightsT, delta);
+        vector<double> weightsDotDelta = dotProductMatrixXVector(weightsT, delta);
         //δl=((w_l+1)Tδ_l+1)⊙σ′(zl)
         delta = HadamarProduct(weightsDotDelta, sp);
         d_nabla_b[l - 1] = delta;
@@ -294,6 +418,21 @@ vector<double> NeuralNetwork::feedForward(std::vector<double> inputActivation)
         activation = al;
     }
     return activation; //activation of output layer
+}
+
+vector<double> NeuralNetwork::QuadraticCost(vector<double> activation, vector<double> sampleQualifier, vector<double> zl)
+{
+    return HadamarProduct(costDerivative(activation, sampleQualifier), sigmoidPrime(zl));
+}
+
+vector<double> NeuralNetwork::CrossEntropyCost(vector<double> activation, vector<double> sampleQualifier)
+{
+    vector<double> delta;
+    for (unsigned int i = 0; i < sampleQualifier.size(); i++)
+    {
+        delta.push_back(activation[i] - sampleQualifier[i]);
+    }
+    return delta;
 }
 
 double NeuralNetwork::sigmoid(double z)
@@ -519,4 +658,14 @@ vector<string> NeuralNetwork::getTrainingSamplesFileName() const
 void NeuralNetwork::setTrainingSamplesFileName(const vector<string> &value)
 {
     trainingSamplesFileName = value;
+}
+
+string NeuralNetwork::getCostFunction() const
+{
+    return costFunction;
+}
+
+void NeuralNetwork::setCostFunction(const string &value)
+{
+    costFunction = value;
 }

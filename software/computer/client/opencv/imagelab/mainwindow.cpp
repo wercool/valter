@@ -670,6 +670,15 @@ void MainWindow::on_nnSetNeuralNetworkButton_clicked()
     neuralNetwork->setEpochs(ui->nnEpochsSpinBox->value());
     neuralNetwork->setEta(ui->nnEtaSpinBox->value());
 
+    if (ui->nnCostFunctionQuadraticCostRadioButton->isChecked())
+    {
+        neuralNetwork->setCostFunction("QuadraticCost");
+    }
+    if (ui->nnCostFunctionCrossEntropyCostRadioButton->isChecked())
+    {
+        neuralNetwork->setCostFunction("CrossEntropyCost");
+    }
+
     neuralNetwork->readTrainingSamplesFileNames();
 
     if (neuralNetwork->getTrainingSamplesFileName().size() == 0)
@@ -684,7 +693,7 @@ void MainWindow::on_nnSetNeuralNetworkButton_clicked()
 
     ui->nnLogTextEdit->appendPlainText(format_string("Mini Batch size: %d", neuralNetwork->getMiniBatchSize()).c_str());
     ui->nnLogTextEdit->appendPlainText(format_string("Epochs: %d", neuralNetwork->getEpochs()).c_str());
-    ui->nnLogTextEdit->appendPlainText(format_string("Training Rate: %.2f", neuralNetwork->getEta()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.2f", neuralNetwork->getEta()).c_str());
     ui->nnLogTextEdit->appendPlainText(format_string("Training samples number: %d", neuralNetwork->getTrainingSamplesFileName().size()).c_str());
 }
 
@@ -698,4 +707,52 @@ void MainWindow::on_nnClearLogButton_clicked()
     ui->nnLogTextEdit->clear();
 }
 
+void MainWindow::on_nnInitializeFromFileButton_clicked()
+{
+    std::string nnInitializationFileName = QFileDialog::getOpenFileName(this, tr("Neural Network Initialization File"), "/home/maska", tr("NN Initi File (*.nn)")).toUtf8().constData();
+    qDebug("Neural Network Initialization File: %s", nnInitializationFileName.c_str());
+    neuralNetwork->loadNetworkFromFile(nnInitializationFileName);
 
+    vector<int> layers = neuralNetwork->getLayers();
+    std::ostringstream layerOSS;
+    std::copy(layers.begin(), layers.end(), std::ostream_iterator<int>(layerOSS, ","));
+    string layersStrigified = layerOSS.str().substr(0, layerOSS.str().size() - 1);
+
+    ui->nnLayersLineEdit->setText(layersStrigified.c_str());
+    ui->nnMiniBatchSizeSpinBox->setValue(neuralNetwork->getMiniBatchSize());
+    ui->nnEpochsSpinBox->setValue(neuralNetwork->getEpochs());
+    ui->nnEtaSpinBox->setValue(neuralNetwork->getEta());
+
+    if (neuralNetwork->getCostFunction() == "QuadraticCost")
+    {
+        ui->nnCostFunctionQuadraticCostRadioButton->setChecked(true);
+    }
+    if (neuralNetwork->getCostFunction() == "CrossEntropyCost")
+    {
+        ui->nnCostFunctionCrossEntropyCostRadioButton->setChecked(true);
+    }
+
+    ui->nnLogTextEdit->clear();
+    ui->nnLogTextEdit->appendPlainText(format_string("Mini Batch size: %d", neuralNetwork->getMiniBatchSize()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Epochs: %d", neuralNetwork->getEpochs()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.2f", neuralNetwork->getEta()).c_str());
+}
+
+void MainWindow::on_nnSaveToFileButton_clicked()
+{
+    std::string nnInitializationFileName = QFileDialog::getSaveFileName(this, tr("Neural Network Initialization File"), "/home/maska", tr("NN Initi File (*.nn)")).toUtf8().constData();
+    qDebug("Neural Network Initialization File: %s", nnInitializationFileName.c_str());
+    neuralNetwork->saveNetworkToFile(nnInitializationFileName);
+}
+
+void MainWindow::on_nnRecognizeReferenceObjectButton_clicked()
+{
+    if(neuralNetwork->getReferenceObjectFileName().empty())
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Provide Reference Object file path");
+        msgBox->exec();
+        return;
+    }
+    neuralNetwork->recognizeReferenceObject();
+}

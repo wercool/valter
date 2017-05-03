@@ -189,6 +189,12 @@ private slots:
 
     void on_ccDetectionModeSingleRadioButton_clicked(bool checked);
 
+    void on_nnInitializeFromFileButton_clicked();
+
+    void on_nnSaveToFileButton_clicked();
+
+    void on_nnRecognizeReferenceObjectButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

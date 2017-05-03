@@ -94,7 +94,7 @@ static __attribute__((unused)) double dotProduct(std::vector<double> A, std::vec
     return scalar;
 }
 
-static __attribute__((unused)) std::vector<double> dotProduct(std::vector<std::vector<double>> A, std::vector<double> B)
+static __attribute__((unused)) std::vector<double> dotProductMatrixXVector(std::vector<std::vector<double>> A, std::vector<double> B)
 {
     std::vector<double> resultVector;
     for (unsigned int i = 0; i < A.size(); i++)
@@ -153,6 +153,29 @@ static __attribute__((unused)) std::vector<std::vector<double>> matrix2dTranspos
         }
     }
     return T;
+}
+
+static __attribute__((unused)) std::vector<std::string> split(const std::string &text, char sep)
+{
+  std::vector<std::string> tokens;
+  std::size_t start = 0, end = 0;
+  while ((end = text.find(sep, start)) != std::string::npos)
+  {
+    tokens.push_back(text.substr(start, end - start));
+    start = end + 1;
+  }
+  tokens.push_back(text.substr(start));
+  return tokens;
+}
+
+static __attribute__((unused)) char* stringToCharPtr(std::string str)
+{
+     char *charPtr = new char[str.size() + 1];
+     std::copy(str.begin(), str.end(), charPtr);
+     //strcpy(charPtr, str.c_str());
+     //strdup(str.c_str());
+     charPtr[str.size()] = '\0';
+     return charPtr;
 }
 
 

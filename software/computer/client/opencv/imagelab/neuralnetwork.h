@@ -46,6 +46,9 @@ private:
     int miniBatchSize = 10;
     int epochs = 10;
     double eta = 0.15;
+    //QuadraticCost
+    //CrossEntropyCost
+    string costFunction = "QuadraticCost";
 
     typedef std::vector<std::vector<double>> BIASES;
     typedef std::vector<std::vector<std::vector<double>>> WEIGHTS;
@@ -64,6 +67,9 @@ private:
     void backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, BIASES &d_nabla_b, WEIGHTS &d_nabla_w);
     vector<double> feedForward(std::vector<double> inputActivation);
 
+    vector<double> QuadraticCost(vector<double> activation, vector<double> sampleQualifier, vector<double> zl);
+    vector<double> CrossEntropyCost(vector<double> activation, vector<double> sampleQualifier);
+
     double sigmoid(double z);
     vector<double> sigmoidPrime(vector<double> z);
 
@@ -80,6 +86,10 @@ public:
     void trainingDataCreationWorker();
 
     void initNetwork();
+    void loadNetworkFromFile(string filepath);
+    void saveNetworkToFile(string filepath);
+
+    void recognizeReferenceObject();
 
     void readTrainingSamplesFileNames();
     string getReferenceObjectFileName() const;
@@ -110,6 +120,8 @@ public:
     void setTraining(bool value);
     vector<string> getTrainingSamplesFileName() const;
     void setTrainingSamplesFileName(const vector<string> &value);
+    string getCostFunction() const;
+    void setCostFunction(const string &value);
 };
 
 #endif // NEURALNETWORK_H
