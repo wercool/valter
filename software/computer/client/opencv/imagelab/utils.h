@@ -13,6 +13,8 @@
 #include <unistd.h>
 #include <thread>
 
+#include <QDebug>
+
 static __attribute__((unused)) std::string format_string(const std::string fmt_str, ...)
 {
     int final_n, n = ((int)fmt_str.size()) * 2; /* Reserve two times as much as the length of the fmt_str */
@@ -92,6 +94,39 @@ static __attribute__((unused)) double dotProduct(std::vector<double> A, std::vec
     return scalar;
 }
 
+static __attribute__((unused)) std::vector<double> dotProduct(std::vector<std::vector<double>> A, std::vector<double> B)
+{
+    std::vector<double> resultVector;
+    for (unsigned int i = 0; i < A.size(); i++)
+    {
+        double scalar;
+        for(unsigned int j = 0; j < B.size(); j++)
+        {
+           scalar = scalar + (A[i][j] * B[j]);
+        }
+        resultVector.push_back(scalar);
+    }
+    return resultVector;
+}
+
+static __attribute__((unused)) std::vector<std::vector<double>> dotProductM(std::vector<double> A, std::vector<double> B)
+{
+    std::vector<std::vector<double>> resultMatrix;
+    for (unsigned int a = 0; a < A.size(); a++)
+    {
+        std::vector<double> resultMatrixRow;
+        resultMatrix.push_back(resultMatrixRow);
+    }
+    for (unsigned int a = 0; a < A.size(); a++)
+    {
+        for(unsigned int b = 0; b < B.size(); b++)
+        {
+           resultMatrix[a].push_back(A[a] * B[b]);
+        }
+    }
+    return resultMatrix;
+}
+
 static __attribute__((unused)) std::vector<double> HadamarProduct(std::vector<double> A, std::vector<double> B)
 {
     std::vector<double> HadamarProduct;
@@ -101,5 +136,24 @@ static __attribute__((unused)) std::vector<double> HadamarProduct(std::vector<do
     }
     return HadamarProduct;
 }
+
+static __attribute__((unused)) std::vector<std::vector<double>> matrix2dTranspose(std::vector<std::vector<double>> A)
+{
+    std::vector<std::vector<double>> T;
+    for(unsigned int r = 0; r < A[0].size(); r++)
+    {
+        std::vector<double> T_row;
+        T.push_back(T_row);
+    }
+    for(unsigned int r = 0; r < A[0].size(); r++)
+    {
+        for (unsigned int c = 0; c < A.size(); c++)
+        {
+            T[r].push_back(A[c][r]);
+        }
+    }
+    return T;
+}
+
 
 #endif // UTILS_H

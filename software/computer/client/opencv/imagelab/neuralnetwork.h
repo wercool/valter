@@ -47,9 +47,9 @@ private:
     int epochs = 10;
     double eta = 0.15;
 
-    typedef std::vector<std::vector<double>> BIASES, *pBIASES;
-    typedef std::vector<std::vector<std::vector<double>>> WEIGHTS, *pWEIGHTS;
-    typedef std::vector<std::vector<double>> ACTIVATIONS, *pACTIVATIONS;
+    typedef std::vector<std::vector<double>> BIASES;
+    typedef std::vector<std::vector<std::vector<double>>> WEIGHTS;
+    typedef std::vector<std::vector<double>> ACTIVATIONS;
 
     BIASES biases;
     WEIGHTS weights;
@@ -61,13 +61,13 @@ private:
 
     void SGD();
     void createMiniBatch();
-    void singleSampleTraining(std::vector<double> sampleData, std::vector<double> sampleQualifier);
-    void backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, pBIASES d_nabla_b, pWEIGHTS d_nabla_w);
+    void backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, BIASES &d_nabla_b, WEIGHTS &d_nabla_w);
+    vector<double> feedForward(std::vector<double> inputActivation);
 
     double sigmoid(double z);
     vector<double> sigmoidPrime(vector<double> z);
 
-    void zeroNablas(pBIASES nabla_b, pWEIGHTS nabla_w);
+    void zeroNablas(BIASES &nabla_b, WEIGHTS &nabla_w);
     vector<double> costDerivative(vector<double> outputActivations, vector<double>qualifier);
 
     void trainingWorker();

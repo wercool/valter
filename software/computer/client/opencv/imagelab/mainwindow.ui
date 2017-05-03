@@ -46,8 +46,8 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>182</width>
-               <height>88</height>
+               <width>370</width>
+               <height>529</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -161,8 +161,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>115</width>
-                 <height>251</height>
+                 <width>369</width>
+                 <height>379</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>164</width>
-                 <height>292</height>
+                 <width>180</width>
+                 <height>313</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -480,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>177</width>
-                 <height>130</height>
+                 <width>199</width>
+                 <height>139</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -556,8 +556,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>88</height>
+                 <width>102</width>
+                 <height>94</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -661,7 +661,7 @@ background-repeat: no-repeat;</string>
                <x>0</x>
                <y>0</y>
                <width>534</width>
-               <height>689</height>
+               <height>747</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1592,7 +1592,7 @@ background-position:center;</string>
             <item>
              <widget class="QLineEdit" name="nnReferenceObjectsFolderLineEdit">
               <property name="text">
-               <string>/home/maska/Documents/triangle_detetion/reference</string>
+               <string>/home/maska/Documents/triangle_detection/reference</string>
               </property>
              </widget>
             </item>
@@ -1627,7 +1627,7 @@ background-position:center;</string>
             <item>
              <widget class="QLineEdit" name="nnTrainingObjectsFolderLineEdit">
               <property name="text">
-               <string>/home/maska/Documents/triangle_detetion/training_data</string>
+               <string>/home/maska/Documents/triangle_detection/training_data</string>
               </property>
              </widget>
             </item>

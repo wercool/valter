@@ -132,10 +132,44 @@ void NeuralNetwork::SGD()
     {
         createMiniBatch();
         //mbi = mini batch index
+        BIASES nabla_b;
+        WEIGHTS nabla_w;
+        zeroNablas(nabla_b, nabla_w);
         for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
         {
-            singleSampleTraining(miniBatchData[mbi], miniBatchQualifier[mbi]);
+            BIASES d_nabla_b;
+            WEIGHTS d_nabla_w;
+            zeroNablas(d_nabla_b, d_nabla_w);
+            backpropagation(miniBatchData[mbi], miniBatchQualifier[mbi], d_nabla_b, d_nabla_w);
+            for (unsigned int l = 1; l < layers.size(); l++)
+            {
+                for (int n = 0; n < layers[l]; n++)
+                {
+                    nabla_b[l - 1][n] += d_nabla_b[l - 1][n];
+                    for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                    {
+                        nabla_w[l - 1][n][w] += d_nabla_w[l - 1][n][w];
+                    }
+                }
+            }
         }
+        //update neural network biases and weights
+        for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
+        {
+            for (unsigned int l = 1; l < layers.size(); l++)
+            {
+                for (int n = 0; n < layers[l]; n++)
+                {
+                    biases[l - 1][n] = biases[l - 1][n] - (eta / miniBatchData.size()) * nabla_b[l - 1][n];
+                    for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                    {
+                        weights[l - 1][n][w] = weights[l - 1][n][w] - (eta / miniBatchData.size()) * nabla_w[l - 1][n][w];
+                    }
+                }
+            }
+        }
+
+        qDebug("Epoch %d complete", e+1);
     }
 }
 
@@ -182,28 +216,14 @@ void NeuralNetwork::createMiniBatch()
     }
 }
 
-void NeuralNetwork::singleSampleTraining(std::vector<double> sampleData, std::vector<double> sampleQualifier)
-{
-    BIASES nabla_b;
-    WEIGHTS nabla_w;
-    zeroNablas(&nabla_b, &nabla_w);
-
-    BIASES d_nabla_b;
-    WEIGHTS d_nabla_w;
-    backpropagation(sampleData, sampleQualifier, &d_nabla_b, &d_nabla_w);
-}
-
 void NeuralNetwork::backpropagation(std::vector<double> sampleData,
                                     std::vector<double> sampleQualifier,
-                                    NeuralNetwork::pBIASES d_nabla_b,
-                                    NeuralNetwork::pWEIGHTS d_nabla_w)
+                                    BIASES &d_nabla_b,
+                                    WEIGHTS &d_nabla_w)
 {
-    BIASES nabla_b;
-    WEIGHTS nabla_w;
-    zeroNablas(&nabla_b, &nabla_w);
-
+    //feedforward
     vector<double> activation = sampleData; //output of the layer, input for the next layer
-    ACTIVATIONS activations;                //actinvations by layer (for backpropagation)
+    ACTIVATIONS activations;//activations by layer (for backpropagation)
     activations.push_back(activation);
 
     vector<vector<double>> zs;
@@ -225,38 +245,55 @@ void NeuralNetwork::backpropagation(std::vector<double> sampleData,
         activations.push_back(al);
         activation = al;
     }
-    //qDebug("Output layer size: %d", ((vector<double>)(activations[activations.size() - 1])).size());
-    //δ
-    vector<double> delta = HadamarProduct(costDerivative(activations[activations.size() - 1], sampleQualifier), sigmoidPrime(zs[zs.size() - 1]));
-    nabla_b[nabla_b.size() - 1] = delta;
+
+    //backward pass
+    //δL=∇aC⊙σ′(zL)
+    vector<double> delta = HadamarProduct(costDerivative(activations[(activations.size() - 1)], sampleQualifier), sigmoidPrime(zs[(zs.size() - 1)]));
+    d_nabla_b[d_nabla_b.size() - 1] = delta;
     vector<vector<double>> dwl;
     for (unsigned i = 0; i < delta.size(); i++)
     {
-        vector<double> dwn;
-        for (unsigned int j = 0; j < ((vector<double>)activations[activations.size() - 2]).size(); j++)
+        vector<double> dwln;
+        for (unsigned int j = 0; j < ((vector<double>)activations[(activations.size() - 1) - 1]).size(); j++)
         {
-            dwn.push_back(delta[i] * ((vector<double>)activations[activations.size() - 2])[j]);
+            dwln.push_back(delta[i] * ((vector<double>)activations[(activations.size() - 1) - 1])[j]);
         }
-        dwl.push_back(dwn);
+        dwl.push_back(dwln);
     }
-    nabla_w[nabla_w.size() - 1] = dwl;  //∂C∂w=ain*δout
+    d_nabla_w[d_nabla_w.size() - 1] = dwl;  //∂C∂w=ain*δout
 
-    vector<vector<double>> dwl;
     for (unsigned int l = (layers.size() - 2); l > 0; l--)
     {
         vector<double> zl = zs[l - 1];
         vector<double> sp = sigmoidPrime(zl);
 
-        vector<double> dot_product;
-
-
-    //        vector<double> dwn;
-    //        vector<vector<double>> _weights = weights[l];
-    //        for (unsigned int i = 0; i < _weights.size(); i++)
-    //        {
-
-    //        }
+        vector<vector<double>> weightsT = matrix2dTranspose(weights[l]);
+        vector<double> weightsDotDelta = dotProduct(weightsT, delta);
+        //δl=((w_l+1)Tδ_l+1)⊙σ′(zl)
+        delta = HadamarProduct(weightsDotDelta, sp);
+        d_nabla_b[l - 1] = delta;
+        d_nabla_w[l - 1] = dotProductM(delta, activations[(activations.size() - 1) - l - 1]);
     }
+}
+
+vector<double> NeuralNetwork::feedForward(std::vector<double> inputActivation)
+{
+    vector<double> activation = inputActivation;
+
+    for (unsigned int l = 1; l < layers.size(); l++)
+    {
+        vector<vector<double>> neuronLayerWeights = weights[l - 1];
+        vector<double> neuronLayerBiases = biases[l - 1];
+        vector<double> al; //output of neurons (zl passed through sigmoig) for the layer, al=σ(zl)
+        for (int n = 0; n < layers[l]; n++)
+        {
+            vector<double> neuronWeights = neuronLayerWeights[n];
+            double zn = dotProduct(activation, neuronWeights) + neuronLayerBiases[n];
+            al.push_back(sigmoid(zn));
+        }
+        activation = al;
+    }
+    return activation; //activation of output layer
 }
 
 double NeuralNetwork::sigmoid(double z)
@@ -286,7 +323,7 @@ vector<double> NeuralNetwork::costDerivative(vector<double> outputActivations, v
     return costDerivative;
 }
 
-void NeuralNetwork::zeroNablas(NeuralNetwork::pBIASES nabla_b, NeuralNetwork::pWEIGHTS nabla_w)
+void NeuralNetwork::zeroNablas(BIASES &nabla_b, WEIGHTS &nabla_w)
 {
     for (unsigned int l = 1; l < layers.size(); l++)
     {
@@ -295,7 +332,7 @@ void NeuralNetwork::zeroNablas(NeuralNetwork::pBIASES nabla_b, NeuralNetwork::pW
         {
             layerNeuronBiases.push_back(0.0);
         }
-        nabla_b->push_back(layerNeuronBiases);
+        nabla_b.push_back(layerNeuronBiases);
 
         vector<vector<double>> layerNeuronWeights;
         for (int n = 0; n < layers[l]; n++)
@@ -307,7 +344,7 @@ void NeuralNetwork::zeroNablas(NeuralNetwork::pBIASES nabla_b, NeuralNetwork::pW
             }
             layerNeuronWeights.push_back(neuronWeights);
         }
-        nabla_w->push_back(layerNeuronWeights);
+        nabla_w.push_back(layerNeuronWeights);
     }
 
 }
@@ -330,7 +367,7 @@ void NeuralNetwork::readTrainingSamplesFileNames()
             if (outputNeuronNum < layers[layers.size() - 1])
             {
                 trainingSamplesFileName.push_back(trainingSampleFileName);
-                qDebug("Training Sample: %s , Neuron: %d", trainingSampleFileName.c_str(), outputNeuronNum);
+                //qDebug("Training Sample: %s , Neuron: %d", trainingSampleFileName.c_str(), outputNeuronNum);
             }
           }
        }
