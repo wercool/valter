@@ -250,7 +250,7 @@ void NeuralNetwork::saveNetworkToFile(string filepath)
     nnItializationFile.close();
 }
 
-void NeuralNetwork::recognizeReferenceObject()
+vector<double> NeuralNetwork::recognizeReferenceObject()
 {
     vector<double> outputVector = feedForward(referenceObjectVector);
     qDebug("Neural Network Output Vector");
@@ -258,6 +258,7 @@ void NeuralNetwork::recognizeReferenceObject()
     {
         qDebug("%.15f", outputVector[o]);
     }
+    return outputVector;
 }
 
 void NeuralNetwork::trainingWorker()
@@ -522,7 +523,8 @@ vector<double> NeuralNetwork::feedForward(std::vector<double> inputActivation)
         {
             vector<double> neuronWeights = neuronLayerWeights[n];
             double zn = dotProduct(activation, neuronWeights) + neuronLayerBiases[n];
-            al.push_back(sigmoid(zn));
+            double szn = sigmoid(zn);
+            al.push_back(szn);
         }
         activation = al;
     }

@@ -95,7 +95,7 @@ public:
     void loadNetworkFromFile(string filepath);
     void saveNetworkToFile(string filepath);
 
-    void recognizeReferenceObject();
+    vector<double> recognizeReferenceObject();
 
     void readTrainingSamplesFileNames();
     string getReferenceObjectFileName() const;

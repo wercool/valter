@@ -760,7 +760,14 @@ void MainWindow::on_nnRecognizeReferenceObjectButton_clicked()
         msgBox->exec();
         return;
     }
-    neuralNetwork->recognizeReferenceObject();
+
+    vector<double> outputVector = neuralNetwork->recognizeReferenceObject();
+
+    ui->nnLogTextEdit->appendPlainText("Neural Network Output Vector");
+    for (unsigned int o = 0; o < outputVector.size(); o++)
+    {
+        ui->nnLogTextEdit->appendPlainText(format_string("%.15f", outputVector[o]).c_str());
+    }
 }
 
 void MainWindow::on_nnRotateSamplesCheclBox_clicked(bool checked)
