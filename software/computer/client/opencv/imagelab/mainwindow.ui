@@ -556,7 +556,7 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>94</width>
+                 <width>98</width>
                  <height>88</height>
                 </rect>
                </property>
@@ -661,7 +661,7 @@ background-repeat: no-repeat;</string>
                <x>0</x>
                <y>0</y>
                <width>534</width>
-               <height>689</height>
+               <height>688</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -1592,7 +1592,7 @@ background-position:center;</string>
             <item>
              <widget class="QLineEdit" name="nnReferenceObjectsFolderLineEdit">
               <property name="text">
-               <string>/home/maska/Documents/triangle_detection/reference</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -1627,7 +1627,7 @@ background-position:center;</string>
             <item>
              <widget class="QLineEdit" name="nnTrainingObjectsFolderLineEdit">
               <property name="text">
-               <string>/home/maska/Documents/triangle_detection/training_data</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -1677,13 +1677,6 @@ background-position:center;</string>
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QPushButton" name="createTrainingObjectsButton">
-                <property name="text">
-                 <string>Create Training Objects</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
             <item>
@@ -1692,34 +1685,62 @@ background-position:center;</string>
                <number>0</number>
               </property>
               <item>
-               <widget class="QCheckBox" name="nnCreateTrainingSamplesPreviewCheckBox">
-                <property name="text">
-                 <string>Preview only</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_34">
+                <item>
+                 <widget class="QCheckBox" name="nnRotateSamplesCheclBox">
+                  <property name="text">
+                   <string>Rotate samples</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
               <item>
-               <widget class="QLabel" name="label_6">
-                <property name="text">
-                 <string>Show delay</string>
+               <layout class="QHBoxLayout" name="horizontalLayout_33">
+                <property name="topMargin">
+                 <number>0</number>
                 </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QSlider" name="createTrainingObjectsShowDelaySlider">
-                <property name="maximum">
-                 <number>500</number>
-                </property>
-                <property name="value">
-                 <number>250</number>
-                </property>
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>Show delay</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="nnCreateTrainingSamplesPreviewCheckBox">
+                  <property name="text">
+                   <string>Preview only</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="createTrainingObjectsShowDelaySlider">
+                  <property name="maximum">
+                   <number>500</number>
+                  </property>
+                  <property name="value">
+                   <number>250</number>
+                  </property>
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="createTrainingObjectsButton">
+                  <property name="text">
+                   <string>Create Training Objects</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
@@ -1796,7 +1817,7 @@ background-position:center;</string>
                  </size>
                 </property>
                 <property name="text">
-                 <string>625,10,3</string>
+                 <string>784,30,10</string>
                 </property>
                </widget>
               </item>
@@ -1867,7 +1888,7 @@ background-position:center;</string>
               <item>
                <widget class="QDoubleSpinBox" name="nnEtaSpinBox">
                 <property name="decimals">
-                 <number>8</number>
+                 <number>5</number>
                 </property>
                 <property name="maximum">
                  <double>3.000000000000000</double>

@@ -58,7 +58,7 @@ void NeuralNetwork::trainingDataCreationWorker()
         cv::imshow("Reference Object", referenceObject);
 
         double angle = 0.0;
-        vector<double> scales = {1.0, 0.9, 0.8, 0.7};
+        vector<double> scales = {1.0, 0.95, 0.9, 0.85, 0.8, 0.75, 0.7, 0.65, 0.6, 0.55, 0.5};
 
         for (int s = 0; s < getTrainingSamplesNumber(); s++)
         {
@@ -83,20 +83,29 @@ void NeuralNetwork::trainingDataCreationWorker()
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(getCreateTrainingObjectsShowDelay()));
             }
-            angle += 180 / getTrainingSamplesNumber();
+            if (getRotateSamples())
+            {
+                angle += 180 / getTrainingSamplesNumber();
+            }
         }
     }
 }
 
 void NeuralNetwork::initNetwork()
 {
+    miniBatchData.clear();
     miniBatchQualifier.clear();
 
-    double randBiasScale = 1.0;
-    double randWeightScale = 1.0;
+    double randBiasScale = 1.5;
+    double randWeightScale = 1.5;
+
     biases.clear();
+    weights.clear();
+
     for (unsigned int l = 1; l < layers.size(); l++)
     {
+//        qDebug("Layer %d", l);
+
         vector<double> layerNeuronBiases;
         for (int n = 0; n < layers[l]; n++)
         {
@@ -104,6 +113,13 @@ void NeuralNetwork::initNetwork()
             layerNeuronBiases.push_back(randBias);
         }
         biases.push_back(layerNeuronBiases);
+
+//        string biasesStringified;
+//        for (unsigned int n = 0 ; n < biases[l - 1].size(); n++)
+//        {
+//            biasesStringified += format_string("%.8f ", layerNeuronBiases[n]);
+//        }
+//        qDebug("B[ %s]", biasesStringified.c_str());
 
         vector<vector<double>> layerNeuronWeights;
         for (int n = 0; n < layers[l]; n++)
@@ -117,6 +133,17 @@ void NeuralNetwork::initNetwork()
             layerNeuronWeights.push_back(neuronWeights);
         }
         weights.push_back(layerNeuronWeights);
+
+//        for (unsigned int wl = 0; wl < weights[l - 1].size(); wl++)
+//        {
+//            string weightsStringified;
+//            for (unsigned int wn = 0; wn < weights[l - 1][wl].size(); wn++)
+//            {
+//                weightsStringified += format_string("%.8f ", weights[l - 1][wl][wn]);
+//            }
+//            qDebug("W[%d][ %s]", wl, weightsStringified.c_str());
+//        }
+
     }
 }
 
@@ -229,56 +256,90 @@ void NeuralNetwork::recognizeReferenceObject()
     qDebug("Neural Network Output Vector");
     for (unsigned int o = 0; o < outputVector.size(); o++)
     {
-        qDebug("%.10f", outputVector[o]);
+        qDebug("%.15f", outputVector[o]);
     }
 }
 
 void NeuralNetwork::trainingWorker()
 {
+    trainingSamples.clear();
+    for (unsigned int i = 0; i < trainingSamplesFileName.size(); i++)
+    {
+        string trainingSampleFileName = trainingSamplesFileName[i];
+        string trainingSampleFilePath = getTrainingObjectsFolderName() + "/" + trainingSampleFileName;
+        //getting sample grayscale vector
+        vector<double> trainingSampleVector = getGrayscaleVectorFromMatFile(trainingSampleFilePath);
+        trainingSamples[trainingSampleFileName] = trainingSampleVector;
+    }
+    qDebug("%d samples data read", (int)trainingSamples.size());
     SGD();
     qDebug("Training finished.");
 }
 
 void NeuralNetwork::SGD()
 {
+    int miniBatchesInTrainingData = trainingDataLength / miniBatchSize;
+    qDebug("Mini Batch cycles: %d", miniBatchesInTrainingData);
+
     for (int e = 0; e < epochs; e++)
     {
-        createMiniBatch();
-        //mbi = mini batch index
-        BIASES nabla_b;
-        WEIGHTS nabla_w;
-        zeroNablas(nabla_b, nabla_w);
-        for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
+        vector<string> trainingSamplesFileNameShuffled = trainingSamplesFileName;
+        random_shuffle(trainingSamplesFileNameShuffled.begin(), trainingSamplesFileNameShuffled.end());
+
+        for (int mbci = 0; mbci < miniBatchesInTrainingData; mbci++)
         {
-            BIASES d_nabla_b;
-            WEIGHTS d_nabla_w;
-            zeroNablas(d_nabla_b, d_nabla_w);
-            backpropagation(miniBatchData[mbi], miniBatchQualifier[mbi], d_nabla_b, d_nabla_w);
-            for (unsigned int l = 1; l < layers.size(); l++)
+            vector<string> miniBatchSampleFileNames;
+            for (int i = 0; i < miniBatchSize; i++)
             {
-                for (int n = 0; n < layers[l]; n++)
+                miniBatchSampleFileNames.push_back(trainingSamplesFileNameShuffled[mbci*miniBatchSize + i]);
+            }
+
+            prepareMiniBatch(miniBatchSampleFileNames);
+
+            qDebug("Epoch %d Mini Batch %d", e, mbci);
+
+            if (!training)
+            {
+                qDebug("Training terminated.");
+                return;
+            }
+
+            //mbi = mini batch index
+            BIASES nabla_b;
+            WEIGHTS nabla_w;
+            zeroNablas(nabla_b, nabla_w);
+            for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
+            {
+                BIASES d_nabla_b;
+                WEIGHTS d_nabla_w;
+                zeroNablas(d_nabla_b, d_nabla_w);
+                backpropagation(miniBatchData[mbi], miniBatchQualifier[mbi], d_nabla_b, d_nabla_w);
+                for (unsigned int l = 1; l < layers.size(); l++)
                 {
-                    nabla_b[l - 1][n] += d_nabla_b[l - 1][n];
-                    for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                    for (int n = 0; n < layers[l]; n++)
                     {
-                        nabla_w[l - 1][n][w] += d_nabla_w[l - 1][n][w];
+                        nabla_b[l - 1][n] += d_nabla_b[l - 1][n];
+                        for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                        {
+                            nabla_w[l - 1][n][w] += d_nabla_w[l - 1][n][w];
+                        }
                     }
                 }
             }
-        }
-        //update neural network biases and weights
-        for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
-        {
-            for (unsigned int l = 1; l < layers.size(); l++)
+            //update neural network biases and weights
+            for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
             {
-                for (int n = 0; n < layers[l]; n++)
+                for (unsigned int l = 1; l < layers.size(); l++)
                 {
-                    //bk → b′k = bk − (η/m)*∑∂CXj/∂bl
-                    biases[l - 1][n] = biases[l - 1][n] - (eta / miniBatchData.size()) * nabla_b[l - 1][n];
-                    for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                    for (int n = 0; n < layers[l]; n++)
                     {
-                        //wk → w′k = wk − (η/m)*∑∂CXj/∂wk
-                        weights[l - 1][n][w] = weights[l - 1][n][w] - (eta / miniBatchData.size()) * nabla_w[l - 1][n][w];
+                        //bk → b′k = bk − (η/m)*∑∂CXj/∂bl
+                        biases[l - 1][n] = biases[l - 1][n] - (eta / miniBatchData.size()) * nabla_b[l - 1][n];
+                        for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                        {
+                            //wk → w′k = wk − (η/m)*∑∂CXj/∂wk
+                            weights[l - 1][n][w] = weights[l - 1][n][w] - (eta / miniBatchData.size()) * nabla_w[l - 1][n][w];
+                        }
                     }
                 }
             }
@@ -312,6 +373,8 @@ void NeuralNetwork::createMiniBatch()
         trainingSampleFileVectorIndexes.push_back(trainingSampleFileVectorIndex);
     }
 
+    string miniBatchQualifiers;
+
     for (int i = 0; i < miniBatchSize; i++)
     {
         string trainingSampleFileName = trainingSampleFileNames[i];
@@ -320,7 +383,15 @@ void NeuralNetwork::createMiniBatch()
         vector<double> trainingSampleVector = getGrayscaleVectorFromMatFile(trainingSampleFilePath);
         miniBatchData.push_back(trainingSampleVector);
 
+//        string stringifiedSampleVector;
+//        for (unsigned int s = 0; s < trainingSampleVector.size(); s++)
+//        {
+//            stringifiedSampleVector += format_string("%e ", trainingSampleVector[s]);
+//        }
+//        qDebug("S[%d][ %s]", (int)trainingSampleVector.size(), stringifiedSampleVector.c_str());
+
         int sampleQualifierRespectiveNeuronIdx = atoi(trainingSampleFileName.substr(0, trainingSampleFileName.find('-')).c_str());
+        miniBatchQualifiers += format_string("%d ", sampleQualifierRespectiveNeuronIdx);
         vector<double> sampleQualifier;
         //oli - output layer neuron index
         for (int oli = 0; oli < layers[layers.size() - 1]; oli++)
@@ -329,7 +400,43 @@ void NeuralNetwork::createMiniBatch()
         }
         miniBatchQualifier.push_back(sampleQualifier);
 
-        //qDebug("Training sample [%d] with size %d", sampleQualifierRespectiveNeuronIdx, (int)trainingSampleVector.size());
+//        string stringifiedSampleQualifier;
+//        for (unsigned int s = 0; s < sampleQualifier.size(); s++)
+//        {
+//            stringifiedSampleQualifier += format_string("%.1f ", sampleQualifier[s]);
+//        }
+//        qDebug("Q[ %s]", stringifiedSampleQualifier.c_str());
+
+//        qDebug("Training sample [%d] with size %d", sampleQualifierRespectiveNeuronIdx, (int)trainingSampleVector.size());
+    }
+    qDebug("Q[ %s]", miniBatchQualifiers.c_str());
+}
+
+void NeuralNetwork::prepareMiniBatch(vector<string> miniBatchSampleFileNames)
+{
+    miniBatchData.clear();
+    miniBatchQualifier.clear();
+
+    for (unsigned int i = 0 ; i < miniBatchSampleFileNames.size(); i++)
+    {
+        string trainingSampleFileName = miniBatchSampleFileNames[i];
+        int sampleQualifierRespectiveNeuronIdx = atoi(trainingSampleFileName.substr(0, trainingSampleFileName.find('-')).c_str());
+
+        vector<double> sampleQualifier;
+        //oli - output layer neuron index
+        for (int oli = 0; oli < layers[layers.size() - 1]; oli++)
+        {
+            sampleQualifier.push_back((sampleQualifierRespectiveNeuronIdx == oli) ? 1.0 : 0.0);
+        }
+        miniBatchQualifier.push_back(sampleQualifier);
+
+        //string trainingSampleFilePath = getTrainingObjectsFolderName() + "/" + trainingSampleFileName;
+        //getting sample grayscale vector
+        //vector<double> trainingSampleVector = getGrayscaleVectorFromMatFile(trainingSampleFilePath);
+        //miniBatchData.push_back(trainingSampleVector);
+
+        //getting sample grayscale vector from trainigSamples map
+        miniBatchData.push_back(trainingSamples[trainingSampleFileName]);
     }
 }
 
@@ -508,10 +615,14 @@ void NeuralNetwork::readTrainingSamplesFileNames()
             if (outputNeuronNum < layers[layers.size() - 1])
             {
                 trainingSamplesFileName.push_back(trainingSampleFileName);
-                //qDebug("Training Sample: %s , Neuron: %d", trainingSampleFileName.c_str(), outputNeuronNum);
+//                qDebug("Training Sample: %-20s, Output Neuron ID: %d", trainingSampleFileName.c_str(), outputNeuronNum);
             }
           }
        }
+
+       trainingDataLength = (int)trainingSamplesFileName.size();
+
+       qDebug("Samples files read: %d", trainingDataLength);
     }
 }
 
@@ -607,6 +718,11 @@ std::vector<int> NeuralNetwork::getLayers() const
 void NeuralNetwork::setLayers(const std::vector<int> &value)
 {
     layers = value;
+    qDebug("Layers: %d", (int)layers.size());
+    for (unsigned int l = 0; l < layers.size(); l++)
+    {
+        qDebug("L%d[%d]", l, layers[l]);
+    }
 }
 
 int NeuralNetwork::getMiniBatchSize() const
@@ -617,6 +733,7 @@ int NeuralNetwork::getMiniBatchSize() const
 void NeuralNetwork::setMiniBatchSize(int value)
 {
     miniBatchSize = value;
+    qDebug("Batch Size: %d", miniBatchSize);
 }
 
 int NeuralNetwork::getEpochs() const
@@ -627,6 +744,7 @@ int NeuralNetwork::getEpochs() const
 void NeuralNetwork::setEpochs(int value)
 {
     epochs = value;
+    qDebug("Epochs: %d", epochs);
 }
 
 double NeuralNetwork::getEta() const
@@ -637,6 +755,7 @@ double NeuralNetwork::getEta() const
 void NeuralNetwork::setEta(double value)
 {
     eta = value;
+    qDebug("Eta: %.10f", eta);
 }
 bool NeuralNetwork::getTraining() const
 {
@@ -670,4 +789,15 @@ string NeuralNetwork::getCostFunction() const
 void NeuralNetwork::setCostFunction(const string &value)
 {
     costFunction = value;
+    qDebug("Cost Function: %s", costFunction.c_str());
+}
+
+bool NeuralNetwork::getRotateSamples() const
+{
+    return rotateSamples;
+}
+
+void NeuralNetwork::setRotateSamples(bool value)
+{
+    rotateSamples = value;
 }

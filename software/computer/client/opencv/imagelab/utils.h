@@ -70,6 +70,8 @@ static __attribute__((unused)) std::vector<double> getGrayscaleVectorFromMatFile
     cv::Mat matGrayscale;
     cv::cvtColor(matRGB, matGrayscale, CV_BGR2GRAY);
 
+    //cv::imshow("Sample", matGrayscale);
+
     std::vector<double> grayscaleMatVector;
 
     for(int y = 0; y < matRGB.rows; y++)

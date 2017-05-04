@@ -195,6 +195,8 @@ private slots:
 
     void on_nnRecognizeReferenceObjectButton_clicked();
 
+    void on_nnRotateSamplesCheclBox_clicked(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

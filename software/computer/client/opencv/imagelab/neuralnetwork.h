@@ -13,6 +13,7 @@
 #include <dirent.h>
 #include <thread>
 #include <math.h>
+#include <map>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
@@ -35,11 +36,15 @@ private:
 
     vector<string> referenceObjectsFileName;
     vector<string> trainingSamplesFileName;
+    map<string, vector<double>> trainingSamples;
 
     std::thread *trainingDataCreationProcessingThread;
     int createTrainingObjectsShowDelay = 250;
     int trainingSamplesNumber;
     bool createTrainingSamplesPreview = true;
+    bool rotateSamples = true;
+
+    int trainingDataLength = 0;
 
     //Network Parameters
     std::vector<int> layers; //contains number of neurons in eash layer
@@ -64,6 +69,7 @@ private:
 
     void SGD();
     void createMiniBatch();
+    void prepareMiniBatch(vector<string> miniBatchSampleFileNames);
     void backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, BIASES &d_nabla_b, WEIGHTS &d_nabla_w);
     vector<double> feedForward(std::vector<double> inputActivation);
 
@@ -122,6 +128,8 @@ public:
     void setTrainingSamplesFileName(const vector<string> &value);
     string getCostFunction() const;
     void setCostFunction(const string &value);
+    bool getRotateSamples() const;
+    void setRotateSamples(bool value);
 };
 
 #endif // NEURALNETWORK_H

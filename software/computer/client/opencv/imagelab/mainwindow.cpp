@@ -564,11 +564,13 @@ void MainWindow::on_ccDetectionModeSingleRadioButton_clicked(bool checked)
 
 void MainWindow::on_nnOpenReferenceObjectButton_clicked()
 {
-    std::string referenceObjectFileName = QFileDialog::getOpenFileName(this, tr("Reference Object for NN"), "/home/maska", tr("JPG Image (*.jpg *.jpeg)")).toUtf8().constData();
+    static string lastOpenedDirectory;
+    std::string referenceObjectFileName = QFileDialog::getOpenFileName(this, tr("Reference Object for NN"), (lastOpenedDirectory.empty()) ? "/home/maska" : lastOpenedDirectory.c_str(), tr("JPG Image (*.jpg *.jpeg, *.png)")).toUtf8().constData();
     qDebug("Reference Object FileName: %s", referenceObjectFileName.c_str());
     neuralNetwork->setReferenceObjectFileName(referenceObjectFileName);
     ui->nnReferenceObjectLineEdit->setText(referenceObjectFileName.c_str());
     neuralNetwork->readReferenceObjectMat();
+    lastOpenedDirectory = referenceObjectFileName;
 }
 
 void MainWindow::on_nnOpenReferenceObjectOKButton_clicked()
@@ -580,10 +582,12 @@ void MainWindow::on_nnOpenReferenceObjectOKButton_clicked()
 
 void MainWindow::on_nnOpenReferenceObjectsFolderButton_clicked()
 {
-    std::string referenceObjectsFolder = QFileDialog::getExistingDirectory(this, tr("Reference Objects Folder"), "/home/maska").toUtf8().constData();
+    static string lastOpenedDirectory;
+    std::string referenceObjectsFolder = QFileDialog::getExistingDirectory(this, tr("Reference Objects Folder"), (lastOpenedDirectory.empty()) ? "/home/maska" : lastOpenedDirectory.c_str()).toUtf8().constData();
     qDebug("Reference Object Folder: %s", referenceObjectsFolder.c_str());
     neuralNetwork->setReferenceObjectsFolderName(referenceObjectsFolder);
     ui->nnReferenceObjectsFolderLineEdit->setText(referenceObjectsFolder.c_str());
+    lastOpenedDirectory = referenceObjectsFolder;
 }
 
 void MainWindow::on_nnOpenReferenceObjectsFolderOKButton_clicked()
@@ -594,10 +598,12 @@ void MainWindow::on_nnOpenReferenceObjectsFolderOKButton_clicked()
 
 void MainWindow::on_nnOpenTrainingObjectsFolderButton_clicked()
 {
-    std::string trainingObjectsFolder = QFileDialog::getExistingDirectory(this, tr("Training Objects Folder"), "/home/maska").toUtf8().constData();
+    static string lastOpenedDirectory;
+    std::string trainingObjectsFolder = QFileDialog::getExistingDirectory(this, tr("Training Objects Folder"), (lastOpenedDirectory.empty()) ? "/home/maska" : lastOpenedDirectory.c_str()).toUtf8().constData();
     qDebug("Training Object Folder: %s", trainingObjectsFolder.c_str());
     neuralNetwork->setTrainingObjectsFolderName(trainingObjectsFolder);
     ui->nnTrainingObjectsFolderLineEdit->setText(trainingObjectsFolder.c_str());
+    lastOpenedDirectory = trainingObjectsFolder;
 }
 
 void MainWindow::on_nnOpenTrainingObjectsFolderOKButton_clicked()
@@ -693,7 +699,7 @@ void MainWindow::on_nnSetNeuralNetworkButton_clicked()
 
     ui->nnLogTextEdit->appendPlainText(format_string("Mini Batch size: %d", neuralNetwork->getMiniBatchSize()).c_str());
     ui->nnLogTextEdit->appendPlainText(format_string("Epochs: %d", neuralNetwork->getEpochs()).c_str());
-    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.8f", neuralNetwork->getEta()).c_str());
+    ui->nnLogTextEdit->appendPlainText(format_string("Learning Rate: %.5f", neuralNetwork->getEta()).c_str());
     ui->nnLogTextEdit->appendPlainText(format_string("Training samples number: %d", neuralNetwork->getTrainingSamplesFileName().size()).c_str());
 }
 
@@ -755,4 +761,9 @@ void MainWindow::on_nnRecognizeReferenceObjectButton_clicked()
         return;
     }
     neuralNetwork->recognizeReferenceObject();
+}
+
+void MainWindow::on_nnRotateSamplesCheclBox_clicked(bool checked)
+{
+    neuralNetwork->setRotateSamples(checked);
 }
