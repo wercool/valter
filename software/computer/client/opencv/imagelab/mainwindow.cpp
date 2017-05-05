@@ -32,6 +32,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     objectImageWithKeypointsWidget = new CVImageWidget();
     ui->findObjectverticalLayout->insertWidget(2, objectImageWithKeypointsWidget);
+
+    costFunctionPerMinibatchesWidget = new QWidget();
+
+    costFunctionPerMinibatchesWidgetLayout = new QVBoxLayout;
+    costFunctionPerMinibatchesWidget->setMinimumWidth(640);
+    costFunctionPerMinibatchesWidget->setMinimumHeight(480);
+    costFunctionPerMinibatchesWidget->setLayout(costFunctionPerMinibatchesWidgetLayout);\
 }
 
 MainWindow::~MainWindow()
@@ -675,6 +682,7 @@ void MainWindow::on_nnSetNeuralNetworkButton_clicked()
     neuralNetwork->setMiniBatchSize(ui->nnMiniBatchSizeSpinBox->value());
     neuralNetwork->setEpochs(ui->nnEpochsSpinBox->value());
     neuralNetwork->setEta(ui->nnEtaSpinBox->value());
+    neuralNetwork->setLmbda(ui->nnDecaySpinBox->value());
 
     if (ui->nnCostFunctionQuadraticCostRadioButton->isChecked())
     {
@@ -728,6 +736,7 @@ void MainWindow::on_nnInitializeFromFileButton_clicked()
     ui->nnMiniBatchSizeSpinBox->setValue(neuralNetwork->getMiniBatchSize());
     ui->nnEpochsSpinBox->setValue(neuralNetwork->getEpochs());
     ui->nnEtaSpinBox->setValue(neuralNetwork->getEta());
+    ui->nnDecaySpinBox->setValue(neuralNetwork->getLmbda());
 
     if (neuralNetwork->getCostFunction() == "QuadraticCost")
     {
@@ -773,4 +782,46 @@ void MainWindow::on_nnRecognizeReferenceObjectButton_clicked()
 void MainWindow::on_nnRotateSamplesCheclBox_clicked(bool checked)
 {
     neuralNetwork->setRotateSamples(checked);
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QtCharts::QLineSeries *series = new QtCharts::QLineSeries();
+
+    map<int, double> costFunctionValueByMinibatches = neuralNetwork->getCostFunctionValueByMinibatches();
+
+    typedef std::map<int, double> costFunctionPerMinibatches;
+
+    for (costFunctionPerMinibatches::iterator iterator = costFunctionValueByMinibatches.begin(); iterator != costFunctionValueByMinibatches.end(); ++iterator)
+    {
+        series->append(iterator->first, iterator->second);
+    }
+
+    QtCharts::QChart *chart = new QtCharts::QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setTitle("Cost Function (y), mini batches (x)");
+
+    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QLayoutItem *child = costFunctionPerMinibatchesWidgetLayout->takeAt(0);
+    delete child;
+
+    costFunctionPerMinibatchesWidgetLayout->addWidget(chartView);
+
+    costFunctionPerMinibatchesWidget->show();
+}
+
+// Template Matching
+
+void MainWindow::on_tmOpenTargetImageButton_clicked()
+{
+
+}
+
+void MainWindow::on_tmOpenTemplateImageButton_clicked()
+{
+
 }

@@ -51,6 +51,7 @@ private:
     int miniBatchSize = 10;
     int epochs = 10;
     double eta = 0.15;
+    double lmbda = 0.0;
     //QuadraticCost
     //CrossEntropyCost
     string costFunction = "QuadraticCost";
@@ -70,7 +71,7 @@ private:
     void SGD();
     void createMiniBatch();
     void prepareMiniBatch(vector<string> miniBatchSampleFileNames);
-    void backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, BIASES &d_nabla_b, WEIGHTS &d_nabla_w);
+    void backpropagation(std::vector<double> sampleData, std::vector<double> sampleQualifier, BIASES &d_nabla_b, WEIGHTS &d_nabla_w, vector<double> &cost);
     vector<double> feedForward(std::vector<double> inputActivation);
 
     vector<double> QuadraticCost(vector<double> activation, vector<double> sampleQualifier, vector<double> zl);
@@ -83,6 +84,9 @@ private:
     vector<double> costDerivative(vector<double> outputActivations, vector<double>qualifier);
 
     void trainingWorker();
+
+    int miniBatchNum = 0;
+    map<int, double> costFunctionValueByMinibatches;
 
 public:
     NeuralNetwork();
@@ -130,6 +134,9 @@ public:
     void setCostFunction(const string &value);
     bool getRotateSamples() const;
     void setRotateSamples(bool value);
+    map<int, double> getCostFunctionValueByMinibatches() const;
+    double getLmbda() const;
+    void setLmbda(double value);
 };
 
 #endif // NEURALNETWORK_H

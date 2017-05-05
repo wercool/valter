@@ -180,5 +180,15 @@ static __attribute__((unused)) char* stringToCharPtr(std::string str)
      return charPtr;
 }
 
+static __attribute__((unused))  std::vector<double> vectorsSub(std::vector<double> A, std::vector<double> B)
+{
+    std::vector<double> delta;
+    for (unsigned int i = 0; i < A.size(); i++)
+    {
+        delta.push_back(A[i] - B[i]);
+    }
+    return delta;
+}
+
 
 #endif // UTILS_H

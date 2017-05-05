@@ -99,6 +99,9 @@ void NeuralNetwork::initNetwork()
     double randBiasScale = 1.5;
     double randWeightScale = 1.5;
 
+    miniBatchNum = 0;
+    costFunctionValueByMinibatches.clear();
+
     biases.clear();
     weights.clear();
 
@@ -179,6 +182,10 @@ void NeuralNetwork::loadNetworkFromFile(string filepath)
     std::getline(nnItializationFile, etaStringified);
     setEta(atof(stringToCharPtr(etaStringified)));
 
+    string lmbdaStringified;
+    std::getline(nnItializationFile, lmbdaStringified);
+    setLmbda(atof(stringToCharPtr(lmbdaStringified)));
+
     string costFunction;
     std::getline(nnItializationFile, costFunction);
     setCostFunction(costFunction);
@@ -224,7 +231,8 @@ void NeuralNetwork::saveNetworkToFile(string filepath)
 
     nnItializationFile << format_string("%d", miniBatchSize) << "\n";
     nnItializationFile << format_string("%d", epochs) << "\n";
-    nnItializationFile << format_string("%.4f", eta) << "\n";
+    nnItializationFile << format_string("%.5f", eta) << "\n";
+    nnItializationFile << format_string("%.5f", lmbda) << "\n";
     nnItializationFile << format_string("%s", getCostFunction().c_str()) << "\n";
 
     nnItializationFile << "# Biases and Weights distributed layer by layer neuron by neuron";
@@ -275,79 +283,6 @@ void NeuralNetwork::trainingWorker()
     qDebug("%d samples data read", (int)trainingSamples.size());
     SGD();
     qDebug("Training finished.");
-}
-
-void NeuralNetwork::SGD()
-{
-    int miniBatchesInTrainingData = trainingDataLength / miniBatchSize;
-    qDebug("Mini Batch cycles: %d", miniBatchesInTrainingData);
-
-    for (int e = 0; e < epochs; e++)
-    {
-        vector<string> trainingSamplesFileNameShuffled = trainingSamplesFileName;
-        random_shuffle(trainingSamplesFileNameShuffled.begin(), trainingSamplesFileNameShuffled.end());
-
-        for (int mbci = 0; mbci < miniBatchesInTrainingData; mbci++)
-        {
-            vector<string> miniBatchSampleFileNames;
-            for (int i = 0; i < miniBatchSize; i++)
-            {
-                miniBatchSampleFileNames.push_back(trainingSamplesFileNameShuffled[mbci*miniBatchSize + i]);
-            }
-
-            prepareMiniBatch(miniBatchSampleFileNames);
-
-            qDebug("Epoch %d Mini Batch %d", e, mbci);
-
-            if (!training)
-            {
-                qDebug("Training terminated.");
-                return;
-            }
-
-            //mbi = mini batch index
-            BIASES nabla_b;
-            WEIGHTS nabla_w;
-            zeroNablas(nabla_b, nabla_w);
-            for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
-            {
-                BIASES d_nabla_b;
-                WEIGHTS d_nabla_w;
-                zeroNablas(d_nabla_b, d_nabla_w);
-                backpropagation(miniBatchData[mbi], miniBatchQualifier[mbi], d_nabla_b, d_nabla_w);
-                for (unsigned int l = 1; l < layers.size(); l++)
-                {
-                    for (int n = 0; n < layers[l]; n++)
-                    {
-                        nabla_b[l - 1][n] += d_nabla_b[l - 1][n];
-                        for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
-                        {
-                            nabla_w[l - 1][n][w] += d_nabla_w[l - 1][n][w];
-                        }
-                    }
-                }
-            }
-            //update neural network biases and weights
-            for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
-            {
-                for (unsigned int l = 1; l < layers.size(); l++)
-                {
-                    for (int n = 0; n < layers[l]; n++)
-                    {
-                        //bk → b′k = bk − (η/m)*∑∂CXj/∂bl
-                        biases[l - 1][n] = biases[l - 1][n] - (eta / miniBatchData.size()) * nabla_b[l - 1][n];
-                        for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
-                        {
-                            //wk → w′k = wk − (η/m)*∑∂CXj/∂wk
-                            weights[l - 1][n][w] = weights[l - 1][n][w] - (eta / miniBatchData.size()) * nabla_w[l - 1][n][w];
-                        }
-                    }
-                }
-            }
-        }
-
-        qDebug("Epoch %d complete", e+1);
-    }
 }
 
 void NeuralNetwork::createMiniBatch()
@@ -441,10 +376,92 @@ void NeuralNetwork::prepareMiniBatch(vector<string> miniBatchSampleFileNames)
     }
 }
 
+void NeuralNetwork::SGD()
+{
+    int miniBatchesInTrainingData = trainingDataLength / miniBatchSize;
+    qDebug("Mini Batch cycles: %d", miniBatchesInTrainingData);
+
+    for (int e = 0; e < epochs; e++)
+    {
+        vector<string> trainingSamplesFileNameShuffled = trainingSamplesFileName;
+        random_shuffle(trainingSamplesFileNameShuffled.begin(), trainingSamplesFileNameShuffled.end());
+
+        for (int mbci = 0; mbci < miniBatchesInTrainingData; mbci++)
+        {
+            double CforMinibatch = 0.0;
+
+            vector<string> miniBatchSampleFileNames;
+            for (int i = 0; i < miniBatchSize; i++)
+            {
+                miniBatchSampleFileNames.push_back(trainingSamplesFileNameShuffled[mbci*miniBatchSize + i]);
+            }
+
+            prepareMiniBatch(miniBatchSampleFileNames);
+
+            qDebug("Epoch %d Mini Batch %d", e, mbci);
+
+            if (!training)
+            {
+                qDebug("Training terminated.");
+                return;
+            }
+
+            //mbi = mini batch index
+            BIASES nabla_b;
+            WEIGHTS nabla_w;
+            zeroNablas(nabla_b, nabla_w);
+            for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
+            {
+                BIASES d_nabla_b;
+                WEIGHTS d_nabla_w;
+                zeroNablas(d_nabla_b, d_nabla_w);
+                vector<double> cost;
+                backpropagation(miniBatchData[mbi], miniBatchQualifier[mbi], d_nabla_b, d_nabla_w, cost);
+
+                CforMinibatch += dotProduct(cost, cost);
+
+                for (unsigned int l = 1; l < layers.size(); l++)
+                {
+                    for (int n = 0; n < layers[l]; n++)
+                    {
+                        nabla_b[l - 1][n] += d_nabla_b[l - 1][n];
+                        for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                        {
+                            nabla_w[l - 1][n][w] += d_nabla_w[l - 1][n][w];
+                        }
+                    }
+                }
+            }
+            //update neural network biases and weights
+            for (unsigned int mbi = 0; mbi < miniBatchData.size(); mbi++)
+            {
+                for (unsigned int l = 1; l < layers.size(); l++)
+                {
+                    for (int n = 0; n < layers[l]; n++)
+                    {
+                        //bk → b′k = bk − (η/m)*∑∂CXj/∂bl
+                        biases[l - 1][n] = biases[l - 1][n] - (eta / miniBatchData.size()) * nabla_b[l - 1][n];
+                        for (unsigned int w = 0; w < weights[l - 1][n].size(); w++)
+                        {
+                            //wk → w′k = wk − (η/m)*∑∂CXj/∂wk
+                            weights[l - 1][n][w] = (1.0 - eta * (lmbda / (double)trainingDataLength)) * weights[l - 1][n][w] - (eta / miniBatchData.size()) * nabla_w[l - 1][n][w];
+                        }
+                    }
+                }
+            }
+
+            costFunctionValueByMinibatches[miniBatchNum++] = CforMinibatch / (2 * (double)miniBatchData.size());
+        }
+
+        qDebug("Epoch %d complete", e+1);
+    }
+}
+
 void NeuralNetwork::backpropagation(std::vector<double> sampleData,
                                     std::vector<double> sampleQualifier,
                                     BIASES &d_nabla_b,
-                                    WEIGHTS &d_nabla_w)
+                                    WEIGHTS &d_nabla_w,
+                                    vector<double> &cost)
 {
     //feedforward
     vector<double> activation = sampleData; //output of the layer, input for the next layer
@@ -482,6 +499,8 @@ void NeuralNetwork::backpropagation(std::vector<double> sampleData,
     {
         delta = CrossEntropyCost(activations[(activations.size() - 1)], sampleQualifier);
     }
+
+    cost = vectorsSub(activations[(activations.size() - 1)], sampleQualifier);
 
     d_nabla_b[d_nabla_b.size() - 1] = delta;
     vector<vector<double>> dwl;
@@ -538,12 +557,7 @@ vector<double> NeuralNetwork::QuadraticCost(vector<double> activation, vector<do
 
 vector<double> NeuralNetwork::CrossEntropyCost(vector<double> activation, vector<double> sampleQualifier)
 {
-    vector<double> delta;
-    for (unsigned int i = 0; i < sampleQualifier.size(); i++)
-    {
-        delta.push_back(activation[i] - sampleQualifier[i]);
-    }
-    return delta;
+    return vectorsSub(activation, sampleQualifier);
 }
 
 double NeuralNetwork::sigmoid(double z)
@@ -565,12 +579,7 @@ vector<double> NeuralNetwork::sigmoidPrime(vector<double> z)
 //gradient of the cost function
 vector<double> NeuralNetwork::costDerivative(vector<double> outputActivations, vector<double> qualifier)
 {
-    vector<double> costDerivative;
-    for (unsigned int i = 0; i < outputActivations.size(); i++)
-    {
-        costDerivative.push_back(outputActivations[i] - qualifier[i]);
-    }
-    return costDerivative;
+    return vectorsSub(outputActivations, qualifier);
 }
 
 void NeuralNetwork::zeroNablas(BIASES &nabla_b, WEIGHTS &nabla_w)
@@ -802,4 +811,19 @@ bool NeuralNetwork::getRotateSamples() const
 void NeuralNetwork::setRotateSamples(bool value)
 {
     rotateSamples = value;
+}
+
+double NeuralNetwork::getLmbda() const
+{
+    return lmbda;
+}
+
+void NeuralNetwork::setLmbda(double value)
+{
+    lmbda = value;
+}
+
+map<int, double> NeuralNetwork::getCostFunctionValueByMinibatches() const
+{
+    return costFunctionValueByMinibatches;
 }

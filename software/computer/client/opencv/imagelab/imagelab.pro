@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
-
+QT += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += charts
 
 TARGET = imagelab
 TEMPLATE = app
@@ -27,14 +27,16 @@ SOURCES += main.cpp\
     cvimagewidget.cpp \
     imagemanipulator.cpp \
     cascadeclassifier.cpp \
-    neuralnetwork.cpp
+    neuralnetwork.cpp \
+    templatematching.cpp
 
 HEADERS  += mainwindow.h \
     cvimagewidget.h \
     utils.h \
     imagemanipulator.h \
     cascadeclassifier.h \
-    neuralnetwork.h
+    neuralnetwork.h \
+    templatematching.h
 
 FORMS    += mainwindow.ui
 

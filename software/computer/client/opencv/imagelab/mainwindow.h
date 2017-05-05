@@ -4,6 +4,10 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QVBoxLayout>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+
 #include "cvimagewidget.h"
 #include "imagemanipulator.h"
 #include "cascadeclassifier.h"
@@ -36,6 +40,9 @@ public:
     CVImageWidget* procImageWidget;
     CVImageWidget* objectImageWidget;
     CVImageWidget* objectImageWithKeypointsWidget;
+
+    QWidget *costFunctionPerMinibatchesWidget;
+    QVBoxLayout *costFunctionPerMinibatchesWidgetLayout;
 
 private slots:
     void on_brightnessHorizontalSlider_valueChanged(int value);
@@ -196,6 +203,12 @@ private slots:
     void on_nnRecognizeReferenceObjectButton_clicked();
 
     void on_nnRotateSamplesCheclBox_clicked(bool checked);
+
+    void on_pushButton_clicked();
+
+    void on_tmOpenTargetImageButton_clicked();
+
+    void on_tmOpenTemplateImageButton_clicked();
 
 private:
     Ui::MainWindow *ui;
