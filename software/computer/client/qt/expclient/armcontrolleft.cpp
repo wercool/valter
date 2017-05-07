@@ -603,13 +603,15 @@ void ArmControlLeft::leftForearmRollWorker()
             {
                 if (!getForearmRollCCWLimit())
                 {
-                    sendCommand("FOREARMROLL#250");
+                    sendCommand("FOREARMROLL#125");
+                    forearmRollPositionUndefined = true;
                     this_thread::sleep_for(std::chrono::microseconds(10000));
                 }
                 else
                 {
                     setForearmRollStepPosition(0);
                     setForearmRollResettingStepPosition(false);
+                    forearmRollPositionUndefined = false;
                 }
             }
             else
