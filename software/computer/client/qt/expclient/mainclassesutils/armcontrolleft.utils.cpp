@@ -73,7 +73,7 @@ void ArmControlLeft::resetToDefault()
     forearmRollMotorState               = false;  //true - on, false - off
     forearmRollMotorActivated           = false;
     forearmRollStepSwitchDelay          = 100;
-    forearmRollStepDelay                = 2500;
+    forearmRollStepDelay                = 6000;
     forearmRollStepPosition             = 0;
     forearmRollCWLimit                  = false;
     forearmRollCCWLimit                 = false;

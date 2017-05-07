@@ -59,6 +59,7 @@ bool SetRightArmRollPositionTask::initialize()
     if (armControlRight->getForearmRollPositionUndefined())
     {
         armControlRight->setForearmRollResettingStepPosition(true);
+
         while (armControlRight->getForearmRollPositionUndefined() && !stopped)
         {
             qDebug("Right Forearm setting Roll position: [%d]", armControlRight->getForearmRollStepPosition());
@@ -117,7 +118,7 @@ void SetRightArmRollPositionTask::executionWorker()
     float sigma = 1.0; //precision in degrees
 
     //CW - true, CCW - false (in CCW angle increases)
-    bool direction = (angle > armControlRight->getForearmRollPosition()) ? false : true;
+    bool direction = (angle > armControlRight->getForearmRollPosition()) ? true : false;
 
     if (abs(angle - armControlRight->getForearmRollPosition()) < sigma)
     {
