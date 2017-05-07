@@ -54,13 +54,15 @@ bool SetRightArmRollPositionTask::initialize()
 ////    return true;
 ///************************************ emulation *********************finish**************************/
 
+    armControlRight->setForearmRollMotorOnOff(true);
+
     if (armControlRight->getForearmRollPositionUndefined())
     {
         armControlRight->setForearmRollResettingStepPosition(true);
         while (armControlRight->getForearmRollPositionUndefined() && !stopped)
         {
             qDebug("Right Forearm setting Roll position: [%d]", armControlRight->getForearmRollStepPosition());
-            this_thread::sleep_for(std::chrono::milliseconds(50));
+            this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
 
@@ -140,6 +142,16 @@ void SetRightArmRollPositionTask::executionWorker()
         }
 
         this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+
+    if (!getCompleted())
+    {
+        string msg = Valter::format_string("Task#%lu has been stopped via stopExecution() signal", getTaskId());
+        qDebug("%s", msg.c_str());
+        TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~notes~%s", getTaskId(), msg.c_str()));
+
+
+        setCompleted();
     }
 }
 
