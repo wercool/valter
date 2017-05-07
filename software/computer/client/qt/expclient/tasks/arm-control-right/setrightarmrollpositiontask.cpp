@@ -62,7 +62,7 @@ bool SetRightArmRollPositionTask::initialize()
 
         while (armControlRight->getForearmRollPositionUndefined() && !stopped)
         {
-            qDebug("Right Forearm setting Roll position: [%d]", armControlRight->getForearmRollStepPosition());
+            qDebug("Right Forearm re-setting Roll position....");
             this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     }
@@ -133,6 +133,8 @@ void SetRightArmRollPositionTask::executionWorker()
         {
             armControlRight->setForearmRollDirection(direction);
             armControlRight->setForearmRollMotorActivated(true);
+
+            executing = true;
         }
 
         if (abs(angle - armControlRight->getForearmRollPosition()) < sigma)
