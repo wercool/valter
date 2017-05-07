@@ -19,7 +19,6 @@
 
 //PLATFORM-CONTROL-P1
 #include "tasks/platform-control-p1/trasnslateplatformlinearlytask.h"
-//#include "tasks/platform-control-p1/translateplatformtwistytask.h"
 #include "tasks/platform-control-p1/cmdveltask.h"
 #include "tasks/platform-control-p1/rotateplatformtask.h"
 #include "tasks/platform-control-p1/rotatebodytask.h"
@@ -28,6 +27,7 @@
 #include "tasks/arm-control-right/setrightforearmpositiontask.h"
 #include "tasks/arm-control-right/setrightarmpositiontask.h"
 #include "tasks/arm-control-right/setrightlimbpositiontask.h"
+#include "tasks/arm-control-right/setrightarmrollpositiontask.h"
 
 //ARM-CONTROL-LEFT
 #include "tasks/arm-control-left/setleftforearmpositiontask.h"
@@ -37,6 +37,5 @@
 //BODY-CONTROL-P1
 #include "tasks/body-control-p1/setrightarmyawpositiontask.h"
 #include "tasks/body-control-p1/setleftarmyawpositiontask.h"
-#include "tasks/body-control-p1/setrightarmrollpositiontask.h"
 
 #endif // TASKS_H

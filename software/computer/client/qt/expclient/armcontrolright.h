@@ -439,6 +439,12 @@ public:
     float getPalmJambReadingRelative();
     void setPalmJambReadingRelative(float value);
 
+    bool getForearmRollPositionUndefined() const;
+    void setForearmRollPositionUndefined(bool value);
+
+    double getForearmRollPosition() const;
+    void setForearmRollPosition(double value);
+
     //right arm parameters
     static const int forearmAngleADCMin;
     static const int forearmAngleADCMax;
@@ -545,6 +551,8 @@ private:
     bool forearmRollCWLimit;
     bool forearmRollCCWLimit;
     bool forearmRollResettingStepPosition; //CCW limit - 0 position
+    bool forearmRollPositionUndefined;
+    double forearmRollPosition;
 
     //---------------------forearm yaw
     bool forearmYawDirection; //true - CW, false - CCW

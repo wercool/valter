@@ -42,6 +42,7 @@ ArmControlRight::ArmControlRight()
     tasks["SetRightForearmPositionTask"] = &SetRightForearmPositionTask::create;
     tasks["SetRightArmPositionTask"] = &SetRightArmPositionTask::create;
     tasks["SetRightLimbPositionTask"] = &SetRightLimbPositionTask::create;
+    tasks["SetRightArmRollPositionTask"] = &SetRightArmRollPositionTask::create;
 
     initTcpInterface();
 
@@ -166,6 +167,7 @@ void ArmControlRight::processControlDeviceResponse(string response)
         if (response.compare("FA CCW LIMIT") == 0)
         {
             setForearmRollCCWLimit(true);
+            setForearmRollStepPosition(0);
             return;
         }
     }
@@ -549,12 +551,14 @@ void ArmControlRight::rightForearmRollWorker()
                 if (!getForearmRollCCWLimit())
                 {
                     sendCommand("FOREARMROLL#250");
+                    forearmRollPositionUndefined = true;
                     this_thread::sleep_for(std::chrono::microseconds(10000));
                 }
                 else
                 {
                     setForearmRollStepPosition(0);
                     setForearmRollResettingStepPosition(false);
+                    forearmRollPositionUndefined = false;
                 }
             }
             else
@@ -787,6 +791,7 @@ void ArmControlRight::setForearmRollMotorOnOff(bool state)
     else
     {
         sendCommand("FOREARMROLLOFF");
+        forearmRollPositionUndefined = true;
     }
 }
 
@@ -931,7 +936,7 @@ bool ArmControlRight::getForearmRollResettingStepPosition() const
 void ArmControlRight::setForearmRollResettingStepPosition(bool value)
 {
     forearmRollResettingStepPosition = value;
-    setForearmRollDirection(true); //CW limit = 0 step position
+    setForearmRollDirection(false); //CW, limit = 0 step position
 }
 
 void ArmControlRight::setForearmRollDirection(bool value)

@@ -48,10 +48,11 @@ public:
 
 protected:
     bool stopped;
-    bool blocking;
-    bool attachable;
     bool executing;
     bool completed;
+
+    bool blocking;
+    bool attachable;
 
     unsigned long taskId;
     std::string taskName;

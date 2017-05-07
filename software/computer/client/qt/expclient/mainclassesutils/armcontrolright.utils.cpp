@@ -81,6 +81,7 @@ void ArmControlRight::resetToDefault()
     forearmRollCWLimit                  = false;
     forearmRollCCWLimit                 = false;
     forearmRollResettingStepPosition    = false;
+    forearmRollPositionUndefined        = true;
 
     //------------------------forearm yaw
     handYawDirection                    = true; //true - CW, false - CCW
@@ -1926,4 +1927,24 @@ float ArmControlRight::getFinger0TipReadingRelative()
 void ArmControlRight::setFinger0TipReadingRelative(float value)
 {
     finger0TipReadingRelative = value;
+}
+
+bool ArmControlRight::getForearmRollPositionUndefined() const
+{
+    return forearmRollPositionUndefined;
+}
+
+void ArmControlRight::setForearmRollPositionUndefined(bool value)
+{
+    forearmRollPositionUndefined = value;
+}
+
+double ArmControlRight::getForearmRollPosition() const
+{
+    return forearmRollPosition;
+}
+
+void ArmControlRight::setForearmRollPosition(double value)
+{
+    forearmRollPosition = value;
 }

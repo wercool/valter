@@ -54,7 +54,7 @@
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1033</height>
+             <height>1045</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2910,7 +2910,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>234</width>
-             <height>561</height>
+             <height>572</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -8128,7 +8128,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1515</height>
+             <height>1514</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -13724,7 +13724,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1104</height>
+             <height>1098</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -17083,7 +17083,7 @@ image: url(:/hand.png);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1104</height>
+             <height>1098</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">

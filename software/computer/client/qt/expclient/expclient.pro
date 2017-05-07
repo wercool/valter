@@ -50,6 +50,7 @@ SOURCES += main.cpp\
             tcp/threads/thread.cpp \
             tcp/tcpsockets/tcpstream.cpp \
             tcp/tcpsockets/tcpacceptor.cpp \
+            tcp/tcpsockets/tcpconnector.cpp \
 #tcp handlers
             tcphandlers/platformcontrolp1.tcphandler.cpp \
             tcphandlers/platformcontrolp2.tcphandler.cpp \
@@ -75,18 +76,16 @@ SOURCES += main.cpp\
             tasks/platform-control-p1/trasnslateplatformlinearlytask.cpp \
             tasks/platform-control-p1/rotateplatformtask.cpp \
             tasks/platform-control-p1/rotatebodytask.cpp \
-    tcp/tcpsockets/tcpconnector.cpp \
-#    tasks/platform-control-p1/translateplatformtwistytask.cpp \
-    tasks/arm-control-right/setrightforearmpositiontask.cpp \
-    tasks/arm-control-right/setrightarmpositiontask.cpp \
-    tasks/arm-control-right/setrightlimbpositiontask.cpp \
-    tasks/arm-control-left/setleftforearmpositiontask.cpp \
-    tasks/arm-control-left/setleftarmpositiontask.cpp \
-    tasks/arm-control-left/setleftlimbpositiontask.cpp \
-    tasks/body-control-p1/setrightarmyawpositiontask.cpp \
-    tasks/body-control-p1/setleftarmyawpositiontask.cpp \
-    tasks/platform-control-p1/cmdveltask.cpp \
-    tasks/body-control-p1/setrightarmrollpositiontask.cpp
+            tasks/arm-control-right/setrightforearmpositiontask.cpp \
+            tasks/arm-control-right/setrightarmpositiontask.cpp \
+            tasks/arm-control-right/setrightlimbpositiontask.cpp \
+            tasks/arm-control-right/setrightarmrollpositiontask.cpp \
+            tasks/arm-control-left/setleftforearmpositiontask.cpp \
+            tasks/arm-control-left/setleftarmpositiontask.cpp \
+            tasks/arm-control-left/setleftlimbpositiontask.cpp \
+            tasks/body-control-p1/setrightarmyawpositiontask.cpp \
+            tasks/body-control-p1/setleftarmyawpositiontask.cpp \
+            tasks/platform-control-p1/cmdveltask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -123,6 +122,7 @@ HEADERS  += mainwindow.h \
             tcp/tcpsockets/tcpstream.h \
             tcp/tcpsockets/tcpacceptor.h \
             tcp/tcpsockets/workitem.h \
+            tcp/tcpsockets/tcpconnector.h \
 #tasks
             tasks/itask.h \
             tasks/tasks.h \
@@ -140,18 +140,16 @@ HEADERS  += mainwindow.h \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.h \
             tasks/platform-control-p1/rotateplatformtask.h \
             tasks/platform-control-p1/rotatebodytask.h \
-    tcp/tcpsockets/tcpconnector.h \
-#    tasks/platform-control-p1/translateplatformtwistytask.h \
-    tasks/arm-control-right/setrightforearmpositiontask.h \
-    tasks/arm-control-right/setrightarmpositiontask.h \
-    tasks/arm-control-right/setrightlimbpositiontask.h \
-    tasks/arm-control-left/setleftforearmpositiontask.h \
-    tasks/arm-control-left/setleftarmpositiontask.h \
-    tasks/arm-control-left/setleftlimbpositiontask.h \
-    tasks/body-control-p1/setrightarmyawpositiontask.h \
-    tasks/body-control-p1/setleftarmyawpositiontask.h \
-    tasks/platform-control-p1/cmdveltask.h \
-    tasks/body-control-p1/setrightarmrollpositiontask.h
+            tasks/arm-control-right/setrightforearmpositiontask.h \
+            tasks/arm-control-right/setrightarmpositiontask.h \
+            tasks/arm-control-right/setrightlimbpositiontask.h \
+            tasks/arm-control-right/setrightarmrollpositiontask.h \
+            tasks/arm-control-left/setleftforearmpositiontask.h \
+            tasks/arm-control-left/setleftarmpositiontask.h \
+            tasks/arm-control-left/setleftlimbpositiontask.h \
+            tasks/body-control-p1/setrightarmyawpositiontask.h \
+            tasks/body-control-p1/setleftarmyawpositiontask.h \
+            tasks/platform-control-p1/cmdveltask.h
 
 FORMS    += mainwindow.ui
 
