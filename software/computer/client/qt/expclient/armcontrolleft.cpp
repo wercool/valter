@@ -42,6 +42,7 @@ ArmControlLeft::ArmControlLeft()
     tasks["SetLeftForearmPositionTask"] = &SetLeftForearmPositionTask::create;
     tasks["SetLeftArmPositionTask"] = &SetLeftArmPositionTask::create;
     tasks["SetLeftLimbPositionTask"] = &SetLeftLimbPositionTask::create;
+    tasks["SetLeftArmRollPositionTask"] = &SetLeftArmRollPositionTask::create;
 
     initTcpInterface();
 
@@ -549,6 +550,7 @@ void ArmControlLeft::setForearmRollMotorOnOff(bool value)
     else
     {
         sendCommand("FOREARMROLLOFF");
+        forearmRollPositionUndefined = true;
     }
 }
 

@@ -78,6 +78,8 @@ void ArmControlLeft::resetToDefault()
     forearmRollCWLimit                  = false;
     forearmRollCCWLimit                 = false;
     forearmRollResettingStepPosition    = false;
+    forearmRollPositionUndefined        = true;
+    forearmRollPosition                 = 0.0;
 
     //------------------------forearm yaw
     handYawDirection                    = true; //true - CW, false - CCW
@@ -1131,6 +1133,9 @@ int ArmControlLeft::getForearmRollStepPosition() const
 void ArmControlLeft::setForearmRollStepPosition(int value)
 {
     forearmRollStepPosition = value;
+
+    double angle = (double)forearmRollStepPosition / ArmControlLeft::rollStepsPerDegree;
+    setForearmRollPosition(angle);
 }
 
 bool ArmControlLeft::getHandYawDirection() const
@@ -1903,4 +1908,24 @@ void ArmControlLeft::setFinger6TipThreshold(unsigned int value)
 bool ArmControlLeft::getForearmYawDirection() const
 {
     return forearmYawDirection;
+}
+
+double ArmControlLeft::getForearmRollPosition() const
+{
+    return forearmRollPosition;
+}
+
+void ArmControlLeft::setForearmRollPosition(double value)
+{
+    forearmRollPosition = value;
+}
+
+bool ArmControlLeft::getForearmRollPositionUndefined() const
+{
+    return forearmRollPositionUndefined;
+}
+
+void ArmControlLeft::setForearmRollPositionUndefined(bool value)
+{
+    forearmRollPositionUndefined = value;
 }

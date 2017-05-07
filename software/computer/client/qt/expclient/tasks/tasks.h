@@ -33,6 +33,7 @@
 #include "tasks/arm-control-left/setleftforearmpositiontask.h"
 #include "tasks/arm-control-left/setleftarmpositiontask.h"
 #include "tasks/arm-control-left/setleftlimbpositiontask.h"
+#include "tasks/arm-control-left/setleftarmrollpositiontask.h"
 
 //BODY-CONTROL-P1
 #include "tasks/body-control-p1/setrightarmyawpositiontask.h"

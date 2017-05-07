@@ -82,6 +82,7 @@ void ArmControlRight::resetToDefault()
     forearmRollCCWLimit                 = false;
     forearmRollResettingStepPosition    = false;
     forearmRollPositionUndefined        = true;
+    forearmRollPosition                 = 0.0;
 
     //------------------------forearm yaw
     handYawDirection                    = true; //true - CW, false - CCW
