@@ -28,6 +28,7 @@ const int ArmControlRight::limbAngleADCZero         = 405;
 const float ArmControlRight::limbMaxAngle           = 125;
 const float ArmControlRight::limbDegreesDiv         = (float)(ArmControlRight::limbAngleADCMax - ArmControlRight::limbAngleADCMin) / ArmControlRight::limbMaxAngle;
 
+const double ArmControlRight::rollStepsPerDegree = 4.3777;
 
 
 

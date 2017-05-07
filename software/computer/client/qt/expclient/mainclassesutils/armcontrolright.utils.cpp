@@ -1200,6 +1200,9 @@ int ArmControlRight::getForearmRollStepPosition() const
 void ArmControlRight::setForearmRollStepPosition(int value)
 {
     forearmRollStepPosition = value;
+
+    double angle = (double)forearmRollStepPosition / ArmControlRight::rollStepsPerDegree;
+    setForearmRollPosition(angle);
 }
 
 int ArmControlRight::getForearmRollStepSwitchDelay() const

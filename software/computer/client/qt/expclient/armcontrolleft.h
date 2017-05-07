@@ -462,6 +462,8 @@ public:
     static const float limbMaxAngle;
     static const float limbDegreesDiv;
 
+    static const double rollStepsPerDegree;
+
 private:
     ArmControlLeft();
     static ArmControlLeft* pArmControlLeft;       // ARM-CONTROL-LEFT's singleton instance

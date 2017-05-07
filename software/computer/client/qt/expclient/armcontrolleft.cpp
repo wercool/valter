@@ -28,6 +28,7 @@ const int ArmControlLeft::limbAngleADCZero         = 405;
 const float ArmControlLeft::limbMaxAngle           = 125;
 const float ArmControlLeft::limbDegreesDiv         = (float)(ArmControlLeft::limbAngleADCMax - ArmControlLeft::limbAngleADCMin) / ArmControlLeft::limbMaxAngle;
 
+const double ArmControlLeft::rollStepsPerDegree = 8.4627;
 
 
 
@@ -165,6 +166,7 @@ void ArmControlLeft::processControlDeviceResponse(string response)
         if (response.compare("FA CCW LIMIT") == 0)
         {
             setForearmRollCCWLimit(true);
+            setForearmRollStepPosition(0);
             return;
         }
     }

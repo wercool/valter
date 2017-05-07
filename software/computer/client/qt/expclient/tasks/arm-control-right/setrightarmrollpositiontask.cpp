@@ -131,6 +131,15 @@ void SetRightArmRollPositionTask::executionWorker()
             armControlRight->setForearmRollDirection(direction);
             armControlRight->setForearmRollMotorActivated(true);
         }
+
+        if (abs(angle - armControlRight->getForearmRollPosition()) < sigma)
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+            setCompleted();
+            return;
+        }
+
+        this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
 
