@@ -12,12 +12,15 @@ class TemplateMatching
 private:
     cv::Mat targetImage;
     cv::Mat templateImage;
+    cv::Mat templateMatchResult;
 
 public:
     TemplateMatching();
 
     void readTargetImage(string targetImagePath);
     void readTemplateMatching(string templateImagePath);
+
+    void templateMatch();
 };
 
 #endif // TEMPLATEMATCHING_H

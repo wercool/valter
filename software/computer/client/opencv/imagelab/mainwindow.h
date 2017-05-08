@@ -12,6 +12,7 @@
 #include "imagemanipulator.h"
 #include "cascadeclassifier.h"
 #include "neuralnetwork.h"
+#include "templatematching.h"
 #include "utils.h"
 
 namespace Ui {
@@ -29,6 +30,7 @@ public:
     ImageManipulator *imageManipulator;
     CascadeClassifier *cascadeClassifier;
     NeuralNetwork *neuralNetwork;
+    TemplateMatching *templateMatching;
 
     std::string fileName;
     void loadImage();
@@ -209,6 +211,8 @@ private slots:
     void on_tmOpenTargetImageButton_clicked();
 
     void on_tmOpenTemplateImageButton_clicked();
+
+    void on_tmTemplateMatchButton_clicked();
 
 private:
     Ui::MainWindow *ui;

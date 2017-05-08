@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     imageManipulator = new ImageManipulator();
     cascadeClassifier = new CascadeClassifier();
     neuralNetwork = new NeuralNetwork();
+    templateMatching = new TemplateMatching();
 
     // Create the processed image widget
     procImageWidget = new CVImageWidget();
@@ -818,10 +819,23 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_tmOpenTargetImageButton_clicked()
 {
-
+    static string lastOpenedDirectory;
+    std::string targetImageFileName = QFileDialog::getOpenFileName(this, tr("Target Image for Template Matching"), (lastOpenedDirectory.empty()) ? "/home/maska" : lastOpenedDirectory.c_str(), tr("JPG Image (*.jpg *.jpeg, *.png)")).toUtf8().constData();
+    qDebug("Target Image for Template Matching: %s", targetImageFileName.c_str());
+    templateMatching->readTargetImage(targetImageFileName);
+    lastOpenedDirectory = targetImageFileName;
 }
 
 void MainWindow::on_tmOpenTemplateImageButton_clicked()
 {
+    static string lastOpenedDirectory;
+    std::string templateImageFileName = QFileDialog::getOpenFileName(this, tr("Template Image for Template Matching"), (lastOpenedDirectory.empty()) ? "/home/maska" : lastOpenedDirectory.c_str(), tr("JPG Image (*.jpg *.jpeg, *.png)")).toUtf8().constData();
+    qDebug("Template Image for Template Matching: %s", templateImageFileName.c_str());
+    templateMatching->readTemplateMatching(templateImageFileName);
+    lastOpenedDirectory = templateImageFileName;
+}
 
+void MainWindow::on_tmTemplateMatchButton_clicked()
+{
+    templateMatching->templateMatch();
 }

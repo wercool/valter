@@ -47,7 +47,7 @@
                <x>0</x>
                <y>0</y>
                <width>370</width>
-               <height>532</height>
+               <height>529</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -162,7 +162,7 @@ background-repeat: no-repeat;</string>
                  <x>0</x>
                  <y>0</y>
                  <width>369</width>
-                 <height>394</height>
+                 <height>379</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -312,8 +312,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>164</width>
-                 <height>292</height>
+                 <width>180</width>
+                 <height>313</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -480,8 +480,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>177</width>
-                 <height>130</height>
+                 <width>199</width>
+                 <height>139</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -556,8 +556,8 @@ background-repeat: no-repeat;</string>
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>94</width>
-                 <height>88</height>
+                 <width>102</width>
+                 <height>94</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -661,7 +661,7 @@ background-repeat: no-repeat;</string>
                <x>0</x>
                <y>0</y>
                <width>534</width>
-               <height>689</height>
+               <height>747</height>
               </rect>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -2140,6 +2140,13 @@ background-position:center;</string>
              </widget>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="tmTemplateMatchButton">
+            <property name="text">
+             <string>Template Match</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_10">
