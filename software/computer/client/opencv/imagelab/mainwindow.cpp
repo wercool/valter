@@ -637,7 +637,7 @@ void MainWindow::on_createTrainingObjectsButton_clicked()
         return;
     }
     neuralNetwork->setTrainingSamplesNumber(ui->trainingSamplesNumSpinBox->value());
-    neuralNetwork->createTrainingObjectsFromReferences();
+    neuralNetwork->createTrainingObjectsFromReferences(true);
 }
 
 void MainWindow::on_createTrainingObjectsShowDelaySlider_valueChanged(int value)
@@ -771,7 +771,7 @@ void MainWindow::on_nnRecognizeReferenceObjectButton_clicked()
         return;
     }
 
-    vector<double> outputVector = neuralNetwork->recognizeReferenceObject();
+    vector<double> outputVector = neuralNetwork->recognizeReferenceObject(true);
 
     ui->nnLogTextEdit->appendPlainText("Neural Network Output Vector");
     for (unsigned int o = 0; o < outputVector.size(); o++)
@@ -815,6 +815,19 @@ void MainWindow::on_pushButton_clicked()
     costFunctionPerMinibatchesWidget->show();
 }
 
+void MainWindow::on_nnTestAgainstReferenceFolderButton_clicked()
+{
+    if(neuralNetwork->getReferenceObjectsFolderName().empty())
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Provide Reference Objects folder path");
+        msgBox->exec();
+        return;
+    }
+    neuralNetwork->setTestQualifierID(ui->nnQualifierIDSpinBox->value());
+    neuralNetwork->testAgainstObjectsFromReferenceFolder();
+}
+
 // Template Matching
 
 void MainWindow::on_tmOpenTargetImageButton_clicked()
@@ -839,3 +852,4 @@ void MainWindow::on_tmTemplateMatchButton_clicked()
 {
     templateMatching->templateMatch();
 }
+

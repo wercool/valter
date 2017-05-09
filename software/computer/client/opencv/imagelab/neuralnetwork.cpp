@@ -24,7 +24,7 @@ void NeuralNetwork::readReferenceObjectMat()
     setReferenceObjectVector(referenceObjectVector);
 }
 
-void NeuralNetwork::createTrainingObjectsFromReferences()
+void NeuralNetwork::createTrainingObjectsFromReferences(bool createTrainingObjects = true)
 {
     referenceObjectsFileName.clear();
 
@@ -43,7 +43,10 @@ void NeuralNetwork::createTrainingObjectsFromReferences()
           }
        }
     }
-    trainingDataCreationProcessingThread = new std::thread(&NeuralNetwork::trainingDataCreationWorker, this);
+    if (createTrainingObjects)
+    {
+        trainingDataCreationProcessingThread = new std::thread(&NeuralNetwork::trainingDataCreationWorker, this);
+    }
 }
 
 void NeuralNetwork::trainingDataCreationWorker()
@@ -258,15 +261,55 @@ void NeuralNetwork::saveNetworkToFile(string filepath)
     nnItializationFile.close();
 }
 
-vector<double> NeuralNetwork::recognizeReferenceObject()
+vector<double> NeuralNetwork::recognizeReferenceObject(bool printOutputVector)
 {
     vector<double> outputVector = feedForward(referenceObjectVector);
-    qDebug("Neural Network Output Vector");
-    for (unsigned int o = 0; o < outputVector.size(); o++)
+    if (printOutputVector)
     {
-        qDebug("%.15f", outputVector[o]);
+        qDebug("Neural Network Output Vector");
+        for (unsigned int o = 0; o < outputVector.size(); o++)
+        {
+            qDebug("%.15f", outputVector[o]);
+        }
     }
     return outputVector;
+}
+
+void NeuralNetwork::testAgainstObjectsFromReferenceFolder()
+{
+    createTrainingObjectsFromReferences(false);
+    testAgainstReferenceObjectsFromFolderProcessingThread = new std::thread(&NeuralNetwork::testAgainstObjectsFromReferenceFolderWorker, this);
+}
+
+void NeuralNetwork::testAgainstObjectsFromReferenceFolderWorker()
+{
+    int recognized = 0;
+
+    for (unsigned int i = 0; i < referenceObjectsFileName.size(); i++)
+    {
+        string referenceObjectFilePath = referenceObjectsFolderName + "/" + referenceObjectsFileName[i];
+//        qDebug("Reference Object File path: %s", referenceObjectFilePath.c_str());
+        setReferenceObjectFileName(referenceObjectFilePath);
+        readReferenceObjectMat();
+
+        vector<double> outputVector = recognizeReferenceObject(false);
+        double maxVal = 0.0;
+        int maxId = 0.0;
+        for (unsigned int o = 0; o < outputVector.size(); o++)
+        {
+            if (outputVector[o] > maxVal)
+            {
+                maxVal = outputVector[o];
+                maxId = o;
+            }
+        }
+        if (maxId == getTestQualifierID())
+        {
+            recognized++;
+        }
+
+        qDebug("Testing Result [%d]: %d / %d = %.2f%%", i, recognized, (int)referenceObjectsFileName.size(), ((double)recognized / (double)referenceObjectsFileName.size()) * 100);
+    }
 }
 
 void NeuralNetwork::trainingWorker()
@@ -826,4 +869,14 @@ void NeuralNetwork::setLmbda(double value)
 map<int, double> NeuralNetwork::getCostFunctionValueByMinibatches() const
 {
     return costFunctionValueByMinibatches;
+}
+
+int NeuralNetwork::getTestQualifierID() const
+{
+    return testQualifierID;
+}
+
+void NeuralNetwork::setTestQualifierID(int value)
+{
+    testQualifierID = value;
 }

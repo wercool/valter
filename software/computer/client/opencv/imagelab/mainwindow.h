@@ -214,6 +214,8 @@ private slots:
 
     void on_tmTemplateMatchButton_clicked();
 
+    void on_nnTestAgainstReferenceFolderButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

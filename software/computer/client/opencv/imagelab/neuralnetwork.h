@@ -68,6 +68,9 @@ private:
     bool training = false;
     std::thread *trainingThread;
 
+    std::thread *testAgainstReferenceObjectsFromFolderProcessingThread;
+    int testQualifierID = 0;
+
     void SGD();
     void createMiniBatch();
     void prepareMiniBatch(vector<string> miniBatchSampleFileNames);
@@ -92,14 +95,16 @@ public:
     NeuralNetwork();
 
     void readReferenceObjectMat();
-    void createTrainingObjectsFromReferences();
+    void createTrainingObjectsFromReferences(bool createTrainingObjects);
     void trainingDataCreationWorker();
 
     void initNetwork();
     void loadNetworkFromFile(string filepath);
     void saveNetworkToFile(string filepath);
 
-    vector<double> recognizeReferenceObject();
+    vector<double> recognizeReferenceObject(bool printOutputVector);
+    void testAgainstObjectsFromReferenceFolder();
+    void testAgainstObjectsFromReferenceFolderWorker();
 
     void readTrainingSamplesFileNames();
     string getReferenceObjectFileName() const;
@@ -137,6 +142,8 @@ public:
     map<int, double> getCostFunctionValueByMinibatches() const;
     double getLmbda() const;
     void setLmbda(double value);
+    int getTestQualifierID() const;
+    void setTestQualifierID(int value);
 };
 
 #endif // NEURALNETWORK_H
