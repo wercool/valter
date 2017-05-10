@@ -2,25 +2,63 @@
 
 #include <QtWidgets>
 
-Creature::Creature(int x, int y, const QColor &color)
+// QGraphicsItem interface
+Creature::Creature(int w, int h, const QColor &color)
 {
-    this->x = x;
-    this->y = y;
+    this->w = w;
+    this->h = h;
     this->color = color;
 
-    setFlags(ItemIsSelectable);
+    setTransformOriginPoint(QPoint(w / 2, h / 2));
+
+    setFlags(ItemIsSelectable | ItemIsMovable);
     setAcceptHoverEvents(true);
 }
 
 void Creature::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget);
+    Q_UNUSED(painter);
 
-    painter->setBrush(QBrush(color));
-    painter->drawEllipse(x, y, 20, 20);
+    fillColor = (option->state & QStyle::State_Selected) ? color.dark(175) : color;
+    if (option->state & QStyle::State_MouseOver)
+    {
+        fillColor = fillColor.light(150);
+    }
 }
 
 QRectF Creature::boundingRect() const
 {
-    return QRectF(0, 0, 40, 40);
+    return QRectF(0, 0, w, h);
+}
+
+void Creature::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mousePressEvent(event);
+    update();
+}
+
+void Creature::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (event->modifiers() & Qt::ShiftModifier)
+    {
+        mousePos = event->pos();
+        update();
+        return;
+    }
+    x = QGraphicsItem::x();
+    y = QGraphicsItem::y();
+    QGraphicsItem::mouseMoveEvent(event);
+}
+
+void Creature::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsItem::mouseReleaseEvent(event);
+    update();
+}
+
+//Neural Network properties
+void Creature::createNeuralNetwork()
+{
+    std::cout << "Neural Network Creation" << std::endl;
 }

@@ -3,10 +3,14 @@
 
 int main(int argc, char *argv[])
 {
+    Q_INIT_RESOURCE(images);
+
     QApplication::setDesktopSettingsAware(false);
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
+
     MainWindow w;
     w.show();
 
-    return a.exec();
+    return app.exec();
 }

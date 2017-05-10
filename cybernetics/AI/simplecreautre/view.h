@@ -3,6 +3,8 @@
 
 #include <QFrame>
 #include <QGraphicsView>
+#include <QSlider>
+#include <QToolButton>
 
 class View;
 
@@ -25,7 +27,7 @@ class View : public QFrame
 {
     Q_OBJECT
 public:
-    explicit View(const QString &name, QWidget *parent = 0);
+    explicit View(QWidget *parent = 0);
 
     QGraphicsView *view() const;
 
@@ -34,15 +36,14 @@ public slots:
     void zoomOut(int level = 1);
 
 private slots:
-    void resetView();
     void setupMatrix();
     void togglePointerMode();
-    void toggleOpenGL();
-    void toggleAntialiasing();
 
 private:
     GraphicsView *graphicsView;
-    double scale = 250.0;
+    QToolButton *selectModeButton;
+    QToolButton *dragModeButton;
+    QSlider *zoomSlider;
 };
 
 #endif // VIEW_H

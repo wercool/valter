@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QToolButton>
+#include <QTimer>
+
+#include "colony.h"
 
 QT_BEGIN_NAMESPACE
 class QGraphicsScene;
@@ -11,19 +15,24 @@ namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    ~MainWindow();
 
-    void populateScene();
+    void populateColony();
 
 private:
-    Ui::MainWindow *ui;
     QGraphicsScene *scene;
+    QTimer *lifeTimer;
+
+    Colony *colony;
+
+private slots:
+    void startLifeCallback(bool state);
+    void lifeTimerCallback();
 
 };
 

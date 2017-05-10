@@ -28,10 +28,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     view.cpp \
-    creature.cpp
+    creature.cpp \
+    neuralnetwork.cpp \
+    neuron.cpp \
+    creaturea.cpp \
+    creatureb.cpp \
+    colony.cpp
 
 HEADERS  += mainwindow.h \
     view.h \
-    creature.h
+    creature.h \
+    neuralnetwork.h \
+    neuron.h \
+    creaturea.h \
+    creatureb.h \
+    colony.h
 
-FORMS    += mainwindow.ui
+FORMS    +=
+
+DISTFILES +=
+
+RESOURCES += \
+    images.qrc
