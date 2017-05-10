@@ -7,6 +7,8 @@
 #endif
 #include <qmath.h>
 
+//#define QT_NO_OPENGL
+
 #ifndef QT_NO_WHEELEVENT
 void GraphicsView::wheelEvent(QWheelEvent *e)
 {
@@ -36,9 +38,10 @@ View::View(QWidget *parent): QFrame(parent)
     graphicsView = new GraphicsView(this);
     graphicsView->setRenderHint(QPainter::Antialiasing, true);
     graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
-    graphicsView->setOptimizationFlags(QGraphicsView::DontSavePainterState);
+    graphicsView->setOptimizationFlags(QGraphicsView::DontAdjustForAntialiasing | QGraphicsView::DontSavePainterState);
     graphicsView->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
     graphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    graphicsView->setCacheMode(QGraphicsView::CacheBackground);
 
     #ifndef QT_NO_OPENGL
         if (QGLFormat::hasOpenGL())
@@ -47,7 +50,7 @@ View::View(QWidget *parent): QFrame(parent)
         }
         else
         {
-            graphicsView->setViewport(new QWidget);
+            graphicsView->setViewport(new QWidget());
         }
     #else
         graphicsView->setViewport(new QWidget);
@@ -69,8 +72,8 @@ View::View(QWidget *parent): QFrame(parent)
     zoomOutIcon->setIcon(QPixmap(":/zoomout.png"));
     zoomOutIcon->setIconSize(iconSize);
     zoomSlider = new QSlider;
-    zoomSlider->setMinimum(0);
-    zoomSlider->setMaximum(250);
+    zoomSlider->setMinimum(-500);
+    zoomSlider->setMaximum(300);
     zoomSlider->setValue(0);
     zoomSlider->setTickPosition(QSlider::TicksRight);
 

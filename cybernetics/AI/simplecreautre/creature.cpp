@@ -40,12 +40,6 @@ void Creature::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Creature::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (event->modifiers() & Qt::ShiftModifier)
-    {
-        mousePos = event->pos();
-        update();
-        return;
-    }
     x = QGraphicsItem::x();
     y = QGraphicsItem::y();
     QGraphicsItem::mouseMoveEvent(event);
@@ -55,10 +49,4 @@ void Creature::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
     update();
-}
-
-//Neural Network properties
-void Creature::createNeuralNetwork()
-{
-    std::cout << "Neural Network Creation" << std::endl;
 }

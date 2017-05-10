@@ -2,7 +2,12 @@
 
 CreatureA::CreatureA(int w, int h, const QColor &color) : Creature(w, h, color)
 {
-
+    nn = new NeuralNetwork();
+    Neuron *n;
+    n = new Neuron(Neuron::Type::Input, Neuron::TransferFunction::Sigmoid);
+    nn->addNeuron(n);
+    n = new Neuron(Neuron::Type::Input, Neuron::TransferFunction::Sigmoid);
+    nn->addNeuron(n);
 }
 
 void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

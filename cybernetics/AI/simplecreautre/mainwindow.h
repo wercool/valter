@@ -27,6 +27,7 @@ public:
 private:
     QGraphicsScene *scene;
     QTimer *lifeTimer;
+    QToolButton *startButton;
 
     Colony *colony;
 

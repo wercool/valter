@@ -1,7 +1,7 @@
 #include "neuron.h"
 
-Neuron::Neuron(NeuronType nt, NeuronFunction nf)
+Neuron::Neuron(Type nt, TransferFunction ntf)
 {
-    std::cout << "Neuron Type: " << "" << nt << std::endl;
-    std::cout << "Neuron Function: " << "" << nf << std::endl;
+//    std::cout << "Neuron Type: " << "" << nt << std::endl;
+//    std::cout << "Neuron Transfer Function: " << "" << ntf << std::endl;
 }

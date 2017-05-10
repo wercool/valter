@@ -8,24 +8,23 @@ using namespace std;
 class Neuron
 {
 public:
-    enum NeuronType
+    enum Type
     {
         Input,
         Hidden,
         Output
     };
 
-    enum NeuronFunction
+    enum TransferFunction
     {
         Perceptron,
         Sigmoid
     };
 
-    Neuron(NeuronType nt, NeuronFunction nf);
+    Neuron(Type nt, TransferFunction ntf);
 
 private:
     vector<double> inputWeights;
-    double bias;
 };
 
 #endif // NEURON_H

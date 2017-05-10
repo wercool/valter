@@ -21,17 +21,15 @@ public:
     QRectF boundingRect() const Q_DECL_OVERRIDE;
 
     //Graphics properties
-    int w;
-    int h;
-    double x;
-    double y;
-    double a;
-    QColor color;
+    int w = 50;
+    int h = 50;
+    double x = 0.0;
+    double y = 0.0;
+    double a = 0.0;
     QColor fillColor;
-    QPointF mousePos;
 
     //Neural Network properties
-    void createNeuralNetwork();
+    NeuralNetwork *nn;
 
 protected:
     // QGraphicsItem interface
@@ -40,8 +38,8 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
-    //Neural Network properties
-    NeuralNetwork nn;
+    //Graphics properties
+    QColor color;
 };
 
 #endif // CREATURE_H

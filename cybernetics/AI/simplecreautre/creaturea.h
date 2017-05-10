@@ -7,6 +7,8 @@
 #include <QStyleOptionGraphicsItem>
 
 #include <creature.h>
+#include <neuralnetwork.h>
+#include <neuron.h>
 
 class CreatureA : public Creature
 {
