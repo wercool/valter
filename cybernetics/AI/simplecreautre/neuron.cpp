@@ -2,6 +2,25 @@
 
 Neuron::Neuron(Type nt, TransferFunction ntf)
 {
-//    std::cout << "Neuron Type: " << "" << nt << std::endl;
-//    std::cout << "Neuron Transfer Function: " << "" << ntf << std::endl;
+    neuronType = nt;
+}
+
+vector<double> Neuron::getInputWeights() const
+{
+    return inputWeights;
+}
+
+void Neuron::setInputWeights(const vector<double> &value)
+{
+    inputWeights = value;
+}
+
+double Neuron::getOutput() const
+{
+    return output;
+}
+
+void Neuron::setOutput(double value)
+{
+    output = value;
 }

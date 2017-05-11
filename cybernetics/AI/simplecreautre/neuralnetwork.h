@@ -13,6 +13,12 @@ public:
 
     void addNeuron(Neuron* n);
 
+    vector<Neuron *> getInputNeurons();
+    vector<Neuron *> getHiddenNeurons();
+    vector<Neuron *> getOutputNeurons();
+
+    void feedForward(vector<double> inputs);
+
 private:
     vector<Neuron *> neurons;
 };

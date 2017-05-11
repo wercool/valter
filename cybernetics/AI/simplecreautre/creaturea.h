@@ -7,17 +7,25 @@
 #include <QStyleOptionGraphicsItem>
 
 #include <creature.h>
+#include <receptor.h>
 #include <neuralnetwork.h>
 #include <neuron.h>
 
 class CreatureA : public Creature
 {
 public:
-    CreatureA(int w, int h, const QColor &color);
+    CreatureA(double w, double h, const QColor &color);
 
 public:
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+    vector<Receptor *> getReceptors() const;
+
+private:
+    vector<Receptor *> receptors;
+
+    void lifeThreadProcess() override;
 };
 
 #endif // CREATUREA_H

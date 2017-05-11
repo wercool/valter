@@ -1,9 +1,20 @@
 #include "creatureb.h"
 
-CreatureB::CreatureB(int w, int h, const QColor &color) : Creature(w, h, color)
+CreatureB::CreatureB(double w, double h, const QColor &color) : Creature(w, h, color)
 {
-
+    lifeThread = new std::thread(&CreatureB::lifeThreadProcess, this);
 }
+
+
+void CreatureB::lifeThreadProcess()
+{
+    while (true)
+    {
+        qDebug("BBBBBBB");
+        this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+}
+
 
 void CreatureB::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {

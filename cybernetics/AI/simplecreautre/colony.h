@@ -9,6 +9,7 @@ class Colony
 {
 public:
     Colony();
+
     void addCreature(Creature *pCreature);
     vector<Creature *> getColony();
     void killColony();

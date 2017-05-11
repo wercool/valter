@@ -3,7 +3,7 @@
 #include <QtWidgets>
 
 // QGraphicsItem interface
-Creature::Creature(int w, int h, const QColor &color)
+Creature::Creature(double w, double h, const QColor &color)
 {
     this->w = w;
     this->h = h;
@@ -49,4 +49,9 @@ void Creature::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsItem::mouseReleaseEvent(event);
     update();
+}
+
+void Creature::lifeThreadProcess()
+{
+    // stub
 }

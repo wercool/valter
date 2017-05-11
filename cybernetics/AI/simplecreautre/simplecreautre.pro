@@ -32,7 +32,8 @@ SOURCES += main.cpp\
            neuron.cpp \
            creaturea.cpp \
            creatureb.cpp \
-           colony.cpp
+           colony.cpp \
+    receptor.cpp
 
 HEADERS  += mainwindow.h \
             view.h \
@@ -41,7 +42,8 @@ HEADERS  += mainwindow.h \
             neuron.h \
             creaturea.h \
             creatureb.h \
-            colony.h
+            colony.h \
+    receptor.h
 
 FORMS    +=
 

@@ -11,11 +11,14 @@
 class CreatureB : public Creature
 {
 public:
-    CreatureB(int w, int h, const QColor &color);
+    CreatureB(double w, double h, const QColor &color);
 
 public:
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
+
+private:
+    void lifeThreadProcess() override;
 };
 
 #endif // CREATUREB_H

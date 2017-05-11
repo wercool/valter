@@ -49,21 +49,41 @@ void MainWindow::populateColony()
     QGraphicsItem *pCreatureGI;
     Creature *pCreature;
 
-    for (double x = -1000; x < 1000; x += 200)
-    {
-        for (double y = -1000; y < 1000; y += 200)
-        {
-            pCreatureGI = new CreatureA(50, 50, QColor(0, 255, 0, 255));
-            pCreature = dynamic_cast<Creature*>(pCreatureGI);
-            pCreature->x = x;
-            pCreature->y = y;
-            colony->addCreature(pCreature);
-            pCreatureGI->setPos(QPointF(pCreature->x, pCreature->y));
-            pCreatureGI->setRotation(pCreature->a);
-            pCreatureGI->setOpacity(1.0);
-            scene->addItem(pCreatureGI);
-        }
-    }
+//    for (double x = -1000; x < 1000; x += 200)
+//    {
+//        for (double y = -1000; y < 1000; y += 200)
+//        {
+//            pCreatureGI = new CreatureA(50, 50, QColor(0, 255, 0, 255));
+//            pCreature = dynamic_cast<Creature*>(pCreatureGI);
+//            pCreature->x = x;
+//            pCreature->y = y;
+//            colony->addCreature(pCreature);
+//            pCreatureGI->setPos(QPointF(pCreature->x, pCreature->y));
+//            pCreatureGI->setRotation(pCreature->a);
+//            pCreatureGI->setOpacity(1.0);
+//            scene->addItem(pCreatureGI);
+//        }
+//    }
+
+    pCreatureGI = new CreatureA(50.0, 50.0, QColor(0, 255, 0, 255));
+    pCreature = dynamic_cast<Creature*>(pCreatureGI);
+    pCreature->x = 0;
+    pCreature->y = 0;
+    colony->addCreature(pCreature);
+    pCreatureGI->setPos(QPointF(pCreature->x, pCreature->y));
+    pCreatureGI->setRotation(pCreature->a);
+    pCreatureGI->setOpacity(1.0);
+    scene->addItem(pCreatureGI);
+
+//    pCreatureGI = new CreatureB(50.0, 50.0, QColor(255, 0, 0, 255));
+//    pCreature = dynamic_cast<Creature*>(pCreatureGI);
+//    pCreature->x = 100;
+//    pCreature->y = 0;
+//    colony->addCreature(pCreature);
+//    pCreatureGI->setPos(QPointF(pCreature->x, pCreature->y));
+//    pCreatureGI->setRotation(pCreature->a);
+//    pCreatureGI->setOpacity(1.0);
+//    scene->addItem(pCreatureGI);
 }
 
 void MainWindow::startLifeCallback(bool state)
@@ -90,18 +110,18 @@ void MainWindow::lifeTimerCallback()
     {
         pCreature = dynamic_cast<Creature*>(creatures[i]);
 
-        int randInt;
-        double randDouble;
+//        int randInt;
+//        double randDouble;
 
-        randInt = rand() % 1000;
-        randInt *= (randInt > 500) ? 1 : -1;
-        randDouble = (double)randInt / 1000.0;
+//        randInt = rand() % 1000;
+//        randInt *= (randInt > 500) ? 1 : -1;
+//        randDouble = (double)randInt / 1000.0;
 
-        pCreature->x += randDouble * ((i % 2 == 1) ? 1.0 : -1.0);
+//        pCreature->x += randDouble * ((i % 2 == 1) ? 1.0 : -1.0);
 
-        pCreature->y += randDouble * ((i % 2 == 1) ? 1.0 : -1.0);
+//        pCreature->y += randDouble * ((i % 2 == 1) ? 1.0 : -1.0);
 
-        pCreature->a += randDouble;
+        pCreature->a += 0.1;
     }
     if (fpsc > 40)
     {
