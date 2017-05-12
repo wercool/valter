@@ -6,6 +6,8 @@
 #include <QSlider>
 #include <QToolButton>
 
+#include "utils/opencv-qt/opencvMatToQPixmap.h"
+
 class View;
 
 class GraphicsView : public QGraphicsView
@@ -21,6 +23,10 @@ protected:
 
 private:
     View *view;
+
+    // QGraphicsView interface
+protected:
+    void drawBackground(QPainter *painter, const QRectF &rect);
 };
 
 class View : public QFrame
@@ -29,7 +35,18 @@ class View : public QFrame
 public:
     explicit View(QWidget *parent = 0);
 
-    QGraphicsView *view() const;
+    QGraphicsView *grpahicsView() const;
+
+    QPixmap getEnvPixmap() const;
+    void setEnvPixmap(QPixmap value);
+
+    GraphicsView *getGraphicsView() const;
+    void setGraphicsView(GraphicsView *value);
+
+    cv::Mat *getEnvMapMat() const;
+    void setEnvMapMat(cv::Mat *value);
+
+    void updateEnvMap();
 
 public slots:
     void zoomIn(int level = 1);
@@ -44,6 +61,9 @@ private:
     QToolButton *selectModeButton;
     QToolButton *dragModeButton;
     QSlider *zoomSlider;
+
+    cv::Mat *envMapMat;
+    QPixmap envPixmap;
 };
 
 #endif // VIEW_H

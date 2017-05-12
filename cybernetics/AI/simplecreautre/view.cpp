@@ -29,6 +29,12 @@ void GraphicsView::wheelEvent(QWheelEvent *e)
         QGraphicsView::wheelEvent(e);
     }
 }
+
+void GraphicsView::drawBackground(QPainter *painter, const QRectF &rect)
+{
+    Q_UNUSED(rect);
+    painter->drawPixmap(QRect(0, 0, view->getEnvPixmap().width(), view->getEnvPixmap().height()), view->getEnvPixmap());
+}
 #endif
 
 View::View(QWidget *parent): QFrame(parent)
@@ -116,7 +122,7 @@ View::View(QWidget *parent): QFrame(parent)
     setupMatrix();
 }
 
-QGraphicsView *View::view() const
+QGraphicsView *View::grpahicsView() const
 {
     return static_cast<QGraphicsView *>(graphicsView);
 }
@@ -147,5 +153,43 @@ void View::togglePointerMode()
                               ? QGraphicsView::RubberBandDrag
                               : QGraphicsView::ScrollHandDrag);
     graphicsView->setInteractive(selectModeButton->isChecked());
+}
+
+cv::Mat *View::getEnvMapMat() const
+{
+    return envMapMat;
+}
+
+void View::setEnvMapMat(cv::Mat *value)
+{
+    envMapMat = value;
+    setEnvPixmap(cvMatToQPixmap(envMapMat));
+    getGraphicsView()->resetCachedContent();
+}
+
+void View::updateEnvMap()
+{
+    setEnvPixmap(cvMatToQPixmap(envMapMat));
+    getGraphicsView()->resetCachedContent();
+}
+
+GraphicsView *View::getGraphicsView() const
+{
+    return graphicsView;
+}
+
+void View::setGraphicsView(GraphicsView *value)
+{
+    graphicsView = value;
+}
+
+QPixmap View::getEnvPixmap() const
+{
+    return envPixmap;
+}
+
+void View::setEnvPixmap(QPixmap value)
+{
+    envPixmap = value;
 }
 

@@ -9,6 +9,11 @@
 #include <thread>
 #include <math.h>
 
+#include <opencv2/opencv.hpp>
+#include <opencv2/imgproc.hpp>
+
+#include <utils/utils.h>
+
 #include <neuralnetwork.h>
 
 class Creature : public QGraphicsItem
@@ -24,6 +29,7 @@ public:
     //Graphics properties
     double rx = 30.0;
     double ry = 30.0;
+    QColor color;
 
     QColor fillColor;
 
@@ -33,9 +39,11 @@ public:
     thread *lifeThread;
 
     double getX() const;
+    int getIntX() const;
     void setX(double value);
 
     double getY() const;
+    int getIntY() const;
     void setY(double value);
 
     double getA() const;
@@ -47,8 +55,14 @@ public:
     bool getLifeSuspended() const;
     void setLifeSuspended(bool value);
 
-    int getDLiefeTime() const;
-    void setDLiefeTime(int value);
+    cv::Mat *getEnvMatMap() const;
+    void setEnvMatMap(cv::Mat *value);
+
+    int getDLifeTime() const;
+    void setDLifeTime(int value);
+
+    double getVitality() const;
+    void setVitality(double value);
 
 protected:
     // QGraphicsItem interface
@@ -56,17 +70,19 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
+    double vitality = 1.0;
+
 private:
-    //Graphics properties
-    QColor color;
 
     double x = 0.0;
     double y = 0.0;
     double a = 0.0;
 
-    int dLiefeTime = 10;
+    int dLifeTime = 5;
 
     bool lifeSuspended = true;
+
+    cv::Mat *envMatMap;
 
     virtual void lifeThreadProcess();
 };

@@ -59,5 +59,28 @@ vector<Neuron *> NeuralNetwork::getOutputNeurons()
 
 void NeuralNetwork::feedForward(vector<double> inputs)
 {
+    vector<double> intputLayerOutput;
+    vector <Neuron *> inputNeurons = getInputNeurons();
+    for (unsigned int ni = 0; ni < inputNeurons.size(); ni++)
+    {
+        Neuron *n = inputNeurons[ni];
+        n->setInputs({ inputs[ni] });
+        intputLayerOutput.push_back(n->getOutput());
+    }
 
+    vector<double> hiddenLayerOutput;
+    vector <Neuron *> hiddenNeurons = getHiddenNeurons();
+    for (unsigned int ni = 0; ni < hiddenNeurons.size(); ni++)
+    {
+        Neuron *n = hiddenNeurons[ni];
+        n->setInputs(intputLayerOutput);
+        hiddenLayerOutput.push_back(n->getOutput());
+    }
+
+    vector <Neuron *> outputNeurons = getOutputNeurons();
+    for (unsigned int ni = 0; ni < outputNeurons.size(); ni++)
+    {
+        Neuron *n = outputNeurons[ni];
+        n->setInputs(hiddenLayerOutput);
+    }
 }

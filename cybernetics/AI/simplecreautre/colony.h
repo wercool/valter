@@ -14,6 +14,11 @@ public:
     vector<Creature *> getColony();
     void killColony();
 
+    int getColonySize();
+    int getStillAliveNumber();
+
+    vector<Creature *> getSurvived();
+
 private:
     vector<Creature *> creatures;
 };

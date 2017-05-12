@@ -22,7 +22,13 @@ void Receptor::setIntputs(const vector<double> &value)
 
 void Receptor::receptorFunction()
 {
-    // stub
+    // simple summuray
+    double output = 0.0;
+    for (unsigned int i = 0; i < intputs.size(); i++)
+    {
+        output += intputs[i];
+    }
+    setOutput(output);
 }
 
 double Receptor::getOutput() const

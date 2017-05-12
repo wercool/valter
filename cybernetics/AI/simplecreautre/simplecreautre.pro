@@ -24,30 +24,50 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += main.cpp\
-           mainwindow.cpp \
-           view.cpp \
-           creature.cpp \
-           neuralnetwork.cpp \
-           neuron.cpp \
-           creaturea.cpp \
-           creatureb.cpp \
-           colony.cpp \
-    receptor.cpp \
-    dline.cpp
+#pkg-config --cflags opencv
+INCLUDEPATH += /usr/local/include/opencv
 
-HEADERS  += mainwindow.h \
-            view.h \
-            creature.h \
-            neuralnetwork.h \
-            neuron.h \
-            creaturea.h \
-            creatureb.h \
-            colony.h \
+#pkg-config --libs opencv
+LIBS += -L/usr/local/lib -lopencv_core -lopencv_imgcodecs\
+                         -lopencv_highgui -lopencv_imgproc\
+                         -lopencv_video -lopencv_videoio\
+                         -lopencv_objdetect -lopencv_features2d\
+                         -lopencv_xfeatures2d -lopencv_calib3d\
+                         -lopencv_photo
+
+SOURCES += \
+    main.cpp\
+    mainwindow.cpp \
+    view.cpp \
+    creature.cpp \
+    neuralnetwork.cpp \
+    neuron.cpp \
+    creaturea.cpp \
+    creatureb.cpp \
+    colony.cpp \
+    receptor.cpp \
+    dline.cpp \
+    perlinnoiseenvironment.cpp
+
+HEADERS  += \
+    mainwindow.h \
+    view.h \
+    creature.h \
+    neuralnetwork.h \
+    neuron.h \
+    creaturea.h \
+    creatureb.h \
+    colony.h \
     receptor.h \
-    dline.h
+    dline.h \
+    perlinnoiseenvironment.h \
+    utils/opencv-qt/opencvMatToQPixmap.h \
+    utils/utils.h
 
 FORMS    +=
+
+QMAKE_CXXFLAGS += -D_GLIBCXX_USE_NANOSLEEP
+QMAKE_CXXFLAGS += -std=c++11
 
 DISTFILES += \
     geometry-help.txt

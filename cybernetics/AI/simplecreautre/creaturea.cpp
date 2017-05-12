@@ -26,7 +26,7 @@ CreatureA::CreatureA(double rx, double ry, const QColor &color) : Creature(rx, r
     Neuron *n;
 
     std::default_random_engine generator;
-    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/1.0);
+    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/3.0);
 
     // Input neurons in respect to Receptors
     for (unsigned int ri = 0; ri < receptors.size(); ri++)
@@ -50,6 +50,7 @@ CreatureA::CreatureA(double rx, double ry, const QColor &color) : Creature(rx, r
         for (int inl = 0; inl < inputNeuronNum; inl++)
         {
             double randDouble = distribution(generator);
+            distribution.reset();
             weights.push_back(randDouble);
         }
         n->setInputWeights(weights);
@@ -64,6 +65,7 @@ CreatureA::CreatureA(double rx, double ry, const QColor &color) : Creature(rx, r
         for (int hnl = 0; hnl < hiddenNeuronsNum; hnl++)
         {
             double randDouble = distribution(generator);
+            distribution.reset();
             weights.push_back(randDouble);
         }
         n->setInputWeights(weights);
@@ -75,21 +77,115 @@ CreatureA::CreatureA(double rx, double ry, const QColor &color) : Creature(rx, r
 
 void CreatureA::lifeThreadProcess()
 {
+    cv::Mat *envMatMap = getEnvMatMap();
+
     while (true)
     {
         if (!getLifeSuspended())
         {
+            vitality -= 0.0001;
+
             double aRad = getA() * M_PI / 180.0;
 
             Receptor *lR = receptors[0];
             lR->gx = getX() + lR->lx * cos(aRad) - lR->ly * sin(aRad);
             lR->gy = getY() + lR->lx * sin(aRad) + lR->ly * cos(aRad);
+            if ( (int)lR->gx > 0 && (int)lR->gy > 0 && (int)lR->gx < envMatMap->cols && (int)lR->gy < envMatMap->rows)
+            {
+                lR->setIntputs({ (255.0 - (double) envMatMap->at<uchar>((int)lR->gy, (int)lR->gx)) / 255.0 });
+            }
+            else
+            {
+                lR->setIntputs({ 0.0 });
+            }
+            lR->receptorFunction();
 
             Receptor *rR = receptors[1];
             rR->gx = getX() + rR->lx * cos(aRad) - rR->ly * sin(aRad);
             rR->gy = getY() + rR->lx * sin(aRad) + rR->ly * cos(aRad);
+            if ( (int)rR->gx > 0 && (int)rR->gy > 0 && (int)rR->gx < envMatMap->cols && (int)rR->gy < envMatMap->rows)
+            {
+                rR->setIntputs({ (255.0 - (double) envMatMap->at<uchar>((int)rR->gy, (int)rR->gx)) / 255.0 });
+            }
+            else
+            {
+                rR->setIntputs({ 0.0 });
+            }
+            rR->receptorFunction();
 
-            this_thread::sleep_for(std::chrono::milliseconds(getDLiefeTime()));
+            Receptor *vitalityR = receptors[2];
+            double inputIntensity = 0.0;
+            if ( getIntX() > 0 && getIntY() > 0 && getIntX() < envMatMap->cols && getIntY() < envMatMap->rows)
+            {
+                double intensity = (double) envMatMap->at<uchar>(getIntY(), getIntX());
+
+                inputIntensity = (255.0 - intensity) / 25500.0;
+
+                if (intensity < 255.0)
+                {
+                    try
+                    {
+                        for (int x = -5; x < 5; x++)
+                        {
+                            if (getIntX() + x < 0 && getIntX() + x > envMatMap->cols)
+                            {
+                                break;
+                            }
+                            for (int y = -5; y < 5; y++)
+                            {
+                                if (getIntY() + y < 0 && getIntY() + y > envMatMap->rows)
+                                {
+                                    break;
+                                }
+
+                                envMatMap->at<uchar>(getIntY() + y , getIntX() + x) =  (uchar)intensity + 1;
+                            }
+                        }
+                    }
+                    catch (...) { qDebug("!!!!!!!!!!!!!!!!!!!"); }
+                }
+            }
+            else
+            {
+                inputIntensity -= 0.1;
+            }
+
+            vitality += (vitality > 1.0) ? 0.0 : inputIntensity;
+
+            vitalityR->setIntputs({ vitality });
+            vitalityR->receptorFunction();
+
+//            qDebug("Env Map Target Intensity [%d, %d] = %d", getIntX(), getIntY(), envMatMap->at<uchar>(getIntX(), getIntY()));
+//            qDebug("Left Receptor Intensity [%d, %d] = %d", (int)lR->gx, (int)lR->gy, envMatMap->at<uchar>((int)lR->gx, (int)lR->gy));
+//            qDebug("Right Receptor Intensity [%d, %d] = %d", (int)rR->gx, (int)rR->gy, envMatMap->at<uchar>((int)rR->gx, (int)rR->gy));
+
+//            qDebug("Left Receptor Intensity [%d, %d] = %.2f", (int)lR->gx, (int)lR->gy, lR->getOutput());
+//            qDebug("Right Receptor Intensity [%d, %d] = %.2f", (int)rR->gx, (int)rR->gy, rR->getOutput());
+
+//            qDebug("Vitality Receptor: %.10f", vitalityR->getOutput());
+
+//            envMatMap->at<uchar>(getIntY(), getIntX()) =  envMatMap->at<uchar>(getIntX(), getIntY()) + 50;
+
+            nn->feedForward({ lR->getOutput(), rR->getOutput(), vitalityR->getOutput() });
+
+            vector <Neuron *> outputNeurons = nn->getOutputNeurons();
+            Neuron *n0 = outputNeurons[0];
+            Neuron *n1 = outputNeurons[1];
+            Neuron *n2 = outputNeurons[2];
+
+            double angleM = 5.0;
+            double stepM = 5.0;
+
+            setA((n1->getOutput() - n0->getOutput()) * angleM * 180.0 / M_PI);
+            setX(getX() + n2->getOutput() * sin(getA()) * stepM);
+            setY(getY() + n2->getOutput() * cos(getA()) * stepM);
+
+            if (vitality < 0.0)
+            {
+                return;
+            }
+
+            this_thread::sleep_for(std::chrono::milliseconds(getDLifeTime()));
         }
         else
         {
@@ -129,7 +225,7 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     lR->lx = lReceptorX2;
     lR->ly = lReceptorY2;
-    qDebug("[%.4f, %.4f]", lR->lx, lR->ly);
+//    qDebug("[%.4f, %.4f]", lR->lx, lR->ly);
 
     rR->lx = rReceptorX2;
     rR->ly = rReceptorY2;
@@ -167,7 +263,7 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     {
         QFont font = painter->font() ;
         /* twice the size than the current font size */
-        font.setPointSize(font.pointSize() * 0.5);
+        font.setPointSizeF(font.pointSizeF() * 0.5);
         /* set the modified font to the painter */
         painter->setFont(font);
 

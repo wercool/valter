@@ -52,14 +52,34 @@ void Creature::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
 }
 
-int Creature::getDLiefeTime() const
+double Creature::getVitality() const
 {
-    return dLiefeTime;
+    return vitality;
 }
 
-void Creature::setDLiefeTime(int value)
+void Creature::setVitality(double value)
 {
-    dLiefeTime = value;
+    vitality = value;
+}
+
+int Creature::getDLifeTime() const
+{
+    return dLifeTime;
+}
+
+void Creature::setDLifeTime(int value)
+{
+    dLifeTime = value;
+}
+
+cv::Mat *Creature::getEnvMatMap() const
+{
+    return envMatMap;
+}
+
+void Creature::setEnvMatMap(cv::Mat *value)
+{
+    envMatMap = value;
 }
 
 bool Creature::getLifeSuspended() const
@@ -87,6 +107,11 @@ double Creature::getY() const
     return y;
 }
 
+int Creature::getIntY() const
+{
+    return (int) y;
+}
+
 void Creature::setY(double value)
 {
     y = value;
@@ -95,6 +120,11 @@ void Creature::setY(double value)
 double Creature::getX() const
 {
     return x;
+}
+
+int Creature::getIntX() const
+{
+    return (int) x;
 }
 
 void Creature::setX(double value)

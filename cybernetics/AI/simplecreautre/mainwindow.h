@@ -3,8 +3,12 @@
 
 #include <QMainWindow>
 #include <QToolButton>
+#include <QPushButton>
 #include <QTimer>
 
+#include "view.h"
+
+#include "perlinnoiseenvironment.h"
 #include "colony.h"
 #include "dline.h"
 
@@ -26,8 +30,11 @@ public:
     void populateColony();
 
 private:
+    View *view;
     QGraphicsScene *scene;
     QTimer *lifeTimer;
+
+    QPushButton *perlinNoiseEnvironmentMapGenerateButton;
     QToolButton *startButton;
 
     Colony *colony;
@@ -42,6 +49,7 @@ private:
 private slots:
     void startLifeCallback(bool state);
     void lifeTimerCallback();
+    void generateEnvironmentMap();
     void addDebugGeometry();
 
 };

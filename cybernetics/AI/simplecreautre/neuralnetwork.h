@@ -3,6 +3,8 @@
 
 #include "neuron.h"
 
+#include <QDebug>
+
 using namespace std;
 
 class NeuralNetwork

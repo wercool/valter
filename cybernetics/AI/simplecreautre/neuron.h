@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <vector>
+#include <math.h>
+
+#include <QDebug>
 
 using namespace std;
 
@@ -20,12 +23,15 @@ public:
     {
         None,
         Perceptron,
-        Sigmoid
+        Sigmoid,
+        HyperbolicTangent
     };
 
     Neuron(Type nt, TransferFunction ntf);
     Type neuronType;
     TransferFunction neuronTransferFunction;
+
+    void setInputs(vector<double> inputs);
 
     vector<double> getInputWeights() const;
     void setInputWeights(const vector<double> &value);
