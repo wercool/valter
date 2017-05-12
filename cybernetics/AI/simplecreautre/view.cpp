@@ -72,9 +72,9 @@ View::View(QWidget *parent): QFrame(parent)
     zoomOutIcon->setIcon(QPixmap(":/zoomout.png"));
     zoomOutIcon->setIconSize(iconSize);
     zoomSlider = new QSlider;
-    zoomSlider->setMinimum(-500);
-    zoomSlider->setMaximum(300);
-    zoomSlider->setValue(0);
+    zoomSlider->setMinimum(-300);
+    zoomSlider->setMaximum(400);
+    zoomSlider->setValue(100);
     zoomSlider->setTickPosition(QSlider::TicksRight);
 
     // Zoom slider layout

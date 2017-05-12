@@ -33,7 +33,8 @@ SOURCES += main.cpp\
            creaturea.cpp \
            creatureb.cpp \
            colony.cpp \
-    receptor.cpp
+    receptor.cpp \
+    dline.cpp
 
 HEADERS  += mainwindow.h \
             view.h \
@@ -43,11 +44,13 @@ HEADERS  += mainwindow.h \
             creaturea.h \
             creatureb.h \
             colony.h \
-    receptor.h
+    receptor.h \
+    dline.h
 
 FORMS    +=
 
-DISTFILES +=
+DISTFILES += \
+    geometry-help.txt
 
 RESOURCES += \
     images.qrc

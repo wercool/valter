@@ -6,6 +6,7 @@
 #include <QTimer>
 
 #include "colony.h"
+#include "dline.h"
 
 QT_BEGIN_NAMESPACE
 class QGraphicsScene;
@@ -31,9 +32,17 @@ private:
 
     Colony *colony;
 
+    // debug geometry
+    DLine *dline1;
+    DLine *dline2;
+
+    DLine *dlineX;
+    DLine *dlineY;
+
 private slots:
     void startLifeCallback(bool state);
     void lifeTimerCallback();
+    void addDebugGeometry();
 
 };
 

@@ -14,7 +14,7 @@
 class CreatureA : public Creature
 {
 public:
-    CreatureA(double w, double h, const QColor &color);
+    CreatureA(double rx, double ry, const QColor &color);
 
 public:
     // QGraphicsItem interface

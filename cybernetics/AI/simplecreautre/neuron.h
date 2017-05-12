@@ -25,6 +25,7 @@ public:
 
     Neuron(Type nt, TransferFunction ntf);
     Type neuronType;
+    TransferFunction neuronTransferFunction;
 
     vector<double> getInputWeights() const;
     void setInputWeights(const vector<double> &value);

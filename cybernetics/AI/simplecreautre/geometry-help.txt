@@ -1,0 +1,36 @@
+Using expressions
+
+Global to Local
+x2' = (x2-x1)cosθ + (y2-y1)sinθ
+y2' = -(x2-x1)sinθ + (y2-y1)cosθ
+
+Local to Global
+x2 = x1 + x2'cosθ - y2'sinθ
+y2 = y1 + x2'sinθ + y2'cosθ
+
+Using matrices:
+
+R = [cosθ   -sinθ
+
+     sinθ    cosθ]
+
+A = [x1
+     y1]
+
+B_global = [x2
+            y2]
+
+B_local = [x2'
+           y2']
+
+Global to Local
+    B_local = inv(R) x (B_global - A)
+
+Local to Global
+    B_global = R x B_local + A
+
+
+
+Chord length (https://ru.wikipedia.org/wiki/%D0%A5%D0%BE%D1%80%D0%B4%D0%B0_(%D0%B3%D0%B5%D0%BE%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D1%8F))
+(l / 2)^2 + d^2 = R^2
+l = sqrt(sqr(R) - sqr(d)) * 2

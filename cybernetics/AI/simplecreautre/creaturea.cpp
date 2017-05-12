@@ -2,7 +2,7 @@
 
 #include <random>
 
-CreatureA::CreatureA(double w, double h, const QColor &color) : Creature(w, h, color)
+CreatureA::CreatureA(double rx, double ry, const QColor &color) : Creature(rx, ry, color)
 {
     Receptor *r;
 
@@ -77,16 +77,24 @@ void CreatureA::lifeThreadProcess()
 {
     while (true)
     {
-        double aRad = a * M_PI / 180.0;
-        Receptor *lR = receptors[0];
-        lR->gx = x + (lR->lx * cos(aRad)) - (lR->ly * sin(aRad));
-        lR->gy = y + (lR->ly * cos(aRad)) + (lR->lx * sin(aRad));
+        if (!getLifeSuspended())
+        {
+            double aRad = getA() * M_PI / 180.0;
 
-        Receptor *rR = receptors[1];
-        rR->gx = x + (rR->lx * cos(aRad)) - (rR->ly * sin(aRad));
-        rR->gy = y + (rR->ly * cos(aRad)) + (rR->lx * sin(aRad));
+            Receptor *lR = receptors[0];
+            lR->gx = getX() + lR->lx * cos(aRad) - lR->ly * sin(aRad);
+            lR->gy = getY() + lR->lx * sin(aRad) + lR->ly * cos(aRad);
 
-        this_thread::sleep_for(std::chrono::milliseconds(10));
+            Receptor *rR = receptors[1];
+            rR->gx = getX() + rR->lx * cos(aRad) - rR->ly * sin(aRad);
+            rR->gy = getY() + rR->lx * sin(aRad) + rR->ly * cos(aRad);
+
+            this_thread::sleep_for(std::chrono::milliseconds(getDLiefeTime()));
+        }
+        else
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(100));
+        }
     }
 }
 
@@ -94,65 +102,66 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
     Creature::paint(painter, option, widget);
 
-    double centerX = (double)w / 2.0;
-    double centerY = (double)h / 2.0;
+    double lReceptorAngle = -45.0 * M_PI / 180.0;
+    double rReceptorAngle = 45.0 * M_PI / 180.0;
+    double lReceptorLength = ry * 3.0;
+    double rReceptorLength = ry * 3.0;
+    double tailLength = 50.0;
 
-    double lReceptorAlpha = -45.0 * M_PI / 180.0;
-    double rReceptorAlpha = 45.0 * M_PI / 180.0;
-    double lReceptorLength = h + 25.0;
-    double rReceptorLength = h + 25.0;
-    double tailLength = 150.0;
+    double sinLReceptorAngle = sin(lReceptorAngle);
+    double cosLReceptorAngle = cos(lReceptorAngle);
+    double sinRReceptorAngle = sin(rReceptorAngle);
+    double cosRReceptorAngle = cos(rReceptorAngle);
 
-    double sinLReceptorAlpha = sin(lReceptorAlpha);
-    double cosLReceptorAlpha = cos(lReceptorAlpha);
+    double lReceptorX1 = rx * sinLReceptorAngle;
+    double lReceptorY1 = -ry * cosLReceptorAngle;
+    double lReceptorX2 = lReceptorLength * sinLReceptorAngle;
+    double lReceptorY2 = -lReceptorLength * cosLReceptorAngle;
 
-    double sinRReceptorAlpha = sin(rReceptorAlpha);
-    double cosRReceptorAlpha = cos(rReceptorAlpha);
-
-    double lReceptorX1 = centerX * sinLReceptorAlpha;
-    double lReceptorY1 = -centerY * cosLReceptorAlpha;
-
-    double lReceptorX2 = lReceptorLength * sinLReceptorAlpha;
-    double lReceptorY2 = -lReceptorLength * cosLReceptorAlpha;
-
-    double rReceptorX1 = centerX * sinRReceptorAlpha;
-    double rReceptorY1 = -centerY * cosRReceptorAlpha;
-
-    double rReceptorX2 = rReceptorLength * sinRReceptorAlpha;
-    double rReceptorY2 = -rReceptorLength * cosRReceptorAlpha;
+    double rReceptorX1 = rx * sinRReceptorAngle;
+    double rReceptorY1 = -ry * cosRReceptorAngle;
+    double rReceptorX2 = rReceptorLength * sinRReceptorAngle;
+    double rReceptorY2 = -rReceptorLength * cosRReceptorAngle;
 
     Receptor *lR, *rR;
     lR = receptors[0];
     rR = receptors[1];
 
-    lR->lx = centerX + lReceptorX2;
-    lR->ly = centerY + lReceptorY2;
+    lR->lx = lReceptorX2;
+    lR->ly = lReceptorY2;
+    qDebug("[%.4f, %.4f]", lR->lx, lR->ly);
 
-    rR->lx = centerX + rReceptorX2;
-    rR->ly = centerY + rReceptorY2;
+    rR->lx = rReceptorX2;
+    rR->ly = rReceptorY2;
 
-    painter->setPen(QPen(Qt::black, 2.0));
-    painter->drawLine(centerX + lReceptorX1, centerY + lReceptorY1, lR->lx, lR->ly);
-    painter->drawLine(centerX + rReceptorX1, centerY + rReceptorY1, rR->lx, rR->ly);
+    painter->setPen(QPen(Qt::black, 1.0));
+    painter->drawLine(QPointF(lReceptorX1, lReceptorY1), QPointF(lR->lx, lR->ly));
+    painter->drawLine(QPointF(rReceptorX1, rReceptorY1), QPointF(rR->lx, rR->ly));
 
+
+//    painter->setPen(QPen(Qt::red, 0.2));
+//    painter->drawEllipse(QPointF(rReceptorX1, rReceptorY1), 1.0, 1.0);
+//    painter->drawEllipse(QPointF(rReceptorX2, rReceptorY2), 1.0, 1.0);
+
+    // Receptors
+    painter->setPen(QPen(fillColor, 0.2));
     painter->setBrush(Qt::black);
-    painter->drawEllipse((centerX - 4) + lReceptorX2, (centerY - 4) + lReceptorY2, 8, 8);
-    painter->drawEllipse((centerX - 4) + rReceptorX2, (centerY - 4) + rReceptorY2, 8, 8);
+    painter->drawEllipse(QPointF(lR->lx, lR->ly), 4, 4); //Left Sensor  R#0
+    painter->drawEllipse(QPointF(rR->lx, rR->ly), 4, 4); //Right Sensor  R#1
 
     // Affector tail
-    double tailEndX = sin(a * M_PI / 180.0) * (h + tailLength);
-    double tailEndY = cos(a * M_PI / 180.0) * (h + tailLength);
-    QPen pen = QPen(Qt::green, 4.0);
+    double tailEndX = sin(getA() * M_PI / 180.0) * (ry + tailLength);
+    double tailEndY = cos(getA() * M_PI / 180.0) * (ry + tailLength);
+    QPen pen = QPen(fillColor, 4.0);
     pen.setStyle(Qt::PenStyle::DotLine);
     painter->setPen(pen);
-    painter->drawLine(centerX, h + 2.0, centerX + tailEndX, tailEndY);
+    painter->drawLine(QPointF(0.0, ry + 2.0), QPointF(tailEndX, tailEndY));
 
-    painter->setPen(QPen(Qt::lightGray, 0.5));
+    painter->setPen(QPen(Qt::black, 0.5));
     painter->setBrush(fillColor);
-    painter->drawEllipse(0, 0, w, h);
+    painter->drawEllipse(QPointF(0.0, 0.0), rx, rx);
 
-    double neuronSize = 4.0;
-    double neuronSizeHalf = neuronSize / 2.0;
+    double neuronRadius = 2.0;
     const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
     if (lod > 1.0)
     {
@@ -162,37 +171,61 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         /* set the modified font to the painter */
         painter->setFont(font);
 
-        painter->setPen(QPen(fillColor, 0.1));
-        painter->drawText(centerX + lReceptorX2 - 2.0, centerY + lReceptorY2 + 1.0, "R");
-        painter->drawText(centerX + rReceptorX2 - 1.0, centerY + rReceptorY2 + 1.0, "R");
+        // Receptor labels
+        painter->setPen(QPen(Qt::white, 0.1));
+        painter->drawText(QPointF(lR->lx - 1.75, lR->ly + 1.75), "R");
+        painter->drawText(QPointF(rR->lx - 1.75, rR->ly + 1.75), "R");
 
-        painter->setPen(QPen(Qt::gray, 0.2));
+        double neuronsPosY, neuronsPosHorde, neuronPosXStep;
+
+        painter->setPen(QPen(fillColor, 0.2));
+        painter->setBrush(Qt::black);
+        painter->drawEllipse(QPointF(0.0, -ry * 0.85), 4, 4); // Vitality sensor R#2
+        painter->setPen(QPen(Qt::white, 0.1));
+        painter->drawText(QPointF(- 1.75, -ry * 0.85 + 1.75), "R");
+
+        painter->setPen(QPen(Qt::black, 0.2));
         painter->setBrush(Qt::transparent);
 
         int inputNeuronNum = (int) nn->getInputNeurons().size();
-        vector<vector<double>> inputNeuronsCoords;
+        vector<QPointF> inputNeuronsCoords;
+        neuronsPosY = -ry * 0.5;
+        neuronsPosHorde = (sqrt(pow(ry, 2) - pow(neuronsPosY, 2)) * 2.0) * 0.5;
+        neuronPosXStep = neuronsPosHorde / ((double) inputNeuronNum - 1.0);
         for (int inl = 0; inl < inputNeuronNum; inl++)
         {
-            vector<double> nCoords;
-            nCoords.push_back(centerX - (centerX / 3) * (inputNeuronNum / 2 - inl) - neuronSizeHalf);
-            nCoords.push_back(centerY - centerY / 2 - neuronSizeHalf);
-            painter->drawEllipse(nCoords[0], nCoords[1], neuronSize, neuronSize);
+            QPointF nCoords;
+            nCoords.setX(-neuronsPosHorde / 2 + neuronPosXStep * inl);
+            nCoords.setY(neuronsPosY);
+            painter->drawEllipse(nCoords, neuronRadius, neuronRadius);
             inputNeuronsCoords.push_back(nCoords);
         }
 
         // Left Receptor
-        painter->drawLine(centerX + lReceptorX1, centerY + lReceptorY1, inputNeuronsCoords[0][0] + neuronSizeHalf, inputNeuronsCoords[0][1]);
+        QPointF n;
+        n = inputNeuronsCoords[0];
+        n.setY(n.y() - neuronRadius);
+        painter->drawLine(QPointF(lReceptorX1, lReceptorY1), n);
         // Right Receptor
-        painter->drawLine(centerX + rReceptorX1, centerY + rReceptorY1, inputNeuronsCoords[1][0] + neuronSizeHalf, inputNeuronsCoords[1][1]);
+        n = inputNeuronsCoords[1];
+        n.setY(n.y() - neuronRadius);
+        painter->drawLine(QPointF(rReceptorX1, rReceptorY1), n);
+        // Vitality Receptor
+        n = inputNeuronsCoords[2];
+        n.setY(n.y() - neuronRadius);
+        painter->drawLine(QPointF(0.0, -ry * 0.85 + 4.0), n);
 
         int hiddenNeuronNum = (int) nn->getHiddenNeurons().size();
-        vector<vector<double>> hiddenNeuronsCoords;
+        vector<QPointF> hiddenNeuronsCoords;
+        neuronsPosY = 0.0;
+        neuronsPosHorde = ry * 2 * 0.5;
+        neuronPosXStep = neuronsPosHorde / ((double) hiddenNeuronNum - 1.0);
         for (int hnl = 0; hnl < hiddenNeuronNum; hnl++)
         {
-            vector<double> nCoords;
-            nCoords.push_back(centerX - (centerX / 4) * (hiddenNeuronNum / 2 - hnl)  - neuronSizeHalf);
-            nCoords.push_back(centerY - neuronSizeHalf);
-            painter->drawEllipse(nCoords[0], nCoords[1], neuronSize, neuronSize);
+            QPointF nCoords;
+            nCoords.setX(-neuronsPosHorde / 2 + neuronPosXStep * hnl);
+            nCoords.setY(neuronsPosY);
+            painter->drawEllipse(nCoords, neuronRadius, neuronRadius);
             hiddenNeuronsCoords.push_back(nCoords);
         }
 
@@ -200,18 +233,25 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         {
             for (int hnl = 0; hnl < hiddenNeuronNum; hnl++)
             {
-                painter->drawLine(inputNeuronsCoords[inl][0] + neuronSizeHalf, inputNeuronsCoords[inl][1] + neuronSize, hiddenNeuronsCoords[hnl][0] + neuronSizeHalf, hiddenNeuronsCoords[hnl][1]);
+                QPointF n1 = inputNeuronsCoords[inl];
+                n1.setY(n1.y() + neuronRadius);
+                QPointF n2 = hiddenNeuronsCoords[hnl];
+                n2.setY(n2.y() - neuronRadius);
+                painter->drawLine(n1, n2);
             }
         }
 
         int outputNeuronNum = (int) nn->getOutputNeurons().size();
-        vector<vector<double>> outputNeuronsCoords;
+        vector<QPointF> outputNeuronsCoords;
+        neuronsPosY = ry * 0.5;
+        neuronsPosHorde = (sqrt(pow(ry, 2) - pow(neuronsPosY, 2)) * 2.0) * 0.5;
+        neuronPosXStep = neuronsPosHorde / ((double) outputNeuronNum - 1.0);
         for (int onl = 0; onl < outputNeuronNum; onl++)
         {
-            vector<double> nCoords;
-            nCoords.push_back(centerX - (centerX / 4) * (outputNeuronNum / 2 - onl)  - neuronSizeHalf);
-            nCoords.push_back(centerY  + centerY / 2 - neuronSizeHalf);
-            painter->drawEllipse(nCoords[0], nCoords[1], neuronSize, neuronSize);
+            QPointF nCoords;
+            nCoords.setX(-neuronsPosHorde / 2 + neuronPosXStep * onl);
+            nCoords.setY(neuronsPosY);
+            painter->drawEllipse(nCoords, neuronRadius, neuronRadius);
             outputNeuronsCoords.push_back(nCoords);
         }
 
@@ -219,14 +259,20 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         {
             for (int onl = 0; onl < outputNeuronNum; onl++)
             {
-                painter->drawLine(hiddenNeuronsCoords[hnl][0] + neuronSizeHalf, hiddenNeuronsCoords[hnl][1] + neuronSize, outputNeuronsCoords[onl][0] + neuronSizeHalf, outputNeuronsCoords[onl][1]);
+                QPointF n1 = hiddenNeuronsCoords[hnl];
+                n1.setY(n1.y() + neuronRadius);
+                QPointF n2 = outputNeuronsCoords[onl];
+                n2.setY(n2.y() - neuronRadius);
+                painter->drawLine(n1, n2);
             }
         }
 
-        // Affector tail
+        // Affector tail connections
         for (int onl = 0; onl < outputNeuronNum; onl++)
         {
-            painter->drawLine(outputNeuronsCoords[onl][0] + neuronSizeHalf, outputNeuronsCoords[onl][1] + neuronSize, centerX, h);
+            QPointF n = outputNeuronsCoords[onl];
+            n.setY(n.y() + neuronRadius);
+            painter->drawLine(n, QPointF(0.0, ry));
         }
 
     }

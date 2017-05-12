@@ -1,6 +1,6 @@
 #include "creatureb.h"
 
-CreatureB::CreatureB(double w, double h, const QColor &color) : Creature(w, h, color)
+CreatureB::CreatureB(double rx, double ry, const QColor &color) : Creature(rx, ry, color)
 {
     lifeThread = new std::thread(&CreatureB::lifeThreadProcess, this);
 }
@@ -22,8 +22,8 @@ void CreatureB::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     painter->setPen(QPen(Qt::gray, 0.5));
     painter->setBrush(fillColor);
-    painter->drawEllipse(0, 0, w, h);
+    painter->drawEllipse(QPointF(0.0, 0.0), rx, rx);
 
-    painter->setPen(QPen(Qt::red, 2.0));
-    painter->drawLine(w/2, h + 1.0, w/2, h + 100.0);
+//    painter->setPen(QPen(Qt::red, 2.0));
+//    painter->drawLine(w/2, h + 1.0, w/2, h + 100.0);
 }

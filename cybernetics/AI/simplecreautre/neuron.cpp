@@ -3,6 +3,7 @@
 Neuron::Neuron(Type nt, TransferFunction ntf)
 {
     neuronType = nt;
+    neuronTransferFunction = ntf;
 }
 
 vector<double> Neuron::getInputWeights() const
