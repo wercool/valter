@@ -33,6 +33,7 @@ private:
     vector<Creature *> creatures;
 
     static bool sortByVitality(Creature * c1, Creature * c2);
+    static bool sortByPathLength(Creature * c1, Creature * c2);
 };
 
 #endif // COLONY_H

@@ -63,11 +63,11 @@ void MainWindow::generateEnvironmentMap()
 
 void MainWindow::loadImageCallback()
 {
-    string fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
+    imageFilePath = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
 
-    if (!fileName.empty())
+    if (!imageFilePath.empty())
     {
-        cv::Mat srcImage = cv::imread(fileName, true);
+        cv::Mat srcImage = cv::imread(imageFilePath, true);
         cv::Mat grayscaleImage;
         cv::cvtColor(srcImage, grayscaleImage, CV_BGRA2GRAY);
 
@@ -87,7 +87,7 @@ void MainWindow::populateColony()
     QGraphicsItem *pCreatureGI;
     Creature *pCreature;
 
-    for (int i = 0; i < 50; i++)
+    for (int i = 0; i < 100; i++)
     {
         pCreatureGI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255));
         pCreature = dynamic_cast<Creature*>(pCreatureGI);
@@ -150,8 +150,12 @@ void MainWindow::lifeTimerCallback()
                 pGCreature->setRotation(pCreature->getA());
                 pGCreature->setOpacity(pCreature->getVitality());
             }
+            else
+            {
+                pGCreature->setOpacity(1.0);
+            }
 
-            if (fpscEnv > 10)
+            if (fpscEnv > 5)
             {
                 view->updateEnvMap();
                 fpscEnv = 0;
@@ -163,16 +167,23 @@ void MainWindow::lifeTimerCallback()
             lifeTimer->stop();
             colony->stopLife();
 
-            this_thread::sleep_for(std::chrono::milliseconds(100));
+            colony = colony->getNextGenerationColony();
 
-            Colony *nextGenerationColony = colony->getNextGenerationColony();
-            colony = nextGenerationColony;
+            if (!imageFilePath.empty())
+            {
+                cv::Mat srcImage = cv::imread(imageFilePath, true);
+                cv::Mat grayscaleImage;
+                cv::cvtColor(srcImage, grayscaleImage, CV_BGRA2GRAY);
+
+                view->setEnvMapMat(grayscaleImage);
+            }
+            else
+            {
+                PerlinNoiseEnvironment *pnenv = new PerlinNoiseEnvironment();
+                view->setEnvMapMat(pnenv->generate(cv::Size(1000, 1000), -0.01));
+            }
 
             scene->clear();
-            view->update();
-
-            PerlinNoiseEnvironment *pnenv = new PerlinNoiseEnvironment();
-            view->setEnvMapMat(pnenv->generate(cv::Size(1000, 1000), -0.01));
             view->updateEnvMap();
 
             creatures = colony->getColony();
@@ -181,9 +192,12 @@ void MainWindow::lifeTimerCallback()
                 pCreature = dynamic_cast<CreatureA *>(creatures[c]);
                 pGCreature = dynamic_cast<QGraphicsItem*>(creatures[c]);
 
+                pCreature->setVitality(1.0);
+
                 pCreature->setView(view);
                 pCreature->setX((double)view->getEnvMapMat().cols / 2.0);
                 pCreature->setY((double)view->getEnvMapMat().rows / 2.0);
+                pCreature->setA(0.0);
 
                 pGCreature->setPos(QPointF(pCreature->getX(), pCreature->getY()));
                 pGCreature->setRotation(pCreature->getA());
@@ -192,8 +206,6 @@ void MainWindow::lifeTimerCallback()
             }
 
             qDebug("Generation %d [%d]", ++generation, colony->getColonySize());
-
-            view->update();
 
             lifeTimer->start();
             colony->resumeLife();

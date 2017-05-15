@@ -81,12 +81,13 @@ CreatureA::CreatureA(double rx, double ry, const QColor &color, bool initNeuralN
 
 void CreatureA::lifeThreadProcess()
 {
+    double dVitality = 0.001;
     while (!getLifeStopped())
     {
         if (!getLifeSuspended())
         {
             cv:: Mat envMatMap = getView()->getEnvMapMat();
-            vitality -= 0.0001;
+            vitality -= dVitality;
 
             double aRad = getA() * M_PI / 180.0;
 
@@ -151,7 +152,7 @@ void CreatureA::lifeThreadProcess()
             }
             else
             {
-                inputIntensity -= 0.1;
+                inputIntensity -= dVitality * 10;
             }
 
             vitality += (vitality > 1.0) ? 0.0 : inputIntensity;
@@ -166,19 +167,26 @@ void CreatureA::lifeThreadProcess()
             Neuron *n1 = outputNeurons[1];
             Neuron *n2 = outputNeurons[2];
 
-            double angleM = 5.0;
-            double stepM = 5.0;
+            double angleM = 5.0 * ((vitality != 0.0) ? vitality : 1);
+            double stepM = 5.0 * ((vitality != 0.0) ? vitality : 1);
 
 //qDebug("%.4f,  %.4f,  %.4f", n0->getOutput(), n1->getOutput(), n2->getOutput());
 
-            setA((n0->getOutput() - n2->getOutput()) * angleM * 180.0 / M_PI);
-            setX(getX() + n1->getOutput() * sin(getA()) * stepM);
-            setY(getY() + n1->getOutput() * cos(getA()) * stepM);
+            double cA = (n0->getOutput() - n2->getOutput()) * angleM * 180.0 / M_PI;
+            double cX = getX() + n1->getOutput() * sin(getA()) * stepM;
+            double cY = getY() + n1->getOutput() * cos(getA()) * stepM;
+
+            setPathLength(getPathLength() + sqrt(pow((getX() - cX), 2) + pow((getY() - cY), 2)));
+
+            setA(cA);
+            setX(cX);
+            setY(cY);
 
             if (vitality <= 0.0)
             {
                 color = QColor(0, 0, 0, 255);
                 setLifeStopped(true);
+                break;
             }
             this_thread::sleep_for(std::chrono::milliseconds(getDLifeTime()));
         }

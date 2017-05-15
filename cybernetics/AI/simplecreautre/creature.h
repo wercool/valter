@@ -73,6 +73,9 @@ public:
     View *getView() const;
     void setView(View *value);
 
+    double getPathLength() const;
+    void setPathLength(double value);
+
 protected:
     // QGraphicsItem interface
     void mousePressEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
@@ -88,7 +91,9 @@ private:
     double y = 0.0;
     double a = 0.0;
 
-    int dLifeTime = 5;
+    double pathLength = 0.0;
+
+    int dLifeTime = 10;
 
     bool lifeSuspended = true;
     bool lifeStopped = false;

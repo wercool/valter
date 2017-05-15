@@ -49,6 +49,8 @@ private:
     DLine *dlineX;
     DLine *dlineY;
 
+    std::string imageFilePath;
+
 private slots:
     void startLifeCallback(bool state);
     void lifeTimerCallback();

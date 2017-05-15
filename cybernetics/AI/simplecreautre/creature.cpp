@@ -52,6 +52,16 @@ void Creature::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
 }
 
+double Creature::getPathLength() const
+{
+    return pathLength;
+}
+
+void Creature::setPathLength(double value)
+{
+    pathLength = value;
+}
+
 View *Creature::getView() const
 {
     return view;

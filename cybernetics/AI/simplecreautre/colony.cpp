@@ -24,6 +24,7 @@ Colony *Colony::getNextGenerationColony()
     Creature *survivedCreature1, *survivedCreature2, *survivedCreature3;
 
     std::sort(susrvivedCreatures.begin(), susrvivedCreatures.end(), Colony::sortByVitality);
+    std::sort(susrvivedCreatures.begin(), susrvivedCreatures.end(), Colony::sortByPathLength);
 
     QGraphicsItem *pCreatureNG1GI, *pCreatureNG2GI, *pCreatureNG3GI;
     Creature *pCreatureNG1, *pCreatureNG2, *pCreatureNG3;
@@ -33,13 +34,13 @@ Colony *Colony::getNextGenerationColony()
         survivedCreature2 = susrvivedCreatures[i + 1];
         survivedCreature3 = susrvivedCreatures[i + 2];
 
-        pCreatureNG1GI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255), false);
+        pCreatureNG1GI = new CreatureA(survivedCreature1->rx, survivedCreature1->ry, QColor(0, 255, 0, 255), false);
         pCreatureNG1 = dynamic_cast<Creature*>(pCreatureNG1GI);
 
-        pCreatureNG2GI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255), false);
+        pCreatureNG2GI = new CreatureA(survivedCreature1->rx, survivedCreature1->ry, QColor(0, 255, 0, 255), false);
         pCreatureNG2 = dynamic_cast<Creature*>(pCreatureNG2GI);
 
-        pCreatureNG3GI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255), false);
+        pCreatureNG3GI = new CreatureA(survivedCreature1->rx, survivedCreature1->ry, QColor(0, 255, 0, 255), false);
         pCreatureNG3 = dynamic_cast<Creature*>(pCreatureNG3GI);
 
         vector<Neuron *>survivedCreature1Neurons = survivedCreature1->nn->getNeurons();
@@ -104,6 +105,8 @@ Colony *Colony::getNextGenerationColony()
             nextGenerationColony->addCreature(pCreatureNG3);
     }
 
+    killColony();
+
     return nextGenerationColony;
 }
 
@@ -114,6 +117,8 @@ void Colony::killColony()
         Creature *c = creatures[i];
         c->setLifeSuspended(true);
         c->setLifeStopped(true);
+
+        delete c;
     }
     creatures.clear();
 }
@@ -183,5 +188,10 @@ vector<Creature *> Colony::getSurvived()
 bool Colony::sortByVitality(Creature *c1, Creature *c2)
 {
     return (c1->getVitality() > c2->getVitality());
+}
+
+bool Colony::sortByPathLength(Creature *c1, Creature *c2)
+{
+    return (c1->getPathLength() > c2->getPathLength());
 }
 
