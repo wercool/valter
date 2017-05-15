@@ -84,3 +84,8 @@ void NeuralNetwork::feedForward(vector<double> inputs)
         n->setInputs(hiddenLayerOutput);
     }
 }
+
+vector<Neuron *> NeuralNetwork::getNeurons() const
+{
+    return neurons;
+}

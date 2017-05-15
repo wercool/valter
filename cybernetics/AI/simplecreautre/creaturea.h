@@ -14,7 +14,7 @@
 class CreatureA : public Creature
 {
 public:
-    CreatureA(double rx, double ry, const QColor &color);
+    CreatureA(double rx, double ry, const QColor &color, bool initNeuralNetwork = true);
 
 public:
     // QGraphicsItem interface
@@ -24,6 +24,9 @@ public:
 
 private:
     vector<Receptor *> receptors;
+
+    int hiddenNeuronsNum = 5;
+    int outputNeuronsNum = 3;
 
     void lifeThreadProcess() override;
 };

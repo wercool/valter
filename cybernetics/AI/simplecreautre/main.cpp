@@ -3,6 +3,8 @@
 
 int main(int argc, char *argv[])
 {
+    int r = 0;
+
     Q_INIT_RESOURCE(images);
 
     QApplication::setDesktopSettingsAware(false);
@@ -13,5 +15,9 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    return app.exec();
+    r = app.exec();
+
+    w.killColony();
+
+    return r;
 }

@@ -2,7 +2,7 @@
 
 #include <random>
 
-CreatureA::CreatureA(double rx, double ry, const QColor &color) : Creature(rx, ry, color)
+CreatureA::CreatureA(double rx, double ry, const QColor &color, bool initNeuralNetwork) : Creature(rx, ry, color)
 {
     Receptor *r;
 
@@ -20,69 +20,72 @@ CreatureA::CreatureA(double rx, double ry, const QColor &color) : Creature(rx, r
 
     nn = new NeuralNetwork();
 
-    int hiddenNeuronsNum = 5;
-    int outputNeuronsNum = 3;
-
-    Neuron *n;
-
-    std::default_random_engine generator;
-    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/3.0);
-
-    // Input neurons in respect to Receptors
-    for (unsigned int ri = 0; ri < receptors.size(); ri++)
+    if (initNeuralNetwork)
     {
-        n = new Neuron(Neuron::Type::Input, Neuron::TransferFunction::None);
-        vector<double> weights;
-        weights.push_back(1.0);
-        n->setInputWeights(weights);
-        nn->addNeuron(n);
-    }
-    // other Input neurons
-    // ...
+        Neuron *n;
 
-    int inputNeuronNum = (int) nn->getInputNeurons().size();
+        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        std::default_random_engine generator(seed);
+        std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/3.0);
 
-    // Hidden neurons
-    for (int hln = 0; hln < hiddenNeuronsNum; hln++)
-    {
-        n = new Neuron(Neuron::Type::Hidden, Neuron::TransferFunction::Sigmoid);
-        vector<double> weights;
-        for (int inl = 0; inl < inputNeuronNum; inl++)
+        // Input neurons in respect to Receptors
+        for (unsigned int ri = 0; ri < receptors.size(); ri++)
         {
-            double randDouble = distribution(generator);
-            distribution.reset();
-            weights.push_back(randDouble);
+            n = new Neuron(Neuron::Type::Input, Neuron::TransferFunction::None);
+            vector<double> weights;
+            weights.push_back(1.0);
+            n->setInputWeights(weights);
+            nn->addNeuron(n);
         }
-        n->setInputWeights(weights);
-        nn->addNeuron(n);
-    }
+        // other Input neurons
+        // ...
 
-    // Output neurons
-    for (int oln = 0; oln < outputNeuronsNum; oln++)
-    {
-        n = new Neuron(Neuron::Type::Output, Neuron::TransferFunction::Sigmoid);
-        vector<double> weights;
-        for (int hnl = 0; hnl < hiddenNeuronsNum; hnl++)
+        int inputNeuronNum = (int) nn->getInputNeurons().size();
+
+    //    string weightsStringified = "";
+
+        // Hidden neurons
+        for (int hln = 0; hln < hiddenNeuronsNum; hln++)
         {
-            double randDouble = distribution(generator);
-            distribution.reset();
-            weights.push_back(randDouble);
-        }
-        n->setInputWeights(weights);
-        nn->addNeuron(n);
-    }
+            n = new Neuron(Neuron::Type::Hidden, Neuron::TransferFunction::Sigmoid);
+            vector<double> weights;
 
+            for (int inl = 0; inl < inputNeuronNum; inl++)
+            {
+                double randDouble = distribution(generator);
+    //            weightsStringified += format_string("%.2f ", randDouble);
+                weights.push_back(randDouble);
+            }
+            n->setInputWeights(weights);
+            nn->addNeuron(n);
+        }
+
+    //    qDebug("%s", weightsStringified.c_str());
+
+        // Output neurons
+        for (int oln = 0; oln < outputNeuronsNum; oln++)
+        {
+            n = new Neuron(Neuron::Type::Output, Neuron::TransferFunction::Sigmoid);
+            vector<double> weights;
+            for (int hnl = 0; hnl < hiddenNeuronsNum; hnl++)
+            {
+                double randDouble = distribution(generator);
+                weights.push_back(randDouble);
+            }
+            n->setInputWeights(weights);
+            nn->addNeuron(n);
+        }
+    }
     lifeThread = new std::thread(&CreatureA::lifeThreadProcess, this);
 }
 
 void CreatureA::lifeThreadProcess()
 {
-    cv::Mat *envMatMap = getEnvMatMap();
-
-    while (true)
+    while (!getLifeStopped())
     {
         if (!getLifeSuspended())
         {
+            cv:: Mat envMatMap = getView()->getEnvMapMat();
             vitality -= 0.0001;
 
             double aRad = getA() * M_PI / 180.0;
@@ -90,9 +93,10 @@ void CreatureA::lifeThreadProcess()
             Receptor *lR = receptors[0];
             lR->gx = getX() + lR->lx * cos(aRad) - lR->ly * sin(aRad);
             lR->gy = getY() + lR->lx * sin(aRad) + lR->ly * cos(aRad);
-            if ( (int)lR->gx > 0 && (int)lR->gy > 0 && (int)lR->gx < envMatMap->cols && (int)lR->gy < envMatMap->rows)
+
+            if ((int)lR->gx > 0 && (int)lR->gy > 0 && (int)lR->gx < envMatMap.cols && (int)lR->gy < envMatMap.rows)
             {
-                lR->setIntputs({ (255.0 - (double) envMatMap->at<uchar>((int)lR->gy, (int)lR->gx)) / 255.0 });
+                lR->setIntputs({ (255.0 - (double) envMatMap.at<uchar>((int)lR->gy, (int)lR->gx)) / 255.0 });
             }
             else
             {
@@ -103,9 +107,9 @@ void CreatureA::lifeThreadProcess()
             Receptor *rR = receptors[1];
             rR->gx = getX() + rR->lx * cos(aRad) - rR->ly * sin(aRad);
             rR->gy = getY() + rR->lx * sin(aRad) + rR->ly * cos(aRad);
-            if ( (int)rR->gx > 0 && (int)rR->gy > 0 && (int)rR->gx < envMatMap->cols && (int)rR->gy < envMatMap->rows)
+            if ( (int)rR->gx > 0 && (int)rR->gy > 0 && (int)rR->gx < envMatMap.cols && (int)rR->gy < envMatMap.rows)
             {
-                rR->setIntputs({ (255.0 - (double) envMatMap->at<uchar>((int)rR->gy, (int)rR->gx)) / 255.0 });
+                rR->setIntputs({ (255.0 - (double) envMatMap.at<uchar>((int)rR->gy, (int)rR->gx)) / 255.0 });
             }
             else
             {
@@ -115,35 +119,35 @@ void CreatureA::lifeThreadProcess()
 
             Receptor *vitalityR = receptors[2];
             double inputIntensity = 0.0;
-            if ( getIntX() > 0 && getIntY() > 0 && getIntX() < envMatMap->cols && getIntY() < envMatMap->rows)
+            if ( getIntX() > 0 && getIntY() > 0 && getIntX() < envMatMap.cols && getIntY() < envMatMap.rows)
             {
-                double intensity = (double) envMatMap->at<uchar>(getIntY(), getIntX());
-
-                inputIntensity = (255.0 - intensity) / 25500.0;
-
-                if (intensity < 255.0)
+                for (int xs = -rx; xs < rx; xs++)
                 {
-                    try
+                    if (getIntX() + xs < 0 || getIntX() + xs > envMatMap.cols)
                     {
-                        for (int x = -5; x < 5; x++)
+                        continue;
+                    }
+                    for (int ys = -ry; ys < ry; ys++)
+                    {
+                        if (getIntY() + ys < 0 || getIntY() + ys > envMatMap.rows)
                         {
-                            if (getIntX() + x < 0 && getIntX() + x > envMatMap->cols)
-                            {
-                                break;
-                            }
-                            for (int y = -5; y < 5; y++)
-                            {
-                                if (getIntY() + y < 0 && getIntY() + y > envMatMap->rows)
-                                {
-                                    break;
-                                }
+                            continue;
+                        }
 
-                                envMatMap->at<uchar>(getIntY() + y , getIntX() + x) =  (uchar)intensity + 1;
+                        if((xs*xs + ys*ys) < ( rx*ry ))
+                        {
+                            double intensity = (double) envMatMap.at<uchar>(getIntY() + ys, getIntX() + xs);
+                            if (intensity + 1 < 255.0)
+                            {
+                                inputIntensity += (255.0 - intensity) / 25500.0;
+                                env_map_mutex.lock();
+                                envMatMap.at<uchar>(getIntY() + ys, getIntX() + xs) =  (uchar)intensity + 1;
+                                env_map_mutex.unlock();
                             }
                         }
                     }
-                    catch (...) { qDebug("!!!!!!!!!!!!!!!!!!!"); }
                 }
+                inputIntensity = inputIntensity / (rx*rx + ry*ry);
             }
             else
             {
@@ -155,17 +159,6 @@ void CreatureA::lifeThreadProcess()
             vitalityR->setIntputs({ vitality });
             vitalityR->receptorFunction();
 
-//            qDebug("Env Map Target Intensity [%d, %d] = %d", getIntX(), getIntY(), envMatMap->at<uchar>(getIntX(), getIntY()));
-//            qDebug("Left Receptor Intensity [%d, %d] = %d", (int)lR->gx, (int)lR->gy, envMatMap->at<uchar>((int)lR->gx, (int)lR->gy));
-//            qDebug("Right Receptor Intensity [%d, %d] = %d", (int)rR->gx, (int)rR->gy, envMatMap->at<uchar>((int)rR->gx, (int)rR->gy));
-
-//            qDebug("Left Receptor Intensity [%d, %d] = %.2f", (int)lR->gx, (int)lR->gy, lR->getOutput());
-//            qDebug("Right Receptor Intensity [%d, %d] = %.2f", (int)rR->gx, (int)rR->gy, rR->getOutput());
-
-//            qDebug("Vitality Receptor: %.10f", vitalityR->getOutput());
-
-//            envMatMap->at<uchar>(getIntY(), getIntX()) =  envMatMap->at<uchar>(getIntX(), getIntY()) + 50;
-
             nn->feedForward({ lR->getOutput(), rR->getOutput(), vitalityR->getOutput() });
 
             vector <Neuron *> outputNeurons = nn->getOutputNeurons();
@@ -176,15 +169,17 @@ void CreatureA::lifeThreadProcess()
             double angleM = 5.0;
             double stepM = 5.0;
 
-            setA((n1->getOutput() - n0->getOutput()) * angleM * 180.0 / M_PI);
-            setX(getX() + n2->getOutput() * sin(getA()) * stepM);
-            setY(getY() + n2->getOutput() * cos(getA()) * stepM);
+//qDebug("%.4f,  %.4f,  %.4f", n0->getOutput(), n1->getOutput(), n2->getOutput());
 
-            if (vitality < 0.0)
+            setA((n0->getOutput() - n2->getOutput()) * angleM * 180.0 / M_PI);
+            setX(getX() + n1->getOutput() * sin(getA()) * stepM);
+            setY(getY() + n1->getOutput() * cos(getA()) * stepM);
+
+            if (vitality <= 0.0)
             {
-                return;
+                color = QColor(0, 0, 0, 255);
+                setLifeStopped(true);
             }
-
             this_thread::sleep_for(std::chrono::milliseconds(getDLifeTime()));
         }
         else
@@ -200,8 +195,8 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     double lReceptorAngle = -45.0 * M_PI / 180.0;
     double rReceptorAngle = 45.0 * M_PI / 180.0;
-    double lReceptorLength = ry * 3.0;
-    double rReceptorLength = ry * 3.0;
+    double lReceptorLength = ry * 2.0;
+    double rReceptorLength = ry * 2.0;
     double tailLength = 50.0;
 
     double sinLReceptorAngle = sin(lReceptorAngle);

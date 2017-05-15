@@ -12,7 +12,7 @@ class PerlinNoiseEnvironment
 public:
     PerlinNoiseEnvironment();
 
-    cv::Mat * generate(const cv::Size &size, const double &scale);
+    cv::Mat generate(const cv::Size &size, const double &scale);
 
 private:
     int p[512];

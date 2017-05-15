@@ -26,7 +26,7 @@ public:
         Sigmoid,
         HyperbolicTangent
     };
-
+    Neuron();
     Neuron(Type nt, TransferFunction ntf);
     Type neuronType;
     TransferFunction neuronTransferFunction;

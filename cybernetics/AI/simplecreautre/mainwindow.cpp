@@ -24,12 +24,16 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     perlinNoiseEnvironmentMapGenerateButton = new QPushButton;
     perlinNoiseEnvironmentMapGenerateButton->setText("Generate Environment Map");
 
+    loadImageButton = new QPushButton;
+    loadImageButton->setText("Load Image");
+
     startButton = new QToolButton;
     startButton->setCheckable(true);
     startButton->setText("Begin Life");
 
 
     toolsLayout->addWidget(perlinNoiseEnvironmentMapGenerateButton);
+    toolsLayout->addWidget(loadImageButton);
     toolsLayout->addWidget(startButton);
     toolsLayout->addStretch();
 
@@ -44,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
     connect(lifeTimer, SIGNAL(timeout()), this, SLOT(lifeTimerCallback()));
     connect(startButton, SIGNAL(clicked(bool)), this, SLOT(startLifeCallback(bool)));
     connect(perlinNoiseEnvironmentMapGenerateButton, SIGNAL(clicked()), this, SLOT(generateEnvironmentMap()));
+    connect(loadImageButton, SIGNAL(clicked()), this, SLOT(loadImageCallback()));
 
 //    addDebugGeometry();
 }
@@ -51,28 +56,28 @@ MainWindow::MainWindow(QWidget *parent) : QWidget(parent)
 void MainWindow::generateEnvironmentMap()
 {
     PerlinNoiseEnvironment *pnenv = new PerlinNoiseEnvironment();
-    view->setEnvMapMat(pnenv->generate(cv::Size(2000, 2000), -0.01));
+    view->setEnvMapMat(pnenv->generate(cv::Size(1000, 1000), -0.01));
 
     populateColony();
+}
 
-//    cv::Mat *mat = view->getEnvMapMat();
-//    for(int y = 0; y < mat->rows; y++)
-//    {
-//        for(int x = 0; x < mat->rows; x++)
-//        {
-//            uchar intensity = mat->at<uchar>(y, x);
-//            mat->at<uchar>(y, x) = 240;
-//        }
-//    }
-//    for(int y =  mat->rows / 2 - 50; y < mat->rows / 2 + 50; y++)
-//    {
-//        for(int x = mat->rows / 2 - 50; x < mat->rows / 2 + 50; x++)
-//        {
-//            uchar intensity = mat->at<uchar>(y, x);
-//            mat->at<uchar>(y, x) = 0;
-//        }
-//    }
-//    view->updateEnvMap();
+void MainWindow::loadImageCallback()
+{
+    string fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
+
+    if (!fileName.empty())
+    {
+        cv::Mat srcImage = cv::imread(fileName, true);
+        cv::Mat grayscaleImage;
+        cv::cvtColor(srcImage, grayscaleImage, CV_BGRA2GRAY);
+
+//        cv::imshow("Grayscaled image", grayscaleImage);
+
+        view->setEnvMapMat(grayscaleImage);
+        view->updateEnvMap();
+
+        populateColony();
+    }
 }
 
 void MainWindow::populateColony()
@@ -82,61 +87,47 @@ void MainWindow::populateColony()
     QGraphicsItem *pCreatureGI;
     Creature *pCreature;
 
-//    for (double x = -1000; x < 1000; x += 200)
-//    {
-//        for (double y = -1000; y < 1000; y += 200)
-//        {
-//            pCreatureGI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 125));
-//            pCreature = dynamic_cast<Creature*>(pCreatureGI);
-//            pCreature->setEnvMatMap(view->getEnvMapMat());
-//            pCreature->setX(view->getEnvMapMat()->rows / 2);
-//            pCreature->setY(view->getEnvMapMat()->cols / 2);
-//            colony->addCreature(pCreature);
-//            pCreatureGI->setPos(QPointF(pCreature->getX(), pCreature->getY()));
-//            pCreatureGI->setRotation(pCreature->getA());
-//            pCreatureGI->setOpacity(1.0);
-//            scene->addItem(pCreatureGI);
-//        }
-//    }
-
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 50; i++)
     {
         pCreatureGI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255));
         pCreature = dynamic_cast<Creature*>(pCreatureGI);
-        pCreature->setEnvMatMap(view->getEnvMapMat());
-        pCreature->setX(view->getEnvMapMat()->rows / 2);
-        pCreature->setY(view->getEnvMapMat()->cols / 2);
+        pCreature->setView(view);
+        pCreature->setX((double)view->getEnvMapMat().cols / 2.0);
+        pCreature->setY((double)view->getEnvMapMat().rows / 2.0);
         colony->addCreature(pCreature);
         pCreatureGI->setPos(QPointF(pCreature->getX(), pCreature->getY()));
         pCreatureGI->setRotation(pCreature->getA());
         pCreatureGI->setOpacity(1.0);
         scene->addItem(pCreatureGI);
     }
+
+    qDebug("Generation %d [%d]", 0, colony->getColonySize());
+}
+
+void MainWindow::killColony()
+{
+    colony->killColony();
 }
 
 void MainWindow::startLifeCallback(bool state)
 {
-    vector<Creature *> creatures = colony->getColony();
-    for (unsigned int i = 0; i < creatures.size(); i++)
-    {
-        Creature *pCreature = dynamic_cast<Creature *>(creatures[i]);
-        pCreature->setLifeSuspended(!state);
-    }
-
     if (state)
     {
         startButton->setText("Suspend Life");
         lifeTimer->start(1);
+        colony->resumeLife();
     }
     else
     {
         startButton->setText("Resume Life");
         lifeTimer->stop();
+        colony->suspendLife();
     }
 }
 
 void MainWindow::lifeTimerCallback()
 {
+    static int generation = 0;
     static int fpsc = 0;
     static int fpscEnv = 0;
 
@@ -167,39 +158,45 @@ void MainWindow::lifeTimerCallback()
             }
         }
 
-        if ((double)colony->getStillAliveNumber()/ (double)colony->getColonySize() < 0.5)
+        if ((double)colony->getStillAliveNumber() / (double)colony->getColonySize() < 0.5)
         {
-//            lifeTimer->stop();
+            lifeTimer->stop();
+            colony->stopLife();
 
-//            PerlinNoiseEnvironment *pnenv = new PerlinNoiseEnvironment();
-//            view->setEnvMapMat(pnenv->generate(cv::Size(2000, 2000), -0.01));
+            this_thread::sleep_for(std::chrono::milliseconds(100));
 
-//            vector<Creature *> susrvivedCreatures = colony->getSurvived();
-//            scene->clear();
-//            view->update();
+            Colony *nextGenerationColony = colony->getNextGenerationColony();
+            colony = nextGenerationColony;
 
-//            vector<Creature *> susrvivedCreatureNewGeneration;
-//            QGraphicsItem *pCreatureGI;
-//            Creature *pCreature;
-//            for (unsigned int i = 0; i < susrvivedCreatures.size(); i++)
-//            {
-//                pCreatureGI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255));
-///*
-//                pCreatureGI = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255));
-//                pCreature = dynamic_cast<Creature*>(pCreatureGI);
-//                pCreature->setEnvMatMap(view->getEnvMapMat());
-//                pCreature->setX(view->getEnvMapMat()->rows / 2);
-//                pCreature->setY(view->getEnvMapMat()->cols / 2);
-//                colony->addCreature(pCreature);
-//                pCreatureGI->setPos(QPointF(pCreature->getX(), pCreature->getY()));
-//                pCreatureGI->setRotation(pCreature->getA());
-//                pCreatureGI->setOpacity(1.0);
-//                scene->addItem(pCreatureGI);
-//*/
-//            }
+            scene->clear();
+            view->update();
 
-//            colony = new Colony();
-//            view->updateEnvMap();
+            PerlinNoiseEnvironment *pnenv = new PerlinNoiseEnvironment();
+            view->setEnvMapMat(pnenv->generate(cv::Size(1000, 1000), -0.01));
+            view->updateEnvMap();
+
+            creatures = colony->getColony();
+            for (unsigned int c = 0; c < creatures.size(); c++)
+            {
+                pCreature = dynamic_cast<CreatureA *>(creatures[c]);
+                pGCreature = dynamic_cast<QGraphicsItem*>(creatures[c]);
+
+                pCreature->setView(view);
+                pCreature->setX((double)view->getEnvMapMat().cols / 2.0);
+                pCreature->setY((double)view->getEnvMapMat().rows / 2.0);
+
+                pGCreature->setPos(QPointF(pCreature->getX(), pCreature->getY()));
+                pGCreature->setRotation(pCreature->getA());
+                pGCreature->setOpacity(1.0);
+                scene->addItem(pGCreature);
+            }
+
+            qDebug("Generation %d [%d]", ++generation, colony->getColonySize());
+
+            view->update();
+
+            lifeTimer->start();
+            colony->resumeLife();
         }
 
         fpscEnv++;

@@ -9,16 +9,16 @@
 #include "opencv2/imgproc/types_c.h"
 
 
-inline QImage  cvMatToQImage( const cv::Mat *inMat )
+inline QImage  cvMatToQImage( const cv::Mat inMat )
 {
-  switch ( inMat->type() )
+  switch ( inMat.type() )
   {
      // 8-bit, 4 channel
      case CV_8UC4:
      {
-        QImage image( inMat->data,
-                      inMat->cols, inMat->rows,
-                      static_cast<int>(inMat->step),
+        QImage image( inMat.data,
+                      inMat.cols, inMat.rows,
+                      static_cast<int>(inMat.step),
                       QImage::Format_ARGB32 );
 
         return image;
@@ -27,9 +27,9 @@ inline QImage  cvMatToQImage( const cv::Mat *inMat )
      // 8-bit, 3 channel
      case CV_8UC3:
      {
-        QImage image( inMat->data,
-                      inMat->cols, inMat->rows,
-                      static_cast<int>(inMat->step),
+        QImage image( inMat.data,
+                      inMat.cols, inMat.rows,
+                      static_cast<int>(inMat.step),
                       QImage::Format_RGB888 );
 
         return image.rgbSwapped();
@@ -39,9 +39,9 @@ inline QImage  cvMatToQImage( const cv::Mat *inMat )
      case CV_8UC1:
      {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 5, 0)
-        QImage image( inMat->data,
-                      inMat->cols, inMat->rows,
-                      static_cast<int>(inMat->step),
+        QImage image( inMat.data,
+                      inMat.cols, inMat.rows,
+                      static_cast<int>(inMat.step),
                       QImage::Format_Grayscale8 );
 #else
         static QVector<QRgb>  sColorTable;
@@ -57,9 +57,9 @@ inline QImage  cvMatToQImage( const cv::Mat *inMat )
            }
         }
 
-        QImage image( inMat->data,
-                      inMat->cols, inMat->rows,
-                      static_cast<int>(inMat->step),
+        QImage image( inMat.data,
+                      inMat.cols, inMat.rows,
+                      static_cast<int>(inMat.step),
                       QImage::Format_Indexed8 );
 
         image.setColorTable( sColorTable );
@@ -69,14 +69,14 @@ inline QImage  cvMatToQImage( const cv::Mat *inMat )
      }
 
      default:
-        qWarning() << "ASM::cvMatToQImage() - cv::Mat image type not handled in switch:" << inMat->type();
+        qWarning() << "ASM::cvMatToQImage() - cv::Mat image type not handled in switch:" << inMat.type();
         break;
   }
 
   return QImage();
 }
 
-inline QPixmap cvMatToQPixmap( const cv::Mat *inMat )
+inline QPixmap cvMatToQPixmap( const cv::Mat inMat )
 {
   return QPixmap::fromImage( cvMatToQImage( inMat ) );
 }

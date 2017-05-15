@@ -1,5 +1,10 @@
 #include "neuron.h"
 
+Neuron::Neuron()
+{
+
+}
+
 Neuron::Neuron(Type nt, TransferFunction ntf)
 {
     neuronType = nt;

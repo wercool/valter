@@ -21,6 +21,8 @@ public:
 
     void feedForward(vector<double> inputs);
 
+    vector<Neuron *> getNeurons() const;
+
 private:
     vector<Neuron *> neurons;
 };

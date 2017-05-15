@@ -29,9 +29,9 @@ PerlinNoiseEnvironment::PerlinNoiseEnvironment()
     }
 }
 
-cv::Mat * PerlinNoiseEnvironment::generate(const cv::Size &size, const double &scale)
+cv::Mat PerlinNoiseEnvironment::generate(const cv::Size &size, const double &scale)
 {
-    cv::Mat *img = new cv::Mat(size, CV_8UC1);
+    cv::Mat img = cv::Mat(size, CV_8UC1);
 
     for (int y = 0; y < size.height; ++y)
     {
@@ -39,7 +39,7 @@ cv::Mat * PerlinNoiseEnvironment::generate(const cv::Size &size, const double &s
         {
             double p = noise(x  * scale, y * scale, 0.0); // -1.0`1.0
             p = (p + 1.0) / 2.0; // 0.0`1.0
-            img->at<uchar>(cv::Point(x, y)) = (uchar)(p * 255);
+            img.at<uchar>(cv::Point(x, y)) = (uchar)(p * 255);
         }
     }
 

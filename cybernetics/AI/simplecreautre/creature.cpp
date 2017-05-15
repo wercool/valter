@@ -52,6 +52,26 @@ void Creature::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
 }
 
+View *Creature::getView() const
+{
+    return view;
+}
+
+void Creature::setView(View *value)
+{
+    view = value;
+}
+
+bool Creature::getLifeStopped() const
+{
+    return lifeStopped;
+}
+
+void Creature::setLifeStopped(bool value)
+{
+    lifeStopped = value;
+}
+
 double Creature::getVitality() const
 {
     return vitality;
@@ -70,16 +90,6 @@ int Creature::getDLifeTime() const
 void Creature::setDLifeTime(int value)
 {
     dLifeTime = value;
-}
-
-cv::Mat *Creature::getEnvMatMap() const
-{
-    return envMatMap;
-}
-
-void Creature::setEnvMatMap(cv::Mat *value)
-{
-    envMatMap = value;
 }
 
 bool Creature::getLifeSuspended() const

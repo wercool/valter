@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QToolButton>
 #include <QPushButton>
+#include <QFileDialog>
 #include <QTimer>
 
 #include "view.h"
@@ -28,6 +29,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
     void populateColony();
+    void killColony();
 
 private:
     View *view;
@@ -35,6 +37,7 @@ private:
     QTimer *lifeTimer;
 
     QPushButton *perlinNoiseEnvironmentMapGenerateButton;
+    QPushButton *loadImageButton;
     QToolButton *startButton;
 
     Colony *colony;
@@ -50,6 +53,7 @@ private slots:
     void startLifeCallback(bool state);
     void lifeTimerCallback();
     void generateEnvironmentMap();
+    void loadImageCallback();
     void addDebugGeometry();
 
 };

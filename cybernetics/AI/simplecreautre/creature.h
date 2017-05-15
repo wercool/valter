@@ -7,7 +7,10 @@
 
 #include <chrono>
 #include <thread>
+#include <mutex>
 #include <math.h>
+
+#include "view.h"
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
@@ -55,14 +58,20 @@ public:
     bool getLifeSuspended() const;
     void setLifeSuspended(bool value);
 
-    cv::Mat *getEnvMatMap() const;
-    void setEnvMatMap(cv::Mat *value);
+    cv::Mat getEnvMatMap() const;
+    void setEnvMatMap(cv::Mat value);
 
     int getDLifeTime() const;
     void setDLifeTime(int value);
 
     double getVitality() const;
     void setVitality(double value);
+
+    bool getLifeStopped() const;
+    void setLifeStopped(bool value);
+
+    View *getView() const;
+    void setView(View *value);
 
 protected:
     // QGraphicsItem interface
@@ -71,6 +80,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) Q_DECL_OVERRIDE;
 
     double vitality = 1.0;
+    std::mutex env_map_mutex;
 
 private:
 
@@ -81,8 +91,9 @@ private:
     int dLifeTime = 5;
 
     bool lifeSuspended = true;
+    bool lifeStopped = false;
 
-    cv::Mat *envMatMap;
+    View *view;
 
     virtual void lifeThreadProcess();
 };

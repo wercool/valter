@@ -43,8 +43,8 @@ public:
     GraphicsView *getGraphicsView() const;
     void setGraphicsView(GraphicsView *value);
 
-    cv::Mat *getEnvMapMat() const;
-    void setEnvMapMat(cv::Mat *value);
+    cv::Mat getEnvMapMat() const;
+    void setEnvMapMat(cv::Mat value);
 
     void updateEnvMap();
 
@@ -62,7 +62,7 @@ private:
     QToolButton *dragModeButton;
     QSlider *zoomSlider;
 
-    cv::Mat *envMapMat;
+    cv::Mat envMapMat;
     QPixmap envPixmap;
 };
 

@@ -155,12 +155,12 @@ void View::togglePointerMode()
     graphicsView->setInteractive(selectModeButton->isChecked());
 }
 
-cv::Mat *View::getEnvMapMat() const
+cv::Mat View::getEnvMapMat() const
 {
     return envMapMat;
 }
 
-void View::setEnvMapMat(cv::Mat *value)
+void View::setEnvMapMat(cv::Mat value)
 {
     envMapMat = value;
     setEnvPixmap(cvMatToQPixmap(envMapMat));
