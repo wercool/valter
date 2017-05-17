@@ -3,6 +3,8 @@
 
 #include <QGraphicsView>
 #include <QWheelEvent>
+#include <QtOpenGL>
+#include <QtWidgets>
 
 #include <qmath.h>
 
@@ -19,13 +21,12 @@ public:
 
     void setupMatrix();
 
+    int zoomLevel = 0.0;
+
 protected:
     void wheelEvent(QWheelEvent *event) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    int zoomLevel = 0.0;
     DragMode dragMode = DragMode::RubberBandDrag;
 };
 

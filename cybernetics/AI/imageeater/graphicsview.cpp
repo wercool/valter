@@ -1,6 +1,6 @@
 #include "graphicsview.h"
 
-GraphicsView::GraphicsView(QWidget *parent)
+GraphicsView::GraphicsView(QWidget *parent): QGraphicsView()
 {
     Q_UNUSED(parent);
 }
@@ -23,27 +23,6 @@ void GraphicsView::wheelEvent(QWheelEvent *event)
     {
         QGraphicsView::wheelEvent(event);
     }
-}
-
-void GraphicsView::mousePressEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
-    {
-        if (event->modifiers() & Qt::ControlModifier)
-        {
-            setDragMode(QGraphicsView::ScrollHandDrag);
-        }
-    }
-    QGraphicsView::mousePressEvent(event);
-}
-
-void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
-{
-    if (event->button() == Qt::LeftButton)
-    {
-        setDragMode(QGraphicsView::RubberBandDrag);
-    }
-    QGraphicsView::mousePressEvent(event);
 }
 
 void GraphicsView::zoomIn(int level)

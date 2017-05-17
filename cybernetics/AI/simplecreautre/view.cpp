@@ -152,7 +152,7 @@ void View::togglePointerMode()
     graphicsView->setDragMode(selectModeButton->isChecked()
                               ? QGraphicsView::RubberBandDrag
                               : QGraphicsView::ScrollHandDrag);
-    graphicsView->setInteractive(selectModeButton->isChecked());
+//    graphicsView->setInteractive(selectModeButton->isChecked());
 }
 
 cv::Mat View::getEnvMapMat() const

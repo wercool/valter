@@ -8,6 +8,8 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+qtHaveModule(opengl): QT += opengl
+
 TARGET = imageeater
 TEMPLATE = app
 
@@ -36,12 +38,25 @@ SOURCES += main.cpp\
     graphicsview.cpp \
     creature/colony.cpp \
     creature/creaturegi.cpp \
-    creature/creature.cpp
+    creature/creature.cpp \
+    utils/perlinnoisemat.cpp \
+    creature/neuron.cpp \
+    creature/receptor.cpp \
+    creature/creaturea.cpp \
+    creature/neuralnetwork.cpp
 
 HEADERS  += mainwindow.h \
     graphicsview.h \
     creature/colony.h \
     creature/creaturegi.h \
-    creature/creature.h
+    creature/creature.h \
+    utils/perlinnoisemat.h \
+    creature/neuron.h \
+    creature/receptor.h \
+    creature/creaturea.h \
+    creature/neuralnetwork.h \
+    utils/generic-utils.h
 
 FORMS    += mainwindow.ui
+
+QMAKE_CXXFLAGS += -std=c++11
