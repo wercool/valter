@@ -74,6 +74,16 @@ void Creature::lifeThreadProcess()
     // to be override in nested
 }
 
+int Creature::getDLifeTime() const
+{
+    return dLifeTime;
+}
+
+void Creature::setDLifeTime(int value)
+{
+    dLifeTime = value;
+}
+
 double Creature::getSaturation() const
 {
     return saturation;

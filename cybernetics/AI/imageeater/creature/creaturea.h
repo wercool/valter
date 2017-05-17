@@ -19,8 +19,6 @@ public:
 protected:
     void lifeThreadProcess() override;
 
-private:
-    int dLifeTime = 10;
 };
 
 #endif // CREATUREA_H

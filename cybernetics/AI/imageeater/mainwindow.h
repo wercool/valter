@@ -30,7 +30,14 @@ public:
 private slots:
     void lifeTimerCallback();
     void generatePerlinNoiseEnvMap(cv::Size size, double scale);
-    QPixmap cvMatToPixMap(cv::Mat mat);
+    inline static QPixmap cvMatToPixMap(cv::Mat mat)
+    {
+        QPixmap pixmap = QPixmap::fromImage(QImage(reinterpret_cast<uchar const*>(mat.data),
+                                                  mat.cols,
+                                                  mat.rows,
+                                                  QImage::Format_Grayscale8));
+        return pixmap;
+    }
 
     void updateEnvPixmap();
     void activateLife(bool state);

@@ -35,6 +35,9 @@ public:
     double getVitality() const;
     double getSaturation() const;
 
+    void setDLifeTime(int value);
+    int getDLifeTime() const;
+
     // QGraphicsItem interface
 public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -53,6 +56,8 @@ protected:
     double vitality = 1.0;
     double saturation = 0.0;
     double pathLength = 0.0;
+
+    int dLifeTime = 100;
 };
 
 #endif // CREATURE_H

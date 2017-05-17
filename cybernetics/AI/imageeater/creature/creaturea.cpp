@@ -303,6 +303,8 @@ void CreatureA::lifeThreadProcess()
 //            }
 //        }
 
+            cv::Rect rect(cv::Point(), envMapMat->size());
+
             vitality -= dVitality;
 
             double aRad = getA() * M_PI / 180.0;
@@ -310,9 +312,12 @@ void CreatureA::lifeThreadProcess()
             Receptor *lR = receptors[0];
             lR->gx = getX() + lR->lx * cos(aRad) - lR->ly * sin(aRad);
             lR->gy = getY() + lR->lx * sin(aRad) + lR->ly * cos(aRad);
-            if ((int)lR->gx > 0 && (int)lR->gy > 0 && (int)lR->gx < envMapMat->cols && (int)lR->gy < envMapMat->rows)
+
+            cv::Point plR((int)lR->gx, (int)lR->gy);
+
+            if (rect.contains(plR))
             {
-                lR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>((int)lR->gy, (int)lR->gx)) / 255.0 });
+                lR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(plR) / 255.0) });
             }
             else
             {
@@ -323,9 +328,12 @@ void CreatureA::lifeThreadProcess()
             Receptor *rR = receptors[1];
             rR->gx = getX() + rR->lx * cos(aRad) - rR->ly * sin(aRad);
             rR->gy = getY() + rR->lx * sin(aRad) + rR->ly * cos(aRad);
-            if ((int)rR->gx > 0 && (int)rR->gy > 0 && (int)rR->gx < envMapMat->cols && (int)rR->gy < envMapMat->rows)
+
+            cv::Point prR((int)rR->gx, (int)rR->gy);
+
+            if (rect.contains(prR))
             {
-                rR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>((int)rR->gy, (int)rR->gx)) / 255.0 });
+                rR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) });
             }
             else
             {
@@ -336,34 +344,32 @@ void CreatureA::lifeThreadProcess()
 
             Receptor *vitalityR = receptors[2];
             double inputIntensity = 0.0;
-            if (getIntX() > 0 && getIntY() > 0 && getIntX() < envMapMat->cols && getIntY() < envMapMat->rows)
+
+            cv::Point pc(getIntX(), getIntY());
+            if (rect.contains(pc))
             {
                 for (int xs = -rx; xs < rx; xs++)
                 {
-                    if (getIntX() + xs < 0 || getIntX() + xs > envMapMat->cols)
-                    {
-                        continue;
-                    }
                     for (int ys = -ry; ys < ry; ys++)
                     {
-                        if (getIntY() + ys < 0 || getIntY() + ys > envMapMat->rows)
-                        {
-                            continue;
-                        }
-
                         if((xs*xs + ys*ys) < rx*ry)
                         {
-                            double intensity = (double) envMapMat->at<uchar>(getIntY() + ys, getIntX() + xs);
-                            if (intensity + 1 < 255.0)
+                            cv::Point pcs(getIntX() + xs, getIntY() + ys);
+                            if (rect.contains(pcs))
                             {
-                                inputIntensity += (255.0 - intensity) / 25500.0;
+                                double intensity = (double) envMapMat->at<uchar>(pcs);
+                                if (intensity + 1 < 255.0)
+                                {
+                                    inputIntensity += (255.0 - intensity) / 25500.0;
 
 
 
-                                // eat process
-                                envMapMat->at<uchar>(getIntY() + ys, getIntX() + xs) =  (uchar)intensity + 1;
+                                    // eat process
+                                    envMapMat->at<uchar>(pcs) =  (uchar)intensity + 1;
 
 
+
+                                }
                             }
                         }
                     }
@@ -374,6 +380,8 @@ void CreatureA::lifeThreadProcess()
             {
                 inputIntensity -= dVitality * 10;
             }
+
+            envMapMutex->unlock();
 
             vitality += (vitality > 1.0) ? 0.0 : inputIntensity;
 
@@ -395,7 +403,7 @@ void CreatureA::lifeThreadProcess()
             Neuron *n1 = outputNeurons[1];
             Neuron *n2 = outputNeurons[2];
 
-            double angleM = 2.0 * ((vitality != 0.0) ? vitality : 1);
+            double angleM = 2.0 * (1 / (vitality != 0.0) ? vitality : 1) * ((vitality != 0.0) ? vitality : 1);
             double stepM = 0.5 * ((vitality != 0.0) ? vitality : 1);
 
             double cA = (n0->getOutput() - n2->getOutput()) * angleM * 180.0 / M_PI;
@@ -410,10 +418,7 @@ void CreatureA::lifeThreadProcess()
             setX(cX);
             setY(cY);
 
-
-            envMapMutex->unlock();
-
-            std::this_thread::sleep_for(std::chrono::microseconds(dLifeTime));
+            std::this_thread::sleep_for(std::chrono::microseconds(dLifeTime + 1));
 
             if (vitality <= 0.0)
             {
@@ -421,5 +426,7 @@ void CreatureA::lifeThreadProcess()
                 break;
             }
     }
+    envMapMutex->unlock();
     lifeThread = nullptr;
 }
+

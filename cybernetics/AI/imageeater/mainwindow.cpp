@@ -67,7 +67,7 @@ void MainWindow::lifeTimerCallback()
     static int fpsc = 0;
     static int fpscEnvMap = 0;
 
-    if (fpsc > 2)
+    if (fpsc > 5)
     {
         vector<Creature *> pCreatures = colony.getCreatures();
         Creature *pCreature;
@@ -77,18 +77,29 @@ void MainWindow::lifeTimerCallback()
             pCreature = pCreatures[i];
             if (pCreature != nullptr)
             {
-                pCreatureGI = dynamic_cast<QGraphicsItem *>(pCreature);
+                pCreatureGI = static_cast<QGraphicsItem *>(pCreature);
 
-                if (pCreature->getVitality() > 0.0)
+                if (pCreatureGI != nullptr)
                 {
-                    pCreatureGI->setPos(QPointF(pCreature->getX(), pCreature->getY()));
-                    pCreatureGI->setRotation(pCreature->getA());
-                    pCreatureGI->setOpacity(pCreature->getVitality());
+                    if (pCreature->getVitality() > 0.0)
+                    {
+                        pCreatureGI->setPos(QPointF(pCreature->getX(), pCreature->getY()));
+                        pCreatureGI->setRotation(pCreature->getA());
+                        pCreatureGI->setOpacity(pCreature->getVitality());
+                    }
+                    else
+                    {
+                        pCreatureGI->setOpacity(1.0);
+                    }
                 }
                 else
                 {
-                    pCreatureGI->setOpacity(1.0);
+                    continue;
                 }
+            }
+            else
+            {
+                continue;
             }
         }
         fpsc = 0;
@@ -138,20 +149,9 @@ void MainWindow::generatePerlinNoiseEnvMap(cv::Size size, double scale)
     updateEnvPixmap();
 }
 
-QPixmap MainWindow::cvMatToPixMap(cv::Mat mat)
-{
-    QPixmap pixmap = QPixmap::fromImage(QImage(reinterpret_cast<uchar const*>(mat.data),
-                                              mat.cols,
-                                              mat.rows,
-                                              QImage::Format_Grayscale8));
-    return pixmap;
-}
-
 void MainWindow::updateEnvPixmap()
 {
-    envMapMutex.lock();
     envMapMat = envMapOriginalMat.clone();
-    envMapMutex.unlock();
 
     envMapPixmapItem->setPixmap(cvMatToPixMap(envMapMat));
     graphicsViewScene->setSceneRect(-100.0, -100.0, envMapMat.cols + 100, envMapMat.rows + 100);
@@ -169,15 +169,26 @@ void MainWindow::activateLife(bool state)
     }
     else
     {
+        lifeTimer->stop();
         colony.deactive();
         ui->startLifeButton->setText("Resume Life");
-        lifeTimer->stop();
     }
 }
 
 void MainWindow::on_startLifeButton_clicked(bool checked)
 {
-    activateLife(checked);
+    if (colony.getColonySize() > 0)
+    {
+        activateLife(checked);
+    }
+    else
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("No Colony set");
+        msgBox->exec();
+        ui->startLifeButton->setChecked(!checked);
+        return;
+    }
 }
 
 void MainWindow::on_populateColonyButton_clicked()
@@ -190,7 +201,7 @@ void MainWindow::on_populateColonyButton_clicked()
     {
         colony.killCreatures();
         colony.setEnvMapMat(&envMapMat);
-        colony.populate(Colony::Type::A, 50);
+        colony.populate(Colony::Type::A, ui->colonySizeSpinBox->value());
     }
     else
     {

@@ -36,9 +36,17 @@ vector<Neuron *> NeuralNetwork::getInputNeurons()
     for (unsigned int ni = 0; ni < neurons.size(); ni++)
     {
         Neuron *n = neurons[ni];
-        if (n->neuronType == Neuron::Type::Input)
+        if (n != nullptr)
         {
-            inputNeurons.push_back(n);
+            if (n->neuronType == Neuron::Type::Input)
+            {
+                inputNeurons.push_back(n);
+            }
+        }
+        else
+        {
+            ni--;
+            continue;
         }
     }
     return inputNeurons;

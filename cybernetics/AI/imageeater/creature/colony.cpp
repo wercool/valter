@@ -40,6 +40,7 @@ void Colony::populate(Colony::Type type, unsigned int size)
         }
 
         pCreature->id = i;
+        pCreature->setDLifeTime(pCreature->getDLifeTime() * getColonySize());
         pCreature->setEnvMapMat(envMapMat);
         pCreature->setEnvMapMutex(envMapMutex);
         addCreature(pCreature);
@@ -73,9 +74,9 @@ cv::Mat *Colony::getEnvMapMat() const
 
 void Colony::setEnvMapMat(cv::Mat *value)
 {
-    envMapMutex->lock();
+//    envMapMutex->lock();
     envMapMat = value;
-    envMapMutex->unlock();
+//    envMapMutex->unlock();
 }
 
 void Colony::setEnvMapMutex(std::mutex *value)
