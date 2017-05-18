@@ -20,7 +20,7 @@ void Colony::populate(Colony::Type type, unsigned int size, vector<NeuralNetwork
         {
             case Type::A:
             {
-                CreatureA *pCreatureA = new CreatureA(5.0, 5.0, QColor(0, 255, 0, 255));
+                CreatureA *pCreatureA = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255));
 
                 if (nns.size() == 0)
                 {

@@ -400,11 +400,11 @@ void CreatureA::lifeThreadProcess()
             vitalityR->receptorFunction();
 
 
-//            double drx = rxI + saturation;
-//            double dry = rxI + saturation;
+            double drx = rxI + saturation;
+            double dry = rxI + saturation;
 
-//            rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
-//            ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
+            rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
+            ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
 
             nn->feedForward({ lR->getOutput(), rR->getOutput(), vitalityR->getOutput() });
 
