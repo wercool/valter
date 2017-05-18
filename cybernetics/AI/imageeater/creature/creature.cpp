@@ -35,6 +35,11 @@ void Creature::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     CreatureGI::paint(painter, option, widget);
 }
 
+void Creature::setNN(NeuralNetwork *value)
+{
+    nn = value;
+}
+
 void Creature::setEnvMapMat(cv::Mat *value)
 {
     envMapMat = value;
@@ -72,6 +77,11 @@ NeuralNetwork *Creature::getNN() const
 void Creature::lifeThreadProcess()
 {
     // to be override in nested
+}
+
+double Creature::getPathLength() const
+{
+    return pathLength;
 }
 
 int Creature::getDLifeTime() const

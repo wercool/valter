@@ -8,5 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
+    std::srand(std::time(0));
+
     return app.exec();
 }

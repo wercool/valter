@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    }
 
     graphicsViewScene = new QGraphicsScene;
+    graphicsViewScene->setItemIndexMethod(QGraphicsScene::NoIndex);
     ui->graphicsView->setScene(graphicsViewScene);
     ui->graphicsView->scene()->clear();
 
@@ -67,17 +68,17 @@ void MainWindow::lifeTimerCallback()
     static int fpsc = 0;
     static int fpscEnvMap = 0;
 
-    if (fpsc > 5)
+    // Drawing
+    if (fpsc > 30)
     {
         vector<Creature *> pCreatures = colony.getCreatures();
-        Creature *pCreature;
-        QGraphicsItem *pCreatureGI;
+
         for (unsigned int i = 0; i < pCreatures.size(); i++)
         {
-            pCreature = pCreatures[i];
+            Creature *pCreature = pCreatures[i];
             if (pCreature != nullptr)
             {
-                pCreatureGI = static_cast<QGraphicsItem *>(pCreature);
+                QGraphicsItem *pCreatureGI = static_cast<QGraphicsItem *>(pCreature);
 
                 if (pCreatureGI != nullptr)
                 {
@@ -104,7 +105,7 @@ void MainWindow::lifeTimerCallback()
         }
         fpsc = 0;
 
-        if (fpscEnvMap > 10)
+        if (fpscEnvMap > 2)
         {
             if (ui->updateViewCheckBox->isChecked())
             {
@@ -136,9 +137,18 @@ void MainWindow::lifeTimerCallback()
 
     if ((double)colony.getStillAliveNum() / (double)colony.getColonySize() < 0.5)
     {
+        lifeTimer->stop();
+        colony.deactive();
 
+        updateEnvPixmap();
+
+        colony.populateNextGeneration();
+
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
+
+        colony.active();
+        lifeTimer->start();
     }
-
 }
 
 void MainWindow::generatePerlinNoiseEnvMap(cv::Size size, double scale)
@@ -151,12 +161,23 @@ void MainWindow::generatePerlinNoiseEnvMap(cv::Size size, double scale)
 
 void MainWindow::updateEnvPixmap()
 {
-    envMapMat = envMapOriginalMat.clone();
+    if (!envMapOriginalMat.empty())
+    {
+        while(!envMapMutex.try_lock());
+        envMapMat = envMapOriginalMat.clone();
+        colony.setEnvMapMat(&envMapMat);
+        envMapMutex.unlock();
 
-    envMapPixmapItem->setPixmap(cvMatToPixMap(envMapMat));
-    graphicsViewScene->setSceneRect(-100.0, -100.0, envMapMat.cols + 100, envMapMat.rows + 100);
-
-    colony.setEnvMapMat(&envMapMat);
+        envMapPixmapItem->setPixmap(cvMatToPixMap(envMapMat));
+        graphicsViewScene->setSceneRect(-100.0, -100.0, envMapMat.cols + 100, envMapMat.rows + 100);
+    }
+    else
+    {
+        QMessageBox *msgBox = new QMessageBox(0);
+        msgBox->setText("Env Map is not set");
+        msgBox->exec();
+        return;
+    }
 }
 
 void MainWindow::activateLife(bool state)
@@ -202,6 +223,7 @@ void MainWindow::on_populateColonyButton_clicked()
         colony.killCreatures();
         colony.setEnvMapMat(&envMapMat);
         colony.populate(Colony::Type::A, ui->colonySizeSpinBox->value());
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
     }
     else
     {
@@ -214,8 +236,6 @@ void MainWindow::on_populateColonyButton_clicked()
 
 void MainWindow::on_generateEnvMapButton_clicked()
 {
-    on_killColonyButton_clicked();
-
     int pnmW = ui->perlinNoiseEnvMapWSpinBox->value();
     int pnmH = ui->perlinNoiseEnvMapHSpinBox->value();
     double pnmS = ui->perlinNoiseEnvMapSSpinBox->value();
@@ -238,4 +258,9 @@ void MainWindow::on_killColonyButton_clicked()
         colony.deactive();
         colony.killCreatures();
     }
+}
+
+void MainWindow::on_updateEnvMapButton_clicked()
+{
+    updateEnvPixmap();
 }

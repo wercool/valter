@@ -29,7 +29,10 @@ public:
     };
     Neuron();
     Neuron(Type nt, TransferFunction ntf);
+    Neuron(Neuron *n);
     virtual ~Neuron();
+
+
     Type neuronType;
     TransferFunction neuronTransferFunction;
 

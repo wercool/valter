@@ -1,10 +1,5 @@
 #include "neuron.h"
 
-Neuron::Neuron()
-{
-
-}
-
 Neuron::Neuron(Type nt, TransferFunction ntf)
 {
     neuronType = nt;
@@ -13,7 +8,14 @@ Neuron::Neuron(Type nt, TransferFunction ntf)
 
 Neuron::~Neuron()
 {
+    qDebug("            Neuron %d deleted", id);
+}
 
+Neuron::Neuron(Neuron *n)
+{
+    neuronType = n->neuronType;
+    neuronTransferFunction = n->neuronTransferFunction;
+    setInputWeights(n->getInputWeights());
 }
 
 void Neuron::setInputs(vector<double> inputs)

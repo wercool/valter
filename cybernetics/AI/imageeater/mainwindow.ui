@@ -21,6 +21,13 @@
        <number>0</number>
       </property>
       <item>
+       <widget class="QPushButton" name="updateEnvMapButton">
+        <property name="text">
+         <string>Update Env Map</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="loadEnvMapButton">
         <property name="text">
          <string>Load Env Map</string>
@@ -115,6 +122,16 @@
        <number>0</number>
       </property>
       <item>
+       <widget class="QPushButton" name="startLifeButton">
+        <property name="text">
+         <string>Start Life</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="populateColonyButton">
         <property name="text">
          <string>Populate Colony</string>
@@ -141,16 +158,6 @@
        <widget class="QPushButton" name="killColonyButton">
         <property name="text">
          <string>Kill Colony</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="startLifeButton">
-        <property name="text">
-         <string>Start Life</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
         </property>
        </widget>
       </item>

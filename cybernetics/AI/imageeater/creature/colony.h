@@ -26,7 +26,7 @@ public:
         C
     };
 
-    void populate(Type type, unsigned int size);
+    void populate(Type type, unsigned int size, vector<NeuralNetwork *> nns = {});
     void active();
     void deactive();
 
@@ -44,6 +44,22 @@ public:
     void killCreatures();
 
     std::vector<Creature *> getCreatures() const;
+    vector<Creature *> getSurvivedCreatures();
+
+    void populateNextGeneration();
+
+    vector<Creature *> sortedByVitality(vector<Creature *> creatures);
+    vector<Creature *> sortedBySaturation(vector<Creature *> creatures);
+    vector<Creature *> sortedByPathLength(vector<Creature *> creatures);
+    vector<Creature *> sortedByPathLengthAndSaturation(vector<Creature *> creatures);
+
+    static bool sortByVitality(Creature * c1, Creature * c2);
+    static bool sortBySaturation(Creature * c1, Creature * c2);
+    static bool sortByPathLength(Creature * c1, Creature * c2);
+    static bool sortByPathLengthAndSaturation(Creature * c1, Creature * c2);
+
+    int getGeneration() const;
+    void setGeneration(int value);
 
 protected:
     QGraphicsScene *graphicsViewScene;
@@ -51,6 +67,9 @@ protected:
     std::mutex *envMapMutex = nullptr;
 
     std::vector<Creature *> creatures;
+
+private:
+    int generation = 0;
 };
 
 #endif // COLONY_H

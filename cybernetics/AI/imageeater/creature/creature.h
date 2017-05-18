@@ -25,6 +25,7 @@ public:
 
     virtual void initNN(int hiddenNeuronsNum, int outputNeuronsNum);
     NeuralNetwork *getNN() const;
+    void setNN(NeuralNetwork *value);
 
     void setEnvMapMat(cv::Mat *value);
     void setEnvMapMutex(mutex *value);
@@ -34,6 +35,7 @@ public:
 
     double getVitality() const;
     double getSaturation() const;
+    double getPathLength() const;
 
     void setDLifeTime(int value);
     int getDLifeTime() const;

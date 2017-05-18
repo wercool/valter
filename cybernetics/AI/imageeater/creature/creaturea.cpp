@@ -93,8 +93,8 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     Creature::paint(painter, option, widget);
 
-    double lReceptorAngle = -45.0 * M_PI / 180.0;
-    double rReceptorAngle = 45.0 * M_PI / 180.0;
+    double lReceptorAngle = -90.0 * M_PI / 180.0;
+    double rReceptorAngle = 90.0 * M_PI / 180.0;
     double lReceptorLength = ry * 2.0;
     double rReceptorLength = ry * 2.0;
     double tailLength = 50.0 + pathLength;
@@ -267,7 +267,7 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void CreatureA::lifeThreadProcess()
 {
-    double dVitality = 0.0001;
+    double dVitality = 0.002;
 
     while (alive)
     {
@@ -306,6 +306,13 @@ void CreatureA::lifeThreadProcess()
             cv::Rect rect(cv::Point(), envMapMat->size());
 
             vitality -= dVitality;
+
+            if (vitality <= 0.0)
+            {
+                envMapMutex->unlock();
+                color = QColor(0, 0, 0, 255);
+                break;
+            }
 
             double aRad = getA() * M_PI / 180.0;
 
@@ -383,18 +390,21 @@ void CreatureA::lifeThreadProcess()
 
             envMapMutex->unlock();
 
-            vitality += (vitality > 1.0) ? 0.0 : inputIntensity;
-
             saturation += inputIntensity;
 
-            double drx = rxI + saturation;
-            double dry = rxI + saturation;
+//            vitality += (vitality > 1.0) ? 0.0 : inputIntensity;
 
-            rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
-            ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
+            vitality += saturation / 1000;
 
             vitalityR->setIntputs({ vitality });
             vitalityR->receptorFunction();
+
+
+//            double drx = rxI + saturation;
+//            double dry = rxI + saturation;
+
+//            rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
+//            ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
 
             nn->feedForward({ lR->getOutput(), rR->getOutput(), vitalityR->getOutput() });
 
@@ -403,30 +413,18 @@ void CreatureA::lifeThreadProcess()
             Neuron *n1 = outputNeurons[1];
             Neuron *n2 = outputNeurons[2];
 
-            double angleM = 2.0 * (1 / (vitality != 0.0) ? vitality : 1) * ((vitality != 0.0) ? vitality : 1);
-            double stepM = 0.5 * ((vitality != 0.0) ? vitality : 1);
-
-            double cA = (n0->getOutput() - n2->getOutput()) * angleM * 180.0 / M_PI;
-            double cX = getX() + n1->getOutput() * sin(getA()) * stepM;
-            double cY = getY() + n1->getOutput() * cos(getA()) * stepM;
-
+            double cA = (n0->getOutput() - n2->getOutput()) * 180.0 / M_PI;
+            double cX = getX() + n1->getOutput() * sin(getA());
+            double cY = getY() + n1->getOutput() * cos(getA());
 
             pathLength += sqrt(pow((getX() - cX), 2) + pow((getY() - cY), 2)) * 0.01;
-
 
             setA(cA);
             setX(cX);
             setY(cY);
 
             std::this_thread::sleep_for(std::chrono::microseconds(dLifeTime + 1));
-
-            if (vitality <= 0.0)
-            {
-                color = QColor(0, 0, 0, 255);
-                break;
-            }
     }
-    envMapMutex->unlock();
     lifeThread = nullptr;
 }
 

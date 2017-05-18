@@ -1,6 +1,8 @@
 #ifndef NEURALNETWORK_H
 #define NEURALNETWORK_H
 
+#include <chrono>
+
 #include "neuron.h"
 
 #include <QDebug>
@@ -12,9 +14,11 @@ class NeuralNetwork
 public:
     NeuralNetwork();
     NeuralNetwork(vector<Neuron *> neurons);
+    NeuralNetwork(NeuralNetwork *nn);
     virtual ~NeuralNetwork();
 
     void addNeuron(Neuron* n);
+    void mutateNeurons();
 
     vector<Neuron *> getInputNeurons();
     vector<Neuron *> getHiddenNeurons();

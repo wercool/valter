@@ -52,6 +52,8 @@ private slots:
 
     void on_killColonyButton_clicked();
 
+    void on_updateEnvMapButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
