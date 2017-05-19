@@ -5,6 +5,9 @@
 #include <QFileDialog>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
+#include <QVBoxLayout>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
@@ -54,6 +57,8 @@ private slots:
 
     void on_updateEnvMapButton_clicked();
 
+    void on_graphPushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 
@@ -70,6 +75,11 @@ private:
     QTimer *lifeTimer;
 
     Colony colony;
+
+    QWidget *graphWidget;
+    QVBoxLayout *graphWidgetLayout;
+
+    std::map<int, int> fitnessFunctionGraph;
 };
 
 #endif // MAINWINDOW_H

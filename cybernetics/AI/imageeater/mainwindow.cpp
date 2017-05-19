@@ -43,6 +43,12 @@ MainWindow::MainWindow(QWidget *parent) :
     colony.setEnvMapMutex(&envMapMutex);
 
     cv::namedWindow("Env Map", cv::WINDOW_KEEPRATIO);
+
+    graphWidget = new QWidget();
+    graphWidgetLayout = new QVBoxLayout;
+    graphWidget->setMinimumWidth(640);
+    graphWidget->setMinimumHeight(480);
+    graphWidget->setLayout(graphWidgetLayout);
 }
 
 MainWindow::~MainWindow()
@@ -160,6 +166,8 @@ void MainWindow::lifeTimerCallback()
             on_generateEnvMapButton_clicked();
         }
 
+        fitnessFunctionGraph[colony.getGeneration()] = (int)( ( (double)brightness / (double)envMapOriginalMatBrightness ) * 100);
+
         updateEnvPixmap();
 
         colony.populateNextGeneration();
@@ -236,6 +244,7 @@ void MainWindow::on_startLifeButton_clicked(bool checked)
 
 void MainWindow::on_populateColonyButton_clicked()
 {
+    fitnessFunctionGraph.clear();
     activateLife(false);
     ui->startLifeButton->setChecked(false);
     ui->startLifeButton->setText("Start Life");
@@ -285,4 +294,32 @@ void MainWindow::on_killColonyButton_clicked()
 void MainWindow::on_updateEnvMapButton_clicked()
 {
     updateEnvPixmap();
+}
+
+void MainWindow::on_graphPushButton_clicked()
+{
+    QtCharts::QLineSeries *series = new QtCharts::QLineSeries();
+
+    typedef std::map<int, int> fitnessFunctionGraphType;
+
+    for (fitnessFunctionGraphType::iterator iterator = fitnessFunctionGraph.begin(); iterator != fitnessFunctionGraph.end(); ++iterator)
+    {
+        series->append(iterator->first, iterator->second);
+    }
+
+    QtCharts::QChart *chart = new QtCharts::QChart();
+    chart->legend()->hide();
+    chart->addSeries(series);
+    chart->createDefaultAxes();
+    chart->setTitle("Fitness Function");
+
+    QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    QLayoutItem *child = graphWidgetLayout->takeAt(0);
+    delete child;
+
+    graphWidgetLayout->addWidget(chartView);
+
+    graphWidget->show();
 }

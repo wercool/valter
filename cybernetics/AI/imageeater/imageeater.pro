@@ -10,6 +10,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 qtHaveModule(opengl): QT += opengl
 
+QT += charts
+
 TARGET = imageeater
 TEMPLATE = app
 
