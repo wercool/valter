@@ -60,6 +60,7 @@ private:
     QGraphicsScene *graphicsViewScene;
 
     cv::Mat envMapOriginalMat;
+    int envMapOriginalMatBrightness = 0;
     cv::Mat envMapMat;
 
     QGraphicsPixmapItem *envMapPixmapItem;

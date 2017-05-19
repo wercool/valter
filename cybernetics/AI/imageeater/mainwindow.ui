@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>921</width>
+    <width>965</width>
     <height>628</height>
    </rect>
   </property>
@@ -102,6 +102,16 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="regenerateEnvMapCheckBox">
+        <property name="text">
+         <string>Regenerate Env Map</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -144,7 +154,7 @@
          <number>1</number>
         </property>
         <property name="maximum">
-         <number>150</number>
+         <number>500</number>
         </property>
         <property name="singleStep">
          <number>5</number>
@@ -158,26 +168,6 @@
        <widget class="QPushButton" name="killColonyButton">
         <property name="text">
          <string>Kill Colony</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="updateViewCheckBox">
-        <property name="text">
-         <string>Udapte View</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="cvShowCheckBox">
-        <property name="text">
-         <string>CV Show</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -199,7 +189,71 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Env Map Darkness:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QProgressBar" name="envMapDarknessProgressBar">
+        <property name="value">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="updateViewCheckBox">
+        <property name="text">
+         <string>Udapte View</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="cvShowCheckBox">
+        <property name="text">
+         <string>CV Show</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="updateCreaturesCheckBox">
+        <property name="text">
+         <string>Update creatures</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>

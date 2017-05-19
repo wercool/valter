@@ -71,6 +71,7 @@ void MainWindow::lifeTimerCallback()
     // Drawing
     if (fpsc > 30)
     {
+
         vector<Creature *> pCreatures = colony.getCreatures();
 
         for (unsigned int i = 0; i < pCreatures.size(); i++)
@@ -79,6 +80,15 @@ void MainWindow::lifeTimerCallback()
             if (pCreature != nullptr)
             {
                 QGraphicsItem *pCreatureGI = static_cast<QGraphicsItem *>(pCreature);
+
+                if (ui->updateCreaturesCheckBox->isChecked())
+                {
+                    pCreatureGI->setVisible(true);
+                }
+                else
+                {
+                    pCreatureGI->setVisible(false);
+                }
 
                 if (pCreatureGI != nullptr)
                 {
@@ -103,7 +113,7 @@ void MainWindow::lifeTimerCallback()
                 continue;
             }
         }
-        fpsc = 0;
+
 
         if (fpscEnvMap > 2)
         {
@@ -118,29 +128,37 @@ void MainWindow::lifeTimerCallback()
             }
             fpscEnvMap = 0;
         }
+
+        fpsc = 0;
         fpscEnvMap++;
     }
 
     fpsc++;
 
-    double colonySize;
+    int colonySize;
     if (colony.getColonySize() > 0)
     {
-        colonySize = (double)colony.getStillAliveNum() / (double)colony.getColonySize();
+        colonySize = (int)((double)colony.getStillAliveNum() / (double)colony.getColonySize() * 100);
     }
     else
     {
-        colonySize = 0.0;
+        colonySize = 0;
     }
+    ui->colonySizeProgressBar->setValue(colonySize);
 
-    ui->colonySizeProgressBar->setValue(round(colonySize * 100));
+    int brightness = cv::sum(envMapMat)[0];
+    int darkness = (int)( ( (double)envMapOriginalMatBrightness / (double)brightness ) * 100);
+    ui->envMapDarknessProgressBar->setValue(darkness);
 
-    if ((double)colony.getStillAliveNum() / (double)colony.getColonySize() < 0.2)
+    if (colonySize < 50 || darkness < 50)
     {
         lifeTimer->stop();
         colony.deactive();
 
-        on_generateEnvMapButton_clicked();
+        if (ui->regenerateEnvMapCheckBox->isChecked())
+        {
+            on_generateEnvMapButton_clicked();
+        }
 
         updateEnvPixmap();
 
@@ -169,6 +187,8 @@ void MainWindow::updateEnvPixmap()
         envMapMat = envMapOriginalMat.clone();
         colony.setEnvMapMat(&envMapMat);
         envMapMutex.unlock();
+
+        envMapOriginalMatBrightness = cv::sum(envMapMat)[0];
 
         envMapPixmapItem->setPixmap(cvMatToPixMap(envMapMat));
         graphicsViewScene->setSceneRect(-100.0, -100.0, envMapMat.cols + 100, envMapMat.rows + 100);

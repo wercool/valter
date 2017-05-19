@@ -18,8 +18,8 @@ cv::Mat PerlinNoiseMat::generate(const cv::Size &size, const double &scale)
     {
         for (int x = 0; x < size.width; ++x)
         {
-            double p = noise(x  * scale, y * scale, 0.0); // -1.0`1.0
-            p = (p + 1.0) / 1.05; // 0.0`1.0
+            double p = noise(x  * scale, y * scale, 0.0);
+            p = (p + 0.75) / 2.0;
             img.at<uchar>(cv::Point(x, y)) = (uchar)(p * 255);
         }
     }

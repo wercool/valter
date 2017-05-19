@@ -154,8 +154,8 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     double lLongReceptorAngle = -135.0 * M_PI / 180.0;
     double rLongReceptorAngle = 135.0 * M_PI / 180.0;
-    double lLongReceptorLength = ry * 8.0;
-    double rLongReceptorLength = ry * 8.0;
+    double lLongReceptorLength = ry * 10.0;
+    double rLongReceptorLength = ry * 10.0;
 
     double sinLLongReceptorAngle = sin(lLongReceptorAngle);
     double cosLLongReceptorAngle = cos(lLongReceptorAngle);
@@ -189,6 +189,8 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     // Long Receptors
     painter->setPen(QPen(fillColor, 0.2));
     painter->setBrush(Qt::gray);
+//    painter->drawEllipse(QPointF(lLR->lx, lLR->ly), rx*2, ry*2); //Left Long Sensor    R#3
+//    painter->drawEllipse(QPointF(rLR->lx, rLR->ly), rx*2, ry*2); //Right Long  Sensor  R#4
     painter->drawEllipse(QPointF(lLR->lx, lLR->ly), 4, 4); //Left Long Sensor    R#3
     painter->drawEllipse(QPointF(rLR->lx, rLR->ly), 4, 4); //Right Long  Sensor  R#4
 
@@ -216,7 +218,7 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(fillColor);
     painter->drawEllipse(QPointF(0.0, 0.0), rx, ry);
 
-    double neuronRadius = 2.0;
+    double neuronRadius = 0.2 * rx;
     const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
     if (lod > 1.0)
     {
@@ -391,12 +393,32 @@ void CreatureA::lifeThreadProcess()
         cv::Point plLR((int)lLR->gx, (int)lLR->gy);
         if (rect.contains(plLR))
         {
-            lLR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) * -0.5 });
+            lLR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) * 0.00001 });
         }
         else
         {
             lLR->setIntputs({ 0.0 });
         }
+//        vector<double> lLRSpotIntensity;
+//        for (int xs = -rx; xs < rx; xs++)
+//        {
+//            for (int ys = -ry; ys < ry; ys++)
+//            {
+//                if((xs*xs + ys*ys) < rx*ry)
+//                {
+//                    cv::Point lLRsP((int)lLR->gx + xs, (int)lLR->gy + ys);
+//                    if (rect.contains(lLRsP))
+//                    {
+//                        lLRSpotIntensity.push_back((255.0 - (double) envMapMat->at<uchar>(lLRsP) / 255.0) * 0.00001);
+//                    }
+//                    else
+//                    {
+//                        lLRSpotIntensity.push_back(0.0);
+//                    }
+//                }
+//            }
+//        }
+//        lLR->setIntputs(lLRSpotIntensity);
         lLR->receptorFunction();
 
 
@@ -406,12 +428,32 @@ void CreatureA::lifeThreadProcess()
         cv::Point prLR((int)rLR->gx, (int)rLR->gy);
         if (rect.contains(prLR))
         {
-            rLR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) * -0.5 });
+            rLR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) * 0.00001 });
         }
         else
         {
             rLR->setIntputs({ 0.0 });
         }
+//        vector<double> rLRSpotIntensity;
+//        for (int xs = -rx; xs < rx; xs++)
+//        {
+//            for (int ys = -ry; ys < ry; ys++)
+//            {
+//                if((xs*xs + ys*ys) < rx*ry)
+//                {
+//                    cv::Point rLRsP((int)rLR->gx + xs, (int)rLR->gy + ys);
+//                    if (rect.contains(rLRsP))
+//                    {
+//                        rLRSpotIntensity.push_back((255.0 - (double) envMapMat->at<uchar>(rLRsP) / 255.0) * 0.00001);
+//                    }
+//                    else
+//                    {
+//                        rLRSpotIntensity.push_back(0.0);
+//                    }
+//                }
+//            }
+//        }
+//        rLR->setIntputs(rLRSpotIntensity);
         rLR->receptorFunction();
 
 
@@ -437,7 +479,6 @@ void CreatureA::lifeThreadProcess()
                                 inputIntensity += (255.0 - intensity) / 25500.0;
 
 
-
                                 // eat process
                                 envMapMat->at<uchar>(pcs) =  (uchar)intensity + 1;
 
@@ -452,6 +493,16 @@ void CreatureA::lifeThreadProcess()
         }
         else
         {
+//            unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+//            std::default_random_engine generator(seed);
+//            std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/rx * 20.0);
+
+//            double randX = distribution(generator);
+//            double randY = distribution(generator);
+
+//            setX((double)envMapMat->cols / 2.0 + randX);
+//            setY((double)envMapMat->rows / 2.0 + randY);
+
             inputIntensity -= dVitality;
         }
 
@@ -469,25 +520,33 @@ void CreatureA::lifeThreadProcess()
         vitalityR->receptorFunction();
 
 
-//            double drx = rxI + saturation;
-//            double dry = rxI + saturation;
+//        double drx = rxI + vitality;
+//        double dry = ryI + vitality;
 
-//            rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
-//            ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
+//        rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
+//        ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
 
         nn->feedForward({ lR->getOutput(), rR->getOutput(), vitalityR->getOutput(), lLR->getOutput(), rLR->getOutput() });
 
         vector <Neuron *> outputNeurons = nn->getOutputNeurons();
         Neuron *n0 = outputNeurons[0];
         Neuron *n1 = outputNeurons[1];
+        Neuron *n2 = outputNeurons[2];
 
-        double stimulator = (inputIntensity == 0) ? 0.5 : 1 / (inputIntensity * 10);
+        double stimulatorXY = (vitality == 0) ? 1.0 : 10.0 / vitality;
+        double stimulatorA  = (vitality == 0) ? 1.0 : 100.0 / vitality;
 
-        double cX = getX() + n0->getOutput() * sin(getA()) * stimulator;
-        double cY = getY() + n0->getOutput() * cos(getA()) * stimulator;
-        double cA = n1->getOutput()  * stimulator * 0.01 * 180.0 / M_PI;
+        double cA = (n2->getOutput() - n0->getOutput()) * stimulatorA * 180.0 / M_PI;
+        double cX = getX() + n1->getOutput() * sin(getA()) * stimulatorXY;
+        double cY = getY() + n1->getOutput() * cos(getA()) * stimulatorXY;
 
-        pathLength += sqrt(pow((getX() - cX), 2) + pow((getY() - cY), 2)) * 0.001;
+        pathLength += sqrt(pow((getX() - cX), 2) + pow((getY() - cY), 2)) * 0.00001;
+
+//        if (id == 0)
+//        {
+//            qDebug("%.8f, %.8f, %.8f", n0->getOutput(), n1->getOutput(), n2->getOutput());
+//            qDebug("%.8f", cA);
+//        }
 
         setA(cA);
         setX(cX);
