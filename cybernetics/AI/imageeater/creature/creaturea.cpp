@@ -18,6 +18,16 @@ CreatureA::CreatureA(double rx, double ry, const QColor &color): Creature(rx, ry
     r->addInput(1.0);
     r->id = 2;
     receptors.push_back(r);
+
+    r = new Receptor(); //Left Long Sensor  R#3
+    r->addInput();
+    r->id = 3;
+    receptors.push_back(r);
+
+    r = new Receptor(); //Right Long Sensor R#4
+    r->addInput();
+    r->id = 4;
+    receptors.push_back(r);
 }
 
 void CreatureA::initNN(int hiddenNeuronsNum, int outputNeuronsNum)
@@ -93,11 +103,16 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     Creature::paint(painter, option, widget);
 
-    double lReceptorAngle = -90.0 * M_PI / 180.0;
-    double rReceptorAngle = 90.0 * M_PI / 180.0;
+    double tailLength = 30.0 + pathLength;
+
+
+
+    // RECEPTORS
+
+    double lReceptorAngle = -45.0 * M_PI / 180.0;
+    double rReceptorAngle = 45.0 * M_PI / 180.0;
     double lReceptorLength = ry * 2.0;
     double rReceptorLength = ry * 2.0;
-    double tailLength = 50.0 + pathLength;
 
     double sinLReceptorAngle = sin(lReceptorAngle);
     double cosLReceptorAngle = cos(lReceptorAngle);
@@ -133,6 +148,59 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(Qt::black);
     painter->drawEllipse(QPointF(lR->lx, lR->ly), 4, 4); //Left Sensor   R#0
     painter->drawEllipse(QPointF(rR->lx, rR->ly), 4, 4); //Right Sensor  R#1
+
+
+
+
+    double lLongReceptorAngle = -135.0 * M_PI / 180.0;
+    double rLongReceptorAngle = 135.0 * M_PI / 180.0;
+    double lLongReceptorLength = ry * 8.0;
+    double rLongReceptorLength = ry * 8.0;
+
+    double sinLLongReceptorAngle = sin(lLongReceptorAngle);
+    double cosLLongReceptorAngle = cos(lLongReceptorAngle);
+    double sinRLongReceptorAngle = sin(rLongReceptorAngle);
+    double cosRLongReceptorAngle = cos(rLongReceptorAngle);
+
+    double lLongReceptorX1 = rx * sinLLongReceptorAngle;
+    double lLongReceptorY1 = -ry * cosLLongReceptorAngle;
+    double lLongReceptorX2 = lLongReceptorLength * sinLLongReceptorAngle;
+    double lLongReceptorY2 = -lLongReceptorLength * cosLLongReceptorAngle;
+
+    double rLongReceptorX1 = rx * sinRLongReceptorAngle;
+    double rLongReceptorY1 = -ry * cosRLongReceptorAngle;
+    double rLongReceptorX2 = rLongReceptorLength * sinRLongReceptorAngle;
+    double rLongReceptorY2 = -rLongReceptorLength * cosRLongReceptorAngle;
+
+    Receptor *lLR, *rLR;
+    lLR = receptors[3];
+    rLR = receptors[4];
+
+    lLR->lx = lLongReceptorX2;
+    lLR->ly = lLongReceptorY2;
+
+    rLR->lx = rLongReceptorX2;
+    rLR->ly = rLongReceptorY2;
+
+    painter->setPen(QPen(Qt::gray, 1.0));
+    painter->drawLine(QPointF(lLongReceptorX1, lLongReceptorY1), QPointF(lLR->lx, lLR->ly));
+    painter->drawLine(QPointF(rLongReceptorX1, rLongReceptorY1), QPointF(rLR->lx, rLR->ly));
+
+    // Long Receptors
+    painter->setPen(QPen(fillColor, 0.2));
+    painter->setBrush(Qt::gray);
+    painter->drawEllipse(QPointF(lLR->lx, lLR->ly), 4, 4); //Left Long Sensor    R#3
+    painter->drawEllipse(QPointF(rLR->lx, rLR->ly), 4, 4); //Right Long  Sensor  R#4
+
+
+
+
+
+
+
+
+
+
 
 
     // Affector tail
@@ -267,163 +335,165 @@ void CreatureA::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void CreatureA::lifeThreadProcess()
 {
-    double dVitality = 0.002;
+    double dVitality = 0.005;
 
     while (alive)
     {
 
         envMapMutex->lock();
 
-//        int r = rand() % envMapMat->rows;
-//        int c = rand() % envMapMat->cols;
 
-//        int color = rand() % 255;
+        cv::Rect rect(cv::Point(), envMapMat->size());
 
-//        for (int i = 0; i < 2; i++)
-//        {
-//            int dr = r + i;
-//            if (dr < envMapMat->rows)
-//            {
-//                for (int j = 0; j < 2; j++)
-//                {
-//                    int dc = c + j;
-//                    if (dc < envMapMat->cols)
-//                    {
-//                        try
-//                        {
-//                            envMapMat->at<uchar>(dr, dc) = color;
-//                        }
-//                        catch (std::exception& e)
-//                        {
-//                            envMapMutex->unlock();
-//                            std::cerr << "Exception catched : " << e.what() << std::endl;
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        vitality -= dVitality;
 
-            cv::Rect rect(cv::Point(), envMapMat->size());
+        if (vitality <= 0.0)
+        {
+            envMapMutex->unlock();
+            color = QColor(0, 0, 0, 255);
+            break;
+        }
 
-            vitality -= dVitality;
+        double aRad = getA() * M_PI / 180.0;
 
-            if (vitality <= 0.0)
+        Receptor *lR = receptors[0];
+        lR->gx = getX() + lR->lx * cos(aRad) - lR->ly * sin(aRad);
+        lR->gy = getY() + lR->lx * sin(aRad) + lR->ly * cos(aRad);
+        cv::Point plR((int)lR->gx, (int)lR->gy);
+        if (rect.contains(plR))
+        {
+            lR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(plR) / 255.0) });
+        }
+        else
+        {
+            lR->setIntputs({ 0.0 });
+        }
+        lR->receptorFunction();
+
+        Receptor *rR = receptors[1];
+        rR->gx = getX() + rR->lx * cos(aRad) - rR->ly * sin(aRad);
+        rR->gy = getY() + rR->lx * sin(aRad) + rR->ly * cos(aRad);
+        cv::Point prR((int)rR->gx, (int)rR->gy);
+        if (rect.contains(prR))
+        {
+            rR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) });
+        }
+        else
+        {
+            rR->setIntputs({ 0.0 });
+        }
+        rR->receptorFunction();
+
+
+        Receptor *lLR = receptors[3];
+        lLR->gx = getX() + lLR->lx * cos(aRad) - lLR->ly * sin(aRad);
+        lLR->gy = getY() + lLR->lx * sin(aRad) + lLR->ly * cos(aRad);
+        cv::Point plLR((int)lLR->gx, (int)lLR->gy);
+        if (rect.contains(plLR))
+        {
+            lLR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) * -0.5 });
+        }
+        else
+        {
+            lLR->setIntputs({ 0.0 });
+        }
+        lLR->receptorFunction();
+
+
+        Receptor *rLR = receptors[4];
+        rLR->gx = getX() + rLR->lx * cos(aRad) - rLR->ly * sin(aRad);
+        rLR->gy = getY() + rLR->lx * sin(aRad) + rLR->ly * cos(aRad);
+        cv::Point prLR((int)rLR->gx, (int)rLR->gy);
+        if (rect.contains(prLR))
+        {
+            rLR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) * -0.5 });
+        }
+        else
+        {
+            rLR->setIntputs({ 0.0 });
+        }
+        rLR->receptorFunction();
+
+
+
+        Receptor *vitalityR = receptors[2];
+        double inputIntensity = 0.0;
+
+        cv::Point pc(getIntX(), getIntY());
+        if (rect.contains(pc))
+        {
+            for (int xs = -rx; xs < rx; xs++)
             {
-                envMapMutex->unlock();
-                color = QColor(0, 0, 0, 255);
-                break;
-            }
-
-            double aRad = getA() * M_PI / 180.0;
-
-            Receptor *lR = receptors[0];
-            lR->gx = getX() + lR->lx * cos(aRad) - lR->ly * sin(aRad);
-            lR->gy = getY() + lR->lx * sin(aRad) + lR->ly * cos(aRad);
-
-            cv::Point plR((int)lR->gx, (int)lR->gy);
-
-            if (rect.contains(plR))
-            {
-                lR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(plR) / 255.0) });
-            }
-            else
-            {
-                lR->setIntputs({ 0.0 });
-            }
-            lR->receptorFunction();
-
-            Receptor *rR = receptors[1];
-            rR->gx = getX() + rR->lx * cos(aRad) - rR->ly * sin(aRad);
-            rR->gy = getY() + rR->lx * sin(aRad) + rR->ly * cos(aRad);
-
-            cv::Point prR((int)rR->gx, (int)rR->gy);
-
-            if (rect.contains(prR))
-            {
-                rR->setIntputs({ (255.0 - (double) envMapMat->at<uchar>(prR) / 255.0) });
-            }
-            else
-            {
-                rR->setIntputs({ 0.0 });
-            }
-            rR->receptorFunction();
-
-
-            Receptor *vitalityR = receptors[2];
-            double inputIntensity = 0.0;
-
-            cv::Point pc(getIntX(), getIntY());
-            if (rect.contains(pc))
-            {
-                for (int xs = -rx; xs < rx; xs++)
+                for (int ys = -ry; ys < ry; ys++)
                 {
-                    for (int ys = -ry; ys < ry; ys++)
+                    if((xs*xs + ys*ys) < rx*ry)
                     {
-                        if((xs*xs + ys*ys) < rx*ry)
+                        cv::Point pcs(getIntX() + xs, getIntY() + ys);
+                        if (rect.contains(pcs))
                         {
-                            cv::Point pcs(getIntX() + xs, getIntY() + ys);
-                            if (rect.contains(pcs))
+                            double intensity = (double) envMapMat->at<uchar>(pcs);
+                            if (intensity + 1 < 255.0)
                             {
-                                double intensity = (double) envMapMat->at<uchar>(pcs);
-                                if (intensity + 1 < 255.0)
-                                {
-                                    inputIntensity += (255.0 - intensity) / 25500.0;
+                                inputIntensity += (255.0 - intensity) / 25500.0;
 
 
 
-                                    // eat process
-                                    envMapMat->at<uchar>(pcs) =  (uchar)intensity + 1;
+                                // eat process
+                                envMapMat->at<uchar>(pcs) =  (uchar)intensity + 1;
 
 
 
-                                }
                             }
                         }
                     }
                 }
-                inputIntensity = inputIntensity / (rx*rx + ry*ry);
             }
-            else
-            {
-                inputIntensity -= dVitality * 10;
-            }
-
-            envMapMutex->unlock();
-
-            saturation += inputIntensity;
-
-//            vitality += (vitality > 1.0) ? 0.0 : inputIntensity;
-
-            vitality += saturation / 1000;
-
-            vitalityR->setIntputs({ vitality });
-            vitalityR->receptorFunction();
+            inputIntensity = inputIntensity / (rx*rx + ry*ry);
+        }
+        else
+        {
+            inputIntensity -= dVitality;
+        }
 
 
-            double drx = rxI + saturation;
-            double dry = rxI + saturation;
 
-            rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
-            ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
+        envMapMutex->unlock();
 
-            nn->feedForward({ lR->getOutput(), rR->getOutput(), vitalityR->getOutput() });
 
-            vector <Neuron *> outputNeurons = nn->getOutputNeurons();
-            Neuron *n0 = outputNeurons[0];
-            Neuron *n1 = outputNeurons[1];
-            Neuron *n2 = outputNeurons[2];
 
-            double cA = (n0->getOutput() - n2->getOutput()) * 180.0 / M_PI;
-            double cX = getX() + n1->getOutput() * sin(getA());
-            double cY = getY() + n1->getOutput() * cos(getA());
+        saturation += inputIntensity;
 
-            pathLength += sqrt(pow((getX() - cX), 2) + pow((getY() - cY), 2)) * 0.01;
+        vitality += (vitality > 1.0) ? 0.0 : inputIntensity * 2;
 
-            setA(cA);
-            setX(cX);
-            setY(cY);
+        vitalityR->setIntputs({ vitality });
+        vitalityR->receptorFunction();
 
-            std::this_thread::sleep_for(std::chrono::microseconds(dLifeTime + 1));
+
+//            double drx = rxI + saturation;
+//            double dry = rxI + saturation;
+
+//            rx = (drx < rxI) ? rxI : ((drx > rxI * 5) ? rxI * 5 : drx);
+//            ry = (drx < ryI) ? ryI : ((dry > ryI * 5) ? ryI * 5 : dry);
+
+        nn->feedForward({ lR->getOutput(), rR->getOutput(), vitalityR->getOutput(), lLR->getOutput(), rLR->getOutput() });
+
+        vector <Neuron *> outputNeurons = nn->getOutputNeurons();
+        Neuron *n0 = outputNeurons[0];
+        Neuron *n1 = outputNeurons[1];
+
+        double stimulator = (inputIntensity == 0) ? 0.5 : 1 / (inputIntensity * 10);
+
+        double cX = getX() + n0->getOutput() * sin(getA()) * stimulator;
+        double cY = getY() + n0->getOutput() * cos(getA()) * stimulator;
+        double cA = n1->getOutput()  * stimulator * 0.01 * 180.0 / M_PI;
+
+        pathLength += sqrt(pow((getX() - cX), 2) + pow((getY() - cY), 2)) * 0.001;
+
+        setA(cA);
+        setX(cX);
+        setY(cY);
+
+        std::this_thread::sleep_for(std::chrono::microseconds(dLifeTime + 1));
     }
     lifeThread = nullptr;
 }

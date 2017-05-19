@@ -135,10 +135,12 @@ void MainWindow::lifeTimerCallback()
 
     ui->colonySizeProgressBar->setValue(round(colonySize * 100));
 
-    if ((double)colony.getStillAliveNum() / (double)colony.getColonySize() < 0.5)
+    if ((double)colony.getStillAliveNum() / (double)colony.getColonySize() < 0.2)
     {
         lifeTimer->stop();
         colony.deactive();
+
+        on_generateEnvMapButton_clicked();
 
         updateEnvPixmap();
 

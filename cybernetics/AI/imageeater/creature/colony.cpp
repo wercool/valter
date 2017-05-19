@@ -12,6 +12,12 @@ Colony::Colony(QGraphicsScene *graphicsViewScene)
 
 void Colony::populate(Colony::Type type, unsigned int size, vector<NeuralNetwork *> nns)
 {
+    double creatureFormFactor = 10.0;
+
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator(seed);
+    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/creatureFormFactor * 20.0);
+
     for (unsigned i = 0; i < size; i++)
     {
         Creature *pCreature;
@@ -20,20 +26,27 @@ void Colony::populate(Colony::Type type, unsigned int size, vector<NeuralNetwork
         {
             case Type::A:
             {
-                CreatureA *pCreatureA = new CreatureA(20.0, 20.0, QColor(0, 255, 0, 255));
+                CreatureA *pCreatureA = new CreatureA(creatureFormFactor, creatureFormFactor, QColor(0, 255, 0, 255));
 
                 if (nns.size() == 0)
                 {
                     setGeneration(0);
-                    pCreatureA->initNN(/*hidden neurons*/ 5, /*output neurons*/3);
+                    pCreatureA->initNN(/*hidden neurons*/ 8, /*output neurons*/ 2);
                 }
                 else
                 {
                     pCreatureA->setNN(nns[i]);
                 }
 
-                pCreatureA->setX((double)envMapMat->cols / 2.0);
-                pCreatureA->setY((double)envMapMat->rows / 2.0);
+//                pCreatureA->setX((double)envMapMat->cols / 2.0);
+//                pCreatureA->setY((double)envMapMat->rows / 2.0);
+
+                double randX = distribution(generator);
+                double randY = distribution(generator);
+
+                pCreatureA->setX((double)envMapMat->cols / 2.0 + randX);
+                pCreatureA->setY((double)envMapMat->rows / 2.0 + randY);
+
                 pCreatureA->setA(0.0);
 
                 pCreature = dynamic_cast<Creature *>(pCreatureA);
@@ -169,7 +182,8 @@ vector<Creature *> Colony::getSurvivedCreatures()
 
 void Colony::populateNextGeneration()
 {
-    vector<Creature *> pCreatures = sortedByPathLengthAndSaturation(getSurvivedCreatures());
+//    vector<Creature *> pCreatures = sortedByPathLengthAndSaturation(getSurvivedCreatures());
+    vector<Creature *> pCreatures = sortedBySaturation(getSurvivedCreatures());
     int selectedSize = (int)pCreatures.size();
 
 //    vector<Creature *> pCreatures = sortedByPathLength(getCreatures());

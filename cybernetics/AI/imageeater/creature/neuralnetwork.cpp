@@ -16,6 +16,7 @@ NeuralNetwork::NeuralNetwork(NeuralNetwork *nn)
     for (unsigned int i = 0; i < pNeurons.size(); i++)
     {
         Neuron *n = new Neuron(pNeurons[i]);
+        n->id = i;
         addNeuron(n);
     }
 }
@@ -43,7 +44,7 @@ void NeuralNetwork::mutateNeurons()
 {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/0.2);
+    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/0.01);
 
     vector<Neuron *> hiddenNeurons = getHiddenNeurons();
 
