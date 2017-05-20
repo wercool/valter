@@ -65,12 +65,16 @@ void MainWindow::on_loadEnvMapButton_clicked()
         cv::Mat srcImage = cv::imread(imageFilePath, true);
         cv::cvtColor(srcImage, envMapOriginalMat, CV_BGRA2GRAY);
 
+        ui->regenerateEnvMapCheckBox->setChecked(false);
+
         updateEnvPixmap();
     }
 }
 
 void MainWindow::lifeTimerCallback()
 {
+    lifeCycleCnt++;
+
     static int fpsc = 0;
     static int fpscEnvMap = 0;
 
@@ -152,27 +156,65 @@ void MainWindow::lifeTimerCallback()
     }
     ui->colonySizeProgressBar->setValue(colonySize);
 
+    if (colony.getSelectedType() == Colony::Type::A)
+    {
+        cTypeAHandler(colonySize);
+    }
+    if (colony.getSelectedType() == Colony::Type::B)
+    {
+        cTypeBHandler(colonySize);
+    }
+
+}
+
+
+void MainWindow::cTypeAHandler(int colonySize)
+{
     int brightness = cv::sum(envMapMat)[0];
     int darkness = (int)( ( (double)envMapOriginalMatBrightness / (double)brightness ) * 100);
     ui->envMapDarknessProgressBar->setValue(darkness);
 
-    if (colonySize < 50 || darkness < 50)
+    if (colonySize < 11)
     {
         lifeTimer->stop();
         colony.deactive();
+
+        lifeCycleCnt = 0;
 
         if (ui->regenerateEnvMapCheckBox->isChecked())
         {
             on_generateEnvMapButton_clicked();
         }
 
-        fitnessFunctionGraph[colony.getGeneration()] = (int)( ( (double)brightness / (double)envMapOriginalMatBrightness ) * 100);
+        fitnessFunctionGraph[colony.getGeneration()] = (double)100 - darkness;
+        updateGraph();
 
         updateEnvPixmap();
 
         colony.populateNextGeneration();
 
-        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration() + 1).c_str());
+
+        colony.active();
+        lifeTimer->start();
+    }
+}
+
+void MainWindow::cTypeBHandler(int colonySize)
+{
+    if (lifeCycleCnt > 2000 || colonySize < 25)
+    {
+        lifeCycleCnt = 0;
+
+        lifeTimer->stop();
+        colony.deactive();
+
+        double maxCurFitness = colony.populateNextGeneration();
+
+        fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
+        updateGraph();
+
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration() + 1).c_str());
 
         colony.active();
         lifeTimer->start();
@@ -253,7 +295,16 @@ void MainWindow::on_populateColonyButton_clicked()
     {
         colony.killCreatures();
         colony.setEnvMapMat(&envMapMat);
-        colony.populate(Colony::Type::A, ui->colonySizeSpinBox->value());
+        switch (ui->creatureTypeComboBox->currentIndex())
+        {
+            case 0:
+                colony.populate(Colony::Type::A, ui->colonySizeSpinBox->value());
+            break;
+            case 1:
+                colony.populate(Colony::Type::B, ui->colonySizeSpinBox->value());
+            break;
+        }
+
         ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
     }
     else
@@ -298,9 +349,14 @@ void MainWindow::on_updateEnvMapButton_clicked()
 
 void MainWindow::on_graphPushButton_clicked()
 {
+    updateGraph();
+}
+
+void MainWindow::updateGraph()
+{
     QtCharts::QLineSeries *series = new QtCharts::QLineSeries();
 
-    typedef std::map<int, int> fitnessFunctionGraphType;
+    typedef std::map<int, double> fitnessFunctionGraphType;
 
     for (fitnessFunctionGraphType::iterator iterator = fitnessFunctionGraph.begin(); iterator != fitnessFunctionGraph.end(); ++iterator)
     {

@@ -44,7 +44,7 @@ void NeuralNetwork::mutateNeurons()
 {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine generator(seed);
-    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/0.00001);
+    std::normal_distribution<double> distribution(/*mean=*/0.0, /*stddev=*/0.1);
 
     vector<Neuron *> hiddenNeurons = getHiddenNeurons();
 
@@ -52,14 +52,14 @@ void NeuralNetwork::mutateNeurons()
     {
         Neuron *hn = hiddenNeurons[i];
         vector<double> weights = hn->getInputWeights();
-//        for (unsigned int wi = 0; wi < weights.size(); wi++)
-//        {
-//            double randDouble = distribution(generator);
-//            weights[wi] += randDouble;
-//        }
-        double randDouble = distribution(generator);
-        int randWIdx = std::rand() % weights.size();
-        weights[randWIdx] += randDouble;
+        for (unsigned int wi = 0; wi < weights.size(); wi++)
+        {
+            double randDouble = distribution(generator);
+            weights[wi] += randDouble;
+        }
+//        double randDouble = distribution(generator);
+//        int randWIdx = std::rand() % weights.size();
+//        weights[randWIdx] += randDouble;
         hn->setInputWeights(weights);
     }
 
@@ -69,14 +69,14 @@ void NeuralNetwork::mutateNeurons()
     {
         Neuron *on = outputNeurons[i];
         vector<double> weights = on->getInputWeights();
-//        for (unsigned int wi = 0; wi < weights.size(); wi++)
-//        {
-//            double randDouble = distribution(generator);
-//            weights[wi] += randDouble;
-//        }
-        double randDouble = distribution(generator);
-        int randWIdx = std::rand() % weights.size();
-        weights[randWIdx] += randDouble;
+        for (unsigned int wi = 0; wi < weights.size(); wi++)
+        {
+            double randDouble = distribution(generator);
+            weights[wi] += randDouble;
+        }
+//        double randDouble = distribution(generator);
+//        int randWIdx = std::rand() % weights.size();
+//        weights[randWIdx] += randDouble;
         on->setInputWeights(weights);
     }
 }

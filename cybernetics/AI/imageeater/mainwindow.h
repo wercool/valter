@@ -45,6 +45,9 @@ private slots:
     void updateEnvPixmap();
     void activateLife(bool state);
 
+    void cTypeAHandler(int colonySize);
+    void cTypeBHandler(int colonySize);
+
     void on_loadEnvMapButton_clicked();
 
     void on_startLifeButton_clicked(bool checked);
@@ -58,6 +61,7 @@ private slots:
     void on_updateEnvMapButton_clicked();
 
     void on_graphPushButton_clicked();
+    void updateGraph();
 
 private:
     Ui::MainWindow *ui;
@@ -79,7 +83,9 @@ private:
     QWidget *graphWidget;
     QVBoxLayout *graphWidgetLayout;
 
-    std::map<int, int> fitnessFunctionGraph;
+    std::map<int, double> fitnessFunctionGraph;
+
+    int lifeCycleCnt = 0;
 };
 
 #endif // MAINWINDOW_H

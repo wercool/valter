@@ -12,6 +12,8 @@ Colony::Colony(QGraphicsScene *graphicsViewScene)
 
 void Colony::populate(Colony::Type type, unsigned int size, vector<NeuralNetwork *> nns)
 {
+    selectedType = type;
+
     double creatureFormFactor = 10.0;
 
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -31,7 +33,7 @@ void Colony::populate(Colony::Type type, unsigned int size, vector<NeuralNetwork
                 if (nns.size() == 0)
                 {
                     setGeneration(0);
-                    pCreatureA->initNN(/*hidden neurons*/ 100, /*output neurons*/ 3);
+                    pCreatureA->initNN(/*hidden neurons*/ 10, /*output neurons*/ 3);
                 }
                 else
                 {
@@ -53,7 +55,26 @@ void Colony::populate(Colony::Type type, unsigned int size, vector<NeuralNetwork
             }
             break;
             case Type::B:
-                //...
+            {
+                CreatureB *pCreatureB = new CreatureB(creatureFormFactor, creatureFormFactor, QColor(255, 255, 55, 255));
+
+                if (nns.size() == 0)
+                {
+                    setGeneration(0);
+                    pCreatureB->initNN(/*hidden neurons*/ 4, /*output neurons*/ 3);
+                }
+                else
+                {
+                    pCreatureB->setNN(nns[i]);
+                }
+
+                pCreatureB->setX(165.0);
+                pCreatureB->setY(485.0);
+
+                pCreatureB->setA(0.0);
+
+                pCreature = dynamic_cast<Creature *>(pCreatureB);
+            }
             break;
             case Type::C:
                 //...
@@ -180,15 +201,32 @@ vector<Creature *> Colony::getSurvivedCreatures()
     return survivedCreatures;
 }
 
-void Colony::populateNextGeneration()
+double Colony::populateNextGeneration()
 {
-//    vector<Creature *> pCreatures = sortedByPathLengthAndSaturation(getSurvivedCreatures());
-    vector<Creature *> pCreatures = sortedBySaturation(getSurvivedCreatures());
-    int selectedSize = (int)pCreatures.size();
+    vector<Creature *> pCreatures;
+    int selectedSize;
 
-//    vector<Creature *> pCreatures = sortedByPathLength(getCreatures());
-//    vector<Creature *> pCreatures = sortedByPathLengthAndSaturation(getCreatures());
-//    int selectedSize = round((double)pCreatures.size() * 0.3);
+    if (selectedType == Type::A)
+    {
+//        vector<Creature *> pCreatures = sortedByPathLengthAndSaturation(getSurvivedCreatures());
+        vector<Creature *> pCreatures = sortedBySaturation(getSurvivedCreatures());
+        selectedSize = (int)pCreatures.size();
+
+//        vector<Creature *> pCreatures = sortedByPathLength(getCreatures());
+//        vector<Creature *> pCreatures = sortedByPathLengthAndSaturation(getCreatures());
+//        int selectedSize = round((double)pCreatures.size() * 0.3);
+    }
+    if (selectedType == Type::B)
+    {
+        pCreatures = sortedByPathLength(getSurvivedCreatures());
+        selectedSize = (int)pCreatures.size();
+        if (selectedSize == getColonySize())
+        {
+            selectedSize = (int)((double)pCreatures.size() * 0.25);
+        }
+        Creature *pBestCreature = pCreatures[0];
+        maxFtiness = pBestCreature->getPathLength();
+    }
 
     vector<NeuralNetwork *> selectedNNs;
 
@@ -213,9 +251,11 @@ void Colony::populateNextGeneration()
 
     killCreatures();
 
-    populate(Type::A, (int)selectedNNs.size(), selectedNNs);
+    populate(selectedType, (int)selectedNNs.size(), selectedNNs);
 
     setGeneration(getGeneration() + 1);
+
+    return maxFtiness;
 }
 
 vector<Creature *> Colony::sortedByVitality(vector<Creature *> creatures)
@@ -274,5 +314,10 @@ int Colony::getGeneration() const
 void Colony::setGeneration(int value)
 {
     generation = value;
+}
+
+Colony::Type Colony::getSelectedType() const
+{
+    return selectedType;
 }
 

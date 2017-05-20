@@ -139,6 +139,20 @@
        <number>0</number>
       </property>
       <item>
+       <widget class="QComboBox" name="creatureTypeComboBox">
+        <item>
+         <property name="text">
+          <string>Creature A</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Creature B</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="startLifeButton">
         <property name="text">
          <string>Start Life</string>
@@ -245,7 +259,7 @@
          <string>CV Show</string>
         </property>
         <property name="checked">
-         <bool>true</bool>
+         <bool>false</bool>
         </property>
        </widget>
       </item>

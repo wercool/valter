@@ -12,6 +12,7 @@
 #include <creature/creature.h>
 
 #include <creature/creaturea.h>
+#include <creature/creatureb.h>
 
 class Colony
 {
@@ -46,7 +47,7 @@ public:
     std::vector<Creature *> getCreatures() const;
     vector<Creature *> getSurvivedCreatures();
 
-    void populateNextGeneration();
+    double populateNextGeneration();
 
     vector<Creature *> sortedByVitality(vector<Creature *> creatures);
     vector<Creature *> sortedBySaturation(vector<Creature *> creatures);
@@ -61,12 +62,18 @@ public:
     int getGeneration() const;
     void setGeneration(int value);
 
+    Colony::Type getSelectedType() const;
+
 protected:
     QGraphicsScene *graphicsViewScene;
     cv::Mat *envMapMat;
     std::mutex *envMapMutex = nullptr;
 
     std::vector<Creature *> creatures;
+
+    Colony::Type selectedType;
+
+    double maxFtiness = 0.0;
 
 private:
     int generation = 0;
