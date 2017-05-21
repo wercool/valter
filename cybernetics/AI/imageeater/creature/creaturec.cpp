@@ -96,8 +96,8 @@ void CreatureC::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     double lReceptorAngle = -30.0 * M_PI / 180.0;
     double rReceptorAngle = 30.0 * M_PI / 180.0;
-    double lReceptorLength = ry * 8.0;
-    double rReceptorLength = ry * 8.0;
+    double lReceptorLength = ry * 5.0;
+    double rReceptorLength = ry * 5.0;
 
     double sinLReceptorAngle = sin(lReceptorAngle);
     double cosLReceptorAngle = cos(lReceptorAngle);
@@ -341,8 +341,8 @@ void CreatureC::lifeThreadProcess()
             Neuron *n1 = outputNeurons[1];
             Neuron *n2 = outputNeurons[2];
 
-            double stimulatorXY = rx;
-            double stimulatorA  = 10.0 / vitality;
+            double stimulatorXY = rx * 5.0;
+            double stimulatorA  = 5.0 / vitality;
 
             double cA = (n2->getOutput() - n0->getOutput()) * stimulatorA * 180.0 / M_PI;
             double cX = getX() + n1->getOutput() * sin(getA()) * stimulatorXY;
