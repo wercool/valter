@@ -58,7 +58,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_loadEnvMapButton_clicked()
 {
-    std::string imageFilePath = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska/Documents/Valter/photo", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
+    std::string imageFilePath = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska/Pictures/imageeater", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
 
     if (!imageFilePath.empty())
     {
@@ -227,7 +227,7 @@ void MainWindow::cTypeBHandler(int colonySize)
 
 void MainWindow::cTypeCHandler(int colonySize)
 {
-    if (lifeCycleCnt > 4000 || colonySize < 25)
+    if (lifeCycleCnt > 2000 || colonySize < 25)
     {
         lifeCycleCnt = 0;
 
@@ -236,17 +236,20 @@ void MainWindow::cTypeCHandler(int colonySize)
 
         double maxCurFitness = colony.populateNextGeneration();
 
-        if (maxCurFitness < colony.getCreature(0)->getRx())
-        {
-            QMessageBox *msgBox = new QMessageBox(0);
-            msgBox->setText("Goal reached.");
-            msgBox->exec();
-        }
-
         fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
         updateGraph();
 
         ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration() + 1).c_str());
+
+        if (maxCurFitness <= colony.getCreature(0)->getRx() * 10)
+        {
+            QMessageBox *msgBox = new QMessageBox(0);
+            msgBox->setText("Goal reached.");
+            msgBox->exec();
+            ui->startLifeButton->setText("Resume Life");
+            ui->startLifeButton->setChecked(false);
+            return;
+        }
 
         colony.active();
         lifeTimer->start();

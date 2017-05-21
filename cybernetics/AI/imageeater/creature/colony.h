@@ -80,6 +80,7 @@ protected:
 
 private:
     int generation = 0;
+    bool goalIsReached = false;
 };
 
 #endif // COLONY_H
