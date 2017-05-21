@@ -150,6 +150,11 @@
           <string>Creature B</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Creature C</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>

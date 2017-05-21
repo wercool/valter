@@ -37,6 +37,10 @@ public:
     double getSaturation() const;
     double getPathLength() const;
 
+    void setTargetPoint(const cv::Point2f &value);
+    void setDistanceToTargetPoint(double value);
+    double getDistanceToTargetPoint() const;
+
     void setDLifeTime(int value);
     int getDLifeTime() const;
 
@@ -58,6 +62,9 @@ protected:
     double vitality = 1.0;
     double saturation = 0.0;
     double pathLength = 0.0;
+
+    cv::Point2f targetPoint;
+    double distanceToTargetPoint = 0.0;
 
     int dLifeTime = 100;
 };

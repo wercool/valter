@@ -47,6 +47,7 @@ private slots:
 
     void cTypeAHandler(int colonySize);
     void cTypeBHandler(int colonySize);
+    void cTypeCHandler(int colonySize);
 
     void on_loadEnvMapButton_clicked();
 

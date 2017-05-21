@@ -164,6 +164,10 @@ void MainWindow::lifeTimerCallback()
     {
         cTypeBHandler(colonySize);
     }
+    if (colony.getSelectedType() == Colony::Type::C)
+    {
+        cTypeCHandler(colonySize);
+    }
 
 }
 
@@ -210,6 +214,34 @@ void MainWindow::cTypeBHandler(int colonySize)
         colony.deactive();
 
         double maxCurFitness = colony.populateNextGeneration();
+
+        fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
+        updateGraph();
+
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration() + 1).c_str());
+
+        colony.active();
+        lifeTimer->start();
+    }
+}
+
+void MainWindow::cTypeCHandler(int colonySize)
+{
+    if (lifeCycleCnt > 4000 || colonySize < 25)
+    {
+        lifeCycleCnt = 0;
+
+        lifeTimer->stop();
+        colony.deactive();
+
+        double maxCurFitness = colony.populateNextGeneration();
+
+        if (maxCurFitness < colony.getCreature(0)->getRx())
+        {
+            QMessageBox *msgBox = new QMessageBox(0);
+            msgBox->setText("Goal reached.");
+            msgBox->exec();
+        }
 
         fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
         updateGraph();
@@ -302,6 +334,9 @@ void MainWindow::on_populateColonyButton_clicked()
             break;
             case 1:
                 colony.populate(Colony::Type::B, ui->colonySizeSpinBox->value());
+            break;
+            case 2:
+                colony.populate(Colony::Type::C, ui->colonySizeSpinBox->value());
             break;
         }
 

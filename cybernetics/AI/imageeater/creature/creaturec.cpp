@@ -1,6 +1,6 @@
-#include "creatureb.h"
+#include "creaturec.h"
 
-CreatureB::CreatureB(double rx, double ry, const QColor &color): Creature(rx, ry, color)
+CreatureC::CreatureC(double rx, double ry, const QColor &color): Creature(rx, ry, color)
 {
     Receptor *r;
 
@@ -15,7 +15,7 @@ CreatureB::CreatureB(double rx, double ry, const QColor &color): Creature(rx, ry
     receptors.push_back(r);
 }
 
-void CreatureB::initNN(int hiddenNeuronsNum, int outputNeuronsNum)
+void CreatureC::initNN(int hiddenNeuronsNum, int outputNeuronsNum)
 {
     Neuron *n;
 
@@ -81,7 +81,7 @@ qDebug("%s", weightsStringified.c_str());
     }
 }
 
-void CreatureB::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CreatureC::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget);
     Q_UNUSED(painter);
@@ -94,10 +94,10 @@ void CreatureB::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     // RECEPTORS
 
-    double lReceptorAngle = -45.0 * M_PI / 180.0;
-    double rReceptorAngle = 45.0 * M_PI / 180.0;
-    double lReceptorLength = ry * 4.0;
-    double rReceptorLength = ry * 4.0;
+    double lReceptorAngle = -30.0 * M_PI / 180.0;
+    double rReceptorAngle = 30.0 * M_PI / 180.0;
+    double lReceptorLength = ry * 8.0;
+    double rReceptorLength = ry * 8.0;
 
     double sinLReceptorAngle = sin(lReceptorAngle);
     double cosLReceptorAngle = cos(lReceptorAngle);
@@ -124,55 +124,55 @@ void CreatureB::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     rR->lx = rReceptorX2;
     rR->ly = rReceptorY2;
 
-    painter->setPen(QPen(fillColor, 1.0));
+    painter->setPen(QPen(fillColor, 0.75));
     painter->drawLine(QPointF(lReceptorX1, lReceptorY1), QPointF(lR->lx, lR->ly));
     painter->drawLine(QPointF(rReceptorX1, rReceptorY1), QPointF(rR->lx, rR->ly));
 
     // Receptors
-    painter->setPen(QPen(fillColor, 0.2));
-    painter->setBrush(Qt::black);
-    painter->drawEllipse(QPointF(lR->lx, lR->ly), 4, 4); //Left Sensor   R#0
-    painter->drawEllipse(QPointF(rR->lx, rR->ly), 4, 4); //Right Sensor  R#1
+    painter->setPen(QPen(Qt::yellow, 0.1));
+    painter->setBrush(fillColor);
+    painter->drawEllipse(QPointF(lR->lx, lR->ly), 1, 1); //Left Sensor   R#0
+    painter->drawEllipse(QPointF(rR->lx, rR->ly), 1, 1); //Right Sensor  R#1
 
 
 
     // Affector tail
     double tailEndX = sin(a * M_PI / 180.0) * (ry + tailLength);
     double tailEndY = cos(a * M_PI / 180.0) * (ry + tailLength);
-    QPen pen = QPen(fillColor, 2.0);
+    QPen pen = QPen(fillColor, 1.5);
     pen.setStyle(Qt::PenStyle::DotLine);
     painter->setPen(pen);
-    painter->drawLine(QPointF(0.0, ry + 2.0), QPointF(tailEndX, tailEndY));
+    painter->drawLine(QPointF(0.0, ry + 0.75), QPointF(tailEndX, tailEndY));
 
     // Body
     painter->setPen(QPen(Qt::black, 0.5));
     painter->setBrush(fillColor);
     painter->drawEllipse(QPointF(0.0, 0.0), rx, ry);
 
-    double neuronRadius = 0.2 * rx;
+    double neuronRadius = 0.1 * rx;
     const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
     if (lod > 1.0)
     {
         QFont font = painter->font() ;
         /* twice the size than the current font size */
-        font.setPointSizeF(font.pointSizeF() * 0.5);
+        font.setPointSizeF(font.pointSizeF() * 0.1);
         /* set the modified font to the painter */
         painter->setFont(font);
 
         // Receptor labels
         painter->setPen(QPen(Qt::white, 0.1));
-        painter->drawText(QPointF(lR->lx - 1.75, lR->ly + 1.75), "R");
-        painter->drawText(QPointF(rR->lx - 1.75, rR->ly + 1.75), "R");
+        painter->drawText(QPointF(lR->lx - 0.3, lR->ly + 0.3), "R");
+        painter->drawText(QPointF(rR->lx - 0.3, rR->ly + 0.3), "R");
 
         double neuronsPosY, neuronsPosHorde, neuronPosXStep;
 
-        painter->setPen(QPen(Qt::black, 0.2));
+        painter->setPen(QPen(Qt::black, 0.1));
         painter->setBrush(Qt::transparent);
 
         int inputNeuronNum = (int) nn->getInputNeurons().size();
         vector<QPointF> inputNeuronsCoords;
         neuronsPosY = -ry * 0.5;
-        neuronsPosHorde = (sqrt(pow(ry, 2) - pow(neuronsPosY, 2)) * 2.0) * 0.5;
+        neuronsPosHorde = (sqrt(pow(ry, 2) - pow(neuronsPosY, 2)) * 2.0) * 0.3;
         neuronPosXStep = neuronsPosHorde / ((double) inputNeuronNum - 1.0);
         for (int inl = 0; inl < inputNeuronNum; inl++)
         {
@@ -222,7 +222,7 @@ void CreatureB::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         int outputNeuronNum = (int) nn->getOutputNeurons().size();
         vector<QPointF> outputNeuronsCoords;
         neuronsPosY = ry * 0.5;
-        neuronsPosHorde = (sqrt(pow(ry, 2) - pow(neuronsPosY, 2)) * 2.0) * 0.5;
+        neuronsPosHorde = (sqrt(pow(ry, 2) - pow(neuronsPosY, 2)) * 2.0) * 0.4;
         neuronPosXStep = neuronsPosHorde / ((double) outputNeuronNum - 1.0);
         for (int onl = 0; onl < outputNeuronNum; onl++)
         {
@@ -256,7 +256,7 @@ void CreatureB::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
 }
 
-void CreatureB::lifeThreadProcess()
+void CreatureC::lifeThreadProcess()
 {
     int cnt = 0;
 
@@ -323,6 +323,15 @@ void CreatureB::lifeThreadProcess()
         }
         vitality += (vitality >= 1.0) ? 0.0 : inputIntensity;
 
+        setDistanceToTargetPoint(cv::norm(cv::Point2f(envMapMat->cols, envMapMat->rows) - cv::Point2f(getX(), getY())));
+
+        if (distanceToTargetPoint < prevDistanceToTargetPoint)
+        {
+            vitality -= 0.85;
+        }
+
+        prevDistanceToTargetPoint = distanceToTargetPoint;
+
         if (vitality > 0)
         {
             nn->feedForward({ lR->getOutput(), rR->getOutput() });
@@ -333,7 +342,7 @@ void CreatureB::lifeThreadProcess()
             Neuron *n2 = outputNeurons[2];
 
             double stimulatorXY = rx;
-            double stimulatorA  = 1.0 / vitality;
+            double stimulatorA  = 10.0 / vitality;
 
             double cA = (n2->getOutput() - n0->getOutput()) * stimulatorA * 180.0 / M_PI;
             double cX = getX() + n1->getOutput() * sin(getA()) * stimulatorXY;

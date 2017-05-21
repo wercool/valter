@@ -79,6 +79,21 @@ void Creature::lifeThreadProcess()
     // to be override in nested
 }
 
+void Creature::setDistanceToTargetPoint(double value)
+{
+    distanceToTargetPoint = value;
+}
+
+void Creature::setTargetPoint(const cv::Point2f &value)
+{
+    targetPoint = value;
+}
+
+double Creature::getDistanceToTargetPoint() const
+{
+    return distanceToTargetPoint;
+}
+
 double Creature::getPathLength() const
 {
     return pathLength;

@@ -13,6 +13,7 @@
 
 #include <creature/creaturea.h>
 #include <creature/creatureb.h>
+#include <creature/creaturec.h>
 
 class Colony
 {
@@ -53,11 +54,13 @@ public:
     vector<Creature *> sortedBySaturation(vector<Creature *> creatures);
     vector<Creature *> sortedByPathLength(vector<Creature *> creatures);
     vector<Creature *> sortedByPathLengthAndSaturation(vector<Creature *> creatures);
+    vector<Creature *> sortedByDistanceToTargetPoint(vector<Creature *> creatures);
 
     static bool sortByVitality(Creature * c1, Creature * c2);
     static bool sortBySaturation(Creature * c1, Creature * c2);
     static bool sortByPathLength(Creature * c1, Creature * c2);
     static bool sortByPathLengthAndSaturation(Creature * c1, Creature * c2);
+    static bool sortByDistanceToTargetPoint(Creature * c1, Creature * c2);
 
     int getGeneration() const;
     void setGeneration(int value);

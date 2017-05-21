@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     creature/receptor.cpp \
     creature/creaturea.cpp \
     creature/neuralnetwork.cpp \
-    creature/creatureb.cpp
+    creature/creatureb.cpp \
+    creature/creaturec.cpp
 
 HEADERS  += mainwindow.h \
     graphicsview.h \
@@ -58,7 +59,8 @@ HEADERS  += mainwindow.h \
     creature/creaturea.h \
     creature/neuralnetwork.h \
     utils/generic-utils.h \
-    creature/creatureb.h
+    creature/creatureb.h \
+    creature/creaturec.h
 
 FORMS    += mainwindow.ui
 
