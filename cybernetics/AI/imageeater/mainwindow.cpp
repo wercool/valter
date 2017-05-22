@@ -222,7 +222,7 @@ void MainWindow::cTypeBHandler(int colonySize)
         fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
         updateGraph();
 
-        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration() + 1).c_str());
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
 
         colony.active();
         lifeTimer->start();
@@ -252,6 +252,14 @@ void MainWindow::cTypeCHandler(int colonySize)
             msgBox->exec();
             ui->startLifeButton->setText("Resume Life");
             ui->startLifeButton->setChecked(false);
+            return;
+        }
+
+        if (colony.getGeneration() > 50)
+        {
+            colony.populate(Colony::Type::C, ui->colonySizeSpinBox->value());
+            colony.setGeneration(0);
+            activateLife(true);
             return;
         }
 
