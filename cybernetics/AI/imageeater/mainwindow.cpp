@@ -201,7 +201,7 @@ void MainWindow::cTypeAHandler(int colonySize)
 
         colony.populateNextGeneration();
 
-        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration() + 1).c_str());
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
 
         colony.active();
         lifeTimer->start();
@@ -243,7 +243,7 @@ void MainWindow::cTypeCHandler(int colonySize)
         fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
         updateGraph();
 
-        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration() + 1).c_str());
+        ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
 
         if (maxCurFitness <= colony.getCreature(0)->getRx() * 10)
         {
@@ -255,11 +255,14 @@ void MainWindow::cTypeCHandler(int colonySize)
             return;
         }
 
-        if (colony.getGeneration() > 50)
+        if (colony.getGeneration() > 25)
         {
+            fitnessFunctionGraph.clear();
+            colony.killCreatures();
             colony.populate(Colony::Type::C, ui->colonySizeSpinBox->value());
-            colony.setGeneration(0);
+            colony.setEnvMapMat(&envMapMat);
             activateLife(true);
+            ui->statusBar->showMessage("Evolution reset");
             return;
         }
 
