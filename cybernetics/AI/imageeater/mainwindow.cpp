@@ -58,10 +58,14 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_loadEnvMapButton_clicked()
 {
-    std::string imageFilePath = QFileDialog::getOpenFileName(this, tr("Open Image"), "/home/maska/Pictures/imageeater", tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
+    static string lastOpenedFolder = "";
+
+    std::string imageFilePath = QFileDialog::getOpenFileName(this, tr("Open Image"), (lastOpenedFolder.empty() ? "/home/maska" : lastOpenedFolder.c_str()), tr("Image Files (*.png *.jpg *.jpeg *.bmp)")).toUtf8().constData();
 
     if (!imageFilePath.empty())
     {
+        lastOpenedFolder = imageFilePath;
+
         cv::Mat srcImage = cv::imread(imageFilePath, true);
         cv::cvtColor(srcImage, envMapOriginalMat, CV_BGRA2GRAY);
 
