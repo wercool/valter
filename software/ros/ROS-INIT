@@ -12,11 +12,11 @@ Valter ROS demo
    3.2) (optional) sudo bluetoothctl
    3.2.0) (optional) systemctl status bluetooth
       3.2.1) LEVEL 2
-4) (optional) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
+4) (optional) ROS master (ROS_MASTER_URI=http://192.168.101.100:11311)
    (reminder) 4.0) cat ~/.bashrc
    (otional)  4.10) cd ~/git/valter/software/ros/workspaces/master
    (otional)  4.20) source devel/setup.sh
- 5) (optional) ROS master (ROS_MASTER_URI=http://192.168.0.100:11311)
+ 5) (optional) ROS master (ROS_MASTER_URI=http://192.168.101.100:11311)
    5.10) (ROS master) roscore
    (manual action) 5.19) connect USB joystick
    5.20) (ROS master) rosrun joy joy_node
@@ -26,8 +26,7 @@ Valter ROS demo
    6.10) (valter1) rosrun valter cmd_vel_subscriber
 7) Launch expclient 
    7.0.0) cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop_Qt_5_7_0_GCC_64bit-Debug
-   7.0.0) ./expclient wlan0
-	   7.1.0) (reminder) (from Qt)  Disable 192.168.0.* (wired interdafce)
+   7.0.0) ./expclient eth0
 	   7.10) (TCP Interface) -> set Central Host IP Address (Valter workshop 192.168.101.100)
 	   7.20) (TCP Interface) -> press button "Update Settings / Connect All"
 	   7.30) (TCP Interface) -> Control Mode column -> Uncheck All except [PLATFORM-CONTROL-P1, BODY-CONTROL-P1]

@@ -6,7 +6,7 @@
 #include <ifaddrs.h>
 #include <algorithm>
 
-string TCPInterface::defaultNetworkInterface = "";
+string TCPInterface::defaultNetworkInterface = "eth0";
 
 TCPInterface::TCPInterface(int port)
 {
