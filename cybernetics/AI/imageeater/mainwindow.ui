@@ -286,6 +286,35 @@
        </widget>
       </item>
       <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Life Time</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSlider" name="lifeTimeHorizontalSlider">
+        <property name="minimum">
+         <number>1000</number>
+        </property>
+        <property name="maximum">
+         <number>60000</number>
+        </property>
+        <property name="singleStep">
+         <number>100</number>
+        </property>
+        <property name="pageStep">
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>4000</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>

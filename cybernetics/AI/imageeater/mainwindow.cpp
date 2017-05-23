@@ -231,7 +231,7 @@ void MainWindow::cTypeBHandler(int colonySize)
 
 void MainWindow::cTypeCHandler(int colonySize)
 {
-    if (lifeCycleCnt > 2000 || colonySize < 25)
+    if (lifeCycleCnt > ui->lifeTimeHorizontalSlider->value() || colonySize < 25)
     {
         lifeCycleCnt = 0;
 
