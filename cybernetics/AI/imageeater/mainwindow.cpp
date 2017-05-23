@@ -238,32 +238,53 @@ void MainWindow::cTypeCHandler(int colonySize)
         lifeTimer->stop();
         colony.deactive();
 
+        int goalRachedByNumOfCreatures = 0;
+        for (int i = 0; i < colony.getColonySize(); i++)
+        {
+            Creature *pCreature = colony.getCreature(i);
+            if (pCreature->getDistanceToTargetPoint() <= pCreature->getRx() * 10)
+            {
+                goalRachedByNumOfCreatures++;
+            }
+        }
+
+
         double maxCurFitness = colony.populateNextGeneration();
+
 
         fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
         updateGraph();
 
         ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
 
-        if (maxCurFitness <= colony.getCreature(0)->getRx() * 10)
+        if (goalRachedByNumOfCreatures > 0)
         {
-            QMessageBox *msgBox = new QMessageBox(0);
-            msgBox->setText("Goal reached.");
-            msgBox->exec();
-            ui->startLifeButton->setText("Resume Life");
-            ui->startLifeButton->setChecked(false);
-            return;
+            ui->statusBar->showMessage(format_string("Generation #%d - Goal Reached by %d Creatures", colony.getGeneration(), goalRachedByNumOfCreatures).c_str());
         }
 
-        if (colony.getGeneration() > 25)
+        if (ui->stopEvolutionAfterGolaReachedCheckBox->isChecked())
         {
-            fitnessFunctionGraph.clear();
-            colony.killCreatures();
-            colony.populate(Colony::Type::C, ui->colonySizeSpinBox->value());
-            colony.setEnvMapMat(&envMapMat);
-            activateLife(true);
-            ui->statusBar->showMessage("Evolution reset");
-            return;
+            if (goalRachedByNumOfCreatures > 0)
+            {
+                QMessageBox *msgBox = new QMessageBox(0);
+                msgBox->setText("Goal reached.");
+                msgBox->exec();
+                ui->startLifeButton->setText("Resume Life");
+                ui->startLifeButton->setChecked(false);
+                return;
+            }
+
+            if (colony.getGeneration() > 50)
+            {
+                ui->statusBar->showMessage(format_string("Generation #%d - Goal Reached by %d Creatures", colony.getGeneration(), goalRachedByNumOfCreatures).c_str());
+                fitnessFunctionGraph.clear();
+                colony.killCreatures();
+                colony.populate(Colony::Type::C, ui->colonySizeSpinBox->value());
+                colony.setEnvMapMat(&envMapMat);
+                activateLife(true);
+                ui->statusBar->showMessage("Evolution reset");
+                return;
+            }
         }
 
         colony.active();

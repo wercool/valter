@@ -279,6 +279,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCheckBox" name="stopEvolutionAfterGolaReachedCheckBox">
+        <property name="text">
+         <string>Stop Evolution on Goal Reached</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
