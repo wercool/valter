@@ -48,19 +48,21 @@ public:
     std::vector<Creature *> getCreatures() const;
     vector<Creature *> getSurvivedCreatures();
 
-    double populateNextGeneration();
+    vector<double> populateNextGeneration();
 
     vector<Creature *> sortedByVitality(vector<Creature *> creatures);
     vector<Creature *> sortedBySaturation(vector<Creature *> creatures);
     vector<Creature *> sortedByPathLength(vector<Creature *> creatures);
     vector<Creature *> sortedByPathLengthAndSaturation(vector<Creature *> creatures);
     vector<Creature *> sortedByDistanceToTargetPoint(vector<Creature *> creatures);
+    vector<Creature *> sortedByDistanceToTargetPointAndEffectiveness(vector<Creature *> creatures);
 
     static bool sortByVitality(Creature * c1, Creature * c2);
     static bool sortBySaturation(Creature * c1, Creature * c2);
     static bool sortByPathLength(Creature * c1, Creature * c2);
     static bool sortByPathLengthAndSaturation(Creature * c1, Creature * c2);
     static bool sortByDistanceToTargetPoint(Creature * c1, Creature * c2);
+    static bool sortByDistanceToTargetPointAndEffectiveness(Creature * c1, Creature * c2);
 
     int getGeneration() const;
     void setGeneration(int value);
@@ -75,8 +77,6 @@ protected:
     std::vector<Creature *> creatures;
 
     Colony::Type selectedType;
-
-    double maxFtiness = 0.0;
 
 private:
     int generation = 0;

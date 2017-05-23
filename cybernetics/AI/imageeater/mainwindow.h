@@ -84,7 +84,8 @@ private:
     QWidget *graphWidget;
     QVBoxLayout *graphWidgetLayout;
 
-    std::map<int, double> fitnessFunctionGraph;
+    std::map<int, double> fitnessFunctionGraph1;
+    std::map<int, double> fitnessFunctionGraph2;
 
     int lifeCycleCnt = 0;
 };

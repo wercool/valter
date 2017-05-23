@@ -194,7 +194,7 @@ void MainWindow::cTypeAHandler(int colonySize)
             on_generateEnvMapButton_clicked();
         }
 
-        fitnessFunctionGraph[colony.getGeneration()] = (double)100 - darkness;
+        fitnessFunctionGraph1[colony.getGeneration()] = (double)100 - darkness;
         updateGraph();
 
         updateEnvPixmap();
@@ -217,9 +217,10 @@ void MainWindow::cTypeBHandler(int colonySize)
         lifeTimer->stop();
         colony.deactive();
 
-        double maxCurFitness = colony.populateNextGeneration();
+        vector<double> returnedQualifier = colony.populateNextGeneration();
+        double maxCurFitness = returnedQualifier[0];
 
-        fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
+        fitnessFunctionGraph1[colony.getGeneration()] = maxCurFitness;
         updateGraph();
 
         ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
@@ -248,11 +249,13 @@ void MainWindow::cTypeCHandler(int colonySize)
             }
         }
 
+        vector<double> returnedQualifier = colony.populateNextGeneration();
+        double maxCurFitness = returnedQualifier[0];
+        double bestTime = returnedQualifier[1];
 
-        double maxCurFitness = colony.populateNextGeneration();
 
-
-        fitnessFunctionGraph[colony.getGeneration()] = maxCurFitness;
+        fitnessFunctionGraph1[colony.getGeneration()] = maxCurFitness;
+        fitnessFunctionGraph2[colony.getGeneration()] = bestTime;
         updateGraph();
 
         ui->statusBar->showMessage(format_string("Generation #%d", colony.getGeneration()).c_str());
@@ -277,7 +280,8 @@ void MainWindow::cTypeCHandler(int colonySize)
             if (colony.getGeneration() > 50)
             {
                 ui->statusBar->showMessage(format_string("Generation #%d - Goal Reached by %d Creatures", colony.getGeneration(), goalRachedByNumOfCreatures).c_str());
-                fitnessFunctionGraph.clear();
+                fitnessFunctionGraph1.clear();
+                fitnessFunctionGraph2.clear();
                 colony.killCreatures();
                 colony.populate(Colony::Type::C, ui->colonySizeSpinBox->value());
                 colony.setEnvMapMat(&envMapMat);
@@ -357,7 +361,8 @@ void MainWindow::on_startLifeButton_clicked(bool checked)
 
 void MainWindow::on_populateColonyButton_clicked()
 {
-    fitnessFunctionGraph.clear();
+    fitnessFunctionGraph1.clear();
+    fitnessFunctionGraph2.clear();
     activateLife(false);
     ui->startLifeButton->setChecked(false);
     ui->startLifeButton->setText("Start Life");
@@ -423,25 +428,40 @@ void MainWindow::on_updateEnvMapButton_clicked()
 
 void MainWindow::on_graphPushButton_clicked()
 {
+    fitnessFunctionGraph1.clear();
+    fitnessFunctionGraph2.clear();
     updateGraph();
 }
 
 void MainWindow::updateGraph()
 {
-    QtCharts::QLineSeries *series = new QtCharts::QLineSeries();
+    QtCharts::QLineSeries *series1 = new QtCharts::QLineSeries();
 
     typedef std::map<int, double> fitnessFunctionGraphType;
 
-    for (fitnessFunctionGraphType::iterator iterator = fitnessFunctionGraph.begin(); iterator != fitnessFunctionGraph.end(); ++iterator)
+    for (fitnessFunctionGraphType::iterator iterator = fitnessFunctionGraph1.begin(); iterator != fitnessFunctionGraph1.end(); ++iterator)
     {
-        series->append(iterator->first, iterator->second);
+        series1->append(iterator->first, iterator->second);
     }
 
     QtCharts::QChart *chart = new QtCharts::QChart();
     chart->legend()->hide();
-    chart->addSeries(series);
+    chart->addSeries(series1);
     chart->createDefaultAxes();
     chart->setTitle("Fitness Function");
+
+    if (!fitnessFunctionGraph2.empty())
+    {
+        QtCharts::QLineSeries *series2 = new QtCharts::QLineSeries();
+
+        typedef std::map<int, double> fitnessFunctionGraphType;
+
+        for (fitnessFunctionGraphType::iterator iterator = fitnessFunctionGraph2.begin(); iterator != fitnessFunctionGraph2.end(); ++iterator)
+        {
+            series2->append(iterator->first, iterator->second);
+        }
+        chart->addSeries(series2);
+    }
 
     QtCharts::QChartView *chartView = new QtCharts::QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);

@@ -44,6 +44,9 @@ public:
     void setDLifeTime(int value);
     int getDLifeTime() const;
 
+    double getEffectiveNess() const;
+    void setEffectiveNess(double value);
+
     // QGraphicsItem interface
 public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
@@ -62,6 +65,7 @@ protected:
     double vitality = 1.0;
     double saturation = 0.0;
     double pathLength = 0.0;
+    double effectiveNess = 0.0;
 
     cv::Point2f targetPoint;
     double distanceToTargetPoint = 0.0;

@@ -79,6 +79,16 @@ void Creature::lifeThreadProcess()
     // to be override in nested
 }
 
+double Creature::getEffectiveNess() const
+{
+    return effectiveNess;
+}
+
+void Creature::setEffectiveNess(double value)
+{
+    effectiveNess = value;
+}
+
 void Creature::setDistanceToTargetPoint(double value)
 {
     distanceToTargetPoint = value;

@@ -222,8 +222,9 @@ vector<Creature *> Colony::getSurvivedCreatures()
     return survivedCreatures;
 }
 
-double Colony::populateNextGeneration()
+vector<double> Colony::populateNextGeneration()
 {
+    vector<double> returnQualifier;
     int selectedSize;
 
     vector<Creature *> pCreatures;
@@ -247,19 +248,32 @@ double Colony::populateNextGeneration()
             selectedSize = (int)((double)pCreatures.size() * 0.25);
         }
         Creature *pBestCreature = pCreatures[0];
-        maxFtiness = pBestCreature->getPathLength();
+        returnQualifier.push_back(pBestCreature->getPathLength());
     }
 
     if (selectedType == Type::C)
     {
-        pCreatures = sortedByDistanceToTargetPoint(getSurvivedCreatures());
+//        pCreatures = sortedByDistanceToTargetPoint(getSurvivedCreatures());
+//        selectedSize = (int)pCreatures.size();
+//        if (selectedSize == getColonySize())
+//        {
+//            selectedSize = (int)((double)pCreatures.size() * 0.25);
+//        }
+
+        pCreatures = sortedByDistanceToTargetPointAndEffectiveness(getSurvivedCreatures());
+
         selectedSize = (int)pCreatures.size();
-        if (selectedSize == getColonySize())
+        if ((double)selectedSize > (double)(0.5 * getColonySize()))
         {
             selectedSize = (int)((double)pCreatures.size() * 0.25);
         }
+
         Creature *pBestCreature = pCreatures[0];
-        maxFtiness = pBestCreature->getDistanceToTargetPoint();
+        returnQualifier.push_back(pBestCreature->getDistanceToTargetPoint());
+        returnQualifier.push_back(1 / pBestCreature->getEffectiveNess());
+
+//        pCreatures = { pBestCreature };
+//        selectedSize = 1;
     }
 
     vector<NeuralNetwork *> selectedNNs;
@@ -289,7 +303,7 @@ double Colony::populateNextGeneration()
 
     setGeneration(getGeneration() + 1);
 
-    return maxFtiness;
+    return returnQualifier;
 }
 
 vector<Creature *> Colony::sortedByVitality(vector<Creature *> creatures)
@@ -322,6 +336,12 @@ vector<Creature *> Colony::sortedByDistanceToTargetPoint(vector<Creature *> crea
     return creatures;
 }
 
+vector<Creature *> Colony::sortedByDistanceToTargetPointAndEffectiveness(vector<Creature *> creatures)
+{
+    std::sort(creatures.begin(), creatures.end(), Colony::sortByDistanceToTargetPointAndEffectiveness);
+    return creatures;
+}
+
 bool Colony::sortByVitality(Creature *c1, Creature *c2)
 {
     return (c1->getVitality() > c2->getVitality());
@@ -349,6 +369,15 @@ bool Colony::sortByPathLengthAndSaturation(Creature *c1, Creature *c2)
 bool Colony::sortByDistanceToTargetPoint(Creature *c1, Creature *c2)
 {
     return (c1->getDistanceToTargetPoint() < c2->getDistanceToTargetPoint());
+}
+
+bool Colony::sortByDistanceToTargetPointAndEffectiveness(Creature *c1, Creature *c2)
+{
+    double c1W = 0.0;
+    double c2W = 0.0;
+    c1W += c1->getDistanceToTargetPoint() - 1 / c1->getEffectiveNess();
+    c2W += c2->getDistanceToTargetPoint() - 1 / c2->getEffectiveNess();
+    return (c1W < c2W);
 }
 
 int Colony::getGeneration() const

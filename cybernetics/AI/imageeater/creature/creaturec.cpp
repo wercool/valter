@@ -325,7 +325,9 @@ void CreatureC::lifeThreadProcess()
 
         setDistanceToTargetPoint(cv::norm(cv::Point2f(envMapMat->cols, envMapMat->rows) - cv::Point2f(getX(), getY())));
 
-        if (distanceToTargetPoint <= rx * 10)
+        effectiveNess = cnt;
+
+        if (distanceToTargetPoint <= rx * 5)
         {
             break;
         }
