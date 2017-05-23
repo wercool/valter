@@ -351,6 +351,11 @@ void CreatureC::lifeThreadProcess()
             double dPath = sqrt(pow((getX() - cX), 2) + pow((getY() - cY), 2)) * 0.01;
             pathLength += (dPath > 0.001) ? dPath : 0.0;
 
+            if (dPath > 0)
+            {
+                vitality -= 0.0005 / dPath;
+            }
+
             setA(cA);
             setX(cX);
             setY(cY);
