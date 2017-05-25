@@ -151,7 +151,7 @@ public:
     double RArmJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RArmJoint_positions_idx] * 180 / M_PI;
     double RShoulderJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RShoulderJoint_positions_idx] * 180 / M_PI;
     double RTorsoJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RTorsoJoint_positions_idx] * 180 / M_PI;
-    double RForearmRollJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RForearmRollJoint_positions_idx] * 180 / M_PI;
+    double RForearmRollJointPositionDeg = abs(goal->trajectory.points[pointVector_pos].positions[RForearmRollJoint_positions_idx]) * 180 / M_PI;
 
     //Connect to remote server
     if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
