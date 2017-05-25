@@ -258,7 +258,7 @@ public:
                 LArmJointCurrentPositionDeg = atof(resultBufferElements[1].c_str());
                 LShoulderJointCurrentPositionDeg = atof(resultBufferElements[2].c_str());
                 LTorsoJointCurrentPositionDeg = atof(resultBufferElements[3].c_str());
-                LForearmRollJointCurrentPositionDeg = atof(resultBufferElements[4].c_str());
+                LForearmRollJointCurrentPositionDeg = -atof(resultBufferElements[4].c_str());
 
                 double LArmElbowJointPositionRad = LArmElbowJointCurrentPositionDeg * M_PI / 180;
                 double LArmJointPositionRad = LArmJointCurrentPositionDeg * M_PI / 180;

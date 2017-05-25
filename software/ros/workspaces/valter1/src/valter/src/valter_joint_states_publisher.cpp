@@ -101,7 +101,7 @@ int main(int argc, char** argv)
             double LArmJointPositionRad = atof(resultBufferElements[1].c_str()) * M_PI / 180;
             double LShoulderJointPositionRad = atof(resultBufferElements[2].c_str()) * M_PI / 180;
             double LTorsoJointPositionRad = atof(resultBufferElements[3].c_str()) * M_PI / 180;
-            double LForearmRollJointPositionRad = atof(resultBufferElements[4].c_str()) * M_PI / 180;
+            double LForearmRollJointPositionRad = -atof(resultBufferElements[4].c_str()) * M_PI / 180;
 
             double RArmElbowJointPositionRad = atof(resultBufferElements[5].c_str()) * M_PI / 180;
             double RArmJointPositionRad = atof(resultBufferElements[6].c_str()) * M_PI / 180;
