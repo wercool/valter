@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>8</number>
+       <number>7</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -54,7 +54,7 @@
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1045</height>
+             <height>1020</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2910,7 +2910,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>234</width>
-             <height>572</height>
+             <height>548</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -8128,7 +8128,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1514</height>
+             <height>1513</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -13724,7 +13724,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1098</height>
+             <height>1087</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -17083,7 +17083,7 @@ image: url(:/hand.png);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1098</height>
+             <height>1087</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -20225,7 +20225,7 @@ image: url(:/hand-left.png);</string>
           <property name="minimumSize">
            <size>
             <width>0</width>
-            <height>0</height>
+            <height>230</height>
            </size>
           </property>
           <property name="statusTip">

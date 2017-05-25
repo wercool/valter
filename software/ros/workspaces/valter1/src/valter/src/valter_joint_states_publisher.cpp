@@ -95,8 +95,8 @@ int main(int argc, char** argv)
             std::string resultBuffer(buffer);
             std::vector<std::string> resultBufferElements = split(resultBuffer, ',');
 
-            ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(),
-                                                       resultBufferElements[4].c_str(), resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str());
+            ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(), resultBufferElements[4].c_str(),
+                                                               resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str(), resultBufferElements[8].c_str(), resultBufferElements[9].c_str());
 
             double LArmElbowJointPositionRad = atof(resultBufferElements[0].c_str()) * M_PI / 180;
             double LArmJointPositionRad = atof(resultBufferElements[1].c_str()) * M_PI / 180;

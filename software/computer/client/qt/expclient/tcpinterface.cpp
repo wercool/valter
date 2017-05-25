@@ -284,13 +284,24 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
             bool duplicate = false;
             if (!sentCDRs.empty())
             {
-                for(vector<string>::const_iterator i = sentCDRs.begin(); i != sentCDRs.end(); ++i)
+                for (unsigned int i = 0; i < sentCDRs.size(); i++)
                 {
-                    if (((string)*i).compare(command) == 0)
+                    string sentCDR = sentCDRs[i];
+                    if (!sentCDR.empty())
                     {
-                        duplicate = true;
+                        if (sentCDR.find(command) != std::string::npos)
+                        {
+                            duplicate = true;
+                        }
                     }
                 }
+//                for(vector<string>::const_iterator i = sentCDRs.begin(); i != sentCDRs.end(); ++i)
+//                {
+//                    if (((string)*i).compare(command) == 0)
+//                    {
+//                        duplicate = true;
+//                    }
+//                }
             }
             if (!duplicate) //ignore too often duplicates
             {

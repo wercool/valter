@@ -48,10 +48,12 @@ class TaskManagerTCPConnectionHandler : public Thread
                                                    armControlLeft->getArmPosition(),
                                                    armControlLeft->getLimbPosition(),
                                                    bodyControlP1->getLeftArmYawPosition(),
+                                                   armControlLeft->getForearmRollPosition(),
                                                    armControlRight->getForearmPosition(),
                                                    armControlRight->getArmPosition(),
                                                    armControlRight->getLimbPosition(),
-                                                   bodyControlP1->getRightArmYawPosition());
+                                                   bodyControlP1->getRightArmYawPosition(),
+                                                   armControlRight->getForearmRollPosition());
                 }
                 else
                 {
