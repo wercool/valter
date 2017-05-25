@@ -109,8 +109,7 @@ int main(int argc, char** argv)
             double RTorsoJointPositionRad = atof(resultBufferElements[8].c_str()) * M_PI / 180;
             double RForearmRollJointPositionRad = atof(resultBufferElements[9].c_str()) * M_PI / 180;
 
-            ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f, LForearmRollJoint:%.2f\
-                      RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f, RForearmRollJoint:%.2f", 
+            ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f, LForearmRollJoint:%.2f RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f, RForearmRollJoint:%.2f", 
                       LArmElbowJointPositionRad, LArmJointPositionRad, LShoulderJointPositionRad, LTorsoJointPositionRad, LForearmRollJointPositionRad,
                       RArmElbowJointPositionRad, RArmJointPositionRad, RShoulderJointPositionRad, RTorsoJointPositionRad, RForearmRollJointPositionRad);
 

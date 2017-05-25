@@ -162,11 +162,7 @@ public:
     {
         int returnedBytes;
 
-        std::string request = format("T_ACL_SetLeftLimbPositionTask_%.2f\n\
-                                      T_ACL_SetLeftArmPositionTask_%.2f\n\
-                                      T_ACL_SetLeftForearmPositionTask_%.2f\n\
-                                      T_BCP1_SetLeftArmYawPositionTask_%.2f\n\
-                                      T_ACL_SetLeftArmRollPositionTask_%.2f", 
+        std::string request = format("T_ACL_SetLeftLimbPositionTask_%.2f\nT_ACL_SetLeftArmPositionTask_%.2f\nT_ACL_SetLeftForearmPositionTask_%.2f\nT_BCP1_SetLeftArmYawPositionTask_%.2f\nT_ACL_SetLeftArmRollPositionTask_%.2f", 
                                      LShoulderJointPositionDeg,
                                      LArmJointPositionDeg,
                                      LArmElbowJointPositionDeg,
