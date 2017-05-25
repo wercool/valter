@@ -115,6 +115,7 @@ public:
     int RShoulderJoint_positions_idx = 0;
     int RArmJoint_positions_idx = 0;
     int RArmElbowJoint_positions_idx = 0;
+    int RForearmRollJoint_positions_idx = 0;
 
     vector<string>::iterator iter = joint_names.begin();
     int idx = 0;
@@ -137,6 +138,10 @@ public:
         {
             RArmElbowJoint_positions_idx = idx;
         }
+        if (jointName == "RForearmRollJoint")
+        {
+            RForearmRollJoint_positions_idx = idx;
+        }
         idx++;
     }
 
@@ -146,6 +151,7 @@ public:
     double RArmJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RArmJoint_positions_idx] * 180 / M_PI;
     double RShoulderJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RShoulderJoint_positions_idx] * 180 / M_PI;
     double RTorsoJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RTorsoJoint_positions_idx] * 180 / M_PI;
+    double RForearmRollJointPositionDeg = goal->trajectory.points[pointVector_pos].positions[RForearmRollJoint_positions_idx] * 180 / M_PI;
 
     //Connect to remote server
     if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
@@ -156,11 +162,16 @@ public:
     {
         int returnedBytes;
 
-        std::string request = format("T_ACR_SetRightLimbPositionTask_%.2f\nT_ACR_SetRightArmPositionTask_%.2f\nT_ACR_SetRightForearmPositionTask_%.2f\nT_BCP1_SetRightArmYawPositionTask_%.2f", 
+        std::string request = format("T_ACR_SetRightLimbPositionTask_%.2f\n\
+                                      T_ACR_SetRightArmPositionTask_%.2f\n\
+                                      T_ACR_SetRightForearmPositionTask_%.2f\n\
+                                      T_BCP1_SetRightArmYawPositionTask_%.2f\n\
+                                      T_ACR_SetRightArmRollPositionTask_%.2f", 
                                      RShoulderJointPositionDeg,
                                      RArmJointPositionDeg,
                                      RArmElbowJointPositionDeg,
-                                     RTorsoJointPositionDeg);
+                                     RTorsoJointPositionDeg,
+                                     RForearmRollJointPositionDeg);
 
         char buffer[1024];
 
@@ -208,11 +219,13 @@ public:
         bool RArmJointCompleted = false;
         bool RShoulderJointCompleted = false;
         bool RTorsoJointCompleted = false;
+        bool RForearmRollJointCompleted = false;
 
         double RArmElbowJointCurrentPositionDeg = 0.0;
         double RArmJointCurrentPositionDeg = 0.0;
         double RShoulderJointCurrentPositionDeg = 0.0;
         double RTorsoJointCurrentPositionDeg = 0.0;
+        double RForearmRollJointCurrentPositionDeg = 0.0;
 
         //Connect to remote server
         if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
@@ -242,21 +255,28 @@ public:
                 std::string resultBuffer(buffer);
                 std::vector<std::string> resultBufferElements = split(resultBuffer, ',');
 
-                ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(),
-                                                           resultBufferElements[4].c_str(), resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str());
+                ROS_INFO("%s, %s, %s, %s, %s, %s, %s, %s, %s, %s", resultBufferElements[0].c_str(), resultBufferElements[1].c_str(), resultBufferElements[2].c_str(), resultBufferElements[3].c_str(), resultBufferElements[4].c_str(),
+                                                                   resultBufferElements[5].c_str(), resultBufferElements[6].c_str(), resultBufferElements[7].c_str(), resultBufferElements[8].c_str(), resultBufferElements[9].c_str());
 
-                RArmElbowJointCurrentPositionDeg = atof(resultBufferElements[4].c_str());
-                RArmJointCurrentPositionDeg = atof(resultBufferElements[5].c_str());
-                RShoulderJointCurrentPositionDeg = atof(resultBufferElements[6].c_str());
-                RTorsoJointCurrentPositionDeg = atof(resultBufferElements[7].c_str());
+                RArmElbowJointCurrentPositionDeg = atof(resultBufferElements[5].c_str());
+                RArmJointCurrentPositionDeg = atof(resultBufferElements[6].c_str());
+                RShoulderJointCurrentPositionDeg = atof(resultBufferElements[7].c_str());
+                RTorsoJointCurrentPositionDeg = atof(resultBufferElements[8].c_str());
+                RForearmRollJointCurrentPositionDeg = atof(resultBufferElements[9].c_str());
 
                 double RArmElbowJointPositionRad = RArmElbowJointCurrentPositionDeg * M_PI / 180;
                 double RArmJointPositionRad = RArmJointCurrentPositionDeg * M_PI / 180;
                 double RShoulderJointPositionRad = RShoulderJointCurrentPositionDeg * M_PI / 180;
                 double RTorsoJointPositionRad = RTorsoJointCurrentPositionDeg * M_PI / 180;
+                double RForearmRollJointPositionRad = RForearmRollJointCurrentPositionDeg * M_PI / 180;
 
-                ROS_INFO("RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f", 
-                          RArmElbowJointCurrentPositionDeg, RArmJointCurrentPositionDeg, RShoulderJointCurrentPositionDeg, RTorsoJointCurrentPositionDeg);
+
+                ROS_INFO("RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f, RForearmRollJoint:%.2f", 
+                          RArmElbowJointCurrentPositionDeg, 
+                          RArmJointCurrentPositionDeg, 
+                          RShoulderJointCurrentPositionDeg, 
+                          RTorsoJointCurrentPositionDeg,
+                          RForearmRollJointCurrentPositionDeg);
 
 /*
                 std::vector<double> actual_joint_positions;
@@ -291,8 +311,9 @@ public:
         RArmJointCompleted = (abs(RArmJointCurrentPositionDeg - RArmJointPositionDeg) <= goalToleranceDeg) ? true : false;
         RShoulderJointCompleted = (abs(RShoulderJointCurrentPositionDeg - RShoulderJointPositionDeg) <= goalToleranceDeg) ? true : false;
         RTorsoJointCompleted = (abs(RTorsoJointCurrentPositionDeg - RTorsoJointPositionDeg) <= goalToleranceDeg) ? true : false;
+        RForearmRollJointCompleted = (abs(RForearmRollJointCurrentPositionDeg - RForearmRollJointPositionDeg) <= goalToleranceDeg) ? true : false;
 
-        if (RArmElbowJointCompleted && RArmJointCompleted && RShoulderJointCompleted && RTorsoJointCompleted)
+        if (RArmElbowJointCompleted && RArmJointCompleted && RShoulderJointCompleted && RTorsoJointCompleted && RForearmRollJointCompleted)
         {
             ROS_INFO("Goal reached in %d sec", waitSec);
             as.setSucceeded(result);
@@ -300,13 +321,13 @@ public:
             break;
         }
         waitSec++;
-        ROS_INFO("Goal reaching, waiting %d sec", waitSec);
+        ROS_INFO("Achieving the goal, waiting %d sec", waitSec);
         ros::Duration(1.0).sleep();
     }
 
     if (!goalReached)
     {
-        ROS_INFO("Goal reaching failed after %d sec of waiting", waitSec);
+        ROS_INFO("Reach goal attempt failed after %d sec of waiting", waitSec);
         as.setAborted(result);
     }
   }

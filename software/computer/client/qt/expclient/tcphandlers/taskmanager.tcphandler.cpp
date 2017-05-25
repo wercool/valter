@@ -43,7 +43,7 @@ class TaskManagerTCPConnectionHandler : public Thread
                     ArmControlRight *armControlRight = ArmControlRight::getInstance();
                     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
                     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-                    output = Valter::format_string("%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
+                    output = Valter::format_string("%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f,%.2f",
                                                    armControlLeft->getForearmPosition(),
                                                    armControlLeft->getArmPosition(),
                                                    armControlLeft->getLimbPosition(),

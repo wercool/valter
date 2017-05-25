@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 
   ros::NodeHandle nh;
 
-  ros::Publisher left_arm_joint_states_publisher = nh.advertise<sensor_msgs::JointState>("/joint_states", 1);
+  ros::Publisher left_and_right_arm_joint_states_publisher = nh.advertise<sensor_msgs::JointState>("/joint_states", 1);
 
   ros::Rate r(10.0);
   while(nh.ok())
@@ -60,7 +60,6 @@ int main(int argc, char** argv)
 
     ros::spinOnce();               // check for incoming messages
 
-    //MOVEITLEFTARMGROUP left_arm group
     int sock = socket(AF_INET , SOCK_STREAM , 0);
     struct sockaddr_in server;
     server.sin_addr.s_addr = inet_addr("192.168.101.101");
@@ -102,22 +101,25 @@ int main(int argc, char** argv)
             double LArmJointPositionRad = atof(resultBufferElements[1].c_str()) * M_PI / 180;
             double LShoulderJointPositionRad = atof(resultBufferElements[2].c_str()) * M_PI / 180;
             double LTorsoJointPositionRad = atof(resultBufferElements[3].c_str()) * M_PI / 180;
+            double LForearmRollJointPositionRad = atof(resultBufferElements[4].c_str()) * M_PI / 180;
 
-            double RArmElbowJointPositionRad = atof(resultBufferElements[4].c_str()) * M_PI / 180;
-            double RArmJointPositionRad = atof(resultBufferElements[5].c_str()) * M_PI / 180;
-            double RShoulderJointPositionRad = atof(resultBufferElements[6].c_str()) * M_PI / 180;
-            double RTorsoJointPositionRad = atof(resultBufferElements[7].c_str()) * M_PI / 180;
+            double RArmElbowJointPositionRad = atof(resultBufferElements[5].c_str()) * M_PI / 180;
+            double RArmJointPositionRad = atof(resultBufferElements[6].c_str()) * M_PI / 180;
+            double RShoulderJointPositionRad = atof(resultBufferElements[7].c_str()) * M_PI / 180;
+            double RTorsoJointPositionRad = atof(resultBufferElements[8].c_str()) * M_PI / 180;
+            double RForearmRollJointPositionRad = atof(resultBufferElements[9].c_str()) * M_PI / 180;
 
-            ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f, RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f", 
-                      LArmElbowJointPositionRad, LArmJointPositionRad, LShoulderJointPositionRad, LTorsoJointPositionRad,
-                      RArmElbowJointPositionRad, RArmJointPositionRad, RShoulderJointPositionRad, RTorsoJointPositionRad);
-
+            ROS_INFO("LArmElbowJoint: %.2f, LArmJoint:%.2f, LShoulderJoint:%.2f, LTorsoJoint:%.2f, LForearmRollJoint:%.2f\
+                      RArmElbowJoint: %.2f, RArmJoint:%.2f, RShoulderJoint:%.2f, RTorsoJoint:%.2f, RForearmRollJoint:%.2f", 
+                      LArmElbowJointPositionRad, LArmJointPositionRad, LShoulderJointPositionRad, LTorsoJointPositionRad, LForearmRollJointPositionRad,
+                      RArmElbowJointPositionRad, RArmJointPositionRad, RShoulderJointPositionRad, RTorsoJointPositionRad, RForearmRollJointPositionRad);
 
             std::vector<std::string> joint_names;
             std::vector<double> joint_positions;
             std::vector<double> joint_velocities;
             std::vector<double> joint_efforts;
 
+            //left_arm_group
             joint_names.push_back("LArmElbowJoint");
             joint_positions.push_back(LArmElbowJointPositionRad);
             joint_velocities.push_back(0.0);
@@ -138,6 +140,13 @@ int main(int argc, char** argv)
             joint_velocities.push_back(0.0);
             joint_efforts.push_back(0.0);
 
+            joint_names.push_back("LForearmRollJoint");
+            joint_positions.push_back(LForearmRollJointPositionRad);
+            joint_velocities.push_back(0.0);
+            joint_efforts.push_back(0.0);
+
+
+            //right_arm_group
             joint_names.push_back("RArmElbowJoint");
             joint_positions.push_back(RArmElbowJointPositionRad);
             joint_velocities.push_back(0.0);
@@ -158,13 +167,18 @@ int main(int argc, char** argv)
             joint_velocities.push_back(0.0);
             joint_efforts.push_back(0.0);
 
-            sensor_msgs::JointState left_arm_joint_states;
-            left_arm_joint_states.header.stamp = ros::Time::now();
-            left_arm_joint_states.name = joint_names;
-            left_arm_joint_states.position = joint_positions;
-            left_arm_joint_states.velocity = joint_velocities;
-            left_arm_joint_states.effort = joint_efforts;
-            left_arm_joint_states_publisher.publish(left_arm_joint_states);
+            joint_names.push_back("RForearmRollJoint");
+            joint_positions.push_back(RForearmRollJointPositionRad);
+            joint_velocities.push_back(0.0);
+            joint_efforts.push_back(0.0);
+
+            sensor_msgs::JointState left_and_right_arm_joint_states;
+            left_and_right_arm_joint_states.header.stamp = ros::Time::now();
+            left_and_right_arm_joint_states.name = joint_names;
+            left_and_right_arm_joint_states.position = joint_positions;
+            left_and_right_arm_joint_states.velocity = joint_velocities;
+            left_and_right_arm_joint_states.effort = joint_efforts;
+            left_and_right_arm_joint_states_publisher.publish(left_and_right_arm_joint_states);
 
             for (int i = 0; i < 1024; i++)
             {
