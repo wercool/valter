@@ -533,3 +533,19 @@ void MainWindow::on_tasksTableWidget_itemClicked(QTableWidgetItem *item)
         ui->stopSelectedTaskButton->setChecked(false);
     }
 }
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Exit confirmation",
+                                                                tr("Are you sure?\n"),
+                                                                QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::Yes);
+    if (resBtn != QMessageBox::Yes)
+    {
+        event->ignore();
+    }
+    else
+    {
+        event->accept();
+    }
+}

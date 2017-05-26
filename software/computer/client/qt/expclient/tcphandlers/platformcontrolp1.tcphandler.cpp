@@ -71,6 +71,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
     void executeCommand(string cmd)
     {
         PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+        TaskManager *taskManager = TaskManager::getInstance();
 
         if (cmd.find("CDR~") != std::string::npos)
         {
@@ -128,6 +129,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
 //        }
         if (cmd.find("on_platformMoveForwardButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformMoveForwardButton_pressed();
             return;
         }
@@ -138,6 +140,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformBackwardForwardButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformBackwardForwardButton_pressed();
             return;
         }
@@ -148,6 +151,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformRotateLeftButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformRotateLeftButton_pressed();
             return;
         }
@@ -158,6 +162,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformRotateRightButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformRotateRightButton_pressed();
             return;
         }
@@ -168,6 +173,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformMoveForwardRightButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformMoveForwardRightButton_pressed();
             return;
         }
@@ -178,6 +184,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformMoveForwardLeftButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformMoveForwardLeftButton_pressed();
             return;
         }
@@ -188,6 +195,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformMoveBackwardRightButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformMoveBackwardRightButton_pressed();
             return;
         }
@@ -198,6 +206,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformMoveBackwardLeftButton_pressed") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformMoveBackwardLeftButton_pressed();
             return;
         }
@@ -208,6 +217,7 @@ class PlatformControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_platformMoveStopButton_clicked") != std::string::npos)
         {
+            taskManager->stopTasksByName("CmdVelTask");
             mainWindow->on_platformMoveStopButton_clicked();
             return;
         }

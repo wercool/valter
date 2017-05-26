@@ -87,6 +87,19 @@ ITask* TaskManager::getTaskById(unsigned long id)
     }
 }
 
+std::vector<unsigned long> TaskManager::getTasksIdsByName(string taskName)
+{
+    std::vector<unsigned long> tasksIds;
+    for(std::map<unsigned long, ITask*>::iterator it = queuedTasksMap.begin(); it != queuedTasksMap.end(); it++)
+    {
+        if (((ITask*)it->second)->getTaskName().find(taskName.c_str()) != std::string::npos)
+        {
+            tasksIds.push_back(((ITask*)it->second)->getTaskId());
+        }
+    }
+    return tasksIds;
+}
+
 ITask *TaskManager::getProcessingTask()
 {
     return processingTask;
@@ -103,6 +116,15 @@ void TaskManager::stopTask(unsigned long taskId)
             qDebug("Task [%s %lu] has been stopped...", ((ITask*)it->second)->getTaskName().c_str(), ((ITask*)it->second)->getTaskId());
             return;
         }
+    }
+}
+
+void TaskManager::stopTasksByName(string taskName)
+{
+    std::vector<unsigned long> tasksIds = getTasksIdsByName(taskName);
+    for (unsigned int i = 0; i < tasksIds.size(); i++)
+    {
+        stopTask(tasksIds[i]);
     }
 }
 

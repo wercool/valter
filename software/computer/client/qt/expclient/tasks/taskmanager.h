@@ -14,12 +14,14 @@ public:
     static TaskManager *getInstance();
     unsigned int addTask(ITask *task);
     ITask* getTaskById(unsigned long id);
+    std::vector<unsigned long> getTasksIdsByName(std::string taskName);
 
     unsigned int routeTaskRequest(std::string taskMessage); //returns TaskId
 
     ITask *getProcessingTask();
 
     void stopTask(unsigned long taskId);
+    void stopTasksByName(std::string taskName);
 
     bool getQueueStopped() const;
     void setQueueStopped(bool value);

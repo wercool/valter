@@ -658,6 +658,10 @@ private slots:
     void on_clearRemoteTaskManagerTasksMapButton_clicked();
     void on_stopSelectedTaskButton_toggled(bool checked);
     void on_tasksTableWidget_itemClicked(QTableWidgetItem *item);
+
+    // QWidget interface
+protected:
+    void closeEvent(QCloseEvent *event);
 };
 
 #endif // MAINWINDOW_H
