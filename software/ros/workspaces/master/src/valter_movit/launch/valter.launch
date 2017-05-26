@@ -30,9 +30,11 @@
     <arg name="debug" value="$(arg debug)"/>
   </include>
 
+<!--
   <include file="$(find valter_movit)/launch/moveit_rviz.launch">
     <arg name="config" value="true"/>
     <arg name="debug" value="$(arg debug)"/>
   </include>
+-->
 
 </launch>

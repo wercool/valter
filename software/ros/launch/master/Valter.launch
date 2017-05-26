@@ -1,0 +1,10 @@
+<launch>
+    <include file="$(find valter_movit)/launch/valter.launch"/>
+
+    <rosparam command="load" file="$(find valter_movit)/config/kinematics.yaml"/>
+
+    <include file="/home/maska/git/valter/software/ros/launch/master/rtabmap_ros/launch/valter.launch">
+        <arg name="localization" value="true"/>
+    </include>
+
+</launch>
