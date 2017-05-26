@@ -11,12 +11,11 @@
     <arg name="load_robot_description" value="true"/>
   </include>
 
-  <!-- We do not have a robot connected, so publish fake joint states -->
+  <node pkg="tf" type="static_transform_publisher" name="camera_link_to_Base_tf" args="-0.23 0 -1.025 0 0 0 /camera_link /Base 100" />
+  <node pkg="tf" type="static_transform_publisher" name="virtual_joint" args="0 0 0 0 0 0 /Base /base_virtual_joint_tf 100" />
+
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="/use_gui" value="true"/> 
-<!--
-    <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
--->
     <rosparam param="/source_list">[/joint_states]</rosparam>
   </node>
   
@@ -28,6 +27,11 @@
     <arg name="allow_trajectory_execution" value="true"/>
     <arg name="fake_execution" value="false"/>
     <arg name="info" value="true"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <include file="$(find valter_movit)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
     <arg name="debug" value="$(arg debug)"/>
   </include>
 

@@ -48,10 +48,10 @@ xdotool type --delay 1 --clearmodifiers "rosrun valter valter_joy_teleop_cmd_vel
 #xdotool key Return;
 sleep 1;
 
-openTerminalTab;
-xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/valter-tf.launch";
-#xdotool key Return;
-sleep 1;
+#openTerminalTab;
+#xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/valter-tf.launch";
+##xdotool key Return;
+#sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch";

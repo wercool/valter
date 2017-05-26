@@ -16,8 +16,13 @@
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="-0.23 0 -1.025 0 0 0 /odom /Base 100" />
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint" args="0 0 0 0 0 0 /odom /base_virtual_joint_tf 100" />
 -->
+<!--
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint_broadcaster_0" args="0 0 0 0 0 0 /odom /Base 100" />
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint" args="0 0 0 0 0 0 /odom /base_virtual_joint_tf 100" />
+-->
+
+  <node pkg="tf" type="static_transform_publisher" name="camera_link_to_Base_tf" args="-0.23 0 -1.025 0 0 0 /camera_link /Base 100" />
+  <node pkg="tf" type="static_transform_publisher" name="virtual_joint" args="0 0 0 0 0 0 /Base /base_virtual_joint_tf 100" />
 
 
   <!-- We do not have a robot connected, so publish fake joint states -->
