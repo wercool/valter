@@ -40,7 +40,7 @@
   <arg name="odom_topic"              default="/odom"/>         <!-- Odometry topic used if visual_odometry is false -->
    
   <arg name="namespace"               default="rtabmap"/>
-  <arg name="wait_for_transform"      default="0.2"/>
+  <arg name="wait_for_transform"      default="1.0"/>
   
   <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
     <arg name="rtabmapviz"              value="$(arg rtabmapviz)" /> 
