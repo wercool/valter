@@ -34,11 +34,11 @@ int main(int argc, char *argv[])
         if (argc > 1)
         {
             std::string iface = std::string(argv[1]);
-            if (iface == "eth0" || iface == "wlan0")
-            {
+//            if (iface == "eth0" || iface == "wlan0")
+//            {
                 TCPInterface::defaultNetworkInterface = string(argv[1]);
                 qDebug("TCPInterface::defaultNetworkInterface: %s", TCPInterface::defaultNetworkInterface.c_str());
-            }
+//            }
         }
 
         QApplication application(argc, argv);
