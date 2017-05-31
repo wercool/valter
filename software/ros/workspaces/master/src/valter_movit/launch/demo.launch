@@ -25,6 +25,9 @@
   <node pkg="tf" type="static_transform_publisher" name="virtual_joint" args="0 0 0 0 0 0 /Base /base_virtual_joint_tf 100" />
 
 
+  <node pkg="valter_movit" type="right_arm_joint_trajectory_action_server" name="right_arm_joint_trajectory_action_server"/>
+  <node pkg="valter_movit" type="left_arm_joint_trajectory_action_server" name="left_arm_joint_trajectory_action_server"/>
+
   <!-- We do not have a robot connected, so publish fake joint states -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="/use_gui" value="true"/> 

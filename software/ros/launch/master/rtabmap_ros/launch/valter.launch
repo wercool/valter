@@ -1,4 +1,3 @@
-
 <launch>
   <!-- Backward compatibility launch file, use rtabmap.launch instead -->
   
@@ -8,7 +7,7 @@
            $ roslaunch openni2_launch openni2.launch depth_registration:=true -->
  
   <!-- Choose visualization -->
-  <arg name="rviz"                    default="true" />
+  <arg name="rviz"                    default="false" />
   <arg name="rtabmapviz"              default="false" /> 
   
   <!-- Localization-only mode -->
@@ -23,12 +22,12 @@
   <arg name="database_path"           default="~/.ros/rtabmap.db"/>
   <arg name="rtabmap_args"            default=""/>              <!-- delete_db_on_start, udebug -->
   <arg name="launch_prefix"           default=""/>              <!-- for debugging purpose, it fills launch-prefix tag of the nodes -->
-  <arg name="approx_sync"             default="true"/>         <!-- if timestamps of the input topics are not synchronized -->
+  <arg name="approx_sync"             default="true"/>          <!-- if timestamps of the input topics are not synchronized -->
    
   <arg name="rgb_topic"               default="/camera/rgb/image_rect_color" />
-  <arg name="depth_registered_topic"  default="/camera/depth_registered/image_raw" />
+  <arg name="depth_registered_topic"  default="/camera/depth_registered/image" />
   <arg name="camera_info_topic"       default="/camera/rgb/camera_info" />
-  <arg name="compressed"              default="false"/>
+  <arg name="compressed"              default="true"/>
    
   <arg name="subscribe_scan"          default="false"/>         <!-- Assuming 2D scan if set, rtabmap will do 3DoF mapping instead of 6DoF -->
   <arg name="scan_topic"              default="/scan"/>
@@ -40,8 +39,9 @@
   <arg name="odom_topic"              default="/odom"/>         <!-- Odometry topic used if visual_odometry is false -->
    
   <arg name="namespace"               default="rtabmap"/>
-  <arg name="wait_for_transform"      default="1.0"/>
-  
+  <arg name="wait_for_transform"      default="5.0"/>
+
+
   <include file="$(find rtabmap_ros)/launch/rtabmap.launch">
     <arg name="rtabmapviz"              value="$(arg rtabmapviz)" /> 
     <arg name="rviz"                    value="$(arg rviz)" />
@@ -72,14 +72,6 @@
     <arg name="odom_topic"              value="$(arg odom_topic)"/>
     <arg name="odom_args"               value="$(arg rtabmap_args)"/>
   </include>
-
-  <!-- Kinect cloud to laser scan -->
-  <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
-    <remap from="image"     to="/camera/depth_registered/image_raw"/>
-    <remap from="camera_info" to="/camera/depth_registered/camera_info"/>
-    <remap from="scan" to="/kinect_scan"/>
-    <param name="range_max" type="double" value="4"/>
-  </node>
  
 
 </launch>

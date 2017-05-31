@@ -26,62 +26,42 @@ function openTerminalTab
 
 xdotool type --delay 1 --clearmodifiers "cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop_Qt_5_8_0_GCC_64bit-Debug/";
 xdotool key Return;
-sleep 1;
 xdotool type --delay 1 --clearmodifiers "./expclient eth0";
-#xdotool key Return;
-sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "cd /home/maska/";
 xdotool key Return;
 xdotool type --delay 1 --clearmodifiers "roscore";
-#xdotool key Return;
-sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosrun joy joy_node";
-#xdotool key Return;
-sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosrun valter valter_joy_teleop_cmd_vel_pub";
-#xdotool key Return;
-sleep 1;
-
-#openTerminalTab;
-#xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/valter-tf.launch";
-##xdotool key Return;
-#sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch";
-#xdotool key Return;
-sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosrun valter_movit right_arm_joint_trajectory_action_server";
-#xdotool key Return;
-sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosrun valter_movit left_arm_joint_trajectory_action_server";
-#xdotool key Return;
-sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch valter_movit valter.launch";
-#xdotool key Return;
-sleep 1;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roslaunch valter laser-scan-from-pcl.launch";
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/rtabmap_ros/launch/valter.launch localization:=true";
-#xdotool key Return;
-sleep 1;
-
-openTerminalTab;
-xdotool type --delay 1 --clearmodifiers "rosservice call /rtabmap/reset_odom";
-sleep 1;
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/move_base_and_planner.launch";
-sleep 1;
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "rosrun rviz rviz -d /home/maska/git/valter/software/ros/rviz/valter-0.2.rviz";
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "rosservice call /rtabmap/reset_odom";

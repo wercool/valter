@@ -1,0 +1,10 @@
+<launch>
+  <!-- Kinect cloud to laser scan -->
+  <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan">
+    <remap from="image"     to="/camera/depth_registered/image"/>
+    <remap from="camera_info" to="/camera/depth_registered/camera_info"/>
+    <remap from="scan" to="/kinect_scan"/>
+    <param name="scan_time" type="double" value="1"/>
+    <param name="range_max" type="double" value="5"/>
+  </node>
+</launch>

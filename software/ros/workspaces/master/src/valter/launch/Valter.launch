@@ -1,5 +1,5 @@
 <launch>
-    <include file="$(find valter_movit)/launch/valter.launch"/>
+    <!--include file="$(find valter_movit)/launch/valter.launch"/-->
 
     <include file="$(find valter)/launch/laser-scan-from-pcl.launch"/>
 
