@@ -38,5 +38,7 @@
 //BODY-CONTROL-P1
 #include "tasks/body-control-p1/setrightarmyawpositiontask.h"
 #include "tasks/body-control-p1/setleftarmyawpositiontask.h"
+#include "tasks/body-control-p1/setheadyawpositiontask.h"
+#include "tasks/body-control-p1/setheadpitchpositiontask.h"
 
 #endif // TASKS_H

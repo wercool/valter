@@ -588,6 +588,7 @@ public slots:
 
     //Tasks Tab
     void tasksTabRefreshTimerUpdate();
+    void on_taskmanagerEmulationCheckBox_clicked(bool checked);
 
     //Utilities
 
@@ -659,7 +660,6 @@ private slots:
     void on_stopSelectedTaskButton_toggled(bool checked);
     void on_tasksTableWidget_itemClicked(QTableWidgetItem *item);
 
-    // QWidget interface
 protected:
     void closeEvent(QCloseEvent *event);
 };

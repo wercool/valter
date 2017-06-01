@@ -154,6 +154,12 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 ui->bodyControlP1ReadingsTable->setItem(6, 2, headPitchPositionQWidgetItem);
                 ui->headPitchPositionLcdNumber->display(bodyControlP1->getHeadPitchADCPosition());
             }
+            else
+            {
+                headPitchPositionQWidgetItem->setText(Valter::format_string("%.2f", bodyControlP1->getHeadPitchPosition()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(6, 2, headPitchPositionQWidgetItem);
+                ui->headPitchPositionLcdNumber->display(bodyControlP1->getHeadPitchPosition());
+            }
             ui->headPitchStepPositionLcdNumber->display(bodyControlP1->getHeadPitchStepPosition());
         }
         if (bodyControlP1->getHeadYawPositionTrack())
@@ -164,6 +170,12 @@ void bodyControlP1TabRefreshTimerUpdateWorker(Ui::MainWindow *ui)
                 headYawPositionQWidgetItem->setText(Valter::format_string("%d", bodyControlP1->getHeadYawADCPosition()).c_str());
                 ui->bodyControlP1ReadingsTable->setItem(7, 2, headYawPositionQWidgetItem);
                 ui->headYawPositionLcdNumber->display(bodyControlP1->getHeadYawADCPosition());
+            }
+            else
+            {
+                headYawPositionQWidgetItem->setText(Valter::format_string("%.2f", bodyControlP1->getHeadYawPosition()).c_str());
+                ui->bodyControlP1ReadingsTable->setItem(7, 2, headYawPositionQWidgetItem);
+                ui->headYawPositionLcdNumber->display(bodyControlP1->getHeadYawPosition());
             }
             ui->headYawStepPositionLcdNumber->display(bodyControlP1->getHeadYawStepPostion());
         }

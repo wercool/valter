@@ -174,6 +174,7 @@ void MainWindow::on_headYawLeftRotateButton_pressed()
     {
         bodyControlP1->sendTCPCommand("on_headYawLeftRotateButton_pressed");
     }
+    TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
     bodyControlP1->setHeadYawDirection(false);
     bodyControlP1->setHeadYawMotorActivated(true);
 }
@@ -195,6 +196,7 @@ void MainWindow::on_headYawRightRotateButton_pressed()
     {
         bodyControlP1->sendTCPCommand("on_headYawRightRotateButton_pressed");
     }
+    TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
     bodyControlP1->setHeadYawDirection(true);
     bodyControlP1->setHeadYawMotorActivated(true);
 }
@@ -246,6 +248,7 @@ void MainWindow::on_headPitchDownButton_pressed()
     {
         bodyControlP1->sendTCPCommand("on_headPitchDownButton_pressed");
     }
+    TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
     bodyControlP1->setHeadPitchDirection(true);
     bodyControlP1->setHeadPitchMotorActivated(true);
 }
@@ -267,6 +270,7 @@ void MainWindow::on_headPitchUpButton_pressed()
     {
         bodyControlP1->sendTCPCommand("on_headPitchUpButton_pressed");
     }
+    TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
     bodyControlP1->setHeadPitchDirection(false);
     bodyControlP1->setHeadPitchMotorActivated(true);
 }

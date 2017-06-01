@@ -26,6 +26,18 @@ const int BodyControlP1::leftArmYawAngleADCZero    = 580;
 const float BodyControlP1::leftArmYawMaxAngle      = 53;
 const float BodyControlP1::leftArmYawDegreesDiv    = (float)(BodyControlP1::leftArmYawAngleADCMax - BodyControlP1::leftArmYawAngleADCMin) / BodyControlP1::leftArmYawMaxAngle;
 
+const int BodyControlP1::headYawAngleADCMin        = 592;
+const int BodyControlP1::headYawAngleADCMax        = 967;
+const int BodyControlP1::headYawAngleADCZero       = 889;
+const float BodyControlP1::headYawMaxAngle         = 170;
+const float BodyControlP1::headYawDegreesDiv       = (float)(BodyControlP1::headYawAngleADCMax - BodyControlP1::headYawAngleADCMin) / BodyControlP1::headYawMaxAngle;
+
+const int BodyControlP1::headPitchAngleADCMin      = 283;
+const int BodyControlP1::headPitchAngleADCMax      = 945;
+const int BodyControlP1::headPitchAngleADCZero     = 948;
+const float BodyControlP1::headPitchMaxAngle       = 45;
+const float BodyControlP1::headPitchDegreesDiv     = (float)(BodyControlP1::headPitchAngleADCMax - BodyControlP1::headPitchAngleADCMin) / BodyControlP1::headPitchMaxAngle;
+
 BodyControlP1::BodyControlP1()
 {
     Valter::log(BodyControlP1::controlDeviceId + " singleton initialized");
@@ -35,6 +47,8 @@ BodyControlP1::BodyControlP1()
     tasks["SetRightArmYawPositionTask"] = &SetRightArmYawPositionTask::create;
     tasks["SetLeftArmYawPositionTask"] = &SetLeftArmYawPositionTask::create;
     tasks["SetRightArmRollPositionTask"] = &SetRightArmRollPositionTask::create;
+    tasks["SetHeadYawPositionTask"] = &SetHeadYawPositionTask::create;
+    tasks["SetHeadPitchPositionTask"] = &SetHeadPitchPositionTask::create;
 
     initTcpInterface();
 

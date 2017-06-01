@@ -86,7 +86,9 @@ SOURCES += main.cpp\
             tasks/body-control-p1/setrightarmyawpositiontask.cpp \
             tasks/body-control-p1/setleftarmyawpositiontask.cpp \
             tasks/platform-control-p1/cmdveltask.cpp \
-    tasks/arm-control-left/setleftarmrollpositiontask.cpp
+    tasks/arm-control-left/setleftarmrollpositiontask.cpp \
+    tasks/body-control-p1/setheadyawpositiontask.cpp \
+    tasks/body-control-p1/setheadpitchpositiontask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -151,7 +153,9 @@ HEADERS  += mainwindow.h \
             tasks/body-control-p1/setrightarmyawpositiontask.h \
             tasks/body-control-p1/setleftarmyawpositiontask.h \
             tasks/platform-control-p1/cmdveltask.h \
-    tasks/arm-control-left/setleftarmrollpositiontask.h
+    tasks/arm-control-left/setleftarmrollpositiontask.h \
+    tasks/body-control-p1/setheadyawpositiontask.h \
+    tasks/body-control-p1/setheadpitchpositiontask.h
 
 FORMS    += mainwindow.ui
 

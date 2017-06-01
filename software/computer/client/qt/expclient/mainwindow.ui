@@ -36,7 +36,7 @@
        <string extracomment="sss"/>
       </property>
       <property name="currentIndex">
-       <number>7</number>
+       <number>8</number>
       </property>
       <widget class="QWidget" name="TCPInterfaceTab">
        <attribute name="title">
@@ -11136,7 +11136,7 @@ border-color: rgb(140, 140, 140);</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>ADC position</string>
+                     <string>ADC/DEG position</string>
                     </property>
                    </widget>
                   </item>
@@ -11970,7 +11970,7 @@ border-color: rgb(140, 140, 140);</string>
                      </font>
                     </property>
                     <property name="text">
-                     <string>ADC position</string>
+                     <string>ADC/DEG position</string>
                     </property>
                    </widget>
                   </item>
@@ -21012,14 +21012,90 @@ image: url(:/hand-left.png);</string>
         <string>Tasks</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_30">
-        <item row="4" column="2">
+        <item row="6" column="0">
+         <widget class="QPushButton" name="executeScriptButton">
+          <property name="text">
+           <string>Execute Script</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" rowspan="4">
+         <widget class="QPlainTextEdit" name="taskScriptTextEdit">
+          <property name="maximumSize">
+           <size>
+            <width>300</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1" rowspan="5">
+         <widget class="Line" name="line_77">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
          <widget class="QPushButton" name="clearTasksQueueButton">
           <property name="text">
            <string>Stop and Clear Tasks Queue</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="3" column="2">
+         <widget class="QPushButton" name="stopSelectedTaskButton">
+          <property name="styleSheet">
+           <string notr="true"/>
+          </property>
+          <property name="text">
+           <string>Stop Selected Task</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_158">
+          <item>
+           <widget class="QCheckBox" name="tasksRTMMTableRefreshCheckBox">
+            <property name="text">
+             <string>refresh table (redraw GUI)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="autoClearRTMMCheckBox">
+            <property name="text">
+             <string>auto clear</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="6" column="2">
+         <widget class="QPushButton" name="forcefullyCompleteTaskButton">
+          <property name="text">
+           <string>Forcefully Complete Queue Top Task</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
          <widget class="QTableWidget" name="tasksTableWidget">
           <property name="selectionMode">
            <enum>QAbstractItemView::ExtendedSelection</enum>
@@ -21062,95 +21138,33 @@ image: url(:/hand-left.png);</string>
           </column>
          </widget>
         </item>
-        <item row="3" column="2">
+        <item row="4" column="2">
          <widget class="QPushButton" name="clearRemoteTaskManagerTasksMapButton">
           <property name="text">
            <string>Clear Remote Task Manager Tasks Map</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="stopSelectedTaskButton">
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Stop Selected Task</string>
-          </property>
-          <property name="checkable">
-           <bool>true</bool>
-          </property>
-          <property name="flat">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0">
-         <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
-          <property name="text">
-           <string>execute script locally</string>
+         <layout class="QHBoxLayout" name="horizontalLayout_159">
+          <property name="topMargin">
+           <number>0</number>
           </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_158">
           <item>
-           <widget class="QCheckBox" name="tasksRTMMTableRefreshCheckBox">
+           <widget class="QCheckBox" name="executeTasksScriptLocallyCheckBox">
             <property name="text">
-             <string>refresh table (redraw GUI)</string>
+             <string>execute script locally</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="autoClearRTMMCheckBox">
+           <widget class="QCheckBox" name="taskmanagerEmulationCheckBox">
             <property name="text">
-             <string>auto clear</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
+             <string>emulation</string>
             </property>
            </widget>
           </item>
          </layout>
-        </item>
-        <item row="5" column="2">
-         <widget class="QPushButton" name="forcefullyCompleteTaskButton">
-          <property name="text">
-           <string>Forcefully Complete Queue Top Task</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QPushButton" name="executeScriptButton">
-          <property name="text">
-           <string>Execute Script</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0" rowspan="4">
-         <widget class="QPlainTextEdit" name="taskScriptTextEdit">
-          <property name="maximumSize">
-           <size>
-            <width>300</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" rowspan="5">
-         <widget class="Line" name="line_77">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-         </widget>
         </item>
        </layout>
       </widget>
@@ -21690,7 +21704,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>taskScriptTextEdit</tabstop>
   <tabstop>clearRemoteTaskManagerTasksMapButton</tabstop>
   <tabstop>stopSelectedTaskButton</tabstop>
-  <tabstop>executeTasksScriptLocallyCheckBox</tabstop>
   <tabstop>tasksRTMMTableRefreshCheckBox</tabstop>
   <tabstop>autoClearRTMMCheckBox</tabstop>
  </tabstops>

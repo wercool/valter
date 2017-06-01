@@ -54,6 +54,9 @@ public:
     std::map<long, string> getRtmms() const;
     void clearRTMM();
 
+    bool getEmulation() const;
+    void setEmulation(bool value);
+
 private:
     TaskManager();
     static TaskManager *pTaskManager;      // TaskManager's singleton instance
@@ -68,6 +71,7 @@ private:
     bool queueStopped;
     bool incomingScriptProcessing;
     bool stopTopTask;
+    bool emulation = false;
 
     void tasksQueueWorker(void);
 

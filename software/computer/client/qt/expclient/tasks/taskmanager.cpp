@@ -36,6 +36,16 @@ TaskManager::TaskManager()
     new std::thread(&TaskManager::tasksQueueWorker, this);
 }
 
+bool TaskManager::getEmulation() const
+{
+    return emulation;
+}
+
+void TaskManager::setEmulation(bool value)
+{
+    emulation = value;
+}
+
 bool TaskManager::getStopTopTask() const
 {
     return stopTopTask;
@@ -299,17 +309,24 @@ unsigned int TaskManager::routeTaskRequest(string taskMessage)
             }
             taskScriptLine.append(taskMessageParts[i]);
         }
-        if (valterModule->getControlDeviceIsSet())
+        if (!getEmulation())
         {
-            if (valterModule->getControlDevice()->getStatus() == ControlDevice::StatusActive)
+            if (valterModule->getControlDeviceIsSet())
             {
-                //qDebug("%s", valterModule->getControlDevice()->getControlDeviceId().c_str());
-                return valterModule->executeTask(taskScriptLine);
+                if (valterModule->getControlDevice()->getStatus() == ControlDevice::StatusActive)
+                {
+                    //qDebug("%s", valterModule->getControlDevice()->getControlDeviceId().c_str());
+                    return valterModule->executeTask(taskScriptLine);
+                }
+            }
+            else
+            {
+                qDebug("Task %s could not be executed - NO COTNROL DEVICE CONNECTED", taskScriptLine.c_str());
             }
         }
         else
         {
-            qDebug("Task %s could not be executed - NO COTNROL DEVICE CONNECTED", taskScriptLine.c_str());
+            return valterModule->executeTask(taskScriptLine);
         }
     }
     return 0;

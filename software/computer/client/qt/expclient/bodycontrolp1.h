@@ -233,15 +233,18 @@ public:
     double getLeftArmYawPosition() const;
     void setLeftArmYawPosition(double value);
 
-    int getHeadPitchADCPosition() const;
-    void setHeadPitchADCPosition(int value);
 
     int getHeadYawADCPosition() const;
     void setHeadYawADCPosition(int value);
-
+    double getHeadYawPosition() const;
+    void setHeadYawPosition(double value);
     int getHeadYawStepPostion() const;
     void setHeadYawStepPostion(int value);
 
+    int getHeadPitchADCPosition() const;
+    void setHeadPitchADCPosition(int value);
+    double getHeadPitchPosition() const;
+    void setHeadPitchPosition(double value);
     int getHeadPitchStepPosition() const;
     void setHeadPitchStepPosition(int value);
 
@@ -334,6 +337,19 @@ public:
     static const float leftArmYawMaxAngle;
     static const float leftArmYawDegreesDiv;
 
+    static const int headYawAngleADCMin;
+    static const int headYawAngleADCMax;
+    static const int headYawAngleADCZero;
+    static const float headYawMaxAngle;
+    static const float headYawDegreesDiv;
+
+    static const int headPitchAngleADCMin;
+    static const int headPitchAngleADCMax;
+    static const int headPitchAngleADCZero;
+    static const float headPitchMaxAngle;
+    static const float headPitchDegreesDiv;
+
+
 private:
     BodyControlP1();
     static BodyControlP1* pBodyControlP1;         // BODY-CONTROL-P1's singleton instance
@@ -349,6 +365,7 @@ private:
     void rightArmYawWorker();
     void leftArmYawWorker();
 
+    //------------------------------------------------------head yaw and pitch
     bool head24VState;
     bool headYawMotorState;
     bool headPitchMotorState;
@@ -359,6 +376,7 @@ private:
     int headYawStepSwitchDelay; //us
     int headYawADCPosition;
     int headYawStepPostion;
+    double headYawPosition;
 
     bool headPitchDirection;  //true - pitch down, false - pitch up
     bool headPitchMotorActivated;
@@ -366,6 +384,7 @@ private:
     int headPitchStepSwitchDelay; //us
     int headPitchADCPosition;
     int headPitchStepPosition;
+    double headPitchPosition;
 
     //------------------------------------------------body pitch
     int bodyPitchMotorDuty;

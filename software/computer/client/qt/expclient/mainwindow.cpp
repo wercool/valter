@@ -121,6 +121,23 @@ void MainWindow::setUi(Ui::MainWindow *value)
     ui = value;
 }
 
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Exit confirmation",
+                                                                tr("Are you sure?\n"),
+                                                                QMessageBox::No | QMessageBox::Yes,
+                                                                QMessageBox::Yes);
+    if (resBtn != QMessageBox::Yes)
+    {
+        event->ignore();
+    }
+    else
+    {
+        event->accept();
+    }
+}
+
 void MainWindow::on_stopAllButton_clicked()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
@@ -534,18 +551,8 @@ void MainWindow::on_tasksTableWidget_itemClicked(QTableWidgetItem *item)
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
+void MainWindow::on_taskmanagerEmulationCheckBox_clicked(bool checked)
 {
-    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "Exit confirmation",
-                                                                tr("Are you sure?\n"),
-                                                                QMessageBox::No | QMessageBox::Yes,
-                                                                QMessageBox::Yes);
-    if (resBtn != QMessageBox::Yes)
-    {
-        event->ignore();
-    }
-    else
-    {
-        event->accept();
-    }
+    TaskManager::getInstance()->setEmulation(checked);
 }
+

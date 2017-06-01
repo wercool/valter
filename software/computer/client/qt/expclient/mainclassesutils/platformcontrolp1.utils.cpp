@@ -680,6 +680,7 @@ bool PlatformControlP1::getPlatformEmergencyStop() const
 void PlatformControlP1::setPlatformEmergencyStop(bool value)
 {
     platformEmergencyStop = value;
+    TaskManager::getInstance()->stopTasksByName("CmdVelTask");
 }
 
 bool PlatformControlP1::getRightMotorStop() const

@@ -319,6 +319,7 @@ class BodyControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_headYawRightRotateButton_pressed") != std::string::npos)
         {
+            TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
             mainWindow->on_headYawRightRotateButton_pressed();
             return;
         }
@@ -329,6 +330,7 @@ class BodyControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_headYawLeftRotateButton_pressed") != std::string::npos)
         {
+            TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
             mainWindow->on_headYawLeftRotateButton_pressed();
             return;
         }
@@ -402,6 +404,7 @@ class BodyControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_headPitchDownButton_pressed") != std::string::npos)
         {
+            TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
             mainWindow->on_headPitchDownButton_pressed();
             return;
         }
@@ -412,6 +415,7 @@ class BodyControlP1TCPConnectionHandler : public Thread
         }
         if (cmd.find("on_headPitchUpButton_pressed") != std::string::npos)
         {
+            TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
             mainWindow->on_headPitchUpButton_pressed();
             return;
         }
