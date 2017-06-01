@@ -30,6 +30,8 @@ protected:
 
 private:
     float angle;  //in degrees;
+    //right(CW) - true, left(CCW) - false (in CW angle is positive)
+    bool direction = false;
 
     std::mutex values_mutex;
 };

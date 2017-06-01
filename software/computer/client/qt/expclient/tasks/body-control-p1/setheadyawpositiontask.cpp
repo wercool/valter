@@ -58,6 +58,15 @@ bool SetHeadYawPositionTask::initialize()
     float _angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(_angle);
 
+    stopped = !checkFeasibility();
+    //right(CW) - true, left(CCW) - false (in CW angle is positive)
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    bool direction = (angle > bodyControlP1->getHeadYawPosition()) ? true : false;
+
+    bodyControlP1->setHeadYawMotorActivated(false);
+    bodyControlP1->setHeadYawDirection(direction);
+    bodyControlP1->setHeadYawMotorActivated(true);
+
     if (executing)
     {
         string msg = Valter::format_string("Task#%lu Head Yaw angle %f set via attach.", getTaskId(), angle);
@@ -118,9 +127,6 @@ void SetHeadYawPositionTask::executionWorker()
 {
     qDebug("Task#%lu %s started", getTaskId(), taskName.c_str());
 
-    bool prevMotorDirection  = true; //right(CW)
-    bool resetStart = false;
-
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
 
     string stopExecutionReason = "";
@@ -132,64 +138,44 @@ void SetHeadYawPositionTask::executionWorker()
 
     while (!stopped)
     {
-        stopped = !checkFeasibility();
-
-        if (!stopped)
+        if (!executing)
         {
-            //right(CW) - true, left(CCW) - false (in CW angle is positive)
-            bool direction = (angle > bodyControlP1->getHeadYawPosition()) ? true : false;
-
-            if (!executing)
+            if (!checkFeasibility())
             {
-                if (!checkFeasibility())
-                {
-                    stopExecutionReason = Valter::format_string("Task#%lu (%s) has been terminated. checkFeasibility() returns FALSE.", getTaskId(), getTaskName().c_str());
-                    qDebug("%s", stopExecutionReason.c_str());
-                    stopExecution();
-                    continue;
-                }
-                else
-                {
-                    bodyControlP1->requestHeadYawPosition();
-
-                    executing = true;
-                    resetStart = true;
-
-                    string msg = Valter::format_string("Task#%lu (%s) executing now..", getTaskId(), getTaskName().c_str());
-                    qDebug("%s", msg.c_str());
-                }
+                stopExecutionReason = Valter::format_string("Task#%lu (%s) has been terminated. checkFeasibility() returns FALSE.", getTaskId(), getTaskName().c_str());
+                qDebug("%s", stopExecutionReason.c_str());
+                stopExecution();
+                continue;
             }
             else
             {
-                if (direction != prevMotorDirection || resetStart)
-                {
-                    resetStart = false;
-                    bodyControlP1->setHeadYawMotorActivated(false);
-                    bodyControlP1->setHeadYawDirection(direction);
-                    bodyControlP1->setHeadYawMotorActivated(true);
-                    prevMotorDirection = direction;
-                    string msg = Valter::format_string("Task#%lu (%s) direction changed [%s]", getTaskId(), getTaskName().c_str(), (direction ? "R" : "L"));
-                    qDebug("%s", msg.c_str());
-                }
-
                 bodyControlP1->requestHeadYawPosition();
 
-                if ((abs(angle - bodyControlP1->getHeadYawPosition()) < sigma) || (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
+                executing = true;
+
+                string msg = Valter::format_string("Task#%lu (%s) executing now..", getTaskId(), getTaskName().c_str());
+                qDebug("%s", msg.c_str());
+            }
+        }
+        else
+        {
+            bodyControlP1->requestHeadYawPosition();
+
+            if ((abs(angle - bodyControlP1->getHeadYawPosition()) < sigma) || (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
+            {
+                if (bodyControlP1->getHeadYawMotorActivated())
                 {
-                    if (bodyControlP1->getHeadYawMotorActivated())
-                    {
-                        string msg = Valter::format_string("Task#%lu (%s) position [%.2f] reached", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
-                        qDebug("%s", msg.c_str());
-                    }
-                    bodyControlP1->setHeadYawMotorActivated(false);
+                    string msg = Valter::format_string("Task#%lu (%s) position [%.2f] reached", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
+                    qDebug("%s", msg.c_str());
                 }
+                bodyControlP1->setHeadYawMotorActivated(false);
+            }
 /************************************ emulation *********************start***************************/
 string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
 qDebug("%s", msg.c_str());
 /************************************ emulation *********************finish**************************/
-            }
-            this_thread::sleep_for(std::chrono::milliseconds(25));
         }
+        this_thread::sleep_for(std::chrono::milliseconds(25));
     }
 
     bodyControlP1->setHeadYawMotorActivated(false);
