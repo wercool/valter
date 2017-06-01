@@ -942,54 +942,59 @@ int BodyControlP1::getHeadYawADCPosition() const
 
 void BodyControlP1::setHeadYawADCPosition(int value)
 {
-    static double prevValue = -180;
-    static double avgValue = 0;
-    static int avgValueCnt = 0;
-    static int resetPositionCnt = 0;
+//    static double prevValue = -180;
+//    static double avgValue = 0;
+//    static int avgValueCnt = 0;
+//    static int resetPositionCnt = 0;
 
     headYawADCPosition = value;
 
     double degreesValue = ((double)(headYawADCPosition - BodyControlP1::headYawAngleADCZero)) / BodyControlP1::headYawDegreesDiv;
+    if (headYawADCPosition > BodyControlP1::headYawAngleADCZero)
+    {
+        degreesValue *= 2.5;
+    }
+    setHeadYawPosition(degreesValue);
 
-    if (prevValue == -180)
-    {
-        prevValue = degreesValue;
-    }
+//    if (prevValue == -180)
+//    {
+//        prevValue = degreesValue;
+//    }
 
-    if (abs(prevValue - degreesValue) < 10.0)
-    {
-        if (avgValueCnt < 5)
-        {
-            avgValue += degreesValue;
-            avgValueCnt++;
-        }
-        else
-        {
-            double avgResult = avgValue / (double) avgValueCnt;
-//            qDebug("Head Yaw Position (avg) %.2f", avgResult);
-            setHeadYawPosition(avgResult);
-            avgValueCnt = 0;
-            avgValue = 0;
-            resetPositionCnt = 0;
-        }
-        prevValue = degreesValue;
-    }
-    else
-    {
-        resetPositionCnt++;
-        if (resetPositionCnt > 10)
-        {
-            setHeadYawPosition(degreesValue);
-            prevValue = degreesValue;
-            avgValueCnt = 0;
-            avgValue = 0;
-            resetPositionCnt = 0;
-            string msg = Valter::format_string("POSITION RESET BodyControlP1::setHeadYawPosition(%.2f)", degreesValue);
-            qDebug("%s", msg.c_str());
-        }
-//        string msg = Valter::format_string("IGNORE BodyControlP1::setHeadYawPositionADC    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
-//        qDebug("%s", msg.c_str());
-    }
+//    if (abs(prevValue - degreesValue) < 10.0)
+//    {
+//        if (avgValueCnt < 2)
+//        {
+//            avgValue += degreesValue;
+//            avgValueCnt++;
+//        }
+//        else
+//        {
+//            double avgResult = avgValue / (double) avgValueCnt;
+////            qDebug("Head Yaw Position (avg) %.2f", avgResult);
+//            setHeadYawPosition(avgResult);
+//            avgValueCnt = 0;
+//            avgValue = 0;
+//            resetPositionCnt = 0;
+//        }
+//        prevValue = degreesValue;
+//    }
+//    else
+//    {
+//        resetPositionCnt++;
+//        if (resetPositionCnt > 5)
+//        {
+//            setHeadYawPosition(degreesValue);
+//            prevValue = degreesValue;
+//            avgValueCnt = 0;
+//            avgValue = 0;
+//            resetPositionCnt = 0;
+//            string msg = Valter::format_string("POSITION RESET BodyControlP1::setHeadYawPosition(%.2f)", degreesValue);
+//            qDebug("%s", msg.c_str());
+//        }
+////        string msg = Valter::format_string("IGNORE BodyControlP1::setHeadYawPositionADC    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
+////        qDebug("%s", msg.c_str());
+//    }
 }
 
 int BodyControlP1::getHeadPitchADCPosition() const
@@ -999,54 +1004,56 @@ int BodyControlP1::getHeadPitchADCPosition() const
 
 void BodyControlP1::setHeadPitchADCPosition(int value)
 {
-    static double prevValue = -180;
-    static double avgValue = 0;
-    static int avgValueCnt = 0;
-    static int resetPositionCnt = 0;
+//    static double prevValue = -180;
+//    static double avgValue = 0;
+//    static int avgValueCnt = 0;
+//    static int resetPositionCnt = 0;
 
     headPitchADCPosition = value;
 
     double degreesValue = ((double)(headPitchADCPosition - BodyControlP1::headPitchAngleADCZero)) / BodyControlP1::headPitchDegreesDiv;
 
-    if (prevValue == -180)
-    {
-        prevValue = degreesValue;
-    }
+    setHeadPitchPosition(degreesValue);
 
-    if (abs(prevValue - degreesValue) < 10.0)
-    {
-        if (avgValueCnt < 5)
-        {
-            avgValue += degreesValue;
-            avgValueCnt++;
-        }
-        else
-        {
-            double avgResult = avgValue / (double) avgValueCnt;
-//            qDebug("Head Pitch Position (avg) %.2f", avgResult);
-            setHeadPitchPosition(avgResult);
-            avgValueCnt = 0;
-            avgValue = 0;
-            resetPositionCnt = 0;
-        }
-        prevValue = degreesValue;
-    }
-    else
-    {
-        resetPositionCnt++;
-        if (resetPositionCnt > 10)
-        {
-            setHeadPitchPosition(degreesValue);
-            prevValue = degreesValue;
-            avgValueCnt = 0;
-            avgValue = 0;
-            resetPositionCnt = 0;
-            string msg = Valter::format_string("POSITION RESET BodyControlP1::setHeadPitchPosition(%.2f)", degreesValue);
-            qDebug("%s", msg.c_str());
-        }
-//        string msg = Valter::format_string("IGNORE BodyControlP1::setHeadPitchADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
-//        qDebug("%s", msg.c_str());
-    }
+//    if (prevValue == -180)
+//    {
+//        prevValue = degreesValue;
+//    }
+
+//    if (abs(prevValue - degreesValue) < 10.0)
+//    {
+//        if (avgValueCnt < 5)
+//        {
+//            avgValue += degreesValue;
+//            avgValueCnt++;
+//        }
+//        else
+//        {
+//            double avgResult = avgValue / (double) avgValueCnt;
+////            qDebug("Head Pitch Position (avg) %.2f", avgResult);
+//            setHeadPitchPosition(avgResult);
+//            avgValueCnt = 0;
+//            avgValue = 0;
+//            resetPositionCnt = 0;
+//        }
+//        prevValue = degreesValue;
+//    }
+//    else
+//    {
+//        resetPositionCnt++;
+//        if (resetPositionCnt > 10)
+//        {
+//            setHeadPitchPosition(degreesValue);
+//            prevValue = degreesValue;
+//            avgValueCnt = 0;
+//            avgValue = 0;
+//            resetPositionCnt = 0;
+//            string msg = Valter::format_string("POSITION RESET BodyControlP1::setHeadPitchPosition(%.2f)", degreesValue);
+//            qDebug("%s", msg.c_str());
+//        }
+////        string msg = Valter::format_string("IGNORE BodyControlP1::setHeadPitchADCPosition    [diff: %.2f]     prevValue = %.2f degreesValue = %.2f", abs(prevValue - degreesValue), prevValue, degreesValue);
+////        qDebug("%s", msg.c_str());
+//    }
 }
 int BodyControlP1::getRightArmYawADCCurrent() const
 {

@@ -271,4 +271,69 @@ void loadBodyControlP1Defaults(Ui::MainWindow *ui)
     ui->bodyCameraPositionScroller->setValue(bodyControlP1->getBodyCameraCenterPosition());
 }
 
+void setBodyControlP1Readings(QTableWidgetItem *item)
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (item->column() == 0)
+    {
+        switch (item->row())
+        {
+            case 0:
+                bodyControlP1->setBodyPitchPositionTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 1:
+                bodyControlP1->setBodyPitchCurrentTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 2:
+                bodyControlP1->setRightArmYawPositionTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 3:
+                bodyControlP1->setRightArmYawCurrentTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 4:
+                bodyControlP1->setLeftArmYawPositionTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 5:
+                bodyControlP1->setLeftArmYawCurrentTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 6:
+                bodyControlP1->setHeadPitchPositionTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 7:
+                bodyControlP1->setHeadYawPositionTrack((item->checkState() == Qt::Checked) ? true : false);
+            break;
+        }
+    }
+    if (item->column() == 1)
+    {
+        switch (item->row())
+        {
+            case 0:
+                bodyControlP1->setBodyPitchPositionADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 1:
+                bodyControlP1->setBodyPitchCurrentADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 2:
+                bodyControlP1->setRightArmYawPositionADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 3:
+                bodyControlP1->setRightArmYawCurrentADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 4:
+                bodyControlP1->setLeftArmYawPositionADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 5:
+                bodyControlP1->setLeftArmYawCurrentADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 6:
+                bodyControlP1->setHeadPitchPositionADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+            case 7:
+                bodyControlP1->setHeadYawPositionADC((item->checkState() == Qt::Checked) ? true : false);
+            break;
+        }
+    }
+}
+
 #endif // BODYCONTROLP1GUI_H

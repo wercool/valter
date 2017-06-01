@@ -38,7 +38,7 @@ bool SetHeadYawPositionTask::checkFeasibility()
         }
     }
 
-    if (angle < -85 || angle > 85)
+    if (angle < -80 || angle > 80)
     {
         string msg = Valter::format_string("Task#%lu target Head Yaw angle %f in unreachable.", getTaskId(), angle);
         qDebug("%s", msg.c_str());
@@ -150,6 +150,8 @@ void SetHeadYawPositionTask::executionWorker()
                 }
                 else
                 {
+                    bodyControlP1->requestHeadYawPosition();
+
                     executing = true;
                     resetStart = true;
 
@@ -170,7 +172,9 @@ void SetHeadYawPositionTask::executionWorker()
                     qDebug("%s", msg.c_str());
                 }
 
-                if ((abs(angle - bodyControlP1->getHeadYawPosition()) < sigma))
+                bodyControlP1->requestHeadYawPosition();
+
+                if ((abs(angle - bodyControlP1->getHeadYawPosition()) < sigma) || (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
                 {
                     if (bodyControlP1->getHeadYawMotorActivated())
                     {
@@ -179,7 +183,6 @@ void SetHeadYawPositionTask::executionWorker()
                     }
                     bodyControlP1->setHeadYawMotorActivated(false);
                 }
-
 /************************************ emulation *********************start***************************/
 string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
 qDebug("%s", msg.c_str());

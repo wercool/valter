@@ -29,7 +29,7 @@ const float BodyControlP1::leftArmYawDegreesDiv    = (float)(BodyControlP1::left
 const int BodyControlP1::headYawAngleADCMin        = 592;
 const int BodyControlP1::headYawAngleADCMax        = 967;
 const int BodyControlP1::headYawAngleADCZero       = 889;
-const float BodyControlP1::headYawMaxAngle         = 170;
+const float BodyControlP1::headYawMaxAngle         = 160;
 const float BodyControlP1::headYawDegreesDiv       = (float)(BodyControlP1::headYawAngleADCMax - BodyControlP1::headYawAngleADCMin) / BodyControlP1::headYawMaxAngle;
 
 const int BodyControlP1::headPitchAngleADCMin      = 283;
@@ -1051,6 +1051,7 @@ void BodyControlP1::setHeadPitchMotorOnOff(bool value)
     if (value)
     {
         sendCommand("HEADPITCHENABLE");
+        requestHeadPitchPosition();
     }
     else
     {
@@ -1063,6 +1064,7 @@ void BodyControlP1::setHeadYawMotorOnOff(bool value)
     if (value)
     {
         sendCommand("HEADYAWENABLE");
+        requestHeadYawPosition();
     }
     else
     {

@@ -913,6 +913,7 @@ void MainWindow::on_bodyControlP1ReadingsTable_itemClicked(QTableWidgetItem *ite
     {
         bodyControlP1->sendTCPCommand(Valter::format_string("on_bodyControlP1ReadingsTable_itemClicked@%d@%d@%s", item->row(), item->column(), (item->checkState() == Qt::Checked ? "false" : "true")));
     }
+    setBodyControlP1Readings(item);
 }
 
 void MainWindow::on_bodyCameraReleaseButton_clicked()
