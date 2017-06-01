@@ -160,6 +160,7 @@ void BodyControlP1::processControlDeviceResponse(string response)
     }
     if (response.compare("HEAD YAW MOTOR ENABLED") == 0)
     {
+        requestHeadYawPosition();
         setHeadYawMotorState(true);
         return;
     }
@@ -170,6 +171,7 @@ void BodyControlP1::processControlDeviceResponse(string response)
     }
     if (response.compare("HEAD PITCH MOTOR ENABLED") == 0)
     {
+        requestHeadPitchPosition();
         setHeadPitchMotorState(true);
         return;
     }
@@ -1051,7 +1053,6 @@ void BodyControlP1::setHeadPitchMotorOnOff(bool value)
     if (value)
     {
         sendCommand("HEADPITCHENABLE");
-        requestHeadPitchPosition();
     }
     else
     {
@@ -1064,7 +1065,6 @@ void BodyControlP1::setHeadYawMotorOnOff(bool value)
     if (value)
     {
         sendCommand("HEADYAWENABLE");
-        requestHeadYawPosition();
     }
     else
     {

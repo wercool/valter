@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>933</width>
-    <height>601</height>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,7 +54,7 @@
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1020</height>
+             <height>1045</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2910,7 +2910,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>234</width>
-             <height>548</height>
+             <height>572</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -8128,7 +8128,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1513</height>
+             <height>1514</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -11245,8 +11245,8 @@ border-color: rgb(140, 140, 140);</string>
                      <widget class="QPushButton" name="headYawLeftRotateButton">
                       <property name="minimumSize">
                        <size>
-                        <width>30</width>
-                        <height>30</height>
+                        <width>40</width>
+                        <height>40</height>
                        </size>
                       </property>
                       <property name="maximumSize">
@@ -13724,7 +13724,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1087</height>
+             <height>1098</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -17083,7 +17083,7 @@ image: url(:/hand.png);</string>
              <x>0</x>
              <y>0</y>
              <width>877</width>
-             <height>1087</height>
+             <height>1098</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
