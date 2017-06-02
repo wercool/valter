@@ -162,9 +162,7 @@ void SetHeadYawPositionTask::executionWorker()
         }
         else
         {
-            bodyControlP1->requestHeadYawPosition();
-
-            if ((abs(angle - bodyControlP1->getHeadYawPosition()) < sigma) || (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
+            if ((abs(getAngle() - bodyControlP1->getHeadYawPosition()) < sigma) || (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
             {
                 if (bodyControlP1->getHeadYawMotorActivated())
                 {
@@ -173,12 +171,20 @@ void SetHeadYawPositionTask::executionWorker()
                 }
                 bodyControlP1->setHeadYawMotorActivated(false);
             }
+            bodyControlP1->requestHeadYawPosition();
 /************************************ emulation *********************start***************************/
 string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
 qDebug("%s", msg.c_str());
 /************************************ emulation *********************finish**************************/
         }
-        this_thread::sleep_for(std::chrono::milliseconds(25));
+        if (bodyControlP1->getHeadYawMotorActivated())
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(5));
+        }
+        else
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(25));
+        }
     }
 
     bodyControlP1->setHeadYawMotorActivated(false);
