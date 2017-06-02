@@ -61,7 +61,10 @@ bool SetHeadYawPositionTask::initialize()
     stopped = !checkFeasibility();
     //right(CW) - true, left(CCW) - false (in CW angle is positive)
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-    bool direction = (angle > bodyControlP1->getHeadYawPosition()) ? true : false;
+    direction = (angle > bodyControlP1->getHeadYawPosition()) ? true : false;
+
+    string msg = Valter::format_string("Task#%lu Head Yaw direction [%s]", getTaskId(), (direction ? "RIGHT" : "LEFT"));
+    qDebug("%s", msg.c_str());
 
     bodyControlP1->setHeadYawMotorActivated(false);
     bodyControlP1->setHeadYawDirection(direction);
