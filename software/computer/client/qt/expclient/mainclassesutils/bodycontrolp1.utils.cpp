@@ -949,7 +949,7 @@ void BodyControlP1::setHeadYawADCPosition(int value)
 
     headYawADCPosition = value;
 
-    double degreesValue = ((double)(headYawADCPosition - BodyControlP1::headYawAngleADCZero)) / BodyControlP1::headYawDegreesDiv;
+    double degreesValue = ((double)(BodyControlP1::headYawAngleADCZero - headYawADCPosition)) / BodyControlP1::headYawDegreesDiv;
     if (headYawADCPosition > BodyControlP1::headYawAngleADCZero)
     {
         degreesValue *= 2.5;
