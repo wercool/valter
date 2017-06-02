@@ -954,6 +954,10 @@ void BodyControlP1::setHeadYawADCPosition(int value)
     {
         degreesValue *= 2.5;
     }
+    else
+    {
+        degreesValue *= 0.85;
+    }
     setHeadYawPosition(degreesValue);
 
 //    if (prevValue == -180)
