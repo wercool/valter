@@ -162,11 +162,21 @@ void SetHeadYawPositionTask::executionWorker()
         }
         else
         {
-            if ((abs(getAngle() - bodyControlP1->getHeadYawPosition()) < sigma) || (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
+            if ((abs(getAngle() - bodyControlP1->getHeadYawPosition()) <= sigma))
             {
                 if (bodyControlP1->getHeadYawMotorActivated())
                 {
                     string msg = Valter::format_string("Task#%lu (%s) position [%.2f] reached", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
+                    qDebug("%s", msg.c_str());
+                }
+                bodyControlP1->setHeadYawMotorActivated(false);
+            }
+            else if ((bodyControlP1->getHeadYawPosition() > getAngle() && direction) || (bodyControlP1->getHeadYawPosition() < getAngle() && !direction) ||
+                    (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
+            {
+                if (bodyControlP1->getHeadYawMotorActivated())
+                {
+                    string msg = Valter::format_string("Task#%lu (%s) position [%.2f] reached approximately", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
                     qDebug("%s", msg.c_str());
                 }
                 bodyControlP1->setHeadYawMotorActivated(false);
