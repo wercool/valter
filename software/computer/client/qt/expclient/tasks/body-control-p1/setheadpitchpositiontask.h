@@ -30,6 +30,8 @@ protected:
 
 private:
     float angle;  //in degrees;
+    //down - true, up - false
+    bool direction = false;
 
     std::mutex values_mutex;
 };

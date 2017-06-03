@@ -32,9 +32,9 @@ const int BodyControlP1::headYawAngleADCZero       = 889;
 const float BodyControlP1::headYawMaxAngle         = 160;
 const float BodyControlP1::headYawDegreesDiv       = (float)(BodyControlP1::headYawAngleADCMax - BodyControlP1::headYawAngleADCMin) / BodyControlP1::headYawMaxAngle;
 
-const int BodyControlP1::headPitchAngleADCMin      = 283;
+const int BodyControlP1::headPitchAngleADCMin      = 215;
 const int BodyControlP1::headPitchAngleADCMax      = 945;
-const int BodyControlP1::headPitchAngleADCZero     = 948;
+const int BodyControlP1::headPitchAngleADCZero     = 945;
 const float BodyControlP1::headPitchMaxAngle       = 45;
 const float BodyControlP1::headPitchDegreesDiv     = (float)(BodyControlP1::headPitchAngleADCMax - BodyControlP1::headPitchAngleADCMin) / BodyControlP1::headPitchMaxAngle;
 

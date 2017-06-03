@@ -46,7 +46,6 @@ bool SetHeadPitchPositionTask::checkFeasibility()
 
         return false;
     }
-
     return true;
 }
 
@@ -58,6 +57,18 @@ bool SetHeadPitchPositionTask::initialize()
     //T_BCP1_SetHeadPitchPositionTask_15
     float _angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(_angle);
+
+    stopped = !checkFeasibility();
+    //down - true, up - false
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    direction = (_angle > bodyControlP1->getHeadPitchPosition()) ? true : false;
+
+    string msg = Valter::format_string("Task#%lu Head Pitch direction [(a ? cur) %.2f ? %.2f] == [%s]", getTaskId(), _angle, bodyControlP1->getHeadPitchPosition(), (direction ? "DOWN" : "UP"));
+    qDebug("%s", msg.c_str());
+
+    bodyControlP1->setHeadPitchMotorActivated(false);
+    bodyControlP1->setHeadPitchDirection(direction);
+    bodyControlP1->setHeadPitchMotorActivated(true);
 
     if (executing)
     {
@@ -119,72 +130,70 @@ void SetHeadPitchPositionTask::executionWorker()
 {
     qDebug("Task#%lu %s started", getTaskId(), taskName.c_str());
 
-    bool prevMotorDirection  = true; //right(CW)
-    bool resetStart = false;
-
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
 
     string stopExecutionReason = "";
 
-    /************************************ emulation *********************start***************************/
-    /************************************ emulation *********************finish**************************/
+/************************************ emulation *********************start***************************/
+/************************************ emulation *********************finish**************************/
 
     float sigma = 1.0; //precision in degrees
 
     while (!stopped)
     {
-        stopped = !checkFeasibility();
-
-        if (!stopped)
+        if (!executing)
         {
-            //right(CW) - true, left(CCW) - false (in CW angle is positive)
-            bool direction = (angle > bodyControlP1->getHeadPitchPosition()) ? true : false;
-
-            if (!executing)
+            if (!checkFeasibility())
             {
-                if (!checkFeasibility())
-                {
-                    stopExecutionReason = Valter::format_string("Task#%lu (%s) has been terminated. checkFeasibility() returns FALSE.", getTaskId(), getTaskName().c_str());
-                    qDebug("%s", stopExecutionReason.c_str());
-                    stopExecution();
-                    continue;
-                }
-                else
-                {
-                    executing = true;
-                    resetStart = true;
-
-                    string msg = Valter::format_string("Task#%lu (%s) executing now..", getTaskId(), getTaskName().c_str());
-                    qDebug("%s", msg.c_str());
-                }
+                stopExecutionReason = Valter::format_string("Task#%lu (%s) has been terminated. checkFeasibility() returns FALSE.", getTaskId(), getTaskName().c_str());
+                qDebug("%s", stopExecutionReason.c_str());
+                stopExecution();
+                continue;
             }
             else
             {
-                if (direction != prevMotorDirection || resetStart)
+                bodyControlP1->requestHeadPitchPosition();
+
+                executing = true;
+
+                string msg = Valter::format_string("Task#%lu (%s) executing now..", getTaskId(), getTaskName().c_str());
+                qDebug("%s", msg.c_str());
+            }
+        }
+        else
+        {
+            if ((abs(getAngle() - bodyControlP1->getHeadPitchPosition()) <= sigma))
+            {
+                if (bodyControlP1->getHeadPitchMotorActivated())
                 {
-                    resetStart = false;
-                    bodyControlP1->setHeadPitchMotorActivated(false);
-                    bodyControlP1->setHeadPitchDirection(direction);
-                    bodyControlP1->setHeadPitchMotorActivated(true);
-                    prevMotorDirection = direction;
-                    string msg = Valter::format_string("Task#%lu (%s) direction changed [%s]", getTaskId(), getTaskName().c_str(), (direction ? "R" : "L"));
+                    string msg = Valter::format_string("Task#%lu (%s) position [%.2f] reached", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());
                     qDebug("%s", msg.c_str());
                 }
-
-                if ((abs(angle - bodyControlP1->getHeadPitchPosition()) < sigma))
+                bodyControlP1->setHeadPitchMotorActivated(false);
+            }
+            else if ((bodyControlP1->getHeadPitchPosition() > getAngle() && direction) || (bodyControlP1->getHeadPitchPosition() < getAngle() && !direction) ||
+                    (bodyControlP1->getHeadPitchPosition() > 45 && direction) || (bodyControlP1->getHeadPitchPosition() < 2 && !direction))
+            {
+                if (bodyControlP1->getHeadPitchMotorActivated())
                 {
-                    if (bodyControlP1->getHeadPitchMotorActivated())
-                    {
-                        string msg = Valter::format_string("Task#%lu (%s) position [%.2f] reached", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());
-                        qDebug("%s", msg.c_str());
-                    }
-                    bodyControlP1->setHeadPitchMotorActivated(false);
+                    string msg = Valter::format_string("Task#%lu (%s) position [%.2f] reached approximately", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());
+                    qDebug("%s", msg.c_str());
                 }
+                bodyControlP1->setHeadPitchMotorActivated(false);
+            }
+            bodyControlP1->requestHeadPitchPosition();
 /************************************ emulation *********************start***************************/
 string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());
 qDebug("%s", msg.c_str());
 /************************************ emulation *********************finish**************************/
-            }
+        }
+
+        if (bodyControlP1->getHeadPitchMotorActivated())
+        {
+            this_thread::sleep_for(std::chrono::milliseconds(5));
+        }
+        else
+        {
             this_thread::sleep_for(std::chrono::milliseconds(25));
         }
     }

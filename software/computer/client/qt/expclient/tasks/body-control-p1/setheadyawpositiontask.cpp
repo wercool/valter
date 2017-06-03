@@ -183,10 +183,11 @@ void SetHeadYawPositionTask::executionWorker()
             }
             bodyControlP1->requestHeadYawPosition();
 /************************************ emulation *********************start***************************/
-string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
-qDebug("%s", msg.c_str());
+//string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
+//qDebug("%s", msg.c_str());
 /************************************ emulation *********************finish**************************/
         }
+
         if (bodyControlP1->getHeadYawMotorActivated())
         {
             this_thread::sleep_for(std::chrono::milliseconds(5));

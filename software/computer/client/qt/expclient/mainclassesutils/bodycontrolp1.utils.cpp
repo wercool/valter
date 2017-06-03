@@ -1015,7 +1015,7 @@ void BodyControlP1::setHeadPitchADCPosition(int value)
 
     headPitchADCPosition = value;
 
-    double degreesValue = ((double)(headPitchADCPosition - BodyControlP1::headPitchAngleADCZero)) / BodyControlP1::headPitchDegreesDiv;
+    double degreesValue = (-1.0*(headPitchADCPosition - BodyControlP1::headPitchAngleADCZero)) / BodyControlP1::headPitchDegreesDiv;
 
     setHeadPitchPosition(degreesValue);
 
