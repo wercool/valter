@@ -132,34 +132,6 @@ void BodyControlP1::processMessagesQueueWorker()
 
                 bool toBeSent = true;
 
-                if (getHeadPitchPositionTrack())
-                {
-                    if (response.find("HPP:") != std::string::npos) //head pitch position
-                    {
-                        //qDebug("response.find(\"HPP:\")");
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int HeadPitchADCPosition = atoi(value_str.c_str());
-                        if (abs(HeadPitchADCPosition - getHeadPitchADCPosition()) < 2)
-                        {
-                            toBeSent = false;
-                        }
-                    }
-                }
-                if (getHeadYawPositionTrack())
-                {
-                    if (response.find("HYP:") != std::string::npos) //head yaw position
-                    {
-                        int value_str_pos = response.find_first_of(":") + 1;
-                        string value_str = response.substr(value_str_pos);
-                        int HeadYawADCPosition = atoi(value_str.c_str());
-                        if (abs(HeadYawADCPosition - getHeadYawADCPosition()) < 2)
-                        {
-                            toBeSent = false;
-                        }
-                    }
-                }
-
                 processControlDeviceResponse(response);
 
                 if (toBeSent)
@@ -174,7 +146,7 @@ void BodyControlP1::processMessagesQueueWorker()
 
                 if (getHeadYawMotorActivated() || getHeadPitchMotorActivated())
                 {
-                    this_thread::sleep_for(std::chrono::microseconds(100));
+                    this_thread::sleep_for(std::chrono::microseconds(10));
                 }
                 else
                 {
