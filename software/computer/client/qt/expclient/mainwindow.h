@@ -379,10 +379,10 @@ public slots:
     void on_headYawRightDirectonCheckButton_toggled(bool checked);
     void on_headYawLeftRotateButton_pressed();
     void on_headYawLeftRotateButton_released();
-    void on_headYawStepDelaySpinBox_valueChanged(int value);
-    void on_headYawStepSwitchDelaySpinBox_valueChanged(int value);
     void on_headYawRightRotateButton_pressed();
     void on_headYawRightRotateButton_released();
+    void on_headYawStepDelaySpinBox_valueChanged(int value);
+    void on_headYawStepSwitchDelaySpinBox_valueChanged(int value);
     void on_pitchHeadDownDirectionCheckButton_toggled(bool checked);
     void on_pitchHeadUpDirectionCheckButton_toggled(bool checked);
     void on_headPitchStepDelaySpinBox_valueChanged(int value);
@@ -442,6 +442,10 @@ public slots:
     void on_bodyControlP1ReadingsTable_itemClicked(QTableWidgetItem *item);
     void on_bodyCameraReleaseButton_clicked();
     void on_bodyCameraPositionScroller_valueChanged(int value);
+    void on_headYawRightLockCheckBox_clicked();
+    void on_headYawLeftLockCheckBox_clicked();
+    void on_headPitchDownLockCheckBox_clicked();
+    void on_headPitchUpCheckBox_clicked();
 
     //arm-control-left
     void initArmControlLeft(Ui::MainWindow *ui);

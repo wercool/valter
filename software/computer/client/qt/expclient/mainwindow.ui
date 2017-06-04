@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>933</width>
-    <height>615</height>
+    <width>1024</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -53,8 +53,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>877</width>
-             <height>1045</height>
+             <width>968</width>
+             <height>874</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -71,387 +71,6 @@
                    <enum>Qt::Horizontal</enum>
                   </property>
                  </widget>
-                </item>
-                <item>
-                 <widget class="QTableWidget" name="platformControlP1ReadingsTable">
-                  <property name="minimumSize">
-                   <size>
-                    <width>0</width>
-                    <height>300</height>
-                   </size>
-                  </property>
-                  <property name="maximumSize">
-                   <size>
-                    <width>500</width>
-                    <height>16777215</height>
-                   </size>
-                  </property>
-                  <property name="styleSheet">
-                   <string notr="true"/>
-                  </property>
-                  <attribute name="horizontalHeaderStretchLastSection">
-                   <bool>false</bool>
-                  </attribute>
-                  <attribute name="verticalHeaderVisible">
-                   <bool>false</bool>
-                  </attribute>
-                  <row>
-                   <property name="text">
-                    <string>1</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>2</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>3</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>4</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>5</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>6</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>7</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>8</string>
-                   </property>
-                  </row>
-                  <row>
-                   <property name="text">
-                    <string>9</string>
-                   </property>
-                  </row>
-                  <column>
-                   <property name="text">
-                    <string>Reading Name</string>
-                   </property>
-                   <property name="foreground">
-                    <brush brushstyle="SolidPattern">
-                     <color alpha="255">
-                      <red>0</red>
-                      <green>0</green>
-                      <blue>0</blue>
-                     </color>
-                    </brush>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Reading Value</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>ADC</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Tracking</string>
-                   </property>
-                  </column>
-                  <item row="0" column="0">
-                   <property name="text">
-                    <string>Main Accumulator Voltage</string>
-                   </property>
-                  </item>
-                  <item row="0" column="1">
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </item>
-                  <item row="0" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="0" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="1" column="0">
-                   <property name="text">
-                    <string>Left Accumulator Voltage</string>
-                   </property>
-                  </item>
-                  <item row="1" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="1" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="2" column="0">
-                   <property name="text">
-                    <string>Right Accumulator Voltage</string>
-                   </property>
-                  </item>
-                  <item row="2" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="2" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="3" column="0">
-                   <property name="text">
-                    <string>Amperage Total</string>
-                   </property>
-                  </item>
-                  <item row="3" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="3" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="4" column="0">
-                   <property name="text">
-                    <string>Platform Amperage</string>
-                   </property>
-                  </item>
-                  <item row="4" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="4" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="5" column="0">
-                   <property name="text">
-                    <string>Body Amperage</string>
-                   </property>
-                  </item>
-                  <item row="5" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="5" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="6" column="0">
-                   <property name="text">
-                    <string>Left Accumulator Amperage</string>
-                   </property>
-                  </item>
-                  <item row="6" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="6" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="7" column="0">
-                   <property name="text">
-                    <string>Right Accumulator Amperage</string>
-                   </property>
-                  </item>
-                  <item row="7" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="7" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                  <item row="8" column="0">
-                   <property name="text">
-                    <string>Charger Voltage</string>
-                   </property>
-                   <property name="background">
-                    <brush brushstyle="Dense7Pattern">
-                     <color alpha="255">
-                      <red>0</red>
-                      <green>145</green>
-                      <blue>9</blue>
-                     </color>
-                    </brush>
-                   </property>
-                  </item>
-                  <item row="8" column="2">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Checked</enum>
-                   </property>
-                  </item>
-                  <item row="8" column="3">
-                   <property name="text">
-                    <string/>
-                   </property>
-                   <property name="checkState">
-                    <enum>Unchecked</enum>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_16">
-                  <property name="topMargin">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout_39">
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <item alignment="Qt::AlignLeft">
-                     <widget class="QLabel" name="label_19">
-                      <property name="maximumSize">
-                       <size>
-                        <width>100</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="text">
-                       <string>Tracking delay</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item alignment="Qt::AlignLeft">
-                     <widget class="QLabel" name="platformControlP1additionalReadingsTrackingDelayLabel">
-                      <property name="font">
-                       <font>
-                        <pointsize>8</pointsize>
-                        <italic>true</italic>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>[...]</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="platformControlP1UntrackAllAdditionalReadingsButton">
-                      <property name="text">
-                       <string>Untrack All</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <spacer name="horizontalSpacer">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="QScrollBar" name="platformControlP1additionalReadingsTrackingDelay">
-                    <property name="maximumSize">
-                     <size>
-                      <width>200</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="minimum">
-                     <number>5</number>
-                    </property>
-                    <property name="maximum">
-                     <number>1000</number>
-                    </property>
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
                 </item>
                </layout>
               </item>
@@ -2250,6 +1869,387 @@ border-color: rgb(140, 140, 140);</string>
                  </widget>
                 </item>
                 <item>
+                 <widget class="QTableWidget" name="platformControlP1ReadingsTable">
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>300</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>500</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderVisible">
+                   <bool>false</bool>
+                  </attribute>
+                  <row>
+                   <property name="text">
+                    <string>1</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>2</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>3</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>4</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>5</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>6</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>7</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>8</string>
+                   </property>
+                  </row>
+                  <row>
+                   <property name="text">
+                    <string>9</string>
+                   </property>
+                  </row>
+                  <column>
+                   <property name="text">
+                    <string>Reading Name</string>
+                   </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>0</green>
+                      <blue>0</blue>
+                     </color>
+                    </brush>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Reading Value</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>ADC</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Tracking</string>
+                   </property>
+                  </column>
+                  <item row="0" column="0">
+                   <property name="text">
+                    <string>Main Accumulator Voltage</string>
+                   </property>
+                  </item>
+                  <item row="0" column="1">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </item>
+                  <item row="0" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="0" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="1" column="0">
+                   <property name="text">
+                    <string>Left Accumulator Voltage</string>
+                   </property>
+                  </item>
+                  <item row="1" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="1" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="2" column="0">
+                   <property name="text">
+                    <string>Right Accumulator Voltage</string>
+                   </property>
+                  </item>
+                  <item row="2" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="2" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="3" column="0">
+                   <property name="text">
+                    <string>Amperage Total</string>
+                   </property>
+                  </item>
+                  <item row="3" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="3" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="4" column="0">
+                   <property name="text">
+                    <string>Platform Amperage</string>
+                   </property>
+                  </item>
+                  <item row="4" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="4" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="5" column="0">
+                   <property name="text">
+                    <string>Body Amperage</string>
+                   </property>
+                  </item>
+                  <item row="5" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="5" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="6" column="0">
+                   <property name="text">
+                    <string>Left Accumulator Amperage</string>
+                   </property>
+                  </item>
+                  <item row="6" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="6" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="7" column="0">
+                   <property name="text">
+                    <string>Right Accumulator Amperage</string>
+                   </property>
+                  </item>
+                  <item row="7" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="7" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                  <item row="8" column="0">
+                   <property name="text">
+                    <string>Charger Voltage</string>
+                   </property>
+                   <property name="background">
+                    <brush brushstyle="Dense7Pattern">
+                     <color alpha="255">
+                      <red>0</red>
+                      <green>145</green>
+                      <blue>9</blue>
+                     </color>
+                    </brush>
+                   </property>
+                  </item>
+                  <item row="8" column="2">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Checked</enum>
+                   </property>
+                  </item>
+                  <item row="8" column="3">
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="checkState">
+                    <enum>Unchecked</enum>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_16">
+                  <property name="topMargin">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_39">
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <item alignment="Qt::AlignLeft">
+                     <widget class="QLabel" name="label_19">
+                      <property name="maximumSize">
+                       <size>
+                        <width>100</width>
+                        <height>16777215</height>
+                       </size>
+                      </property>
+                      <property name="text">
+                       <string>Tracking delay</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item alignment="Qt::AlignLeft">
+                     <widget class="QLabel" name="platformControlP1additionalReadingsTrackingDelayLabel">
+                      <property name="font">
+                       <font>
+                        <pointsize>8</pointsize>
+                        <italic>true</italic>
+                       </font>
+                      </property>
+                      <property name="text">
+                       <string>[...]</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="platformControlP1UntrackAllAdditionalReadingsButton">
+                      <property name="text">
+                       <string>Untrack All</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <widget class="QScrollBar" name="platformControlP1additionalReadingsTrackingDelay">
+                    <property name="maximumSize">
+                     <size>
+                      <width>200</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="minimum">
+                     <number>5</number>
+                    </property>
+                    <property name="maximum">
+                     <number>1000</number>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
                  <spacer name="verticalSpacer_3">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -2909,8 +2909,8 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>234</width>
-             <height>572</height>
+             <width>248</width>
+             <height>677</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -4059,7 +4059,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>895</width>
+             <width>986</width>
              <height>2400</height>
             </rect>
            </property>
@@ -8127,7 +8127,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>877</width>
+             <width>968</width>
              <height>1514</height>
             </rect>
            </property>
@@ -10724,7 +10724,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>877</width>
+             <width>968</width>
              <height>800</height>
             </rect>
            </property>
@@ -11213,6 +11213,13 @@ border-color: rgb(140, 140, 140);</string>
                      <number>0</number>
                     </property>
                     <item>
+                     <widget class="QCheckBox" name="headYawRightLockCheckBox">
+                      <property name="text">
+                       <string>Rl</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
                      <widget class="QPushButton" name="headYawRightRotateButton">
                       <property name="minimumSize">
                        <size>
@@ -11285,6 +11292,13 @@ border-color: rgb(140, 140, 140);</string>
                       </property>
                       <property name="flat">
                        <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="headYawLeftLockCheckBox">
+                      <property name="text">
+                       <string>Ll</string>
                       </property>
                      </widget>
                     </item>
@@ -12047,6 +12061,13 @@ border-color: rgb(140, 140, 140);</string>
                      <number>0</number>
                     </property>
                     <item>
+                     <widget class="QCheckBox" name="headPitchDownLockCheckBox">
+                      <property name="text">
+                       <string>D_l</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
                      <widget class="QPushButton" name="headPitchDownButton">
                       <property name="minimumSize">
                        <size>
@@ -12101,6 +12122,13 @@ border-color: rgb(140, 140, 140);</string>
                       </property>
                       <property name="checkable">
                        <bool>false</bool>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="headPitchUpCheckBox">
+                      <property name="text">
+                       <string>U_l</string>
                       </property>
                      </widget>
                     </item>
@@ -13723,7 +13751,7 @@ border-color: rgb(140, 140, 140);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>877</width>
+             <width>968</width>
              <height>1098</height>
             </rect>
            </property>
@@ -17082,7 +17110,7 @@ image: url(:/hand.png);</string>
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>877</width>
+             <width>968</width>
              <height>1098</height>
             </rect>
            </property>
@@ -21337,7 +21365,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>platformControlP1RightWheelEncoderResetButton</tabstop>
   <tabstop>platformControlP1LeftWheelEncoderAutoresetCheckBox</tabstop>
   <tabstop>platformControlP1RightWheelEncoderAutoresetCheckBox</tabstop>
-  <tabstop>platformControlP1ReadingsTable</tabstop>
   <tabstop>controlDeviceTableWidget</tabstop>
   <tabstop>reScanControlDevicesButton</tabstop>
   <tabstop>connectDisconnectControlDeviceButton</tabstop>

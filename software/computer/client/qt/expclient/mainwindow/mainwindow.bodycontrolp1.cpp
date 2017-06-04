@@ -169,6 +169,9 @@ void MainWindow::on_headYawStepDelaySpinBox_valueChanged(int value)
 
 void MainWindow::on_headYawLeftRotateButton_pressed()
 {
+    ui->headYawRightLockCheckBox->setChecked(false);
+    ui->headYawLeftLockCheckBox->setChecked(false);
+
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
@@ -177,6 +180,18 @@ void MainWindow::on_headYawLeftRotateButton_pressed()
     TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
     bodyControlP1->setHeadYawDirection(false);
     bodyControlP1->setHeadYawMotorActivated(true);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headPitchDownLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headPitchDownButton_pressed");
+        }
+        if (ui->headPitchUpCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headPitchUpButton_pressed");
+        }
+    }
 }
 
 void MainWindow::on_headYawLeftRotateButton_released()
@@ -187,10 +202,25 @@ void MainWindow::on_headYawLeftRotateButton_released()
         bodyControlP1->sendTCPCommand("on_headYawLeftRotateButton_released");
     }
     bodyControlP1->setHeadYawMotorActivated(false);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headPitchDownLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headPitchDownButton_released");
+        }
+        if (ui->headPitchUpCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headPitchUpButton_released");
+        }
+    }
 }
 
 void MainWindow::on_headYawRightRotateButton_pressed()
 {
+    ui->headYawRightLockCheckBox->setChecked(false);
+    ui->headYawLeftLockCheckBox->setChecked(false);
+
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
@@ -199,6 +229,18 @@ void MainWindow::on_headYawRightRotateButton_pressed()
     TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
     bodyControlP1->setHeadYawDirection(true);
     bodyControlP1->setHeadYawMotorActivated(true);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headPitchDownLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headPitchDownButton_pressed");
+        }
+        if (ui->headPitchUpCheckBox->isChecked())
+        {
+             bodyControlP1->sendTCPCommand("on_headPitchUpButton_pressed");
+        }
+    }
 }
 
 void MainWindow::on_headYawRightRotateButton_released()
@@ -209,6 +251,18 @@ void MainWindow::on_headYawRightRotateButton_released()
         bodyControlP1->sendTCPCommand("on_headYawRightRotateButton_released");
     }
     bodyControlP1->setHeadYawMotorActivated(false);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headPitchDownLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headPitchDownButton_released");
+        }
+        if (ui->headPitchUpCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headPitchUpButton_released");
+        }
+    }
 }
 
 void MainWindow::on_headPitchStepDelaySpinBox_valueChanged(int value)
@@ -243,6 +297,9 @@ void MainWindow::on_headPitchStepDelayTestModeSpinBox_valueChanged(int value)
 
 void MainWindow::on_headPitchDownButton_pressed()
 {
+    ui->headPitchDownLockCheckBox->setChecked(false);
+    ui->headPitchUpCheckBox->setChecked(false);
+
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
@@ -251,6 +308,18 @@ void MainWindow::on_headPitchDownButton_pressed()
     TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
     bodyControlP1->setHeadPitchDirection(true);
     bodyControlP1->setHeadPitchMotorActivated(true);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headYawRightLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawRightRotateButton_pressed");
+        }
+        if (ui->headYawLeftLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawLeftRotateButton_pressed");
+        }
+    }
 }
 
 void MainWindow::on_headPitchDownButton_released()
@@ -261,10 +330,25 @@ void MainWindow::on_headPitchDownButton_released()
         bodyControlP1->sendTCPCommand("on_headPitchDownButton_released");
     }
     bodyControlP1->setHeadPitchMotorActivated(false);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headYawRightLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawRightRotateButton_released");
+        }
+        if (ui->headYawLeftLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawLeftRotateButton_released");
+        }
+    }
 }
 
 void MainWindow::on_headPitchUpButton_pressed()
 {
+    ui->headPitchDownLockCheckBox->setChecked(false);
+    ui->headPitchUpCheckBox->setChecked(false);
+
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
@@ -273,6 +357,18 @@ void MainWindow::on_headPitchUpButton_pressed()
     TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
     bodyControlP1->setHeadPitchDirection(false);
     bodyControlP1->setHeadPitchMotorActivated(true);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headYawRightLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawRightRotateButton_pressed");
+        }
+        if (ui->headYawLeftLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawLeftRotateButton_pressed");
+        }
+    }
 }
 
 void MainWindow::on_headPitchUpButton_released()
@@ -283,6 +379,18 @@ void MainWindow::on_headPitchUpButton_released()
         bodyControlP1->sendTCPCommand("on_headPitchUpButton_released");
     }
     bodyControlP1->setHeadPitchMotorActivated(false);
+
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        if (ui->headYawRightLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawRightRotateButton_released");
+        }
+        if (ui->headYawLeftLockCheckBox->isChecked())
+        {
+            bodyControlP1->sendTCPCommand("on_headYawLeftRotateButton_released");
+        }
+    }
 }
 
 void MainWindow::on_head24VOnOffButton_clicked()
@@ -935,3 +1043,24 @@ void MainWindow::on_bodyCameraPositionScroller_valueChanged(int value)
     }
     bodyControlP1->setBodyCameraPosition(value * 4);
 }
+
+void MainWindow::on_headYawRightLockCheckBox_clicked()
+{
+    ui->headYawLeftLockCheckBox->setChecked(false);
+}
+
+void MainWindow::on_headYawLeftLockCheckBox_clicked()
+{
+    ui->headYawRightLockCheckBox->setChecked(false);
+}
+
+void MainWindow::on_headPitchDownLockCheckBox_clicked()
+{
+    ui->headPitchUpCheckBox->setChecked(false);
+}
+
+void MainWindow::on_headPitchUpCheckBox_clicked()
+{
+    ui->headPitchDownLockCheckBox->setChecked(false);
+}
+
