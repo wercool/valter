@@ -174,11 +174,11 @@ void BodyControlP1::processMessagesQueueWorker()
 
                 if (getHeadYawMotorActivated() || getHeadPitchMotorActivated())
                 {
-                    this_thread::sleep_for(std::chrono::milliseconds(1));
+                    this_thread::sleep_for(std::chrono::microseconds(100));
                 }
                 else
                 {
-                    this_thread::sleep_for(std::chrono::microseconds(100));
+                    this_thread::sleep_for(std::chrono::milliseconds(1));
                 }
             }
             this_thread::sleep_for(std::chrono::milliseconds(10));
