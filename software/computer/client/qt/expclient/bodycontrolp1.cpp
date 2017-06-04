@@ -120,19 +120,11 @@ void BodyControlP1::initTcpCommandAcceptorInterface()
     getTcpInterface()->startListening();
 }
 
-
-void BodyControlP1::sendCDRToCentralCommandHostWorker(string response)
-{
-    bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
-    if (!successfullySent)
-    {
-        stopAll();
-        getTcpInterface()->setConnected(false);
-    }
-}
-
 void BodyControlP1::processMessagesQueueWorker()
 {
+    static int headYawMotor_cnt = 0;
+    static int headPitchMotor_cnt = 0;
+
     if (getControlDeviceIsSet())
     {
         while (getControlDevice()->getStatus() == ControlDevice::StatusActive)
@@ -143,13 +135,29 @@ void BodyControlP1::processMessagesQueueWorker()
 
                 processControlDeviceResponse(response);
 
-                if (getHeadYawMotorActivated() || getHeadPitchMotorActivated())
+                bool toBeSent = true;
+
+                if (getHeadYawMotorActivated())
                 {
-                    new std::thread(&BodyControlP1::sendCDRToCentralCommandHostWorker, this, response);
+                    headYawMotor_cnt++;
                 }
-                else
+                if (getHeadPitchMotorActivated())
+                {
+                    headPitchMotor_cnt++;
+                }
+
+                if (headYawMotor_cnt < 50 || headPitchMotor_cnt < 50)
+                {
+                    toBeSent = false;
+                }
+
+                if (toBeSent)
                 {
                     bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+
+                    if (headYawMotor_cnt > 50) headYawMotor_cnt = 0;
+                    if (headPitchMotor_cnt > 50) headPitchMotor_cnt = 0;
+
                     if (!successfullySent)
                     {
                         stopAll();
