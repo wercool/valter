@@ -442,7 +442,7 @@ void ControlDevice::controlDeviceThreadWorker()
                 else
                 {
                     int value_str_pos = response.find_first_of(":");
-                    if (response.substr(0, value_str_pos).compare(prevReading) != 0 || filter > 100)
+                    if (response.substr(0, value_str_pos).compare(prevReading) != 0 || filter > 10)
                     {
                         prevReading = response.substr(0, value_str_pos);
                         addResponse(response);
