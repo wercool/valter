@@ -130,13 +130,46 @@ void BodyControlP1::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
+                bool toBeSent = true;
+
+                if (getHeadPitchPositionTrack())
+                {
+                    if (response.find("HPP:") != std::string::npos) //head pitch position
+                    {
+                        //qDebug("response.find(\"HPP:\")");
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int HeadPitchADCPosition = atoi(value_str.c_str());
+                        if (abs(HeadPitchADCPosition - getHeadPitchADCPosition()) < 2)
+                        {
+                            toBeSent = false;
+                        }
+                    }
+                }
+                if (getHeadYawPositionTrack())
+                {
+                    if (response.find("HYP:") != std::string::npos) //head yaw position
+                    {
+                        int value_str_pos = response.find_first_of(":") + 1;
+                        string value_str = response.substr(value_str_pos);
+                        int HeadYawADCPosition = atoi(value_str.c_str());
+                        if (abs(HeadYawADCPosition - getHeadYawADCPosition()) < 2)
+                        {
+                            toBeSent = false;
+                        }
+                    }
+                }
+
                 processControlDeviceResponse(response);
 
-                bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
-                if (!successfullySent)
+                if (toBeSent)
                 {
-                    stopAll();
-                    getTcpInterface()->setConnected(false);
+                    bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+                    if (!successfullySent)
+                    {
+                        stopAll();
+                        getTcpInterface()->setConnected(false);
+                    }
                 }
 
                 this_thread::sleep_for(std::chrono::milliseconds(1));
