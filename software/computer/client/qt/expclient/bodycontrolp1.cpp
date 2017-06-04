@@ -120,6 +120,17 @@ void BodyControlP1::initTcpCommandAcceptorInterface()
     getTcpInterface()->startListening();
 }
 
+
+void BodyControlP1::sendCDRToCentralCommandHostWorker(string response)
+{
+    bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
+    if (!successfullySent)
+    {
+        stopAll();
+        getTcpInterface()->setConnected(false);
+    }
+}
+
 void BodyControlP1::processMessagesQueueWorker()
 {
     if (getControlDeviceIsSet())
@@ -130,11 +141,13 @@ void BodyControlP1::processMessagesQueueWorker()
             {
                 string response = getControlDevice()->pullResponse();
 
-                bool toBeSent = true;
-
                 processControlDeviceResponse(response);
 
-                if (toBeSent)
+                if (getHeadYawMotorActivated() || getHeadPitchMotorActivated())
+                {
+                    new std::thread(&BodyControlP1::sendCDRToCentralCommandHostWorker, this, response);
+                }
+                else
                 {
                     bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
                     if (!successfullySent)
@@ -144,14 +157,7 @@ void BodyControlP1::processMessagesQueueWorker()
                     }
                 }
 
-                if (getHeadYawMotorActivated() || getHeadPitchMotorActivated())
-                {
-                    this_thread::sleep_for(std::chrono::microseconds(10));
-                }
-                else
-                {
-                    this_thread::sleep_for(std::chrono::milliseconds(1));
-                }
+                this_thread::sleep_for(std::chrono::milliseconds(1));
             }
             this_thread::sleep_for(std::chrono::milliseconds(10));
         }

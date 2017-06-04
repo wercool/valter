@@ -295,13 +295,6 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
                         }
                     }
                 }
-//                for(vector<string>::const_iterator i = sentCDRs.begin(); i != sentCDRs.end(); ++i)
-//                {
-//                    if (((string)*i).compare(command) == 0)
-//                    {
-//                        duplicate = true;
-//                    }
-//                }
             }
             if (!duplicate) //ignore too often duplicates
             {
@@ -344,6 +337,20 @@ bool TCPInterface::sendCDRToCentralCommandHost(string command)
     return true;
 }
 
+void TCPInterface::sentCDRsRectifierThreadWorker()
+{
+    while (!sentCDRsRectifierThreadWorkerStopped)
+    {
+        if (!sentCDRs.empty())
+        {
+            std::lock_guard<std::mutex> guard(sentCDRs_mutex);
+            sentCDRs.erase(sentCDRs.begin());
+        }
+        this_thread::sleep_for(std::chrono::milliseconds(250));
+    }
+    qDebug("STOPPED: TCPInterface::sentCDRsRectifierThreadWorker");
+}
+
 int TCPInterface::getCommandHostPort() const
 {
     return commandHostPort;
@@ -363,18 +370,4 @@ void TCPInterface::setCommandHostIP(const string &value)
 {
     commandHostIP = value;
     Valter::getInstance()->addIpAddressToRemoteControlDeviceTCPInterfacesIpAddressesVector(commandHostIP);
-}
-
-void TCPInterface::sentCDRsRectifierThreadWorker()
-{
-    while (!sentCDRsRectifierThreadWorkerStopped)
-    {
-        if (!sentCDRs.empty())
-        {
-            std::lock_guard<std::mutex> guard(sentCDRs_mutex);
-            sentCDRs.erase(sentCDRs.begin());
-        }
-        this_thread::sleep_for(std::chrono::milliseconds(250));
-    }
-    qDebug("STOPPED: TCPInterface::sentCDRsRectifierThreadWorker");
 }

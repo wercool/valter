@@ -365,6 +365,8 @@ private:
     void rightArmYawWorker();
     void leftArmYawWorker();
 
+    void sendCDRToCentralCommandHostWorker(string response);
+
     //------------------------------------------------------head yaw and pitch
     bool head24VState;
     bool headYawMotorState;
