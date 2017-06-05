@@ -694,6 +694,29 @@ void ControlDevice::addRequest(string msg)
 void ControlDevice::addResponse(string msg)
 {
     std::lock_guard<std::mutex> guard(responses_mutex);
+
+
+    //specific for Valter Modules
+    if (getControlDeviceId().compare(BodyControlP1::getControlDeviceId()) == 0)
+    {
+        if (msg.find("HYP:") != std::string::npos) //head yaw position
+        {
+            int value_str_pos = msg.find_first_of(":") + 1;
+            string value_str = msg.substr(value_str_pos);
+            BodyControlP1::getInstance()->setHeadYawADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+        if (msg.find("HPP:") != std::string::npos) //head pitch position
+        {
+            //qDebug("response.find(\"HPP:\")");
+            int value_str_pos = msg.find_first_of(":") + 1;
+            string value_str = msg.substr(value_str_pos);
+            BodyControlP1::getInstance()->setHeadPitchADCPosition(atoi(value_str.c_str()));
+            return;
+        }
+    }
+
+
     responses.push_back(msg);
 }
 

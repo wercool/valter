@@ -135,53 +135,15 @@ void BodyControlP1::processMessagesQueueWorker()
 
                 processControlDeviceResponse(response);
 
-                bool toBeSent = false;
-                bool intensifyHeadReadings = false;
+                bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
 
-                if (response.find("HYP:") != std::string::npos)
+                if (!successfullySent)
                 {
-                    headYawMotor_cnt++;
-                    if (headYawMotor_cnt > 50)
-                    {
-                        toBeSent = true;
-                        headYawMotor_cnt = 0;
-                    }
-                    intensifyHeadReadings = true;
-                }
-                else if (response.find("HPP:") != std::string::npos)
-                {
-                    headPitchMotor_cnt++;
-                    if (headPitchMotor_cnt > 50)
-                    {
-                        toBeSent = true;
-                        headPitchMotor_cnt = 0;
-                    }
-                    intensifyHeadReadings = true;
-                }
-                else
-                {
-                    toBeSent = true;
+                    stopAll();
+                    getTcpInterface()->setConnected(false);
                 }
 
-                if (toBeSent)
-                {
-                    bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
-
-                    if (!successfullySent)
-                    {
-                        stopAll();
-                        getTcpInterface()->setConnected(false);
-                    }
-                }
-
-                if (intensifyHeadReadings)
-                {
-                    this_thread::sleep_for(std::chrono::microseconds(10));
-                }
-                else
-                {
-                    this_thread::sleep_for(std::chrono::milliseconds(1));
-                }
+                this_thread::sleep_for(std::chrono::milliseconds(1));
             }
             this_thread::sleep_for(std::chrono::milliseconds(10));
         }
