@@ -697,21 +697,33 @@ void ControlDevice::addResponse(string msg)
 
 
     //specific for Valter Modules
+    static int headSpecificCnt = 0;
     if (getControlDeviceId().compare(BodyControlP1::getControlDeviceId()) == 0)
     {
         if (msg.find("HYP:") != std::string::npos) //head yaw position
         {
+            headSpecificCnt++;
             int value_str_pos = msg.find_first_of(":") + 1;
             string value_str = msg.substr(value_str_pos);
             BodyControlP1::getInstance()->setHeadYawADCPosition(atoi(value_str.c_str()));
+            if (headSpecificCnt > 10)
+            {
+                BodyControlP1::getInstance()->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", msg.c_str()));
+                headSpecificCnt = 0;
+            }
             return;
         }
         if (msg.find("HPP:") != std::string::npos) //head pitch position
         {
-            //qDebug("response.find(\"HPP:\")");
+            headSpecificCnt++;
             int value_str_pos = msg.find_first_of(":") + 1;
             string value_str = msg.substr(value_str_pos);
             BodyControlP1::getInstance()->setHeadPitchADCPosition(atoi(value_str.c_str()));
+            if (headSpecificCnt > 10)
+            {
+                BodyControlP1::getInstance()->getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", msg.c_str()));
+                headSpecificCnt = 0;
+            }
             return;
         }
     }

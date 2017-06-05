@@ -133,7 +133,6 @@ void BodyControlP1::processMessagesQueueWorker()
                 processControlDeviceResponse(response);
 
                 bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
-
                 if (!successfullySent)
                 {
                     stopAll();
