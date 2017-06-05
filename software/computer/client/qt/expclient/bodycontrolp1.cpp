@@ -136,6 +136,7 @@ void BodyControlP1::processMessagesQueueWorker()
                 processControlDeviceResponse(response);
 
                 bool toBeSent = false;
+                bool intensifyHeadReadings = false;
 
                 if (response.find("HYP:") != std::string::npos)
                 {
@@ -145,6 +146,7 @@ void BodyControlP1::processMessagesQueueWorker()
                         toBeSent = true;
                         headYawMotor_cnt = 0;
                     }
+                    intensifyHeadReadings = true;
                 }
                 else if (response.find("HPP:") != std::string::npos)
                 {
@@ -154,6 +156,7 @@ void BodyControlP1::processMessagesQueueWorker()
                         toBeSent = true;
                         headPitchMotor_cnt = 0;
                     }
+                    intensifyHeadReadings = true;
                 }
                 else
                 {
@@ -171,7 +174,14 @@ void BodyControlP1::processMessagesQueueWorker()
                     }
                 }
 
-                this_thread::sleep_for(std::chrono::milliseconds(1));
+                if (intensifyHeadReadings)
+                {
+                    this_thread::sleep_for(std::chrono::microseconds(10));
+                }
+                else
+                {
+                    this_thread::sleep_for(std::chrono::milliseconds(1));
+                }
             }
             this_thread::sleep_for(std::chrono::milliseconds(10));
         }
