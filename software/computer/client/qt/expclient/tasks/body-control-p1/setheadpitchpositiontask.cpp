@@ -152,8 +152,6 @@ void SetHeadPitchPositionTask::executionWorker()
             }
             else
             {
-                bodyControlP1->requestHeadPitchPosition();
-
                 executing = true;
 
                 string msg = Valter::format_string("Task#%lu (%s) executing now..", getTaskId(), getTaskName().c_str());
@@ -181,7 +179,6 @@ void SetHeadPitchPositionTask::executionWorker()
                 }
                 bodyControlP1->setHeadPitchMotorActivated(false);
             }
-            bodyControlP1->requestHeadPitchPosition();
 /************************************ emulation *********************start***************************/
 string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());
 qDebug("%s", msg.c_str());

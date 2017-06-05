@@ -152,8 +152,6 @@ void SetHeadYawPositionTask::executionWorker()
             }
             else
             {
-                bodyControlP1->requestHeadYawPosition();
-
                 executing = true;
 
                 string msg = Valter::format_string("Task#%lu (%s) executing now..", getTaskId(), getTaskName().c_str());
@@ -181,7 +179,6 @@ void SetHeadYawPositionTask::executionWorker()
                 }
                 bodyControlP1->setHeadYawMotorActivated(false);
             }
-            bodyControlP1->requestHeadYawPosition();
 /************************************ emulation *********************start***************************/
 //string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
 //qDebug("%s", msg.c_str());
