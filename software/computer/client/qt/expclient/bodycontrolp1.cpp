@@ -122,9 +122,6 @@ void BodyControlP1::initTcpCommandAcceptorInterface()
 
 void BodyControlP1::processMessagesQueueWorker()
 {
-    static int headYawMotor_cnt = 0;
-    static int headPitchMotor_cnt = 0;
-
     if (getControlDeviceIsSet())
     {
         while (getControlDevice()->getStatus() == ControlDevice::StatusActive)
