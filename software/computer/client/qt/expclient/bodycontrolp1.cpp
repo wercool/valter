@@ -135,28 +135,34 @@ void BodyControlP1::processMessagesQueueWorker()
 
                 processControlDeviceResponse(response);
 
-                bool toBeSent = true;
+                bool toBeSent = false;
 
-                if (getHeadYawMotorActivated())
+                if (response.find("HYP:") != std::string::npos)
                 {
                     headYawMotor_cnt++;
+                    if (headYawMotor_cnt > 50)
+                    {
+                        toBeSent = true;
+                        headYawMotor_cnt = 0;
+                    }
                 }
-                if (getHeadPitchMotorActivated())
+                else if (response.find("HPP:") != std::string::npos)
                 {
                     headPitchMotor_cnt++;
+                    if (headPitchMotor_cnt > 50)
+                    {
+                        toBeSent = true;
+                        headPitchMotor_cnt = 0;
+                    }
                 }
-
-                if (headYawMotor_cnt < 50 || headPitchMotor_cnt < 50)
+                else
                 {
-                    toBeSent = false;
+                    toBeSent = true;
                 }
 
                 if (toBeSent)
                 {
                     bool successfullySent = getTcpInterface()->sendCDRToCentralCommandHost(Valter::format_string("CDR~%s", response.c_str()));
-
-                    if (headYawMotor_cnt > 50) headYawMotor_cnt = 0;
-                    if (headPitchMotor_cnt > 50) headPitchMotor_cnt = 0;
 
                     if (!successfullySent)
                     {
