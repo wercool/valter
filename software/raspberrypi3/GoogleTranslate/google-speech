@@ -1,49 +1,77 @@
 #!/bin/bash
+
 DISPLAY=:0 chromium-browser --start-maximized "https://translate.google.com/#ru/en" &
 sleep 10
 
-DISPLAY=:0 xdotool mousemove 58 418 click 1
+/home/maska/speech-ru "I'm ready and listening"
+
+DISPLAY=:0 xdotool mousemove 47 387 click 1
+
 sleep 5
 
 timeCnt=0
+noResultCnt=0
 
 while [ 1 ]; do
 #  DISPLAY=:0 xdotool getmouselocation
-#  ((timeCnt++))
-#  echo "timeCnt=$timeCnt"
-#  if [ "$timeCnt" -eq 60 ]; then
-#    DISPLAY=:0 xdotool mousemove 493 318 click 1
-#    sleep 1
-#    DISPLAY=:0 xdotool mousemove 58 418 click 1
-#    timeCnt=0
-#  fi
+#  sleep 1
+: '
+  ((timeCnt++))
+  echo "timeCnt=$timeCnt"
+  if [ "$timeCnt" -eq 60 ]; then
+    #clear text
+    DISPLAY=:0 xdotool mousemove 492 290 click 1
+    sleep 1
+    DISPLAY=:0 xdotool mousemove 47 387 click 1
+    timeCnt=0
+  fi
+'
 
   #select text
-  DISPLAY=:0 xdotool mousemove x238 y356 click 1
+  DISPLAY=:0 xdotool mousemove 252 333 click 1
   DISPLAY=:0 xdotool key --delay 0 --clearmodifiers ctrl+a
   DISPLAY=:0 xdotool key --delay 0 --clearmodifiers ctrl+c
 
-  googleResult="$(DISPLAY=:0 xclip -o)"
+  GoogleResult="$(DISPLAY=:0 xclip -o)"
 
-  echo "RESULT:$googleResult"
+  if [ "$GoogleResult" == "" ]; then
+    echo "NO RESULT"
+    aplay /home/maska/Music/beep-08b.wav -D sysdefault:CARD=Set
+    ((noResultCnt++))
+  else
+    echo "RESULT:$GoogleResult"
 
-  if [ "$googleResult" == "" ]; then
-   echo "NO RESULT" 
+    DISPLAY=:0 xdotool mousemove 492 290 click 1
+    sleep 1
+    DISPLAY=:0 xdotool mousemove 47 387 click 1    
+
+    /home/maska/speech-ru "$GoogleResult"
+
+    DISPLAY=:0 xdotool mousemove 492 290 click 1
+    DISPLAY=:0 xdotool mousemove 47 387 click 1
+    
+    noResultCnt=0
+  fi
+
+  if [ "$noResultCnt" -eq 3 ]; then
+    #restore mic capture
+    DISPLAY=:0 xdotool mousemove 47 387 click 1
+    noResultCnt=0
+    aplay /home/maska/Music/beep-06.wav -D sysdefault:CARD=Set
   fi
 
   DISPLAY=:0 xclip -i /dev/null
   googleResult=""
 
-  #stop mic capture
-  DISPLAY=:0 xdotool mousemove 72 418 click 1
-  sleep 1
+#  #stop mic capture
+#  DISPLAY=:0 xdotool mousemove ~~~~~~~ click 1
+#  sleep 1
 
   #clear text
-  DISPLAY=:0 xdotool mousemove 493 318 click 1
-  sleep 1
+  DISPLAY=:0 xdotool mousemove 492 290 click 1
 
-  #restore mic capture
-  DISPLAY=:0 xdotool mousemove 58 418 click 1
+#  #restore mic capture
+#  DISPLAY=:0 xdotool mousemove 47 387 click 1
 
   sleep 5
 
