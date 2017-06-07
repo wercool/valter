@@ -147,6 +147,12 @@ void Valter::executeUscCmdMaestroLinux(string cmdArgs)
 void Valter::executeShellCmdLinux(string cmd)
 {
     std::thread shellExecuteIndistinctThread(&Valter::shellExecuteIndistinctThreadWorker, this, cmd, "Linux Shell exec:");
+    shellExecuteIndistinctThread.join();
+}
+
+void Valter::executeShellCmdLinuxAndDetach(string cmd)
+{
+    std::thread shellExecuteIndistinctThread(&Valter::shellExecuteIndistinctThreadWorker, this, cmd, "Linux Shell exec:");
     shellExecuteIndistinctThread.detach();
 }
 

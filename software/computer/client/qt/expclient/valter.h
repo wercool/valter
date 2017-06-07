@@ -68,6 +68,7 @@ public:
 
    void executeUscCmdMaestroLinux(string cmdArgs);
    void executeShellCmdLinux(string cmd);
+   void executeShellCmdLinuxAndDetach(string cmd);
 
    void setAllModulesInitialState();
    void stopAllModules();

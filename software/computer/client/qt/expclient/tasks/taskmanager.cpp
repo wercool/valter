@@ -217,7 +217,7 @@ void TaskManager::processScript(string script)
             if (((string)scriptInstructionParts[0]).compare("SAY") == 0)
             {
                 ITask *task = new SayTask();
-                task->setTaskScriptLine(scriptInstructions[1]);
+                task->setTaskScriptLine(scriptInstructionParts[1]);
                 TaskManager::getInstance()->addTask(task);
                 continue;
             }

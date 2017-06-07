@@ -5,7 +5,7 @@ SayTask::SayTask()
 {
     completed = false;
     taskName = "SAY";
-    setBlocking(true);
+    blocking = false;
 }
 
 bool SayTask::checkFeasibility()

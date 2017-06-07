@@ -86,10 +86,14 @@ SOURCES += main.cpp\
             tasks/body-control-p1/setrightarmyawpositiontask.cpp \
             tasks/body-control-p1/setleftarmyawpositiontask.cpp \
             tasks/platform-control-p1/cmdveltask.cpp \
-    tasks/arm-control-left/setleftarmrollpositiontask.cpp \
-    tasks/body-control-p1/setheadyawpositiontask.cpp \
-    tasks/body-control-p1/setheadpitchpositiontask.cpp \
-    tasks/generic/saytask.cpp
+            tasks/arm-control-left/setleftarmrollpositiontask.cpp \
+            tasks/body-control-p1/setheadyawpositiontask.cpp \
+            tasks/body-control-p1/setheadpitchpositiontask.cpp \
+            tasks/generic/saytask.cpp \
+            serial/src/impl/list_ports/list_ports_osx.cc \
+            serial/src/impl/list_ports/list_ports_win.cc \
+            serial/src/impl/win.cc \
+            tasks/platform-control-p1/translateplatformtwistytask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -154,14 +158,42 @@ HEADERS  += mainwindow.h \
             tasks/body-control-p1/setrightarmyawpositiontask.h \
             tasks/body-control-p1/setleftarmyawpositiontask.h \
             tasks/platform-control-p1/cmdveltask.h \
-    tasks/arm-control-left/setleftarmrollpositiontask.h \
-    tasks/body-control-p1/setheadyawpositiontask.h \
-    tasks/body-control-p1/setheadpitchpositiontask.h \
-    tasks/generic/saytask.h
+            tasks/arm-control-left/setleftarmrollpositiontask.h \
+            tasks/body-control-p1/setheadyawpositiontask.h \
+            tasks/body-control-p1/setheadpitchpositiontask.h \
+            tasks/generic/saytask.h \
+            serial/include/serial/impl/win.h \
+            tasks/platform-control-p1/translateplatformtwistytask.h
 
 FORMS    += mainwindow.ui
 
-DISTFILES +=
+DISTFILES += \
+    resources/3rdparty/gl-matrix.js \
+    resources/3rdparty/ThreeJSLoader.js \
+    resources/valter_model_json/textures/dark_aluminum.jpg \
+    valter_head_icon.png \
+    resources/commands/ARM-CONTROL-LEFT \
+    resources/commands/ARM-CONTROL-RIGHT \
+    resources/commands/BODY-CONTROL-P1 \
+    resources/commands/PLATFORM-CONTROL-P1 \
+    resources/commands/PLATFORM-CONTROL-P2 \
+    resources/commands/PLATFORM-LOCATION-P1 \
+    resources/commands/PLATFORM-MANIPULATOR-AND-IR-BUMPER \
+    resources/settings/arm-control-left-defaults \
+    resources/settings/arm-control-right-defaults \
+    resources/settings/body-control-p1-defaults \
+    resources/settings/global-settings \
+    resources/settings/platform-control-p1-defaults \
+    resources/settings/platform-control-p2-defaults \
+    resources/settings/platform-location-p1-defaults \
+    resources/settings/platform-manipulator-and-ir-bumper-defaults \
+    resources/tasks/ARM-CONTROL-LEFT \
+    resources/tasks/ARM-CONTROL-RIGHT \
+    resources/tasks/BODY-CONTROL-P1 \
+    resources/tasks/GENERIC \
+    resources/tasks/PLATFORM-CONTROL-P1 \
+    resources/tasks/PLATFORM-MANIPULATOR-AND-IR-BUMPER \
+    resources/tasks/predefined_tasks
 
 CONFIG += c++11
 
