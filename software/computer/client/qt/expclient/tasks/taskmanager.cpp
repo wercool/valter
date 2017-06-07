@@ -214,6 +214,13 @@ void TaskManager::processScript(string script)
                 TaskManager::getInstance()->addTask(task);
                 continue;
             }
+            if (((string)scriptInstructionParts[0]).compare("SAY") == 0)
+            {
+                ITask *task = new SayTask();
+                task->setTaskScriptLine(scriptInstructions[1]);
+                TaskManager::getInstance()->addTask(task);
+                continue;
+            }
 
             //Task for particular Control Device
             routeTaskRequest(scriptInstructions[i]);

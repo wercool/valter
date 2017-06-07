@@ -1,1 +1,1 @@
-./speech-ru "Hello! My name is Valter. I'm a robot. Я говорю на русском с ужасным акцентом. So, please be so kind, and let me continue in English? Would you?"
+Hello! My name is Valter. I'm a robot. Я говорю на русском с ужасным акцентом. So, please be so kind, and let me continue in English? Would you?

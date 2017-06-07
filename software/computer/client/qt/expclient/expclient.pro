@@ -88,7 +88,8 @@ SOURCES += main.cpp\
             tasks/platform-control-p1/cmdveltask.cpp \
     tasks/arm-control-left/setleftarmrollpositiontask.cpp \
     tasks/body-control-p1/setheadyawpositiontask.cpp \
-    tasks/body-control-p1/setheadpitchpositiontask.cpp
+    tasks/body-control-p1/setheadpitchpositiontask.cpp \
+    tasks/generic/saytask.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -155,7 +156,8 @@ HEADERS  += mainwindow.h \
             tasks/platform-control-p1/cmdveltask.h \
     tasks/arm-control-left/setleftarmrollpositiontask.h \
     tasks/body-control-p1/setheadyawpositiontask.h \
-    tasks/body-control-p1/setheadpitchpositiontask.h
+    tasks/body-control-p1/setheadpitchpositiontask.h \
+    tasks/generic/saytask.h
 
 FORMS    += mainwindow.ui
 

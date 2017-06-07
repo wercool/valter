@@ -67,6 +67,7 @@ public:
    IValterModule *getValterModule(string controlDeviceId);
 
    void executeUscCmdMaestroLinux(string cmdArgs);
+   void executeShellCmdLinux(string cmd);
 
    void setAllModulesInitialState();
    void stopAllModules();
