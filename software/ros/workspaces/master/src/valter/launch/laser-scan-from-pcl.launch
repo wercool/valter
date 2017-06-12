@@ -6,5 +6,6 @@
     <remap from="scan" to="/kinect_scan"/>
     <param name="scan_time" type="double" value="1"/>
     <param name="range_max" type="double" value="5"/>
+    <param name="output_frame_id" value="camera_link"/>
   </node>
 </launch>
