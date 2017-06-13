@@ -384,21 +384,24 @@ void MainWindow::on_leftHandPitchDownButton_released()
     armControlLeft->handPitch(false);
 }
 
-void MainWindow::on_leftForearmRollMotorOnOffButton_clicked()
+void MainWindow::on_leftForearmRollMotorOnButton_clicked()
 {
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
     if (ui->armControlLeftRemoteControlCheckbox->isChecked())
     {
-        armControlLeft->sendTCPCommand("on_leftForearmRollMotorOnOffButton_clicked");
+        armControlLeft->sendTCPCommand("on_leftForearmRollMotorOnButton_clicked");
     }
-    if (armControlLeft->getForearmRollMotorState())
+    armControlLeft->setForearmRollMotorOnOff(true);
+}
+
+void MainWindow::on_leftForearmRollMotorOffButton_clicked()
+{
+    ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
+    if (ui->armControlLeftRemoteControlCheckbox->isChecked())
     {
-        armControlLeft->setForearmRollMotorOnOff(false);
+        armControlLeft->sendTCPCommand("on_leftForearmRollMotorOffButton_clicked");
     }
-    else
-    {
-        armControlLeft->setForearmRollMotorOnOff(true);
-    }
+    armControlLeft->setForearmRollMotorOnOff(false);
 }
 
 void MainWindow::on_leftForearmRollCCWButton_pressed()

@@ -54,7 +54,7 @@
              <x>0</x>
              <y>0</y>
              <width>968</width>
-             <height>874</height>
+             <height>859</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -2307,6 +2307,9 @@ border-color: rgb(140, 140, 140);</string>
                   <property name="checkable">
                    <bool>true</bool>
                   </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
                   <property name="autoExclusive">
                    <bool>true</bool>
                   </property>
@@ -2340,6 +2343,11 @@ border-color: rgb(140, 140, 140);</string>
                   </property>
                   <item>
                    <widget class="QPushButton" name="valter2OnPushButton">
+                    <property name="font">
+                     <font>
+                      <strikeout>true</strikeout>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Valter 2 ON</string>
                     </property>
@@ -2347,6 +2355,11 @@ border-color: rgb(140, 140, 140);</string>
                   </item>
                   <item>
                    <widget class="QPushButton" name="valter2OffPushButton">
+                    <property name="font">
+                     <font>
+                      <strikeout>true</strikeout>
+                     </font>
+                    </property>
                     <property name="text">
                      <string>Valter 2 OFF</string>
                     </property>
@@ -2910,7 +2923,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>248</width>
-             <height>677</height>
+             <height>679</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_66">
@@ -8128,7 +8141,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>968</width>
-             <height>1514</height>
+             <height>1515</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_25">
@@ -11086,16 +11099,25 @@ border-color: rgb(140, 140, 140);</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="headYawMotorEnableDisableButton">
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
+                   <layout class="QHBoxLayout" name="horizontalLayout_161">
+                    <property name="topMargin">
+                     <number>0</number>
                     </property>
-                    <property name="text">
-                     <string>Yaw motor ON/OFF</string>
-                    </property>
-                   </widget>
+                    <item>
+                     <widget class="QPushButton" name="headYawMotorEnableButton">
+                      <property name="text">
+                       <string>ON</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="headYawMotorDisableButton">
+                      <property name="text">
+                       <string>OFF</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLabel" name="label_131">
@@ -11934,16 +11956,25 @@ border-color: rgb(140, 140, 140);</string>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="headPitchMotorEnableDisableButton">
-                    <property name="font">
-                     <font>
-                      <pointsize>10</pointsize>
-                     </font>
+                   <layout class="QHBoxLayout" name="horizontalLayout_162">
+                    <property name="topMargin">
+                     <number>0</number>
                     </property>
-                    <property name="text">
-                     <string>Pitch motor ON/OFF</string>
-                    </property>
-                   </widget>
+                    <item>
+                     <widget class="QPushButton" name="headPitchMotorEnableButton">
+                      <property name="text">
+                       <string>ON</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="headPitchMotorDisableButton">
+                      <property name="text">
+                       <string>OFF</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
                   </item>
                   <item>
                    <widget class="QLabel" name="label_132">
@@ -12752,16 +12783,25 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="head24VOnOffButton">
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
+                     <layout class="QHBoxLayout" name="horizontalLayout_160">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="text">
-                       <string>Head 24V ON/OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="head24VOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="head24VOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <spacer name="verticalSpacer_46">
@@ -12991,16 +13031,25 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="leftArm12VOnOffButton">
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
+                     <layout class="QHBoxLayout" name="horizontalLayout_163">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="text">
-                       <string>Left Arm 12V ON/OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="leftArm12VOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="leftArm12VOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="QRadioButton" name="rightArm12VRadio">
@@ -13018,16 +13067,25 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="rightArm12VButton">
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
+                     <layout class="QHBoxLayout" name="horizontalLayout_164">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="text">
-                       <string>Right Arm 12V ON/OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="rightArm12VOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="rightArm12VOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="Line" name="line_44">
@@ -13052,16 +13110,25 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="kinect1OnOffButton">
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
+                     <layout class="QHBoxLayout" name="horizontalLayout_165">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="text">
-                       <string>KINECT1 ON / OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="kinect1OnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="kinect1OffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="Line" name="line_95">
@@ -13086,16 +13153,25 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="kinect2OnOffButton">
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
+                     <layout class="QHBoxLayout" name="horizontalLayout_166">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="text">
-                       <string>KINECT2 ON / OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="kinect2OnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="kinect2OffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -13127,28 +13203,31 @@ border-color: rgb(140, 140, 140);</string>
                       <property name="text">
                        <string>5.5 V Source State</string>
                       </property>
+                      <property name="checked">
+                       <bool>false</bool>
+                      </property>
                       <property name="autoExclusive">
                        <bool>false</bool>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="powerSource5V5OnOffButton">
-                      <property name="maximumSize">
-                       <size>
-                        <width>150</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>5.5 V Power ON/OFF</string>
-                      </property>
-                     </widget>
+                     <layout class="QHBoxLayout" name="horizontalLayout_167">
+                      <item>
+                       <widget class="QPushButton" name="powerSource5V5OnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="powerSource5V5OffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="Line" name="line_43">
@@ -13167,28 +13246,34 @@ border-color: rgb(140, 140, 140);</string>
                       <property name="text">
                        <string>WIFI State</string>
                       </property>
+                      <property name="checked">
+                       <bool>true</bool>
+                      </property>
                       <property name="autoExclusive">
                        <bool>false</bool>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="wifiOnOffButton">
-                      <property name="maximumSize">
-                       <size>
-                        <width>150</width>
-                        <height>16777215</height>
-                       </size>
+                     <layout class="QHBoxLayout" name="horizontalLayout_168">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>WIFI ON/OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="wifiOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="wifiOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="Line" name="line_46">
@@ -13201,7 +13286,7 @@ border-color: rgb(140, 140, 140);</string>
                      <widget class="QRadioButton" name="leftArm24VRadio">
                       <property name="maximumSize">
                        <size>
-                        <width>150</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -13219,28 +13304,31 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="leftArm24VOnOffButton">
-                      <property name="maximumSize">
-                       <size>
-                        <width>150</width>
-                        <height>16777215</height>
-                       </size>
+                     <layout class="QHBoxLayout" name="horizontalLayout_169">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>Left Arm 24V ON/OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="leftArm24VOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="leftArm24VOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="QRadioButton" name="rightArm24VRadio">
                       <property name="maximumSize">
                        <size>
-                        <width>150</width>
+                        <width>16777215</width>
                         <height>16777215</height>
                        </size>
                       </property>
@@ -13258,22 +13346,25 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="rightArm24VButton">
-                      <property name="maximumSize">
-                       <size>
-                        <width>150</width>
-                        <height>16777215</height>
-                       </size>
+                     <layout class="QHBoxLayout" name="horizontalLayout_170">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>Right Arm 24V ON/OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="rightArm24VOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="rightArm24VOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="Line" name="line_47">
@@ -13283,25 +13374,32 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="headLedOnOffButton">
-                      <property name="maximumSize">
-                       <size>
-                        <width>150</width>
-                        <height>16777215</height>
-                       </size>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
-                      </property>
+                     <widget class="QLabel" name="label_227">
                       <property name="text">
-                       <string>HEAD LED ON/OFF</string>
-                      </property>
-                      <property name="checkable">
-                       <bool>true</bool>
+                       <string>Head LED</string>
                       </property>
                      </widget>
+                    </item>
+                    <item>
+                     <layout class="QHBoxLayout" name="horizontalLayout_171">
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="headLedOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="headLedOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="Line" name="line_104">
@@ -13332,22 +13430,25 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="leftAccumulatorOnOffButton">
-                      <property name="maximumSize">
-                       <size>
-                        <width>150</width>
-                        <height>16777215</height>
-                       </size>
+                     <layout class="QHBoxLayout" name="horizontalLayout_172">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
-                      </property>
-                      <property name="text">
-                       <string>Left Acc ON/OFF</string>
-                      </property>
-                     </widget>
+                      <item>
+                       <widget class="QPushButton" name="leftAccumulatorOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="leftAccumulatorOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
                      <widget class="QRadioButton" name="rightAccumulatorStateRadio">
@@ -13371,16 +13472,38 @@ border-color: rgb(140, 140, 140);</string>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="rightAccumulatorOnOffButton">
-                      <property name="font">
-                       <font>
-                        <pointsize>10</pointsize>
-                       </font>
+                     <layout class="QHBoxLayout" name="horizontalLayout_173">
+                      <property name="topMargin">
+                       <number>0</number>
                       </property>
-                      <property name="text">
-                       <string>Right Acc ON/OFF</string>
+                      <item>
+                       <widget class="QPushButton" name="rightAccumulatorOnButton">
+                        <property name="text">
+                         <string>ON</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="rightAccumulatorOffButton">
+                        <property name="text">
+                         <string>OFF</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <spacer name="verticalSpacer_32">
+                      <property name="orientation">
+                       <enum>Qt::Vertical</enum>
                       </property>
-                     </widget>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>20</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                     </spacer>
                     </item>
                    </layout>
                   </item>
@@ -13752,7 +13875,7 @@ border-color: rgb(140, 140, 140);</string>
              <x>0</x>
              <y>0</y>
              <width>968</width>
-             <height>1098</height>
+             <height>1104</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_55">
@@ -15283,16 +15406,25 @@ border-color: rgb(140, 140, 140);</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="rightForearmRollMotorOnOffButton">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
+                 <layout class="QHBoxLayout" name="horizontalLayout_175">
+                  <property name="topMargin">
+                   <number>0</number>
                   </property>
-                  <property name="text">
-                   <string>Roll motor ON/OFF</string>
-                  </property>
-                 </widget>
+                  <item>
+                   <widget class="QPushButton" name="rightForearmRollMotorOnButton">
+                    <property name="text">
+                     <string>ON</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="rightForearmRollMotorOffButton">
+                    <property name="text">
+                     <string>OFF</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <layout class="QGridLayout" name="gridLayout_25">
@@ -17111,7 +17243,7 @@ image: url(:/hand.png);</string>
              <x>0</x>
              <y>0</y>
              <width>968</width>
-             <height>1098</height>
+             <height>1104</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_51">
@@ -18642,16 +18774,25 @@ border-color: rgb(140, 140, 140);</string>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="leftForearmRollMotorOnOffButton">
-                  <property name="font">
-                   <font>
-                    <pointsize>10</pointsize>
-                   </font>
+                 <layout class="QHBoxLayout" name="horizontalLayout_174">
+                  <property name="topMargin">
+                   <number>0</number>
                   </property>
-                  <property name="text">
-                   <string>Roll motor ON/OFF</string>
-                  </property>
-                 </widget>
+                  <item>
+                   <widget class="QPushButton" name="leftForearmRollMotorOnButton">
+                    <property name="text">
+                     <string>ON</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="leftForearmRollMotorOffButton">
+                    <property name="text">
+                     <string>OFF</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <layout class="QGridLayout" name="gridLayout_16">
@@ -21520,7 +21661,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>bodyPitchUpButton</tabstop>
   <tabstop>bodyPitchDownButton</tabstop>
   <tabstop>headYawMotorStateRadioButton</tabstop>
-  <tabstop>headYawMotorEnableDisableButton</tabstop>
   <tabstop>headYawRightRotateButton</tabstop>
   <tabstop>headYawLeftRotateButton</tabstop>
   <tabstop>headYawStepDelaySpinBox</tabstop>
@@ -21534,7 +21674,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>rightArmYawOpenButton</tabstop>
   <tabstop>rightArmYawCloseButton</tabstop>
   <tabstop>headPitchMotorStateRadioButton</tabstop>
-  <tabstop>headPitchMotorEnableDisableButton</tabstop>
   <tabstop>headPitchDownButton</tabstop>
   <tabstop>headPitchUpButton</tabstop>
   <tabstop>headPitchStepDelaySpinBox</tabstop>
@@ -21548,32 +21687,20 @@ image: url(:/hand-left.png);</string>
   <tabstop>leftArmYawOpenButton</tabstop>
   <tabstop>leftArmYawCloseButton</tabstop>
   <tabstop>head24VPowerSourceStateRadioButton</tabstop>
-  <tabstop>head24VOnOffButton</tabstop>
   <tabstop>bodyControlP1ShiftRegEnableButton</tabstop>
   <tabstop>bodyControlP1ShiftRegDisableButton</tabstop>
   <tabstop>bodyControlP1ShiftRegResetButton</tabstop>
   <tabstop>bodyControlP1StopShiftRegResetButton</tabstop>
   <tabstop>leftArm12VRadio</tabstop>
-  <tabstop>leftArm12VOnOffButton</tabstop>
   <tabstop>rightArm12VRadio</tabstop>
-  <tabstop>rightArm12VButton</tabstop>
   <tabstop>kinect1StateRadio</tabstop>
-  <tabstop>kinect1OnOffButton</tabstop>
   <tabstop>kinect2StateRadio</tabstop>
-  <tabstop>kinect2OnOffButton</tabstop>
   <tabstop>powerSource5V5StateRadio</tabstop>
-  <tabstop>powerSource5V5OnOffButton</tabstop>
   <tabstop>wifiStateRadio</tabstop>
-  <tabstop>wifiOnOffButton</tabstop>
   <tabstop>leftArm24VRadio</tabstop>
-  <tabstop>leftArm24VOnOffButton</tabstop>
   <tabstop>rightArm24VRadio</tabstop>
-  <tabstop>rightArm24VButton</tabstop>
-  <tabstop>headLedOnOffButton</tabstop>
   <tabstop>leftAccumulatorStateRadio</tabstop>
-  <tabstop>leftAccumulatorOnOffButton</tabstop>
   <tabstop>rightAccumulatorStateRadio</tabstop>
-  <tabstop>rightAccumulatorOnOffButton</tabstop>
   <tabstop>bodyControlP1ReadingsTable</tabstop>
   <tabstop>armControlRightStopAllWatchersButton</tabstop>
   <tabstop>armControlRightStartAllWatchersButton</tabstop>
@@ -21594,7 +21721,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>rightHandPitchDownButton</tabstop>
   <tabstop>rightArmLedsOnOffButton</tabstop>
   <tabstop>rightForearmRollMotorStateRadio</tabstop>
-  <tabstop>rightForearmRollMotorOnOffButton</tabstop>
   <tabstop>rightForearmRollCCWButton</tabstop>
   <tabstop>rightForearmRollCWButton</tabstop>
   <tabstop>rightForearmRollStepDelaySpinBox</tabstop>
@@ -21648,7 +21774,6 @@ image: url(:/hand-left.png);</string>
   <tabstop>leftHandPitchDownButton</tabstop>
   <tabstop>leftArmLedsOnOffButton</tabstop>
   <tabstop>leftForearmRollMotorStateRadio</tabstop>
-  <tabstop>leftForearmRollMotorOnOffButton</tabstop>
   <tabstop>leftForearmRollCCWButton</tabstop>
   <tabstop>leftForearmRollCWButton</tabstop>
   <tabstop>leftForearmRollStepDelaySpinBox</tabstop>

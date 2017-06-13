@@ -252,69 +252,134 @@ class BodyControlP1TCPConnectionHandler : public Thread
             mainWindow->on_bodyControlP1StopShiftRegResetButton_clicked();
             return;
         }
-        if (cmd.find("on_leftArm12VOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_leftArm12VOnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_leftArm12VOnOffButton_clicked();
+            mainWindow->on_leftArm12VOnButton_clicked();
             return;
         }
-        if (cmd.find("on_rightArm12VButton_clicked") != std::string::npos)
+        if (cmd.find("on_leftArm12VOffButton_clicked") != std::string::npos)
         {
-            mainWindow->on_rightArm12VButton_clicked();
+            mainWindow->on_leftArm12VOffButton_clicked();
             return;
         }
-        if (cmd.find("on_kinect1OnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_rightArm12VOnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_kinect1OnOffButton_clicked();
+            mainWindow->on_rightArm12VOnButton_clicked();
             return;
         }
-        if (cmd.find("on_kinect2OnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_rightArm12VOffButton_clicked") != std::string::npos)
         {
-            mainWindow->on_kinect2OnOffButton_clicked();
+            mainWindow->on_rightArm12VOffButton_clicked();
             return;
         }
-        if (cmd.find("on_head24VOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_kinect1OnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_head24VOnOffButton_clicked();
+            mainWindow->on_kinect1OnButton_clicked();
             return;
         }
-        if (cmd.find("on_powerSource5V5OnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_kinect1OffButton_clicked") != std::string::npos)
         {
-            mainWindow->on_powerSource5V5OnOffButton_clicked();
+            mainWindow->on_kinect1OffButton_clicked();
             return;
         }
-        if (cmd.find("on_wifiOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_kinect2OnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_wifiOnOffButton_clicked();
+            mainWindow->on_kinect2OnButton_clicked();
             return;
         }
-        if (cmd.find("on_leftArm24VOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_kinect2OffButton_clicked") != std::string::npos)
         {
-            mainWindow->on_leftArm24VOnOffButton_clicked();
+            mainWindow->on_kinect2OffButton_clicked();
             return;
         }
-        if (cmd.find("on_rightArm24VButton_clicked") != std::string::npos)
+        if (cmd.find("on_head24VOnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_rightArm24VButton_clicked();
+            mainWindow->on_head24VOnButton_clicked();
             return;
         }
-        if (cmd.find("on_headLedOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_head24VOffButton_clicked") != std::string::npos)
         {
-            mainWindow->on_headLedOnOffButton_clicked();
+            mainWindow->on_head24VOffButton_clicked();
             return;
         }
-        if (cmd.find("on_leftAccumulatorOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_powerSource5V5OnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_leftAccumulatorOnOffButton_clicked();
+            mainWindow->on_powerSource5V5OnButton_clicked();
             return;
         }
-        if (cmd.find("on_rightAccumulatorOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_powerSource5V5OffButton_clicked") != std::string::npos)
         {
-            mainWindow->on_rightAccumulatorOnOffButton_clicked();
+            mainWindow->on_powerSource5V5OffButton_clicked();
             return;
         }
-        if (cmd.find("on_headYawMotorEnableDisableButton_clicked") != std::string::npos)
+        if (cmd.find("on_wifiOnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_headYawMotorEnableDisableButton_clicked();
+            mainWindow->on_wifiOnButton_clicked();
+            return;
+        }
+        if (cmd.find("on_wifiOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_wifiOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_leftArm24VOnButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_leftArm24VOnButton_clicked();
+            return;
+        }
+        if (cmd.find("on_leftArm24VOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_leftArm24VOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightArm24VOnButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightArm24VOnButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightArm24VOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightArm24VOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_headLedOnButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_headLedOnButton_clicked();
+            return;
+        }
+        if (cmd.find("on_headLedOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_headLedOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_leftAccumulatorOnButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_leftAccumulatorOnButton_clicked();
+            return;
+        }
+        if (cmd.find("on_leftAccumulatorOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_leftAccumulatorOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightAccumulatorOnButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightAccumulatorOnButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightAccumulatorOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightAccumulatorOffButton_clicked();
+            return;
+        }
+        if (cmd.find("on_headYawMotorEnableButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_headYawMotorEnableButton_clicked();
+            return;
+        }
+        if (cmd.find("on_headYawMotorDisableButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_headYawMotorDisableButton_clicked();
             return;
         }
         if (cmd.find("on_headYawRightRotateButton_pressed") != std::string::npos)
@@ -397,9 +462,14 @@ class BodyControlP1TCPConnectionHandler : public Thread
             mainWindow->on_getHeadYawPositionButton_clicked();
             return;
         }
-        if (cmd.find("on_headPitchMotorEnableDisableButton_clicked") != std::string::npos)
+        if (cmd.find("on_headPitchMotorEnableButton_clicked") != std::string::npos)
         {
-            mainWindow->on_headPitchMotorEnableDisableButton_clicked();
+            mainWindow->on_headPitchMotorEnableButton_clicked();
+            return;
+        }
+        if (cmd.find("on_headPitchMotorDisableButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_headPitchMotorDisableButton_clicked();
             return;
         }
         if (cmd.find("on_headPitchDownButton_pressed") != std::string::npos)

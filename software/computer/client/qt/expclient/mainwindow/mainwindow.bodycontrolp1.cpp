@@ -393,57 +393,65 @@ void MainWindow::on_headPitchUpButton_released()
     }
 }
 
-void MainWindow::on_head24VOnOffButton_clicked()
+void MainWindow::on_head24VOnButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_head24VOnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_head24VOnButton_clicked");
     }
-    if (!bodyControlP1->getHead24VState())
-    {
-        bodyControlP1->setHead24VOnOff(true);
-    }
-    else
-    {
-        bodyControlP1->setHead24VOnOff(false);
-    }
+    bodyControlP1->setHead24VOnOff(true);
 }
 
-void MainWindow::on_headYawMotorEnableDisableButton_clicked()
+void MainWindow::on_head24VOffButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_headYawMotorEnableDisableButton_clicked");
+        bodyControlP1->sendTCPCommand("on_head24VOffButton_clicked");
     }
-    if (!bodyControlP1->getHeadYawMotorState())
-    {
-        bodyControlP1->setHeadYawMotorOnOff(true);
-    }
-    else
-    {
-        bodyControlP1->setHeadYawMotorOnOff(false);
-    }
+    bodyControlP1->setHead24VOnOff(false);
 }
 
-void MainWindow::on_headPitchMotorEnableDisableButton_clicked()
+void MainWindow::on_headYawMotorEnableButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_headPitchMotorEnableDisableButton_clicked");
+        bodyControlP1->sendTCPCommand("on_headYawMotorEnableButton_clicked");
     }
-    if (!bodyControlP1->getHeadPitchMotorState())
-    {
-        bodyControlP1->setHeadPitchMotorOnOff(true);
-    }
-    else
-    {
-        bodyControlP1->setHeadPitchMotorOnOff(false);
-    }
+    bodyControlP1->setHeadYawMotorOnOff(true);
 }
 
+void MainWindow::on_headYawMotorDisableButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_headYawMotorDisableButton_clicked");
+    }
+    bodyControlP1->setHeadYawMotorOnOff(false);
+}
+
+void MainWindow::on_headPitchMotorEnableButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_headPitchMotorEnableButton_clicked");
+    }
+    bodyControlP1->setHeadPitchMotorOnOff(true);
+}
+
+void MainWindow::on_headPitchMotorDisableButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_headPitchMotorDisableButton_clicked");
+    }
+    bodyControlP1->setHeadPitchMotorOnOff(false);
+}
 
 void MainWindow::on_bodyControlP1LoadDefaultsButton_clicked()
 {
@@ -773,191 +781,224 @@ void MainWindow::on_bodyControlP1StopShiftRegResetButton_clicked()
     bodyControlP1->stopShiftRegReset();
 }
 
-void MainWindow::on_powerSource5V5OnOffButton_clicked()
+void MainWindow::on_powerSource5V5OnButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_powerSource5V5OnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_powerSource5V5OnButton_clicked");
     }
-    if (bodyControlP1->getPowerSource5V5State())
-    {
-        bodyControlP1->setPowerSource5VOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setPowerSource5VOnOff(true);
-    }
+    bodyControlP1->setPowerSource5VOnOff(true);
 }
 
-void MainWindow::on_wifiOnOffButton_clicked()
+void MainWindow::on_powerSource5V5OffButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_wifiOnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_powerSource5V5OffButton_clicked");
     }
-    if (bodyControlP1->getWifiPowerState())
-    {
-        bodyControlP1->setWifiPowerOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setWifiPowerOnOff(true);
-    }
+    bodyControlP1->setPowerSource5VOnOff(false);
 }
 
-void MainWindow::on_leftArm24VOnOffButton_clicked()
+void MainWindow::on_wifiOnButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_leftArm24VOnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_wifiOnButton_clicked");
     }
-    if (bodyControlP1->getLeftArm24VPowerSourceState())
-    {
-        bodyControlP1->setLeftArm24VPowerOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setLeftArm24VPowerOnOff(true);
-    }
+    bodyControlP1->setWifiPowerOnOff(true);
 }
 
-void MainWindow::on_rightArm24VButton_clicked()
+void MainWindow::on_wifiOffButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_rightArm24VButton_clicked");
+        bodyControlP1->sendTCPCommand("on_wifiOffButton_clicked");
     }
-    if (bodyControlP1->getRightArm24VPowerSourceState())
-    {
-        bodyControlP1->setRightArm24VPowerOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setRightArm24VPowerOnOff(true);
-    }
+    bodyControlP1->setWifiPowerOnOff(false);
 }
 
-void MainWindow::on_headLedOnOffButton_clicked()
+void MainWindow::on_leftArm24VOnButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_headLedOnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_leftArm24VOnButton_clicked");
     }
-    if (bodyControlP1->getHeadLedState())
-    {
-        bodyControlP1->setHeadLedOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setHeadLedOnOff(true);
-    }
+    bodyControlP1->setLeftArm24VPowerOnOff(true);
 }
 
-void MainWindow::on_leftAccumulatorOnOffButton_clicked()
+void MainWindow::on_leftArm24VOffButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_leftAccumulatorOnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_leftArm24VOffButton_clicked");
     }
-    if (bodyControlP1->getLeftAccumulatorConnectedState())
-    {
-        bodyControlP1->setLeftAccumulatorOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setLeftAccumulatorOnOff(true);
-    }
+    bodyControlP1->setLeftArm24VPowerOnOff(false);
 }
 
-void MainWindow::on_rightAccumulatorOnOffButton_clicked()
+void MainWindow::on_rightArm24VOnButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_rightAccumulatorOnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_rightArm24VOnButton_clicked");
     }
-    if (bodyControlP1->getRightAccumulatorConnectedState())
-    {
-        bodyControlP1->setRightAccumulatorOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setRightAccumulatorOnOff(true);
-    }
+    bodyControlP1->setRightArm24VPowerOnOff(true);
 }
 
-void MainWindow::on_leftArm12VOnOffButton_clicked()
+void MainWindow::on_rightArm24VOffButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_leftArm12VOnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_rightArm24VOffButton_clicked");
     }
-    if (bodyControlP1->getLeftArm12VPowerSourceState())
+    bodyControlP1->setRightArm24VPowerOnOff(false);
+}
+
+void MainWindow::on_headLedOnButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->setLeftArm12VPowerOnOff(false);
+        bodyControlP1->sendTCPCommand("on_headLedOnButton_clicked");
     }
-    else
+    bodyControlP1->setHeadLedOnOff(true);
+}
+
+void MainWindow::on_headLedOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
+        bodyControlP1->sendTCPCommand("on_headLedOffButton_clicked");
+    }
+    bodyControlP1->setHeadLedOnOff(false);
+}
+
+void MainWindow::on_leftAccumulatorOnButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_leftAccumulatorOnButton_clicked");
+    }
+    bodyControlP1->setLeftAccumulatorOnOff(true);
+}
+
+void MainWindow::on_leftAccumulatorOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_leftAccumulatorOffButton_clicked");
+    }
+    bodyControlP1->setLeftAccumulatorOnOff(false);
+}
+
+void MainWindow::on_rightAccumulatorOnButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_rightAccumulatorOnButton_clicked");
+    }
+    bodyControlP1->setRightAccumulatorOnOff(true);
+}
+
+void MainWindow::on_rightAccumulatorOffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_rightAccumulatorOffButton_clicked");
+    }
+    bodyControlP1->setRightAccumulatorOnOff(false);
+}
+
+void MainWindow::on_leftArm12VOnButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_leftArm12VOnButton_clicked");
         bodyControlP1->setLeftArm12VPowerOnOff(true);
     }
 }
 
-void MainWindow::on_rightArm12VButton_clicked()
+void MainWindow::on_leftArm12VOffButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_rightArm12VButton_clicked");
-    }
-    if (bodyControlP1->getRightArm12VPowerSourceState())
-    {
-        bodyControlP1->setRightArm12VPowerOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setRightArm12VPowerOnOff(true);
+        bodyControlP1->sendTCPCommand("on_leftArm12VOffButton_clicked");
+        bodyControlP1->setLeftArm12VPowerOnOff(false);
     }
 }
 
-void MainWindow::on_kinect1OnOffButton_clicked()
+void MainWindow::on_rightArm12VOnButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_kinect1OnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_rightArm12VOnButton_clicked");
     }
-    if (bodyControlP1->getKinect1PowerState())
-    {
-        bodyControlP1->setKinect1PowerOnOff(false);
-    }
-    else
-    {
-        bodyControlP1->setKinect1PowerOnOff(true);
-    }
+    bodyControlP1->setRightArm12VPowerOnOff(true);
 }
 
-void MainWindow::on_kinect2OnOffButton_clicked()
+void MainWindow::on_rightArm12VOffButton_clicked()
 {
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_kinect2OnOffButton_clicked");
+        bodyControlP1->sendTCPCommand("on_rightArm12VOffButton_clicked");
     }
-    if (bodyControlP1->getKinect2PowerState())
+    bodyControlP1->setRightArm12VPowerOnOff(false);
+}
+
+void MainWindow::on_kinect1OnButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->setKinect2PowerOnOff(false);
+        bodyControlP1->sendTCPCommand("on_kinect1OnButton_clicked");
     }
-    else
+    bodyControlP1->setKinect1PowerOnOff(true);
+}
+
+void MainWindow::on_kinect1OffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->setKinect2PowerOnOff(true);
+        bodyControlP1->sendTCPCommand("on_kinect1OnButton_clicked");
     }
+    bodyControlP1->setKinect1PowerOnOff(false);
+}
+
+void MainWindow::on_kinect2OnButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_kinect2OnButton_clicked");
+    }
+    bodyControlP1->setKinect2PowerOnOff(true);
+}
+
+void MainWindow::on_kinect2OffButton_clicked()
+{
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
+    if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
+    {
+        bodyControlP1->sendTCPCommand("on_kinect2OffButton_clicked");
+    }
+    bodyControlP1->setKinect2PowerOnOff(false);
 }
 
 void MainWindow::on_headYawTestModeExecuteButton_clicked()

@@ -281,9 +281,14 @@ class ArmControlRightTCPConnectionHandler : public Thread
             mainWindow->on_rightHandPitchDownButton_released();
             return;
         }
-        if (cmd.find("on_rightForearmRollMotorOnOffButton_clicked") != std::string::npos)
+        if (cmd.find("on_rightForearmRollMotorOnButton_clicked") != std::string::npos)
         {
-            mainWindow->on_rightForearmRollMotorOnOffButton_clicked();
+            mainWindow->on_rightForearmRollMotorOnButton_clicked();
+            return;
+        }
+        if (cmd.find("on_rightForearmRollMotorOffButton_clicked") != std::string::npos)
+        {
+            mainWindow->on_rightForearmRollMotorOffButton_clicked();
             return;
         }
         if (cmd.find("on_rightForearmRollCCWButton_pressed") != std::string::npos)

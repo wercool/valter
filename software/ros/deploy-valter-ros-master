@@ -40,9 +40,6 @@ openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosrun valter valter_joy_teleop_cmd_vel_pub";
 
 openTerminalTab;
-xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch";
-
-openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosrun valter_movit right_arm_joint_trajectory_action_server";
 
 openTerminalTab;
@@ -55,6 +52,9 @@ openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch valter laser-scan-from-pcl.launch";
 
 openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch";
+
+openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/rtabmap_ros/launch/valter.launch localization:=true";
 
 openTerminalTab;
@@ -65,3 +65,6 @@ xdotool type --delay 1 --clearmodifiers "rosrun rviz rviz -d /home/maska/git/val
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "rosservice call /rtabmap/reset_odom";
+
+openTerminalTab;
+xdotool type --delay 1 --clearmodifiers "rosservice call /move_base/cancel";

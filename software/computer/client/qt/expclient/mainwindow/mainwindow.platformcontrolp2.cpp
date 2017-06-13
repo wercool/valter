@@ -409,7 +409,6 @@ void MainWindow::on_platfromControlP2IRScannerADCCheckBox_clicked(bool checked)
     }
 }
 
-
 void MainWindow::on_platfromControlP2RedrawGUICheckBox_clicked(bool checked)
 {
     PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
