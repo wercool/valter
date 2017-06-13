@@ -46,11 +46,3 @@ def analyze(statement):
         if match:
             response = random.choice(responses)
             return response.format(*[reflect(g) for g in match.groups()])
-
-def main():
-    while True:
-        statement = raw_input("> ")
-        print analyze(statement)
-
-if __name__ == "__main__":
-    main()
