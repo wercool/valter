@@ -1,0 +1,1 @@
+soundmeter --trigger +8000 2 --action exec --exec trigger.sh

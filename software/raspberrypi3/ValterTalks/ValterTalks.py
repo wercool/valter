@@ -4,69 +4,52 @@
 import subprocess
 from subprocess import Popen, PIPE
 from time import sleep
-from time import gmtime, strftime
+from time import localtime, strftime
 import os
 import re
 import sys
-from wikipedia import Wikipedia
-from wiki2plain import Wiki2Plain
+import wikipedia
 import Eliza
 
-lang = 'ru'
-wiki = Wikipedia(lang)
+wikipedia.set_lang("ru")
 
 def sayToEliza(statement, inVoice):
+    global stop
     ElizaAnswer = Eliza.analyze(statement)
     if ElizaAnswer:
+        if ElizaAnswer == "stop_recognition":
+            stop = True
+            pipe = Popen(["espeak", "-vru", "-s130", "-p10", "распознавание завершено"], stdout=PIPE)
+            pipe.communicate()
         if ElizaAnswer == "time":
-            hours = strftime("%H", gmtime())
-            minutes = strftime("%M", gmtime())
+            hours = strftime("%H", localtime())
+            minutes = strftime("%M", localtime())
             ElizaAnswer = "Сейчас " + hours + " часов " + minutes + " минут"
         if ElizaAnswer.find("wiki:") > -1:
             try:
-                raw = wiki.article(ElizaAnswer[4:])
+                WikiResponse = wikipedia.summary(ElizaAnswer[4:], sentences=5)
+                print WikiResponse
+                try:
+                    WikiResponse = wikipedia.summary(ElizaAnswer[4:], sentences=5)
+                    print WikiResponse
+                    if WikiResponse:
+                        ElizaAnswer = re.sub(ur'\(.*?\) —', '', WikiResponse)
+                        first_dot_index = ElizaAnswer.find('.')
+                        ElizaAnswer = ElizaAnswer[0: first_dot_index]
+                except:
+                    ElizaAnswer = "извините, я не могу ответить на ваш вопрос. продолжайте, пожалуйста."
             except:
-                raw = None
-            if raw:
-                wiki2plain = Wiki2Plain(raw)
-                content = wiki2plain.text
-#                print content
-                content_parts = content.split("\n")
-                paragraph_index = 0
-                for p in range(0, 3):
-                    paragraph = content_parts[p].decode("utf-8")
-                    if (paragraph.find('|') > -1) or (paragraph.find("NOTOC") > -1):
-                        paragraph_index = 2
-                content = content_parts[paragraph_index].decode("utf-8")
-                first_dot_index = content.find('.')
-                ElizaAnswer = content[0: first_dot_index]
-                if (len(ElizaAnswer) < 50):
-                    second_dot_index = content[first_dot_index + 1: ].find('.')
-                    ElizaAnswer = content[0: second_dot_index]
-                ElizaAnswer = re.sub(r'[!@#$=*]', '', ElizaAnswer)
+                ElizaAnswer = "извините, я затрудняюсь однозначно ответить на ваш вопрос. возможно вам стоит уточнить его."
 
-        print "> " + remove_tags(ElizaAnswer)
+        print "> " + ElizaAnswer
 
-        if inVoice:
-            pipe = Popen(["espeak", "-vru", "-s100", "-p10", "-m", ElizaAnswer], stdout=PIPE)
-            pipe.communicate()
+        if inVoice and not(stop):
+            if ElizaAnswer:
+                pipe = Popen(["espeak", "-vru", "-s100", "-p10", "-m", ElizaAnswer], stdout=PIPE)
+                pipe.communicate()
 
-def remove_tags(s):
-    tag = False
-    quote = False
-    out = ""
-
-    for c in s:
-            if c == '<' and not quote:
-                tag = True
-            elif c == '>' and not quote:
-                tag = False
-            elif (c == '"' or c == "'") and tag:
-                quote = not quote
-            elif not tag:
-                out = out + c
-
-    return out
+stop = False
+browser = 0
 
 def main():
     print "Valter Talks"
@@ -98,31 +81,36 @@ def googleSpeechRecognition():
     clearGoogleInputFiledX = 1973
     clearGoogleInputFiledY = 279
 
-    pipe = Popen(["espeak", "-vru", "-s130", "Подгот овка системы распознав ания русской речи"], stdout=PIPE)
-    pipe = Popen(["chromium-browser", "--start-maximized", "https://translate.google.com/#ru/en"], stdout=PIPE)
-    sleep(10.0)
-    pipe = Popen(["espeak", "-vru", "-s130", "Я гот ов"], stdout=PIPE)
-    pipe.communicate()
-    while True:
+    pipe = Popen(["espeak", "-vru", "-s130", "-p10", "Подгот овка системы распознав ания русской речи"], stdout=PIPE)
+    global browser 
+    browser = Popen(["chromium-browser", "--start-maximized", "https://translate.google.com/#ru/en"], stdout=PIPE)
+    sleep(8.0)
+    pipe = Popen(["espeak", "-vru", "-s130", "-p10", "Я гот ов"], stdout=PIPE)
+
+    global stop
+
+    while not(stop):
         GoogleResult = ""
 
-        pipe = Popen(["aplay", "sounds/beep1.wav"], stdout=PIPE)
-        pipe.communicate()
+        pipe = Popen(["aplay", "/home/maska/git/valter/software/raspberrypi3/ValterTalks/sounds/beep1.wav"], stdout=PIPE)
         os.system("xdotool mousemove --sync %d %d click 1" % (startStopVoiceRecognitionX, startStopVoiceRecognitionY))          #start/stop voice recognition
         sleep(0.5)
         os.system("xdotool mousemove --sync 0 0")                                                                               #move mouse out
 
         sleep(5.0)
 
-        os.system("xdotool key --delay 0 --clearmodifiers ctrl+a")                                                              #ctrl+a
+        os.system("xdotool key --clearmodifiers ctrl+a")                                                              #ctrl+a
         sleep(0.5)
-        os.system("xdotool key --delay 0 --clearmodifiers ctrl+c")                                                              #ctrl+с
+        os.system("xdotool key --clearmodifiers ctrl+c")                                                              #ctrl+с
         sleep(0.5)
         os.system("xdotool mousemove --sync %d %d click 1" % (clearGoogleInputFiledX, clearGoogleInputFiledY))                  #clear google input filed
         sleep(0.5)
         os.system("xdotool mousemove --sync %d %d click 1" % (startStopVoiceRecognitionX, startStopVoiceRecognitionY))          #start/stop voice recognition
         sleep(0.5)
+        os.system("xdotool mousemove --sync %d %d click 1" % (clearGoogleInputFiledX, clearGoogleInputFiledY))                  #clear google input filed
+        sleep(0.5)
         os.system("xdotool mousemove --sync 0 0")                                                                               #move mouse out
+        sleep(0.5)
 
         pipe = Popen(["xclip", "-o"], stdout=PIPE)
         GoogleResult = pipe.communicate()[0]
@@ -134,6 +122,9 @@ def googleSpeechRecognition():
             GoogleResult = GoogleResult.encode('utf-8')
             print "GoogleResult:" + GoogleResult
             sayToEliza(GoogleResult, True)
+
+    browser.kill()
+    sys.exit(1)
 
 if __name__ == "__main__":
     main()
