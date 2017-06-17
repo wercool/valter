@@ -86,14 +86,15 @@ SOURCES += main.cpp\
             tasks/body-control-p1/setrightarmyawpositiontask.cpp \
             tasks/body-control-p1/setleftarmyawpositiontask.cpp \
             tasks/platform-control-p1/cmdveltask.cpp \
+            tasks/platform-control-p1/translateplatformtwistytask.cpp \
             tasks/arm-control-left/setleftarmrollpositiontask.cpp \
             tasks/body-control-p1/setheadyawpositiontask.cpp \
             tasks/body-control-p1/setheadpitchpositiontask.cpp \
             tasks/generic/saytask.cpp \
+            tasks/generic/voicerecognitiontask.cpp\
             serial/src/impl/list_ports/list_ports_osx.cc \
             serial/src/impl/list_ports/list_ports_win.cc \
-            serial/src/impl/win.cc \
-            tasks/platform-control-p1/translateplatformtwistytask.cpp
+            serial/src/impl/win.cc
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -162,8 +163,9 @@ HEADERS  += mainwindow.h \
             tasks/body-control-p1/setheadyawpositiontask.h \
             tasks/body-control-p1/setheadpitchpositiontask.h \
             tasks/generic/saytask.h \
-            serial/include/serial/impl/win.h \
-            tasks/platform-control-p1/translateplatformtwistytask.h
+            tasks/generic/voicerecognitiontask.h \
+            tasks/platform-control-p1/translateplatformtwistytask.h \
+            serial/include/serial/impl/win.h
 
 FORMS    += mainwindow.ui
 

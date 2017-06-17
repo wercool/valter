@@ -1,13 +1,12 @@
-#ifndef SAYTASK_H
-#define SAYTASK_H
+#ifndef VOICERECOGNITIONTASK_H
+#define VOICERECOGNITIONTASK_H
 
-#include <string>
 #include "tasks/itask.h"
 
-class SayTask : public ITask
+class VoiceRecognitionTask : public ITask
 {
 public:
-    SayTask();
+    VoiceRecognitionTask();
 
     // ITask interface
 public:
@@ -21,4 +20,4 @@ protected:
     void executionWorker();
 };
 
-#endif // SAYTASK_H
+#endif // VOICERECOGNITIONTASK_H

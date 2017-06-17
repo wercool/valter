@@ -7,6 +7,7 @@
 #include "tasks/generic/delaytask.h"
 #include "tasks/generic/setmoduleinitialstatetask.h"
 #include "tasks/generic/saytask.h"
+#include "tasks/generic/voicerecognitiontask.h"
 
 // PLATFORM-MANIPULATOR-AND-IR-BUMPER
 #include "tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h"

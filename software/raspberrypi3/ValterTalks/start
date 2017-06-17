@@ -1,3 +1,3 @@
 #!/bin/sh
 
-DISPLAY=:0 ./ValterTalks.py
+DISPLAY=:0 /home/maska/git/valter/software/raspberrypi3/ValterTalks/ValterTalks.py &

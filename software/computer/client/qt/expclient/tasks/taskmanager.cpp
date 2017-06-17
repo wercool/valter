@@ -221,6 +221,12 @@ void TaskManager::processScript(string script)
                 TaskManager::getInstance()->addTask(task);
                 continue;
             }
+            if (((string)scriptInstructionParts[0]).compare("VOICERECOGNITION") == 0)
+            {
+                ITask *task = new VoiceRecognitionTask();
+                TaskManager::getInstance()->addTask(task);
+                continue;
+            }
 
             //Task for particular Control Device
             routeTaskRequest(scriptInstructions[i]);
