@@ -927,8 +927,8 @@ void MainWindow::on_leftArm12VOnButton_clicked()
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
         bodyControlP1->sendTCPCommand("on_leftArm12VOnButton_clicked");
-        bodyControlP1->setLeftArm12VPowerOnOff(true);
     }
+    bodyControlP1->setLeftArm12VPowerOnOff(true);
 }
 
 void MainWindow::on_leftArm12VOffButton_clicked()
@@ -937,8 +937,8 @@ void MainWindow::on_leftArm12VOffButton_clicked()
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
         bodyControlP1->sendTCPCommand("on_leftArm12VOffButton_clicked");
-        bodyControlP1->setLeftArm12VPowerOnOff(false);
     }
+    bodyControlP1->setLeftArm12VPowerOnOff(false);
 }
 
 void MainWindow::on_rightArm12VOnButton_clicked()
