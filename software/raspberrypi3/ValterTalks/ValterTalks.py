@@ -73,12 +73,16 @@ def googleSpeechRecognition():
     startStopVoiceRecognitionY = 387
     clearGoogleInputFiledX = 492
     clearGoogleInputFiledY = 290
+    centerGoogleInputFiledX = 255
+    centerGoogleInputFiledY = 335
     #laboratory
     """
     startStopVoiceRecognitionX = 2020
     startStopVoiceRecognitionY = 411
     clearGoogleInputFiledX = 2621
     clearGoogleInputFiledY = 317
+    centerGoogleInputFiledX = ?
+    centerGoogleInputFiledY = ?
     """
     #office
     """
@@ -86,6 +90,8 @@ def googleSpeechRecognition():
     startStopVoiceRecognitionY = 376
     clearGoogleInputFiledX = 1973
     clearGoogleInputFiledY = 279
+    centerGoogleInputFiledX = ?
+    centerGoogleInputFiledY = ?
     """
 
     pipe = Popen(["bash", "/home/maska/speech-ru", '"Подгот овка системы распознав ания русской речи"'], stdout=PIPE)
@@ -101,11 +107,11 @@ def googleSpeechRecognition():
 
         pipe = Popen(["aplay", "/home/maska/git/valter/software/raspberrypi3/ValterTalks/sounds/beep1.wav", "-D", "sysdefault:CARD=Set"], stdout=PIPE)
         os.system("xdotool mousemove --sync %d %d click 1" % (startStopVoiceRecognitionX, startStopVoiceRecognitionY))          #start/stop voice recognition
-        sleep(0.5)
-        os.system("xdotool mousemove --sync 0 0")                                                                               #move mouse out
 
         sleep(5.0)
 
+        os.system("xdotool mousemove --sync %d %d click 1" % (centerGoogleInputFiledX, centerGoogleInputFiledY))                #center google input filed
+        sleep(0.5)
         os.system("xdotool key --clearmodifiers ctrl+a")                                                              #ctrl+a
         sleep(0.5)
         os.system("xdotool key --clearmodifiers ctrl+c")                                                              #ctrl+с
@@ -115,8 +121,6 @@ def googleSpeechRecognition():
         os.system("xdotool mousemove --sync %d %d click 1" % (startStopVoiceRecognitionX, startStopVoiceRecognitionY))          #start/stop voice recognition
         sleep(0.5)
         os.system("xdotool mousemove --sync %d %d click 1" % (clearGoogleInputFiledX, clearGoogleInputFiledY))                  #clear google input filed
-        sleep(0.5)
-        os.system("xdotool mousemove --sync 0 0")                                                                               #move mouse out
         sleep(0.5)
 
         pipe = Popen(["xclip", "-o"], stdout=PIPE)
