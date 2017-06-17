@@ -97,7 +97,7 @@ def googleSpeechRecognition():
     pipe = Popen(["bash", "/home/maska/speech-ru", '"Подгот овка системы распознав ания русской речи"'], stdout=PIPE)
     global browser 
     browser = Popen(["chromium-browser", "--start-maximized", "https://translate.google.com/#ru/en"], stdout=PIPE)
-    sleep(8.0)
+    sleep(10.0)
     pipe = Popen(["bash", "/home/maska/speech-ru", '"Я гот ов"'], stdout=PIPE)
 
     global stop
