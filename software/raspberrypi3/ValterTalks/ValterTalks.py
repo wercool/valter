@@ -19,7 +19,7 @@ def sayToEliza(statement, inVoice):
     if ElizaAnswer:
         if ElizaAnswer == "stop_recognition":
             stop = True
-            pipe = Popen(["bash", '/home/maska/speech-ru "распознавание завершено"'], stdout=PIPE)
+            pipe = Popen(["bash", "/home/maska/speech-ru", '"распознавание завершено"'], stdout=PIPE)
             pipe.communicate()
         if ElizaAnswer == "time":
             hours = strftime("%H", localtime())
@@ -45,7 +45,7 @@ def sayToEliza(statement, inVoice):
 
         if inVoice and not(stop):
             if ElizaAnswer:
-                pipe = Popen(["bash", '/home/maska/speech-ru "' + ElizaAnswer + '"'], stdout=PIPE)
+                pipe = Popen(["bash", "/home/maska/speech-ru", '"' + ElizaAnswer + '"'], stdout=PIPE)
                 pipe.communicate()
 
 stop = False
@@ -92,7 +92,7 @@ def googleSpeechRecognition():
     global browser 
     browser = Popen(["chromium-browser", "--start-maximized", "https://translate.google.com/#ru/en"], stdout=PIPE)
     sleep(8.0)
-    pipe = Popen(["bash", '/home/maska/speech-ru "Я гот ов"'], stdout=PIPE)
+    pipe = Popen(["bash", "/home/maska/speech-ru", '"Я гот ов"'], stdout=PIPE)
 
     global stop
 
