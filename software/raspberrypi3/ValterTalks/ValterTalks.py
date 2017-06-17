@@ -19,7 +19,8 @@ def sayToEliza(statement, inVoice):
     if ElizaAnswer:
         if ElizaAnswer == "stop_recognition":
             stop = True
-            pipe = Popen(["espeak", "-vru", "-s130", "-p10", "распознавание завершено"], stdout=PIPE)
+            #pipe = Popen(["espeak", "-vru", "-s130", "-p10", "распознавание завершено"], stdout=PIPE)
+            pipe = Popen(["/home/maska/speech-ru ", "\"распознавание завершено\""], stdout=PIPE)
             pipe.communicate()
         if ElizaAnswer == "time":
             hours = strftime("%H", localtime())
@@ -45,7 +46,8 @@ def sayToEliza(statement, inVoice):
 
         if inVoice and not(stop):
             if ElizaAnswer:
-                pipe = Popen(["espeak", "-vru", "-s100", "-p10", "-m", ElizaAnswer], stdout=PIPE)
+                #pipe = Popen(["espeak", "-vru", "-s100", "-p10", "-m", ElizaAnswer], stdout=PIPE)
+                pipe = Popen(["/home/maska/speech-ru ", "\" + ElizaAnswer + \""], stdout=PIPE)
                 pipe.communicate()
 
 stop = False
@@ -68,6 +70,11 @@ def main():
 
 def googleSpeechRecognition():
 
+    #Valter
+    startStopVoiceRecognitionX = 47
+    startStopVoiceRecognitionY = 387
+    clearGoogleInputFiledX = 492
+    clearGoogleInputFiledY = 290
     #laboratory
     """
     startStopVoiceRecognitionX = 2020
@@ -76,23 +83,27 @@ def googleSpeechRecognition():
     clearGoogleInputFiledY = 317
     """
     #office
+    """
     startStopVoiceRecognitionX = 1373
     startStopVoiceRecognitionY = 376
     clearGoogleInputFiledX = 1973
     clearGoogleInputFiledY = 279
+    """
 
-    pipe = Popen(["espeak", "-vru", "-s130", "-p10", "Подгот овка системы распознав ания русской речи"], stdout=PIPE)
+    #pipe = Popen(["espeak", "-vru", "-s130", "-p10", "Подгот овка системы распознав ания русской речи"], stdout=PIPE)
+    pipe = Popen(["/home/maska/speech-ru ", "\"Подгот овка системы распознав ания русской речи\""], stdout=PIPE)
     global browser 
     browser = Popen(["chromium-browser", "--start-maximized", "https://translate.google.com/#ru/en"], stdout=PIPE)
     sleep(8.0)
-    pipe = Popen(["espeak", "-vru", "-s130", "-p10", "Я гот ов"], stdout=PIPE)
+    pipe = Popen(["/home/maska/speech-ru ", "\"Я гот ов\""], stdout=PIPE)
+    #pipe = Popen(["espeak", "-vru", "-s130", "-p10", "Я гот ов"], stdout=PIPE)
 
     global stop
 
     while not(stop):
         GoogleResult = ""
 
-        pipe = Popen(["aplay", "/home/maska/git/valter/software/raspberrypi3/ValterTalks/sounds/beep1.wav"], stdout=PIPE)
+        pipe = Popen(["aplay", "/home/maska/git/valter/software/raspberrypi3/ValterTalks/sounds/beep1.wav", "-D", "sysdefault:CARD=Set"], stdout=PIPE)
         os.system("xdotool mousemove --sync %d %d click 1" % (startStopVoiceRecognitionX, startStopVoiceRecognitionY))          #start/stop voice recognition
         sleep(0.5)
         os.system("xdotool mousemove --sync 0 0")                                                                               #move mouse out
