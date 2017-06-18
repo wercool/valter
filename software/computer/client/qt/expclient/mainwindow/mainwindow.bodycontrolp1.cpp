@@ -976,7 +976,7 @@ void MainWindow::on_kinect1OffButton_clicked()
     BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     if (ui->bodyControlP1RemoteControlCheckbox->isChecked())
     {
-        bodyControlP1->sendTCPCommand("on_kinect1OnButton_clicked");
+        bodyControlP1->sendTCPCommand("on_kinect1OffButton_clicked");
     }
     bodyControlP1->setKinect1PowerOnOff(false);
 }
