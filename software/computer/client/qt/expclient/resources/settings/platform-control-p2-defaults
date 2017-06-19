@@ -1,8 +1,8 @@
 //comments
 trackLeftWheelEncoder:1
 trackRightWheelEncoder:1
-autoresetLeftWheelEncoder:1
-autoresetRightWheelEncoder:1
+autoresetLeftWheelEncoder:0
+autoresetRightWheelEncoder:0
 chargerMotorDuty:1,100,40
 chargerMotorPushDuration:50,500,250
 irScanning:0

@@ -55,6 +55,14 @@ class TaskManagerTCPConnectionHandler : public Thread
                                                    bodyControlP1->getRightArmYawPosition(),
                                                    armControlRight->getForearmRollPosition());
                 }
+                else if (cmd.find("ENCODERS") != std::string::npos)
+                {
+                    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+                    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
+                    int leftEncoder  = platformControlP2->getLeftEncoder()  * (platformControlP1->getLeftMotorDirection() ? 1 : -1);
+                    int rightEncoder = platformControlP2->getRightEncoder() * (platformControlP1->getRightMotorDirection() ? 1 : -1);
+                    output = Valter::format_string("%d,%d", leftEncoder, rightEncoder);
+                }
                 else
                 {
                     executeCMD = true;
