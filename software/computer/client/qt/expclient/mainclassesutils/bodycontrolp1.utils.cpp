@@ -112,7 +112,7 @@ void BodyControlP1::resetToDefault()
     //5.5V
     powerSource5V5State             = false;
     //wifi
-    wifiPowerState                  = false;
+    wifiPowerState                  = true;
 
     //right arm roll 24V state
     rightArm24VPowerSourceState     = false;

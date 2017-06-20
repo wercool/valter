@@ -9,7 +9,7 @@ void PlatformControlP1::resetToDefault()
         getControlDevice()->clearDataExchangeLog();
     }
 
-    power5VOnState                      = false;
+    power5VOnState                      = true;
     leftAccumulatorConnected            = false;
     rightAccumulatorConnected           = false;
     mainAccumulatorRelayOnState         = false;
