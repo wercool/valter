@@ -16,3 +16,4 @@ include_directories(${Eigen_INCLUDE_DIRS})
 
 add_executable(face_tracker src/face_tracker.cpp)
 target_link_libraries(face_tracker ${catkin_LIBRARIES})
+target_link_libraries(face_tracker ${LINKER_FLAGS})
