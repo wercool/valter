@@ -53,8 +53,9 @@ public:
     FaceTracker(): it(nh)
     {
         prevCenterX = prevCenterY = -1;
-        // Subscrive to input video feed and publish output video feed
-        image_sub = it.subscribe("/kinect1/rgb/image_rect_color_drop", 1, &FaceTracker::imageCb, this);
+        // Subscribe to input video feed and publish output video feed
+//ROS//    rosrun topic_tools drop /head_kinect/rgb/image_rect_color 9 10
+        image_sub = it.subscribe("/head_kinect/rgb/image_rect_color_drop", 1, &FaceTracker::imageCb, this);
         image_pub = it.advertise("/face_detector/output_video", 1);
 
         if(!face_cascade.load(face_cascade_name)){ printf("(!) Error loading face cascade\n"); };
@@ -169,7 +170,7 @@ public:
                         perror("Send failed. Error");
                     }
                 }
-
+                close(sock);
             }
         }
     }

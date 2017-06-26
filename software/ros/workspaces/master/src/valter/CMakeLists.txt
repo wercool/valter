@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8.3)
 project(valter)
 
 
+set(OpenCV_DIR /home/maska/opencv-2.4.13/release/)
+find_package(OpenCV REQUIRED)
+
 ## Find catkin and any catkin packages
 find_package(cmake_modules REQUIRED)
 find_package(catkin REQUIRED COMPONENTS roscpp rospy tf std_msgs sensor_msgs nav_msgs move_base_msgs geometry_msgs moveit_msgs image_transport cv_bridge) #moveit_ros_planning_interface)

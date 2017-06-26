@@ -1,0 +1,1 @@
+rosrun topic_tools drop /head_kinect/rgb/image_rect_color 9 10
