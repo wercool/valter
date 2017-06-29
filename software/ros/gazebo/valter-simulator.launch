@@ -10,6 +10,20 @@
     <!-- Load universal robot description format (URDF) -->
     <param name="robot_description" textfile="/home/maska/git/valter/software/ros/gazebo/models/valter.urdf"/>
 
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="/home/maska/git/valter/software/ros/gazebo/config/fake_controllers.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/valter" 
+                                 args="joint_state_controller
+                                       TrunkJoint_position_controller
+                                       TorsoJoint_position_controller"/>
+
+    <!-- convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+        <remap from="/joint_states" to="/valter/joint_states" />
+    </node>
+
     <!-- Robot pose -->
     <arg name="x" default="0"/>
     <arg name="y" default="0"/>
@@ -20,19 +34,8 @@
 
     <!-- Gazebo model spawner -->
     <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model"
-        args="-urdf -param robot_description -model myrobot
+        args="-urdf -param robot_description -model Valter
               -x $(arg x) -y $(arg y) -z $(arg z)
               -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
-
-    <!-- Given the published joint states, publish tf for the robot links -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen">
-        <param name="publish_frequency" type="double" value="30.0" />
-    </node>
-
-    <!-- We do not have a robot connected, so publish fake joint states -->
-    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-        <param name="/use_gui" value="true"/> 
-        <rosparam param="/source_list">[/joint_states]</rosparam>
-    </node>
 
 </launch>

@@ -1,0 +1,13 @@
+valter:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+  # Position Controllers ---------------------------------------
+  TrunkJoint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: TrunkJoint
+  TorsoJoint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: TorsoJoint

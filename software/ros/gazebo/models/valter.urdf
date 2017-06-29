@@ -2610,4 +2610,30 @@
       effort="0"
       velocity="0" />
   </joint>
+
+  <transmission name="trunkTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="TrunkJoint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="TrunkJointMotor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="trunkTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="TorsoJoint">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="TorsoJointMotor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/valter</robotNamespace>
+    </plugin>
+  </gazebo>
 </robot>
