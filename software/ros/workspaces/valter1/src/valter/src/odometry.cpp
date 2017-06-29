@@ -136,6 +136,7 @@ int main(int argc, char** argv)
                 rightWheelTicks = atoi(resultBufferElements[1].c_str());
             }
         }
+        close(sock);
 
         //extract wheel velocities from the tick signals count
         deltaLeft  = (abs(leftWheelTicks)  - abs(prevLeftWheelTicks))  * (leftWheelTicks  > 0 ? 1 : -1);
