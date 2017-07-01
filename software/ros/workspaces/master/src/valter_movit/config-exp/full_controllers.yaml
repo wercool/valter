@@ -1,0 +1,41 @@
+controller_manager_ns: moveit_simple_controller_manager
+controller_list:
+  - name: right_arm_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [RTorsoJoint, RShoulderJoint, RArmJoint, RArmElbowJoint, RForearmYawJoint, RForearmRollJoint, RHandPitchJoint]
+
+  - name: right_arm_roll_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [RForearmYawJoint, RForearmRollJoint]
+
+  - name: right_arm_liftup_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [RTorsoJoint, RShoulderJoint, RArmJoint]
+
+  - name: left_arm_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [LTorsoJoint, LShoulderJoint, LArmJoint, LArmElbowJoint, LForearmYawJoint, LForearmRollJoint, LHandPitchJoint]
+
+  - name: left_arm_roll_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [LForearmYawJoint, LForearmRollJoint]
+
+  - name: left_arm_liftup_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [LTorsoJoint, LShoulderJoint, LArmJoint]
+
+  - name: manipulator_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [ManipulatorLink1Joint, ManipulatorLink2Joint, ManipulatorLink3Joint, ManipulatorLink4Joint]
+
+  - name: body_controller
+    action_ns: joint_trajectory_action
+    type: FollowJointTrajectory
+    joints: [TrunkJoint, TorsoJoint]
