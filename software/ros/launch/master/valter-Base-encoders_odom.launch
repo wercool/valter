@@ -1,0 +1,10 @@
+<launch>
+
+  <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+  <include file="$(find valter_movit)/launch/planning_context.launch">
+    <arg name="load_robot_description" value="true"/>
+  </include>
+
+  <node pkg="tf" type="static_transform_publisher" name="encoders_odom_to_Base_tf" args="0 0 0 0 0 0 /Base /base_virtual_joint_tf 100" />
+
+</launch>

@@ -49,10 +49,10 @@ openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch valter_movit valter.launch";
 
 openTerminalTab;
-xdotool type --delay 1 --clearmodifiers "roslaunch valter laser-scan-from-pcl.launch";
+xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch";
 
 openTerminalTab;
-xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/freenect_master.launch";
+xdotool type --delay 1 --clearmodifiers "roslaunch valter laser-scan-from-pcl.launch";
 
 openTerminalTab;
 xdotool type --delay 1 --clearmodifiers "roslaunch /home/maska/git/valter/software/ros/launch/master/rtabmap_ros/launch/valter.launch localization:=true";
