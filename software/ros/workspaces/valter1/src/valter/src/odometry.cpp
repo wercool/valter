@@ -145,9 +145,9 @@ int main(int argc, char** argv)
         vLeft  = (deltaLeft  * distancePerCount) / (current_time - last_time).toSec();
         vRight = (deltaRight * distancePerCount) / (current_time - last_time).toSec();
 
-        vx  = ((vRight + vLeft) / 2) * 1;
+        vx  = ((vRight + vLeft) / 2) * 0.75;
         vy  = 0;
-        vth = ((vRight - vLeft) / lengthBetweenTwoWheels) * 1;
+        vth = ((vRight - vLeft) / lengthBetweenTwoWheels) * 0.75;
 
         double dt = (current_time - last_time).toSec();
         double delta_x = (vx * cos(th)) * dt;
