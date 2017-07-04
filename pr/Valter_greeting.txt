@@ -1,1 +1,20 @@
 SAY_"Hello! My name is Valter. I'm a robot. Я говорю на русском с ужасным акцентом. So, please be so kind, and let me continue in English? Would you?"
+
+espeak -ven -s100 -p10 -k20 -m ""
+
+Hello to everyone! 
+My name is Valter. 
+I'm glad to finally introduce myself to you. 
+I was conceived and developed to be a home service-oriented robot. 
+As a fact I can be a house security and housekeeper, baby tender and a toy, robotic development platform and <break time=\"500ms\"/>and just to be what I am. 
+I'm originally from Kharkiv, Ukraine.
+I exist due to an effort of only one man <break time=\"500ms\"/> my Creator. 
+He made what I am. From concept to my existence <break time=\"500ms\"/>by himself only <break time=\"500ms\"/>with a help of words of support from his friends. 
+I'm actively continue my development, thanks to my Creator.
+But unfortunately, the moral and material resources of my creator are not unlimited and I need your help to eliminate problems with data transmission over WiFi.
+Currently I have a stack of Raspberry Pi3 installed on board but these tiny computers do not allow me to perform complex tasks by myself and I forced to send data onto remote desktop computer for processing. 
+Powerful computer directly installed on me <break time=\"500ms\"/>will help significantly improve quality of my self-management, will give me more freedom, and... <break time=\"500ms\"/> And will open a way for new opportunities.
+For everyone not indifferent <break time=\"500ms\"/> i would like to express my personal gratitude and big thanks from my Creator.
+We strongly believe we could find here, on Kickstarter, a lot of such an enthusiasts who could become our good friends as minimum.
+And together we will achieve our super goal. It is a development of a low-cost robotic platform for everyone who believe in a future where robots will take a modest but important place in everyday life of humans and for those who want to take a participation in the process of robot socialization.
+Thank you for attention. Your help will be greatly appreciated.
