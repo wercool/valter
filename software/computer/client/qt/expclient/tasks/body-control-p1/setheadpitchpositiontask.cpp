@@ -199,8 +199,8 @@ void SetHeadPitchPositionTask::executionWorker()
                 }
             }
 /************************************ emulation *********************start***************************/
-string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());
-qDebug("%s", msg.c_str());
+//string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());
+//qDebug("%s", msg.c_str());
 /************************************ emulation *********************finish**************************/
         }
 
