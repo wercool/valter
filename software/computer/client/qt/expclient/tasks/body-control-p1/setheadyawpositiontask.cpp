@@ -7,6 +7,7 @@ SetHeadYawPositionTask::SetHeadYawPositionTask()
     taskName = "SetHeadYawPositionTask";
     blocking = false;
     attachable = true;
+    detach = false;
 }
 
 bool SetHeadYawPositionTask::checkFeasibility()
@@ -57,6 +58,14 @@ bool SetHeadYawPositionTask::initialize()
     //T_BCP1_SetHeadYawPositionTask_15
     float _angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(_angle);
+
+    if (taskInitiationParts.size() > 2)
+    {
+        if (taskInitiationParts[2] == "D")
+        {
+            detach = true;
+        }
+    }
 
     stopped = !checkFeasibility();
     //right(CW) - true, left(CCW) - false (in CW angle is positive)
@@ -168,6 +177,11 @@ void SetHeadYawPositionTask::executionWorker()
                     qDebug("%s", msg.c_str());
                 }
                 bodyControlP1->setHeadYawMotorActivated(false);
+                if (detach)
+                {
+                    setCompleted();
+                    break;
+                }
             }
             else if ((bodyControlP1->getHeadYawPosition() > getAngle() && direction) || (bodyControlP1->getHeadYawPosition() < getAngle() && !direction) ||
                     (bodyControlP1->getHeadYawPosition() > 80 && direction) || (bodyControlP1->getHeadYawPosition() < -80 && !direction))
@@ -178,6 +192,11 @@ void SetHeadYawPositionTask::executionWorker()
                     qDebug("%s", msg.c_str());
                 }
                 bodyControlP1->setHeadYawMotorActivated(false);
+                if (detach)
+                {
+                    setCompleted();
+                    break;
+                }
             }
 /************************************ emulation *********************start***************************/
 //string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadYawPosition());
