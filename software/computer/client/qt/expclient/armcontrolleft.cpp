@@ -43,6 +43,7 @@ ArmControlLeft::ArmControlLeft()
     tasks["SetLeftArmPositionTask"] = &SetLeftArmPositionTask::create;
     tasks["SetLeftLimbPositionTask"] = &SetLeftLimbPositionTask::create;
     tasks["SetLeftArmRollPositionTask"] = &SetLeftArmRollPositionTask::create;
+    tasks["LeftHandgripTask"] = &LeftHandgripTask::create;
 
     initTcpInterface();
 

@@ -44,6 +44,7 @@ ArmControlRight::ArmControlRight()
     tasks["SetRightArmPositionTask"] = &SetRightArmPositionTask::create;
     tasks["SetRightLimbPositionTask"] = &SetRightLimbPositionTask::create;
     tasks["SetRightArmRollPositionTask"] = &SetRightArmRollPositionTask::create;
+    tasks["RightHandgripTask"] = &RightHandgripTask::create;
 
     initTcpInterface();
 

@@ -80,9 +80,11 @@ SOURCES += main.cpp\
             tasks/arm-control-right/setrightarmpositiontask.cpp \
             tasks/arm-control-right/setrightlimbpositiontask.cpp \
             tasks/arm-control-right/setrightarmrollpositiontask.cpp \
+            tasks/arm-control-right/righthandgriptask.cpp \
             tasks/arm-control-left/setleftforearmpositiontask.cpp \
             tasks/arm-control-left/setleftarmpositiontask.cpp \
             tasks/arm-control-left/setleftlimbpositiontask.cpp \
+            tasks/arm-control-left/lefthandgriptask.cpp \
             tasks/body-control-p1/setrightarmyawpositiontask.cpp \
             tasks/body-control-p1/setleftarmyawpositiontask.cpp \
             tasks/platform-control-p1/cmdveltask.cpp \
@@ -153,9 +155,11 @@ HEADERS  += mainwindow.h \
             tasks/arm-control-right/setrightarmpositiontask.h \
             tasks/arm-control-right/setrightlimbpositiontask.h \
             tasks/arm-control-right/setrightarmrollpositiontask.h \
+            tasks/arm-control-right/righthandgriptask.h \
             tasks/arm-control-left/setleftforearmpositiontask.h \
             tasks/arm-control-left/setleftarmpositiontask.h \
             tasks/arm-control-left/setleftlimbpositiontask.h \
+            tasks/arm-control-left/lefthandgriptask.h \
             tasks/body-control-p1/setrightarmyawpositiontask.h \
             tasks/body-control-p1/setleftarmyawpositiontask.h \
             tasks/platform-control-p1/cmdveltask.h \

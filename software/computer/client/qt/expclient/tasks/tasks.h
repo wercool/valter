@@ -30,12 +30,14 @@
 #include "tasks/arm-control-right/setrightarmpositiontask.h"
 #include "tasks/arm-control-right/setrightlimbpositiontask.h"
 #include "tasks/arm-control-right/setrightarmrollpositiontask.h"
+#include "tasks/arm-control-right/righthandgriptask.h"
 
 //ARM-CONTROL-LEFT
 #include "tasks/arm-control-left/setleftforearmpositiontask.h"
 #include "tasks/arm-control-left/setleftarmpositiontask.h"
 #include "tasks/arm-control-left/setleftlimbpositiontask.h"
 #include "tasks/arm-control-left/setleftarmrollpositiontask.h"
+#include "tasks/arm-control-left/lefthandgriptask.h"
 
 //BODY-CONTROL-P1
 #include "tasks/body-control-p1/setrightarmyawpositiontask.h"
