@@ -7,6 +7,7 @@ SetHeadPitchPositionTask::SetHeadPitchPositionTask()
     taskName = "SetHeadPitchPositionTask";
     blocking = false;
     attachable = true;
+    detach = false;
 }
 
 bool SetHeadPitchPositionTask::checkFeasibility()
@@ -57,6 +58,14 @@ bool SetHeadPitchPositionTask::initialize()
     //T_BCP1_SetHeadPitchPositionTask_15
     float _angle = atof(((string)taskInitiationParts[1]).c_str());
     setAngle(_angle);
+
+    if (taskInitiationParts.size() > 2)
+    {
+        if (taskInitiationParts[2] == "D")
+        {
+            detach = true;
+        }
+    }
 
     stopped = !checkFeasibility();
     //down - true, up - false
@@ -168,6 +177,11 @@ void SetHeadPitchPositionTask::executionWorker()
                     qDebug("%s", msg.c_str());
                 }
                 bodyControlP1->setHeadPitchMotorActivated(false);
+                if (detach)
+                {
+                    setCompleted();
+                    break;
+                }
             }
             else if ((bodyControlP1->getHeadPitchPosition() > getAngle() && direction) || (bodyControlP1->getHeadPitchPosition() < getAngle() && !direction) ||
                     (bodyControlP1->getHeadPitchPosition() > 45 && direction) || (bodyControlP1->getHeadPitchPosition() < 2 && !direction))
@@ -178,6 +192,11 @@ void SetHeadPitchPositionTask::executionWorker()
                     qDebug("%s", msg.c_str());
                 }
                 bodyControlP1->setHeadPitchMotorActivated(false);
+                if (detach)
+                {
+                    setCompleted();
+                    break;
+                }
             }
 /************************************ emulation *********************start***************************/
 string msg = Valter::format_string("Task#%lu (%s) positioning [%.2f]...", getTaskId(), getTaskName().c_str(), bodyControlP1->getHeadPitchPosition());

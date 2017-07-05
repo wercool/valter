@@ -34,6 +34,8 @@ private:
     bool direction = false;
 
     std::mutex values_mutex;
+
+    bool detach;
 };
 
 #endif // SETHEADPITCHPOSITIONTASK_H
