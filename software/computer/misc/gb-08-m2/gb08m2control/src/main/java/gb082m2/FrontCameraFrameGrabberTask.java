@@ -6,6 +6,9 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import application.MainAppController;
+import javafx.application.Platform;
+
 public class FrontCameraFrameGrabberTask implements Runnable
 {
     Thread thread;
@@ -62,6 +65,14 @@ public class FrontCameraFrameGrabberTask implements Runnable
             } catch (IOException | InterruptedException e)
             {
                 e.printStackTrace();
+                Platform.runLater(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                		MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
+                    }
+                });
             }
         }
     }

@@ -373,6 +373,8 @@ public class GB08M2ManualControlManager
     {
         Thread thread;
         boolean isStopped = false;
+        Boolean frameReady = false;
+        Integer frameNotReadCnt = 0;
 
         public FrontCameraFrameVisualizationTask()
         {
@@ -410,6 +412,17 @@ public class GB08M2ManualControlManager
                                     MainAppController.instance.frontCameraImageView.setImage(frame);
                                     MainAppController.instance.frontCameraImageView.setCache(false);
                                 }
+                                frameNotReadCnt = 0;
+                                frameReady = true;
+                                GB08M2.getInstance().setFrontCameraFrameBufferedImage(null);
+                            }
+                            else
+                            {
+                            	frameNotReadCnt++;
+                            	if (frameNotReadCnt > 10)
+                            	{
+                            		frameReady = false;
+                            	}
                             }
                         }
                     });
@@ -419,10 +432,17 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            if (MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.getProgress() == 1)
-                                MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
-                            else
-                                MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(1);
+                        	if (frameReady)
+                        	{
+	                            if (MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.getProgress() == 1)
+	                                MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
+	                            else
+	                                MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(1);
+                        	}
+                        	else
+                        	{
+                        		MainAppController.instance.frontCameraImageViewrearCameraImageViewIndicator.setProgress(-1);
+                        	}
                         }
                     });
                 } catch (InterruptedException e)
@@ -437,6 +457,8 @@ public class GB08M2ManualControlManager
     {
         Thread thread;
         boolean isStopped = false;
+        Boolean frameReady = false;
+        Integer frameNotReadCnt = 0;
 
         public RearCameraFrameVisualizationTask()
         {
@@ -448,7 +470,7 @@ public class GB08M2ManualControlManager
         {
             isStopped = true;
         }
-
+        
         @Override
         synchronized public void run()
         {
@@ -467,6 +489,17 @@ public class GB08M2ManualControlManager
                                 frame = SwingFXUtils.toFXImage(GB08M2.getInstance().getRearCameraFrameBufferedImage(), null);
                                 MainAppController.instance.rearCameraImageView.setImage(frame);
                                 MainAppController.instance.rearCameraImageView.setCache(false);
+                                frameNotReadCnt = 0;
+                                frameReady = true;
+                                GB08M2.getInstance().setRearCameraFrameBufferedImage(null);
+                            }
+                            else
+                            {
+                            	frameNotReadCnt++;
+                            	if (frameNotReadCnt > 10)
+                            	{
+                            		frameReady = false;
+                            	}
                             }
                         }
                     });
@@ -476,10 +509,17 @@ public class GB08M2ManualControlManager
                         @Override
                         public void run()
                         {
-                            if (MainAppController.instance.rearCameraImageViewIndicator.getProgress() == 1)
-                                MainAppController.instance.rearCameraImageViewIndicator.setProgress(-1);
-                            else
-                                MainAppController.instance.rearCameraImageViewIndicator.setProgress(1);
+                        	if (frameReady)
+                        	{
+                                if (MainAppController.instance.rearCameraImageViewIndicator.getProgress() == 1)
+                                    MainAppController.instance.rearCameraImageViewIndicator.setProgress(-1);
+                                else
+                                    MainAppController.instance.rearCameraImageViewIndicator.setProgress(1);                        	
+                        	}
+                        	else
+                        	{
+                        		MainAppController.instance.rearCameraImageViewIndicator.setProgress(-1);
+                        	}
                         }
                     });
                 } catch (InterruptedException e)
