@@ -1,0 +1,8 @@
+1. Export executable jar
+2. MANIFEST.MF
+==========================================
+Manifest-Version: 1.0
+Class-Path: /home/maska/opencv-2.4.13/release/bin/opencv-2413.jar
+Main-Class: application.MainApp
+==========================================
+2. java -Djava.library.path=/home/maska/opencv-2.4.13/release/lib/ -jar gb08m2.jar

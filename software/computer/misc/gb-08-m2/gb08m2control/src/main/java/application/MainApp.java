@@ -22,7 +22,13 @@ public class MainApp extends Application
     @Override
     public void start(Stage primaryStage)
     {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+    	try
+    	{
+    		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
         try
         {
