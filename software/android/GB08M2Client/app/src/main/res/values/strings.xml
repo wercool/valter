@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GB08M2Client</string>
+
+    <string-array name="hosts">
+        <item>192.168.0.33</item>
+        <item>109.87.34.156</item>
+    </string-array>
+
+</resources>
