@@ -21,7 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".FrontCameraActivity"></activity>
+        <activity android:name=".FrontCameraActivity" />
+        <activity android:name=".CommandsActivity" />
+        <activity android:name=".RearCameraActivity"></activity>
     </application>
 
 </manifest>

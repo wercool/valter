@@ -31,5 +31,26 @@
             android:spinnerMode="dialog"
             android:layout_weight="0.05"
             android:entries="@array/hosts"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <Button
+                android:text="Connect"
+                android:layout_width="wrap_content"
+                android:layout_height="97dp"
+                android:id="@+id/connectButton"
+                android:layout_weight="0.95" />
+            <Button
+                android:text="Disconnect"
+                android:layout_width="wrap_content"
+                android:layout_height="97dp"
+                android:id="@+id/disconnectButton"
+                android:layout_weight="0.05"/>
+        </LinearLayout>
+
     </LinearLayout>
 </RelativeLayout>

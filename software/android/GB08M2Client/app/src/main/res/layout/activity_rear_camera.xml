@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_front_camera"
+    android:id="@+id/activity_rear_camera"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dp"
     android:background="#000000"
-    tools:context="ua.in.wercool.gb08m2client.FrontCameraActivity">
+    tools:context="ua.in.wercool.gb08m2client.RearCameraActivity">
 
     <ua.in.wercool.gb08m2client.MjpegView
         android:background="#000000"
-        android:id="@+id/frontCameraView"
+        android:id="@+id/rearCameraView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -264,6 +264,5 @@
         android:progress="0"
         android:visibility="visible"
         android:indeterminate="false" />
-
 
 </RelativeLayout>

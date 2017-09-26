@@ -1,6 +1,7 @@
 package ua.in.wercool.gb08m2client;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,9 +9,12 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import java.io.BufferedInputStream;
 import java.net.HttpURLConnection;
@@ -48,6 +52,9 @@ public class MjpegView extends View {
 
     private boolean isRecycleBitmap;
     private boolean isUserForceConfigRecycle;
+
+    ProgressBar progressBar;
+    AppCompatActivity callerActivity;
 
     public MjpegView(Context context){
         super(context);
@@ -281,6 +288,18 @@ public class MjpegView extends View {
         isRecycleBitmap = recycleBitmap;
     }
 
+    public void setCallerActivity(AppCompatActivity callerActivity)
+    {
+        this.callerActivity = callerActivity;
+    }
+
+    public void setProgressBar(ProgressBar progressBar)
+    {
+        this.progressBar = progressBar;
+        this.progressBar.setVisibility(VISIBLE);
+    }
+
+
     class MjpegDownloader extends Thread{
 
         private boolean run = true;
@@ -310,6 +329,7 @@ public class MjpegView extends View {
 
                     //determine boundary pattern
                     //use the whole header as separator in case boundary locate in difference chunks
+
 //                    Pattern pattern = Pattern.compile("--[_a-zA-Z0-9]*boundary\\s+(.*)\\r\\n\\r\\n",Pattern.DOTALL);
                     Pattern pattern = Pattern.compile("--boundarydonotcross\\s+(.*)\\r\\n\\r\\n",Pattern.DOTALL);
                     Matcher matcher;
@@ -321,6 +341,15 @@ public class MjpegView extends View {
 
                     //always keep reading images from server
                     while (run) {
+                        if (progressBar != null)
+                        {
+                            callerActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(INVISIBLE);
+                                }
+                            });
+                        }
                         try {
                             readByte = bis.read(read);
 
@@ -343,6 +372,16 @@ public class MjpegView extends View {
                                     image = addByte(image, read, 0, boundaryIndex);
                                 } else {
                                     image = delByte(image, -boundaryIndex);
+                                }
+
+                                if (progressBar != null)
+                                {
+                                    callerActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            progressBar.setVisibility(VISIBLE);
+                                        }
+                                    });
                                 }
 
                                 Bitmap outputImg = BitmapFactory.decodeByteArray(image, 0, image.length);
@@ -409,7 +448,8 @@ public class MjpegView extends View {
             return tmp;
         }
 
-        private void newFrame(Bitmap bitmap){
+        private void newFrame(Bitmap bitmap)
+        {
             setBitmap(bitmap);
         }
     }

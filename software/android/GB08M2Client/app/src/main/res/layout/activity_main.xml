@@ -33,6 +33,13 @@
             android:layout_weight="0.15" />
 
         <Button
+            android:text="Commands"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/commandsButton"
+            android:layout_weight="0.15" />
+
+        <Button
             android:text="Settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
