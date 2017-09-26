@@ -6,4 +6,6 @@
         <item>109.87.34.156</item>
     </string-array>
 
+    <string name="commands">COMMANDS</string>
+
 </resources>

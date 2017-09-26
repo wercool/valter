@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_front_camera"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="0dp"
     android:background="#000000"
     tools:context="ua.in.wercool.gb08m2client.FrontCameraActivity">
+
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="?attr/actionBarSize"-->
+        <!--android:background="?attr/colorPrimary"-->
+        <!--android:elevation="4dp"-->
+        <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
+        <!--app:title="Front Camera"-->
+        <!--android:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
 
     <ua.in.wercool.gb08m2client.MjpegView
         android:background="#000000"

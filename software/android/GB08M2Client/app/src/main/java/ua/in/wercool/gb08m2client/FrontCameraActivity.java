@@ -1,9 +1,13 @@
 package ua.in.wercool.gb08m2client;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +33,9 @@ public class FrontCameraActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_front_camera);
 
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         fronCameraView = (MjpegView) findViewById(R.id.frontCameraView);
@@ -52,10 +59,12 @@ public class FrontCameraActivity extends AppCompatActivity {
                 if (event.getAction() == MotionEvent.ACTION_DOWN)
                 {
                     Log.i("GB08M2", "LEFT FWD - ACCELERATE");
+                    leftForward.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                 }
                 else if (event.getAction() == MotionEvent.ACTION_UP)
                 {
                     Log.i("GB08M2", "LEFT FWD - DECELERATE");
+                    leftForward.getBackground().clearColorFilter();
                 }
                 return true;
             }
@@ -70,6 +79,13 @@ public class FrontCameraActivity extends AppCompatActivity {
         backward = (Button) findViewById(R.id.backward);
         rightBackward = (Button) findViewById(R.id.rightBackward);
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return true;
+//    }
 
     @Override
     protected void onResume() {
