@@ -40,6 +40,35 @@ public class GB08M2 {
     public static final String batteryVoltageCommand = "GBV";
     public static final String batteryVoltageResultPrefix = "BV";
 
+    public static final String frontLeftMotorDutyCommandPrefix = "FLD#";
+    public static final String frontLeftMotorCurrentCommandPrefix = "FLC";
+    public static final String frontLeftMotorCurrentResultPrefix = "FLMC";
+
+    public static final String frontRightMotorDutyCommandPrefix = "FRD#";
+    public static final String frontRightMotorCurrentCommandPrefix = "FRC";
+    public static final String frontRightMotorCurrentResultPrefix = "FRMC";
+
+    public static final String rearLeftMotorDutyCommandPrefix = "RLD#";
+    public static final String rearLeftMotorCurrentCommandPrefix = "RLC";
+    public static final String rearLeftMotorCurrentResultPrefix = "RLMC";
+
+    public static final String rearRightMotorDutyCommandPrefix = "RRD#";
+    public static final String rearRightMotorCurrentCommandPrefix = "RRC";
+    public static final String rearRightMotorCurrentResultPrefix = "RRMC";
+
+    public static final String leftMotorsDirectionForwardCommand = "LF";
+    public static final String leftMotorsDirectionBackwardCommand = "LB";
+    public static final String leftMotorsStopCommand = "LS";
+    public static final String rightMotorsDirectionForwardCommand = "RF";
+    public static final String rightMotorsDirectionBackwardCommand = "RB";
+    public static final String rightMotorsStopCommand = "RS";
+
+    private int leftMotorDuty = 15;
+    private int rightMotorDuty = 15;
+
+    private int curLeftMotorDuty = 1;
+    private int curRightMotorDuty = 1;
+
     public static GB08M2 getInstance()
     {
         if (instance == null)
@@ -156,6 +185,7 @@ public class GB08M2 {
 
     public void sendCMD(String cmd)
     {
+        Log.i("GB08M2 CMD", cmd);
         if (cmdSocket != null) {
             try {
                 PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -239,5 +269,76 @@ public class GB08M2 {
                 Thread.currentThread().interrupt();
             }
         }
+    }
+
+    public int getLeftMotorDuty()
+    {
+        return this.leftMotorDuty;
+    }
+    public void setLeftMotorDuty(int leftMotorDuty)
+    {
+        if (leftMotorDuty >= 1 && leftMotorDuty <= 100)
+        {
+            this.leftMotorDuty = leftMotorDuty;
+        }
+        else
+        {
+            this.leftMotorDuty = (leftMotorDuty < 1) ? 1 : 100;
+        }
+        Log.i("GB08M2", String.format("leftMorotDuty=%d", this.leftMotorDuty));
+    }
+    public int getRightMotorDuty()
+    {
+        return this.rightMotorDuty;
+    }
+    public void setRightMotorDuty(int rightMotorDuty)
+    {
+        if (rightMotorDuty >= 1 && rightMotorDuty <= 100)
+        {
+            this.rightMotorDuty = rightMotorDuty;
+        }
+        else
+        {
+            this.rightMotorDuty = (rightMotorDuty < 1) ? 1 : 100;
+        }
+        Log.i("GB08M2", String.format("rightMotorDuty=%d", this.rightMotorDuty));
+    }
+
+    public int getCurLeftMotorDuty()
+    {
+        return this.curLeftMotorDuty;
+    }
+    public void setCurtLeftMotorDuty(int curLeftMotorDuty)
+    {
+        if (curLeftMotorDuty >= 1 && curLeftMotorDuty <= getLeftMotorDuty())
+        {
+            this.curLeftMotorDuty = curLeftMotorDuty;
+        }
+        else
+        {
+            this.curLeftMotorDuty = (curLeftMotorDuty < 1) ? 1 : getLeftMotorDuty();
+        }
+        sendCMD(String.format("%s%d", frontLeftMotorDutyCommandPrefix, getCurLeftMotorDuty()));
+        sendCMD(String.format("%s%d", rearLeftMotorDutyCommandPrefix, getCurLeftMotorDuty()));
+        Log.i("GB08M2", String.format("curLeftMorotDuty=%d", this.curLeftMotorDuty));
+    }
+
+    public int getCurRightMotorDuty()
+    {
+        return this.curRightMotorDuty;
+    }
+    public void setCurRightMotorDuty(int curRightMotorDuty)
+    {
+        if (curRightMotorDuty >= 1 && curRightMotorDuty <= getRightMotorDuty())
+        {
+            this.curRightMotorDuty = curRightMotorDuty;
+        }
+        else
+        {
+            this.curRightMotorDuty = (curRightMotorDuty < 1) ? 1 : getRightMotorDuty();
+        }
+        sendCMD(String.format("%s%d", frontRightMotorDutyCommandPrefix, getCurRightMotorDuty()));
+        sendCMD(String.format("%s%d", rearRightMotorDutyCommandPrefix, getCurRightMotorDuty()));
+        Log.i("GB08M2", String.format("curRightMotorDuty=%d", this.curRightMotorDuty));
     }
 }
