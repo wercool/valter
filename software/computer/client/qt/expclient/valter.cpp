@@ -56,6 +56,8 @@ Valter::Valter()
 
     taskManager = TaskManager::getInstance();
 
+    webSocketServer = WebSocketServer::getInstance();
+
     remoteControlDeviceTCPInterfacesIpAddressesVector = {};
 }
 

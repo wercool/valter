@@ -8,6 +8,7 @@ QT       += core
 QT       += gui
 QT       += quick
 QT       += qml
+QT       += websockets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -96,7 +97,9 @@ SOURCES += main.cpp\
             tasks/generic/voicerecognitiontask.cpp\
             serial/src/impl/list_ports/list_ports_osx.cc \
             serial/src/impl/list_ports/list_ports_win.cc \
-            serial/src/impl/win.cc
+            serial/src/impl/win.cc \
+#websockets
+            websocketserver.cpp
 
 HEADERS  += mainwindow.h \
             controldevice.h \
@@ -169,7 +172,9 @@ HEADERS  += mainwindow.h \
             tasks/generic/saytask.h \
             tasks/generic/voicerecognitiontask.h \
             tasks/platform-control-p1/translateplatformtwistytask.h \
-            serial/include/serial/impl/win.h
+            serial/include/serial/impl/win.h \
+#websockets
+            websocketserver.h
 
 FORMS    += mainwindow.ui
 

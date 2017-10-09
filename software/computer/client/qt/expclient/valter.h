@@ -21,6 +21,7 @@
 #include "armcontrolright.h"
 
 #include "tcpinterface.h"
+#include "websocketserver.h"
 
 //Tasks includes
 #include "tasks/itask.h"
@@ -185,6 +186,7 @@ private:
    map<string, string> globalSettings;
 
    TaskManager *taskManager;
+   WebSocketServer *webSocketServer;
 };
 
 
