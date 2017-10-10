@@ -22,7 +22,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:text="Valter Central Command Host Address"
+                android:text="Valter WebSocket Server Address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView" />

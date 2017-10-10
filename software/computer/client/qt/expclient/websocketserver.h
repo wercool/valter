@@ -21,7 +21,7 @@ private:
 private Q_SLOTS:
     void onNewConnection();
     void processTextMessage(QString message);
-    void processBinaryMessage(QByteArray message);
+//    void processBinaryMessage(QByteArray message);
     void socketDisconnected();
     void onClosed();
 };

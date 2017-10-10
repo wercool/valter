@@ -194,6 +194,7 @@ void Valter::prepareShutdown()
     }
     TaskManager::getInstance()->setQueueStopped(true);
     TaskManager::getInstance()->getTcpInterface()->setListening(false);
+    delete WebSocketServer::getInstance();
 }
 
 

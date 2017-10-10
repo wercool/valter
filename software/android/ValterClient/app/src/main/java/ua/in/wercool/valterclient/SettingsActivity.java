@@ -3,15 +3,20 @@ package ua.in.wercool.valterclient;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "ValterClientPreferences";
     Spinner hostsSpinner;
+
+    Button connectButton;
+    Button disconnectButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +57,23 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        ValterWebSocketClient.getInstance().setCallerActivity(this);
+
+        connectButton = (Button) findViewById(R.id.connectButton);
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().disconnect();
+                ValterWebSocketClient.getInstance().connect();
+            }
+        });
+
+        disconnectButton = (Button) findViewById(R.id.disconnectButton);
+        disconnectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().disconnect();
+            }
+        });
     }
 }
