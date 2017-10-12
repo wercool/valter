@@ -23,14 +23,22 @@
             android:orientation="vertical"
             android:weightSum="1">
 
-
             <Button
-                android:text="Settings"
+                android:text="Valter Settings"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_alignBottom="@+id/scrollView2"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/settingsButton"/>
+
+            <Button
+                android:text="Charger Station Settings"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/chargerSettingsButton"/>
+
         </LinearLayout>
 
     </ScrollView>

@@ -43,10 +43,21 @@ public class ValterWebSocketClient {
         }
     }
 
-
     public void setCallerActivity(AppCompatActivity callerActivity)
     {
         this.callerActivity = callerActivity;
+    }
+
+    public void updateURI()
+    {
+        SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+        try {
+            String savedHost = settings.getString("ValterHost", "109.87.34.156");
+            uri = new URI("ws://" + savedHost + ":8888");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return;
+        }
     }
 
     public void connect()

@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     Button settingButton;
+    Button chargerSettingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        chargerSettingsButton = (Button) findViewById(R.id.chargerSettingsButton);
+        chargerSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), ChargerSettingsActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });

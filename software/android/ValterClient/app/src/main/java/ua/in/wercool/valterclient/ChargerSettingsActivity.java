@@ -3,16 +3,13 @@ package ua.in.wercool.valterclient;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class SettingsActivity extends AppCompatActivity {
-
-    public static final String PREFS_NAME = "ValterClientPreferences";
+public class ChargerSettingsActivity extends AppCompatActivity {
 
     Spinner hostsSpinner;
     Button connectButton;
@@ -21,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_charger_settings);
 
         hostsSpinner = (Spinner) findViewById(R.id.hostsSpinner);
         String[] hosts = getResources().getStringArray(R.array.hosts);
@@ -29,7 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
         hostsSpinner.setAdapter(hostsSpinnerAdapter);
 
         SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
-        String savedHost = settings.getString("ValterHost", "109.87.34.156");
+        String savedHost = settings.getString("ChargerHost", "109.87.34.156");
 
         int selectedIndex = 1;
         for (int i = 0; i < hosts.length; i++)
@@ -48,9 +45,8 @@ public class SettingsActivity extends AppCompatActivity {
                 System.out.println("Selected host: " + hostsSpinner.getSelectedItem().toString());
                 SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putString("ValterHost", hostsSpinner.getSelectedItem().toString());
+                editor.putString("ChargerHost", hostsSpinner.getSelectedItem().toString());
                 editor.commit();
-                ValterWebSocketClient.getInstance().updateURI();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -58,14 +54,13 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        ValterWebSocketClient.getInstance().setCallerActivity(this);
+        ChargerStationClient.getInstance().setCallerActivity(this);
 
         connectButton = (Button) findViewById(R.id.connectButton);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().disconnect();
-                ValterWebSocketClient.getInstance().connect();
+                ChargerStationClient.getInstance().startClient();
             }
         });
 
@@ -73,7 +68,7 @@ public class SettingsActivity extends AppCompatActivity {
         disconnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().disconnect();
+                ChargerStationClient.getInstance().stopClient();
             }
         });
     }
