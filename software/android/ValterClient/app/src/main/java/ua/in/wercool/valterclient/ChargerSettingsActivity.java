@@ -14,6 +14,7 @@ public class ChargerSettingsActivity extends AppCompatActivity {
     Spinner hostsSpinner;
     Button connectButton;
     Button disconnectButton;
+    Button centerCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,14 @@ public class ChargerSettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ChargerStationClient.getInstance().stopClient();
+            }
+        });
+
+        centerCamera = (Button) findViewById(R.id.centerCamera);
+        centerCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChargerStationClient.getInstance().sendMessage("CAMCENTER");
             }
         });
     }

@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".ChargerSettingsActivity"></activity>
+        <activity android:name=".ChargerSettingsActivity" />
+        <activity android:name=".ChargerStationActivity"></activity>
     </application>
 
 </manifest>

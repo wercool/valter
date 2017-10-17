@@ -24,6 +24,14 @@
             android:weightSum="1">
 
             <Button
+                android:text="Charger Station Control"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/chargerStationControlButton"/>
+
+            <Button
                 android:text="Valter Settings"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"

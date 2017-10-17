@@ -19,7 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:text="Charger CMD Server Address"
@@ -53,7 +53,20 @@
                     android:layout_height="80dp"
                     android:id="@+id/disconnectButton"
                     android:layout_weight="0.05"/>
+
             </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="0.95" />
+
+            <Button
+                android:text="Center Camera"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:id="@+id/centerCamera"
+                android:layout_weight="0.95" />
 
         </LinearLayout>
 

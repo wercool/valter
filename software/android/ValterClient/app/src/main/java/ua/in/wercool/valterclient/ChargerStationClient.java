@@ -154,6 +154,13 @@ public class ChargerStationClient {
 
                     Log.i("TCP Charger Client", "Connected");
 
+                    callerActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(callerActivity, "Charger Client CONNECTED", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     sendMessage("CLIENT READY");
 
                     //in this while the client listens for the messages sent by the server
