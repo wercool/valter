@@ -66,6 +66,12 @@ public class ValterWebSocketClient {
             @Override
             public void onOpen(ServerHandshake serverHandshake) {
                 Log.i("ValterWebSocket", "Opened");
+                callerActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(callerActivity, "Valter WebSocket CONNECTED", Toast.LENGTH_LONG).show();
+                    }
+                });
                 mWebSocketClient.send("SRV#CLIENT READY");
             }
 
@@ -73,13 +79,6 @@ public class ValterWebSocketClient {
             public void onMessage(final String message)
             {
                 Log.i("ValterWebSocket IN", message);
-
-                callerActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(callerActivity, message, Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
             @Override

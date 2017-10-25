@@ -74,6 +74,12 @@ void WebSocketServer::processTextMessage(QString message)
                 cmdResponse = "SERVER READY";
             break;
         }
+
+        if (pClient)
+        {
+            pClient->sendTextMessage(cmdResponse.c_str());
+        }
+
         return;
     }
 
