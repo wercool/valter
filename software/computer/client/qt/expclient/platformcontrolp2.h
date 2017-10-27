@@ -205,6 +205,8 @@ private:
     int iRScannerIntentionalAngleSet;
 
     bool ALARM;
+
+    void resetServoTask();
 };
 
 #endif // PLATFORMCONTROLP2_H

@@ -951,12 +951,21 @@ void PlatformControlP2::loadDefaults()
     iRScannerMaxAngle = atoi(Valter::stringToCharPtr(defaultValue));
 }
 
+
+void PlatformControlP2::resetServoTask()
+{
+    setIRScannerAngle(-1);
+    this_thread::sleep_for(std::chrono::milliseconds(250));
+    setIRScannerAngle(1);
+    this_thread::sleep_for(std::chrono::milliseconds(250));
+    setIRScannerAngle(0);
+    this_thread::sleep_for(std::chrono::milliseconds(250));
+    resetIRScannerServo();
+    qDebug("PlatformControlP2::resetServoTask completed");
+}
+
 void PlatformControlP2::setModuleInitialState()
 {
     qDebug("PlatformControlP2::setModuleInitialState");
-    for (char i = 0; i < 100; i++)
-    {
-        setIRScannerAngle(0);
-    }
-    resetIRScannerServo();
+    new std::thread(&PlatformControlP2::resetServoTask, this);
 }
