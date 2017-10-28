@@ -955,11 +955,11 @@ void PlatformControlP2::loadDefaults()
 void PlatformControlP2::resetServoTask()
 {
     setIRScannerAngle(-1);
-    this_thread::sleep_for(std::chrono::milliseconds(250));
+    this_thread::sleep_for(std::chrono::milliseconds(500));
     setIRScannerAngle(1);
-    this_thread::sleep_for(std::chrono::milliseconds(250));
+    this_thread::sleep_for(std::chrono::milliseconds(500));
     setIRScannerAngle(0);
-    this_thread::sleep_for(std::chrono::milliseconds(250));
+    this_thread::sleep_for(std::chrono::milliseconds(500));
     resetIRScannerServo();
     qDebug("PlatformControlP2::resetServoTask completed");
 }
