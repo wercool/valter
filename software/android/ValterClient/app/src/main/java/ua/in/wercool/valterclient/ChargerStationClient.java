@@ -173,17 +173,18 @@ public class ChargerStationClient {
                     //in this while the client listens for the messages sent by the server
                     while (mRun)
                     {
-                        mServerMessage = mBufferIn.readLine();
+                        if (!socket.isClosed()) {
+                            mServerMessage = mBufferIn.readLine();
 
-                        if (mServerMessage != null)
-                        {
-                            Log.i("TCP Charger Client", mServerMessage);
-                        }
+                            if (mServerMessage != null) {
+                                Log.i("TCP Charger Client", mServerMessage);
+                            }
 
-                        try {
-                            Thread.sleep(25);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                            try {
+                                Thread.sleep(25);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
 
