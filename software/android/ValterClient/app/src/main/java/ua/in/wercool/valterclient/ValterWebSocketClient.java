@@ -60,6 +60,17 @@ public class ValterWebSocketClient {
         }
     }
 
+    public void sendMessage(String message)
+    {
+        if (mWebSocketClient != null)
+        {
+            if (mWebSocketClient.isOpen())
+            {
+                mWebSocketClient.send(message);
+            }
+        }
+    }
+
     public void connect()
     {
         mWebSocketClient = new WebSocketClient(uri) {

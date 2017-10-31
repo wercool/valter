@@ -110,6 +110,13 @@ public class ChargerStationClient {
 
             workerThread.interrupt();
             workerThread = null;
+
+            callerActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(callerActivity, "DISCONNECTED", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

@@ -14,113 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <fragment android:name="ua.in.wercool.valterclient.ValterManualNavigation"
+        android:id="@+id/valterManualNavigationFragment"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        tools:layout="@layout/valter_manual_navigation_fragment" />
+
+    <fragment android:name="ua.in.wercool.valterclient.ChargerStationCamControl"
+        android:id="@+id/chargerStationCamControlFragment"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        tools:layout="@layout/charger_station_cam_control_fragment" />
+
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:alpha="0.25">
-
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_weight="0.9"
-            android:id="@+id/gridLayout">
-
-            <Button
-                android:text="⇑"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/chargerCameraView"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/up"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:width="50dp"
-                android:height="70dp"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:paddingTop="0dp"/>
-
-            <Button
-                android:text="⇐"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/chargerCameraView"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/left"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:width="50dp"
-                android:height="70dp"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:paddingTop="0dp"/>
-
-            <Button
-                android:text="C"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/chargerCameraView"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/center"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:width="50dp"
-                android:height="70dp"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:textColor="@android:color/holo_red_dark"
-                android:paddingTop="0dp"
-                android:fontFamily="sans-serif-medium" />
-
-            <Button
-                android:text="⇒"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/chargerCameraView"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/right"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:width="50dp"
-                android:height="70dp"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:paddingTop="0dp"/>
-
-            <Button
-                android:text="⇓"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/chargerCameraView"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/down"
-                android:layout_row="2"
-                android:layout_column="1"
-                android:width="50dp"
-                android:height="70dp"
-                android:textSize="48sp"
-                android:textStyle="normal|bold"
-                android:textAlignment="center"
-                android:textAllCaps="false"
-                android:paddingTop="0dp"/>
-
-
-        </GridLayout>
-
-    </LinearLayout>
+        android:id="@+id/fragmentContainer"/>
 
     <ProgressBar
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar"

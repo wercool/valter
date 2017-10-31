@@ -55,7 +55,7 @@ public class MjpegView extends View {
     private boolean isUserForceConfigRecycle;
 
     ProgressBar progressBar;
-    AppCompatActivity callerActivity;
+    Activity callerActivity;
 
     public MjpegView(Context context){
         super(context);
@@ -289,7 +289,7 @@ public class MjpegView extends View {
         isRecycleBitmap = recycleBitmap;
     }
 
-    public void setCallerActivity(AppCompatActivity callerActivity)
+    public void setCallerActivity(Activity callerActivity)
     {
         this.callerActivity = callerActivity;
     }

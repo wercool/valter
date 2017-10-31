@@ -1,0 +1,249 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    android:background="#80000000"
+    tools:context="ua.in.wercool.valterclient.ValterManualNavigation">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:alpha="0.25">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.05">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/plus"
+                android:id="@+id/leftDutyIncreasebutton" />
+
+            <ProgressBar
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:id="@+id/leftDutyIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:max="100"
+                android:progress="15"
+                android:progressDrawable="@drawable/motor_duty_indicator" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/minus"
+                android:id="@+id/leftDutyDecreasebutton" />
+
+        </LinearLayout>
+
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.9"
+            android:id="@+id/gridLayout">
+
+            <Button
+                android:text="⇗"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/leftForward"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+            <Button
+                android:text="⇑"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/forward"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+            <Button
+                android:text="⇖"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/rightForward"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+            <Button
+                android:text="⇐"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/left"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+            <Button
+                android:text="S"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/stop"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@android:color/holo_red_dark"
+                android:paddingTop="0dp"
+                android:fontFamily="sans-serif-medium" />
+
+            <Button
+                android:text="⇒"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/right"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+            <Button
+                android:text="⇘"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/leftBackward"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+            <Button
+                android:text="⇓"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/backward"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+            <Button
+                android:text="⇙"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/frontCameraView"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/rightBackward"
+                android:layout_row="2"
+                android:layout_column="2"
+                android:width="50dp"
+                android:height="70dp"
+                android:textSize="48sp"
+                android:textStyle="normal|bold"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:paddingTop="0dp"/>
+
+        </GridLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.05">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/plus"
+                android:id="@+id/rightDutyIncreasebutton" />
+
+            <ProgressBar
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:id="@+id/rightDutyIndicator"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:max="100"
+                android:progress="15"
+                android:progressDrawable="@drawable/motor_duty_indicator" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/minus"
+                android:id="@+id/rightDutyDecreasebutton" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</FrameLayout>

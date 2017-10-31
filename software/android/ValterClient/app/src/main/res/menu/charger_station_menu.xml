@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/chargerStationCamControl"
+        android:onClick="onChargerStationCamControlClick"
+        android:title="Camera Control" />
+
+    <item android:id="@+id/chargerStationValterControl"
+        android:onClick="onChargerStationValterControlClick"
+        android:title="Valter Control"/>
+
+</menu>
