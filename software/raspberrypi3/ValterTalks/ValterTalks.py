@@ -31,12 +31,15 @@ def sayToEliza(statement, inVoice):
                 print "Wiki Response: " + WikiResponse
                 try:
                     if WikiResponse:
-                        ElizaAnswer = re.sub(ur'\(.*?\) —', '', WikiResponse)
-                        first_dot_index = ElizaAnswer.find('.')
-                        ElizaAnswer = ElizaAnswer[0: first_dot_index]
-                except:
+                        WikiResponse = re.sub(ur'\((.*?)\)', ' ', WikiResponse)
+                        WikiResponse = re.sub(ur'\(.*?\) —', ' ', WikiResponse)
+                        first_dot_index = WikiResponse.find('.')
+                        ElizaAnswer = WikiResponse[0: first_dot_index]
+                except Exception, e:
+                    print >> sys.stderr, e
                     ElizaAnswer = "извините, я не могу ответить на ваш вопрос. продолжайте, пожалуйста."
             except:
+                print >> sys.stderr, e
                 ElizaAnswer = "извините, я затрудняюсь однозначно ответить на ваш вопрос. возможно вам стоит уточнить его."
 
         print "> " + ElizaAnswer
