@@ -14,6 +14,7 @@
     <string-array name="valterTasks" formatted="false">
         <item>SELECT A TASK</item>
         <item>SAY_\"{%s = any number of UTF-8 characters}\"</item>
+        <item>VOICERECOGNITION</item>
         <item>T_PCP1_TrasnslatePlatformLinearlyTask_{%d = direction [-1 undefined, 1 - forward, 0 - backward]}_{%f = translation in meters}</item>
     </string-array>
 
