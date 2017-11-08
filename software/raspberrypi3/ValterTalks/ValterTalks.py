@@ -28,7 +28,7 @@ def sayToEliza(statement, inVoice):
         if ElizaAnswer.find("wiki:") > -1:
             try:
                 WikiResponse = wikipedia.summary(ElizaAnswer[4:], sentences=5)
-                print "Wiki Response: " + WikiResponse
+                print >> sys.stdout, "Wiki Response: " + WikiResponse
                 try:
                     if WikiResponse:
                         WikiResponse = re.sub(ur'\((.*?)\)', ' ', WikiResponse)
