@@ -32,7 +32,7 @@ void VoiceRecognitionTask::stopExecution()
 
 void VoiceRecognitionTask::reportCompletion()
 {
-    qDebug("Task#%lu (%s) is completed.", getTaskId(), getTaskName().c_str());
+    qDebug("Task#%lu (%s) has been launched.", getTaskId(), getTaskName().c_str());
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
@@ -40,5 +40,6 @@ void VoiceRecognitionTask::executionWorker()
 {
     std::string cmd = "/home/maska/git/valter/software/raspberrypi3/ValterTalks/start";
     Valter::getInstance()->executeShellCmdLinuxAndDetach(cmd);
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     setCompleted();
 }
