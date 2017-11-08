@@ -41,9 +41,9 @@ def sayToEliza(statement, inVoice):
                     print >> sys.stderr, "\n"
                     ElizaAnswer = "извините, я не могу ответить на ваш вопрос. продолжайте, пожалуйста."
             except Exception, e:
-                    print >> sys.stderr, "Error: \n"
-                    print >> sys.stderr, e
-                    print >> sys.stderr, "\n"
+                print >> sys.stderr, "Error: \n"
+                print >> sys.stderr, e
+                print >> sys.stderr, "\n"
                 ElizaAnswer = "извините, я затрудняюсь однозначно ответить на ваш вопрос. возможно вам стоит уточнить его."
 
         print "> " + ElizaAnswer
