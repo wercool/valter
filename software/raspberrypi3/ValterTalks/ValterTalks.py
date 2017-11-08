@@ -28,10 +28,8 @@ def sayToEliza(statement, inVoice):
         if ElizaAnswer.find("wiki:") > -1:
             try:
                 WikiResponse = wikipedia.summary(ElizaAnswer[4:], sentences=5)
-                print WikiResponse
+                print "Wiki Response: " + WikiResponse
                 try:
-                    WikiResponse = wikipedia.summary(ElizaAnswer[4:], sentences=5)
-                    print WikiResponse
                     if WikiResponse:
                         ElizaAnswer = re.sub(ur'\(.*?\) —', '', WikiResponse)
                         first_dot_index = ElizaAnswer.find('.')
