@@ -28,7 +28,7 @@ def sayToEliza(statement, inVoice):
         if ElizaAnswer.find("wiki:") > -1:
             try:
                 WikiResponse = wikipedia.summary(ElizaAnswer[4:], sentences=5)
-                print >> sys.stdout, "Wiki Response: " + WikiResponse
+                print >> sys.stderr, "Wiki Response: " + WikiResponse
                 try:
                     if WikiResponse:
                         WikiResponse = re.sub(ur'\((.*?)\)', ' ', WikiResponse)
@@ -36,10 +36,10 @@ def sayToEliza(statement, inVoice):
                         first_dot_index = WikiResponse.find('.')
                         ElizaAnswer = WikiResponse[0: first_dot_index]
                 except Exception, e:
-                    print >> sys.stderr, e
+                    print >> sys.stderr, "Error:" + e
                     ElizaAnswer = "извините, я не могу ответить на ваш вопрос. продолжайте, пожалуйста."
             except Exception, e:
-                print >> sys.stderr, e
+                print >> sys.stderr, "Error:" + e
                 ElizaAnswer = "извините, я затрудняюсь однозначно ответить на ваш вопрос. возможно вам стоит уточнить его."
 
         print "> " + ElizaAnswer
@@ -132,7 +132,7 @@ def googleSpeechRecognition():
         if GoogleResult:
             GoogleResult = GoogleResult.decode('utf-8').lower()
             GoogleResult = GoogleResult.encode('utf-8')
-            print "GoogleResult:" + GoogleResult
+            print >> sys.stderr, "GoogleResult:" + GoogleResult
             sayToEliza(GoogleResult, True)
 
     browser.kill()
