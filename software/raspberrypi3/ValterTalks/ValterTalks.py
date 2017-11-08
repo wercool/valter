@@ -36,10 +36,14 @@ def sayToEliza(statement, inVoice):
                         first_dot_index = WikiResponse.find('.')
                         ElizaAnswer = WikiResponse[0: first_dot_index]
                 except Exception, e:
-                    print >> sys.stderr, "Error:" + e
+                    print >> sys.stderr, "Error: \n"
+                    print >> sys.stderr, e
+                    print >> sys.stderr, "\n"
                     ElizaAnswer = "извините, я не могу ответить на ваш вопрос. продолжайте, пожалуйста."
             except Exception, e:
-                print >> sys.stderr, "Error:" + e
+                    print >> sys.stderr, "Error: \n"
+                    print >> sys.stderr, e
+                    print >> sys.stderr, "\n"
                 ElizaAnswer = "извините, я затрудняюсь однозначно ответить на ваш вопрос. возможно вам стоит уточнить его."
 
         print "> " + ElizaAnswer
