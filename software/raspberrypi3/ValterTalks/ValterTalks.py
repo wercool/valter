@@ -11,6 +11,8 @@ import sys
 import wikipedia
 import Eliza
 
+reload(sys)
+sys.setdefaultencoding('utf-8')
 wikipedia.set_lang("ru")
 
 def sayToEliza(statement, inVoice):

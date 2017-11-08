@@ -7,8 +7,10 @@ import re
 
 wikipedia.set_lang("ru")
 
-def main():
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
+def main():
     print "Wiki Request: танк\n"
     WikiResponse = wikipedia.summary("танк", sentences=5)
     WikiResponse = re.sub(ur'.*?\((.*?)\)', ' ', WikiResponse)
