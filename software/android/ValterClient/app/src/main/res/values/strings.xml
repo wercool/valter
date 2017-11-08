@@ -8,9 +8,13 @@
         <item>192.168.101.101</item>
         <item>192.168.0.102</item>
         <item>192.168.101.102</item>
+        <item>192.168.101.106</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="valterTasks" formatted="false">
+        <item>SELECT A TASK</item>
+        <item>SAY_\"{%s = any number of UTF-8 characters}\"</item>
+        <item>T_PCP1_TrasnslatePlatformLinearlyTask_{%d = direction [-1 undefined, 1 - forward, 0 - backward]}_{%f = translation in meters}</item>
+    </string-array>
 
 </resources>

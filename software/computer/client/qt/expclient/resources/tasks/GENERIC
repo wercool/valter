@@ -2,6 +2,6 @@ CLEARQUEUE
 STOPTOPTASK
 STOPTASK_{task id}
 INITIAL
-DELAY_2000
-SAY_{any number of UTF-8 characters}
+DELAY_{%d = delay in ms}
+SAY_"{%s = any number of UTF-8 characters}"
 VOICERECOGNITION

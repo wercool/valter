@@ -83,6 +83,12 @@ void WebSocketServer::processTextMessage(QString message)
         return;
     }
 
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("TASK"))
+    {
+        TaskManager::getInstance()->processScript(cmdValue.c_str());
+        return;
+    }
+
     //PLATFORM-CONTROL-P1 direct commands **********************************BEGIN**************************************************
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("PCP1"))
     {
@@ -186,6 +192,7 @@ void WebSocketServer::processTextMessage(QString message)
                 platformControlP1->setPlatformEmergencyStop(true);
             break;
         }
+        return;
     }
     //PLATFORM-CONTROL-P1 direct commands **********************************END***************************************************
 

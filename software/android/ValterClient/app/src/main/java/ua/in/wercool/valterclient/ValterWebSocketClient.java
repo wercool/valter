@@ -62,6 +62,7 @@ public class ValterWebSocketClient {
 
     public void sendMessage(String message)
     {
+        Log.i("sendMessage: ", message);
         if (mWebSocketClient != null)
         {
             if (mWebSocketClient.isOpen())
