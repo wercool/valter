@@ -137,6 +137,10 @@ public class ValterTasksActivity extends AppCompatActivity {
                     linearLayout.setLayoutParams(layoutParams);
 
                     textInput.setInputType(InputType.TYPE_CLASS_TEXT);
+                    LinearLayout.LayoutParams textInputLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    textInputLayoutParams.weight = 1;
+
+                    textInput.setLayoutParams(textInputLayoutParams);
 
                     Button speechToTextButton = new Button(this);
                     speechToTextButton.setWidth(32);
