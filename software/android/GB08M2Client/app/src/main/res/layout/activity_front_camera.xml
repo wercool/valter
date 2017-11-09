@@ -9,21 +9,18 @@
     android:background="#000000"
     tools:context="ua.in.wercool.gb08m2client.FrontCameraActivity">
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="?attr/actionBarSize"-->
-        <!--android:background="?attr/colorPrimary"-->
-        <!--android:elevation="4dp"-->
-        <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-        <!--app:title="Front Camera"-->
-        <!--android:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
-
     <ua.in.wercool.gb08m2client.MjpegView
         android:background="#000000"
         android:id="@+id/frontCameraView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fragmentContainer"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -31,6 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:id="@+id/gb08M2ConrolsLinearLayout"
         android:alpha="0.25">
 
         <LinearLayout

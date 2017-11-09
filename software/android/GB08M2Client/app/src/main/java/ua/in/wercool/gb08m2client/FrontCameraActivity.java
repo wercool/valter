@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 public class FrontCameraActivity extends AppCompatActivity {
@@ -38,6 +41,10 @@ public class FrontCameraActivity extends AppCompatActivity {
     ImageButton rightDutyDecreasebutton;
     ProgressBar rightDutyIndicator;
 
+    SphereCamControl shereCamControlFragment;
+
+    LinearLayout gb08M2ConrolsLinearLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,10 @@ public class FrontCameraActivity extends AppCompatActivity {
         fronCameraView.setUrl("http://" + savedHost + ":8080/?action=stream");
 //        fronCameraView.setUrl("http://200.36.58.250/mjpg/video.mjpg?resolution=640x480");
         fronCameraView.setRecycleBitmap(true);
+
+        shereCamControlFragment = new SphereCamControl();
+
+        gb08M2ConrolsLinearLayout = (LinearLayout) findViewById(R.id.gb08M2ConrolsLinearLayout);
 
 
         //Motors Controls
@@ -728,10 +739,31 @@ public class FrontCameraActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.front_cam_view_menu, menu);
+        return true;
+    }
+
+    public boolean onCamControlMenuItemClick(MenuItem item)
+    {
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, shereCamControlFragment).commit();
+        gb08M2ConrolsLinearLayout.setVisibility(View.GONE);
+        return true;
+    }
+
+    public boolean onGB08M2ControlMenuItemClick(MenuItem item)
+    {
+        getSupportFragmentManager().beginTransaction().remove(shereCamControlFragment).commit();
+        gb08M2ConrolsLinearLayout.setVisibility(View.VISIBLE);
+        return true;
+    }
+
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        getMenuInflater().inflate(R.menu.front_cam_view_menu, menu);
 //        return true;
 //    }
 

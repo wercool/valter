@@ -23,7 +23,7 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".FrontCameraActivity" />
         <activity android:name=".CommandsActivity" />
-        <activity android:name=".RearCameraActivity"></activity>
+        <activity android:name=".RearCameraActivity" />
     </application>
 
 </manifest>

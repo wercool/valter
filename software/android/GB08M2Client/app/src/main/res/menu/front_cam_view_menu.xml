@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/camControlMenuItem"
+        android:onClick="onCamControlMenuItemClick"
+        android:title="Camera Control" />
+
+    <item android:id="@+id/GB08M2ControlMenuItem"
+        android:onClick="onGB08M2ControlMenuItemClick"
+        android:title="GB08M2 Control"/>
+
+</menu>
