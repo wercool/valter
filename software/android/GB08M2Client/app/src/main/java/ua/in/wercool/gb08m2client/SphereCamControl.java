@@ -1,5 +1,6 @@
 package ua.in.wercool.gb08m2client;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,10 +23,15 @@ public class SphereCamControl extends Fragment {
     Button right;
     Button center;
 
+    String savedHost;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /** Inflating the layout for this fragment **/
         View rootView = inflater.inflate(R.layout.sphere_cam_control_fragment, null);
+
+        SharedPreferences settings = this.getActivity().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+        savedHost = settings.getString("GB08M2Host", "109.87.34.156");
 
         up = (Button) rootView.findViewById(R.id.up);
         up.setOnTouchListener(new View.OnTouchListener() {
@@ -33,7 +39,7 @@ public class SphereCamControl extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        doGETHTTPRequest("http://109.87.34.156:8080/?action=command_ng&dest=0&plugin=0&id=10094853&group=1&value=-200");
+                        doGETHTTPRequest("http://" + savedHost + ":8080/?action=command_ng&dest=0&plugin=0&id=10094853&group=1&value=-200");
                     break;
                 }
                 return true;
@@ -46,7 +52,7 @@ public class SphereCamControl extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        doGETHTTPRequest("http://109.87.34.156:8080/?action=command_ng&dest=0&plugin=0&id=10094853&group=1&value=200");
+                        doGETHTTPRequest("http://" + savedHost + ":8080/?action=command_ng&dest=0&plugin=0&id=10094853&group=1&value=200");
                     break;
                 }
                 return true;
@@ -59,7 +65,7 @@ public class SphereCamControl extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        doGETHTTPRequest("http://109.87.34.156:8080/?action=command_ng&dest=0&plugin=0&id=10094852&group=1&value=200");
+                        doGETHTTPRequest("http://" + savedHost + ":8080/?action=command_ng&dest=0&plugin=0&id=10094852&group=1&value=200");
                         break;
                 }
                 return true;
@@ -72,7 +78,7 @@ public class SphereCamControl extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        doGETHTTPRequest("http://109.87.34.156:8080/?action=command_ng&dest=0&plugin=0&id=10094852&group=1&value=-200");
+                        doGETHTTPRequest("http://" + savedHost +":8080/?action=command_ng&dest=0&plugin=0&id=10094852&group=1&value=-200");
                         break;
                 }
                 return true;
@@ -85,7 +91,7 @@ public class SphereCamControl extends Fragment {
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        doGETHTTPRequest("http://109.87.34.156:8080/?action=command_ng&dest=0&plugin=0&id=168062211&group=1&value=1");
+                        doGETHTTPRequest("http://" + savedHost + ":8080/?action=command_ng&dest=0&plugin=0&id=168062211&group=1&value=1");
                         break;
                 }
                 return true;
