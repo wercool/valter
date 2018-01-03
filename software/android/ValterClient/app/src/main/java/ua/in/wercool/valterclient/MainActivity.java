@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         return appContext;
     }
 
+    Button valterDirectControlsButton;
     Button valterTasksButton;
     Button chargerStationControlButton;
     Button settingButton;
@@ -26,6 +27,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         appContext = this;
+
+        valterDirectControlsButton = (Button) findViewById(R.id.valterDirectControlsButton);
+        valterDirectControlsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), ValterDirectControlActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
 
         valterTasksButton = (Button) findViewById(R.id.valterTasksButton);
         valterTasksButton.setOnClickListener(new View.OnClickListener() {
