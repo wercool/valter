@@ -37,9 +37,15 @@ public class Valter {
         return leftMotorDuty;
     }
 
-    public void setLeftMotorDuty(int leftMotorDuty) {
+    public void changeLeftMotorDuty(int leftMotorDuty) {
         if (this.leftMotorDuty + leftMotorDuty <= 100 && this.leftMotorDuty - leftMotorDuty >= 0)
         {
+            this.leftMotorDuty += leftMotorDuty;
+        }
+    }
+
+    public void setLeftMotorDuty(int leftMotorDuty) {
+        if (leftMotorDuty <= 100 && leftMotorDuty >= 0) {
             this.leftMotorDuty = leftMotorDuty;
         }
     }
@@ -48,10 +54,16 @@ public class Valter {
         return rightMotorDuty;
     }
 
-    public void setRightMotorDuty(int rightMotorDuty) {
+    public void changeRightMotorDuty(int rightMotorDuty) {
         if (this.rightMotorDuty + rightMotorDuty <= 100 && this.rightMotorDuty - rightMotorDuty >= 0)
         {
-            this.rightMotorDuty = rightMotorDuty;
+            this.rightMotorDuty += rightMotorDuty;
         }
     }
+
+    public void setRightMotorDuty(int rightMotorDuty) {
+        if (rightMotorDuty <= 100 && rightMotorDuty >= 0) {
+            this.rightMotorDuty = rightMotorDuty;
+        }
+     }
 }

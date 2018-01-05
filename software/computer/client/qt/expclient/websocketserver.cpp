@@ -217,6 +217,10 @@ void WebSocketServer::socketDisconnected()
 {
     QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
 
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+
+    platformControlP1->stopAll();
+
     qDebug() << "socketDisconnected:" << pClient;
     if (pClient)
     {

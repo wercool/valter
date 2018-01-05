@@ -1,6 +1,5 @@
 package ua.in.wercool.valterclient;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
@@ -31,18 +30,23 @@ public class ValterManualNavigation extends Fragment {
     Button backward;
     Button rightBackward;
 
-    ImageButton leftDutyIncreasebutton;
-    ImageButton leftDutyDecreasebutton;
+    ImageButton leftDutyIncreaseButton;
+    ImageButton leftDutyDecreaseButton;
     ProgressBar leftDutyIndicator;
 
-    ImageButton rightDutyIncreasebutton;
-    ImageButton rightDutyDecreasebutton;
+    ImageButton rightDutyIncreaseButton;
+    ImageButton rightDutyDecreaseButton;
     ProgressBar rightDutyIndicator;
+
+    boolean setDutyLock = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         /** Inflating the layout for this fragment **/
         View rootView = inflater.inflate(R.layout.valter_manual_navigation_fragment, null);
+
+        leftDutyIndicator = (ProgressBar) rootView.findViewById(R.id.leftDutyIndicator);
+        rightDutyIndicator = (ProgressBar) rootView.findViewById(R.id.rightDutyIndicator);
 
         leftForward = (Button) rootView.findViewById(R.id.leftForward);
         leftForward.setOnTouchListener(new View.OnTouchListener() {
@@ -64,8 +68,6 @@ public class ValterManualNavigation extends Fragment {
 
         forward = (Button) rootView.findViewById(R.id.forward);
         forward.setOnTouchListener(new View.OnTouchListener() {
-            private Handler increaseHandler;
-            private Handler decreaseHandler;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
@@ -190,8 +192,6 @@ public class ValterManualNavigation extends Fragment {
 
         rightBackward = (Button) rootView.findViewById(R.id.rightBackward);
         rightBackward.setOnTouchListener(new View.OnTouchListener() {
-            private Handler increaseHandler;
-            private Handler decreaseHandler;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
@@ -208,66 +208,179 @@ public class ValterManualNavigation extends Fragment {
             }
         });
 
-        leftDutyIndicator = (ProgressBar) rootView.findViewById(R.id.leftDutyIndicator);
-//        leftDutyIndicator.setProgress(Valter.getInstance().getLeftMotorDuty());
-
-        leftDutyIncreasebutton = (ImageButton) rootView.findViewById(R.id.leftDutyIncreasebutton);
-        leftDutyIncreasebutton.setOnTouchListener(new View.OnTouchListener() {
+        leftDutyIndicator.setProgress(Valter.getInstance().getLeftMotorDuty());
+        leftDutyIndicator.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
+                        setDutyLock = !setDutyLock;
+                        if (setDutyLock) {
+                            leftDutyIndicator.setAlpha((float)0.5);
+                            rightDutyIndicator.setAlpha((float)0.5);
+                        }
+                        else {
+                            leftDutyIndicator.setAlpha((float)1.0);
+                            rightDutyIndicator.setAlpha((float)1.0);
+                        }
+                    break;
                 }
-                return false;
+                return true;
             }
         });
 
-        leftDutyDecreasebutton = (ImageButton) rootView.findViewById(R.id.leftDutyDecreasebutton);
-        leftDutyDecreasebutton.setOnTouchListener(new View.OnTouchListener() {
+
+        leftDutyIncreaseButton = (ImageButton) rootView.findViewById(R.id.leftDutyIncreaseButton);
+        leftDutyIncreaseButton.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 5);
                         break;
                     case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
                         break;
                 }
                 return false;
+            }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    Valter.getInstance().changeLeftMotorDuty(1);
+                    leftDutyIndicator.setProgress(Valter.getInstance().getLeftMotorDuty());
+                    if (setDutyLock) {
+                        Valter.getInstance().changeRightMotorDuty(1);
+                        rightDutyIndicator.setProgress(Valter.getInstance().getRightMotorDuty());
+                    }
+                    mHandler.postDelayed(this, 5);
+                }
+            };
+        });
+
+        leftDutyDecreaseButton = (ImageButton) rootView.findViewById(R.id.leftDutyDecreaseButton);
+        leftDutyDecreaseButton.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 5);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
+            }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    Valter.getInstance().changeLeftMotorDuty(-1);
+                    leftDutyIndicator.setProgress(Valter.getInstance().getLeftMotorDuty());
+                    if (setDutyLock) {
+                        Valter.getInstance().changeRightMotorDuty(-1);
+                        rightDutyIndicator.setProgress(Valter.getInstance().getRightMotorDuty());
+                    }
+                    mHandler.postDelayed(this, 5);
+                }
+            };
+        });
+
+        rightDutyIndicator.setProgress(Valter.getInstance().getRightMotorDuty());
+        rightDutyIndicator.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        setDutyLock = !setDutyLock;
+                        if (setDutyLock) {
+                            leftDutyIndicator.setAlpha((float)0.5);
+                            rightDutyIndicator.setAlpha((float)0.5);
+                        }
+                        else {
+                            leftDutyIndicator.setAlpha((float)1.0);
+                            rightDutyIndicator.setAlpha((float)1.0);
+                        }
+                        break;
+                }
+                return true;
             }
         });
 
-        rightDutyIndicator = (ProgressBar) rootView.findViewById(R.id.rightDutyIndicator);
-//        rightDutyIndicator.setProgress(Valter.getInstance().getRightMotorDuty());
-
-        rightDutyIncreasebutton = (ImageButton) rootView.findViewById(R.id.rightDutyIncreasebutton);
-        rightDutyIncreasebutton.setOnTouchListener(new View.OnTouchListener() {
+        rightDutyIncreaseButton = (ImageButton) rootView.findViewById(R.id.rightDutyIncreaseButton);
+        rightDutyIncreaseButton.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 5);
                         break;
                     case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
                         break;
                 }
                 return false;
             }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    Valter.getInstance().changeRightMotorDuty(1);
+                    rightDutyIndicator.setProgress(Valter.getInstance().getRightMotorDuty());
+                    if (setDutyLock) {
+                        Valter.getInstance().changeLeftMotorDuty(1);
+                        leftDutyIndicator.setProgress(Valter.getInstance().getLeftMotorDuty());
+                    }
+                    mHandler.postDelayed(this, 5);
+                }
+            };
         });
 
-        rightDutyDecreasebutton = (ImageButton) rootView.findViewById(R.id.rightDutyDecreasebutton);
-        rightDutyDecreasebutton.setOnTouchListener(new View.OnTouchListener() {
+        rightDutyDecreaseButton = (ImageButton) rootView.findViewById(R.id.rightDutyDecreaseButton);
+        rightDutyDecreaseButton.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 5);
                         break;
                     case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
                         break;
                 }
                 return false;
             }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    Valter.getInstance().changeRightMotorDuty(-1);
+                    rightDutyIndicator.setProgress(Valter.getInstance().getRightMotorDuty());
+                    if (setDutyLock) {
+                        Valter.getInstance().changeLeftMotorDuty(-1);
+                        leftDutyIndicator.setProgress(Valter.getInstance().getLeftMotorDuty());
+                    }
+                    mHandler.postDelayed(this, 5);
+                }
+            };
         });
 
         return rootView;
