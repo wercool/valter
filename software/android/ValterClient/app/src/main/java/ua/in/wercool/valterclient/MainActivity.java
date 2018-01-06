@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button chargerStationControlButton;
     Button settingButton;
     Button chargerSettingsButton;
+    Button valter3DButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), ChargerSettingsActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        valter3DButton = (Button) findViewById(R.id.valter3DButton);
+        valter3DButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), Valter3DActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });

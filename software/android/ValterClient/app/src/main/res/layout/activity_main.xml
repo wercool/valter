@@ -63,6 +63,14 @@
                 android:layout_centerHorizontal="true"
                 android:id="@+id/chargerSettingsButton"/>
 
+            <Button
+                android:text="Valter 3D"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/valter3DButton"/>
+
         </LinearLayout>
 
     </ScrollView>
