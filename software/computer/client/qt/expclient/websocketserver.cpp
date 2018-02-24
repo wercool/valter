@@ -102,6 +102,12 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("FCAMOFF"): //Frontal Camera OFF
             Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_frontal_camera");
             break;
+            case Valter::str2int("RCAMON"): //Rear Camera ON
+            Valter::getInstance()->executeShellCmdLinuxAndDetach("/home/maska/startRearVideo");
+            break;
+            case Valter::str2int("RCAMOFF"): //Rear Camera OFF
+            Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_rear_camera");
+            break;
         }
     }
 
