@@ -83,8 +83,54 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
         String savedHost = settings.getString("ValterHost", "109.87.34.156");
 
+        System.out.println("REAR CAMERA");
+
         if (savedHost.indexOf("192.168") > -1) {
-            System.out.println("INTRANET");
+            System.out.println("REAR CAMERA STREAM IS ON INTRANET");
+            savedHost = "192.168.101.101";
+            currentCameraView.setUrl("http://" + savedHost + ":10101/?action=stream");
+            currentCameraView.setRecycleBitmap(true);
+            currentCameraView.startStream();
+        }
+
+        return true;
+    }
+
+    public boolean onHeadLCameraItemClick(MenuItem item)
+    {
+        currentCameraView.stopStream();
+
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+        String savedHost = settings.getString("ValterHost", "109.87.34.156");
+
+        System.out.println("HEAD LEFT CAMERA");
+
+        if (savedHost.indexOf("192.168") > -1) {
+            System.out.println("FRONTAL CAMERA STREAM IS ON INTRANET");
+            savedHost = "192.168.101.102";
+            currentCameraView.setUrl("http://" + savedHost + ":10200/?action=stream");
+            currentCameraView.setRecycleBitmap(true);
+            currentCameraView.startStream();
+        }
+
+        return true;
+    }
+
+    public boolean onHeadRCameraItemClick(MenuItem item)
+    {
+        currentCameraView.stopStream();
+
+        SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+        String savedHost = settings.getString("ValterHost", "109.87.34.156");
+
+        System.out.println("HEAD LEFT CAMERA");
+
+        if (savedHost.indexOf("192.168") > -1) {
+            System.out.println("FRONTAL CAMERA STREAM IS ON INTRANET");
+            savedHost = "192.168.101.102";
+            currentCameraView.setUrl("http://" + savedHost + ":10201/?action=stream");
+            currentCameraView.setRecycleBitmap(true);
+            currentCameraView.startStream();
         }
 
         return true;

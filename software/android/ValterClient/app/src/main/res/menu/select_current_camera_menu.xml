@@ -5,6 +5,14 @@
         android:onClick="onFrontalCameraItemClick"
         android:title="Frontal Camera" />
 
+    <item android:id="@+id/headLCameraItem"
+        android:onClick="onHeadLCameraItemClick"
+        android:title="Head Right Camera"/>
+
+    <item android:id="@+id/headRCameraItem"
+        android:onClick="onHeadRCameraItemClick"
+        android:title="Head Left Camera"/>
+
     <item android:id="@+id/rearCameraItem"
         android:onClick="onRearCameraItemClick"
         android:title="Rear Camera"/>

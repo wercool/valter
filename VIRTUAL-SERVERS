@@ -14,7 +14,7 @@ valter-ws               <All>       TCP         8888            8888            
 valter2-video0-10200    <All>       TCP         10200           10200           192.168.0.200
 valter2-video1-10201    <All>       TCP         10201           10201           192.168.0.200
 valter1-video-0         <All>       TCP         10100           10100           192.168.0.200   (frontal WebCam 046d:0821 Logitech, Inc. HD Webcam C910)
-valter1-video-1         <All>       TCP         10101           10101           192.168.0.200
+valter1-video-1         <All>       TCP         10101           10101           192.168.0.200   (read WebCam)
 valter1-video-2         <All>       TCP         10102           10102           192.168.0.200
 webserver               <All>       TCP         80              80              192.168.0.80
 webserver-ssh           <All>       TCP         8022            8022            192.168.0.80
