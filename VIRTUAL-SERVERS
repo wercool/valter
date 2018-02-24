@@ -1,0 +1,22 @@
+Name                    Interface   Protocol    Public port     Private port    Private IP      Notes
+GB082M2 CMD             <All>       TCP         9001            9001            192.168.0.33
+GB08M2 Video0           <All>       TCP         8081            8081            192.168.0.33
+GB08M2 Video1           <All>       TCP         8080            8080            192.168.0.33
+Charger Station CMD     <All>       TCP         9090            9090            192.168.0.55
+Charger Station Video   <All>       TCP         9595            9595            192.168.0.55
+GB082M2 SSH             <All>       TCP         2233            2233            192.168.0.33
+Charger Station SSH     <All>       TCP         2255            2255            192.168.0.55
+valter1-ssh-221         <All>       TCP         221             221             192.168.0.101
+valter2-ssh-222         <All>       TCP         222             222             192.168.0.102
+valter1-ssh-22101       <All>       TCP         22101           22101           192.168.0.200
+valter2-ssh-22102       <All>       TCP         22102           22102           192.168.0.200
+valter-ws               <All>       TCP         8888            8888            192.168.0.200
+valter2-video0-10200    <All>       TCP         10200           10200           192.168.0.200
+valter2-video1-10201    <All>       TCP         10201           10201           192.168.0.200
+valter1-video-0         <All>       TCP         10100           10100           192.168.0.200   (frontal WebCam 046d:0821 Logitech, Inc. HD Webcam C910)
+valter1-video-1         <All>       TCP         10101           10101           192.168.0.200
+valter1-video-2         <All>       TCP         10102           10102           192.168.0.200
+webserver               <All>       TCP         80              80              192.168.0.80
+webserver-ssh           <All>       TCP         8022            8022            192.168.0.80
+webserver-3000          <All>       TCP         3000            3000            192.168.0.80
+devstation-5555         <All>       TCP         5555            5555            192.168.0.100

@@ -1,6 +1,7 @@
 package ua.in.wercool.valterclient;
 
 import android.content.SharedPreferences;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +19,22 @@ public class SettingsActivity extends AppCompatActivity {
     Button connectButton;
     Button disconnectButton;
 
+    Button startFrontalCamButton;
+    Button stopFrontalCamButton;
+    Button startRearCamButton;
+    Button stopRearCamButton;
+    Button startHeadLEyeCamButton;
+    Button stopHeadLEyeCamButton;
+    Button startHeadREyeCamButton;
+    Button stopHeadREyeCamButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
 
         hostsSpinner = (Spinner) findViewById(R.id.hostsSpinner);
         String[] hosts = getResources().getStringArray(R.array.hosts);
@@ -76,5 +89,106 @@ public class SettingsActivity extends AppCompatActivity {
                 ValterWebSocketClient.getInstance().disconnect();
             }
         });
+
+        startFrontalCamButton = (Button) findViewById(R.id.startFrontalCamButton);
+        startFrontalCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMON");
+            }
+        });
+
+        stopFrontalCamButton = (Button) findViewById(R.id.stopFrontalCamButton);
+        stopFrontalCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMOFF");
+            }
+        });
+
+        startRearCamButton = (Button) findViewById(R.id.startRearCamButton);
+        startRearCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().sendMessage("CTRL#RCAMON");
+            }
+        });
+
+        stopRearCamButton = (Button) findViewById(R.id.stopRearCamButton);
+        stopRearCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().sendMessage("CTRL#RCAMOFF");
+            }
+        });
+
+        startHeadLEyeCamButton = (Button) findViewById(R.id.startHeadLEyeCamButton);
+        startHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TcpClient tcpClient = new TcpClient(null);
+                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+                String savedHost = settings.getString("ValterHost", "109.87.34.156");
+                if (savedHost.indexOf("192.168") > -1) {
+                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                    savedHost = "192.168.101.102";
+                }
+                tcpClient.SERVER_IP = savedHost;
+                tcpClient.SERVER_PORT = 10002;
+                tcpClient.sendSingleMessageAndClose("SHELL:/home/maska/startMJPGVideo0\n");
+            }
+        });
+
+        stopHeadLEyeCamButton = (Button) findViewById(R.id.stopHeadLEyeCamButton);
+        stopHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TcpClient tcpClient = new TcpClient(null);
+                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+                String savedHost = settings.getString("ValterHost", "109.87.34.156");
+                if (savedHost.indexOf("192.168") > -1) {
+                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                    savedHost = "192.168.101.102";
+                }
+                tcpClient.SERVER_IP = savedHost;
+                tcpClient.SERVER_PORT = 10002;
+                tcpClient.sendSingleMessageAndClose("SHELL:killall mjpg_streamer-video0\n");
+            }
+        });
+
+        startHeadREyeCamButton = (Button) findViewById(R.id.startHeadREyeCamButton);
+        startHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TcpClient tcpClient = new TcpClient(null);
+                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+                String savedHost = settings.getString("ValterHost", "109.87.34.156");
+                if (savedHost.indexOf("192.168") > -1) {
+                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                    savedHost = "192.168.101.102";
+                }
+                tcpClient.SERVER_IP = savedHost;
+                tcpClient.SERVER_PORT = 10002;
+                tcpClient.sendSingleMessageAndClose("SHELL:/home/maska/startMJPGVideo1\n");
+            }
+        });
+
+        stopHeadREyeCamButton = (Button) findViewById(R.id.stopHeadREyeCamButton);
+        stopHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TcpClient tcpClient = new TcpClient(null);
+                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+                String savedHost = settings.getString("ValterHost", "109.87.34.156");
+                if (savedHost.indexOf("192.168") > -1) {
+                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                    savedHost = "192.168.101.102";
+                }
+                tcpClient.SERVER_IP = savedHost;
+                tcpClient.SERVER_PORT = 10002;
+                tcpClient.sendSingleMessageAndClose("SHELL:killall mjpg_streamer-video1\n");
+            }
+        });
+
     }
 }
