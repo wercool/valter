@@ -66,6 +66,7 @@ void WebSocketServer::processTextMessage(QString message)
 
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
 
+    //Service commands
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("SRV"))
     {
         switch (Valter::str2int(cmdValue.c_str()))
@@ -83,10 +84,25 @@ void WebSocketServer::processTextMessage(QString message)
         return;
     }
 
+    //Valter Tasks
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("TASK"))
     {
         TaskManager::getInstance()->processScript(cmdValue.c_str());
         return;
+    }
+
+    //Valter Perephiral Controls (WebCams, ...)
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("CTRL"))
+    {
+        switch (Valter::str2int(cmdValue.c_str()))
+        {
+            case Valter::str2int("FCAMON"): //Frontal Camera ON
+            Valter::getInstance()->executeShellCmdLinuxAndDetach("/home/maska/startFrontalVideo");
+            break;
+            case Valter::str2int("FCAMOFF"): //Frontal Camera OFF
+            Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_frontal_camera");
+            break;
+        }
     }
 
     //PLATFORM-CONTROL-P1 direct commands **********************************BEGIN**************************************************
