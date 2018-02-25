@@ -214,6 +214,23 @@ void WebSocketServer::processTextMessage(QString message)
                 platformControlP1->setPlatformEmergencyStop(true);
             break;
         }
+
+        //RightMotorDuty
+        if (cmdValue.find("RMD") != std::string::npos)
+        {
+            vector<string>cmdValue_str_values = Valter::split(cmdValue , '=');
+            std::string cmdValue = cmdValue_str_values[1];
+            int value = atoi(cmdValue.c_str());
+            platformControlP1->setRightMotorDutyMax(value);
+        }
+        //LeftMotorDuty
+        if (cmdValue.find("LMD") != std::string::npos)
+        {
+            vector<string>cmdValue_str_values = Valter::split(cmdValue , '=');
+            std::string cmdValue = cmdValue_str_values[1];
+            int value = atoi(cmdValue.c_str());
+            platformControlP1->setLeftMotorDutyMax(value);
+        }
         return;
     }
     //PLATFORM-CONTROL-P1 direct commands **********************************END***************************************************

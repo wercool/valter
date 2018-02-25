@@ -245,6 +245,10 @@ public class ValterManualNavigation extends Fragment {
                         if (mHandler == null) return true;
                         mHandler.removeCallbacks(mAction);
                         mHandler = null;
+                        Valter.getInstance().sendMessage(String.format("PCP1#LMD=%d", Valter.getInstance().getLeftMotorDuty()));
+                        if (setDutyLock) {
+                            Valter.getInstance().sendMessage(String.format("PCP1#RMD=%d", Valter.getInstance().getRightMotorDuty()));
+                        }
                         break;
                 }
                 return false;
@@ -278,6 +282,10 @@ public class ValterManualNavigation extends Fragment {
                         if (mHandler == null) return true;
                         mHandler.removeCallbacks(mAction);
                         mHandler = null;
+                        Valter.getInstance().sendMessage(String.format("PCP1#LMD=%d", Valter.getInstance().getLeftMotorDuty()));
+                        if (setDutyLock) {
+                            Valter.getInstance().sendMessage(String.format("PCP1#RMD=%d", Valter.getInstance().getRightMotorDuty()));
+                        }
                         break;
                 }
                 return false;
@@ -332,6 +340,10 @@ public class ValterManualNavigation extends Fragment {
                         if (mHandler == null) return true;
                         mHandler.removeCallbacks(mAction);
                         mHandler = null;
+                        Valter.getInstance().sendMessage(String.format("PCP1#RMD=%d", Valter.getInstance().getRightMotorDuty()));
+                        if (setDutyLock) {
+                            Valter.getInstance().sendMessage(String.format("PCP1#LMD=%d", Valter.getInstance().getLeftMotorDuty()));
+                        }
                         break;
                 }
                 return false;
@@ -365,6 +377,10 @@ public class ValterManualNavigation extends Fragment {
                         if (mHandler == null) return true;
                         mHandler.removeCallbacks(mAction);
                         mHandler = null;
+                        Valter.getInstance().sendMessage(String.format("PCP1#RMD=%d", Valter.getInstance().getRightMotorDuty()));
+                        if (setDutyLock) {
+                            Valter.getInstance().sendMessage(String.format("PCP1#LMD=%d", Valter.getInstance().getLeftMotorDuty()));
+                        }
                         break;
                 }
                 return false;

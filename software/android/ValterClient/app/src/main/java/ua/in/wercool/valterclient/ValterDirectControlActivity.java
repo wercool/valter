@@ -123,7 +123,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
         String savedHost = settings.getString("ValterHost", "109.87.34.156");
 
-        System.out.println("HEAD LEFT CAMERA");
+        System.out.println("HEAD RIGHT CAMERA");
 
         if (savedHost.indexOf("192.168") > -1) {
             System.out.println("FRONTAL CAMERA STREAM IS ON INTRANET");
