@@ -2,10 +2,10 @@
     <string name="app_name">ValterClient</string>
 
     <string-array name="hosts">
-        <item>192.168.0.55</item>
         <item>109.87.34.156</item>
+        <item>192.168.0.55</item>
         <item>192.168.101.101</item>
-        <item>192.168.0.100</item>
+        <item>192.168.101.106</item>
     </string-array>
 
     <string-array name="valterTasks" formatted="false">

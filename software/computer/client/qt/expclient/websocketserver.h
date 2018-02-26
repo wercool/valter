@@ -3,6 +3,9 @@
 
 #include <QWebSocketServer>
 #include <QtDebug>
+#include <mutex>
+
+using namespace std;
 
 class WebSocketServer: public QObject
 {
@@ -17,6 +20,12 @@ private:
 
     QWebSocketServer *m_pWebSocketServer;
     QList<QWebSocket *> m_clients;
+
+    void watchDogWorker();
+    bool watchDogActivated;
+    int watchCnt;
+    std::mutex watchDog_mutex;
+
 
 private Q_SLOTS:
     void onNewConnection();

@@ -11,6 +11,11 @@ WebSocketServer::WebSocketServer()
 {
    m_pWebSocketServer = new QWebSocketServer(QStringLiteral("Valter WebSocket Server"), QWebSocketServer::NonSecureMode, this);
 
+   watchDogActivated = false;
+   watchCnt = 0;
+   new std::thread(&WebSocketServer::watchDogWorker, this);
+   Valter::log("WebSocketServer watchDogWorker spawned...");
+
    if (m_pWebSocketServer->listen(QHostAddress::Any, quint16(8888)))
    {
        qDebug() << "WebSocketServer listening on port" << m_pWebSocketServer->serverPort();
@@ -47,6 +52,10 @@ void WebSocketServer::onNewConnection()
 //    connect(pSocket, &QWebSocket::binaryMessageReceived, this, &WebSocketServer::processBinaryMessage);
     connect(pSocket, &QWebSocket::disconnected, this, &WebSocketServer::socketDisconnected);
 
+    std::lock_guard<std::mutex> guard(watchDog_mutex);
+    watchDogActivated = true;
+    watchCnt = 3;
+
     qDebug() << "socketConnected:" << pSocket;
 
     m_clients << pSocket;
@@ -81,6 +90,9 @@ void WebSocketServer::processTextMessage(QString message)
             vector<string>cmdValue_str_values = Valter::split(cmdValue , ':');
             std::string cmdValue = cmdValue_str_values[1];
             cmdResponse = Valter::format_string("SRV#WDOUT:%s", cmdValue.c_str());
+
+            std::lock_guard<std::mutex> guard(watchDog_mutex);
+            watchCnt++;
         }
 
         if (pClient)
@@ -267,6 +279,8 @@ void WebSocketServer::socketDisconnected()
 
     platformControlP1->stopAll();
 
+    watchDogActivated = false;
+
     qDebug() << "socketDisconnected:" << pClient;
     if (pClient)
     {
@@ -278,4 +292,29 @@ void WebSocketServer::socketDisconnected()
 void WebSocketServer::onClosed()
 {
     qDebug() << "Valter WebSocket Server closed!";
+}
+
+void WebSocketServer::watchDogWorker()
+{
+    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+
+    while (!platformControlP1->stopAllProcesses)
+    {
+        if (watchDogActivated)
+        {
+            if (watchCnt > 3) watchCnt = 3;
+            watchCnt--;
+            //qDebug() << "WebSocketServer::watchDogWorker ACTIVE " << watchCnt;
+            if (watchCnt <= 0) {
+                watchDogActivated = false;
+
+                //Stop selected modules
+                platformControlP1->stopAll();
+                qDebug() << "WebSocketServer::watchDogWorker platformControlP1 STOPPED";
+            }
+        }
+
+        this_thread::sleep_for(std::chrono::milliseconds(1000));
+    }
+    qDebug() << "STOPPED: WebSocketServer::watchDogWorker";
 }
