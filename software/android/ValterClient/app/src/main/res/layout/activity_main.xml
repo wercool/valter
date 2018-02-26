@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -24,20 +25,22 @@
             android:weightSum="1">
 
             <Button
-                android:text="Valter Direct Controls"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignBottom="@+id/scrollView2"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/valterDirectControlsButton"/>
-
-            <Button
                 android:text="Valter Settings"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_alignBottom="@+id/scrollView2"
                 android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/valter_settings"
                 android:id="@+id/settingsButton"/>
+
+            <Button
+                android:text="Valter Direct Controls"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/joystick"
+                android:id="@+id/valterDirectControlsButton"/>
 
             <Button
                 android:text="Valter Tasks"
@@ -45,15 +48,8 @@
                 android:layout_height="80dp"
                 android:layout_alignBottom="@+id/scrollView2"
                 android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/tasks"
                 android:id="@+id/valterTasksButton"/>
-
-            <Button
-                android:text="Charger Station Control"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_alignBottom="@+id/scrollView2"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/chargerStationControlButton"/>
 
             <Button
                 android:text="Charger Station Settings"
@@ -61,8 +57,18 @@
                 android:layout_height="80dp"
                 android:layout_alignBottom="@+id/scrollView2"
                 android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/charcher"
                 android:id="@+id/chargerSettingsButton"/>
 
+            <Button
+                android:text="Charger Station Control"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/charcher_control"
+                android:id="@+id/chargerStationControlButton"/>
+<!--
             <Button
                 android:text="Valter 3D"
                 android:layout_width="match_parent"
@@ -70,7 +76,7 @@
                 android:layout_alignBottom="@+id/scrollView2"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/valter3DButton"/>
-
+-->
         </LinearLayout>
 
     </ScrollView>

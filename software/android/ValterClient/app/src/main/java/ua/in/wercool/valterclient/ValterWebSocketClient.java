@@ -11,6 +11,7 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 /**
  * Created by maska on 10/10/17.
@@ -22,6 +23,9 @@ public class ValterWebSocketClient {
 
     URI uri;
     WebSocketClient mWebSocketClient;
+
+    WatchDogRunnable watchDogRunnable;
+    Thread watchDogThread;
 
     public static class SingletonHolder {
         public static final ValterWebSocketClient HOLDER_INSTANCE = new ValterWebSocketClient();
@@ -85,6 +89,18 @@ public class ValterWebSocketClient {
                     }
                 });
                 mWebSocketClient.send("SRV#CLIENT READY");
+
+                if (watchDogThread == null) {
+                    watchDogRunnable = new WatchDogRunnable(mWebSocketClient);
+                    watchDogThread = new Thread(watchDogRunnable);
+                    watchDogThread.start();
+                } else {
+                    watchDogRunnable.watchDogRun = false;
+                    watchDogThread.interrupt();
+                    watchDogRunnable = new WatchDogRunnable(mWebSocketClient);
+                    watchDogThread = new Thread(watchDogRunnable);
+                    watchDogThread.start();
+                }
             }
 
             @Override
@@ -128,5 +144,36 @@ public class ValterWebSocketClient {
         }
     }
 
+    private class WatchDogRunnable implements Runnable {
+
+        public boolean watchDogRun = true;
+
+        private WebSocketClient mWebSocketClient;
+
+        public WatchDogRunnable(WebSocketClient mWebSocketClient) {
+            this.mWebSocketClient = mWebSocketClient;
+        }
+
+        @Override
+        public void run() {
+            while (watchDogRun) {
+                try {
+
+                    if (mWebSocketClient != null)
+                    {
+                        if (mWebSocketClient.isOpen())
+                        {
+                            mWebSocketClient.send(String.format("SRV#WDIN:%d", Calendar.getInstance().get(Calendar.SECOND)));
+                            Log.i("WatchDogRunnable", String.format("SRV#WDIN:%d", Calendar.getInstance().get(Calendar.SECOND)));
+                        }
+                    }
+
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }
