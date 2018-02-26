@@ -80,7 +80,7 @@ void WebSocketServer::processTextMessage(QString message)
         {
             vector<string>cmdValue_str_values = Valter::split(cmdValue , ':');
             std::string cmdValue = cmdValue_str_values[1];
-            cmdResponse = Valter::format_string("SRV#WDOUT:%s", cmdValue);
+            cmdResponse = Valter::format_string("SRV#WDOUT:%s", cmdValue.c_str());
         }
 
         if (pClient)
