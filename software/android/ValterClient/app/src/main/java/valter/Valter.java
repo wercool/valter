@@ -10,8 +10,11 @@ public class Valter {
 
     private static Valter instance;
 
+    //Platfrom Control P1
     private int leftMotorDuty;
     private int rightMotorDuty;
+
+    //Platfrom Location P1
 
     public Valter()
     {
@@ -32,6 +35,8 @@ public class Valter {
     {
         ValterWebSocketClient.getInstance().sendMessage(message);
     }
+
+    //Platfrom Control P1
 
     public int getLeftMotorDuty() {
         return leftMotorDuty;
@@ -66,4 +71,12 @@ public class Valter {
             this.rightMotorDuty = rightMotorDuty;
         }
      }
+
+    //Platfrom Location P1
+    public void setSonarLedsState(boolean state) {
+        if (state)
+            sendMessage("PLP1#SONARLEDSON");
+        else
+            sendMessage("PLP1#SONARLEDSOFF");
+    }
 }

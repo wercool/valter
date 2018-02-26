@@ -74,6 +74,7 @@ void WebSocketServer::processTextMessage(QString message)
     std::string cmdResponse = "OK";
 
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
 
     //Service commands
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("SRV"))
@@ -253,6 +254,21 @@ void WebSocketServer::processTextMessage(QString message)
         return;
     }
     //PLATFORM-CONTROL-P1 direct commands **********************************END***************************************************
+
+    //PLATFORM-LOCATION-P1 direct commands **********************************BEGIN**************************************************
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("PLP1"))
+    {
+        switch (Valter::str2int(cmdValue.c_str()))
+        {
+            case Valter::str2int("SONARLEDSON"): //Sonar leds ON
+                platformLocationP1->setAllSonarsLedsState(true);
+            break;
+            case Valter::str2int("SONARLEDSOFF"): //Sonar leds OFF
+                platformLocationP1->setAllSonarsLedsState(false);
+            break;
+        }
+    }
+    //PLATFORM-LOCATION-P1 direct commands **********************************END**************************************************
 
     if (pClient)
     {

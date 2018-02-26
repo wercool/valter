@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button chargerStationControlButton;
     Button settingButton;
     Button chargerSettingsButton;
+    Button valterCommandsButton;
 //    Button valter3DButton;
 
     @Override
@@ -43,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getApplicationContext(), ValterTasksActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        valterCommandsButton = (Button) findViewById(R.id.valterCommandsButton);
+        valterCommandsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), ValterCommandsActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });

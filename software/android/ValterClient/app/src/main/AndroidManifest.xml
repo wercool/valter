@@ -8,8 +8,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -38,8 +39,13 @@
         <activity
             android:name=".ValterTasksActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ValterDirectControlActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ValterCommandsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ValterDirectControlActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".Valter3DActivity" />
     </application>
 

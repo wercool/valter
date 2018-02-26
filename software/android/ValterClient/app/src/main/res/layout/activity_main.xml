@@ -43,6 +43,15 @@
                 android:id="@+id/valterDirectControlsButton"/>
 
             <Button
+                android:text="Valter Commands"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/command"
+                android:id="@+id/valterCommandsButton"/>
+
+            <Button
                 android:text="Valter Tasks"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
