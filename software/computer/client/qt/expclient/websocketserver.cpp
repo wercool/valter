@@ -13,6 +13,7 @@ WebSocketServer::WebSocketServer()
 
    watchDogActivated = false;
    watchCnt = 0;
+   watchDogSleep = 1000;
    new std::thread(&WebSocketServer::watchDogWorker, this);
    Valter::log("WebSocketServer watchDogWorker spawned...");
 
@@ -75,6 +76,7 @@ void WebSocketServer::processTextMessage(QString message)
 
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
     PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
 
     //Service commands
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("SRV"))
@@ -131,7 +133,7 @@ void WebSocketServer::processTextMessage(QString message)
         }
     }
 
-    //PLATFORM-CONTROL-P1 direct commands **********************************BEGIN**************************************************
+    /**********************************PLATFORM-CONTROL-P1***************************************************/
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("PCP1"))
     {
         switch (Valter::str2int(cmdValue.c_str()))
@@ -253,9 +255,8 @@ void WebSocketServer::processTextMessage(QString message)
         }
         return;
     }
-    //PLATFORM-CONTROL-P1 direct commands **********************************END***************************************************
 
-    //PLATFORM-LOCATION-P1 direct commands **********************************BEGIN**************************************************
+    /*********************************PLATFORM-LOCATION-P1***************************************************/
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("PLP1"))
     {
         switch (Valter::str2int(cmdValue.c_str()))
@@ -268,7 +269,86 @@ void WebSocketServer::processTextMessage(QString message)
             break;
         }
     }
-    //PLATFORM-LOCATION-P1 direct commands **********************************END**************************************************
+
+    /*********************************BODY-CONTROL-P1***************************************************/
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("BCP1"))
+    {
+        switch (Valter::str2int(cmdValue.c_str()))
+        {
+            case Valter::str2int("HEADLEDON"): //Head led ON
+                bodyControlP1->setHeadLedOnOff(true);
+            break;
+            case Valter::str2int("HEADLEDOFF"): //Head led OFF
+                bodyControlP1->setHeadLedOnOff(false);
+            break;
+            case Valter::str2int("HEAD24VON"): //Head 24V ON
+                bodyControlP1->setHead24VOnOff(true);
+            break;
+            case Valter::str2int("HEAD24VOFF"): //Head 24V OFF
+                bodyControlP1->setHead24VOnOff(false);
+            break;
+            case Valter::str2int("HEADYAWENABLE"): //Head YAW ON
+                bodyControlP1->setHeadYawMotorOnOff(true);
+            break;
+            case Valter::str2int("HEADYAWDISABLE"): //Head YAW OFF
+                bodyControlP1->setHeadYawMotorOnOff(false);
+            break;
+            case Valter::str2int("HEADPITCHENABLE"): //Head PITCH ON
+                bodyControlP1->setHeadPitchMotorOnOff(true);
+            break;
+            case Valter::str2int("HEADPITCHDISABLE"): //Head PITCH OFF
+                bodyControlP1->setHeadPitchMotorOnOff(false);
+            break;
+            case Valter::str2int("HEADMOTORSACTIVATE"): //Head MOTORS ACTIVATED
+                bodyControlP1->setHead24VOnOff(true);
+                bodyControlP1->setHeadYawMotorOnOff(true);
+                bodyControlP1->setHeadPitchMotorOnOff(true);
+            break;
+            case Valter::str2int("HEADMOTORSDEACTIVATE"): //Head MOTORS DEACTIVATED
+                bodyControlP1->setHeadPitchMotorOnOff(false);
+                bodyControlP1->setHeadYawMotorOnOff(false);
+                bodyControlP1->setHead24VOnOff(false);
+            break;
+            case Valter::str2int("HEADYAWRIGHT"): //Head YAW RIGHT
+                watchDogSleep = 500;
+
+                TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
+                bodyControlP1->setHeadYawDirection(true);
+                bodyControlP1->setHeadYawMotorActivated(true);
+            break;
+            case Valter::str2int("HEADYAWLEFT"): //Head YAW LEFT
+                watchDogSleep = 500;
+
+                TaskManager::getInstance()->stopTasksByName("SetHeadYawPositionTask");
+                bodyControlP1->setHeadYawDirection(false);
+                bodyControlP1->setHeadYawMotorActivated(true);
+            break;
+            case Valter::str2int("HEADYAWDONE"): //Head YAW DONE
+                watchDogSleep = 1000;
+
+                bodyControlP1->setHeadYawMotorActivated(false);
+            break;
+            case Valter::str2int("HEADPITCHDOWN"): //Head PITCH DOWN
+                watchDogSleep = 500;
+
+                TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
+                bodyControlP1->setHeadPitchDirection(true);
+                bodyControlP1->setHeadPitchMotorActivated(true);
+            break;
+            case Valter::str2int("HEADPITCHUP"): //Head PITCH UP
+                watchDogSleep = 500;
+
+                TaskManager::getInstance()->stopTasksByName("SetHeadPitchPositionTask");
+                bodyControlP1->setHeadPitchDirection(false);
+                bodyControlP1->setHeadPitchMotorActivated(true);
+            break;
+            case Valter::str2int("HEADPITCHDONE"): //Head PITCH DONE
+                watchDogSleep = 1000;
+
+                bodyControlP1->setHeadPitchMotorActivated(false);
+            break;
+        }
+    }
 
     if (pClient)
     {
@@ -313,6 +393,7 @@ void WebSocketServer::onClosed()
 void WebSocketServer::watchDogWorker()
 {
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
 
     while (!platformControlP1->stopAllProcesses)
     {
@@ -327,10 +408,13 @@ void WebSocketServer::watchDogWorker()
                 //Stop selected modules
                 platformControlP1->stopAll();
                 qDebug() << "WebSocketServer::watchDogWorker platformControlP1 STOPPED";
+                bodyControlP1->stopAll();
+                qDebug() << "WebSocketServer::watchDogWorker bodyControlP1 STOPPED";
             }
         }
 
-        this_thread::sleep_for(std::chrono::milliseconds(1000));
+        this_thread::sleep_for(std::chrono::milliseconds(watchDogSleep));
+        qDebug() << watchCnt;
     }
     qDebug() << "STOPPED: WebSocketServer::watchDogWorker";
 }

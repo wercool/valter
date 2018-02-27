@@ -9,34 +9,25 @@
     android:background="#000000"
     tools:context="ua.in.wercool.valterclient.ValterDirectControlActivity">
 
-    <FrameLayout
+    <ua.in.wercool.valterclient.MjpegView
+        android:background="#000000"
+        android:id="@+id/currentCameraView"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <fragment android:name="ua.in.wercool.valterclient.ValterManualNavigation"
+        android:id="@+id/valterManualNavigationFragment"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="0.65">
-
-        <ua.in.wercool.valterclient.MjpegView
-            android:background="#000000"
-            android:id="@+id/currentCameraView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="top|center"/>
-
-    </FrameLayout>
-
+        tools:layout="@layout/valter_manual_navigation_fragment" />
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.35">
-
-        <fragment android:name="ua.in.wercool.valterclient.ValterManualNavigation"
-            android:id="@+id/valterManualNavigationFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/valter_manual_navigation_fragment"
-            android:layout_gravity="bottom|center"/>
-
-    </FrameLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fragmentContainer"/>
 
 
     <ProgressBar

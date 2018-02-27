@@ -46,6 +46,7 @@
         <activity
             android:name=".ValterDirectControlActivity"
             android:screenOrientation="portrait" />
+
         <activity android:name=".Valter3DActivity" />
     </application>
 

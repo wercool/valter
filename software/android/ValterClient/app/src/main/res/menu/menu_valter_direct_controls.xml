@@ -15,6 +15,21 @@
 
     <item android:id="@+id/rearCameraItem"
         android:onClick="onRearCameraItemClick"
+        android:enabled="false"
         android:title="Rear Camera"/>
+
+    <item android:id="@+id/valterManualSteeringItem"
+        android:onClick="valterManualSteeringItemClick"
+        android:icon="@drawable/joystick"
+        android:title="Valter Manual Steering"/>
+
+    <item android:id="@+id/valterHeadYawPitchItem"
+        android:onClick="valterHeadYawPitchItemClick"
+        android:title="Valter Head Yaw &amp; Pitch"/>
+
+    <item android:id="@+id/valterCommandsItem"
+        android:onClick="valterCommandsItemClick"
+        android:icon="@drawable/command"
+        android:title="Valter Direct Commands"/>
 
 </menu>

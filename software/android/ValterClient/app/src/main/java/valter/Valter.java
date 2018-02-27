@@ -36,7 +36,7 @@ public class Valter {
         ValterWebSocketClient.getInstance().sendMessage(message);
     }
 
-    //Platfrom Control P1
+    /******************************* Platfrom Control P1 *******************************/
 
     public int getLeftMotorDuty() {
         return leftMotorDuty;
@@ -72,11 +72,78 @@ public class Valter {
         }
      }
 
-    //Platfrom Location P1
+    /******************************* Platfrom Location P1 *******************************/
+
     public void setSonarLedsState(boolean state) {
         if (state)
             sendMessage("PLP1#SONARLEDSON");
         else
             sendMessage("PLP1#SONARLEDSOFF");
+    }
+
+    /******************************* Body Control P1 *******************************/
+    public void setHeadLedState(boolean state) {
+        if (state)
+            sendMessage("BCP1#HEADLEDON");
+        else
+            sendMessage("BCP1#HEADLEDOFF");
+    }
+
+    public void setHead24VState(boolean state) {
+        if (state)
+            sendMessage("BCP1#HEAD24VON");
+        else
+            sendMessage("BCP1#HEAD24VOFF");
+    }
+
+    public void setHeadYawMotorState(boolean state) {
+        if (state)
+            sendMessage("BCP1#HEADYAWENABLE");
+        else
+            sendMessage("BCP1#HEADYAWDISABLE");
+    }
+
+    public void setHeadPitchMotorState(boolean state) {
+        if (state)
+            sendMessage("BCP1#HEADPITCHENABLE");
+        else
+            sendMessage("BCP1#HEADPITCHDISABLE");
+    }
+
+    public void setHeadMotorsActivatedState(boolean state) {
+        if (state)
+            sendMessage("BCP1#HEADMOTORSACTIVATE");
+        else
+            sendMessage("BCP1#HEADMOTORSDEACTIVATE");
+    }
+
+    public void headYawDO(boolean direction) {
+        if (direction)
+            sendMessage("BCP1#HEADYAWRIGHT");
+        else
+            sendMessage("BCP1#HEADYAWLEFT");
+
+        ValterWebSocketClient.getInstance().setWatchDogSleep(500);
+    }
+
+    public void headYawDONE() {
+        sendMessage("BCP1#HEADYAWDONE");
+
+        ValterWebSocketClient.getInstance().setWatchDogSleep(1000);
+    }
+
+    public void headPitchDO(boolean direction) {
+        if (direction)
+            sendMessage("BCP1#HEADPITCHDOWN");
+        else
+            sendMessage("BCP1#HEADPITCHUP");
+
+        ValterWebSocketClient.getInstance().setWatchDogSleep(500);
+    }
+
+    public void headPitchDONE() {
+        sendMessage("BCP1#HEADPITCHDONE");
+
+        ValterWebSocketClient.getInstance().setWatchDogSleep(1000);
     }
 }

@@ -24,6 +24,7 @@ private:
     void watchDogWorker();
     bool watchDogActivated;
     int watchCnt;
+    int watchDogSleep;
     std::mutex watchDog_mutex;
 
 

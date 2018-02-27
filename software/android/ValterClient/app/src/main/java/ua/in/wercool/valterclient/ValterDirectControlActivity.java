@@ -1,11 +1,14 @@
 package ua.in.wercool.valterclient;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 
 public class ValterDirectControlActivity extends AppCompatActivity {
@@ -14,6 +17,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     public ProgressBar progressBar;
 
     ValterManualNavigation valterManualNavigationFragment;
+    HeadYawPitchControlFragment headYawPitchControlFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         currentCameraView.setProgressBar(progressBar);
 
         valterManualNavigationFragment = new ValterManualNavigation();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, valterManualNavigationFragment).commit();
     }
 
     @Override
@@ -52,7 +57,8 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.select_current_camera_menu, menu);
+        inflater.inflate(R.menu.menu_valter_direct_controls, menu);
+        menu.getItem(4).setIcon(R.drawable.joystick);
         return true;
     }
 
@@ -136,4 +142,28 @@ public class ValterDirectControlActivity extends AppCompatActivity {
 
         return true;
     }
+
+    public boolean valterManualSteeringItemClick(MenuItem item)
+    {
+        valterManualNavigationFragment = new ValterManualNavigation();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, valterManualNavigationFragment).commit();
+        return true;
+    }
+
+    public boolean valterHeadYawPitchItemClick(MenuItem item)
+    {
+        headYawPitchControlFragment = new HeadYawPitchControlFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, headYawPitchControlFragment).commit();
+        return true;
+    }
+
+
+    public boolean valterCommandsItemClick(MenuItem item)
+    {
+        ValterCommandsActivity.dialogMode = true;
+        Intent myIntent = new Intent(getApplicationContext(), ValterCommandsActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+    }
+
 }

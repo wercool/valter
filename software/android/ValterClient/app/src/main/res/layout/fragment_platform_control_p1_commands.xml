@@ -46,6 +46,8 @@
                     android:layout_height="80dp"
                     android:layout_alignBottom="@+id/scrollView2"
                     android:layout_centerHorizontal="true"
+                    android:background="#ff0000"
+                    android:textColor="#ffffff"
                     android:id="@+id/stopAllButton"/>
 
             </LinearLayout>

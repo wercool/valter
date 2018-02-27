@@ -86,6 +86,10 @@ void BodyControlP1::stopAll()
 {
     if (this->controlDeviceIsSet)
     {
+        setHeadPitchMotorOnOff(false);
+        setHeadYawMotorOnOff(false);
+        setHead24VOnOff(false);
+        setHeadLedOnOff(false);
         Valter::log(Valter::format_string("STOP ALL sent to %s", BodyControlP1::controlDeviceId.c_str()));
     }
 }

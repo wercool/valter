@@ -31,6 +31,8 @@ public class ValterCommandsActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
+    public static boolean dialogMode = false;
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -38,6 +40,10 @@ public class ValterCommandsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (ValterCommandsActivity.dialogMode) {
+            setTheme(R.style.AppTheme_Dialog);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_valter_commands);
 
@@ -48,6 +54,10 @@ public class ValterCommandsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        if (ValterCommandsActivity.dialogMode) {
+            getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
 
     }
 
@@ -103,13 +113,19 @@ public class ValterCommandsActivity extends AppCompatActivity {
                 case 2:
                     fragment = new PlatformLocationp1Commands();
                 break;
+                case 3:
+                    fragment = new PlatformManipulatorAndIRBumperCommands();
+                break;
+                case 4:
+                    fragment = new BodyControlP1Commands();
+                break;
             }
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 3;
+            return 5;
         }
 
         @Override
@@ -121,6 +137,10 @@ public class ValterCommandsActivity extends AppCompatActivity {
                     return "PLATFORM-CONTROL-P2";
                 case 2:
                     return "PLATFORM-LOCATION-P1";
+                case 3:
+                    return "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
+                case 4:
+                    return "BODY-CONTROL-P1";
             }
             return null;
         }

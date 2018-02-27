@@ -27,6 +27,8 @@ public class ValterWebSocketClient {
     WatchDogRunnable watchDogRunnable;
     Thread watchDogThread;
 
+    int watchDogSleep = 1000;
+
     public static class SingletonHolder {
         public static final ValterWebSocketClient HOLDER_INSTANCE = new ValterWebSocketClient();
     }
@@ -144,6 +146,14 @@ public class ValterWebSocketClient {
         }
     }
 
+    public int getWatchDogSleep() {
+        return watchDogSleep;
+    }
+
+    public void setWatchDogSleep(int watchDogSleep) {
+        this.watchDogSleep = watchDogSleep;
+    }
+
     private class WatchDogRunnable implements Runnable {
 
         public boolean watchDogRun = true;
@@ -168,7 +178,7 @@ public class ValterWebSocketClient {
                         }
                     }
 
-                    Thread.sleep(1000);
+                    Thread.sleep(watchDogSleep);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

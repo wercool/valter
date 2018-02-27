@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         valterCommandsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ValterCommandsActivity.dialogMode = false;
                 Intent myIntent = new Intent(getApplicationContext(), ValterCommandsActivity.class);
                 startActivityForResult(myIntent, 0);
             }
