@@ -414,7 +414,6 @@ void WebSocketServer::watchDogWorker()
         }
 
         this_thread::sleep_for(std::chrono::milliseconds(watchDogSleep));
-        qDebug() << watchCnt;
     }
     qDebug() << "STOPPED: WebSocketServer::watchDogWorker";
 }
