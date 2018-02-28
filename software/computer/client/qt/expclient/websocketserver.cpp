@@ -402,7 +402,8 @@ void WebSocketServer::watchDogWorker()
             if (watchCnt > 3) watchCnt = 3;
             watchCnt--;
             //qDebug() << "WebSocketServer::watchDogWorker ACTIVE " << watchCnt;
-            if (watchCnt <= 0) {
+            if (watchCnt <= 0)
+            {
                 watchDogActivated = false;
 
                 //Stop selected modules
