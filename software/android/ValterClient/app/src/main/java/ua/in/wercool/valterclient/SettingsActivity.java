@@ -122,8 +122,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        startHeadLEyeCamButton = (Button) findViewById(R.id.startHeadLEyeCamButton);
-        startHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
+        startHeadREyeCamButton = (Button) findViewById(R.id.startHeadREyeCamButton);
+        startHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TcpClient tcpClient = new TcpClient(null);
@@ -139,8 +139,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        stopHeadLEyeCamButton = (Button) findViewById(R.id.stopHeadLEyeCamButton);
-        stopHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
+        stopHeadREyeCamButton = (Button) findViewById(R.id.stopHeadREyeCamButton);
+        stopHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TcpClient tcpClient = new TcpClient(null);
@@ -156,8 +156,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        startHeadREyeCamButton = (Button) findViewById(R.id.startHeadREyeCamButton);
-        startHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
+        startHeadLEyeCamButton = (Button) findViewById(R.id.startHeadLEyeCamButton);
+        startHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TcpClient tcpClient = new TcpClient(null);
@@ -173,8 +173,8 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        stopHeadREyeCamButton = (Button) findViewById(R.id.stopHeadREyeCamButton);
-        stopHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
+        stopHeadLEyeCamButton = (Button) findViewById(R.id.stopHeadLEyeCamButton);
+        stopHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TcpClient tcpClient = new TcpClient(null);
