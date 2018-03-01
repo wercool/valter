@@ -7,7 +7,7 @@ import time
 import threading
 import os
 
-MAXLINE = 100
+MAXLINE = 1024
 
 def linesplit(sock, maxline=0):
     buf = sock.recv(16)

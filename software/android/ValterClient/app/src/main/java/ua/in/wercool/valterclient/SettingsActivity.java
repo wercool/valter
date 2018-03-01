@@ -208,7 +208,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 tcpClient.SERVER_IP = savedHost;
                 tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:cvlc -vvv rtp://192.168.101.102:7777 --sout '#standard{access=http,mux=ts,dst=:10201}' :demux=h264\n");
+                tcpClient.sendSingleMessageAndClose("SHELL:cvlc -vvv rtp://192.168.101.102:7700 --sout '#standard{access=http,mux=ts,dst=:7777}' :demux=h264\n");
             }
         });
 
