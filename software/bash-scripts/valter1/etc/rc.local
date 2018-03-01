@@ -1,0 +1,30 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+#Start Expclient
+
+screen -dm -S wdscreen sudo /home/maska/git/valter/software/bash-scripts/valter1/expclientWD
+
+screen -dm -S pingwd sudo /home/maska/git/valter/software/bash-scripts/valter1/pingValterstationWD
+
+exec su -l maska -c '/home/maska/start; sleep 15; cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug; export DISPLAY=:0; ./expclient eth0 > /home/maska/expclient.log 2>&1'
+
+#exec su -l maska -c 'hciconfig hci0 piscan'
+
+exit 0
