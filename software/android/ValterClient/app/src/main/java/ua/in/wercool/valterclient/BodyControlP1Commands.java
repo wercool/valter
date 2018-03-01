@@ -17,6 +17,10 @@ public class BodyControlP1Commands extends Fragment {
     Button stopAllButton;
     Button headLedOnButton;
     Button headLedOffButton;
+    Button leftAccumulatorOnButton;
+    Button leftAccumulatorOffButton;
+    Button rightAccumulatorOnButton;
+    Button rightAccumulatorOffButton;
     Button headMotorsActivateButton;
     Button headMotorsDeactivateButton;
     Button head24VOnButton;
@@ -54,6 +58,42 @@ public class BodyControlP1Commands extends Fragment {
             public void onClick(View v) {
                 Log.i("BCP1", "HEAD LED OFF");
                 Valter.getInstance().setHeadLedState(false);
+            }
+        });
+
+        leftAccumulatorOnButton = (Button) rootView.findViewById(R.id.leftAccumulatorOnButton);
+        leftAccumulatorOnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "LEFT ACCUMULATOR ON");
+                Valter.getInstance().setLeftAccumulatorState(true);
+            }
+        });
+
+        leftAccumulatorOffButton = (Button) rootView.findViewById(R.id.leftAccumulatorOffButton);
+        leftAccumulatorOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "LEFT ACCUMULATOR OFF");
+                Valter.getInstance().setLeftAccumulatorState(false);
+            }
+        });
+
+        rightAccumulatorOnButton = (Button) rootView.findViewById(R.id.rightAccumulatorOnButton);
+        rightAccumulatorOnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "RIGHT ACCUMULATOR ON");
+                Valter.getInstance().setRightAccumulatorState(true);
+            }
+        });
+
+        rightAccumulatorOffButton = (Button) rootView.findViewById(R.id.rightAccumulatorOffButton);
+        rightAccumulatorOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "RIGHT ACCUMULATOR OFF");
+                Valter.getInstance().setRightAccumulatorState(false);
             }
         });
 

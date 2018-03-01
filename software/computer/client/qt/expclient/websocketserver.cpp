@@ -235,18 +235,6 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("STOP"): //Emergency Stop
                 platformControlP1->setPlatformEmergencyStop(true);
             break;
-            case Valter::str2int("LEFTACCON"): //Left Accumulator connected
-                platformControlP1->toggleLeftAccumulator(true);
-            break;
-            case Valter::str2int("LEFTACCOFF"): //Left Accumulator disconnected
-                platformControlP1->toggleLeftAccumulator(false);
-            break;
-            case Valter::str2int("RIGHTACCON"): //Right Accumulator connected
-                platformControlP1->toggleRightAccumulator(true);
-            break;
-            case Valter::str2int("RIGHTACCOFF"): //Right Accumulator disconnected
-                platformControlP1->toggleRightAccumulator(false);
-            break;
         }
 
         //RightMotorDuty
@@ -298,6 +286,18 @@ void WebSocketServer::processTextMessage(QString message)
             break;
             case Valter::str2int("HEAD24VOFF"): //Head 24V OFF
                 bodyControlP1->setHead24VOnOff(false);
+            break;
+            case Valter::str2int("LEFTACCON"): //Left Accumulator connected
+                bodyControlP1->setLeftAccumulatorOnOff(true);
+            break;
+            case Valter::str2int("LEFTACCOFF"): //Left Accumulator disconnected
+                bodyControlP1->setLeftAccumulatorOnOff(false);
+            break;
+            case Valter::str2int("RIGHTACCON"): //Right Accumulator connected
+                bodyControlP1->setRightAccumulatorOnOff(true);
+            break;
+            case Valter::str2int("RIGHTACCOFF"): //Right Accumulator disconnected
+                bodyControlP1->setRightAccumulatorOnOff(false);
             break;
             case Valter::str2int("HEADYAWENABLE"): //Head YAW ON
                 bodyControlP1->setHeadYawMotorOnOff(true);
