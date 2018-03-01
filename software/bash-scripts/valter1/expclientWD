@@ -3,7 +3,13 @@
 # Check if expclient is running
 # -x flag only match processes whose name (or command line if -f is specified) exactly match the pattern. 
 
-sleep 60
+t=1
+while [ $t -le 100 ]
+do
+    echo "startup delay, $t / 100 sec"
+    sleep 1
+    t=$(( $t + 1 ))
+done
 
 while [ 1 ]
 do
