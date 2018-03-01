@@ -131,7 +131,7 @@ void WebSocketServer::processTextMessage(QString message)
                 Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_rear_camera");
             break;
             case Valter::str2int("STARTFRONTMIC"): //Start front microphone stream
-                Valter::getInstance()->executeShellCmdLinuxAndDetach("avconv -f alsa -ac 1 -i sysdefault:CARD=Set -acodec mp2 -b:a 64k -f rtp rtp://192.168.101.102:7700 &> /dev/null");
+                Valter::getInstance()->executeShellCmdLinuxAndDetach("/home/maska/startFrontMicStream");
             break;
             case Valter::str2int("STOPFRONTMIC"): //Start front microphone stream
                 Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall avconv");
