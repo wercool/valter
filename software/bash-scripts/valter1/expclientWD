@@ -13,7 +13,7 @@ do
         echo "OK"
     else
         echo "expclient is off - REBOOT"
-        shutdown -r now
+        systemctl reboot -i
     fi
 
     sleep 5 &
