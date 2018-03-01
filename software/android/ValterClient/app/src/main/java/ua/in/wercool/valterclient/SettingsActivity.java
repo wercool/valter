@@ -27,6 +27,8 @@ public class SettingsActivity extends AppCompatActivity {
     Button stopHeadLEyeCamButton;
     Button startHeadREyeCamButton;
     Button stopHeadREyeCamButton;
+    Button startFrontMicStreamButton;
+    Button stopFrontMicStreamButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,6 +189,45 @@ public class SettingsActivity extends AppCompatActivity {
                 tcpClient.SERVER_IP = savedHost;
                 tcpClient.SERVER_PORT = 10002;
                 tcpClient.sendSingleMessageAndClose("SHELL:killall mjpg_streamer-video1\n");
+            }
+        });
+
+
+        startFrontMicStreamButton = (Button) findViewById(R.id.startFrontMicStreamButton);
+        startFrontMicStreamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().sendMessage("CTRL#STARTFRONTMIC");
+
+                TcpClient tcpClient = new TcpClient(null);
+                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+                String savedHost = settings.getString("ValterHost", "109.87.34.156");
+                if (savedHost.indexOf("192.168") > -1) {
+                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                    savedHost = "192.168.101.102";
+                }
+                tcpClient.SERVER_IP = savedHost;
+                tcpClient.SERVER_PORT = 10002;
+                tcpClient.sendSingleMessageAndClose("SHELL:cvlc -vvv rtp://192.168.101.102:7777 --sout '#standard{access=http,mux=ts,dst=:10201}' :demux=h264\n");
+            }
+        });
+
+        stopFrontMicStreamButton = (Button) findViewById(R.id.stopFrontMicStreamButton);
+        stopFrontMicStreamButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ValterWebSocketClient.getInstance().sendMessage("CTRL#STOPFRONTMIC");
+
+                TcpClient tcpClient = new TcpClient(null);
+                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+                String savedHost = settings.getString("ValterHost", "109.87.34.156");
+                if (savedHost.indexOf("192.168") > -1) {
+                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                    savedHost = "192.168.101.102";
+                }
+                tcpClient.SERVER_IP = savedHost;
+                tcpClient.SERVER_PORT = 10002;
+                tcpClient.sendSingleMessageAndClose("SHELL:killall cvlc\n");
             }
         });
 

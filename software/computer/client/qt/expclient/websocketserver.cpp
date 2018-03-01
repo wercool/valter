@@ -119,16 +119,22 @@ void WebSocketServer::processTextMessage(QString message)
         switch (Valter::str2int(cmdValue.c_str()))
         {
             case Valter::str2int("FCAMON"): //Frontal Camera ON
-            Valter::getInstance()->executeShellCmdLinuxAndDetach("/home/maska/startFrontalVideo");
+                Valter::getInstance()->executeShellCmdLinuxAndDetach("/home/maska/startFrontalVideo");
             break;
             case Valter::str2int("FCAMOFF"): //Frontal Camera OFF
-            Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_frontal_camera");
+                Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_frontal_camera");
             break;
             case Valter::str2int("RCAMON"): //Rear Camera ON
-            Valter::getInstance()->executeShellCmdLinuxAndDetach("/home/maska/startRearVideo");
+                Valter::getInstance()->executeShellCmdLinuxAndDetach("/home/maska/startRearVideo");
             break;
             case Valter::str2int("RCAMOFF"): //Rear Camera OFF
-            Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_rear_camera");
+                Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall mjpg_streamer_rear_camera");
+            break;
+            case Valter::str2int("STARTFRONTMIC"): //Start front microphone stream
+                Valter::getInstance()->executeShellCmdLinuxAndDetach("avconv -f alsa -ac 1 -i sysdefault:CARD=Set -acodec mp2 -b:a 64k -f rtp rtp://192.168.101.102:7777");
+            break;
+            case Valter::str2int("STOPFRONTMIC"): //Start front microphone stream
+                Valter::getInstance()->executeShellCmdLinuxAndDetach("sudo killall avconv");
             break;
         }
     }

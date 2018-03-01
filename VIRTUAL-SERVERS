@@ -13,16 +13,17 @@ valter2-ssh-22102       <All>       TCP         22102           22102           
 valter-ws               <All>       TCP         8888            8888            192.168.0.200
 valter2-video0-10200    <All>       TCP         10200           10200           192.168.0.200
 valter2-video1-10201    <All>       TCP         10201           10201           192.168.0.200
+valter2-sound-7777      <All>       TCP         7777            7777            192.168.0.200
 valter1-video-0         <All>       TCP         10100           10100           192.168.0.200   (frontal WebCam 046d:0821 Logitech, Inc. HD Webcam C910)
 valter1-video-1         <All>       TCP         10101           10101           192.168.0.200   (read WebCam)
 valter1-video-2         <All>       TCP         10102           10102           192.168.0.200
-webserver               <All>       TCP         80              80              192.168.0.80
 webserver-ssh           <All>       TCP         8022            8022            192.168.0.80
 webserver-3000          <All>       TCP         3000            3000            192.168.0.80
 devstation-5555         <All>       TCP         5555            5555            192.168.0.100
 valter2-cmdserver       <All>       TCP         10002           10002           192.168.0.200
 Charger Station OpenWRT <All>       TCP         22155           22              192.168.0.155
-
+webserver-80            <All>       TCP         80              8090            192.168.0.80
+webserver-443           <All>       TCP         443             8443            192.168.0.80
 
 ---------------------------------------------------------------------------------------------
 SSH connections

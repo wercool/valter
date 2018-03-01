@@ -15,7 +15,7 @@
 
     <item android:id="@+id/rearCameraItem"
         android:onClick="onRearCameraItemClick"
-        android:enabled="false"
+        android:enabled="true"
         android:title="Rear Camera"/>
 
     <item android:id="@+id/valterManualSteeringItem"
