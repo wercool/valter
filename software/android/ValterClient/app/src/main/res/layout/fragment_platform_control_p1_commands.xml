@@ -52,6 +52,58 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:text="LEFT ACCUMULATOR ON"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="0.5"
+                    android:id="@+id/leftAccumulatorOnButton"/>
+
+                <Button
+                    android:text="LEFT ACCUMULATOR OFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="0.5"
+                    android:id="@+id/leftAccumulatorOffButton"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:text="RIGHT ACCUMULATOR ON"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="0.5"
+                    android:id="@+id/rightAccumulatorOnButton"/>
+
+                <Button
+                    android:text="RIGHT ACCUMULATOR OFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="0.5"
+                    android:id="@+id/rightAccumulatorOffButton"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>

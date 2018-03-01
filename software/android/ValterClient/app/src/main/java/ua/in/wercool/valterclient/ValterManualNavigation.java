@@ -38,7 +38,7 @@ public class ValterManualNavigation extends Fragment {
     ImageButton rightDutyDecreaseButton;
     ProgressBar rightDutyIndicator;
 
-    boolean setDutyLock = false;
+    boolean setDutyLock = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +47,9 @@ public class ValterManualNavigation extends Fragment {
 
         leftDutyIndicator = (ProgressBar) rootView.findViewById(R.id.leftDutyIndicator);
         rightDutyIndicator = (ProgressBar) rootView.findViewById(R.id.rightDutyIndicator);
+
+        leftDutyIndicator.setAlpha((float)0.5);
+        rightDutyIndicator.setAlpha((float)0.5);
 
         leftForward = (Button) rootView.findViewById(R.id.leftForward);
         leftForward.setOnTouchListener(new View.OnTouchListener() {

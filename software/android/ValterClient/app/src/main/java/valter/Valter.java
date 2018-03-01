@@ -72,6 +72,20 @@ public class Valter {
         }
      }
 
+    public void setLeftAccumulatorState(boolean state) {
+        if (state)
+            sendMessage("PCP1#LEFTACCON");
+        else
+            sendMessage("PCP1#LEFTACCOFF");
+    }
+
+    public void setRightAccumulatorState(boolean state) {
+        if (state)
+            sendMessage("PCP1#RIGHTACCON");
+        else
+            sendMessage("PCP1#RIGHTACCOFF");
+    }
+
     /******************************* Platfrom Location P1 *******************************/
 
     public void setSonarLedsState(boolean state) {

@@ -235,6 +235,18 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("STOP"): //Emergency Stop
                 platformControlP1->setPlatformEmergencyStop(true);
             break;
+            case Valter::str2int("LEFTACCON"): //Left Accumulator connected
+                platformControlP1->toggleLeftAccumulator(true);
+            break;
+            case Valter::str2int("LEFTACCOFF"): //Left Accumulator disconnected
+                platformControlP1->toggleLeftAccumulator(false);
+            break;
+            case Valter::str2int("RIGHTACCON"): //Right Accumulator connected
+                platformControlP1->toggleRightAccumulator(true);
+            break;
+            case Valter::str2int("RIGHTACCOFF"): //Right Accumulator disconnected
+                platformControlP1->toggleRightAccumulator(false);
+            break;
         }
 
         //RightMotorDuty
