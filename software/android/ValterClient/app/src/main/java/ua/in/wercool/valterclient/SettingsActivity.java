@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import valter.Valter;
+
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "ValterClientPreferences";
@@ -29,6 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
     Button stopHeadREyeCamButton;
     Button startFrontMicStreamButton;
     Button stopFrontMicStreamButton;
+    Button startFrontMicStreamPlaybackButton;
+    Button stopFrontMicStreamPlaybackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,9 +231,25 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 tcpClient.SERVER_IP = savedHost;
                 tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:killall cvlc\n");
+                tcpClient.sendSingleMessageAndClose("SHELL:killall vlc\n");
             }
         });
+
+//        startFrontMicStreamPlaybackButton = (Button) findViewById(R.id.startFrontMicStreamPlaybackButton);
+//        startFrontMicStreamPlaybackButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Valter.getInstance().startFrontMicStreamPlayback();
+//            }
+//        });
+//
+//        stopFrontMicStreamPlaybackButton = (Button) findViewById(R.id.stopFrontMicStreamPlaybackButton);
+//        stopFrontMicStreamPlaybackButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Valter.getInstance().stopFrontMicStreamPlayback();
+//            }
+//        });
 
     }
 }

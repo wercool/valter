@@ -1,5 +1,14 @@
 package valter;
 
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
+
+import java.io.IOException;
+
+import ua.in.wercool.valterclient.MainActivity;
+import ua.in.wercool.valterclient.SettingsActivity;
 import ua.in.wercool.valterclient.ValterWebSocketClient;
 
 /**
@@ -13,6 +22,8 @@ public class Valter {
     //Platfrom Control P1
     private int leftMotorDuty;
     private int rightMotorDuty;
+
+    MediaPlayer mediaPlayer;
 
     //Platfrom Location P1
 
@@ -35,6 +46,45 @@ public class Valter {
     {
         ValterWebSocketClient.getInstance().sendMessage(message);
     }
+
+//    public void startFrontMicStreamPlayback()
+//    {
+//        SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+//        String savedHost = settings.getString("ValterHost", "109.87.34.156");
+//
+//        System.out.println("HEAD RIGHT CAMERA");
+//
+//        if (savedHost.indexOf("192.168") > -1) {
+//            System.out.println("FRONT MIC STREAM IS ON INTRANET");
+//            savedHost = "192.168.101.102";
+//        }
+//
+//        String frontMicStream = "http://" + savedHost + ":7777";
+//        if (mediaPlayer == null) {
+//            mediaPlayer = new MediaPlayer();
+//        }
+//        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        try {
+//            mediaPlayer.setDataSource(frontMicStream);
+//            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                @Override
+//                public void onPrepared(MediaPlayer mp) {
+//                    mp.start();
+//                }
+//            });
+//            mediaPlayer.prepareAsync();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    public void stopFrontMicStreamPlayback()
+//    {
+//        if (mediaPlayer != null) {
+//            mediaPlayer.stop();
+//            mediaPlayer = null;
+//        }
+//    }
 
     /******************************* Platfrom Control P1 *******************************/
 

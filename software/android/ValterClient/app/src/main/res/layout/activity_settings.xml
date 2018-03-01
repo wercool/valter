@@ -193,6 +193,20 @@
                     android:id="@+id/stopFrontMicStreamButton"
                     android:layout_weight="0.95" />
 
+                <!--<Button-->
+                    <!--android:text="PLAY"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/startFrontMicStreamPlaybackButton"-->
+                    <!--android:layout_weight="0.95" />-->
+
+                <!--<Button-->
+                    <!--android:text="STOP"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="80dp"-->
+                    <!--android:id="@+id/stopFrontMicStreamPlaybackButton"-->
+                    <!--android:layout_weight="0.95" />-->
+
             </LinearLayout>
 
         </LinearLayout>
