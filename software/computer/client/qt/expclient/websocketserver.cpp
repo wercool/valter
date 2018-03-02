@@ -1,5 +1,5 @@
-#include "valter.h"
 #include "websocketserver.h"
+#include "valter.h"
 
 #include "QtWebSockets/qwebsocketserver.h"
 #include "QtWebSockets/qwebsocket.h"
@@ -16,6 +16,15 @@ WebSocketServer::WebSocketServer()
    watchDogSleep = 1000;
    new std::thread(&WebSocketServer::watchDogWorker, this);
    Valter::log("WebSocketServer watchDogWorker spawned...");
+
+   platformControlP1 = PlatformControlP1::getInstance();
+   platformControlP2 = PlatformControlP2::getInstance();
+   platformLocationP1 = PlatformLocationP1::getInstance();
+   platformManipulatorAndIRBumper = PlatformManipulatorAndIRBumper::getInstance();
+   bodyControlP1 = BodyControlP1::getInstance();
+   armControlRight = ArmControlRight::getInstance();
+   armControlLeft = ArmControlLeft::getInstance();
+
 
    if (m_pWebSocketServer->listen(QHostAddress::Any, quint16(8888)))
    {
@@ -47,11 +56,6 @@ WebSocketServer::~WebSocketServer()
 
 void WebSocketServer::onNewConnection()
 {
-    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
-//    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
-    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
-
     //Stop selected modules
     platformControlP1->stopAll();
     qDebug() << "WebSocketServer::watchDogWorker platformControlP1 STOPPED";
@@ -83,11 +87,6 @@ void WebSocketServer::processTextMessage(QString message)
     std::string cmdType = message_str_values[0];
     std::string cmdValue = message_str_values[1];
     std::string cmdResponse = "OK";
-
-    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
-    PlatformLocationP1 *platformLocationP1 = PlatformLocationP1::getInstance();
-    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
 
     //Service commands
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("SRV"))
@@ -413,15 +412,7 @@ void WebSocketServer::socketDisconnected()
 {
     QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
 
-    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
-    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-//    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
-
-    //Stop selected modules
-    platformControlP1->stopAll();
-    qDebug() << "WebSocketServer::watchDogWorker platformControlP1 STOPPED";
-    bodyControlP1->stopAll();
-    qDebug() << "WebSocketServer::watchDogWorker bodyControlP1 STOPPED";
+    stopAllModules();
 
     watchDogActivated = false;
 
@@ -440,10 +431,6 @@ void WebSocketServer::onClosed()
 
 void WebSocketServer::watchDogWorker()
 {
-    PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
-    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
-    PlatformControlP2 *platformControlP2 = PlatformControlP2::getInstance();
-
     while (!platformControlP1->stopAllProcesses)
     {
         if (watchDogActivated)
@@ -455,15 +442,11 @@ void WebSocketServer::watchDogWorker()
             {
                 watchDogActivated = false;
 
+                stopAllModules();
+
                 qDeleteAll(m_clients.begin(), m_clients.end());
 
                 watchCnt = -1;
-
-                //Stop selected modules
-                platformControlP1->stopAll();
-                qDebug() << "WebSocketServer::watchDogWorker platformControlP1 STOPPED";
-                bodyControlP1->stopAll();
-                qDebug() << "WebSocketServer::watchDogWorker bodyControlP1 STOPPED";
 
                 platformControlP2->setBeepDuration(50);
                 platformControlP2->alarmBeep();
@@ -479,4 +462,14 @@ void WebSocketServer::watchDogWorker()
         this_thread::sleep_for(std::chrono::milliseconds(watchDogSleep));
     }
     qDebug() << "STOPPED: WebSocketServer::watchDogWorker";
+}
+
+void WebSocketServer::stopAllModules()
+{
+//    //Stop selected modules
+//    platformControlP1->stopAll();
+//    qDebug() << "WebSocketServer::watchDogWorker platformControlP1 STOPPED";
+//    bodyControlP1->stopAll();
+//    qDebug() << "WebSocketServer::watchDogWorker bodyControlP1 STOPPED";
+    Valter::getInstance()->stopAllModules();
 }

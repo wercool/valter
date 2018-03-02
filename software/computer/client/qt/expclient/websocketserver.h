@@ -7,6 +7,14 @@
 
 using namespace std;
 
+class PlatformControlP1;
+class PlatformControlP2;
+class PlatformLocationP1;
+class PlatformManipulatorAndIRBumper;
+class BodyControlP1;
+class ArmControlRight;
+class ArmControlLeft;
+
 class WebSocketServer: public QObject
 {
 public:
@@ -27,6 +35,15 @@ private:
     int watchDogSleep;
     std::mutex watchDog_mutex;
 
+    PlatformControlP1 *platformControlP1;
+    PlatformControlP2 *platformControlP2;
+    PlatformLocationP1 *platformLocationP1;
+    PlatformManipulatorAndIRBumper *platformManipulatorAndIRBumper;
+    BodyControlP1 *bodyControlP1;
+    ArmControlRight *armControlRight;
+    ArmControlLeft *armControlLeft;
+
+    void stopAllModules();
 
 private Q_SLOTS:
     void onNewConnection();
