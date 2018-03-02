@@ -462,16 +462,19 @@ void WebSocketServer::watchDogWorker()
 
 void WebSocketServer::stopAllModules()
 {
-    //Stop selected modules
 
-//    platformControlP1->stopAll();
-    platformControlP1->setPlatformEmergencyStop(true);
-    platformControlP1->setTurretEmergencyStop(true);
+    Valter::getInstance()->stopAllModules();
 
-    platformControlP2->stopAll();
-    platformLocationP1->stopAll();
-    platformManipulatorAndIRBumper->stopAll();
-    bodyControlP1->stopAll();
-    armControlRight->stopAll();
-    armControlLeft->stopAll();
+//    //Stop selected modules
+
+////    platformControlP1->stopAll();
+//    platformControlP1->setPlatformEmergencyStop(true);
+//    platformControlP1->setTurretEmergencyStop(true);
+
+//    platformControlP2->stopAll();
+//    platformLocationP1->stopAll();
+//    platformManipulatorAndIRBumper->stopAll();
+//    bodyControlP1->stopAll();
+//    armControlRight->stopAll();
+//    armControlLeft->stopAll();
 }
