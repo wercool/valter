@@ -52,8 +52,6 @@ public class Valter {
 //        SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
 //        String savedHost = settings.getString("ValterHost", "109.87.34.156");
 //
-//        System.out.println("HEAD RIGHT CAMERA");
-//
 //        if (savedHost.indexOf("192.168") > -1) {
 //            System.out.println("FRONT MIC STREAM IS ON INTRANET");
 //            savedHost = "192.168.101.102";
