@@ -8,6 +8,7 @@ do
     t=$(( $t + 1 ))
 done
 
+f=1
 while [ 1 ]; do
    ping -c 1 192.168.101.1
 
@@ -15,9 +16,13 @@ while [ 1 ]; do
     then
        echo "wlan0 active"
     else
-       echo "wlan0 failed"
-       echo "stop and reboot now!"
-       reboot
+       echo "wlan0 failed $f times / 10"
+       f=$(( $f + 1 ))
+       if [ $f -eq 11 ]
+       then
+           echo "stop and reboot now!"
+           reboot
+       fi
     fi
 
     sleep 5
