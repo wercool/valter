@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Check if expclient is running
+# -x flag only match processes whose name (or command line if -f is specified) exactly match the pattern. 
+
+t=1
+while [ $t -le 150 ]
+do
+    echo "startup delay, $t / 100 sec"
+    sleep 1
+    t=$(( $t + 1 ))
+done
+
+if pgrep -x "expclient" > /dev/null
+then
+    echo "expclient OK"
+else
+    echo "expclient is off - REBOOT"
+    shutdown -r now
+fi
