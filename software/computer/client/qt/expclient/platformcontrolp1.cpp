@@ -82,7 +82,7 @@ void PlatformControlP1::setModuleInitialState()
 {
     setPlatformEmergencyStop(true);
     setTurretEmergencyStop(true);
-    toggle5VSource(true);
+//    toggle5VSource(true);
 }
 
 void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()

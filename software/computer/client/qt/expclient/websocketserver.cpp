@@ -253,12 +253,7 @@ void WebSocketServer::processTextMessage(QString message)
                 platformControlP1->setRightMotorActivated(false);
             break;
             case Valter::str2int("STOP"): //Emergency Stop
-                platformControlP1->setPlatformEmergencyStop(true);
-                //Stop selected modules
-                platformControlP1->stopAll();
-                qDebug() << "WebSocketServer::watchDogWorker platformControlP1 STOPPED";
-                bodyControlP1->stopAll();
-                qDebug() << "WebSocketServer::watchDogWorker bodyControlP1 STOPPED";
+                stopAllModules();
             break;
         }
 
