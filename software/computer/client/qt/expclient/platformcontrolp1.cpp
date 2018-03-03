@@ -82,7 +82,7 @@ void PlatformControlP1::setModuleInitialState()
 {
     setPlatformEmergencyStop(true);
     setTurretEmergencyStop(true);
-//    toggle5VSource(true);
+    toggle5VSource(true);
 }
 
 void PlatformControlP1::spawnProcessMessagesQueueWorkerThread()
@@ -639,8 +639,6 @@ void PlatformControlP1::toggle5VSource(bool state)
     if (state)
     {
         sendCommand("DCDC5VENABLEON");
-//        PlatformControlP2::getInstance()->setModuleInitialState();
-//        PlatformLocationP1::getInstance()->setModuleInitialState();
     }
     else
     {
