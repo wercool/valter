@@ -8,5 +8,6 @@ then
     echo "expclient OK"
 else
     echo "expclient is off - REBOOT"
-    shutdown -r now
+    #shutdown -r now
+    systemctl reboot -i
 fi
