@@ -263,6 +263,9 @@ void WebSocketServer::processTextMessage(QString message)
             vector<string>cmdValue_str_values = Valter::split(cmdValue , '=');
             std::string cmdValue = cmdValue_str_values[1];
             int value = atoi(cmdValue.c_str());
+            if (value <= 0 || value > 40) {
+                value = 20;
+            }
             platformControlP1->setRightMotorDutyMax(value);
         }
         //LeftMotorDuty
@@ -271,6 +274,9 @@ void WebSocketServer::processTextMessage(QString message)
             vector<string>cmdValue_str_values = Valter::split(cmdValue , '=');
             std::string cmdValue = cmdValue_str_values[1];
             int value = atoi(cmdValue.c_str());
+            if (value <= 0 || value > 40) {
+                value = 20;
+            }
             platformControlP1->setLeftMotorDutyMax(value);
         }
         return;
