@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import ua.in.wercool.valterclient.MainActivity;
 import ua.in.wercool.valterclient.SettingsActivity;
+import ua.in.wercool.valterclient.TcpClient;
 import ua.in.wercool.valterclient.ValterWebSocketClient;
 
 /**
@@ -83,6 +84,97 @@ public class Valter {
 //            mediaPlayer = null;
 //        }
 //    }
+
+    /******************************* Misc commands *******************************/
+    public void setFrontalCameraState(boolean state) {
+        if (state) {
+            ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMON");
+        } else {
+            ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMOFF");
+        }
+    }
+
+    public void setHeadCameraRState(boolean state) {
+        if (state) {
+            TcpClient tcpClient = new TcpClient(null);
+            SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+            String savedHost = settings.getString("ValterHost", "109.87.34.156");
+            if (savedHost.indexOf("192.168") > -1) {
+                System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                savedHost = "192.168.101.102";
+            }
+            tcpClient.SERVER_IP = savedHost;
+            tcpClient.SERVER_PORT = 10002;
+            tcpClient.sendSingleMessageAndClose("SHELL:/home/maska/startMJPGVideo0\n");
+        } else {
+            TcpClient tcpClient = new TcpClient(null);
+            SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+            String savedHost = settings.getString("ValterHost", "109.87.34.156");
+            if (savedHost.indexOf("192.168") > -1) {
+                System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                savedHost = "192.168.101.102";
+            }
+            tcpClient.SERVER_IP = savedHost;
+            tcpClient.SERVER_PORT = 10002;
+            tcpClient.sendSingleMessageAndClose("SHELL:killall mjpg_streamer-video0\n");
+        }
+    }
+
+    public void setHeadCameraLState(boolean state) {
+        if (state) {
+            TcpClient tcpClient = new TcpClient(null);
+            SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+            String savedHost = settings.getString("ValterHost", "109.87.34.156");
+            if (savedHost.indexOf("192.168") > -1) {
+                System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                savedHost = "192.168.101.102";
+            }
+            tcpClient.SERVER_IP = savedHost;
+            tcpClient.SERVER_PORT = 10002;
+            tcpClient.sendSingleMessageAndClose("SHELL:/home/maska/startMJPGVideo1\n");
+        } else {
+            TcpClient tcpClient = new TcpClient(null);
+            SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+            String savedHost = settings.getString("ValterHost", "109.87.34.156");
+            if (savedHost.indexOf("192.168") > -1) {
+                System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                savedHost = "192.168.101.102";
+            }
+            tcpClient.SERVER_IP = savedHost;
+            tcpClient.SERVER_PORT = 10002;
+            tcpClient.sendSingleMessageAndClose("SHELL:killall mjpg_streamer-video1\n");
+        }
+    }
+
+    public void setFrontMicStreamState(boolean state) {
+        if (state) {
+            ValterWebSocketClient.getInstance().sendMessage("CTRL#STARTFRONTMIC");
+
+            TcpClient tcpClient = new TcpClient(null);
+            SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+            String savedHost = settings.getString("ValterHost", "109.87.34.156");
+            if (savedHost.indexOf("192.168") > -1) {
+                System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                savedHost = "192.168.101.102";
+            }
+            tcpClient.SERVER_IP = savedHost;
+            tcpClient.SERVER_PORT = 10002;
+            tcpClient.sendSingleMessageAndClose("SHELL:su - maska -c \"cvlc -vvv rtp://192.168.101.102:7700 --sout '#standard{access=http,mux=ts,dst=:7777}' :demux=h264\"\n");
+        } else {
+            ValterWebSocketClient.getInstance().sendMessage("CTRL#STOPFRONTMIC");
+
+            TcpClient tcpClient = new TcpClient(null);
+            SharedPreferences settings = MainActivity.getContext().getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
+            String savedHost = settings.getString("ValterHost", "109.87.34.156");
+            if (savedHost.indexOf("192.168") > -1) {
+                System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
+                savedHost = "192.168.101.102";
+            }
+            tcpClient.SERVER_IP = savedHost;
+            tcpClient.SERVER_PORT = 10002;
+            tcpClient.sendSingleMessageAndClose("SHELL:killall vlc\n");
+        }
+    }
 
     /******************************* Platfrom Control P1 *******************************/
 
@@ -207,5 +299,25 @@ public class Valter {
         sendMessage("BCP1#HEADPITCHDONE");
 
         ValterWebSocketClient.getInstance().setWatchDogSleep(1000);
+    }
+
+    /******************************* Platfrom Manipulator and IR Bumper *******************************/
+    public void pmibMoveLink2Down() {
+        sendMessage("PMIB#L2DOWN");
+    }
+    public void pmibMoveLink2Up() {
+        sendMessage("PMIB#L2UP");
+    }
+    public void pmibLink2Stop() {
+        sendMessage("PMIB#L2STOP");
+    }
+    public void pmibGripperCCW() {
+        sendMessage("PMIB#GRIPCCW");
+    }
+    public void pmibGripperCW() {
+        sendMessage("PMIB#GRIPCW");
+    }
+    public void pmibGripperStop() {
+        sendMessage("PMIB#GRIPSTOP");
     }
 }

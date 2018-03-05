@@ -18,6 +18,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
 
     ValterManualNavigation valterManualNavigationFragment;
     HeadYawPitchControlFragment headYawPitchControlFragment;
+    PlatformManipulatorAndIRBumperControlFragment platformManipulatorAndIRBumperControlFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +158,12 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         return true;
     }
 
+
+    public boolean valterPMIBItemClick(MenuItem item) {
+        platformManipulatorAndIRBumperControlFragment = new PlatformManipulatorAndIRBumperControlFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, platformManipulatorAndIRBumperControlFragment).commit();
+        return true;
+    }
 
     public boolean valterCommandsItemClick(MenuItem item)
     {

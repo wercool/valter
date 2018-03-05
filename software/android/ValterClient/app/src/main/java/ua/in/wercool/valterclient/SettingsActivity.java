@@ -92,6 +92,10 @@ public class SettingsActivity extends AppCompatActivity {
         disconnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Valter.getInstance().setFrontalCameraState(false);
+                Valter.getInstance().setHeadCameraRState(false);
+                Valter.getInstance().setHeadCameraLState(false);
+                Valter.getInstance().setFrontMicStreamState(false);
                 ValterWebSocketClient.getInstance().disconnect();
             }
         });
@@ -100,7 +104,8 @@ public class SettingsActivity extends AppCompatActivity {
         startFrontalCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMON");
+//                ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMON");
+                Valter.getInstance().setFrontalCameraState(true);
             }
         });
 
@@ -108,7 +113,8 @@ public class SettingsActivity extends AppCompatActivity {
         stopFrontalCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMOFF");
+//                ValterWebSocketClient.getInstance().sendMessage("CTRL#FCAMOFF");
+                Valter.getInstance().setFrontalCameraState(false);
             }
         });
 
@@ -116,7 +122,7 @@ public class SettingsActivity extends AppCompatActivity {
         startRearCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().sendMessage("CTRL#RCAMON");
+//                ValterWebSocketClient.getInstance().sendMessage("CTRL#RCAMON");
             }
         });
 
@@ -124,7 +130,7 @@ public class SettingsActivity extends AppCompatActivity {
         stopRearCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().sendMessage("CTRL#RCAMOFF");
+//                ValterWebSocketClient.getInstance().sendMessage("CTRL#RCAMOFF");
             }
         });
 
@@ -132,16 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
         startHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TcpClient tcpClient = new TcpClient(null);
-                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
-                String savedHost = settings.getString("ValterHost", "109.87.34.156");
-                if (savedHost.indexOf("192.168") > -1) {
-                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                    savedHost = "192.168.101.102";
-                }
-                tcpClient.SERVER_IP = savedHost;
-                tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:/home/maska/startMJPGVideo0\n");
+                Valter.getInstance().setHeadCameraRState(true);
             }
         });
 
@@ -149,16 +146,7 @@ public class SettingsActivity extends AppCompatActivity {
         stopHeadREyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TcpClient tcpClient = new TcpClient(null);
-                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
-                String savedHost = settings.getString("ValterHost", "109.87.34.156");
-                if (savedHost.indexOf("192.168") > -1) {
-                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                    savedHost = "192.168.101.102";
-                }
-                tcpClient.SERVER_IP = savedHost;
-                tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:killall mjpg_streamer-video0\n");
+                Valter.getInstance().setHeadCameraRState(false);
             }
         });
 
@@ -166,16 +154,7 @@ public class SettingsActivity extends AppCompatActivity {
         startHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TcpClient tcpClient = new TcpClient(null);
-                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
-                String savedHost = settings.getString("ValterHost", "109.87.34.156");
-                if (savedHost.indexOf("192.168") > -1) {
-                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                    savedHost = "192.168.101.102";
-                }
-                tcpClient.SERVER_IP = savedHost;
-                tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:/home/maska/startMJPGVideo1\n");
+                Valter.getInstance().setHeadCameraLState(true);
             }
         });
 
@@ -183,16 +162,7 @@ public class SettingsActivity extends AppCompatActivity {
         stopHeadLEyeCamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TcpClient tcpClient = new TcpClient(null);
-                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
-                String savedHost = settings.getString("ValterHost", "109.87.34.156");
-                if (savedHost.indexOf("192.168") > -1) {
-                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                    savedHost = "192.168.101.102";
-                }
-                tcpClient.SERVER_IP = savedHost;
-                tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:killall mjpg_streamer-video1\n");
+                Valter.getInstance().setHeadCameraLState(false);
             }
         });
 
@@ -201,18 +171,7 @@ public class SettingsActivity extends AppCompatActivity {
         startFrontMicStreamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().sendMessage("CTRL#STARTFRONTMIC");
-
-                TcpClient tcpClient = new TcpClient(null);
-                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
-                String savedHost = settings.getString("ValterHost", "109.87.34.156");
-                if (savedHost.indexOf("192.168") > -1) {
-                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                    savedHost = "192.168.101.102";
-                }
-                tcpClient.SERVER_IP = savedHost;
-                tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:su - maska -c \"cvlc -vvv rtp://192.168.101.102:7700 --sout '#standard{access=http,mux=ts,dst=:7777}' :demux=h264\"\n");
+                Valter.getInstance().setFrontMicStreamState(true);
             }
         });
 
@@ -220,20 +179,10 @@ public class SettingsActivity extends AppCompatActivity {
         stopFrontMicStreamButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ValterWebSocketClient.getInstance().sendMessage("CTRL#STOPFRONTMIC");
-
-                TcpClient tcpClient = new TcpClient(null);
-                SharedPreferences settings = getSharedPreferences(SettingsActivity.PREFS_NAME, 0);
-                String savedHost = settings.getString("ValterHost", "109.87.34.156");
-                if (savedHost.indexOf("192.168") > -1) {
-                    System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                    savedHost = "192.168.101.102";
-                }
-                tcpClient.SERVER_IP = savedHost;
-                tcpClient.SERVER_PORT = 10002;
-                tcpClient.sendSingleMessageAndClose("SHELL:killall vlc\n");
+                Valter.getInstance().setFrontMicStreamState(false);
             }
         });
+
 
 //        startFrontMicStreamPlaybackButton = (Button) findViewById(R.id.startFrontMicStreamPlaybackButton);
 //        startFrontMicStreamPlaybackButton.setOnClickListener(new View.OnClickListener() {

@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import javax.microedition.khronos.opengles.GL10;
+
 /**
  * Created by maska on 1/6/18.
  */
@@ -25,7 +27,7 @@ public class Valter3DActivity extends Activity {
 
         ActivityManager am = (ActivityManager ) getSystemService(Context.ACTIVITY_SERVICE);
         ConfigurationInfo info = am.getDeviceConfigurationInfo();
-        boolean supportES2 = (info.reqGlEsVersion >= 0x200000);
+        boolean supportES2 = (info.reqGlEsVersion >= 0x00020000);
         if (supportES2 ) {
             valter3DGLRenderer = new Valter3DGLRenderer();
 

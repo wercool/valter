@@ -1,0 +1,87 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ua.in.wercool.valterclient.PlatformManipulatorAndIRBumperControlFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_weight="1.0"
+        android:background="#ffffff"
+        android:minWidth="400pt"
+        android:alpha="0.75">
+
+    <TextView
+        android:text="Link 2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textSize="12pt"
+        android:layout_weight="0.95" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/up_arrow"
+            android:layout_weight="0.5"
+            android:minWidth="175dp"
+            android:minHeight="80dp"
+            android:id="@+id/link2UpButton" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/down_arrow"
+            android:layout_weight="0.5"
+            android:minWidth="175dp"
+            android:minHeight="80dp"
+            android:id="@+id/link2DownButton" />
+
+    </LinearLayout>
+
+    <TextView
+        android:text="Gripper Rotate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:textSize="12pt"
+        android:layout_weight="0.95" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yaw_l"
+            android:layout_weight="0.5"
+            android:minWidth="175dp"
+            android:minHeight="80dp"
+            android:id="@+id/gripperCCWButton" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/yaw_r"
+            android:layout_weight="0.5"
+            android:minWidth="175dp"
+            android:minHeight="80dp"
+            android:id="@+id/gripperCWButton" />
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

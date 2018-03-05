@@ -84,34 +84,6 @@
             </LinearLayout>
 
             <TextView
-                android:text="Rear Body Camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView3"
-                android:layout_weight="0.95" />
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:text="START"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:id="@+id/startRearCamButton"
-                    android:layout_weight="0.95" />
-
-                <Button
-                    android:text="STOP"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:id="@+id/stopRearCamButton"
-                    android:layout_weight="0.95" />
-
-            </LinearLayout>
-
-            <TextView
                 android:text="Head Eye (Right)"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -163,6 +135,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
                     android:id="@+id/stopHeadLEyeCamButton"
+                    android:layout_weight="0.95" />
+
+            </LinearLayout>
+
+            <TextView
+                android:text="Rear Body Camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView3"
+                android:enabled="false"
+                android:layout_weight="0.95" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:enabled="false"
+                    android:text="START"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:id="@+id/startRearCamButton"
+                    android:layout_weight="0.95" />
+
+                <Button
+                    android:enabled="false"
+                    android:text="STOP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
+                    android:id="@+id/stopRearCamButton"
                     android:layout_weight="0.95" />
 
             </LinearLayout>
