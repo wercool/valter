@@ -382,6 +382,52 @@ void WebSocketServer::processTextMessage(QString message)
         }
     }
 
+    /**********************************PLATFORM-MANIPULATOR-AND-IR-BUMPER***************************************************/
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("PMIB"))
+    {
+        switch (Valter::str2int(cmdValue.c_str()))
+        {
+            case Valter::str2int("DC24ON"): //24V DC power ON
+                platformManipulatorAndIRBumper->setPower24VOnOff(true);
+            break;
+            case Valter::str2int("DC24OFF"): //24V DC power OFF
+                platformManipulatorAndIRBumper->setPower24VOnOff(false);
+            break;
+            case Valter::str2int("GRIPCCW"): //Rotate gripper CCW
+                platformManipulatorAndIRBumper->manGripperRotateCCW();
+            break;
+            case Valter::str2int("GRIPCW"): //Rotate gripper CW
+                platformManipulatorAndIRBumper->manGripperRotateCW();
+            break;
+            case Valter::str2int("GRIPSTOP"): //Rotate gripper STOP
+                platformManipulatorAndIRBumper->manGripperRotateStop();
+            break;
+            case Valter::str2int("L2DOWN"): //Link2 descent movement
+                if (platformManipulatorAndIRBumper->prepareManLink2Movement())
+                {
+                    //descent
+                    if (platformManipulatorAndIRBumper->setLink2MovementDirection(false))
+                    {
+                        platformManipulatorAndIRBumper->setLink2MotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("L2UP"): //Link2 descent movement
+                if (platformManipulatorAndIRBumper->prepareManLink2Movement())
+                {
+                    //ascent
+                    if (platformManipulatorAndIRBumper->setLink2MovementDirection(true))
+                    {
+                        platformManipulatorAndIRBumper->setLink2MotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("L2STOP"):
+                platformManipulatorAndIRBumper->setLink2MotorActivated(false);
+            break;
+        }
+    }
+
     if (pClient)
     {
         pClient->sendTextMessage(cmdResponse.c_str());
