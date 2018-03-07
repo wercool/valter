@@ -27,9 +27,17 @@
         android:onClick="valterHeadYawPitchItemClick"
         android:title="Valter Head Yaw &amp; Pitch"/>
 
+    <item android:id="@+id/valterACRItem"
+        android:onClick="valterACRItemClick"
+        android:title="ARM CONTROL RIGHT"/>
+
+    <item android:id="@+id/valterACLItem"
+        android:onClick="valterACLItemClick"
+        android:title="ARM CONTROL LEFT"/>
+
     <item android:id="@+id/valterPMIBItem"
         android:onClick="valterPMIBItemClick"
-        android:title="Platform Manipulator And IR Bumper"/>
+        android:title="PLATFORM MANIPULATOR AND IR BUMPER"/>
 
     <item android:id="@+id/valterCommandsItem"
         android:onClick="valterCommandsItemClick"

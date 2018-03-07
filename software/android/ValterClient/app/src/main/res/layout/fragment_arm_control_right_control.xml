@@ -1,0 +1,97 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ua.in.wercool.valterclient.ArmControlRightControlFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_weight="1.0"
+        android:background="#ffffff"
+        android:minWidth="400pt"
+        android:alpha="0.75">
+
+        <TextView
+            android:text="RIGHT ARM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            android:textSize="14pt"
+            android:layout_weight="0.95" />
+
+        <TextView
+            android:text="Forearm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3"
+            android:textSize="12pt"
+            android:layout_weight="0.95" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/up_arrow"
+                android:layout_weight="0.5"
+                android:minWidth="175dp"
+                android:minHeight="80dp"
+                android:id="@+id/forearmUpButton" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/down_arrow"
+                android:layout_weight="0.5"
+                android:minWidth="175dp"
+                android:minHeight="80dp"
+                android:id="@+id/forearmDownButton" />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:text="Arm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView4"
+            android:textSize="12pt"
+            android:layout_weight="0.95" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/up_arrow"
+                android:layout_weight="0.5"
+                android:minWidth="175dp"
+                android:minHeight="80dp"
+                android:id="@+id/armUpButton" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/down_arrow"
+                android:layout_weight="0.5"
+                android:minWidth="175dp"
+                android:minHeight="80dp"
+                android:id="@+id/armDownButton" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

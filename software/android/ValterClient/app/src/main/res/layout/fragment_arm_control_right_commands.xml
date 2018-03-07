@@ -1,0 +1,56 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="ua.in.wercool.valterclient.ArmControlRightCommands">
+
+    <TextView
+        android:text="ARM CONTROL RIGHT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView6"
+        android:textAlignment="center"
+        android:textStyle="normal|bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView1"
+        android:layout_marginLeft="0.5dp"
+        android:layout_marginRight="0.5dp"
+        android:layout_marginBottom="0.5dp"
+        android:layout_marginTop="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:text="STOP ALL"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:background="#ff0000"
+                    android:textColor="#ffffff"
+                    android:id="@+id/stopAllButton"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

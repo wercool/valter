@@ -87,7 +87,7 @@ public class ValterWebSocketClient {
                 callerActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(callerActivity, "Valter WebSocket CONNECTED", Toast.LENGTH_LONG).show();
+                        Toast.makeText(callerActivity, "Valter WebSocket CONNECTED", Toast.LENGTH_SHORT).show();
                     }
                 });
                 mWebSocketClient.send("SRV#CLIENT READY");
@@ -118,7 +118,7 @@ public class ValterWebSocketClient {
                 callerActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(callerActivity, "Valter WebSocket Closed", Toast.LENGTH_LONG).show();
+                        Toast.makeText(callerActivity, "Valter WebSocket Closed", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -130,7 +130,7 @@ public class ValterWebSocketClient {
                 callerActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(callerActivity, e.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(callerActivity, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -177,6 +177,7 @@ public class ValterWebSocketClient {
                             Log.i("WatchDogRunnable", String.format("SRV#WDIN:%d", Calendar.getInstance().get(Calendar.SECOND)));
                         }
                     }
+
 
                     Thread.sleep(watchDogSleep);
                 } catch (InterruptedException e) {

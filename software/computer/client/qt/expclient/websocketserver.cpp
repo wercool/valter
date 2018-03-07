@@ -64,7 +64,6 @@ void WebSocketServer::onNewConnection()
     QWebSocket *pSocket = m_pWebSocketServer->nextPendingConnection();
 
     connect(pSocket, &QWebSocket::textMessageReceived, this, &WebSocketServer::processTextMessage);
-//    connect(pSocket, &QWebSocket::binaryMessageReceived, this, &WebSocketServer::processBinaryMessage);
     connect(pSocket, &QWebSocket::disconnected, this, &WebSocketServer::socketDisconnected);
 
     qDebug() << "socketConnected:" << pSocket;
@@ -433,23 +432,25 @@ void WebSocketServer::processTextMessage(QString message)
             break;
         }
     }
+    /**********************************ARM-CONTROL-RIGHT***************************************************/
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("ACR"))
+    {
+
+    }
+
+    /**********************************ARM-CONTROL-LEFT***************************************************/
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("ACL"))
+    {
+
+    }
+
+    //armControlLeft->stopAllWatchers();
 
     if (pClient)
     {
         pClient->sendTextMessage(cmdResponse.c_str());
     }
 }
-
-//void WebSocketServer::processBinaryMessage(QByteArray message)
-//{
-//    QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
-
-//    qDebug() << "Binary Message received:" << message;
-//    if (pClient)
-//    {
-//        pClient->sendBinaryMessage(message);
-//    }
-//}
 
 void WebSocketServer::socketDisconnected()
 {
@@ -487,8 +488,6 @@ void WebSocketServer::watchDogWorker()
 
                 stopAllModules();
 
-                qDeleteAll(m_clients.begin(), m_clients.end());
-
                 watchCnt = -1;
 
                 platformControlP2->setBeepDuration(50);
@@ -509,6 +508,8 @@ void WebSocketServer::watchDogWorker()
 
 void WebSocketServer::stopAllModules()
 {
+
+    qDebug() << "WebSocketServer::stopAllModules()";
 
     Valter::getInstance()->stopAllModules();
 

@@ -92,9 +92,9 @@ public class SettingsActivity extends AppCompatActivity {
         disconnectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Valter.getInstance().setFrontalCameraState(false);
                 Valter.getInstance().setHeadCameraRState(false);
                 Valter.getInstance().setHeadCameraLState(false);
+                Valter.getInstance().setFrontalCameraState(false);
                 Valter.getInstance().setFrontMicStreamState(false);
                 ValterWebSocketClient.getInstance().disconnect();
             }

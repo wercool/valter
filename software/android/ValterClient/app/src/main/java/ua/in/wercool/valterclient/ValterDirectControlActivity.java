@@ -1,6 +1,5 @@
 package ua.in.wercool.valterclient;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
 
 public class ValterDirectControlActivity extends AppCompatActivity {
@@ -19,6 +17,8 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     ValterManualNavigation valterManualNavigationFragment;
     HeadYawPitchControlFragment headYawPitchControlFragment;
     PlatformManipulatorAndIRBumperControlFragment platformManipulatorAndIRBumperControlFragment;
+    ArmControlRightControlFragment armControlRightControlFragment;
+    ArmControlLeftControlFragment armControlLeftControlFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +158,17 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         return true;
     }
 
+    public boolean valterACRItemClick(MenuItem item) {
+        armControlRightControlFragment = new ArmControlRightControlFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, armControlRightControlFragment).commit();
+        return true;
+    }
+
+    public boolean valterACLItemClick(MenuItem item) {
+        armControlLeftControlFragment = new ArmControlLeftControlFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, armControlLeftControlFragment).commit();
+        return true;
+    }
 
     public boolean valterPMIBItemClick(MenuItem item) {
         platformManipulatorAndIRBumperControlFragment = new PlatformManipulatorAndIRBumperControlFragment();

@@ -40,30 +40,38 @@ public class TcpClient {
     }
 
     public void sendSingleMessageAndClose(final String message) {
-        //here you must put your computer's IP address.
-        InetAddress serverAddr = null;
-        try {
-            serverAddr = InetAddress.getByName(SERVER_IP);
 
-            Log.e("TCP Client", "C: Connecting...");
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                //here you must put your computer's IP address.
+                InetAddress serverAddr = null;
+                try {
+                    serverAddr = InetAddress.getByName(SERVER_IP);
 
-            //create a socket to make the connection with the server
-            try {
-                Socket socket = new Socket(serverAddr, SERVER_PORT);
+                    Log.e("TCP Client", "C: Connecting...");
 
-                mBufferOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-                mBufferOut.println(message + "\r\n");
-                mBufferOut.flush();
+                    //create a socket to make the connection with the server
+                    try {
+                        Socket socket = new Socket(serverAddr, SERVER_PORT);
 
-                socket.close();
+                        mBufferOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+                        mBufferOut.println(message + "\r\n");
+                        mBufferOut.flush();
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                        socket.close();
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
             }
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     /**

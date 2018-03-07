@@ -119,13 +119,19 @@ public class ValterCommandsActivity extends AppCompatActivity {
                 case 4:
                     fragment = new BodyControlP1Commands();
                 break;
+                case 5:
+                    fragment = new ArmControlRightCommands();
+                break;
+                case 6:
+                    fragment = new ArmControlLeftCommands();
+                break;
             }
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 5;
+            return 7;
         }
 
         @Override
@@ -141,6 +147,10 @@ public class ValterCommandsActivity extends AppCompatActivity {
                     return "PLATFORM-MANIPULATOR-AND-IR-BUMPER";
                 case 4:
                     return "BODY-CONTROL-P1";
+                case 5:
+                    return "ARM-CONTROL-RIGHT";
+                case 6:
+                    return "ARM-CONTROL-LEFT";
             }
             return null;
         }
