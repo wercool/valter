@@ -25,7 +25,7 @@
 
     <item android:id="@+id/valterHeadYawPitchItem"
         android:onClick="valterHeadYawPitchItemClick"
-        android:title="Valter Head Yaw &amp; Pitch"/>
+        android:title="Head Yaw &amp; Pitch"/>
 
     <item android:id="@+id/valterACRItem"
         android:onClick="valterACRItemClick"

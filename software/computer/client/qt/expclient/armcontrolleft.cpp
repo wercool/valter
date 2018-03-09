@@ -80,6 +80,11 @@ void ArmControlLeft::stopAll()
 {
     if (this->controlDeviceIsSet)
     {
+        setForearmRollMotorActivated(false);
+        setForearmRollMotorOnOff(false);
+        setLeftForearmMotorActivated(false);
+        setLeftArmMotorActivated(false);
+        setLeftLimbMotorActivated(false);
         Valter::log(Valter::format_string("STOP ALL sent to %s", ArmControlLeft::controlDeviceId.c_str()));
     }
 }

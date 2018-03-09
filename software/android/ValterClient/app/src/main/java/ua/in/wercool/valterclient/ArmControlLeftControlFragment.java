@@ -12,6 +12,12 @@ public class ArmControlLeftControlFragment extends Fragment {
 
     ImageButton forearmUpButton;
     ImageButton forearmDownButton;
+    ImageButton armUpButton;
+    ImageButton armDownButton;
+    ImageButton limbUpButton;
+    ImageButton limbDownButton;
+    ImageButton forearmRollCCWButton;
+    ImageButton forearmRollCWButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {

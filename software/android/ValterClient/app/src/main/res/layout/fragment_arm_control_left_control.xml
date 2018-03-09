@@ -4,94 +4,169 @@
     android:layout_height="match_parent"
     tools:context="ua.in.wercool.valterclient.ArmControlLeftControlFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:text="LEFT ARM"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:weightSum="1"
-        android:layout_weight="1.0"
-        android:background="#ffffff"
-        android:minWidth="400pt"
-        android:alpha="0.75">
+        android:id="@+id/textView5"
+        android:textSize="14pt"
+        android:textColor="#ffffff"
+        android:layout_weight="0.95" />
 
-        <TextView
-            android:text="LEFT ARM"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView5"
-            android:textSize="14pt"
-            android:layout_weight="0.95" />
-
-        <TextView
-            android:text="Forearm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
-            android:textSize="12pt"
-            android:layout_weight="0.95" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
+            android:orientation="vertical"
+            android:background="#ffffff"
+            android:minWidth="400pt"
+            android:alpha="0.75">
 
-            <ImageButton
+            <TextView
+                android:text="Forearm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/up_arrow"
-                android:layout_weight="0.5"
-                android:minWidth="175dp"
-                android:minHeight="80dp"
-                android:id="@+id/forearmUpButton" />
+                android:id="@+id/textView3"
+                android:textSize="12pt"
+                android:layout_weight="0.95" />
 
-            <ImageButton
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/up_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/forearmUpButton" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/down_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/forearmDownButton" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:text="Arm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/down_arrow"
-                android:layout_weight="0.5"
-                android:minWidth="175dp"
-                android:minHeight="80dp"
-                android:id="@+id/forearmDownButton" />
+                android:id="@+id/textView4"
+                android:textSize="12pt"
+                android:layout_weight="0.95" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/up_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/armUpButton" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/down_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/armDownButton" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:text="Limb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView6"
+                android:textSize="12pt"
+                android:layout_weight="0.95" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/up_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/limbUpButton" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/down_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/limbDownButton" />
+
+            </LinearLayout>
+
+            <TextView
+                android:text="Forearm Roll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView7"
+                android:textSize="12pt"
+                android:layout_weight="0.95" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/yaw_l"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:id="@+id/forearmRollCCWButton" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/yaw_r"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:id="@+id/forearmRollCWButton" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
-
-        <TextView
-            android:text="Arm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            android:textSize="12pt"
-            android:layout_weight="0.95" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/up_arrow"
-                android:layout_weight="0.5"
-                android:minWidth="175dp"
-                android:minHeight="80dp"
-                android:id="@+id/armUpButton" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/down_arrow"
-                android:layout_weight="0.5"
-                android:minWidth="175dp"
-                android:minHeight="80dp"
-                android:id="@+id/armDownButton" />
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

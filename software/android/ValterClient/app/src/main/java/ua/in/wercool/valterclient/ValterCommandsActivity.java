@@ -1,7 +1,9 @@
 package ua.in.wercool.valterclient;
 
+import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -19,23 +21,16 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import valter.Valter;
+
 public class ValterCommandsActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    public static String PREFS_NAME = "ValterCommandsActivity";
 
     public static boolean dialogMode = false;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -54,11 +49,35 @@ public class ValterCommandsActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                SharedPreferences settings = getSharedPreferences(ValterCommandsActivity.PREFS_NAME, 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt("lastSelectedCommandTab", position);
+                editor.commit();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         if (ValterCommandsActivity.dialogMode) {
             getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
 
+        SharedPreferences settings = getSharedPreferences(ValterCommandsActivity.PREFS_NAME, 0);
+        int lastSelectedCommandTab = settings.getInt("lastSelectedCommandTab", 0);
+        Log.i("ValterCommands", String.format("Last Selected Tab: %d", lastSelectedCommandTab));
+
+        mViewPager.setCurrentItem(lastSelectedCommandTab);
     }
 
 
@@ -84,10 +103,7 @@ public class ValterCommandsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -126,6 +142,7 @@ public class ValterCommandsActivity extends AppCompatActivity {
                     fragment = new ArmControlLeftCommands();
                 break;
             }
+
             return fragment;
         }
 

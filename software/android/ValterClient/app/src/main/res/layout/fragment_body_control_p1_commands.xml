@@ -131,6 +131,12 @@ tools:context="ua.in.wercool.valterclient.BodyControlP1Commands">
 
         </LinearLayout>
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:minHeight="20dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -161,7 +167,7 @@ tools:context="ua.in.wercool.valterclient.BodyControlP1Commands">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:alpha="0.75"
+            android:alpha="0.5"
             android:weightSum="1">
 
             <Button
@@ -188,7 +194,7 @@ tools:context="ua.in.wercool.valterclient.BodyControlP1Commands">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:alpha="0.75"
+            android:alpha="0.5"
             android:weightSum="1">
 
             <Button
@@ -228,6 +234,58 @@ tools:context="ua.in.wercool.valterclient.BodyControlP1Commands">
                 android:id="@+id/headPitchOffButton"/>
 
         </LinearLayout>
+
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:minHeight="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:text="LEFT ARM ROLL\n12V ON"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="0.25"
+                android:id="@+id/leftArm12VOnButton"/>
+
+            <Button
+                android:text="LEFT ARM ROLL\n12V OFF"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="0.25"
+                android:id="@+id/leftArm12VOffButton"/>
+
+            <Button
+                android:text="RIGHT ARM ROLL\n12V ON"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="0.25"
+                android:id="@+id/rightArm12VOnButton"/>
+
+            <Button
+                android:text="RIGHT ARM ROLL\n12V OFF"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="0.25"
+                android:id="@+id/rightArm12VOffButton"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

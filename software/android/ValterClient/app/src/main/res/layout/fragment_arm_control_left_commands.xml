@@ -50,6 +50,58 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:text="STOP ALL WATCHERS"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_weight="0.5"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/stopAllWatchersButton"/>
+
+                <Button
+                    android:text="START ALL WATCHERS"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_weight="0.5"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/startAllWatchersButton"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <Button
+                    android:text="ROLL MOTOR ON"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_weight="0.5"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/rollMotorOnButton"/>
+
+                <Button
+                    android:text="ROLL MOTOR OFF"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_weight="0.5"
+                    android:layout_alignBottom="@+id/scrollView2"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/rollMotorOffButton"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </ScrollView>

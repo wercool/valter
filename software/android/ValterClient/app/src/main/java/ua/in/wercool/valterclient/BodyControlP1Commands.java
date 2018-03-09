@@ -29,6 +29,10 @@ public class BodyControlP1Commands extends Fragment {
     Button headYawOffButton;
     Button headPitchOnButton;
     Button headPitchOffButton;
+    Button leftArm12VOnButton;
+    Button leftArm12VOffButton;
+    Button rightArm12VOnButton;
+    Button rightArm12VOffButton;
 
 
     @Override
@@ -40,6 +44,7 @@ public class BodyControlP1Commands extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.i("BCP1", "STOP ALL");
+                Valter.getInstance().BCP1StopAll();
             }
         });
 
@@ -166,6 +171,42 @@ public class BodyControlP1Commands extends Fragment {
             public void onClick(View v) {
                 Log.i("BCP1", "HEAD PITCH OFF");
                 Valter.getInstance().setHeadPitchMotorState(false);
+            }
+        });
+
+        leftArm12VOnButton = (Button) rootView.findViewById(R.id.leftArm12VOnButton);
+        leftArm12VOnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "LEFT ARM ROLL ON");
+                Valter.getInstance().setLeftArmRoll12VState(true);
+            }
+        });
+
+        leftArm12VOffButton = (Button) rootView.findViewById(R.id.leftArm12VOffButton);
+        leftArm12VOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "LEFT ARM ROLL OFF");
+                Valter.getInstance().setLeftArmRoll12VState(false);
+            }
+        });
+
+        rightArm12VOnButton = (Button) rootView.findViewById(R.id.rightArm12VOnButton);
+        rightArm12VOnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "RIGHT ARM ROLL ON");
+                Valter.getInstance().setRightArmRoll12VState(true);
+            }
+        });
+
+        rightArm12VOffButton = (Button) rootView.findViewById(R.id.rightArm12VOffButton);
+        rightArm12VOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "RIGHT ARM ROLL OFF");
+                Valter.getInstance().setRightArmRoll12VState(false);
             }
         });
 

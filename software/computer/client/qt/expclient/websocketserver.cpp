@@ -295,11 +295,60 @@ void WebSocketServer::processTextMessage(QString message)
         }
     }
 
+    /**********************************PLATFORM-MANIPULATOR-AND-IR-BUMPER***************************************************/
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("PMIB"))
+    {
+        switch (Valter::str2int(cmdValue.c_str()))
+        {
+            case Valter::str2int("DC24ON"): //24V DC power ON
+                platformManipulatorAndIRBumper->setPower24VOnOff(true);
+            break;
+            case Valter::str2int("DC24OFF"): //24V DC power OFF
+                platformManipulatorAndIRBumper->setPower24VOnOff(false);
+            break;
+            case Valter::str2int("GRIPCCW"): //Rotate gripper CCW
+                platformManipulatorAndIRBumper->manGripperRotateCCW();
+            break;
+            case Valter::str2int("GRIPCW"): //Rotate gripper CW
+                platformManipulatorAndIRBumper->manGripperRotateCW();
+            break;
+            case Valter::str2int("GRIPSTOP"): //Rotate gripper STOP
+                platformManipulatorAndIRBumper->manGripperRotateStop();
+            break;
+            case Valter::str2int("L2DOWN"): //Link2 descent movement
+                if (platformManipulatorAndIRBumper->prepareManLink2Movement())
+                {
+                    //descent
+                    if (platformManipulatorAndIRBumper->setLink2MovementDirection(false))
+                    {
+                        platformManipulatorAndIRBumper->setLink2MotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("L2UP"): //Link2 descent movement
+                if (platformManipulatorAndIRBumper->prepareManLink2Movement())
+                {
+                    //ascent
+                    if (platformManipulatorAndIRBumper->setLink2MovementDirection(true))
+                    {
+                        platformManipulatorAndIRBumper->setLink2MotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("L2STOP"):
+                platformManipulatorAndIRBumper->setLink2MotorActivated(false);
+            break;
+        }
+    }
+
     /*********************************BODY-CONTROL-P1***************************************************/
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("BCP1"))
     {
         switch (Valter::str2int(cmdValue.c_str()))
         {
+            case Valter::str2int("STOPALL"): //Stop all activities on Body Control P1
+                bodyControlP1->stopAll();
+            break;
             case Valter::str2int("HEADLEDON"): //Head led ON
                 bodyControlP1->setHeadLedOnOff(true);
             break;
@@ -384,67 +433,66 @@ void WebSocketServer::processTextMessage(QString message)
 
                 bodyControlP1->setHeadPitchMotorActivated(false);
             break;
+            case Valter::str2int("LEFTARMROLL12VON"): // Left Arm Roll 12V ON
+                bodyControlP1->setLeftArm12VPowerOnOff(true);
+            break;
+            case Valter::str2int("LEFTARMROLL12VOFF"): // Left Arm Roll 12V OFF
+                bodyControlP1->setLeftArm12VPowerOnOff(false);
+            break;
+            case Valter::str2int("RIGHTARMROLL12VON"): // Right Arm Roll 12V ON
+                bodyControlP1->setRightArm12VPowerOnOff(true);
+            break;
+            case Valter::str2int("RIGHTARMROLL12VOFF"): // Right Arm Roll 12V OFF
+                bodyControlP1->setRightArm12VPowerOnOff(false);
+            break;
         }
     }
 
-    /**********************************PLATFORM-MANIPULATOR-AND-IR-BUMPER***************************************************/
-    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("PMIB"))
-    {
-        switch (Valter::str2int(cmdValue.c_str()))
-        {
-            case Valter::str2int("DC24ON"): //24V DC power ON
-                platformManipulatorAndIRBumper->setPower24VOnOff(true);
-            break;
-            case Valter::str2int("DC24OFF"): //24V DC power OFF
-                platformManipulatorAndIRBumper->setPower24VOnOff(false);
-            break;
-            case Valter::str2int("GRIPCCW"): //Rotate gripper CCW
-                platformManipulatorAndIRBumper->manGripperRotateCCW();
-            break;
-            case Valter::str2int("GRIPCW"): //Rotate gripper CW
-                platformManipulatorAndIRBumper->manGripperRotateCW();
-            break;
-            case Valter::str2int("GRIPSTOP"): //Rotate gripper STOP
-                platformManipulatorAndIRBumper->manGripperRotateStop();
-            break;
-            case Valter::str2int("L2DOWN"): //Link2 descent movement
-                if (platformManipulatorAndIRBumper->prepareManLink2Movement())
-                {
-                    //descent
-                    if (platformManipulatorAndIRBumper->setLink2MovementDirection(false))
-                    {
-                        platformManipulatorAndIRBumper->setLink2MotorActivated(true);
-                    }
-                }
-            break;
-            case Valter::str2int("L2UP"): //Link2 descent movement
-                if (platformManipulatorAndIRBumper->prepareManLink2Movement())
-                {
-                    //ascent
-                    if (platformManipulatorAndIRBumper->setLink2MovementDirection(true))
-                    {
-                        platformManipulatorAndIRBumper->setLink2MotorActivated(true);
-                    }
-                }
-            break;
-            case Valter::str2int("L2STOP"):
-                platformManipulatorAndIRBumper->setLink2MotorActivated(false);
-            break;
-        }
-    }
     /**********************************ARM-CONTROL-RIGHT***************************************************/
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("ACR"))
     {
-
+        switch (Valter::str2int(cmdValue.c_str()))
+        {
+            case Valter::str2int("STOPALL"): // Stop All activities on Right Arm
+                armControlRight->stopAll();
+            break;
+            case Valter::str2int("STARTALLWATCHERS"): // Start Right Arm Watchers
+                armControlRight->startAllWatchers();
+            break;
+            case Valter::str2int("STOPALLWATCHERS"): // Stop Right Arm Watchers
+                armControlRight->stopAllWatchers();
+            break;
+            case Valter::str2int("RIGHTARMROLLMOTORON"): // Right Arm Roll (ON) stepper motor keep position
+                armControlRight->setForearmRollMotorOnOff(true);
+            break;
+            case Valter::str2int("RIGHTARMROLLMOTOROFF"): // Right Arm Roll (OFF) stepper motor release
+                armControlRight->setForearmRollMotorOnOff(false);
+            break;
+        }
     }
 
     /**********************************ARM-CONTROL-LEFT***************************************************/
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("ACL"))
     {
-
+        switch (Valter::str2int(cmdValue.c_str()))
+        {
+            case Valter::str2int("STOPALL"): // Stop All activities on Left Arm
+                armControlLeft->stopAll();
+            break;
+            case Valter::str2int("STARTALLWATCHERS"): // Start Left Arm Watchers
+                armControlLeft->startAllWatchers();
+            break;
+            case Valter::str2int("STOPALLWATCHERS"): // Stop Left Arm Watchers
+                armControlLeft->stopAllWatchers();
+            break;
+            case Valter::str2int("LEFTARMROLLMOTORON"): // Left Arm Roll (ON) stepper motor keep position
+                armControlLeft->setForearmRollMotorOnOff(true);
+            break;
+            case Valter::str2int("LEFTARMROLLMOTOROFF"): // Left Arm Roll (OFF) stepper motor release
+                armControlLeft->setForearmRollMotorOnOff(false);
+            break;
+        }
     }
-
-    //armControlLeft->stopAllWatchers();
 
     if (pClient)
     {

@@ -176,7 +176,7 @@ public class Valter {
         }
     }
 
-    /******************************* Platfrom Control P1 *******************************/
+    /******************************* PLATFORM-CONTROL-P1 *******************************/
 
     public int getLeftMotorDuty() {
         return leftMotorDuty;
@@ -212,7 +212,7 @@ public class Valter {
         }
      }
 
-    /******************************* Platfrom Location P1 *******************************/
+    /******************************* PLATFORM LOCATION P1 *******************************/
 
     public void setSonarLedsState(boolean state) {
         if (state)
@@ -221,7 +221,32 @@ public class Valter {
             sendMessage("PLP1#SONARLEDSOFF");
     }
 
-    /******************************* Body Control P1 *******************************/
+    /******************************* PLATFORM MANIPULATOR AND IR BUMPER *******************************/
+    public void pmibMoveLink2Down() {
+        sendMessage("PMIB#L2DOWN");
+    }
+    public void pmibMoveLink2Up() {
+        sendMessage("PMIB#L2UP");
+    }
+    public void pmibLink2Stop() {
+        sendMessage("PMIB#L2STOP");
+    }
+    public void pmibGripperCCW() {
+        sendMessage("PMIB#GRIPCCW");
+    }
+    public void pmibGripperCW() {
+        sendMessage("PMIB#GRIPCW");
+    }
+    public void pmibGripperStop() {
+        sendMessage("PMIB#GRIPSTOP");
+    }
+
+    /******************************* BODY CONTROL P1 *******************************/
+
+    public void BCP1StopAll() {
+        sendMessage("BCP1#STOPALL");
+    }
+
     public void setHeadLedState(boolean state) {
         if (state)
             sendMessage("BCP1#HEADLEDON");
@@ -301,23 +326,61 @@ public class Valter {
         ValterWebSocketClient.getInstance().setWatchDogSleep(1000);
     }
 
-    /******************************* Platfrom Manipulator and IR Bumper *******************************/
-    public void pmibMoveLink2Down() {
-        sendMessage("PMIB#L2DOWN");
+    public void setLeftArmRoll12VState(boolean state) {
+        if (state) {
+            sendMessage("BCP1#LEFTARMROLL12VON");
+        } else {
+            sendMessage("BCP1#LEFTARMROLL12VOFF");
+        }
     }
-    public void pmibMoveLink2Up() {
-        sendMessage("PMIB#L2UP");
+
+    public void setRightArmRoll12VState(boolean state) {
+        if (state) {
+            sendMessage("BCP1#RIGHTARMROLL12VON");
+        } else {
+            sendMessage("BCP1#RIGHTARMROLL12VOFF");
+        }
     }
-    public void pmibLink2Stop() {
-        sendMessage("PMIB#L2STOP");
+
+    /******************************* ARM CONTROL RIGHT *******************************/
+    public void ACRStopAll() {
+        sendMessage("ACR#STOPALL");
     }
-    public void pmibGripperCCW() {
-        sendMessage("PMIB#GRIPCCW");
+
+    public void ACRSetWatcherState(boolean state) {
+        if (state) {
+            sendMessage("ACR#STARTALLWATCHERS");
+        } else {
+            sendMessage("ACR#STOPALLWATCHERS");
+        }
     }
-    public void pmibGripperCW() {
-        sendMessage("PMIB#GRIPCW");
+
+    public void setRightArmRollMotorState(boolean state) {
+        if (state) {
+            sendMessage("ACR#RIGHTARMROLLMOTORON");
+        } else {
+            sendMessage("ACR#RIGHTARMROLLMOTOROFF");
+        }
     }
-    public void pmibGripperStop() {
-        sendMessage("PMIB#GRIPSTOP");
+
+    /******************************* ARM CONTROL LEFT ********************************/
+    public void ACLStopAll() {
+        sendMessage("ACL#STOPALL");
+    }
+
+    public void ACLSetWatcherState(boolean state) {
+        if (state) {
+            sendMessage("ACL#STARTALLWATCHERS");
+        } else {
+            sendMessage("ACL#STOPALLWATCHERS");
+        }
+    }
+
+    public void setLeftArmRollMotorState(boolean state) {
+        if (state) {
+            sendMessage("ACL#LEFTARMROLLMOTORON");
+        } else {
+            sendMessage("ACL#LEFTARMROLLMOTOROFF");
+        }
     }
 }
