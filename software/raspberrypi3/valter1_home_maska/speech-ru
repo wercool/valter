@@ -1,0 +1,3 @@
+#!/bin/bash
+text=$1
+espeak -vru -s130 -p10 -m "$text" --stdout | aplay -D sysdefault:CARD=Set

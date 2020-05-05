@@ -1,18 +1,25 @@
 package ua.in.wercool.valterclient;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.menu.MenuBuilder;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.BaseInputConnection;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 public class ValterDirectControlActivity extends AppCompatActivity {
 
     private MjpegView currentCameraView;
     public ProgressBar progressBar;
+    ImageButton optionsMenuButton;
 
     ValterManualNavigation valterManualNavigationFragment;
     HeadYawPitchControlFragment headYawPitchControlFragment;
@@ -35,6 +42,19 @@ public class ValterDirectControlActivity extends AppCompatActivity {
 
         valterManualNavigationFragment = new ValterManualNavigation();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer, valterManualNavigationFragment).commit();
+
+
+        optionsMenuButton = (ImageButton) findViewById(R.id.optionsMenuButton);
+        optionsMenuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseInputConnection  mInputConnection = new BaseInputConnection(optionsMenuButton, true);
+                KeyEvent kd = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MENU);
+                KeyEvent ku = new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MENU);
+                mInputConnection.sendKeyEvent(kd);
+                mInputConnection.sendKeyEvent(ku);
+            }
+        });
     }
 
     @Override
@@ -55,11 +75,16 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_valter_direct_controls, menu);
         menu.getItem(4).setIcon(R.drawable.joystick);
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            m.setOptionalIconsVisible(true);
+        }
         return true;
     }
 
@@ -180,6 +205,14 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     {
         ValterCommandsActivity.dialogMode = true;
         Intent myIntent = new Intent(getApplicationContext(), ValterCommandsActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+    }
+
+    public boolean valterTasksItemClick(MenuItem item)
+    {
+        ValterCommandsActivity.dialogMode = true;
+        Intent myIntent = new Intent(getApplicationContext(), ValterTasksActivity.class);
         startActivityForResult(myIntent, 0);
         return true;
     }

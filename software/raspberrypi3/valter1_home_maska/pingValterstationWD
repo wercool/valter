@@ -1,0 +1,18 @@
+#!/bin/bash
+
+sleep 150;
+
+while [ 1 ]; do
+   ping -c 1 192.168.101.1
+
+    if [ $? -eq 0 ]
+    then
+       echo "wlan0 active"
+    else
+       echo "wlan0 failed"
+       echo "stop and reboot now!"
+       reboot
+    fi
+
+    sleep 5
+done

@@ -1,0 +1,4 @@
+aplay -l
+
+aplay ~/Music/Igorek_greeting.wav -D sysdefault:CARD=4
+

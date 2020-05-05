@@ -21,7 +21,7 @@ encoded_text=`python -c "import sys, urllib as ul; print ul.quote_plus('$text_to
 #aplay asr-result.wav -D sysdefault:CARD=3 -c2
 
 #espeak -ven "$text_to_speech" --stdout | aplay -D sysdefault:CARD=3 -c2
-espeak -vru+m -a100 -s80 "$text_to_speech" --stdout | aplay -D sysdefault:CARD=3 -c2
+espeak -vru+m -a100 -s80 "$text_to_speech" --stdout | aplay -D sysdefault:CARD=2 -c2
 
 
 #problmatic solution (freezes USB sound device)

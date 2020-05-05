@@ -1,0 +1,4 @@
+aplay -l
+
+aplay ~/Music/blu_blu_blu.wav -D sysdefault:CARD=2
+aplay ~/Music/Olegka_greeting.wav -D sysdefault:CARD=2

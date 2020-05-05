@@ -1,0 +1,1 @@
+espeak -vru -s100 "Извините за произношение. На английском языке я говорю значительно лучше. We could speak English if you are comfortable. Would you like to try?" --stdout | aplay -D sysdefault:CARD=Set

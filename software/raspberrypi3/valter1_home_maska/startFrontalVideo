@@ -1,0 +1,22 @@
+#!/bin/bash
+
+cd /home/maska/mjpg-streamer-code/mjpg-streamer
+export LD_LIBRARY_PATH="$(pwd)"
+
+if cat /sys/class/video4linux/video0/name | grep "046d:0821"
+then
+    echo "Frontal Camera is on /dev/video0"
+    ./mjpg_streamer_frontal_camera -i "./input_uvc.so -d /dev/video0" -o "./output_http.so -w ./www -p 10100"
+fi
+
+if cat /sys/class/video4linux/video1/name | grep "046d:0821"
+then
+    echo "Frontal Camera is on /dev/video1"
+    ./mjpg_streamer_frontal_camera -i "./input_uvc.so -d /dev/video1" -o "./output_http.so -w ./www -p 10100"
+fi
+
+if cat /sys/class/video4linux/video2/name | grep "046d:0821"
+then
+    echo "Frontal Camera is on /dev/video2"
+    ./mjpg_streamer_frontal_camera -i "./input_uvc.so -d /dev/video2" -o "./output_http.so -w ./www -p 10100"
+fi

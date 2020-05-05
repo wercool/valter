@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/frontalCameraItem"
+    <item
+        android:id="@+id/frontalCameraItem"
         android:onClick="onFrontalCameraItemClick"
+        android:icon="@drawable/logitech_c910"
         android:title="Frontal Camera" />
-
-    <item android:id="@+id/headLCameraItem"
-        android:onClick="onHeadLCameraItemClick"
-        android:title="Head Right Camera"/>
 
     <item android:id="@+id/headRCameraItem"
         android:onClick="onHeadRCameraItemClick"
+        android:icon="@drawable/logitect_sphere_r"
+        android:title="Head Right Camera"/>
+
+    <item android:id="@+id/headLCameraItem"
+        android:onClick="onHeadLCameraItemClick"
+        android:icon="@drawable/logitect_sphere_l"
         android:title="Head Left Camera"/>
 
     <item android:id="@+id/rearCameraItem"
@@ -25,6 +29,7 @@
 
     <item android:id="@+id/valterHeadYawPitchItem"
         android:onClick="valterHeadYawPitchItemClick"
+        android:icon="@drawable/valter_head"
         android:title="Head Yaw &amp; Pitch"/>
 
     <item android:id="@+id/valterACRItem"
@@ -38,6 +43,11 @@
     <item android:id="@+id/valterPMIBItem"
         android:onClick="valterPMIBItemClick"
         android:title="PLATFORM MANIPULATOR AND IR BUMPER"/>
+
+    <item android:id="@+id/valterTasksItem"
+        android:onClick="valterTasksItemClick"
+        android:icon="@drawable/tasks"
+        android:title="Valter Tasks"/>
 
     <item android:id="@+id/valterCommandsItem"
         android:onClick="valterCommandsItemClick"

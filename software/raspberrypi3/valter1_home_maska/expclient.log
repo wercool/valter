@@ -1,0 +1,563 @@
+QML debugging is enabled. Only use this in a safe environment.
+TCPInterface::defaultNetworkInterface: eth0
+libEGL warning: DRI2: failed to authenticate
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+19:23:39:340: (/dev/ttyACM0, ttyACM0, USB VID:PID=03eb:6125 , /dev/bus/usb/001/006)
+19:23:40:638: (/dev/ttyACM1, ttyACM1, USB VID:PID=03eb:6125 , /dev/bus/usb/001/009)
+19:23:41:978: (/dev/ttyACM2, ttyACM2, USB VID:PID=03eb:6125 , /dev/bus/usb/001/011)
+19:23:43:267: (/dev/ttyACM3, ttyACM3, USB VID:PID=03eb:6125 , /dev/bus/usb/001/014)
+19:23:44:566: (/dev/ttyACM4, ttyACM4, USB VID:PID=03eb:6125 , /dev/bus/usb/001/018)
+19:23:45:860: (/dev/ttyACM5, Pololu Corporation Pololu Mini Maestro 24-Channel USB Servo Controller 00005866, USB VID:PID=1ffb:008c SNR=00005866, /dev/bus/usb/001/019)
+19:23:47:213: (/dev/ttyACM6, Pololu Corporation Pololu Mini Maestro 24-Channel USB Servo Controller 00005866, USB VID:PID=1ffb:008c SNR=00005866, /dev/bus/usb/001/019)
+19:23:48:514: (/dev/ttyACM7, ttyACM7, USB VID:PID=03eb:6125 , /dev/bus/usb/001/020)
+19:23:49:813: (/dev/ttyACM8, ttyACM8, USB VID:PID=03eb:6125 , /dev/bus/usb/001/021)
+19:23:49:814: 9 ttyACM* ports found
+19:23:49:825: PLATFORM-CONTROL-P1 singleton initialized
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+19:23:49:829: PLATFORM-CONTROL-P2 singleton initialized
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+19:23:49:832: PLATFORM-LOCATION-P1 singleton initialized
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+19:23:49:835: PLATFORM-MANIPULATOR-AND-IR-BUMPER singleton initialized
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+19:23:49:839: BODY-CONTROL-P1 singleton initialized
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+19:23:49:842: ARM-CONTROL-RIGHT singleton initialized
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+19:23:49:846: ARM-CONTROL-LEFT singleton initialized
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+Interface: lo	Address: 127.0.0.1
+Selected Network Interface: eth0
+Interface: eth0	Address: 192.168.101.101
+Selected Network Interface: eth0
+Interface: wlan0	Address: 192.168.0.101
+Selected Network Interface: eth0
+Task Manager initialized
+19:23:49:850: Task Manager singleton initialized
+19:23:49:866: WebSocketServer watchDogWorker spawned...
+WebSocketServer listening on port 8888
+19:23:49:885: Valter Exp Client V.0.1.2
+19:23:49:891: Trying to connect /dev/ttyACM0 port
+19:23:49:920: /dev/ttyACM0 ← GETID
+19:23:49:921: /dev/ttyACM0 → PLATFORM-LOCATION-P1
+19:23:51:266: Trying to connect /dev/ttyACM1 port
+19:23:51:268: /dev/ttyACM1 ← GETID
+19:23:51:268: /dev/ttyACM1 → ARM-CONTROL-RIGHT
+19:23:52:573: Trying to connect /dev/ttyACM2 port
+19:23:52:577: /dev/ttyACM2 ← GETID
+19:23:52:578: /dev/ttyACM2 → PLATFORM-CONTROL-P2
+19:23:53:882: Trying to connect /dev/ttyACM3 port
+19:23:53:884: /dev/ttyACM3 ← GETID
+19:23:53:885: /dev/ttyACM3 → ARM-CONTROL-LEFT
+19:23:55:187: Trying to connect /dev/ttyACM4 port
+19:23:55:189: /dev/ttyACM4 ← GETID
+19:23:55:189: /dev/ttyACM4 → BODY-CONTROL-P1
+19:23:56:500: Trying to connect /dev/ttyACM7 port
+19:23:56:503: /dev/ttyACM7 ← GETID
+19:23:56:505: /dev/ttyACM7 → PLATFORM-CONTROL-P1
+19:23:57:809: Trying to connect /dev/ttyACM8 port
+19:23:57:812: /dev/ttyACM8 ← GETID
+19:23:57:813: /dev/ttyACM8 → PLATFORM-MANIPULATOR-AND-IR-BUMPER
+QObject::connect: Cannot queue arguments of type 'QTextCursor'
+(Make sure 'QTextCursor' is registered using qRegisterMetaType().)
+19:23:59:155: 
+
+ARM-CONTROL-LEFT in AUTONOMOUS MODE (wdrIntent = true in global-settings)
+
+
+PlatformControlP2::setModuleInitialState
+19:23:59:160: 
+
+ARM-CONTROL-RIGHT in AUTONOMOUS MODE (wdrIntent = true in global-settings)
+
+
+PlatformLocationP1::setModuleInitialState
+19:23:59:163: 
+
+BODY-CONTROL-P1 in AUTONOMOUS MODE (wdrIntent = true in global-settings)
+
+
+PlatformManipulatorAndIRBumper::setModuleInitialState
+19:23:59:171: 
+
+PLATFORM-CONTROL-P2 in AUTONOMOUS MODE (wdrIntent = true in global-settings)
+
+
+19:23:59:171: 
+
+PLATFORM-CONTROL-P1 in AUTONOMOUS MODE (wdrIntent = true in global-settings)
+
+
+19:23:59:177: 
+
+PLATFORM-LOCATION-P1 in AUTONOMOUS MODE (wdrIntent = true in global-settings)
+
+
+19:23:59:181: 
+
+PLATFORM-MANIPULATOR-AND-IR-BUMPER in AUTONOMOUS MODE (wdrIntent = true in global-settings)
+
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4080]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5840]
+19:23:59:224: encodersWorker spawned...
+SERVO CONTROLLER → Setting target of servo 12 to 4080...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5840...
+
+PlatformControlP2::resetServoTask completed
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P1] Central Command Host IP Address: Port:33333
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P2] Central Command Host IP Address: Port:33334
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-LOCATION-P1] Central Command Host IP Address: Port:33335
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-MANIPULATOR-AND-IR-BUMPER] Central Command Host IP Address: Port:33336
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[BODY-CONTROL-P1] Central Command Host IP Address: Port:33337
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4080]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5840]
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-RIGHT] Central Command Host IP Address: Port:33338
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-LEFT] Central Command Host IP Address: Port:33339
+SERVO CONTROLLER → Setting target of servo 12 to 4080...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5840...
+
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P1] Central Command Host IP Address: Port:33333
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P2] Central Command Host IP Address: Port:33334
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-LOCATION-P1] Central Command Host IP Address: Port:33335
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-MANIPULATOR-AND-IR-BUMPER] Central Command Host IP Address: Port:33336
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[BODY-CONTROL-P1] Central Command Host IP Address: Port:33337
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4080]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5840]
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-RIGHT] Central Command Host IP Address: Port:33338
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-LEFT] Central Command Host IP Address: Port:33339
+SERVO CONTROLLER → Setting target of servo 12 to 4080...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5840...
+
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P1] Central Command Host IP Address: Port:33333
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P2] Central Command Host IP Address: Port:33334
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-LOCATION-P1] Central Command Host IP Address: Port:33335
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-MANIPULATOR-AND-IR-BUMPER] Central Command Host IP Address: Port:33336
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[BODY-CONTROL-P1] Central Command Host IP Address: Port:33337
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4080]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5840]
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-RIGHT] Central Command Host IP Address: Port:33338
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-LEFT] Central Command Host IP Address: Port:33339
+SERVO CONTROLLER → Setting target of servo 12 to 4080...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5840...
+
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P1] Central Command Host IP Address:192.168.101.180 Port:33333
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-CONTROL-P2] Central Command Host IP Address:192.168.101.180 Port:33334
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-LOCATION-P1] Central Command Host IP Address:192.168.101.180 Port:33335
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[PLATFORM-MANIPULATOR-AND-IR-BUMPER] Central Command Host IP Address:192.168.101.180 Port:33336
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[BODY-CONTROL-P1] Central Command Host IP Address:192.168.101.180 Port:33337
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4080]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5840]
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-RIGHT] Central Command Host IP Address:192.168.101.180 Port:33338
+Interface: lo	Address: 127.0.0.1
+Interface: eth0	Address: 192.168.101.101
+(static call) getLocalHostIP() Selected Network Interface: eth0
+[ARM-CONTROL-LEFT] Central Command Host IP Address:192.168.101.180 Port:33339
+SERVO CONTROLLER → Setting target of servo 12 to 5840...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4080...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 012]
+SERVO CONTROLLER → Restarting at subroutine 12...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 010]
+SERVO CONTROLLER → Restarting at subroutine 10...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 012]
+SERVO CONTROLLER → Restarting at subroutine 12...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 012]
+SERVO CONTROLLER → Restarting at subroutine 12...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 010]
+SERVO CONTROLLER → Restarting at subroutine 10...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 002]
+SERVO CONTROLLER → Restarting at subroutine 2...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 003]
+SERVO CONTROLLER → Restarting at subroutine 3...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 002]
+SERVO CONTROLLER → Restarting at subroutine 2...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 001]
+SERVO CONTROLLER → Restarting at subroutine 1...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 012]
+SERVO CONTROLLER → Restarting at subroutine 12...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 010]
+SERVO CONTROLLER → Restarting at subroutine 10...
+
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 012]
+SERVO CONTROLLER → Restarting at subroutine 12...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 012]
+SERVO CONTROLLER → Restarting at subroutine 12...
+
+POSITION RESET ArmControlRight::setArmPosition(81.02)
+POSITION RESET ArmControlRight::setArmPosition(51.82)
+POSITION RESET ArmControlRight::setLimbPosition(1.38)
+POSITION RESET ArmControlRight::setArmPosition(69.37)
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 012]
+SERVO CONTROLLER → Restarting at subroutine 12...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 011]
+SERVO CONTROLLER → Restarting at subroutine 11...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 010]
+SERVO CONTROLLER → Restarting at subroutine 10...
+
+POSITION RESET ArmControlRight::setArmPosition(46.34)
+POSITION RESET ArmControlRight::setLimbPosition(0.77)
+POSITION RESET ArmControlRight::setForearmPosition(5.13)
+POSITION RESET ArmControlRight::setArmPosition(4.39)
+19:35:22:422: accelerometerWorker spawned...
+STOPPED: PlatformLocationP1::accelerometerWorker
+19:35:33:764: magnetometerWorker spawned...
+19:36:35:706: irScanningWorker spawned...
+STOPPED: PlatformControlP2::irScanningWorker
+STOPPED: PlatformLocationP1::magnetometerWorker
+19:37:46:695: leftSonarWorker spawned...
+19:37:59:018: rightSonarWorker spawned...
+STOPPED: PlatformLocationP1::leftSonarWorker
+STOPPED: PlatformLocationP1::rightSonarWorker
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+QObject::connect: Cannot queue arguments of type 'QVector<int>'
+(Make sure 'QVector<int>' is registered using qRegisterMetaType().)
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5296]
+SERVO CONTROLLER → Setting target of servo 12 to 5296...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5256]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5216]
+SERVO CONTROLLER → Setting target of servo 12 to 5256...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5176]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5136]
+SERVO CONTROLLER → Setting target of servo 12 to 5216...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5176]
+SERVO CONTROLLER → Setting target of servo 12 to 5176...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5136...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5216]
+SERVO CONTROLLER → Setting target of servo 12 to 5176...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5256]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5296]
+SERVO CONTROLLER → Setting target of servo 12 to 5216...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5256]
+SERVO CONTROLLER → Setting target of servo 12 to 5256...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5296...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5216]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5176]
+SERVO CONTROLLER → Setting target of servo 12 to 5256...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5136]
+SERVO CONTROLLER → Setting target of servo 12 to 5216...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5096]
+SERVO CONTROLLER → Setting target of servo 12 to 5176...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5136...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5096...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,0]
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER → Setting target of servo 12 to 0...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5520]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5560]
+SERVO CONTROLLER → Setting target of servo 12 to 5520...
+
+SERVO CONTROLLER → Setting target of servo 12 to 5560...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5520]
+SERVO CONTROLLER → Setting target of servo 12 to 5520...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4776]
+SERVO CONTROLLER → Setting target of servo 12 to 4776...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4816]
+SERVO CONTROLLER → Setting target of servo 12 to 4816...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4856]
+SERVO CONTROLLER → Setting target of servo 12 to 4856...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4860]
+SERVO CONTROLLER → Setting target of servo 12 to 4860...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4864]
+SERVO CONTROLLER → Setting target of servo 12 to 4864...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4868]
+SERVO CONTROLLER → Setting target of servo 12 to 4868...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4872]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4876]
+SERVO CONTROLLER → Setting target of servo 12 to 4872...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4880]
+SERVO CONTROLLER → Setting target of servo 12 to 4876...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4880...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4884]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4888]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4892]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4896]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4900]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4904]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4908]
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4912]
+SERVO CONTROLLER → Setting target of servo 12 to 4884...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4896...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4892...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4888...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4904...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4900...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4912...
+
+SERVO CONTROLLER → Setting target of servo 12 to 4908...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4936]
+SERVO CONTROLLER → Setting target of servo 12 to 4936...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,4980]
+SERVO CONTROLLER → Setting target of servo 12 to 4980...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5048]
+SERVO CONTROLLER → Setting target of servo 12 to 5048...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5052]
+SERVO CONTROLLER → Setting target of servo 12 to 5052...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5056]
+SERVO CONTROLLER → Setting target of servo 12 to 5056...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5060]
+SERVO CONTROLLER → Setting target of servo 12 to 5060...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5160]
+SERVO CONTROLLER → Setting target of servo 12 to 5160...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5228]
+SERVO CONTROLLER → Setting target of servo 12 to 5228...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5364]
+SERVO CONTROLLER → Setting target of servo 12 to 5364...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5496]
+SERVO CONTROLLER → Setting target of servo 12 to 5496...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --servo 12,5612]
+SERVO CONTROLLER → Setting target of servo 12 to 5612...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 010]
+SERVO CONTROLLER → Restarting at subroutine 10...
+
+SERVO CONTROLLER ← [/home/maska/Desktop/maestro_linux/UscCmd --sub 001]
+SERVO CONTROLLER → Restarting at subroutine 1...
+
+POSITION RESET ArmControlLeft::setLimbPosition(-1.53)
