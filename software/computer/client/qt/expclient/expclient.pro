@@ -30,7 +30,6 @@ SOURCES += main.cpp\
            bodycontrolp1.cpp \
            armcontrolleft.cpp \
            armcontrolright.cpp \
-           valter3d.cpp \
 #service code
            mainclassesutils/platformcontrolp1.utils.cpp \
            mainclassesutils/bodycontrolp1.utils.cpp \
@@ -128,7 +127,6 @@ HEADERS  += mainwindow.h \
             gui/armcontrolleftGUI.h \
             gui/armcontrolrightGUI.h \
             gui/taskstabgui.h \
-            valter3d.h \
 #tcp
             tcpinterface.h \
             tcp/threads/thread.h \
@@ -210,6 +208,5 @@ CONFIG += c++11
 
 RESOURCES += \
             resources/platform-location.qrc \
-            valter3d.qrc
 
 QMAKE_CXXFLAGS += -std=c++0x -D_GLIBCXX_USE_NANOSLEEP

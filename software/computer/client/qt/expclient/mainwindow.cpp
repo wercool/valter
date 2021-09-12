@@ -39,8 +39,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     statusBarText = new QLabel();
     statusBar()->addWidget(statusBarText, 1);
 
-    valter3d = 0;
-
     logLength = 0;
     allConnect = true;
 
@@ -299,38 +297,6 @@ void MainWindow::on_mainTabWidget_tabBarDoubleClicked(int index)
     pWidget->setWindowTitle(ui->mainTabWidget->tabText(index));
     pWidget->setParent(pMainWindow->getInstance(), Qt::Window);
     pWidget->show();
-}
-
-//------------------------------------------------Utilites
-//Valter3D
-void MainWindow::on_valter3dOpenButton_clicked()
-{
-    if (!valter3d)
-    {
-        QQuickView *pValter3dView = new QQuickView();
-        pValter3dView->setSource(QUrl("qrc:/valter3d/valter3dView.qml"));
-        valter3d = (Valter3d*) Valter3d::createWindowContainer(pValter3dView);
-        valter3d->installEventFilter(new Valter3DEventFilter(this));
-        valter3d->valter3dView = pValter3dView;
-        valter3d->setWindowTitle("Valter 3D");
-    }
-    valter3d->show();
-}
-
-void MainWindow::on_horizontalScrollBar_9_valueChanged(int value)
-{
-    if (valter3d != 0)
-    {
-        valter3d->setValterTrunkRotationY((double)value / 10);
-    }
-}
-
-void MainWindow::on_horizontalScrollBar_10_valueChanged(int value)
-{
-    if (valter3d != 0)
-    {
-        valter3d->setValterBodyRotationZ(-1 * (double)value / 10);
-    }
 }
 
 //TCP Interface Tab

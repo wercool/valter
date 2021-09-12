@@ -16,8 +16,6 @@
 #include <valter.h>
 #include <ivaltermodule.h>
 
-#include <valter3d.h>
-
 namespace Ui {
 class MainWindow;
 }
@@ -35,8 +33,6 @@ public:
     void refreshControlDeviceTableWidget();
     void addMsgToLog(string msg);
     void delayGUIAction(IValterModule *valterModule);
-
-    Valter3d* valter3d;
 
     //helpers
     QPixmap redLedOffPix;
@@ -609,13 +605,6 @@ public slots:
     //Tasks Tab
     void tasksTabRefreshTimerUpdate();
     void on_taskmanagerEmulationCheckBox_clicked(bool checked);
-
-    //Utilities
-
-    //Valter 3D
-    void on_valter3dOpenButton_clicked();
-    void on_horizontalScrollBar_9_valueChanged(int value);
-    void on_horizontalScrollBar_10_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;

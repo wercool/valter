@@ -103,10 +103,6 @@ void Link3EndPointViewItem::setAngle(float g, bool manual)
     {
         getAndSetCurrentABGangles();
     }
-    if (MainWindow::getInstance()->valter3d != 0)
-    {
-        MainWindow::getInstance()->valter3d->setManTiltZAngle(PlatformManipulatorAndIRBumper::man_g);
-    }
 
     MainWindow::getInstance()->platfromManipulatorLink3->setLine(x1, y1, j1x, j1y);
 

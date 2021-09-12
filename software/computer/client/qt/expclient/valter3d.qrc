@@ -2,7 +2,6 @@
     <qresource prefix="/valter3d">
         <file>valter3dView.qml</file>
         <file>resources/3rdparty/three.js</file>
-        <file>valter3d.js</file>
         <file>json_models_loader.js</file>
         <file>orbitControls.js</file>
         <file>utils.js</file>

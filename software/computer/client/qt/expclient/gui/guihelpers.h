@@ -213,34 +213,6 @@ class PlatfromManipulatorFrameEventFilter: public QObject
   }
 };
 
-class Valter3DEventFilter: public QObject
-{
-private:
-
-  MainWindow *mainWindow;
-
-public:
-  Valter3DEventFilter(MainWindow* mainWindow):QObject()
-  {
-      this->mainWindow = mainWindow;
-  }
-
-  ~Valter3DEventFilter(){}
-
-  bool eventFilter(QObject* widget,QEvent* event)
-  {
-      if(event->type() == QEvent::Close)
-      {
-          this->mainWindow->valter3d = 0;
-          return true;
-      }
-      else
-      {
-        return QObject::eventFilter(widget, event);
-      }
-  }
-};
-
 class ValterPlatformMovementControlsEventFilter: public QObject
 {
   public:
