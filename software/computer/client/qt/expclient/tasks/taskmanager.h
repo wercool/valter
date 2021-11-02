@@ -75,7 +75,7 @@ private:
 
     void tasksQueueWorker(void);
 
-    TCPInterface *tcpInterface;
+    TCPInterface *tcpInterface = NULL;
 
     std::map<long, string> rtmms;
 };

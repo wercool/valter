@@ -46,7 +46,8 @@ int main(int argc, char *argv[])
 
         mainGUIWindow = MainWindow::getInstance();
         mainGUIWindow->setWindowFlags(Qt::WindowStaysOnTopHint);
-        mainGUIWindow->showMinimized();
+//        mainGUIWindow->showMinimized();
+        mainGUIWindow->show();
 
         Valter::getInstance();
 
