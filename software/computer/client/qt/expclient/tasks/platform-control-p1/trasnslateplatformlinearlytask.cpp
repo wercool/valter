@@ -201,6 +201,10 @@ void TrasnslatePlatformLinearlyTask::executionWorker()
         }
         else
         {
+
+            platformControlP1->setRightWheelEncoderGetOnce(true);
+            platformControlP1->setLeftWheelEncoderGetOnce(true);
+
             /************************************ emulation *********************start***************************/
 //            int randNum = rand() % 3; // Generate a random number between 0 and 1
 //            if (randNum == 0)
