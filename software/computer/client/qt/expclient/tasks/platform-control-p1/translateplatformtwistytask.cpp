@@ -159,6 +159,9 @@ void TranslatePlatformTwistyTask::executionWorker()
         }
         else
         {
+            platformControlP1->setRightWheelEncoderGetOnce(true);
+            platformControlP1->setLeftWheelEncoderGetOnce(true);
+
 /************************************ emulation *********************start***************************/
 //lwen++;
 //rwen++;

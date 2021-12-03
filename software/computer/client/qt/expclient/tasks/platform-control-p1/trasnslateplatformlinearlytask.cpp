@@ -10,7 +10,7 @@ TrasnslatePlatformLinearlyTask::TrasnslatePlatformLinearlyTask()
 
     qDebugOn = true;
     taskName = "TrasnslatePlatformLinearlyTask";
-    blocking = false;
+    blocking = true;
 
     PlatformControlP1 *platformControlP1 = PlatformControlP1::getInstance();
 

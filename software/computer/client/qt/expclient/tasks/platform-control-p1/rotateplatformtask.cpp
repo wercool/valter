@@ -7,7 +7,7 @@ RotatePlatformTask::RotatePlatformTask()
 {
     qDebugOn = true;
     taskName = "RotatePlatformTask";
-    blocking = false;
+    blocking = true;
 
     direction = -1;
     angle = -1;
