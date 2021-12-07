@@ -22,7 +22,10 @@ reflections = {
 psychobabble = [
     [r'едь вперёд',
      ["command:MOVE_FORWARD"]],
-     
+
+    [r'едь назад',
+     ["command:MOVE_BACKWARD"]],
+
     [r'поверни налево',
      ["command:TURN_LEFT"]],
      

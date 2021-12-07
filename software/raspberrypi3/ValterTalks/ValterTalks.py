@@ -26,22 +26,27 @@ def sayToEliza(statement, inVoice):
             if Command == "MOVE_FORWARD":
                 ElizaAnswer = "еду вперёд"
                 ws = create_connection("ws://localhost:8888/")
-                ws.send("T_PCP1_CmdVelTask_0.075_0.0")
+                ws.send("TASK#T_PCP1_CmdVelTask_0.075_0.0")
+                ws.close()
+            if Command == "MOVE_BACKWARD":
+                ElizaAnswer = "еду назад"
+                ws = create_connection("ws://localhost:8888/")
+                ws.send("TASK#T_PCP1_CmdVelTask_-0.075_0.0")
                 ws.close()
             if Command == "TURN_LEFT":
                 ElizaAnswer = "поворачиваю влево"
                 ws = create_connection("ws://localhost:8888/")
-                ws.send("T_PCP1_CmdVelTask_0.0_0.3")
+                ws.send("TASK#T_PCP1_CmdVelTask_0.0_0.3")
                 ws.close()
             if Command == "TURN_RIGHT":
                 ElizaAnswer = "поворачиваю вправо"
                 ws = create_connection("ws://localhost:8888/")
-                ws.send("T_PCP1_CmdVelTask_0.0_-0.3")
+                ws.send("TASK#T_PCP1_CmdVelTask_0.0_-0.3")
                 ws.close()
             if Command == "STOP":
                 ElizaAnswer = "стоп"
                 ws = create_connection("ws://localhost:8888/")
-                ws.send("T_PCP1_CmdVelTask_0.0_0.0")
+                ws.send("TASK#T_PCP1_CmdVelTask_0.0_0.0")
                 ws.close()
         if ElizaAnswer == "stop_recognition":
             stop = True
