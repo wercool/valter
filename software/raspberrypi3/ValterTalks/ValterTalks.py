@@ -10,6 +10,7 @@ import re
 import sys
 import wikipedia
 import Eliza
+from websocket import create_connection
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -23,17 +24,21 @@ def sayToEliza(statement, inVoice):
             Command = ElizaAnswer[7:]
             print "Executing command: " + Command
             if Command == "MOVE_FORWARD":
-                ElizaAnswer = "еду вперед"
-                print "T_PCP1_CmdVelTask_0.1_0.0"
+                ws = create_connection("ws://localhost:8888/")
+                ws.send("T_PCP1_CmdVelTask_0.1_0.0")
+                ws.close()
             if Command == "TURN_LEFT":
-                ElizaAnswer = "поворачиваю влево"
-                print "T_PCP1_CmdVelTask_0.0_0.2"
+                ws = create_connection("ws://localhost:8888/")
+                ws.send("T_PCP1_CmdVelTask_0.0_0.2")
+                ws.close()
             if Command == "TURN_RIGHT":
-                ElizaAnswer = "поворачиваю вправо"
-                print "T_PCP1_CmdVelTask_0.0_-0.2"
+                ws = create_connection("ws://localhost:8888/")
+                ws.send("T_PCP1_CmdVelTask_0.0_-0.2")
+                ws.close()
             if Command == "STOP":
-                ElizaAnswer = "стоп"
-                print "T_PCP1_CmdVelTask_0.0_0.0"
+                ws = create_connection("ws://localhost:8888/")
+                ws.send("T_PCP1_CmdVelTask_0.0_0.0")
+                ws.close()
         if ElizaAnswer == "stop_recognition":
             stop = True
             pipe = Popen(["bash", "/home/maska/speech-ru", '"распознавание завершено"'], stdout=PIPE)
