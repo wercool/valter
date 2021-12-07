@@ -20,16 +20,19 @@ def sayToEliza(statement, inVoice):
     ElizaAnswer = Eliza.analyze(statement)
     if ElizaAnswer:
         if ElizaAnswer.find("command:") > -1:
-            print ElizaAnswer
             Command = ElizaAnswer[7:]
             print "Executing command: " + Command
             if Command == "MOVE_FORWARD":
+                ElizaAnswer = "еду вперед"
                 print "T_PCP1_CmdVelTask_0.1_0.0"
             if Command == "TURN_LEFT":
+                ElizaAnswer = "поворачиваю влево"
                 print "T_PCP1_CmdVelTask_0.0_0.2"
             if Command == "TURN_RIGHT":
+                ElizaAnswer = "поворачиваю вправо"
                 print "T_PCP1_CmdVelTask_0.0_-0.2"
             if Command == "STOP":
+                ElizaAnswer = "стоп"
                 print "T_PCP1_CmdVelTask_0.0_0.0"
         if ElizaAnswer == "stop_recognition":
             stop = True
