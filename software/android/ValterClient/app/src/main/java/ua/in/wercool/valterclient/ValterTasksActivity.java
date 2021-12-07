@@ -9,6 +9,7 @@ import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -191,6 +192,8 @@ public class ValterTasksActivity extends AppCompatActivity {
                 }
 
                 preparedTask = "TASK#" + preparedTask;
+
+                Log.i("ValterClient", preparedTask);
 
                 ValterWebSocketClient.getInstance().sendMessage(preparedTask);
             }
