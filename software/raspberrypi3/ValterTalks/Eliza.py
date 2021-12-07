@@ -20,6 +20,18 @@ reflections = {
 }
 
 psychobabble = [
+    [r'едь вперёд',
+     ["command:MOVE_FORWARD"]],
+     
+    [r'поверни налево',
+     ["command:TURN_LEFT"]],
+     
+    [r'поверни направо',
+     ["command:TURN_RIGHT"]],
+     
+    [r'(.*)стоп(.*)',
+     ["command:STOP"]],
+
     [r'(.*)завершить распознавание',
      ["stop_recognition"]],
 
@@ -67,7 +79,7 @@ psychobabble = [
      ["wiki:{1}"]],
 
     [r'что такое метро',
-     ["метро - это свинь<break time=\"20ms\"/>ти<break time=\"20ms\"/>гля"]],
+     ["метро - это свинь<break time=\"20ms\"/>ти<break time=\"20ms\"/>для"]],
 
     [r'как говорит мишутка',
      ["гугль гугль гугль гугль"]],
