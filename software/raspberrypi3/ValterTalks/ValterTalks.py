@@ -24,19 +24,19 @@ def sayToEliza(statement, inVoice):
             Command = ElizaAnswer[8:]
             print "Executing command: " + Command
             if Command == "MOVE_FORWARD":
-                ElizaAnswer = "еду вперед"
+                ElizaAnswer = "еду вперёд"
                 ws = create_connection("ws://localhost:8888/")
-                ws.send("T_PCP1_CmdVelTask_0.1_0.0")
+                ws.send("T_PCP1_CmdVelTask_0.075_0.0")
                 ws.close()
             if Command == "TURN_LEFT":
                 ElizaAnswer = "поворачиваю влево"
                 ws = create_connection("ws://localhost:8888/")
-                ws.send("T_PCP1_CmdVelTask_0.0_0.2")
+                ws.send("T_PCP1_CmdVelTask_0.0_0.3")
                 ws.close()
             if Command == "TURN_RIGHT":
                 ElizaAnswer = "поворачиваю вправо"
                 ws = create_connection("ws://localhost:8888/")
-                ws.send("T_PCP1_CmdVelTask_0.0_-0.2")
+                ws.send("T_PCP1_CmdVelTask_0.0_-0.3")
                 ws.close()
             if Command == "STOP":
                 ElizaAnswer = "стоп"
