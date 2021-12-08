@@ -4,6 +4,7 @@
 
 #include "tcphandlers/taskmanager.tcphandler.cpp"
 #include <tasks/generic/talktask.h>
+#include <tasks/generic/wikitalktask.h>
 
 
 TaskManager* TaskManager::pTaskManager = NULL;
@@ -225,6 +226,13 @@ void TaskManager::processScript(string script)
             if (((string)scriptInstructionParts[0]).compare("TALK") == 0)
             {
                 ITask *task = new TalkTask();
+                task->setTaskScriptLine(scriptInstructionParts[1]);
+                TaskManager::getInstance()->addTask(task);
+                continue;
+            }
+            if (((string)scriptInstructionParts[0]).compare("WIKITALK") == 0)
+            {
+                ITask *task = new WikiTalkTask();
                 task->setTaskScriptLine(scriptInstructionParts[1]);
                 TaskManager::getInstance()->addTask(task);
                 continue;
