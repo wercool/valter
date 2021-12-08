@@ -538,13 +538,13 @@ void WebSocketServer::watchDogWorker()
 
                 watchCnt = -1;
 
-                platformControlP2->setBeepDuration(50);
+                platformControlP2->setBeepDuration(25);
                 platformControlP2->alarmBeep();
-                this_thread::sleep_for(std::chrono::milliseconds(500));
-                platformControlP2->setBeepDuration(50);
+                this_thread::sleep_for(std::chrono::milliseconds(250));
+                platformControlP2->setBeepDuration(25);
                 platformControlP2->alarmBeep();
-                this_thread::sleep_for(std::chrono::milliseconds(500));
-                platformControlP2->setBeepDuration(50);
+                this_thread::sleep_for(std::chrono::milliseconds(250));
+                platformControlP2->setBeepDuration(25);
                 platformControlP2->alarmBeep();
             }
         }
