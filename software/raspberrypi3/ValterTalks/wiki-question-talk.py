@@ -22,7 +22,7 @@ def main():
     first_dot_index = WikiResponse.find('.')
     WikiResponse = WikiResponse[0: first_dot_index]
     WikiResponse = re.sub(ur'[^\P{P}]+', ' ', WikiResponse)
-    WikiResponse = strip(WikiResponse)
+    WikiResponse = WikiResponse.strip()
     print >> sys.stdout, "Wiki Response: \n" + WikiResponse
     
     answer = question
