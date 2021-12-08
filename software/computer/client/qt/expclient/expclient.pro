@@ -18,6 +18,7 @@ TEMPLATE = app
 SOURCES += main.cpp\
            mainwindow.cpp \
            controldevice.cpp \
+    tasks/generic/stoptalktask.cpp \
     tasks/generic/talktask.cpp \
     tasks/generic/wikitalktask.cpp \
            valter.cpp \
@@ -103,6 +104,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
             controldevice.h \
+    tasks/generic/stoptalktask.h \
     tasks/generic/talktask.h \
     tasks/generic/wikitalktask.h \
             valter.h \

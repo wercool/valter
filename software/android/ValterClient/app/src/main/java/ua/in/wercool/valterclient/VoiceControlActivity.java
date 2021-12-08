@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.CalendarContract;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
@@ -124,9 +125,16 @@ public class VoiceControlActivity  extends AppCompatActivity {
 
                     if (!voiceCommandRecognized) {
                         if (voiceCommand.indexOf("вопрос ") == 0) {
-                            String quesiton = voiceCommand.substring(7);
+                            final String quesiton = voiceCommand.substring(7);
                             ValterWebSocketClient.getInstance().sendMessage("TASK#SAY_\"вопрос понял... " + quesiton + "... обрабатываю...\"");
-                            ValterWebSocketClient.getInstance().sendMessage("TASK#WIKITALK_\"" + quesiton + "\"");
+
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#WIKITALK_\"" + quesiton + "\"");
+                                        }
+                                    },
+                                    3000);
                             voiceCommandRecognized = true;
 
                             voiceCommand = voiceCommand + "\n" + quesiton;
