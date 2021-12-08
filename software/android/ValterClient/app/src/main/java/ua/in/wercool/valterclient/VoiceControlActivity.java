@@ -124,7 +124,7 @@ public class VoiceControlActivity  extends AppCompatActivity {
 
                     if (!voiceCommandRecognized) {
                         if (voiceCommand.indexOf("вопрос") == 0) {
-                            
+
                         }
                     }
 
