@@ -52,6 +52,13 @@
                 android:id="@+id/valterCommandsButton"/>
 
             <Button
+                android:id="@+id/voiceControlButton"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:drawableLeft="@drawable/voice_control"
+                android:text="Voice control" />
+
+            <Button
                 android:text="Valter Tasks"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"

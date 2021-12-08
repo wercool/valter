@@ -44,6 +44,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
+            android:name=".VoiceControlActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ValterDirectControlActivity"
             android:screenOrientation="portrait" />
 

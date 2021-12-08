@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     Button settingButton;
     Button chargerSettingsButton;
     Button valterCommandsButton;
+    Button voiceControlButton;
     Button valter3DButton;
 
     @Override
@@ -60,6 +61,15 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ValterCommandsActivity.dialogMode = false;
                 Intent myIntent = new Intent(getApplicationContext(), ValterCommandsActivity.class);
+                startActivityForResult(myIntent, 0);
+            }
+        });
+
+        voiceControlButton = (Button) findViewById(R.id.voiceControlButton);
+        voiceControlButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getApplicationContext(), VoiceControlActivity.class);
                 startActivityForResult(myIntent, 0);
             }
         });

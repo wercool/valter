@@ -18,6 +18,7 @@ TEMPLATE = app
 SOURCES += main.cpp\
            mainwindow.cpp \
            controldevice.cpp \
+    tasks/generic/talktask.cpp \
            valter.cpp \
            serial/src/impl/list_ports/list_ports_linux.cc \
            serial/src/impl/unix.cc \
@@ -101,6 +102,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
             controldevice.h \
+    tasks/generic/talktask.h \
             valter.h \
             ivaltermodule.h \
             serial/include/serial/impl/unix.h \
