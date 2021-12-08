@@ -21,6 +21,8 @@ def main():
     WikiResponse = re.sub(ur'\(.*?\) —', '', WikiResponse)
     first_dot_index = WikiResponse.find('.')
     WikiResponse = WikiResponse[0: first_dot_index]
+    WikiResponse = re.sub(ur'[^\P{P}]+', ' ', WikiResponse)
+    WikiResponse = strip(WikiResponse)
     print >> sys.stdout, "Wiki Response: \n" + WikiResponse
     
     answer = question
