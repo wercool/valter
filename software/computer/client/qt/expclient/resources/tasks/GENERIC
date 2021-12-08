@@ -5,3 +5,5 @@ INITIAL
 DELAY_{%d = delay in ms}
 SAY_"{%s = any number of UTF-8 characters}"
 VOICERECOGNITION
+STOPTALK
+WIKITALK_"{%s = any number of UTF-8 characters, wiki search request}"

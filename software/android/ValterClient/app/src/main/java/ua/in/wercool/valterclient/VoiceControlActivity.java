@@ -132,23 +132,145 @@ public class VoiceControlActivity  extends AppCompatActivity {
                             ValterWebSocketClient.getInstance().sendMessage("TASK#STOPTALK");
                             voiceCommandRecognized = true;
                             break;
-                    }
-
-                    if (!voiceCommandRecognized) {
-                        if (voiceCommand.indexOf("вопрос ") == 0) {
-                            final String quesiton = voiceCommand.substring(7);
-                            ValterWebSocketClient.getInstance().sendMessage("TASK#SAY_\"вопрос понял... " + quesiton + "... обрабатываю...\"");
+                        case "голову влево":
+                            Valter.getInstance().setHead24VState(true);
+                            Valter.getInstance().setHeadYawMotorState(true);
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadYawPositionTask_-45");
+                                        }
+                                    },
+                                    500);
+                            voiceCommandRecognized = true;
+                            break;
+                        case "голову вправо":
+                            Valter.getInstance().setHead24VState(true);
+                            Valter.getInstance().setHeadYawMotorState(true);
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadYawPositionTask_45");
+                                        }
+                                    },
+                                    500);
+                            voiceCommandRecognized = true;
+                            break;
+                        case "голову вниз":
+                            Valter.getInstance().setHead24VState(true);
+                            Valter.getInstance().setHeadPitchMotorState(true);
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadPitchPositionTask_30");
+                                        }
+                                    },
+                                    500);
+                            voiceCommandRecognized = true;
+                            break;
+                        case "голову влево вниз":
+                            Valter.getInstance().setHead24VState(true);
 
                             new android.os.Handler(Looper.getMainLooper()).postDelayed(
                                     new Runnable() {
                                         public void run() {
-                                            ValterWebSocketClient.getInstance().sendMessage("TASK#WIKITALK_\"" + quesiton + "\"");
+                                            Valter.getInstance().setHeadPitchMotorState(true);
+
+                                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                                    new Runnable() {
+                                                        public void run() {
+                                                            Valter.getInstance().setHeadYawMotorState(true);
+
+                                                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                                                    new Runnable() {
+                                                                        public void run() {
+                                                                            Valter.getInstance().setHeadMotorsActivatedState(true);
+                                                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadPitchPositionTask_30");
+                                                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadYawPositionTask_-45");
+                                                                        }
+                                                                    },
+                                                                    500);
+
+                                                        }
+                                                    },
+                                                    500);
+
+                                        }
+                                    },
+                                    500);
+                            voiceCommandRecognized = true;
+                            break;
+                        case "голову вправо вниз":
+                            Valter.getInstance().setHead24VState(true);
+
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            Valter.getInstance().setHeadPitchMotorState(true);
+
+                                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                                    new Runnable() {
+                                                        public void run() {
+                                                            Valter.getInstance().setHeadYawMotorState(true);
+
+                                                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                                                    new Runnable() {
+                                                                        public void run() {
+                                                                            Valter.getInstance().setHeadMotorsActivatedState(true);
+                                                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadPitchPositionTask_30");
+                                                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadYawPositionTask_45");
+                                                                        }
+                                                                    },
+                                                                    500);
+
+                                                        }
+                                                    },
+                                                    500);
+
+                                        }
+                                    },
+                                    500);
+                            voiceCommandRecognized = true;
+                            break;
+                        case "голову прямо":
+                            Valter.getInstance().setHeadMotorsActivatedState(true);
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            Valter.getInstance().setHeadMotorsActivatedState(true);
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadPitchPositionTask_0");
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#T_BCP1_SetHeadYawPositionTask_0");
+                                        }
+                                    },
+                                    500);
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            Valter.getInstance().setHeadMotorsActivatedState(false);
+                                        }
+                                    },
+                                    3000);
+                            voiceCommandRecognized = true;
+                            break;
+                    }
+
+                    if (!voiceCommandRecognized) {
+                        if (voiceCommand.indexOf("вопрос ") == 0) {
+                            final String question = voiceCommand.substring(7);
+
+                            ValterWebSocketClient.getInstance().sendMessage("TASK#SAY_\"вопрос понял... " + question + "... обрабатываю...\"");
+
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#WIKITALK_\"" + question + "\"");
                                         }
                                     },
                                     4000);
+
                             voiceCommandRecognized = true;
 
-                            voiceCommand = voiceCommand + "\n" + quesiton;
+                            voiceCommand = voiceCommand + "\n" + question;
                         }
                     }
 

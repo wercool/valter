@@ -36,6 +36,7 @@ def main():
         Answer = re.sub(ur'я́', 'я', Answer)
         Answer = re.sub(ur'ю́', 'ю', Answer)
         Answer = re.sub(ur'у́', 'у', Answer)
+        Answer = re.sub(ur'И́', 'И', Answer)
 
         Answer = re.sub(ur'ў', 'в', Answer)
         Answer = re.sub(ur'і', 'и', Answer)

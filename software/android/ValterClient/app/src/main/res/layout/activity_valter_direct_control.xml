@@ -41,7 +41,10 @@
         android:id="@+id/optionsMenuButton"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="false"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="380dp"
         app:srcCompat="@android:drawable/ic_menu_more" />
 
 

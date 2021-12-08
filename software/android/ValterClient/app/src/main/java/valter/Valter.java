@@ -342,6 +342,19 @@ public class Valter {
         }
     }
 
+    public void headPitchMoveSteps(boolean direction, int stepTime, int steps) {
+        if (direction)
+        {
+            sendMessage("BCP1#HEADPITCHDOWN");
+        }
+        else
+        {
+            sendMessage("BCP1#HEADPITCHUP");
+        }
+        sendMessage("BCP1#HEADPITCHSTEPTIME#" + String.valueOf(stepTime));
+        sendMessage("BCP1#HEADPITCHSTEPS#" + String.valueOf(steps));
+    }
+
     /******************************* ARM CONTROL RIGHT *******************************/
     public void ACRStopAll() {
         sendMessage("ACR#STOPALL");
