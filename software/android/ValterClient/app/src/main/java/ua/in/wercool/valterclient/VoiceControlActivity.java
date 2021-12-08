@@ -121,6 +121,17 @@ public class VoiceControlActivity  extends AppCompatActivity {
                             ValterWebSocketClient.getInstance().sendMessage("TASK#SAY_\"фонарь выключен\"");
                             voiceCommandRecognized = true;
                             break;
+                        case "замолчи":
+                            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                    new Runnable() {
+                                        public void run() {
+                                            ValterWebSocketClient.getInstance().sendMessage("TASK#SAY_\"молчу\"");
+                                        }
+                                    },
+                                    1000);
+                            ValterWebSocketClient.getInstance().sendMessage("TASK#STOPTALK");
+                            voiceCommandRecognized = true;
+                            break;
                     }
 
                     if (!voiceCommandRecognized) {
@@ -134,7 +145,7 @@ public class VoiceControlActivity  extends AppCompatActivity {
                                             ValterWebSocketClient.getInstance().sendMessage("TASK#WIKITALK_\"" + quesiton + "\"");
                                         }
                                     },
-                                    3000);
+                                    4000);
                             voiceCommandRecognized = true;
 
                             voiceCommand = voiceCommand + "\n" + quesiton;
