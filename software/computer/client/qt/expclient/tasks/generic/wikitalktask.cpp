@@ -38,7 +38,7 @@ void WikiTalkTask::reportCompletion()
 
 void WikiTalkTask::executionWorker()
 {
-    std::string cmd = "/home/maska/git/valter/software/raspberrypi3/ValterTalks " + getTaskScriptLine();
+    std::string cmd = "/home/maska/git/valter/software/raspberrypi3/ValterTalks/wiki-question-talk.py " + getTaskScriptLine();
     Valter::getInstance()->executeShellCmdLinux(cmd);
     setCompleted();
 }

@@ -123,8 +123,13 @@ public class VoiceControlActivity  extends AppCompatActivity {
                     }
 
                     if (!voiceCommandRecognized) {
-                        if (voiceCommand.indexOf("вопрос") == 0) {
+                        if (voiceCommand.indexOf("вопрос ") == 0) {
+                            String quesiton = voiceCommand.substring(7);
+                            ValterWebSocketClient.getInstance().sendMessage("TASK#SAY_\"вопрос понял. " + quesiton + ". обрабатываю.\"");
+                            ValterWebSocketClient.getInstance().sendMessage("TASK#WIKITALK_\"" + quesiton + "\"");
+                            voiceCommandRecognized = true;
 
+                            voiceCommand = voiceCommand + "\n" + quesiton;
                         }
                     }
 
