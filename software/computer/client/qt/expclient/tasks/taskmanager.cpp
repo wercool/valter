@@ -3,6 +3,7 @@
 #include <QtDebug>
 
 #include "tcphandlers/taskmanager.tcphandler.cpp"
+#include <tasks/generic/talktask.h>
 
 
 TaskManager* TaskManager::pTaskManager = NULL;
@@ -165,7 +166,7 @@ void TaskManager::wipeQueuedCompletedTaskFromQueue(unsigned long id, bool onlyFr
         {
             queuedTasksMap.erase(id);
         }
-        qDebug("Tasks %lu wiped from queue", id);
+        qDebug("Task#%lu wiped from queue", id);
     }
     qDebug("Tasks Queue length: %d", static_cast<int>(queuedTasksMap.size()));
 }
@@ -217,6 +218,13 @@ void TaskManager::processScript(string script)
             if (((string)scriptInstructionParts[0]).compare("SAY") == 0)
             {
                 ITask *task = new SayTask();
+                task->setTaskScriptLine(scriptInstructionParts[1]);
+                TaskManager::getInstance()->addTask(task);
+                continue;
+            }
+            if (((string)scriptInstructionParts[0]).compare("TALK") == 0)
+            {
+                ITask *task = new TalkTask();
                 task->setTaskScriptLine(scriptInstructionParts[1]);
                 TaskManager::getInstance()->addTask(task);
                 continue;
