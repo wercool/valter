@@ -38,6 +38,12 @@ void WikiTalkTask::reportCompletion()
 
 void WikiTalkTask::executionWorker()
 {
+    std::string festival_kill_cmd = "killall festival";
+    Valter::getInstance()->executeShellCmdLinux(festival_kill_cmd);
+
+    std::string aplay_kill_cmd = "killall aplay";
+    Valter::getInstance()->executeShellCmdLinux(aplay_kill_cmd);
+
     std::string cmd = "/home/maska/git/valter/software/raspberrypi3/ValterTalks/wiki-question-talk.py " + getTaskScriptLine();
     Valter::getInstance()->executeShellCmdLinux(cmd);
     setCompleted();
