@@ -477,7 +477,7 @@ void WebSocketServer::processTextMessage(QString message)
                 bodyControlP1->setPowerSource5VOnOff(false);
             break;
             case Valter::str2int("RESETBODYCAMERA"): //Reset body camera position
-
+                bodyControlP1->setBodyCameraPosition(1460 * 4);
             break;
 
         }
