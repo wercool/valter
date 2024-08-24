@@ -46,6 +46,24 @@ public class ArmControlLeftControlFragment extends Fragment {
             }
         });
 
+        forearmDownButton = (ImageButton) rootView.findViewById(R.id.forearmDownButton);
+        forearmDownButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        forearmDownButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().leftForearmDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        forearmDownButton.getBackground().clearColorFilter();
+                        Valter.getInstance().leftForearmDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
         return rootView;
     }
 

@@ -494,7 +494,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("LEFTFOREARMUP"): // Left Forearm UP
                 if (armControlLeft->prepareLeftForearmMovement())
                 {
-                    armControlLeft->setLeftForearmMotorDutyMax(25);
+                    armControlLeft->setLeftForearmMotorDutyMax(85);
                     //up
                     if (armControlLeft->setLeftForearmMotorMovementDirection(false))
                     {
@@ -505,7 +505,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("LEFTFOREARMDOWN"): // Left Forearm DOWN
                 if (armControlLeft->prepareLeftForearmMovement())
                 {
-                    armControlLeft->setLeftForearmMotorDutyMax(25);
+                    armControlLeft->setLeftForearmMotorDutyMax(85);
                     //down
                     if (armControlLeft->setLeftForearmMotorMovementDirection(true))
                     {
