@@ -257,6 +257,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("TORSOYAWRIGHT"): //Torso yaw right
                 if (platformControlP1->preparePlatformMovement())
                 {
+                    platformControlP1->setTurretMotorDutyMax(25);
                     //rotate right (cw)
                     if (platformControlP1->setTurretMotorDirection(true))
                     {
@@ -267,6 +268,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("TORSOYAWLEFT"): //Torso yaw left
                 if (platformControlP1->preparePlatformMovement())
                 {
+                    platformControlP1->setTurretMotorDutyMax(25);
                     //rotate left (ccw)
                     if (platformControlP1->setTurretMotorDirection(false))
                     {
