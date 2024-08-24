@@ -99,7 +99,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
 
         if (savedHost.indexOf("192.168") > -1) {
             System.out.println("FRONTAL CAMERA STREAM IS ON INTRANET");
-            savedHost = "192.168.101.101";
+            savedHost = "192.168.0.101";
         }
 
         currentCameraView.setUrl("http://" + savedHost + ":10100/?action=stream");
@@ -120,7 +120,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
 
         if (savedHost.indexOf("192.168") > -1) {
             System.out.println("REAR CAMERA STREAM IS ON INTRANET");
-            savedHost = "192.168.101.101";
+            savedHost = "192.168.0.101";
         }
         currentCameraView.setUrl("http://" + savedHost + ":10101/?action=stream");
         currentCameraView.setRecycleBitmap(true);
@@ -140,7 +140,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
 
         if (savedHost.indexOf("192.168") > -1) {
             System.out.println("FRONTAL CAMERA STREAM IS ON INTRANET");
-            savedHost = "192.168.101.102";
+            savedHost = "192.168.0.102";
         }
         currentCameraView.setUrl("http://" + savedHost + ":10200/?action=stream");
         currentCameraView.setRecycleBitmap(true);
@@ -160,7 +160,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
 
         if (savedHost.indexOf("192.168") > -1) {
             System.out.println("FRONTAL CAMERA STREAM IS ON INTRANET");
-            savedHost = "192.168.101.102";
+            savedHost = "192.168.0.102";
         }
         currentCameraView.setUrl("http://" + savedHost + ":10201/?action=stream");
         currentCameraView.setRecycleBitmap(true);

@@ -101,7 +101,7 @@ public class Valter {
             String savedHost = settings.getString("ValterHost", "109.87.34.156");
             if (savedHost.indexOf("192.168") > -1) {
                 System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                savedHost = "192.168.101.102";
+                savedHost = "192.168.0.102";
             }
             tcpClient.SERVER_IP = savedHost;
             tcpClient.SERVER_PORT = 10002;
@@ -112,7 +112,7 @@ public class Valter {
             String savedHost = settings.getString("ValterHost", "109.87.34.156");
             if (savedHost.indexOf("192.168") > -1) {
                 System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                savedHost = "192.168.101.102";
+                savedHost = "192.168.0.102";
             }
             tcpClient.SERVER_IP = savedHost;
             tcpClient.SERVER_PORT = 10002;
@@ -127,7 +127,7 @@ public class Valter {
             String savedHost = settings.getString("ValterHost", "109.87.34.156");
             if (savedHost.indexOf("192.168") > -1) {
                 System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                savedHost = "192.168.101.102";
+                savedHost = "192.168.0.102";
             }
             tcpClient.SERVER_IP = savedHost;
             tcpClient.SERVER_PORT = 10002;
@@ -138,7 +138,7 @@ public class Valter {
             String savedHost = settings.getString("ValterHost", "109.87.34.156");
             if (savedHost.indexOf("192.168") > -1) {
                 System.out.println("HEAD CAMERA STREAM IS ON INTRANET");
-                savedHost = "192.168.101.102";
+                savedHost = "192.168.0.102";
             }
             tcpClient.SERVER_IP = savedHost;
             tcpClient.SERVER_PORT = 10002;
@@ -395,5 +395,17 @@ public class Valter {
         } else {
             sendMessage("ACL#LEFTARMROLLMOTOROFF");
         }
+    }
+
+    public void leftForearmDO(boolean state) {
+        if (state) {
+            sendMessage("ACL#LEFTFOREARMUP");
+        } else {
+            sendMessage("ACL#LEFTFOREARMDOWN");
+        }
+    }
+
+    public void leftForearmDONE() {
+        sendMessage("ACL#LEFTFOREARMSTOP");
     }
 }

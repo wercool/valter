@@ -491,6 +491,31 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("LEFTARMROLLMOTOROFF"): // Left Arm Roll (OFF) stepper motor release
                 armControlLeft->setForearmRollMotorOnOff(false);
             break;
+            case Valter::str2int("LEFTFOREARMUP"): // Left Forearm UP
+                if (armControlLeft->prepareLeftForearmMovement())
+                {
+                    armControlLeft->setLeftForearmMotorDutyMax(25);
+                    //up
+                    if (armControlLeft->setLeftForearmMotorMovementDirection(false))
+                    {
+                        armControlLeft->setLeftForearmMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("LEFTFOREARMDOWN"): // Left Forearm DOWN
+                if (armControlLeft->prepareLeftForearmMovement())
+                {
+                    armControlLeft->setLeftForearmMotorDutyMax(25);
+                    //down
+                    if (armControlLeft->setLeftForearmMotorMovementDirection(true))
+                    {
+                        armControlLeft->setLeftForearmMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("LEFTFOREARMSTOP"): // Left Forearm STOP
+                armControlLeft->setLeftForearmMotorActivated(false);
+            break;
         }
     }
 
