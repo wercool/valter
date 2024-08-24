@@ -254,6 +254,29 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("STOP"): //Emergency Stop
                 stopAllModules();
             break;
+            case Valter::str2int("TORSOYAWRIGHT"): //Torso yaw right
+                if (platformControlP1->preparePlatformMovement())
+                {
+                    //rotate right (cw)
+                    if (platformControlP1->setTurretMotorDirection(true))
+                    {
+                        platformControlP1->setTurretMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("TORSOYAWLEFT"): //Torso yaw left
+                if (platformControlP1->preparePlatformMovement())
+                {
+                    //rotate left (ccw)
+                    if (platformControlP1->setTurretMotorDirection(false))
+                    {
+                        platformControlP1->setTurretMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("TORSOYAWDONE"): //Torso yaw stop
+                platformControlP1->setTurretMotorActivated(false);
+            break;
         }
 
         //RightMotorDuty
@@ -451,6 +474,10 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("BODY5_5VOFF"): //Body 5.5V OFF
                 bodyControlP1->setPowerSource5VOnOff(false);
             break;
+            case Valter::str2int("RESETBODYCAMERA"): //Reset body camera position
+
+            break;
+
         }
     }
 

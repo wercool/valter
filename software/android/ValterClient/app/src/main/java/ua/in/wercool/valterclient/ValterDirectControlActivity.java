@@ -27,6 +27,8 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     ArmControlRightControlFragment armControlRightControlFragment;
     ArmControlLeftControlFragment armControlLeftControlFragment;
 
+    TorsoControlFragment torsoControlFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -214,6 +216,12 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         ValterCommandsActivity.dialogMode = true;
         Intent myIntent = new Intent(getApplicationContext(), ValterTasksActivity.class);
         startActivityForResult(myIntent, 0);
+        return true;
+    }
+
+    public boolean valterTorsoItemClick(MenuItem item) {
+        torsoControlFragment = new TorsoControlFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, torsoControlFragment).commit();
         return true;
     }
 

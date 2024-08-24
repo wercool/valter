@@ -35,6 +35,7 @@ public class BodyControlP1Commands extends Fragment {
     Button rightArm12VOffButton;
     Button body5_5VOnButton;
     Button body5_5VOffButton;
+    Button resetBodyCameraButton;
 
 
     @Override
@@ -227,6 +228,15 @@ public class BodyControlP1Commands extends Fragment {
             public void onClick(View v) {
                 Log.i("BCP1", "5.5 V OFF");
                 Valter.getInstance().setBody5_5VState(false);
+            }
+        });
+
+        resetBodyCameraButton = (Button) rootView.findViewById(R.id.resetBodyCameraButton);
+        resetBodyCameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "RESET CAMERA");
+                Valter.getInstance().resetBodyCamera();
             }
         });
 

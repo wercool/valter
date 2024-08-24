@@ -54,4 +54,8 @@
         android:icon="@drawable/command"
         android:title="Valter Direct Commands"/>
 
+    <item android:id="@+id/valterTorsoItem"
+        android:onClick="valterTorsoItemClick"
+        android:title="TORSO"/>
+
 </menu>

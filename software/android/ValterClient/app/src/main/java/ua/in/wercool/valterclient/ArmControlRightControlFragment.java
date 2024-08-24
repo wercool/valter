@@ -17,6 +17,8 @@ public class ArmControlRightControlFragment extends Fragment {
 
     ImageButton forearmUpButton;
     ImageButton forearmDownButton;
+    ImageButton closeHandButton;
+    ImageButton openHandButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
@@ -56,6 +58,22 @@ public class ArmControlRightControlFragment extends Fragment {
                         break;
                 }
                 return true;
+            }
+        });
+
+        closeHandButton = (ImageButton) rootView.findViewById(R.id.closeHandButton);
+        closeHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Valter.getInstance().rightHandClose();
+            }
+        });
+
+        openHandButton = (ImageButton) rootView.findViewById(R.id.openHandButton);
+        openHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Valter.getInstance().rightHandOpen();
             }
         });
 

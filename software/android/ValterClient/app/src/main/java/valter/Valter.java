@@ -212,6 +212,19 @@ public class Valter {
         }
      }
 
+
+
+    public void torsoYawDO(boolean direction) {
+        if (direction)
+            sendMessage("PCP1#TORSOYAWRIGHT");
+        else
+            sendMessage("PCP1#TORSOYAWLEFT");
+    }
+
+    public void torsoYawDONE() {
+        sendMessage("PCP1#TORSOYAWDONE");
+    }
+
     /******************************* PLATFORM LOCATION P1 *******************************/
 
     public void setSonarLedsState(boolean state) {
@@ -361,6 +374,10 @@ public class Valter {
         } else {
             sendMessage("BCP1#BODY5_5VOFF");
         }
+    }
+
+    public void resetBodyCamera() {
+        sendMessage("BCP1#RESETBODYCAMERA");
     }
 
     /******************************* ARM CONTROL RIGHT *******************************/

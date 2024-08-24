@@ -311,6 +311,14 @@ tools:context="ua.in.wercool.valterclient.BodyControlP1Commands">
                 android:id="@+id/body5_5VOffButton"/>
         </LinearLayout>
 
+        <Button
+            android:text="Reset body camera"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.5"
+            android:id="@+id/resetBodyCameraButton"/>
+
 
     </LinearLayout>
 
