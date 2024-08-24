@@ -33,6 +33,8 @@ public class BodyControlP1Commands extends Fragment {
     Button leftArm12VOffButton;
     Button rightArm12VOnButton;
     Button rightArm12VOffButton;
+    Button body5_5VOnButton;
+    Button body5_5VOffButton;
 
 
     @Override
@@ -207,6 +209,24 @@ public class BodyControlP1Commands extends Fragment {
             public void onClick(View v) {
                 Log.i("BCP1", "RIGHT ARM ROLL OFF");
                 Valter.getInstance().setRightArmRoll12VState(false);
+            }
+        });
+
+        body5_5VOnButton = (Button) rootView.findViewById(R.id.body5_5VOnButton);
+        body5_5VOnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "5.5 V ON");
+                Valter.getInstance().setBody5_5VState(true);
+            }
+        });
+
+        body5_5VOffButton = (Button) rootView.findViewById(R.id.body5_5VOffButton);
+        body5_5VOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("BCP1", "5.5 V OFF");
+                Valter.getInstance().setBody5_5VState(false);
             }
         });
 

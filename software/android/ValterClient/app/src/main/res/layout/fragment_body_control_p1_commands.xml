@@ -286,6 +286,31 @@ tools:context="ua.in.wercool.valterclient.BodyControlP1Commands">
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <Button
+                android:text="5.5V ON"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="0.5"
+                android:id="@+id/body5_5VOnButton"/>
+
+            <Button
+                android:text="5.5V OFF"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignBottom="@+id/scrollView2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="0.5"
+                android:id="@+id/body5_5VOffButton"/>
+        </LinearLayout>
+
 
     </LinearLayout>
 

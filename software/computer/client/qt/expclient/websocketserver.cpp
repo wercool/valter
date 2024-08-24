@@ -445,6 +445,12 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("RIGHTARMROLL12VOFF"): // Right Arm Roll 12V OFF
                 bodyControlP1->setRightArm12VPowerOnOff(false);
             break;
+            case Valter::str2int("BODY5_5VON"): //Body 5.5V ON
+                bodyControlP1->setPowerSource5VOnOff(true);
+            break;
+            case Valter::str2int("BODY5_5VOFF"): //Body 5.5V OFF
+                bodyControlP1->setPowerSource5VOnOff(false);
+            break;
         }
     }
 
@@ -467,6 +473,31 @@ void WebSocketServer::processTextMessage(QString message)
             break;
             case Valter::str2int("RIGHTARMROLLMOTOROFF"): // Right Arm Roll (OFF) stepper motor release
                 armControlRight->setForearmRollMotorOnOff(false);
+            break;
+            case Valter::str2int("RIGHTOREARMUP"): // Right Forearm UP
+                if (armControlRight->prepareRightForearmMovement())
+                {
+                    armControlRight->setRightForearmMotorDutyMax(90);
+                    //up
+                    if (armControlRight->setRightForearmMotorMovementDirection(false))
+                    {
+                        armControlRight->setRightForearmMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("RIGHTFOREARMDOWN"): // Right Forearm DOWN
+                if (armControlRight->prepareRightForearmMovement())
+                {
+                    armControlRight->setRightForearmMotorDutyMax(90);
+                    //down
+                    if (armControlRight->setRightForearmMotorMovementDirection(true))
+                    {
+                        armControlRight->setRightForearmMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("RIGHTFOREARMSTOP"): // Right Forearm STOP
+                armControlRight->setRightForearmMotorActivated(false);
             break;
         }
     }
@@ -494,7 +525,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("LEFTFOREARMUP"): // Left Forearm UP
                 if (armControlLeft->prepareLeftForearmMovement())
                 {
-                    armControlLeft->setLeftForearmMotorDutyMax(85);
+                    armControlLeft->setLeftForearmMotorDutyMax(90);
                     //up
                     if (armControlLeft->setLeftForearmMotorMovementDirection(false))
                     {
@@ -505,7 +536,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("LEFTFOREARMDOWN"): // Left Forearm DOWN
                 if (armControlLeft->prepareLeftForearmMovement())
                 {
-                    armControlLeft->setLeftForearmMotorDutyMax(85);
+                    armControlLeft->setLeftForearmMotorDutyMax(90);
                     //down
                     if (armControlLeft->setLeftForearmMotorMovementDirection(true))
                     {
@@ -515,6 +546,16 @@ void WebSocketServer::processTextMessage(QString message)
             break;
             case Valter::str2int("LEFTFOREARMSTOP"): // Left Forearm STOP
                 armControlLeft->setLeftForearmMotorActivated(false);
+            break;
+            case Valter::str2int("LEFTHANDCLOSE"): // Close left hand
+                armControlLeft->fingersToInitialPositions();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                armControlLeft->fingersGrasp();
+            break;
+            case Valter::str2int("LEFTHANDOPEN"): // Open left hand
+                armControlLeft->fingersToInitialPositions();
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                armControlLeft->releaseAllFingers();
             break;
         }
     }

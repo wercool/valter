@@ -15,24 +15,44 @@ import valter.Valter;
 
 public class ArmControlRightControlFragment extends Fragment {
 
-    ImageButton armUpButton;
+    ImageButton forearmUpButton;
+    ImageButton forearmDownButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_arm_control_right_control, container, false);
 
-        armUpButton = (ImageButton) rootView.findViewById(R.id.armUpButton);
-        armUpButton.setOnTouchListener(new View.OnTouchListener() {
+
+        forearmUpButton = (ImageButton) rootView.findViewById(R.id.forearmUpButton);
+        forearmUpButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        armUpButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
-                        Valter.getInstance().headYawDO(true);
+                        forearmUpButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightForearmDO(true);
                         break;
                     case MotionEvent.ACTION_UP:
-                        armUpButton.getBackground().clearColorFilter();
-                        Valter.getInstance().headYawDONE();
+                        forearmUpButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightForearmDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        forearmDownButton = (ImageButton) rootView.findViewById(R.id.forearmDownButton);
+        forearmDownButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        forearmDownButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightForearmDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        forearmDownButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightForearmDONE();
                         break;
                 }
                 return true;

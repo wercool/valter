@@ -355,6 +355,14 @@ public class Valter {
         sendMessage("BCP1#HEADPITCHSTEPS#" + String.valueOf(steps));
     }
 
+    public void setBody5_5VState(boolean state) {
+        if (state) {
+            sendMessage("BCP1#BODY5_5VON");
+        } else {
+            sendMessage("BCP1#BODY5_5VOFF");
+        }
+    }
+
     /******************************* ARM CONTROL RIGHT *******************************/
     public void ACRStopAll() {
         sendMessage("ACR#STOPALL");
@@ -374,6 +382,18 @@ public class Valter {
         } else {
             sendMessage("ACR#RIGHTARMROLLMOTOROFF");
         }
+    }
+
+    public void rightForearmDO(boolean state) {
+        if (state) {
+            sendMessage("ACR#RIGHTFOREARMUP");
+        } else {
+            sendMessage("ACR#RIGHTFOREARMDOWN");
+        }
+    }
+
+    public void rightForearmDONE() {
+        sendMessage("ACR#RIGHTFOREARMSTOP");
     }
 
     /******************************* ARM CONTROL LEFT ********************************/
@@ -407,5 +427,13 @@ public class Valter {
 
     public void leftForearmDONE() {
         sendMessage("ACL#LEFTFOREARMSTOP");
+    }
+
+    public void leftHandClose() {
+        sendMessage("ACL#LEFTHANDCLOSE");
+    }
+
+    public void leftHandOpen() {
+        sendMessage("ACL#LEFTHANDOPEN");
     }
 }

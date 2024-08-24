@@ -5,10 +5,12 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import valter.Valter;
@@ -23,6 +25,8 @@ public class ArmControlLeftControlFragment extends Fragment {
     ImageButton limbDownButton;
     ImageButton forearmRollCCWButton;
     ImageButton forearmRollCWButton;
+    ImageButton closeHandButton;
+    ImageButton openHandButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
@@ -61,6 +65,22 @@ public class ArmControlLeftControlFragment extends Fragment {
                         break;
                 }
                 return true;
+            }
+        });
+
+        closeHandButton = (ImageButton) rootView.findViewById(R.id.closeHandButton);
+        closeHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Valter.getInstance().leftHandClose();
+            }
+        });
+
+        openHandButton = (ImageButton) rootView.findViewById(R.id.openHandButton);
+        openHandButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Valter.getInstance().leftHandOpen();
             }
         });
 
