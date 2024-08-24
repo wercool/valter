@@ -474,7 +474,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("RIGHTARMROLLMOTOROFF"): // Right Arm Roll (OFF) stepper motor release
                 armControlRight->setForearmRollMotorOnOff(false);
             break;
-            case Valter::str2int("RIGHTOREARMUP"): // Right Forearm UP
+            case Valter::str2int("RIGHTFOREARMUP"): // Right Forearm UP
                 if (armControlRight->prepareRightForearmMovement())
                 {
                     armControlRight->setRightForearmMotorDutyMax(90);
@@ -498,6 +498,16 @@ void WebSocketServer::processTextMessage(QString message)
             break;
             case Valter::str2int("RIGHTFOREARMSTOP"): // Right Forearm STOP
                 armControlRight->setRightForearmMotorActivated(false);
+            break;
+            case Valter::str2int("RIGHTHANDCLOSE"): // Close right hand
+                armControlRight->fingersToInitialPositions();
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                armControlRight->fingersGrasp();
+            break;
+            case Valter::str2int("RIGHTHANDOPEN"): // Open right hand
+                armControlRight->fingersToInitialPositions();
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
+                armControlRight->releaseAllFingers();
             break;
         }
     }
@@ -549,12 +559,12 @@ void WebSocketServer::processTextMessage(QString message)
             break;
             case Valter::str2int("LEFTHANDCLOSE"): // Close left hand
                 armControlLeft->fingersToInitialPositions();
-                std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
                 armControlLeft->fingersGrasp();
             break;
             case Valter::str2int("LEFTHANDOPEN"): // Open left hand
                 armControlLeft->fingersToInitialPositions();
-                std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
                 armControlLeft->releaseAllFingers();
             break;
         }

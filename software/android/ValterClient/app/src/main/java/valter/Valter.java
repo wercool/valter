@@ -396,6 +396,14 @@ public class Valter {
         sendMessage("ACR#RIGHTFOREARMSTOP");
     }
 
+    public void rightHandClose() {
+        sendMessage("ACR#RIGHTHANDCLOSE");
+    }
+
+    public void rightHandOpen() {
+        sendMessage("ACR#RIGHTHANDOPEN");
+    }
+
     /******************************* ARM CONTROL LEFT ********************************/
     public void ACLStopAll() {
         sendMessage("ACL#STOPALL");
