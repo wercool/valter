@@ -69,7 +69,7 @@
                     android:layout_weight="0.5"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
-                    android:id="@+id/bodyPitchDownButton" />
+                    android:id="@+id/bodyPitchUpButton" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
                     android:layout_weight="0.5"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
-                    android:id="@+id/bodyPitchUpButton" />
+                    android:id="@+id/bodyPitchDownButton" />
 
             </LinearLayout>
 
