@@ -479,7 +479,29 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("RESETBODYCAMERA"): //Reset body camera position
                 bodyControlP1->setBodyCameraPosition(1460 * 4);
             break;
-
+            case Valter::str2int("BODYPITCHDOWN"): //Pitch body down
+                if (bodyControlP1->prepareBodyPitchMovement())
+                {
+                    //down
+                    if (bodyControlP1->setBodyPitchMovementDirection(true))
+                    {
+                        bodyControlP1->setBodyPitchMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("BODYPITCHUP"): //Pitch body up
+                if (bodyControlP1->prepareBodyPitchMovement())
+                {
+                    //up
+                    if (bodyControlP1->setBodyPitchMovementDirection(false))
+                    {
+                        bodyControlP1->setBodyPitchMotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("BODYPITCHSTOP"): //Pitch body stop
+                bodyControlP1->setBodyPitchMotorActivated(false);
+            break;
         }
     }
 

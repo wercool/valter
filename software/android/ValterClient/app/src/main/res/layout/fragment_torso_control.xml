@@ -56,6 +56,32 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/up_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/bodyPitchDownButton" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/down_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/bodyPitchUpButton" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

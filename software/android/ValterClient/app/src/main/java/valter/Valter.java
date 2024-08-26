@@ -380,6 +380,18 @@ public class Valter {
         sendMessage("BCP1#RESETBODYCAMERA");
     }
 
+    public void bodyPitchDO(boolean state) {
+        if (state) {
+            sendMessage("BCP1#BODYPITCHDOWN");
+        } else {
+            sendMessage("BCP1#BODYPITCHUP");
+        }
+    }
+
+    public void bodyPitchDONE() {
+        sendMessage("BCP1#BODYPITCHSTOP");
+    }
+
     /******************************* ARM CONTROL RIGHT *******************************/
     public void ACRStopAll() {
         sendMessage("ACR#STOPALL");
