@@ -433,6 +433,18 @@ public class Valter {
         sendMessage("ACR#RIGHTHANDOPEN");
     }
 
+    public void rightForearmRollDO(boolean state) {
+        if (state) {
+            sendMessage("ACR#LEFTFOREARMROLLCCW");
+        } else {
+            sendMessage("ACR#LEFTFOREARMROLLCW");
+        }
+    }
+
+    public void rightForearmRollDONE() {
+        sendMessage("ACR#LEFTFOREARMROLLSTOP");
+    }
+
     /******************************* ARM CONTROL LEFT ********************************/
     public void ACLStopAll() {
         sendMessage("ACL#STOPALL");

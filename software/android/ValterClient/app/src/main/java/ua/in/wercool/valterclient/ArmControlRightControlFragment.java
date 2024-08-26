@@ -19,6 +19,8 @@ public class ArmControlRightControlFragment extends Fragment {
     ImageButton forearmDownButton;
     ImageButton closeHandButton;
     ImageButton openHandButton;
+    ImageButton forearmRollCCWButton;
+    ImageButton forearmRollCWButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
@@ -74,6 +76,42 @@ public class ArmControlRightControlFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Valter.getInstance().rightHandOpen();
+            }
+        });
+
+        forearmRollCCWButton = (ImageButton) rootView.findViewById(R.id.forearmRollCCWButton);
+        forearmRollCCWButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        forearmRollCCWButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightForearmRollDO(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        forearmRollCCWButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightForearmRollDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        forearmRollCWButton = (ImageButton) rootView.findViewById(R.id.forearmRollCWButton);
+        forearmRollCWButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        forearmRollCWButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightForearmRollDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        forearmRollCWButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightForearmRollDONE();
+                        break;
+                }
+                return true;
             }
         });
 
