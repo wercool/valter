@@ -620,6 +620,23 @@ void WebSocketServer::processTextMessage(QString message)
                 std::this_thread::sleep_for(std::chrono::milliseconds(500));
                 armControlLeft->releaseAllFingers();
             break;
+            case Valter::str2int("LEFTFOREARMROLLCCW"): // Left Forearm Roll CCW
+                if (armControlLeft->getForearmRollMotorState())
+                {
+                    armControlLeft->setForearmRollDirection(false); //CCW
+                    armControlLeft->setForearmRollMotorActivated(true);
+                }
+            break;
+            case Valter::str2int("LEFTFOREARMROLLCW"): // Left Forearm Roll CW
+                if (armControlLeft->getForearmRollMotorState())
+                {
+                    armControlLeft->setForearmRollDirection(true); //CW
+                    armControlLeft->setForearmRollMotorActivated(true);
+                }
+            break;
+            case Valter::str2int("LEFTFOREARMROLLSTOP"): // Left Forearm STOP
+                armControlLeft->setForearmRollMotorActivated(false);
+            break;
         }
     }
 

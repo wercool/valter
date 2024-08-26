@@ -473,4 +473,16 @@ public class Valter {
     public void leftHandOpen() {
         sendMessage("ACL#LEFTHANDOPEN");
     }
+
+    public void leftForearmRollDO(boolean state) {
+        if (state) {
+            sendMessage("ACL#LEFTFOREARMROLLCCW");
+        } else {
+            sendMessage("ACL#LEFTFOREARMROLLCW");
+        }
+    }
+
+    public void leftForearmRollDONE() {
+        sendMessage("ACL#LEFTFOREARMROLLSTOP");
+    }
 }

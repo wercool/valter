@@ -84,6 +84,42 @@ public class ArmControlLeftControlFragment extends Fragment {
             }
         });
 
+        forearmRollCCWButton = (ImageButton) rootView.findViewById(R.id.forearmRollCCWButton);
+        forearmRollCCWButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        forearmRollCCWButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().leftForearmRollDO(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        forearmRollCCWButton.getBackground().clearColorFilter();
+                        Valter.getInstance().leftForearmRollDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        forearmRollCWButton = (ImageButton) rootView.findViewById(R.id.forearmRollCWButton);
+        forearmRollCWButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        forearmRollCWButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().leftForearmRollDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        forearmRollCWButton.getBackground().clearColorFilter();
+                        Valter.getInstance().leftForearmRollDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
         return rootView;
     }
 
