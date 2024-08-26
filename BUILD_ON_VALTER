@@ -1,4 +1,5 @@
 cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug
+git pull
 ls -l
 qmake ../expclient
 make -j8

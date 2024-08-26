@@ -382,9 +382,9 @@ public class Valter {
 
     public void bodyPitchDO(boolean state) {
         if (state) {
-            sendMessage("BCP1#BODYPITCHDOWN");
-        } else {
             sendMessage("BCP1#BODYPITCHUP");
+        } else {
+            sendMessage("BCP1#BODYPITCHDOWN");
         }
     }
 
