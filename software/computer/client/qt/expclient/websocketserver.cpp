@@ -482,6 +482,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("BODYPITCHDOWN"): //Pitch body down
                 if (bodyControlP1->prepareBodyPitchMovement())
                 {
+                    bodyControlP1->setBodyPitchMotorDutyMax(90);
                     //down
                     if (bodyControlP1->setBodyPitchMovementDirection(true))
                     {
@@ -492,6 +493,7 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("BODYPITCHUP"): //Pitch body up
                 if (bodyControlP1->prepareBodyPitchMovement())
                 {
+                    bodyControlP1->setBodyPitchMotorDutyMax(90);
                     //up
                     if (bodyControlP1->setBodyPitchMovementDirection(false))
                     {
