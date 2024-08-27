@@ -425,6 +425,30 @@ public class Valter {
         sendMessage("ACR#RIGHTFOREARMSTOP");
     }
 
+    public void rightArmDO(boolean state) {
+        if (state) {
+            sendMessage("ACR#RIGHTARMUP");
+        } else {
+            sendMessage("ACR#RIGHTARMDOWN");
+        }
+    }
+
+    public void rightArmDONE() {
+        sendMessage("ACR#RIGHTARMSTOP");
+    }
+
+    public void rightLimbDO(boolean state) {
+        if (state) {
+            sendMessage("ACR#RIGHTLIMBUP");
+        } else {
+            sendMessage("ACR#RIGHTLIMBDOWN");
+        }
+    }
+
+    public void rightLimbDONE() {
+        sendMessage("ACR#RIGHTLIMBSTOP");
+    }
+
     public void rightHandClose() {
         sendMessage("ACR#RIGHTHANDCLOSE");
     }
@@ -435,14 +459,14 @@ public class Valter {
 
     public void rightForearmRollDO(boolean state) {
         if (state) {
-            sendMessage("ACR#LEFTFOREARMROLLCCW");
+            sendMessage("ACR#RIGHTFOREARMROLLCCW");
         } else {
-            sendMessage("ACR#LEFTFOREARMROLLCW");
+            sendMessage("ACR#RIGHTFOREARMROLLCW");
         }
     }
 
     public void rightForearmRollDONE() {
-        sendMessage("ACR#LEFTFOREARMROLLSTOP");
+        sendMessage("ACR#RIGHTFOREARMROLLSTOP");
     }
 
     /******************************* ARM CONTROL LEFT ********************************/
@@ -476,6 +500,30 @@ public class Valter {
 
     public void leftForearmDONE() {
         sendMessage("ACL#LEFTFOREARMSTOP");
+    }
+
+    public void leftArmDO(boolean state) {
+        if (state) {
+            sendMessage("ACL#LEFTARMUP");
+        } else {
+            sendMessage("ACL#LEFTARMDOWN");
+        }
+    }
+
+    public void leftArmDONE() {
+        sendMessage("ACL#LEFTARMSTOP");
+    }
+
+    public void leftLimbDO(boolean state) {
+        if (state) {
+            sendMessage("ACL#LEFTLIMBUP");
+        } else {
+            sendMessage("ACL#LEFTLIMBDOWN");
+        }
+    }
+
+    public void leftLimbDONE() {
+        sendMessage("ACL#LEFTLIMBSTOP");
     }
 
     public void leftHandClose() {

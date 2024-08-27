@@ -106,6 +106,14 @@
                 android:textSize="12pt"
                 android:layout_weight="0.95" />
 
+            <TextView
+                android:text="Limb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:textSize="12pt"
+                android:layout_weight="0.95" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

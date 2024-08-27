@@ -17,6 +17,10 @@ public class ArmControlRightControlFragment extends Fragment {
 
     ImageButton forearmUpButton;
     ImageButton forearmDownButton;
+    ImageButton armUpButton;
+    ImageButton armDownButton;
+    ImageButton limbUpButton;
+    ImageButton limbDownButton;
     ImageButton closeHandButton;
     ImageButton openHandButton;
     ImageButton forearmRollCCWButton;
@@ -57,6 +61,78 @@ public class ArmControlRightControlFragment extends Fragment {
                     case MotionEvent.ACTION_UP:
                         forearmDownButton.getBackground().clearColorFilter();
                         Valter.getInstance().rightForearmDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        armUpButton = (ImageButton) rootView.findViewById(R.id.armUpButton);
+        armUpButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        armUpButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightArmDO(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        armUpButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightArmDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        armDownButton = (ImageButton) rootView.findViewById(R.id.armDownButton);
+        armDownButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        armDownButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightArmDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        armDownButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightArmDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        limbUpButton = (ImageButton) rootView.findViewById(R.id.limbUpButton);
+        limbUpButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        limbUpButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightLimbDO(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        limbUpButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightLimbDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        limbDownButton = (ImageButton) rootView.findViewById(R.id.limbDownButton);
+        limbDownButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        limbDownButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().rightLimbDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        limbDownButton.getBackground().clearColorFilter();
+                        Valter.getInstance().rightLimbDONE();
                         break;
                 }
                 return true;

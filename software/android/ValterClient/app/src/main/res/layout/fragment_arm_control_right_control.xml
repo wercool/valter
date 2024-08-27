@@ -99,6 +99,48 @@
 
             </LinearLayout>
 
+            <TextView
+                android:text="Limb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:textSize="12pt"
+                android:layout_weight="0.95" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/up_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/limbUpButton" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/down_arrow"
+                    android:layout_weight="0.5"
+                    android:minWidth="175dp"
+                    android:minHeight="80dp"
+                    android:id="@+id/limbDownButton" />
+
+            </LinearLayout>
+
+            <TextView
+                android:text="Forearm Roll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView4"
+                android:textSize="12pt"
+                android:layout_weight="0.95" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

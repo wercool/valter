@@ -68,6 +68,78 @@ public class ArmControlLeftControlFragment extends Fragment {
             }
         });
 
+        armUpButton = (ImageButton) rootView.findViewById(R.id.armUpButton);
+        armUpButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        armUpButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().leftArmDO(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        armUpButton.getBackground().clearColorFilter();
+                        Valter.getInstance().leftArmDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        armDownButton = (ImageButton) rootView.findViewById(R.id.armDownButton);
+        armDownButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        armDownButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().leftArmDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        armDownButton.getBackground().clearColorFilter();
+                        Valter.getInstance().leftArmDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        limbUpButton = (ImageButton) rootView.findViewById(R.id.limbUpButton);
+        limbUpButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        limbUpButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().leftLimbDO(true);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        limbUpButton.getBackground().clearColorFilter();
+                        Valter.getInstance().leftLimbDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        limbDownButton = (ImageButton) rootView.findViewById(R.id.limbDownButton);
+        limbDownButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        limbDownButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().leftLimbDO(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        limbDownButton.getBackground().clearColorFilter();
+                        Valter.getInstance().leftLimbDONE();
+                        break;
+                }
+                return true;
+            }
+        });
+
         closeHandButton = (ImageButton) rootView.findViewById(R.id.closeHandButton);
         closeHandButton.setOnClickListener(new View.OnClickListener() {
             @Override
