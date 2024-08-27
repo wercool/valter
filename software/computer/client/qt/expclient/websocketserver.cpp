@@ -127,7 +127,7 @@ void WebSocketServer::processTextMessage(QString message)
     }
 
     //Valter Script
-    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("SCRIPT\n"))
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("SCRIPT"))
     {
         std::string cmdValueStr = cmdValue;
 

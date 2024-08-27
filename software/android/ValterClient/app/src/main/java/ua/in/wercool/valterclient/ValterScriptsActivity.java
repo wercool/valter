@@ -96,7 +96,7 @@ public class ValterScriptsActivity extends AppCompatActivity {
         sendScriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ValterWebSocketClient.getInstance().sendMessage(scriptText.getText().toString());
             }
         });
     }
