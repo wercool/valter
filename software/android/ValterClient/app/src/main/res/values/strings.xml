@@ -14,6 +14,12 @@
         <item>T_PCP1_TrasnslatePlatformLinearlyTask_{%d = direction [-1 undefined, 1 - forward, 0 - backward]}_{%f = translation in meters}</item>
     </string-array>
 
+    <string-array name="valterScripts">
+        <item>SELECT A SCRIPT|</item>
+        <item>SAY \"HELLO\"|SAY_\"Hello!\"</item>
+        <item>СКАЗАТЬ \"ПРИВЕТ\"|SAY_\"Привет!\"</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

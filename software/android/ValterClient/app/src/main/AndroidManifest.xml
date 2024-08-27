@@ -41,6 +41,9 @@
             android:name=".ValterTasksActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ValterScriptsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".ValterCommandsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>

@@ -7,6 +7,51 @@
         android:icon="@drawable/logitech_c910"
         android:title="Frontal Camera" />
 
+    <item android:id="@+id/valterManualSteeringItem"
+        android:onClick="valterManualSteeringItemClick"
+        android:icon="@drawable/joystick"
+        android:title="Valter Manual Steering"/>
+
+    <item android:id="@+id/valterHeadYawPitchItem"
+        android:onClick="valterHeadYawPitchItemClick"
+        android:icon="@drawable/valter_head"
+        android:title="Head Yaw &amp; Pitch"/>
+
+    <item android:id="@+id/valterACRItem"
+        android:onClick="valterACRItemClick"
+        android:icon="@drawable/rarm"
+        android:title="ARM CONTROL RIGHT"/>
+
+    <item android:id="@+id/valterACLItem"
+        android:onClick="valterACLItemClick"
+        android:icon="@drawable/larm"
+        android:title="ARM CONTROL LEFT"/>
+
+    <item android:id="@+id/valterTorsoItem"
+        android:onClick="valterTorsoItemClick"
+        android:icon="@drawable/torso"
+        android:title="TORSO"/>
+
+    <item android:id="@+id/valterPMIBItem"
+        android:onClick="valterPMIBItemClick"
+        android:icon="@drawable/manipulator"
+        android:title="PLATFORM MANIPULATOR AND IR BUMPER"/>
+
+    <item android:id="@+id/valterCommandsItem"
+        android:onClick="valterCommandsItemClick"
+        android:icon="@drawable/command"
+        android:title="Valter Direct Commands"/>
+
+    <item android:id="@+id/valterScriptsItem"
+        android:onClick="valterScriptsItemClick"
+        android:icon="@drawable/scripts"
+        android:title="Valter Scripts"/>
+
+    <item android:id="@+id/valterTasksItem"
+        android:onClick="valterTasksItemClick"
+        android:icon="@drawable/tasks"
+        android:title="Valter Tasks"/>
+
     <item android:id="@+id/headRCameraItem"
         android:onClick="onHeadRCameraItemClick"
         android:icon="@drawable/logitect_sphere_r"
@@ -21,41 +66,5 @@
         android:onClick="onRearCameraItemClick"
         android:enabled="true"
         android:title="Rear Camera"/>
-
-    <item android:id="@+id/valterManualSteeringItem"
-        android:onClick="valterManualSteeringItemClick"
-        android:icon="@drawable/joystick"
-        android:title="Valter Manual Steering"/>
-
-    <item android:id="@+id/valterHeadYawPitchItem"
-        android:onClick="valterHeadYawPitchItemClick"
-        android:icon="@drawable/valter_head"
-        android:title="Head Yaw &amp; Pitch"/>
-
-    <item android:id="@+id/valterACRItem"
-        android:onClick="valterACRItemClick"
-        android:title="ARM CONTROL RIGHT"/>
-
-    <item android:id="@+id/valterACLItem"
-        android:onClick="valterACLItemClick"
-        android:title="ARM CONTROL LEFT"/>
-
-    <item android:id="@+id/valterPMIBItem"
-        android:onClick="valterPMIBItemClick"
-        android:title="PLATFORM MANIPULATOR AND IR BUMPER"/>
-
-    <item android:id="@+id/valterTasksItem"
-        android:onClick="valterTasksItemClick"
-        android:icon="@drawable/tasks"
-        android:title="Valter Tasks"/>
-
-    <item android:id="@+id/valterCommandsItem"
-        android:onClick="valterCommandsItemClick"
-        android:icon="@drawable/command"
-        android:title="Valter Direct Commands"/>
-
-    <item android:id="@+id/valterTorsoItem"
-        android:onClick="valterTorsoItemClick"
-        android:title="TORSO"/>
 
 </menu>

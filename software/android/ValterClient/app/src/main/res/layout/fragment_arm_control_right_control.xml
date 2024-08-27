@@ -48,16 +48,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/up_arrow"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/forearmUpButton" />
+
+                <Space
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/down_arrow"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/forearmDownButton" />
@@ -66,7 +71,7 @@
 
 
             <TextView
-                android:text="Arm"
+                android:text="\nArm\n"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4"
@@ -83,16 +88,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/up_arrow"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/armUpButton" />
+
+                <Space
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/down_arrow"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/armDownButton" />
@@ -100,7 +110,7 @@
             </LinearLayout>
 
             <TextView
-                android:text="Limb"
+                android:text="\nLimb\n"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4"
@@ -117,16 +127,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/up_arrow"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/limbUpButton" />
+
+                <Space
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/down_arrow"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/limbDownButton" />
@@ -134,7 +149,7 @@
             </LinearLayout>
 
             <TextView
-                android:text="Forearm Roll"
+                android:text="\nForearm Roll\n"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4"
@@ -151,22 +166,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/yaw_l"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:id="@+id/forearmRollCCWButton" />
+
+                <Space
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/yaw_r"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:id="@+id/forearmRollCWButton" />
 
             </LinearLayout>
 
             <TextView
-                android:text="Hand"
+                android:text="\nHand\n"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView8"
@@ -183,16 +203,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/hand_closed"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/closeHandButton" />
+
+                <Space
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/hand_opened"
-                    android:layout_weight="0.5"
+                    android:layout_weight="0.25"
                     android:minWidth="175dp"
                     android:minHeight="80dp"
                     android:id="@+id/openHandButton" />

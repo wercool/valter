@@ -126,6 +126,21 @@ void WebSocketServer::processTextMessage(QString message)
         return;
     }
 
+    //Valter Script
+    if (Valter::str2int(cmdType.c_str()) == Valter::str2int("SCRIPT\n"))
+    {
+        std::string cmdValueStr = cmdValue;
+
+        // Trim newlines from the beginning of the string
+        cmdValueStr.erase(cmdValueStr.begin(), std::find_if(cmdValueStr.begin(), cmdValueStr.end(), [](unsigned char ch) {
+            return ch != '\n' && ch != '\r';
+        }));
+
+        // Pass the modified string to processScript
+        TaskManager::getInstance()->processScript(cmdValueStr.c_str());
+        return;
+    }
+
     //Valter Perephiral Controls (WebCams, ...)
     if (Valter::str2int(cmdType.c_str()) == Valter::str2int("CTRL"))
     {

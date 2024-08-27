@@ -82,7 +82,6 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_valter_direct_controls, menu);
-        menu.getItem(4).setIcon(R.drawable.joystick);
         if(menu instanceof MenuBuilder){
             MenuBuilder m = (MenuBuilder) menu;
             m.setOptionalIconsVisible(true);
@@ -90,7 +89,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         return true;
     }
 
-    public boolean onFrontalCameraItemClick(MenuItem item)
+    public void onFrontalCameraItemClick(MenuItem item)
     {
         currentCameraView.stopStream();
 
@@ -107,11 +106,9 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         currentCameraView.setUrl("http://" + savedHost + ":10100/?action=stream");
         currentCameraView.setRecycleBitmap(true);
         currentCameraView.startStream();
-
-        return true;
     }
 
-    public boolean onRearCameraItemClick(MenuItem item)
+    public void onRearCameraItemClick(MenuItem item)
     {
         currentCameraView.stopStream();
 
@@ -127,11 +124,9 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         currentCameraView.setUrl("http://" + savedHost + ":10101/?action=stream");
         currentCameraView.setRecycleBitmap(true);
         currentCameraView.startStream();
-
-        return true;
     }
 
-    public boolean onHeadLCameraItemClick(MenuItem item)
+    public void onHeadLCameraItemClick(MenuItem item)
     {
         currentCameraView.stopStream();
 
@@ -147,11 +142,9 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         currentCameraView.setUrl("http://" + savedHost + ":10200/?action=stream");
         currentCameraView.setRecycleBitmap(true);
         currentCameraView.startStream();
-
-        return true;
     }
 
-    public boolean onHeadRCameraItemClick(MenuItem item)
+    public void onHeadRCameraItemClick(MenuItem item)
     {
         currentCameraView.stopStream();
 
@@ -167,62 +160,57 @@ public class ValterDirectControlActivity extends AppCompatActivity {
         currentCameraView.setUrl("http://" + savedHost + ":10201/?action=stream");
         currentCameraView.setRecycleBitmap(true);
         currentCameraView.startStream();
-
-        return true;
     }
 
-    public boolean valterManualSteeringItemClick(MenuItem item)
+    public void valterManualSteeringItemClick(MenuItem item)
     {
         valterManualNavigationFragment = new ValterManualNavigation();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, valterManualNavigationFragment).commit();
-        return true;
     }
 
-    public boolean valterHeadYawPitchItemClick(MenuItem item)
+    public void valterHeadYawPitchItemClick(MenuItem item)
     {
         headYawPitchControlFragment = new HeadYawPitchControlFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, headYawPitchControlFragment).commit();
-        return true;
     }
 
-    public boolean valterACRItemClick(MenuItem item) {
+    public void valterACRItemClick(MenuItem item) {
         armControlRightControlFragment = new ArmControlRightControlFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, armControlRightControlFragment).commit();
-        return true;
     }
 
-    public boolean valterACLItemClick(MenuItem item) {
+    public void valterACLItemClick(MenuItem item) {
         armControlLeftControlFragment = new ArmControlLeftControlFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, armControlLeftControlFragment).commit();
-        return true;
     }
 
-    public boolean valterPMIBItemClick(MenuItem item) {
+    public void valterTorsoItemClick(MenuItem item) {
+        torsoControlFragment = new TorsoControlFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, torsoControlFragment).commit();
+    }
+
+    public void valterPMIBItemClick(MenuItem item) {
         platformManipulatorAndIRBumperControlFragment = new PlatformManipulatorAndIRBumperControlFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, platformManipulatorAndIRBumperControlFragment).commit();
-        return true;
     }
 
-    public boolean valterCommandsItemClick(MenuItem item)
+    public void valterCommandsItemClick(MenuItem item)
     {
         ValterCommandsActivity.dialogMode = true;
         Intent myIntent = new Intent(getApplicationContext(), ValterCommandsActivity.class);
         startActivityForResult(myIntent, 0);
-        return true;
     }
 
-    public boolean valterTasksItemClick(MenuItem item)
+    public void valterScriptsItemClick(MenuItem item)
+    {
+        Intent myIntent = new Intent(getApplicationContext(), ValterScriptsActivity.class);
+        startActivityForResult(myIntent, 0);
+    }
+
+    public void valterTasksItemClick(MenuItem item)
     {
         ValterCommandsActivity.dialogMode = true;
         Intent myIntent = new Intent(getApplicationContext(), ValterTasksActivity.class);
         startActivityForResult(myIntent, 0);
-        return true;
     }
-
-    public boolean valterTorsoItemClick(MenuItem item) {
-        torsoControlFragment = new TorsoControlFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, torsoControlFragment).commit();
-        return true;
-    }
-
 }
