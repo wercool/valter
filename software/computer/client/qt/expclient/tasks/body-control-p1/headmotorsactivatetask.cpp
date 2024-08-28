@@ -24,6 +24,7 @@ bool HeadMotorsActivateTask::initialize()
     std::vector<std::string> taskInitiationParts = Valter::split(taskScriptLine, '_');
     std::string taskName = taskInitiationParts[0];
     unsigned int state_value = atoi(((string)taskInitiationParts[1]).c_str());
+    qDebug("Task#%lu (%s): received state (str) = '%s', state = %d", getTaskId(), getTaskName().c_str(), taskInitiationParts[1].c_str(), state_value);
     setState(state_value);
 
     return true;
