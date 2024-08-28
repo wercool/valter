@@ -58,12 +58,15 @@ void LeftForearmRollMotorActivateTask::executionWorker()
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
     qDebug("Task#%lu (%s) %s Left Forearm Roll Motor...", getTaskId(), getTaskName().c_str(), getState() == 1 ? "activating" : "deactivating");
 
+    BodyControlP1 *bodyControlP1 = BodyControlP1::getInstance();
     ArmControlLeft *armControlLeft = ArmControlLeft::getInstance();
 
     if (getState() == 1) {
+        bodyControlP1->setLeftArm12VPowerOnOff(true);
         armControlLeft->setForearmRollMotorOnOff(true);
     } else {
         armControlLeft->setForearmRollMotorOnOff(false);
+        bodyControlP1->setLeftArm12VPowerOnOff(false);
     }
 
     setCompleted();

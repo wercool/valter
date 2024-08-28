@@ -19,6 +19,8 @@
         <item>CLEARQUEUE|CLEARQUEUE</item>
         <item>ACTIVATE HEAD MOTORS|T_BCP1_HeadMotorsActivateTask_1</item>
         <item>DEACTIVATE HEAD MOTORS|T_BCP1_HeadMotorsActivateTask_0</item>
+        <item>ACTIVATE LEFT FOREARM MOTOR|T_ACL_LeftForearmRollMotorActivateTask_1</item>
+        <item>DEACTIVATE LEFT FOREARM MOTOR|T_ACL_LeftForearmRollMotorActivateTask_0</item>
         <item>RESET ARMS|\
 CLEARQUEUE\
 T_ACL_SetLeftForearmPositionTask_30.0\
