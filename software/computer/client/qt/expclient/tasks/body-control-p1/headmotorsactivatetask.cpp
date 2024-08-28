@@ -44,7 +44,7 @@ void HeadMotorsActivateTask::stopExecution()
 
 void HeadMotorsActivateTask::reportCompletion()
 {
-    qDebug("Task#%lu (%s) completed; Head Motors %s.", getTaskId(), getTaskName().c_str(), getState() == 1 ? "activated" : "deactivated");
+    qDebug("Task#%lu (%s) completed; Head Motors %s, state = %d.", getTaskId(), getTaskName().c_str(), getState() == 1 ? "activated" : "deactivated", getState());
     TaskManager::getInstance()->sendMessageToCentralHostTaskManager(Valter::format_string("%lu~%s~%s~%s~%s", getTaskId(), getTaskName().c_str(), (blocking) ? "blocking" : "non blocking", ((stopped) ? "stopped" : ((completed) ? "completed" : ((executing) ? "executing" : "queued"))), getTaskScriptLine().c_str()));
 }
 
