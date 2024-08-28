@@ -31,8 +31,14 @@ bool LeftForearmRollMotorActivateTask::initialize()
 
 void LeftForearmRollMotorActivateTask::execute()
 {
-    executing = true;
-    new std::thread(&LeftForearmRollMotorActivateTask::executionWorker, this);
+    if (initialize())
+    {
+        if (checkFeasibility())
+        {
+            executing = true;
+            new std::thread(&LeftForearmRollMotorActivateTask::executionWorker, this);
+        }
+    }
 }
 
 void LeftForearmRollMotorActivateTask::stopExecution()

@@ -32,8 +32,14 @@ bool HeadMotorsActivateTask::initialize()
 
 void HeadMotorsActivateTask::execute()
 {
-    executing = true;
-    new std::thread(&HeadMotorsActivateTask::executionWorker, this);
+    if (initialize())
+    {
+        if (checkFeasibility())
+        {
+            executing = true;
+            new std::thread(&HeadMotorsActivateTask::executionWorker, this);
+        }
+    }
 }
 
 void HeadMotorsActivateTask::stopExecution()
