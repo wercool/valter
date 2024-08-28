@@ -6,6 +6,7 @@
 #include <tasks/generic/talktask.h>
 #include <tasks/generic/wikitalktask.h>
 #include <tasks/generic/stoptalktask.h>
+#include <tasks/generic/noop.h>
 
 
 TaskManager* TaskManager::pTaskManager = NULL;
@@ -248,6 +249,12 @@ void TaskManager::processScript(string script)
             if (((string)scriptInstructionParts[0]).compare("VOICERECOGNITION") == 0)
             {
                 ITask *task = new VoiceRecognitionTask();
+                TaskManager::getInstance()->addTask(task);
+                continue;
+            }
+            if (((string)scriptInstructionParts[0]).compare("NOOP") == 0)
+            {
+                ITask *task = new NoOpTask();
                 TaskManager::getInstance()->addTask(task);
                 continue;
             }

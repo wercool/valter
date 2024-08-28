@@ -79,14 +79,12 @@ public class ValterScriptsActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedScriptName = valterScriptsSpinner.getSelectedItem().toString();
 
-                if (!"SELECT A SCRIPT".equals(selectedScriptName)) {
-                    String selectedScript = valterScripts.get(selectedScriptName);
+                String selectedScript = valterScripts.get(selectedScriptName);
 
-                    String preparedScript = "SCRIPT#\n";
-                    preparedScript += selectedScript;
+                String preparedScript = "SCRIPT#";
+                preparedScript += selectedScript;
 
-                    scriptText.setText(preparedScript);
-                }
+                scriptText.setText(preparedScript);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {

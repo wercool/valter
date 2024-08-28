@@ -15,12 +15,28 @@
     </string-array>
 
     <string-array name="valterScripts">
-        <item>SELECT A SCRIPT|</item>
+        <item>CLEARQUEUE|CLEARQUEUE</item>
+        <item>RESET ARMS|\
+CLEARQUEUE\
+T_ACL_SetLeftForearmPositionTask_30.0\
+T_ACL_SetLeftLimbPositionTask_0.0
+        </item>
         <item>SAY \"HELLO\"|SAY_\"Hello!\"</item>
         <item>СКАЗАТЬ \"ПРИВЕТ\"|SAY_\"Привет!\"</item>
+        <item>СКАЗАТЬ ПРИВЕТСТВИЕ|\
+SAY_\"Привет!\"\
+SAY_\"Меня зовут Вальтер.\"\
+SAY_\"Я робот - исследовательская платформа и я управляюсь искусственным интеллектом.\"\
+SAY_\"Извините за мой русский, я говорю с акцентом.\"
+        </item>
+        <item>TAKE A BOTTLE INTO LEFT HAND|\
+CLEARQUEUE\
+SAY_\"Мне надо взять бутылку виинааа в левую руку.\"\
+T_ACL_SetLeftForearmPositionTask_-15.0\
+T_ACL_SetLeftLimbPositionTask_22.0\
+DELAY_2000\
+SAY_\"Давайте бутылку. Бутылку виинааа. Не полную.\"
+        </item>
     </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

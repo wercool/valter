@@ -18,9 +18,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
            mainwindow.cpp \
            controldevice.cpp \
-    tasks/generic/stoptalktask.cpp \
-    tasks/generic/talktask.cpp \
-    tasks/generic/wikitalktask.cpp \
            valter.cpp \
            serial/src/impl/list_ports/list_ports_linux.cc \
            serial/src/impl/unix.cc \
@@ -67,6 +64,10 @@ SOURCES += main.cpp\
             tasks/taskmanager.cpp \
             tasks/generic/delaytask.cpp \
             tasks/generic/setmoduleinitialstatetask.cpp \
+            tasks/generic/noop.cpp \
+            tasks/generic/stoptalktask.cpp \
+            tasks/generic/talktask.cpp \
+            tasks/generic/wikitalktask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.cpp \
@@ -104,9 +105,6 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
             controldevice.h \
-    tasks/generic/stoptalktask.h \
-    tasks/generic/talktask.h \
-    tasks/generic/wikitalktask.h \
             valter.h \
             ivaltermodule.h \
             serial/include/serial/impl/unix.h \
@@ -146,6 +144,10 @@ HEADERS  += mainwindow.h \
             tasks/taskmanager.h \
             tasks/generic/delaytask.h \
             tasks/generic/setmoduleinitialstatetask.h \
+            tasks/generic/noop.h \
+            tasks/generic/stoptalktask.h \
+            tasks/generic/talktask.h \
+            tasks/generic/wikitalktask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.h \
