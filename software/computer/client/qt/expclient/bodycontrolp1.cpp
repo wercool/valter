@@ -49,6 +49,7 @@ BodyControlP1::BodyControlP1()
     tasks["SetRightArmRollPositionTask"] = &SetRightArmRollPositionTask::create;
     tasks["SetHeadYawPositionTask"] = &SetHeadYawPositionTask::create;
     tasks["SetHeadPitchPositionTask"] = &SetHeadPitchPositionTask::create;
+    tasks["HeadMotorsActivateTask"] = &HeadMotorsActivateTask::create;
 
     initTcpInterface();
 

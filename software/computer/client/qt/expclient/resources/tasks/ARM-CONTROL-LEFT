@@ -3,3 +3,4 @@ T_ACL_SetLeftArmPositionTask_{%f = target angle} [0 - 90 degrees]
 T_ACL_SetLeftLimbPositionTask_{%f = target angle} [-40 - 0 - 80 degrees]
 T_ACL_SetLeftArmRollPositionTask_{%f = target angle} [0 - 255 degrees]
 T_ACL_LeftHandgripTask_{%d = mode} [0 - release, 1 - initial, 2 - grasped, 3 - grasped through initial position, 4 - initial position and release]
+T_ACL_LeftForearmRollMotorActivateTask_{%d = 1 or 0}

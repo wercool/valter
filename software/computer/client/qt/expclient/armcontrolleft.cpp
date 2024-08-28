@@ -44,6 +44,7 @@ ArmControlLeft::ArmControlLeft()
     tasks["SetLeftLimbPositionTask"] = &SetLeftLimbPositionTask::create;
     tasks["SetLeftArmRollPositionTask"] = &SetLeftArmRollPositionTask::create;
     tasks["LeftHandgripTask"] = &LeftHandgripTask::create;
+    tasks["LeftForearmRollMotorActivateTask"] = &LeftForearmRollMotorActivateTask::create;
 
     initTcpInterface();
 
@@ -807,6 +808,7 @@ void ArmControlLeft::forearmYaw(bool state)
 void ArmControlLeft::stopAllWatchers()
 {
     sendCommand("STOPWATCHERS");
+    qDebug("ArmControlLeft::stopAllWatchers");
 }
 
 void ArmControlLeft::startAllWatchers()

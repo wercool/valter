@@ -831,6 +831,7 @@ void ArmControlRight::turnArmLedsOnOff()
 void ArmControlRight::stopAllWatchers()
 {
     sendCommand("STOPWATCHERS");
+    qDebug("ArmControlRight::stopAllWatchers");
 }
 
 void ArmControlRight::startAllWatchers()

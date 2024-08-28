@@ -38,11 +38,13 @@
 #include "tasks/arm-control-left/setleftlimbpositiontask.h"
 #include "tasks/arm-control-left/setleftarmrollpositiontask.h"
 #include "tasks/arm-control-left/lefthandgriptask.h"
+#include "tasks/arm-control-left/leftforearmrollmotoractivatetask.h"
 
 //BODY-CONTROL-P1
 #include "tasks/body-control-p1/setrightarmyawpositiontask.h"
 #include "tasks/body-control-p1/setleftarmyawpositiontask.h"
 #include "tasks/body-control-p1/setheadyawpositiontask.h"
 #include "tasks/body-control-p1/setheadpitchpositiontask.h"
+#include "tasks/body-control-p1/headmotorsactivatetask.h"
 
 #endif // TASKS_H

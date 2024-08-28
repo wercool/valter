@@ -65,9 +65,12 @@ SOURCES += main.cpp\
             tasks/generic/delaytask.cpp \
             tasks/generic/setmoduleinitialstatetask.cpp \
             tasks/generic/noop.cpp \
+            tasks/generic/stopallwatcherstask.cpp \
             tasks/generic/stoptalktask.cpp \
             tasks/generic/talktask.cpp \
             tasks/generic/wikitalktask.cpp \
+            tasks/generic/saytask.cpp \
+            tasks/generic/voicerecognitiontask.cpp\
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.cpp \
             tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.cpp \
@@ -79,6 +82,8 @@ SOURCES += main.cpp\
             tasks/platform-control-p1/trasnslateplatformlinearlytask.cpp \
             tasks/platform-control-p1/rotateplatformtask.cpp \
             tasks/platform-control-p1/rotatebodytask.cpp \
+            tasks/platform-control-p1/cmdveltask.cpp \
+            tasks/platform-control-p1/translateplatformtwistytask.cpp \
             tasks/arm-control-right/setrightforearmpositiontask.cpp \
             tasks/arm-control-right/setrightarmpositiontask.cpp \
             tasks/arm-control-right/setrightlimbpositiontask.cpp \
@@ -88,15 +93,13 @@ SOURCES += main.cpp\
             tasks/arm-control-left/setleftarmpositiontask.cpp \
             tasks/arm-control-left/setleftlimbpositiontask.cpp \
             tasks/arm-control-left/lefthandgriptask.cpp \
+            tasks/arm-control-left/setleftarmrollpositiontask.cpp \
+            tasks/arm-control-left/leftforearmrollmotoractivatetask.cpp \
             tasks/body-control-p1/setrightarmyawpositiontask.cpp \
             tasks/body-control-p1/setleftarmyawpositiontask.cpp \
-            tasks/platform-control-p1/cmdveltask.cpp \
-            tasks/platform-control-p1/translateplatformtwistytask.cpp \
-            tasks/arm-control-left/setleftarmrollpositiontask.cpp \
+            tasks/body-control-p1/headmotorsactivatetask.cpp \
             tasks/body-control-p1/setheadyawpositiontask.cpp \
             tasks/body-control-p1/setheadpitchpositiontask.cpp \
-            tasks/generic/saytask.cpp \
-            tasks/generic/voicerecognitiontask.cpp\
             serial/src/impl/list_ports/list_ports_osx.cc \
             serial/src/impl/list_ports/list_ports_win.cc \
             serial/src/impl/win.cc \
@@ -145,9 +148,12 @@ HEADERS  += mainwindow.h \
             tasks/generic/delaytask.h \
             tasks/generic/setmoduleinitialstatetask.h \
             tasks/generic/noop.h \
+            tasks/generic/stopallwatcherstask.h \
             tasks/generic/stoptalktask.h \
             tasks/generic/talktask.h \
             tasks/generic/wikitalktask.h \
+            tasks/generic/saytask.h \
+            tasks/generic/voicerecognitiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink2positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setlink1positiontask.h \
             tasks/platform-manipulator-and-ir-bumper/setgrippertiltpositiontask.h \
@@ -159,6 +165,8 @@ HEADERS  += mainwindow.h \
             tasks/platform-control-p1/trasnslateplatformlinearlytask.h \
             tasks/platform-control-p1/rotateplatformtask.h \
             tasks/platform-control-p1/rotatebodytask.h \
+            tasks/platform-control-p1/cmdveltask.h \
+            tasks/platform-control-p1/translateplatformtwistytask.h \
             tasks/arm-control-right/setrightforearmpositiontask.h \
             tasks/arm-control-right/setrightarmpositiontask.h \
             tasks/arm-control-right/setrightlimbpositiontask.h \
@@ -168,15 +176,13 @@ HEADERS  += mainwindow.h \
             tasks/arm-control-left/setleftarmpositiontask.h \
             tasks/arm-control-left/setleftlimbpositiontask.h \
             tasks/arm-control-left/lefthandgriptask.h \
+            tasks/arm-control-left/setleftarmrollpositiontask.h \
+            tasks/arm-control-left/leftforearmrollmotoractivatetask.h \
             tasks/body-control-p1/setrightarmyawpositiontask.h \
             tasks/body-control-p1/setleftarmyawpositiontask.h \
-            tasks/platform-control-p1/cmdveltask.h \
-            tasks/arm-control-left/setleftarmrollpositiontask.h \
+            tasks/body-control-p1/headmotorsactivatetask.h \
             tasks/body-control-p1/setheadyawpositiontask.h \
             tasks/body-control-p1/setheadpitchpositiontask.h \
-            tasks/generic/saytask.h \
-            tasks/generic/voicerecognitiontask.h \
-            tasks/platform-control-p1/translateplatformtwistytask.h \
             serial/include/serial/impl/win.h \
 #websockets
             websocketserver.h

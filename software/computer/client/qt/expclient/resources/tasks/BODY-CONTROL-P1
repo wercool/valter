@@ -2,3 +2,4 @@ T_BCP1_SetRightArmYawPositionTask_{%f = target angle} [0 - 55 degrees]
 T_BCP1_SetLeftArmYawPositionTask_{%f = target angle} [0 - 55 degrees]
 T_BCP1_SetHeadYawPositionTask_{%f = target angle [-65 - 65 degrees]}_{D - detatch}
 T_BCP1_SetHeadPitchPositionTask_{%f = target angle [0 - 45 degrees]}_{D - detatch}
+T_BCP1_HeadMotorsActivateTask_{%d = 1 or 0}

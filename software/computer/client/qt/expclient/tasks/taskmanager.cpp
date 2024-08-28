@@ -7,6 +7,7 @@
 #include <tasks/generic/wikitalktask.h>
 #include <tasks/generic/stoptalktask.h>
 #include <tasks/generic/noop.h>
+#include <tasks/generic/stopallwatcherstask.h>
 
 
 TaskManager* TaskManager::pTaskManager = NULL;
@@ -255,6 +256,12 @@ void TaskManager::processScript(string script)
             if (((string)scriptInstructionParts[0]).compare("NOOP") == 0)
             {
                 ITask *task = new NoOpTask();
+                TaskManager::getInstance()->addTask(task);
+                continue;
+            }
+            if (((string)scriptInstructionParts[0]).compare("STOPALLWATCHERS") == 0)
+            {
+                ITask *task = new StopAllWatchersTask();
                 TaskManager::getInstance()->addTask(task);
                 continue;
             }

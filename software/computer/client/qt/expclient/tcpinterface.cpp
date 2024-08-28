@@ -42,21 +42,30 @@ void TCPInterface::readIP()
     struct sockaddr_in *sa;
     char *addr;
 
-    getifaddrs (&ifap);
+    if (getifaddrs(&ifap) == -1)
+    {
+        perror("getifaddrs");
+        return;
+    }
+
     for (ifa = ifap; ifa; ifa = ifa->ifa_next)
     {
+        if (ifa->ifa_addr == nullptr)
+        {
+            continue;  // Skip null address entries
+        }
+
         if (ifa->ifa_addr->sa_family == AF_INET)
         {
-            sa = (struct sockaddr_in *) ifa->ifa_addr;
+            sa = (struct sockaddr_in *)ifa->ifa_addr;
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
-            //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
-            if (TCPInterface::defaultNetworkInterface.compare("") == 0)
+
+            if (TCPInterface::defaultNetworkInterface.empty())
             {
                 if (strcmp(ifa->ifa_name, "eth0") == 0)
                 {
-                    std::string str(addr);
-                    ip = str;
+                    ip = std::string(addr);
                 }
             }
             else
@@ -64,8 +73,7 @@ void TCPInterface::readIP()
                 qDebug("Selected Network Interface: %s", TCPInterface::defaultNetworkInterface.c_str());
                 if (strcmp(ifa->ifa_name, TCPInterface::defaultNetworkInterface.c_str()) == 0)
                 {
-                    std::string str(addr);
-                    ip = str;
+                    ip = std::string(addr);
                 }
             }
         }
@@ -74,21 +82,36 @@ void TCPInterface::readIP()
     freeifaddrs(ifap);
 }
 
+
 string TCPInterface::getLocalHostIP()
 {
     struct ifaddrs *ifap, *ifa;
     struct sockaddr_in *sa;
     char *addr;
 
-    getifaddrs (&ifap);
+    // Get the list of network interfaces
+    if (getifaddrs(&ifap) == -1)
+    {
+        perror("getifaddrs");
+        return "";
+    }
+
     for (ifa = ifap; ifa; ifa = ifa->ifa_next)
     {
+        // Check if the interface has a valid address
+        if (ifa->ifa_addr == nullptr)
+        {
+            continue;
+        }
+
+        // Only process IPv4 addresses
         if (ifa->ifa_addr->sa_family == AF_INET)
         {
             sa = (struct sockaddr_in *) ifa->ifa_addr;
             addr = inet_ntoa(sa->sin_addr);
             qDebug("Interface: %s\tAddress: %s", ifa->ifa_name, addr);
-            //if (strcmp(ifa->ifa_name, "enp3s0") == 0 || strcmp(ifa->ifa_name, "eth0") == 0 || strcmp(ifa->ifa_name, "enp0s25") == 0 || strcmp(ifa->ifa_name, "wlan0") == 0)
+
+            // Check if no specific interface is set, or if the correct interface is found
             if (TCPInterface::defaultNetworkInterface.compare("") == 0)
             {
                 if (strcmp(ifa->ifa_name, "eth0") == 0)
@@ -114,8 +137,12 @@ string TCPInterface::getLocalHostIP()
             }
         }
     }
+
+    // Clean up and return empty string if no valid interface was found
+    freeifaddrs(ifap);
     return "";
 }
+
 
 int TCPInterface::getPort() const
 {

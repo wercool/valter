@@ -1,6 +1,8 @@
 `with vpn`
 sudo ip route add 192.168.0.101 via 192.168.0.1
 
+ssh -c aes256-cbc maska@192.168.0.101
+
 cd /home/maska/git/valter/software/computer/client/qt/build-expclient-Desktop-Debug
 git pull
 qmake ../expclient
