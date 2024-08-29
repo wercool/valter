@@ -65,10 +65,16 @@ void HeadMotorsActivateTask::executionWorker()
         bodyControlP1->setHead24VOnOff(true);
         bodyControlP1->setHeadYawMotorOnOff(true);
         bodyControlP1->setHeadPitchMotorOnOff(true);
+
+        bodyControlP1->setHeadYawMotorState(true);
+        bodyControlP1->setHeadPitchMotorState(true);
     } else {
         bodyControlP1->setHead24VOnOff(false);
         bodyControlP1->setHeadYawMotorOnOff(false);
         bodyControlP1->setHeadPitchMotorOnOff(false);
+
+        bodyControlP1->setHeadYawMotorState(false);
+        bodyControlP1->setHeadPitchMotorState(false);
     }
 
     setCompleted();

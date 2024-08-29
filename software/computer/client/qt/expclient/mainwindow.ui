@@ -21426,7 +21426,7 @@ image: url(:/hand-left.png);</string>
         <item row="6" column="1">
          <widget class="QLineEdit" name="armControlRightCommandHostLineEdit">
           <property name="text">
-           <string>192.168.0.101</string>
+           <string>192.168.101.101</string>
           </property>
          </widget>
         </item>
@@ -21461,7 +21461,7 @@ image: url(:/hand-left.png);</string>
         <item row="3" column="1">
          <widget class="QLineEdit" name="platformLocationP1CommandHostLineEdit">
           <property name="text">
-           <string>192.168.0.101</string>
+           <string>192.168.101.101</string>
           </property>
          </widget>
         </item>
@@ -21492,7 +21492,7 @@ image: url(:/hand-left.png);</string>
         <item row="4" column="1">
          <widget class="QLineEdit" name="platformManipulatorAndIRBumperCommandHostLineEdit">
           <property name="text">
-           <string>192.168.0.101</string>
+           <string>192.168.101.101</string>
           </property>
          </widget>
         </item>
@@ -21572,7 +21572,7 @@ image: url(:/hand-left.png);</string>
         <item row="7" column="1">
          <widget class="QLineEdit" name="armControlLeftCommandHostLineEdit">
           <property name="text">
-           <string>192.168.0.101</string>
+           <string>192.168.101.101</string>
           </property>
          </widget>
         </item>
@@ -21595,14 +21595,14 @@ image: url(:/hand-left.png);</string>
         <item row="1" column="1">
          <widget class="QLineEdit" name="platformControlP1CommandHostLineEdit">
           <property name="text">
-           <string>192.168.0.101</string>
+           <string>192.168.101.101</string>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
          <widget class="QLineEdit" name="bodyControlP1CommandHostLineEdit">
           <property name="text">
-           <string>192.168.0.101</string>
+           <string>192.168.101.101</string>
           </property>
          </widget>
         </item>
@@ -21637,7 +21637,7 @@ image: url(:/hand-left.png);</string>
         <item row="2" column="1">
          <widget class="QLineEdit" name="platformControlP2CommandHostLineEdit">
           <property name="text">
-           <string>192.168.0.101</string>
+           <string>192.168.101.101</string>
           </property>
          </widget>
         </item>

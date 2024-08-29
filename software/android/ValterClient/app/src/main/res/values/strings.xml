@@ -36,11 +36,16 @@ SAY_\"Извините за мой русский, я говорю с акцен
         </item>
         <item>TAKE A BOTTLE INTO LEFT HAND|\
 CLEARQUEUE\
+STOPALLWATCHERS\
 SAY_\"Мне надо взять бутылку виинааа в левую руку.\"\
 T_ACL_SetLeftForearmPositionTask_-15.0\
 T_ACL_SetLeftLimbPositionTask_22.0\
 DELAY_2000\
+T_ACL_LeftForearmRollMotorActivateTask_1
 SAY_\"Давайте бутылку. Бутылку виинааа. Не полную.\"
+T_BCP1_HeadMotorsActivateTask_1
+T_BCP1_SetHeadPitchPositionTask_30
+T_BCP1_SetHeadYawPositionTask_-30
         </item>
     </string-array>
 
