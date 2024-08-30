@@ -212,7 +212,17 @@ public class Valter {
         }
      }
 
+    public void sendCmdVel(double linearVelocity, double angularVelocity) {
+        // Format velocities to 2 decimal places
+        String formattedLinearVelocity = String.format("%.2f", linearVelocity);
+        String formattedAngularVelocity = String.format("%.2f", angularVelocity);
 
+        // Construct the command message
+        String message = String.format("TASK#T_PCP1_CmdVelTask_%s_%s", formattedLinearVelocity, formattedAngularVelocity);
+
+        // Send the message
+        sendMessage(message);
+    }
 
     public void torsoYawDO(boolean direction) {
         if (direction)
@@ -244,6 +254,17 @@ public class Valter {
     public void pmibLink2Stop() {
         sendMessage("PMIB#L2STOP");
     }
+
+    public void pmibMoveLink1Down() {
+        sendMessage("PMIB#L1DOWN");
+    }
+    public void pmibMoveLink1Up() {
+        sendMessage("PMIB#L1UP");
+    }
+    public void pmibLink1Stop() {
+        sendMessage("PMIB#L1STOP");
+    }
+
     public void pmibGripperCCW() {
         sendMessage("PMIB#GRIPCCW");
     }

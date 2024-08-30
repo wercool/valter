@@ -12,6 +12,11 @@
         android:icon="@drawable/joystick"
         android:title="Valter Manual Steering"/>
 
+    <item android:id="@+id/valterJoystickControlItem"
+        android:onClick="valterJoystickControlItemClick"
+        android:icon="@drawable/joystick_ctrl"
+        android:title="Valter Joystick Control"/>
+
     <item android:id="@+id/valterHeadYawPitchItem"
         android:onClick="valterHeadYawPitchItemClick"
         android:icon="@drawable/valter_head"

@@ -22,6 +22,7 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     ImageButton optionsMenuButton;
 
     ValterManualNavigation valterManualNavigationFragment;
+    PlatformJoystickControlFragment platformJoystickControlFragment;
     HeadYawPitchControlFragment headYawPitchControlFragment;
     PlatformManipulatorAndIRBumperControlFragment platformManipulatorAndIRBumperControlFragment;
     ArmControlRightControlFragment armControlRightControlFragment;
@@ -166,6 +167,12 @@ public class ValterDirectControlActivity extends AppCompatActivity {
     {
         valterManualNavigationFragment = new ValterManualNavigation();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, valterManualNavigationFragment).commit();
+    }
+
+    public void valterJoystickControlItemClick(MenuItem item)
+    {
+        platformJoystickControlFragment = new PlatformJoystickControlFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, platformJoystickControlFragment).commit();
     }
 
     public void valterHeadYawPitchItemClick(MenuItem item)

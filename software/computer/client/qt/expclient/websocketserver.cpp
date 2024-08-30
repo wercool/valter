@@ -378,6 +378,29 @@ void WebSocketServer::processTextMessage(QString message)
             case Valter::str2int("L2STOP"):
                 platformManipulatorAndIRBumper->setLink2MotorActivated(false);
             break;
+            case Valter::str2int("L1DOWN"): //Link1 descent movement
+                if (platformManipulatorAndIRBumper->prepareManLink1Movement())
+                {
+                    //descent
+                    if (platformManipulatorAndIRBumper->setLink1MovementDirection(false))
+                    {
+                        platformManipulatorAndIRBumper->setLink1MotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("L1UP"): //Link1 descent movement
+                if (platformManipulatorAndIRBumper->prepareManLink1Movement())
+                {
+                    //ascent
+                    if (platformManipulatorAndIRBumper->setLink1MovementDirection(true))
+                    {
+                        platformManipulatorAndIRBumper->setLink1MotorActivated(true);
+                    }
+                }
+            break;
+            case Valter::str2int("L1STOP"):
+                platformManipulatorAndIRBumper->setLink1MotorActivated(false);
+            break;
         }
     }
 

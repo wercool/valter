@@ -17,6 +17,9 @@ public class PlatformManipulatorAndIRBumperControlFragment extends Fragment {
 
     ImageButton link2UpButton;
     ImageButton link2DownButton;
+
+    ImageButton link1UpButton;
+    ImageButton link1DownButton;
     ImageButton gripperCCWButton;
     ImageButton gripperCWButton;
 
@@ -62,6 +65,41 @@ public class PlatformManipulatorAndIRBumperControlFragment extends Fragment {
             }
         });
 
+        link1DownButton = (ImageButton) rootView.findViewById(R.id.link2DownButton);
+        link1DownButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        link1DownButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().pmibMoveLink1Down();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        link1DownButton.getBackground().clearColorFilter();
+                        Valter.getInstance().pmibLink1Stop();
+                        break;
+                }
+                return true;
+            }
+        });
+
+        link1UpButton = (ImageButton) rootView.findViewById(R.id.link2UpButton);
+        link1UpButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        link1UpButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                        Valter.getInstance().pmibMoveLink1Up();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        link1UpButton.getBackground().clearColorFilter();
+                        Valter.getInstance().pmibLink1Stop();
+                        break;
+                }
+                return true;
+            }
+        });
 
         gripperCCWButton = (ImageButton) rootView.findViewById(R.id.gripperCCWButton);
         gripperCCWButton.setOnTouchListener(new View.OnTouchListener() {
